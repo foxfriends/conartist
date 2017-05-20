@@ -26,7 +26,6 @@
     "body-parser": "^1.17.2",
     "d3": "^4.9.1",
     "express": "^4.15.3",
-    "http-server": "^0.10.0",
     "material-ui": "^0.18.1",
     "moment": "^2.18.1",
     "papaparse": "^4.3.2",

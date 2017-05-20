@@ -23,8 +23,8 @@ type State = {
 
 export default class SalesOverTime extends React.Component<Props, State> {
   state: State = {
-    start: new Date(this.minTime),
-    end: new Date(this.maxTime),
+    start: new Date(0),
+    end: new Date(0),
     bucketSize: 1000 * 60 * 60,
     settings: false,
     metric: 'Customers',

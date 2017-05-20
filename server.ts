@@ -19,7 +19,7 @@ function writeFile(file: string, data: string): Promise<{}> {
 }
 
 const app = express();
-app.listen(process.env.port || 8000, () => {
+app.listen(process.env.PORT || 8000, () => {
   console.log('Server is listening on port 8000');
 });
 

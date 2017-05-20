@@ -19,7 +19,7 @@ function writeFile(file: string, data: string): Promise<{}> {
 }
 
 const app = express();
-app.listen(8000, () => {
+app.listen(process.env.port || 8000, () => {
   console.log('Server is listening on port 8000');
 });
 
@@ -79,7 +79,7 @@ app.put('/purchase', async (req, res) => {
   res.header('Content-Type: text/plain');
   res.send('Success');
 });
-app.use('/', express.static('.'));
+app.use('/', express.static('public_html'));
 
 let toSave: Record[] = [];
 let done: Promise<void> = Promise.resolve();

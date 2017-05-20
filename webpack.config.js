@@ -5,7 +5,7 @@ const path = require('path');
 module.exports = {
   entry: './src/index.js',
   output: {
-    path: path.resolve('.', 'src'),
+    path: path.resolve('.', 'public_html'),
     filename: 'index.min.js'
   },
   module: {

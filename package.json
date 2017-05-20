@@ -1,0 +1,48 @@
+{
+  "name": "sales-tracker",
+  "version": "1.0.0",
+  "description": "Track inventory and sales records",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "mocha "
+  },
+  "keywords": [
+    "inventory",
+    "sales"
+  ],
+  "author": "Cameron Eldridge",
+  "license": "ISC",
+  "dependencies": {
+    "@types/body-parser": "^1.16.3",
+    "@types/express": "^4.0.35",
+    "@types/material-ui": "^0.17.7",
+    "@types/papaparse": "^4.1.28",
+    "@types/react": "^15.0.24",
+    "@types/react-dom": "^15.5.0",
+    "@types/react-swipeable-views": "0.0.27",
+    "@types/react-tap-event-plugin": "0.0.30",
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "http-server": "^0.10.0",
+    "material-ui": "^0.18.1",
+    "moment": "^2.18.1",
+    "papaparse": "^4.3.2",
+    "postcss": "^6.0.1",
+    "postcss-cssnext": "^2.11.0",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-swipeable-views": "^0.12.2",
+    "react-tap-event-plugin": "^2.0.1",
+    "redux": "^3.6.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^7.1.1",
+    "css-loader": "^0.28.1",
+    "node-sass": "^4.5.3",
+    "postcss-loader": "^2.0.5",
+    "sass-loader": "^6.0.5",
+    "style-loader": "^0.17.0",
+    "webpack": "^2.5.1"
+  }
+}

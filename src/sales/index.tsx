@@ -4,10 +4,11 @@ import * as React from 'react';
 import { List, ListItem, AppBar, Tabs, Tab, Avatar, Snackbar } from 'material-ui';
 import { blue400, blue200, red300, orange400, orange200, green300 } from 'material-ui/styles/colors';
 import { createStore, Store } from 'redux';
-import SwipeableViews from 'react-swipeable-views';
+// import SwipeableViews from 'react-swipeable-views';
 import * as Moment from 'moment';
 
 import ProductList from '../product-list';
+import Stats from '../stats';
 import { get, put } from '../request';
 import { reducer, Purchase, Init, ActionTypes } from './reducer';
 import {  ProductTypes, Products, SalesData, Prices, PriceMap, Record } from '../types';
@@ -83,52 +84,70 @@ export default class Sales extends React.Component<Props, State> {
     return (
       <div>
         <AppBar
-          title="Anime North 2017"
+          title='Anime North 2017'
           iconStyleLeft={{ display: 'none' }} />
         <Tabs
           value={this.state.tabIndex}
           onChange={(value: number) => this.handleChange(value)}>
-          <Tab label="Sell" value={0} />
-          <Tab label="History" value={1} />
+          <Tab label='Sell' value={0}>
+            <div style={{
+              maxHeight: 'calc(100vh - 112px)',
+              overflowY: 'auto',
+              overflowX: 'hidden',
+            }}>
+              <List>
+                { Object.keys(ProductTypes).map((type: keyof ProductTypes) =>
+                  <ListItem
+                    key={type}
+                    primaryText={ProductTypes[type]}
+                    onClick={() => this.toProducts(type)}
+                    leftAvatar={
+                      <Avatar backgroundColor={Colors[type]}>{ProductTypes[type][0]}</Avatar>
+                    } />
+                )}
+              </List>
+            </div>
+          </Tab>
+          <Tab label='History' value={1}>
+            <div style={{
+              maxHeight: 'calc(100vh - 112px)',
+              overflowY: 'auto',
+              overflowX: 'hidden',
+            }}>
+              <List>
+                { this.store.getState().records.sort(({time: a}, {time: b}) => b - a).map((record, i) =>
+                  <ListItem
+                    key={i}
+                    primaryText={record.products.join(', ')}
+                    secondaryText={
+                      <p>
+                        {Moment(record.time).format('h:mm a')} &mdash; {'$' + record.price}
+                      </p>
+                    }
+                    leftAvatar={<Avatar backgroundColor={Colors[record.type]}>{ProductTypes[record.type][0]}</Avatar>} />
+                )}
+              </List>
+            </div>
+          </Tab>
+          <Tab label='Stats' value={2}>
+            <div style={{
+              maxHeight: 'calc(100vh - 112px)',
+              overflowY: 'auto',
+              overflowX: 'hidden',
+            }}>
+              <Stats data={this.store.getState()} />
+            </div>
+          </Tab>
         </Tabs>
-        <SwipeableViews
-          index={this.state.tabIndex}
-          onChangeIndex={(value: number) => this.handleChange(value)}>
-          <div style={{
-            maxHeight: 'calc(100vh - 112px)',
-            overflowY: 'auto',
-          }}>
-            <List>
-              { Object.keys(ProductTypes).map((type: keyof ProductTypes) =>
-                <ListItem
-                  key={type}
-                  primaryText={ProductTypes[type]}
-                  onClick={() => this.toProducts(type)}
-                  leftAvatar={
-                    <Avatar backgroundColor={Colors[type]}>{ProductTypes[type][0]}</Avatar>
-                  } />
-              )}
-            </List>
-          </div>
-          <div style={{
-            maxHeight: 'calc(100vh - 112px)',
-            overflowY: 'auto',
-          }}>
-            <List>
-              { this.store.getState().records.sort(({time: a}, {time: b}) => b - a).map((record, i) =>
-                <ListItem
-                  key={i}
-                  primaryText={record.products.join(', ')}
-                  secondaryText={
-                    <p>
-                      {Moment(record.time).format("h:mm a")} &mdash; {'$' + record.price}
-                    </p>
-                  }
-                  leftAvatar={<Avatar backgroundColor={Colors[record.type]}>{ProductTypes[record.type][0]}</Avatar>} />
-              )}
-            </List>
-          </div>
-        </SwipeableViews>
+        {
+        // <SwipeableViews
+        //   index={this.state.tabIndex}
+        //   onChangeIndex={(value: number) => this.handleChange(value)}>
+        //
+        //
+        //
+        // </SwipeableViews>
+        }
         <ProductList
           type={this.state.productType!}
           items={this.state.products}
@@ -137,7 +156,7 @@ export default class Sales extends React.Component<Props, State> {
           save={(purchase, price) => this.savePurchase(purchase, price)} />
         <Snackbar
           open={this.state.saved}
-          message="Saved!"
+          message='Saved!'
           autoHideDuration={3000}
           onRequestClose={() => this.closeSnackbar()} />
       </div>

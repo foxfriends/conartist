@@ -95,10 +95,10 @@ export default class ProductList extends React.Component<Props, State> {
             onLeftIconButtonTouchTap={() => this.close()} />
           <div style={{ margin: '0 16px' }}>
             <TextField
-            value={this.state.price}
-            floatingLabelText="Price" onChange={(_, value) => this.handleChange(_, value)}
-            errorText={this.state.priceError}
-            fullWidth />
+              value={this.state.price}
+              floatingLabelText='Price' onChange={(_, value) => this.handleChange(_, value)}
+              errorText={this.state.priceError}
+              fullWidth />
           </div>
           <div style={{
             maxHeight: 'calc(100vh - 136px)',

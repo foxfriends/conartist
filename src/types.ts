@@ -33,3 +33,5 @@ export type SalesData = {
   prices: Prices;
   records: Record[];
 }
+
+export type Metric = 'Customers' | 'Items Sold' | 'Money';

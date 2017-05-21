@@ -25,7 +25,7 @@ export default class SalesOverTime extends React.Component<Props, State> {
   state: State = {
     start: new Date(0),
     end: new Date(0),
-    bucketSize: 1000 * 60 * 60,
+    bucketSize: 1000 * 60 * 20,
     settings: false,
     metric: 'Customers',
     timeError: '',

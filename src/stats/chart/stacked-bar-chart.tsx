@@ -18,7 +18,6 @@ export default class StackedBarChart extends React.Component<Props, State> {
 
   private renderChart(el: SVGSVGElement): void {
     if(!el) { return; }
-    console.log(this.props.legend);
     el.innerHTML = '';
     const svg = d3.select(el);
     const max = Math.max(...Object.keys(this.props.bars).map(key => Object.keys(this.props.bars[key]).reduce((a, k) => a + this.props.bars[key][k], 0)));

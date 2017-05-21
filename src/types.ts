@@ -1,4 +1,5 @@
 'use strict';
+import { blue400, blue200, red300, orange400, orange200, green300 } from 'material-ui/styles/colors';
 
 export const ProductTypes = {
   Print11x17: '11x17 Print',
@@ -35,3 +36,13 @@ export type SalesData = {
 }
 
 export type Metric = 'Customers' | 'Items Sold' | 'Money';
+
+export const Colors: { [key in keyof ProductTypes]: string } = {
+  Print11x17: blue400,
+  Print5x7: blue200,
+  Button: red300,
+  Sticker: orange400,
+  HoloSticker: orange200,
+  Other: green300,
+};
+export type Colors = typeof Colors;

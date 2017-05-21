@@ -5,7 +5,7 @@ import Settings from 'material-ui/svg-icons/action/settings'
 import Close from 'material-ui/svg-icons/navigation/close'
 import BarChart from './chart/bar-chart';
 
-import { Record, ProductTypes, Metric } from '../types';
+import { Record, ProductTypes, Metric, Colors } from '../types';
 
 type Props = {
   records: Record[]
@@ -60,7 +60,7 @@ export default class SalesPerType extends React.Component<Props, State> {
           onTouchTap={() => this.setState({ settings: true })}>
           <Settings />
         </IconButton>
-        <BarChart bars={this.bars} />
+        <BarChart bars={this.bars} colors={Colors} />
         <Drawer
           open={this.state.settings}
           openSecondary

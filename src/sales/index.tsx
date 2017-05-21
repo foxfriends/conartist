@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { List, ListItem, AppBar, Tabs, Tab, Avatar, Snackbar } from 'material-ui';
-import { blue400, blue200, red300, orange400, orange200, green300 } from 'material-ui/styles/colors';
 import { createStore, Store } from 'redux';
 import * as Moment from 'moment';
 
@@ -10,16 +9,7 @@ import ProductList from '../product-list';
 import Stats from '../stats';
 import { get, put } from '../request';
 import { reducer, Purchase, Init, ActionTypes } from './reducer';
-import {  ProductTypes, Products, SalesData, Prices, PriceMap, Record } from '../types';
-
-const Colors: { [key in keyof ProductTypes]: string } = {
-  Print11x17: blue400,
-  Print5x7: blue200,
-  Button: red300,
-  Sticker: orange400,
-  HoloSticker: orange200,
-  Other: green300,
-};
+import {  ProductTypes, Products, SalesData, Prices, PriceMap, Record, Colors } from '../types';
 
 type Props = {};
 type State = {

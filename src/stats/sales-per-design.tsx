@@ -3,9 +3,9 @@ import * as React from 'react';
 import { Subheader, SelectField, MenuItem, Drawer, IconButton, AppBar } from 'material-ui';
 import Settings from 'material-ui/svg-icons/action/settings'
 import Close from 'material-ui/svg-icons/navigation/close'
-import BarChart from './chart/bar-chart';
+import StackedBarChart from './chart/stacked-bar-chart';
 
-import { Record, ProductTypes } from '../types';
+import { Record, ProductTypes, Colors } from '../types';
 
 type Props = {
   records: Record[]
@@ -20,17 +20,28 @@ export default class SalesPerDesign extends React.Component<Props, State> {
     type: 'All',
     settings: false
   };
-  private get bars() {
+  private get bars(): { [key: string]: { [key: string]: number } } {
     return this.props.records
       .filter(record => this.state.type === 'All' || this.state.type === record.type)
       .reduce((p, n) => this.reduceBars(p, n), {});
   }
+  private get legend(): { [key: string]: { color: string, name: string } } {
+    return Object.keys(ProductTypes)
+      .reduce((obj: { [key: string]: { color: string, name: string } }, key: keyof ProductTypes) => ({ ...obj, [key]: { color: Colors[key], name: ProductTypes[key] }}), {})
+  }
 
-  private reduceBars(bars: { [key: string]: number }, record: Record): { [key: string]: number } {
+  private reduceBars(bars: { [key: string]: { [key: string]: number } }, record: Record): { [key: string]: { [key: string]: number } } {
     const updated = { ...bars };
     for(let product of record.products) {
-      updated[product] = updated[product] || 0;
-      ++updated[product];
+      updated[product] = updated[product] || {
+        Print11x17: 0,
+        Print5x7: 0,
+        Sticker: 0,
+        HoloSticker: 0,
+        Button: 0,
+        Other: 0,
+      };
+      ++updated[product][record.type];
     }
     return updated;
   }
@@ -48,7 +59,7 @@ export default class SalesPerDesign extends React.Component<Props, State> {
           onTouchTap={() => this.setState({ settings: true })}>
           <Settings />
         </IconButton>
-        <BarChart bars={this.bars} />
+        <StackedBarChart bars={this.bars} legend={this.legend}/>
         <Drawer
           open={this.state.settings}
           openSecondary

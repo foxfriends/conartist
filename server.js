@@ -71,19 +71,60 @@ app.put('/purchase', (req, res) => __awaiter(this, void 0, void 0, function* () 
         price: +req.body.price,
         time: +req.body.time
     };
-    queueSave(record);
+    yield queueSave(record);
+    res.header('Content-Type: text/plain');
+    res.send('Success');
+}));
+app.put('/sync', (req, res) => __awaiter(this, void 0, void 0, function* () {
+    const records = JSON.parse(req.body.records)
+        .sort((a, b) => a.time - b.time);
+    ;
+    yield queueMerge(records);
     res.header('Content-Type: text/plain');
     res.send('Success');
 }));
 app.use('/', express.static('public_html'));
-let toSave = [];
-let done = Promise.resolve();
+const recordFile = path.resolve('data', 'records.csv');
+let queue = Promise.resolve();
 function queueSave(record) {
-    toSave.push(record);
-    done = done.then(() => __awaiter(this, void 0, void 0, function* () {
-        const recordFile = path.resolve('data', 'records.csv');
+    return queue = queue.then(() => __awaiter(this, void 0, void 0, function* () {
         let records = yield readFile(recordFile);
         records += `${record.type},${record.quantity},${record.products.join(';')},${record.price},${record.time}\n`;
         yield writeFile(recordFile, records);
+    }));
+}
+function queueMerge(records) {
+    return queue = queue.then(() => __awaiter(this, void 0, void 0, function* () {
+        const previous = Papa.parse((yield readFile(path.resolve('data', 'records.csv'))).trim())
+            .data.slice(1).map(([type, quantity, products, price, time]) => ({
+            type: type,
+            quantity: +quantity,
+            products: products.split(';'),
+            price: +price,
+            time: +time
+        })).sort((a, b) => a.time - b.time);
+        const equal = (a, b) => a.type === b.type &&
+            a.quantity === b.quantity &&
+            a.price === b.price &&
+            a.time === b.time &&
+            a.products.join(';') === b.products.join(';');
+        let r = 0, p = 0;
+        while (p !== previous.length && r !== records.length) {
+            const [n, o] = [records[r], previous[p]];
+            if (equal(n, o)) {
+                ++r;
+                ++p;
+            }
+            else if (n.time < o.time) {
+                previous.splice(p, 0, records[r]);
+                ++r;
+            }
+            else {
+                ++p;
+            }
+        }
+        previous.push(...records.slice(r));
+        yield writeFile(recordFile, 'Type,Quantity,Names,Price,Time\n' +
+            previous.map(({ type, quantity, products, price, time }) => `${type},${quantity},${products.join(';')},${price},${time}`).join('\n') + '\n');
     }));
 }

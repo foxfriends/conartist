@@ -43,17 +43,9 @@ export default class Sales extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    if(localStorage.getItem('state')) {
-      this.store = createStore<SalesData>(reducer, { ...JSON.parse(localStorage.getItem('state')!), type: ActionTypes.Init } as Init);
-    } else {
-      this.store = createStore<SalesData>(reducer);
-      this.store.dispatch({ type: ActionTypes.Init, products: {} as Products, prices: {} as Prices, records: [] } as Init);
-      this.getProducts().then(data => this.store.dispatch({ type: ActionTypes.Init, ...data } as Init));
-    }
-    // save to local storage
-    this.store.subscribe(() => {
-      localStorage.setItem('state', JSON.stringify(this.store.getState()));
-    });
+    this.store = createStore<SalesData>(reducer);
+    this.store.dispatch({ type: ActionTypes.Init, products: {} as Products, prices: {} as Prices, records: [] } as Init);
+    this.getProducts().then(data => this.store.dispatch({ type: ActionTypes.Init, ...data } as Init));
   }
 
   private async getProducts(): Promise<{ products: Products, prices: Prices, records: Record[] }> {

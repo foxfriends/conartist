@@ -65,7 +65,6 @@ app.get('/products', async (_, res) => {
   res.send(JSON.stringify(response));
 });
 app.put('/purchase', async (req, res) => {
-  // TODO: make this atomic or whatever
   const record = {
     type: req.body.type,
     quantity: +req.body.quantity,
@@ -73,22 +72,64 @@ app.put('/purchase', async (req, res) => {
     price: +req.body.price,
     time: +req.body.time
   } as Record;
-
-  queueSave(record);
-
+  await queueSave(record);
+  res.header('Content-Type: text/plain');
+  res.send('Success');
+});
+app.put('/sync', async (req, res) => {
+  const records: Record[] = JSON.parse(req.body.records)
+    .sort((a: Record, b: Record) => a.time - b.time);;
+  await queueMerge(records);
   res.header('Content-Type: text/plain');
   res.send('Success');
 });
 app.use('/', express.static('public_html'));
 
-let toSave: Record[] = [];
-let done: Promise<void> = Promise.resolve();
-function queueSave(record: Record): void {
-  toSave.push(record);
-  done = done.then(async () => {
-    const recordFile = path.resolve('data', 'records.csv');
+const recordFile = path.resolve('data', 'records.csv');
+let queue: Promise<void> = Promise.resolve();
+function queueSave(record: Record): Promise<void> {
+  return queue = queue.then(async () => {
     let records = await readFile(recordFile);
     records += `${record.type},${record.quantity},${record.products.join(';')},${record.price},${record.time}\n`;
     await writeFile(recordFile, records);
   });
+}
+
+function queueMerge(records: Record[]): Promise<void> {
+  return queue = queue.then(async() => {
+    const previous: Record[] =
+      Papa.parse((await readFile(path.resolve('data', 'records.csv'))).trim())
+        .data.slice(1).map(([type, quantity, products, price, time]): Record => ({
+          type: type as keyof ProductTypes,
+          quantity: +quantity,
+          products: products.split(';'),
+          price: +price,
+          time: +time
+        })).sort((a, b) => a.time - b.time);
+    const equal = (a: Record, b: Record) =>
+      a.type === b.type &&
+      a.quantity === b.quantity &&
+      a.price === b.price &&
+      a.time === b.time &&
+      a.products.join(';') === b.products.join(';');
+    let r = 0, p = 0;
+    while(p !== previous.length && r !== records.length) {
+      const [n, o] = [records[r], previous[p]];
+      if(equal(n, o)) {
+        ++r;
+        ++p;
+      } else if(n.time < o.time) {
+        previous.splice(p, 0, records[r]);
+        ++r;
+      } else {
+        ++p;
+      }
+    }
+    previous.push(...records.slice(r));
+    await writeFile(
+      recordFile,
+      'Type,Quantity,Names,Price,Time\n' +
+      previous.map(({type, quantity, products, price, time}) => `${type},${quantity},${products.join(';')},${price},${time}`
+    ).join('\n') + '\n');
+  })
 }

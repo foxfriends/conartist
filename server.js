@@ -28,38 +28,39 @@ app.listen(process.env.PORT || 8000, () => {
 });
 app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/products', (_, res) => __awaiter(this, void 0, void 0, function* () {
-    const data = (yield Promise.all((yield readdir('./data')).map(file => readFile(path.resolve('data', file)))))
-        .map(file => file.trim())
-        .map(file => Papa.parse(file))
-        .map(_ => _.data);
+    const files = (yield readdir('./data')).map(file => path.resolve('data', file));
     const response = {
         products: {},
         prices: {},
         records: []
     };
-    for (let set of data) {
-        switch (set[0].length) {
-            case 2:
-                const type = set[0][0];
-                response.products[type] = set.slice(1).map(([a, b]) => [a, +b]);
-                break;
-            case 3:
-                for (let [type, qty, price] of set.slice(1)) {
-                    response.prices[type] = response.prices[type] || [];
-                    response.prices[type].push([+qty, +price]);
-                }
-                break;
-            case 5:
-                response.records = set.slice(1).map(([type, quantity, products, price, time]) => ({
-                    type: type,
+    yield Promise.all(files.map((file) => __awaiter(this, void 0, void 0, function* () {
+        const { data } = Papa.parse((yield readFile(file)).trim());
+        switch (path.basename(file, '.csv')) {
+            case 'records':
+                response.records.push(...data.map(([type, quantity, names, price, time]) => ({
+                    type,
                     quantity: +quantity,
-                    products: products.split(';'),
+                    products: names.split(';'),
                     price: +price,
                     time: +time
-                }));
+                })).sort((a, b) => a.time - b.time));
                 break;
+            case 'prices':
+                data.forEach(([type, quantity, price]) => {
+                    response.prices[type] = response.prices[type] || [];
+                    response.prices[type].push([+quantity, +price]);
+                });
+                break;
+            default:
+                data.forEach(([name, quantity]) => {
+                    const type = path.basename(file, '.csv');
+                    response.products[type] = response.products[type] || [];
+                    response.products[type].push([name, +quantity]);
+                });
         }
-    }
+    })));
+    console.log(JSON.stringify(response));
     res.header('Content-Type: application/json');
     res.send(JSON.stringify(response));
 }));

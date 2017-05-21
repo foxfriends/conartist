@@ -4,7 +4,6 @@ import * as React from 'react';
 import { List, ListItem, AppBar, Tabs, Tab, Avatar, Snackbar } from 'material-ui';
 import { blue400, blue200, red300, orange400, orange200, green300 } from 'material-ui/styles/colors';
 import { createStore, Store } from 'redux';
-// import SwipeableViews from 'react-swipeable-views';
 import * as Moment from 'moment';
 
 import ProductList from '../product-list';
@@ -140,15 +139,6 @@ export default class Sales extends React.Component<Props, State> {
             </div>
           </Tab>
         </Tabs>
-        {
-        // <SwipeableViews
-        //   index={this.state.tabIndex}
-        //   onChangeIndex={(value: number) => this.handleChange(value)}>
-        //
-        //
-        //
-        // </SwipeableViews>
-        }
         <ProductList
           type={this.state.productType!}
           items={this.state.products}

@@ -4,6 +4,7 @@ import { AppBar, IconButton, Chip, List, ListItem, TextField, Drawer, FloatingAc
 import Save from 'material-ui/svg-icons/content/save';
 import Close from 'material-ui/svg-icons/navigation/close';
 import Back from 'material-ui/svg-icons/navigation/arrow-back';
+import { grey500 as qtyColor } from 'material-ui/styles/colors';
 import Search from 'material-ui/svg-icons/action/search';
 import { PriceMap, ProductTypes } from '../types';
 
@@ -66,17 +67,20 @@ export default class ProductList extends React.Component<Props, State> {
     if(this.state.searchField) {
       this.toggleSearch();
     } else {
-      this.setState({ selected: [], price: '', priceError: '' });
-      this.props.close();
+      this.doClose();
     }
   }
 
   private save(): void {
     if(this.state.priceError === '' && this.state.selected.length > 0) {
       this.props.save(this.state.selected, +this.state.price)
-      this.props.close();
-      this.setState({ selected: [], price: '', priceError: '' });
+      this.doClose();
     }
+  }
+
+  private doClose(): void {
+    this.props.close();
+    this.setState({ selected: [], price: '', priceError: '', searchValue: null, searchField: null });
   }
 
   private handleChange(_: React.FormEvent<{}>, price: string) {
@@ -122,7 +126,8 @@ export default class ProductList extends React.Component<Props, State> {
             </IconButton>}
             onLeftIconButtonTouchTap={() => this.close()}
             iconElementRight={this.state.searchField ? undefined : <IconButton><Search /></IconButton>}
-            onRightIconButtonTouchTap={() => this.toggleSearch()}/>
+            onRightIconButtonTouchTap={() => this.toggleSearch()}
+            onTitleTouchTap={() => this.state.searchField || this.toggleSearch()}/>
           <div style={{ margin: '0 16px' }}>
             <TextField
               value={this.state.price}
@@ -146,7 +151,13 @@ export default class ProductList extends React.Component<Props, State> {
             <List>
             { this.items.map((item): JSX.Element => {
                 const qty = Math.max(0, item[1] - this.state.selected.reduce((_, name) => _ + (name === item[0] ? 1 : 0), 0));
-                return <ListItem key={item[0]} primaryText={item[0]} onClick={() => this.addProduct(item[0])} rightIcon={<span>{qty}</span>} />
+                return (
+                  <ListItem
+                    key={item[0]}
+                    primaryText={item[0]}
+                    onTouchTap={() => this.addProduct(item[0])}
+                    rightIcon={<div style={{ display: 'flex', alignItems: 'center', color: qtyColor}}>{qty}</div>} />
+                )
               }
             ) }
             </List>

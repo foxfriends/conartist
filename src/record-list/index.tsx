@@ -4,6 +4,7 @@ import * as React from 'react';
 import { List, ListItem, Avatar, RaisedButton } from 'material-ui';
 import * as Moment from 'moment';
 import { saveAs } from 'file-saver';
+import * as numeral from 'numeral';
 
 import {  ProductTypes, Record, Colors } from '../types';
 
@@ -31,17 +32,23 @@ export default class RecordList extends React.Component<Props, State> {
           <RaisedButton label='Export All' primary onTouchTap={() => this.save()} fullWidth />
         </div>
         <List>
-          { this.props.records.sort(({time: a}, {time: b}) => b - a).map((record, i) =>
-            <ListItem
-              key={i}
-              primaryText={record.products.join(', ')}
-              secondaryText={
-                <p>
-                  {Moment(record.time).format('h:mm a')} &mdash; {'$' + record.price}
-                </p>
-              }
-              leftAvatar={<Avatar backgroundColor={Colors[record.type]}>{ProductTypes[record.type][0]}</Avatar>} />
-          )}
+          { this.props.records.sort(({time: a}, {time: b}) => b - a).map((record, i) => {
+              const products = record.products
+                .reduce((o: { [key: string]: number }, p: keyof typeof o) => (o[p] = o[p] ? o[p] + 1 : 1, o), {} as { [key: string]: number });
+              const productStr = Object.keys(products).map((key: keyof typeof products) =>
+                products[key] === 1 ? key : `${key} (${products[key]})`).join(', ');
+              return (
+                <ListItem
+                  key={i}
+                  primaryText={productStr}
+                  secondaryText={
+                    <p>
+                      {Moment(record.time).format('MMM D, h:mm a')} &mdash; {numeral(record.price).format('$0,0.00')}
+                    </p>
+                  }
+                  leftAvatar={<Avatar backgroundColor={Colors[record.type]}>{ProductTypes[record.type][0]}</Avatar>} />
+              );
+            }) }
         </List>
       </div>
     );

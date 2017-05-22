@@ -14,8 +14,8 @@ function readFile(file: string): Promise<string> {
   return new Promise((resolve, reject) => fs.readFile(file, (err, data) => err ? reject(err) : resolve(data.toString())));
 }
 
-function writeFile(file: string, data: string): Promise<{}> {
-  return new Promise((resolve, reject) => fs.writeFile(file, data, (err) => err ? reject(err) : resolve()));
+function writeFile(file: string, data: string): Promise<void> {
+  return new Promise<void>((resolve, reject) => fs.writeFile(file, data, (err) => err ? reject(err) : resolve()));
 }
 
 const app = express();

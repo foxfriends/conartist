@@ -2,7 +2,9 @@
 
 import * as React from 'react';
 import { List, ListItem, AppBar, Tabs, Tab, Avatar, Snackbar } from 'material-ui';
+import { grey500 as priceColor } from 'material-ui/styles/colors';
 import { createStore, Store } from 'redux';
+import * as numeral from 'numeral';
 
 import ProductList from '../product-list';
 import RecordList from '../record-list';
@@ -35,6 +37,7 @@ export default class Sales extends React.Component<Props, State> {
     this.store = createStore<SalesData>(reducer);
     this.store.dispatch({ type: ActionTypes.Init, products: {} as Products, prices: {} as Prices, records: [] } as Init);
     this.getProducts().then(data => this.store.dispatch({ type: ActionTypes.Init, ...data } as Init));
+    this.store.subscribe(() => this.forceUpdate());
   }
 
   private async getProducts(): Promise<{ products: Products, prices: Prices, records: Record[] }> {
@@ -100,12 +103,23 @@ export default class Sales extends React.Component<Props, State> {
             }}>
               <List>
                 { Object.keys(ProductTypes).map((type: keyof ProductTypes) =>
+                  (this.store.getState().products[type] || []).length === 0 ? null :
                   <ListItem
                     key={type}
-                    primaryText={ProductTypes[type]}
+                    primaryText={
+                      <div style={{display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center'}}>
+                        {ProductTypes[type]}
+                        <span style={{ margin: '0 4px', color: priceColor, display: 'flex', flexDirection: 'column'}}>
+                          { (this.store.getState().prices[type] || [])
+                              .sort(([a], [b]) => a - b)
+                              .map(([q, p]) => <span key={q}>{q}: {numeral(p).format('$0,0.00')}</span>)
+                          }
+                        </span>
+                      </div>
+                    }
                     onClick={() => this.toProducts(type)}
                     leftAvatar={
-                      <Avatar backgroundColor={Colors[type]}>{ProductTypes[type][0]}</Avatar>
+                      <Avatar backgroundColor={Colors[type]} style={{top: 'calc(50% - 20px)'}}>{ProductTypes[type][0]}</Avatar>
                     } />
                 )}
               </List>

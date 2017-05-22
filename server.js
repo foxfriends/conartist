@@ -23,8 +23,8 @@ function writeFile(file, data) {
     return new Promise((resolve, reject) => fs.writeFile(file, data, (err) => err ? reject(err) : resolve()));
 }
 const app = express();
-app.listen(process.env.PORT || 8000, () => {
-    console.log('Server is listening on port 8000');
+app.listen(process.env.PORT || 8080, () => {
+    console.log('Server is listening on port 8080');
 });
 app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/products', (_, res) => __awaiter(this, void 0, void 0, function* () {

@@ -1,11 +1,11 @@
 {
-  "name": "sales-tracker",
+  "name": "conartist",
   "version": "1.0.0",
-  "description": "Track inventory and sales records",
+  "description": "Track inventory and sales records for conventions",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "mocha "
+    "test": "mocha"
   },
   "keywords": [
     "inventory",
@@ -50,5 +50,6 @@
     "sass-loader": "^6.0.5",
     "style-loader": "^0.17.0",
     "webpack": "^2.5.1"
-  }
+  },
+  "private": true
 }

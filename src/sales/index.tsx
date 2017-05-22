@@ -14,7 +14,7 @@ import {  ProductTypes, Products, SalesData, Prices, PriceMap, Record, Colors } 
 type Props = {};
 type State = {
   productType: keyof ProductTypes | null;
-  products: string[];
+  products: [string, number][];
   prices: PriceMap[];
   tabIndex: number;
   saved: boolean;
@@ -44,9 +44,22 @@ export default class Sales extends React.Component<Props, State> {
   private toProducts(productType: keyof ProductTypes | null): void {
     this.setState({
       productType,
-      products: productType ? this.store.getState().products[productType].map(_ => _[0]) : [],
+      products: productType ? this.products[productType] : [],
       prices: productType ? this.store.getState().prices[productType] : [],
     });
+  }
+
+  private get products(): Products {
+    // TODO: cache this or something. could get slow for bigger product lists
+    const products = { ...this.store.getState().products };
+    // deep copy the products list...
+    Object.keys(products).forEach((key: keyof ProductTypes) => products[key] = products[key].map<[string, number]>(([a,b]) => [a,b]));
+    this.store.getState().records.forEach(
+      ({ type, products: _ }) => _.forEach(
+        product => products[type as keyof ProductTypes].find(([_]) => _ === product)![1]--
+      )
+    );
+    return products;
   }
 
   private async savePurchase(products: string[], price: number): Promise<void> {

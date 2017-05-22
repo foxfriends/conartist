@@ -1,13 +1,15 @@
 'use strict';
 import * as React from 'react';
-import { AppBar, IconButton, Chip, List, ListItem, TextField, Drawer, FloatingActionButton, Badge } from 'material-ui';
+import { AppBar, IconButton, Chip, List, ListItem, TextField, Drawer, FloatingActionButton, Badge, AutoComplete } from 'material-ui';
 import Save from 'material-ui/svg-icons/content/save';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import Close from 'material-ui/svg-icons/navigation/close';
+import Back from 'material-ui/svg-icons/navigation/arrow-back';
+import Search from 'material-ui/svg-icons/action/search';
 import { PriceMap, ProductTypes } from '../types';
 
 type Props = {
   type: keyof ProductTypes;
-  items: string[];
+  items: [string, number][];
   prices: PriceMap[];
   close: () => void;
   save: (selected: string[], price: number) => void;
@@ -17,19 +19,19 @@ type State = {
   selected: string[];
   price: string;
   priceError: string;
+  searchField: JSX.Element | null;
+  searchValue: string | null;
 };
 
-// TODO: figure out SCSS modules? or at least put these somewhere tidy
-const container = {
-  display: 'flex',
-  flexWrap: 'wrap',
-} as React.CSSProperties;
-const margined = {
-  margin: '4px',
-} as React.CSSProperties;
-
 export default class ProductList extends React.Component<Props, State> {
-  readonly state: State = { selected: [], price: '', priceError: '' };
+  readonly state: State = { selected: [], price: '', priceError: '', searchField: null, searchValue: null };
+
+  private get items(): [string, number][] {
+    return this.props.items.filter(([item]) => {
+      if(!this.state.searchValue) { return true; }
+      return AutoComplete.fuzzyFilter(this.state.searchValue, item);
+    });
+  }
 
   private addProduct(product: string): void {
     this.setState({ selected: [ ...this.state.selected, product ]}, () => {
@@ -43,7 +45,7 @@ export default class ProductList extends React.Component<Props, State> {
     selected.splice(product, 1);
     this.setState({ selected }, () => {
       const price = this.calculatePrice();
-      this.setState({ price, priceError: price === '' ? 'Please enter a price' : '' });
+      this.setState({ price, priceError: price === '' && selected.length ? 'Please enter a price' : '' });
     });
   }
 
@@ -61,8 +63,12 @@ export default class ProductList extends React.Component<Props, State> {
   }
 
   private close(): void {
-    this.setState({ selected: [], price: '', priceError: '' });
-    this.props.close();
+    if(this.state.searchField) {
+      this.toggleSearch();
+    } else {
+      this.setState({ selected: [], price: '', priceError: '' });
+      this.props.close();
+    }
   }
 
   private save(): void {
@@ -81,6 +87,26 @@ export default class ProductList extends React.Component<Props, State> {
     }
   }
 
+  private updateFilter(searchValue: string): void {
+    this.setState({ searchValue });
+  }
+
+  private toggleSearch(): void {
+    if(this.state.searchField) {
+      this.setState({ searchField: null, searchValue: null });
+    } else {
+      this.setState({
+        searchField: <TextField
+          onChange={((_, text) => this.updateFilter(text))}
+          fullWidth
+          inputStyle={{color: 'white'}}
+          autoFocus
+          hintText='Filter' />,
+        searchValue: ''
+      });
+    }
+  }
+
   render() {
     return (
       <div>
@@ -90,30 +116,38 @@ export default class ProductList extends React.Component<Props, State> {
           disableSwipeToOpen
           width='100%'>
           <AppBar
-            title={ProductTypes[this.props.type]}
-            iconElementLeft={<IconButton><NavigationClose /></IconButton>}
-            onLeftIconButtonTouchTap={() => this.close()} />
+            title={this.state.searchField || ProductTypes[this.props.type]}
+            iconElementLeft={<IconButton>
+              { this.state.searchField ? <Back /> : <Close /> }
+            </IconButton>}
+            onLeftIconButtonTouchTap={() => this.close()}
+            iconElementRight={this.state.searchField ? undefined : <IconButton><Search /></IconButton>}
+            onRightIconButtonTouchTap={() => this.toggleSearch()}/>
           <div style={{ margin: '0 16px' }}>
             <TextField
               value={this.state.price}
-              floatingLabelText='Price' onChange={(_, value) => this.handleChange(_, value)}
+              floatingLabelText='Price'
+              onChange={(_, value) => this.handleChange(_, value)}
               errorText={this.state.priceError}
+              disabled={!this.state.selected.length}
               fullWidth />
           </div>
           <div style={{
             maxHeight: 'calc(100vh - 136px)',
             overflowY: 'auto',
           }}>
-            <div style={container}>
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
               { this.state.selected.map((name, i) =>
-                <Chip key={i} onTouchTap={() => this.removeProduct(i)} style={margined}>
+                <Chip key={i} onTouchTap={() => this.removeProduct(i)} style={{ margin: '4px' }}>
                   {name}
                 </Chip>
               ) }
             </div>
             <List>
-            { this.props.items.map(item =>
-              <ListItem key={item} primaryText={item} onClick={() => this.addProduct(item)} />
+            { this.items.map((item): JSX.Element => {
+                const qty = Math.max(0, item[1] - this.state.selected.reduce((_, name) => _ + (name === item[0] ? 1 : 0), 0));
+                return <ListItem key={item[0]} primaryText={item[0]} onClick={() => this.addProduct(item[0])} rightIcon={<span>{qty}</span>} />
+              }
             ) }
             </List>
           </div>

@@ -24,18 +24,18 @@ export default class Inventory extends React.Component<Props, State> {
     type: 'Print11x17',
     settings: false
   };
-  private get bars(): { [key: string]: { [key: string]: number } } {
+  private get bars(): { [key: string]: { [key in 'quantity' | 'sold']: number } } {
     return this.barsForType(this.state.type);
   }
-  private get legend(): { [key: string]: { color: string, name: string } } {
+  private get legend(): { [key in 'quantity' | 'sold']: { color: string, name: string } } {
     return {
       quantity: { name: 'Quantity', color: green300 },
       sold: { name: 'Sold', color: red300 }
     }
   }
 
-  private barsForType(type: keyof ProductTypes): { [key: string]: { [key: string]: number } } {
-    const bars: { [key: string]: { [key: string]: number } } = {};
+  private barsForType(type: keyof ProductTypes): { [key: string]: { [key in 'quantity' | 'sold']: number } } {
+    const bars: { [key: string]: { [key in 'quantity' | 'sold']: number } } = {};
     (this.props.products[type] || []).forEach(([name, quantity]) => {
       bars[name] = { quantity, sold: 0 };
     });
@@ -81,7 +81,7 @@ export default class Inventory extends React.Component<Props, State> {
             title='Inventory Settings'
             iconElementLeft={<IconButton><Close /></IconButton>}
             onLeftIconButtonTouchTap={() => this.setState({settings: false})} />
-          <div style={{padding: '16px'}}>
+          <div style={{padding: 16}}>
             <SelectField
               floatingLabelText='Product Type'
               value={this.state.type}
@@ -90,9 +90,9 @@ export default class Inventory extends React.Component<Props, State> {
                 <MenuItem key={i} value={type} primaryText={ProductTypes[type]} />
               ) }
             </SelectField>
-            <div>
-              <RaisedButton label='Export All' primary onClick={() => this.save()}/>
-            </div>
+          </div>
+          <div style={{padding: 16}}>
+            <RaisedButton label='Export All' primary onTouchTap={() => this.save()}/>
           </div>
         </Drawer>
       </div>

@@ -31,12 +31,12 @@ export default class SalesOverTime extends React.Component<Props, State> {
     timeError: '',
     bucketError: '',
   };
-  private get minTime() {
+  private get minTime(): number {
     return this.props.records.length
       ? this.roundToBucket(this.props.records.sort((a, b) => a.time - b.time)[0].time)
       : 0;
   }
-  private get maxTime() {
+  private get maxTime(): number {
     return this.props.records.length
       ? this.roundToBucket(this.props.records.sort((a, b) => b.time - a.time)[0].time)
       : 0;

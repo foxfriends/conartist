@@ -3,9 +3,9 @@
 import * as React from 'react';
 import { List, ListItem, AppBar, Tabs, Tab, Avatar, Snackbar } from 'material-ui';
 import { createStore, Store } from 'redux';
-import * as Moment from 'moment';
 
 import ProductList from '../product-list';
+import RecordList from '../record-list';
 import Stats from '../stats';
 import { get, put } from '../request';
 import { reducer, Purchase, Init, ActionTypes } from './reducer';
@@ -104,19 +104,7 @@ export default class Sales extends React.Component<Props, State> {
               overflowY: 'auto',
               overflowX: 'hidden',
             }}>
-              <List>
-                { this.store.getState().records.sort(({time: a}, {time: b}) => b - a).map((record, i) =>
-                  <ListItem
-                    key={i}
-                    primaryText={record.products.join(', ')}
-                    secondaryText={
-                      <p>
-                        {Moment(record.time).format('h:mm a')} &mdash; {'$' + record.price}
-                      </p>
-                    }
-                    leftAvatar={<Avatar backgroundColor={Colors[record.type]}>{ProductTypes[record.type][0]}</Avatar>} />
-                )}
-              </List>
+              <RecordList records={this.store.getState().records} />
             </div>
           </Tab>
           <Tab label='Stats' value={2}>

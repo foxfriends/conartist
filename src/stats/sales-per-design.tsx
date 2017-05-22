@@ -1,9 +1,10 @@
 'use strict';
 import * as React from 'react';
-import { Subheader, SelectField, MenuItem, Drawer, IconButton, AppBar } from 'material-ui';
+import { Subheader, SelectField, MenuItem, Drawer, IconButton, AppBar, RaisedButton } from 'material-ui';
 import Settings from 'material-ui/svg-icons/action/settings'
 import Close from 'material-ui/svg-icons/navigation/close'
 import StackedBarChart from './chart/stacked-bar-chart';
+import { saveAs } from 'file-saver';
 
 import { Record, ProductTypes, Colors } from '../types';
 
@@ -20,17 +21,17 @@ export default class SalesPerDesign extends React.Component<Props, State> {
     type: 'All',
     settings: false
   };
-  private get bars(): { [key: string]: { [key: string]: number } } {
+  private get bars(): { [key: string]: { [key in keyof ProductTypes]: number } } {
     return this.props.records
       .filter(record => this.state.type === 'All' || this.state.type === record.type)
-      .reduce((p, n) => this.reduceBars(p, n), {});
+      .reduce((p, n) => this.reduceBars(p, n), {} as { [key: string]: { [key in keyof ProductTypes]: number } });
   }
   private get legend(): { [key: string]: { color: string, name: string } } {
     return Object.keys(ProductTypes)
       .reduce((obj: { [key: string]: { color: string, name: string } }, key: keyof ProductTypes) => ({ ...obj, [key]: { color: Colors[key], name: ProductTypes[key] }}), {})
   }
 
-  private reduceBars(bars: { [key: string]: { [key: string]: number } }, record: Record): { [key: string]: { [key: string]: number } } {
+  private reduceBars(bars: { [key: string]: { [key in keyof ProductTypes]: number } }, record: Record): { [key: string]: { [key in keyof ProductTypes]: number } } {
     const updated = { ...bars };
     for(let product of record.products) {
       updated[product] = updated[product] || {
@@ -48,6 +49,18 @@ export default class SalesPerDesign extends React.Component<Props, State> {
 
   private typeChange(_: __MaterialUI.TouchTapEvent, __: number, type: keyof ProductTypes | 'All') {
     this.setState({ type });
+  }
+
+  private save(): void {
+    const data = this.props.records
+      .reduce((p, n) => this.reduceBars(p, n), {} as { [key: string]: { [key in keyof ProductTypes]: number } })
+    const blob = new Blob([
+      'Design,Total,Print 11x17,Print 5x7,Sticker,Holo Sticker,Button,Other\n' +
+      Object.keys(data).map(
+        key => `${key},${Object.keys(data[key]).reduce((_, p: keyof ProductTypes) => _ + data[key][p], 0)},${data[key].Print11x17},${data[key].Print5x7},${data[key].Sticker},${data[key].HoloSticker},${data[key].Button},${data[key].Other}`
+      ).join('\n')
+    ]);
+    saveAs(blob, 'sales-per-design.csv', true)
   }
 
   render() {
@@ -69,7 +82,7 @@ export default class SalesPerDesign extends React.Component<Props, State> {
             title='Sales Per Design Settings'
             iconElementLeft={<IconButton><Close /></IconButton>}
             onLeftIconButtonTouchTap={() => this.setState({settings: false})} />
-          <div style={{padding: '16px'}}>
+          <div style={{padding: 16}}>
             <SelectField
               floatingLabelText='Product Type'
               value={this.state.type}
@@ -78,6 +91,9 @@ export default class SalesPerDesign extends React.Component<Props, State> {
                 <MenuItem key={i} value={type} primaryText={type === 'All' ? 'All' : ProductTypes[type]} />
               ) }
             </SelectField>
+          </div>
+          <div style={{padding: 16}}>
+            <RaisedButton label='Export All' primary onTouchTap={() => this.save()}/>
           </div>
         </Drawer>
       </div>

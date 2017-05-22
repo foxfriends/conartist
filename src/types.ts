@@ -13,7 +13,7 @@ export const ProductTypes = {
 export type ProductTypes = typeof ProductTypes;
 
 export type AllProducts = {
-  [key in keyof ProductTypes]: [string, number][];
+  [key: string]: [string, number][];
 };
 export type Products = Partial<AllProducts>;
 
@@ -28,7 +28,7 @@ export type Record = {
 export type PriceMap = [number, number];
 
 export type Prices = {
-  [key in keyof ProductTypes]?: PriceMap[];
+  [key: string]: PriceMap[];
 };
 
 export type SalesData = {

@@ -28,7 +28,7 @@ app.listen(process.env.PORT || 8000, () => {
 });
 app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/products', (_, res) => __awaiter(this, void 0, void 0, function* () {
-    const files = (yield readdir('./data')).map(file => path.resolve('data', file));
+    const files = (yield readdir('./data')).map(file => path.resolve('data', file)).filter(_ => path.extname(_) === '.csv');
     const response = {
         products: {},
         prices: {},
@@ -53,11 +53,23 @@ app.get('/products', (_, res) => __awaiter(this, void 0, void 0, function* () {
                 });
                 break;
             default:
-                data.forEach(([name, quantity]) => {
-                    const type = path.basename(file, '.csv');
-                    response.products[type] = response.products[type] || [];
-                    response.products[type].push([name, +quantity]);
-                });
+                if (data.length === 0) {
+                    break;
+                }
+                if (data[0].length === 2) {
+                    data.forEach(([name, quantity]) => {
+                        const type = path.basename(file, '.csv');
+                        response.products[type] = response.products[type] || [];
+                        response.products[type].push([name, +quantity]);
+                    });
+                }
+                else {
+                    data.slice(1).forEach(([name, , quantity]) => {
+                        const type = path.basename(file, '.csv');
+                        response.products[type] = response.products[type] || [];
+                        response.products[type].push([name, +quantity]);
+                    });
+                }
         }
     })));
     res.header('Content-Type: application/json');

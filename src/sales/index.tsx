@@ -11,13 +11,12 @@ import RecordList from '../record-list';
 import Stats from '../stats';
 import { get, put } from '../request';
 import { reducer, Purchase, Init, ActionTypes } from './reducer';
-import {  ProductTypes, Products, SalesData, Prices, PriceMap, Record, Colors } from '../types';
+import {  ProductTypes, Products, SalesData, Prices, Record, Colors } from '../types';
 
 type Props = {};
 type State = {
   productType: keyof ProductTypes | null;
   products: [string, number][];
-  prices: PriceMap[];
   tabIndex: number;
   saved: boolean;
 };
@@ -26,7 +25,6 @@ export default class Sales extends React.Component<Props, State> {
   readonly state: State = {
     productType: null,
     products: [],
-    prices: [],
     tabIndex: 0,
     saved: false,
   };
@@ -48,7 +46,6 @@ export default class Sales extends React.Component<Props, State> {
     this.setState({
       productType,
       products: productType ? this.products[productType]! : [],
-      prices: productType ? this.store.getState().prices[productType]! : [],
     });
   }
 
@@ -72,6 +69,10 @@ export default class Sales extends React.Component<Props, State> {
       )
     );
     return products;
+  }
+
+  private get prices(): Prices {
+    return this.store.getState().prices;
   }
 
   private async savePurchase(products: string[], price: number): Promise<void> {
@@ -127,7 +128,7 @@ export default class Sales extends React.Component<Props, State> {
                     }
                     onClick={() => this.toProducts(type)}
                     leftAvatar={
-                      <Avatar backgroundColor={Colors[type]} style={{top: 'calc(50% - 20px)'}}>{ProductTypes[type][0]}</Avatar>
+                      <Avatar backgroundColor={Colors[type]} style={{top: 'calc(50% - 20px)'}}>{(ProductTypes[type] || '?')[0]}</Avatar>
                     } />
                 )}
               </List>
@@ -148,14 +149,14 @@ export default class Sales extends React.Component<Props, State> {
               overflowY: 'auto',
               overflowX: 'hidden',
             }}>
-              <Stats products={this.products} records={this.store.getState().records} />
+              <Stats products={this.products} records={this.store.getState().records} store={this.store.getState()} />
             </div>
           </Tab>
         </Tabs>
         <ProductList
           type={this.state.productType!}
           items={this.state.products}
-          prices={this.state.prices}
+          prices={this.prices}
           close={() => this.toProducts(null)}
           save={(purchase, price) => this.savePurchase(purchase, price)} />
         <Snackbar

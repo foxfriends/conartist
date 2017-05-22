@@ -22,7 +22,7 @@ type State = {
 export default class Inventory extends React.Component<Props, State> {
   state: State = {
     type: null,
-    settings: false
+    settings: false,
   };
   private get bars(): { [key: string]: { [key in 'remaining' | 'sold']: number } } {
     return this.state.type ? this.barsForType(this.state.type) : {};
@@ -30,7 +30,7 @@ export default class Inventory extends React.Component<Props, State> {
   private get legend(): { [key in 'remaining' | 'sold']: { color: string, name: string } } {
     return {
       remaining: { name: 'Remaining', color: green300 },
-      sold: { name: 'Sold', color: red300 }
+      sold: { name: 'Sold', color: red300 },
     }
   }
 

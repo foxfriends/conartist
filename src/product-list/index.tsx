@@ -6,12 +6,12 @@ import Close from 'material-ui/svg-icons/navigation/close';
 import Back from 'material-ui/svg-icons/navigation/arrow-back';
 import { grey500 as qtyColor } from 'material-ui/styles/colors';
 import Search from 'material-ui/svg-icons/action/search';
-import { PriceMap, ProductTypes } from '../types';
+import { Prices, ProductTypes } from '../types';
 
 type Props = {
   type: keyof ProductTypes;
   items: [string, number][];
-  prices: PriceMap[];
+  prices: Prices;
   close: () => void;
   save: (selected: string[], price: number) => void;
 };
@@ -51,15 +51,26 @@ export default class ProductList extends React.Component<Props, State> {
   }
 
   private calculatePrice(): string {
-    let remaining = this.state.selected.length;
-    const price = (this.props.prices || []).sort(([a], [b]) => b - a)
-      .reduce((t, [qty, price]) => {
-        while(remaining >= qty) {
-          remaining -= qty;
-          t += price;
-        }
-        return t;
-      }, 0)
+    const selected = [...this.state.selected];
+    const counts: { [key: string]: number  } = { [this.props.type]: 0 };
+    selected.reverse().forEach(name => {
+      const fullname = `${this.props.type}.${name}`;
+      if(this.props.prices[fullname] !== undefined) {
+        counts[fullname] = counts[fullname] ? counts[fullname] + 1 : 1;
+      } else {
+        counts[this.props.type]++;
+      }
+    });
+    const price = Object.keys(counts).reduce((_, key) =>
+      _ + (this.props.prices[key] || [])
+        .sort(([a], [b]) => b - a)
+        .reduce((t, [qty, price]) => {
+          while(counts[key] >= qty) {
+            counts[key] -= qty;
+            t += price;
+          }
+          return t;
+        }, 0), 0);
     return price ? price.toString(10) : '';
   }
 
@@ -84,7 +95,7 @@ export default class ProductList extends React.Component<Props, State> {
   }
 
   private handleChange(_: React.FormEvent<{}>, price: string) {
-    if(/^\d+(\.\d+)?$/.test(price)) {
+    if(/^\$?\d+(\.\d\d?)?$/.test(price)) {
       this.setState({ price: price, priceError: ''});
     } else {
       this.setState({ price: price, priceError: 'Price is not a number' });
@@ -135,19 +146,23 @@ export default class ProductList extends React.Component<Props, State> {
               onChange={(_, value) => this.handleChange(_, value)}
               errorText={this.state.priceError}
               disabled={!this.state.selected.length}
-              fullWidth />
+              fullWidth
+              type='number'
+              step={0.01} />
           </div>
-          <div style={{
-            maxHeight: 'calc(100vh - 136px)',
-            overflowY: 'auto',
-          }}>
-            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+          <div style={{ minHeight: 40, maxWidth: '100%', overflowX: 'auto' }}>
+            <div style={{ display: 'flex' }}>
               { this.state.selected.map((name, i) =>
-                <Chip key={i} onTouchTap={() => this.removeProduct(i)} style={{ margin: '4px' }}>
+                <Chip key={i} onRequestDelete={() => this.removeProduct(i)} onTouchTap={() => this.removeProduct(i)} style={{ margin: '4px' }}>
                   {name}
                 </Chip>
               ) }
             </div>
+          </div>
+          <div style={{
+            maxHeight: 'calc(100vh - 176px)',
+            overflowY: 'auto',
+          }}>
             <List>
             { this.items.map((item): JSX.Element => {
                 const qty = Math.max(0, item[1] - this.state.selected.reduce((_, name) => _ + (name === item[0] ? 1 : 0), 0));
@@ -182,7 +197,8 @@ export default class ProductList extends React.Component<Props, State> {
           }}>
           <FloatingActionButton
             onTouchTap={() => this.save()}
-            disabled={!!this.state.priceError || this.state.selected.length === 0} >
+            disabled={!!this.state.priceError || this.state.selected.length === 0}
+            tabIndex={-1}>
             <Save />
           </FloatingActionButton>
         </Badge>

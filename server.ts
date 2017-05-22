@@ -26,7 +26,7 @@ app.listen(process.env.PORT || 8000, () => {
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/products', async (_, res) => {
-  const files = (await readdir('./data')).map(file => path.resolve('data', file));
+  const files = (await readdir('./data')).map(file => path.resolve('data', file)).filter(_ => path.extname(_) === '.csv');
   const response = {
     products: {} as Products,
     prices: {} as Prices,
@@ -46,16 +46,27 @@ app.get('/products', async (_, res) => {
         break;
       case 'prices':
         data.forEach(([type, quantity, price]) => {
-          response.prices[type as keyof ProductTypes] = response.prices[type as keyof ProductTypes] || [];
-          response.prices[type as keyof ProductTypes]!.push([+quantity, +price]);
+          response.prices[type] = response.prices[type] || [];
+          response.prices[type].push([+quantity, +price]);
         });
         break;
       default:
-        data.forEach(([name,quantity]) => {
-          const type = path.basename(file, '.csv') as keyof ProductTypes;
-          response.products[type] = response.products[type] || [];
-          response.products[type]!.push([name, +quantity]);
-        });
+        if(data.length === 0) { break; }
+        if(data[0].length === 2) {
+          // simple files
+          data.forEach(([name,quantity]) => {
+            const type = path.basename(file, '.csv') as keyof ProductTypes;
+            response.products[type] = response.products[type] || [];
+            response.products[type]!.push([name, +quantity]);
+          });
+        } else {
+          // exported files
+          data.slice(1).forEach(([name,,quantity]) => {
+            const type = path.basename(file, '.csv') as keyof ProductTypes;
+            response.products[type] = response.products[type] || [];
+            response.products[type]!.push([name, +quantity]);
+          });
+        }
     }
   }));
   res.header('Content-Type: application/json');

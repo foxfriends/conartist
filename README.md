@@ -31,18 +31,26 @@ There are three formats of csv files used:
     Orange, 4
     ```
 
+    The exported inventory csv files can also be imported, in which case the
+    "Final" column is used as the quantity.
+
+    Note that product names should avoid using special characters. Commas and
+    ampersands in particular are known to cause issues.
+
 2.  Prices format, storing the default prices for some quantity of each product.
     There is only one price format file, and it is named `prices.csv`.
 
     The lines list the type of product, as a resource key from above, how many of
-    them, and the price for that many.
+    them, and the price for that many. If a specific item is to have its own
+    price points, the type column can be written as `Type.Item Name`.
 
     Example:
     ```csv
-    Print11x17, 1,  15
-    Print11x17, 2,  20
-    Print5x7,   1,  5
-    Print5x7,   2,  10
+    Print11x17,     1,  15
+    Print11x17,     2,  20
+    Print5x7,       1,  5
+    Print5x7,       2,  10
+    Other.Special,  1,  15
     ```
 
 3.  Records format, storing the transaction records. There is only one record format

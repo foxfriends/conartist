@@ -6,6 +6,7 @@ import * as d3 from 'd3';
 type Props = {
   bars: { [key: string]: number };
   colors?: { [key: string]: string };
+  yLabel: string;
 };
 type State = {};
 
@@ -48,7 +49,7 @@ export default class BarChart extends React.Component<Props, State> {
         .attr('y', 6)
         .attr('dy', '0.71em')
         .attr('text-anchor', 'end')
-        .text('Sales');
+        .text(this.props.yLabel);
 
     g.append('g')
       .selectAll('.bar')

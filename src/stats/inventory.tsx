@@ -24,12 +24,12 @@ export default class Inventory extends React.Component<Props, State> {
     type: null,
     settings: false
   };
-  private get bars(): { [key: string]: { [key in 'quantity' | 'sold']: number } } {
+  private get bars(): { [key: string]: { [key in 'remaining' | 'sold']: number } } {
     return this.state.type ? this.barsForType(this.state.type) : {};
   }
-  private get legend(): { [key in 'quantity' | 'sold']: { color: string, name: string } } {
+  private get legend(): { [key in 'remaining' | 'sold']: { color: string, name: string } } {
     return {
-      quantity: { name: 'Quantity', color: green300 },
+      remaining: { name: 'Remaining', color: green300 },
       sold: { name: 'Sold', color: red300 }
     }
   }
@@ -40,14 +40,14 @@ export default class Inventory extends React.Component<Props, State> {
      }
   }
 
-  private barsForType(type: keyof ProductTypes): { [key: string]: { [key in 'quantity' | 'sold']: number } } {
-    const bars: { [key: string]: { [key in 'quantity' | 'sold']: number } } = {};
+  private barsForType(type: keyof ProductTypes): { [key: string]: { [key in 'remaining' | 'sold']: number } } {
+    const bars: { [key: string]: { [key in 'remaining' | 'sold']: number } } = {};
     (this.props.products[type] || []).forEach(([name, quantity]) => {
-      bars[name] = { quantity, sold: 0 };
+      bars[name] = { remaining: quantity, sold: 0 };
     });
     this.props.records
       .filter(({type: _}) => _ === type)
-      .forEach(({ products }) => products.forEach(product => (++bars[product].sold, bars[product].quantity && --bars[product].quantity)));
+      .forEach(({ products }) => products.forEach(product => (++bars[product].sold, bars[product].remaining && --bars[product].remaining)));
     return bars;
   }
 
@@ -61,7 +61,7 @@ export default class Inventory extends React.Component<Props, State> {
       const bars = this.barsForType(type);
       type Entry = [string, number, number, number];
       const products: Entry[] = Object.keys(bars).map<Entry>(name =>
-        [name, this.props.products[type]!.find(([_]) => name === _)![1], bars[name].quantity, bars[name].sold]
+        [name, this.props.products[type]!.find(([_]) => name === _)![1], bars[name].remaining, bars[name].sold]
       )
       return [`${type}.csv`, 'Name,Initial,Final,Sold\n' + products.map(_ => _.join(',')).join('\n')];
     }).forEach(([name, content]) => zip.file(name, content));
@@ -77,7 +77,7 @@ export default class Inventory extends React.Component<Props, State> {
           onTouchTap={() => this.setState({ settings: true })}>
           <Settings />
         </IconButton>
-        <StackedBarChart bars={this.bars} legend={this.legend}/>
+        <StackedBarChart yLabel='Quantity' bars={this.bars} legend={this.legend}/>
         <Drawer
           open={this.state.settings}
           openSecondary

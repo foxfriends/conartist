@@ -71,14 +71,14 @@ export default class SalesPerType extends React.Component<Props, State> {
           onTouchTap={() => this.setState({ settings: true })}>
           <Settings />
         </IconButton>
-        <BarChart bars={this.bars} colors={Colors} />
+        <BarChart yLabel={this.state.metric} bars={this.bars} colors={Colors} />
         <Drawer
           open={this.state.settings}
           openSecondary
           width='100%'
           style={{display: 'flex'}}>
           <AppBar
-            title='Sales Per Design Settings'
+            title='Sales Per Type Settings'
             iconElementLeft={<IconButton><Close /></IconButton>}
             onLeftIconButtonTouchTap={() => this.setState({settings: false})} />
           <div style={{padding: 16}}>

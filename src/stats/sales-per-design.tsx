@@ -66,7 +66,7 @@ export default class SalesPerDesign extends React.Component<Props, State> {
           onTouchTap={() => this.setState({ settings: true })}>
           <Settings />
         </IconButton>
-        <StackedBarChart bars={this.bars} legend={this.legend}/>
+        <StackedBarChart yLabel='Sales' bars={this.bars} legend={this.legend}/>
         <Drawer
           open={this.state.settings}
           openSecondary

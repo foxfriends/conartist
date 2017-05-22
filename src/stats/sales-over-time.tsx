@@ -154,7 +154,7 @@ export default class SalesOverTime extends React.Component<Props, State> {
           onTouchTap={() => this.setState({ settings: true })}>
           <Settings />
         </IconButton>
-        <LineChart buckets={this.buckets} />
+        <LineChart yLabel={this.state.metric} buckets={this.buckets} />
         <Drawer
           open={this.state.settings}
           openSecondary

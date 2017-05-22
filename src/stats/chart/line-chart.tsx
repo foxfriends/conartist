@@ -6,7 +6,8 @@ import * as d3 from 'd3';
 export type Bucket = { time: number, quantity: number };
 
 type Props = {
-  buckets: Bucket[]
+  buckets: Bucket[];
+  yLabel: string;
 };
 type State = {};
 
@@ -49,7 +50,7 @@ export default class LineChart extends React.Component<Props, State> {
           .attr('y', 6)
           .attr('dy', '0.71em')
           .attr('text-anchor', 'end')
-          .text('Sales');
+          .text(this.props.yLabel);
     g.append('path')
       .datum(this.props.buckets)
       .attr('fill', 'none')

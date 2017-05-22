@@ -5,6 +5,7 @@ import * as d3 from 'd3';
 type Props = {
   bars: { [key: string]: { [key: string]: number } };
   legend: { [key: string]: { color: string, name: string } };
+  yLabel: string;
 };
 type State = {};
 
@@ -49,7 +50,7 @@ export default class StackedBarChart extends React.Component<Props, State> {
         .attr('y', 6)
         .attr('dy', '0.71em')
         .attr('text-anchor', 'end')
-        .text('Sales');
+        .text(this.props.yLabel);
 
     const stack = d3.stack()
       .keys(Object.keys(this.props.legend));

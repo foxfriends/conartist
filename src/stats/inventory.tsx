@@ -1,11 +1,13 @@
 'use strict';
 import * as React from 'react';
-import { Subheader, SelectField, MenuItem, Drawer, IconButton, AppBar } from 'material-ui';
+import { Subheader, SelectField, MenuItem, Drawer, IconButton, AppBar, RaisedButton } from 'material-ui';
 import { red300, green300 } from 'material-ui/styles/colors';
 import Settings from 'material-ui/svg-icons/action/settings'
 import Close from 'material-ui/svg-icons/navigation/close'
-import StackedBarChart from './chart/stacked-bar-chart';
+import * as JSZip from 'jszip'
+import { saveAs } from 'file-saver';
 
+import StackedBarChart from './chart/stacked-bar-chart';
 import { Products,Record, ProductTypes } from '../types';
 
 type Props = {
@@ -23,14 +25,7 @@ export default class Inventory extends React.Component<Props, State> {
     settings: false
   };
   private get bars(): { [key: string]: { [key: string]: number } } {
-    const bars: { [key: string]: { [key: string]: number } } = {};
-    (this.props.products[this.state.type] || []).forEach(([name, quantity]) => {
-      bars[name] = { quantity, sold: 0 };
-    });
-    this.props.records
-      .filter(({type}) => type === this.state.type)
-      .forEach(({ products }) => products.forEach(product => (++bars[product].sold, bars[product].quantity && --bars[product].quantity)));
-    return bars;
+    return this.barsForType(this.state.type);
   }
   private get legend(): { [key: string]: { color: string, name: string } } {
     return {
@@ -39,8 +34,32 @@ export default class Inventory extends React.Component<Props, State> {
     }
   }
 
+  private barsForType(type: keyof ProductTypes): { [key: string]: { [key: string]: number } } {
+    const bars: { [key: string]: { [key: string]: number } } = {};
+    (this.props.products[type] || []).forEach(([name, quantity]) => {
+      bars[name] = { quantity, sold: 0 };
+    });
+    this.props.records
+      .filter(({type: _}) => _ === type)
+      .forEach(({ products }) => products.forEach(product => (++bars[product].sold, bars[product].quantity && --bars[product].quantity)));
+    return bars;
+  }
+
   private typeChange(_: __MaterialUI.TouchTapEvent, __: number, type: keyof ProductTypes) {
     this.setState({ type });
+  }
+
+  private async save() {
+    const zip = new JSZip();
+    Object.keys(ProductTypes).map<[string, string]>((type: keyof ProductTypes) => {
+      const bars = this.barsForType(type);
+      type Entry = [string, number, number, number];
+      const products: Entry[] = Object.keys(bars).map<Entry>(name =>
+        [name, this.props.products[type].find(([_]) => name === _)![1], bars[name].quantity, bars[name].sold]
+      )
+      return [`${type}.csv`, 'Name,Initial,Final,Sold\n' + products.map(_ => _.join(',')).join('\n')];
+    }).forEach(([name, content]) => zip.file(name, content));
+    saveAs(await zip.generateAsync({type: 'blob'}), 'inventory.zip');
   }
 
   render() {
@@ -71,6 +90,9 @@ export default class Inventory extends React.Component<Props, State> {
                 <MenuItem key={i} value={type} primaryText={ProductTypes[type]} />
               ) }
             </SelectField>
+            <div>
+              <RaisedButton label='Export All' primary onClick={() => this.save()}/>
+            </div>
           </div>
         </Drawer>
       </div>

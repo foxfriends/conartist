@@ -6,9 +6,10 @@ import Close from 'material-ui/svg-icons/navigation/close'
 import BarChart from './chart/bar-chart';
 import { saveAs } from 'file-saver';
 
-import { Record, ProductTypes, Metric, Colors } from '../types';
+import { Record, Products, ProductTypes, Metric, Colors, empty } from '../types';
 
 type Props = {
+  products: Products;
   records: Record[];
 };
 type State = {
@@ -19,18 +20,11 @@ type State = {
 export default class SalesPerType extends React.Component<Props, State> {
   state: State = {
     metric: 'Customers',
-    settings: false
+    settings: false,
   };
 
   private get bars(): { [key in keyof ProductTypes]: number } {
-    return this.props.records.reduce((p: { [key in keyof ProductTypes]: number }, n) => this.reduceBars(p, n), {
-      Print11x17: 0,
-      Print5x7: 0,
-      Sticker: 0,
-      HoloSticker: 0,
-      Button: 0,
-      Other: 0,
-    });
+    return this.props.records.reduce((p: { [key in keyof ProductTypes]: number }, n) => this.reduceBars(p, n), empty(0, Object.keys(this.props.products) as (keyof ProductTypes)[]));
   }
 
   private reduceBars(bars: { [key in keyof ProductTypes]: number }, record: Record): { [key in keyof ProductTypes]: number } {
@@ -60,14 +54,7 @@ export default class SalesPerType extends React.Component<Props, State> {
         updated[record.type].items += record.quantity;
         updated[record.type].money += record.price;
         return updated;
-      }, {
-        Print11x17: { customers: 0, items: 0, money: 0 },
-        Print5x7: { customers: 0, items: 0, money: 0 },
-        Sticker: { customers: 0, items: 0, money: 0 },
-        HoloSticker: { customers: 0, items: 0, money: 0 },
-        Button: { customers: 0, items: 0, money: 0 },
-        Other: { customers: 0, items: 0, money: 0 },
-      });
+      }, empty({ customers: 0, items: 0, money: 0 }));
     const blob = new Blob([
       `Type,Customers,Items,Money\n` +
       Object.keys(data).map((key: keyof ProductTypes) => `${key},${data[key].customers},${data[key].items},${data[key].money}`).join('\n')

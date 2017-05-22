@@ -47,19 +47,28 @@ export default class Sales extends React.Component<Props, State> {
   private toProducts(productType: keyof ProductTypes | null): void {
     this.setState({
       productType,
-      products: productType ? this.products[productType] : [],
-      prices: productType ? this.store.getState().prices[productType] : [],
+      products: productType ? this.products[productType]! : [],
+      prices: productType ? this.store.getState().prices[productType]! : [],
     });
   }
 
+  // only the remaining products, of types we actually stock
   private get products(): Products {
     // TODO: cache this or something. could get slow for bigger product lists
-    const products = { ...this.store.getState().products };
+    const order = Object.keys(ProductTypes);
+    const products: Products = {};
+    const old = this.store.getState().products;
     // deep copy the products list...
-    Object.keys(products).forEach((key: keyof ProductTypes) => products[key] = products[key].map<[string, number]>(([a,b]) => [a,b]));
+    Object.keys(old).sort((a, b) => order.indexOf(a) - order.indexOf(b)).forEach(
+      (key: keyof ProductTypes) => {
+        if(old[key]!.length > 0) {
+          products[key] = old[key].map<[string, number]>(([a,b]) => [a,b]);
+        }
+      }
+    );
     this.store.getState().records.forEach(
       ({ type, products: _ }) => _.forEach(
-        product => products[type as keyof ProductTypes].find(([_]) => _ === product)![1]--
+        product => products[type as keyof ProductTypes]!.find(([_]) => _ === product)![1]--
       )
     );
     return products;
@@ -102,8 +111,7 @@ export default class Sales extends React.Component<Props, State> {
               overflowX: 'hidden',
             }}>
               <List>
-                { Object.keys(ProductTypes).map((type: keyof ProductTypes) =>
-                  (this.store.getState().products[type] || []).length === 0 ? null :
+                { Object.keys(this.products).map((type: keyof ProductTypes) =>
                   <ListItem
                     key={type}
                     primaryText={
@@ -140,7 +148,7 @@ export default class Sales extends React.Component<Props, State> {
               overflowY: 'auto',
               overflowX: 'hidden',
             }}>
-              <Stats data={this.store.getState()} />
+              <Stats products={this.products} records={this.store.getState().records} />
             </div>
           </Tab>
         </Tabs>

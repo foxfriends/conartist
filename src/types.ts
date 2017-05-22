@@ -1,5 +1,5 @@
 'use strict';
-import { blue400, blue200, red300, orange400, orange200, green300 } from 'material-ui/styles/colors';
+import { blue400, blue200, orange400, orange200, green300, red300, grey400 } from 'material-ui/styles/colors';
 
 export const ProductTypes = {
   Print11x17: '11x17 Print',
@@ -7,13 +7,15 @@ export const ProductTypes = {
   Sticker: 'Sticker',
   HoloSticker: 'Holo sticker',
   Button: 'Button',
+  Charm: 'Charm',
   Other: 'Other',
 };
 export type ProductTypes = typeof ProductTypes;
 
-export type Products = {
+export type AllProducts = {
   [key in keyof ProductTypes]: [string, number][];
 };
+export type Products = Partial<AllProducts>;
 
 export type Record = {
   type: keyof ProductTypes,
@@ -26,11 +28,11 @@ export type Record = {
 export type PriceMap = [number, number];
 
 export type Prices = {
-  [key in keyof ProductTypes]: PriceMap[];
+  [key in keyof ProductTypes]?: PriceMap[];
 };
 
 export type SalesData = {
-  products: Products;
+  products: AllProducts;
   prices: Prices;
   records: Record[];
 }
@@ -40,9 +42,21 @@ export type Metric = 'Customers' | 'Items Sold' | 'Money';
 export const Colors: { [key in keyof ProductTypes]: string } = {
   Print11x17: blue400,
   Print5x7: blue200,
-  Button: red300,
+  Button: green300,
+  Charm: red300,
   Sticker: orange400,
   HoloSticker: orange200,
-  Other: green300,
+  Other: grey400,
 };
 export type Colors = typeof Colors;
+
+export function empty<T>(v: T, keyset: (keyof ProductTypes)[] = Object.keys(ProductTypes) as (keyof ProductTypes)[]): { [key in keyof ProductTypes]: T } {
+  function cp(v: any): any {
+    if(v instanceof Array) { return [...v]; }
+    else if(typeof v === 'object') { return {...v} as T; }
+    else { return v; }
+  }
+  return keyset.reduce(
+    (_: { [key in keyof ProductTypes]: T }, key: keyof ProductTypes) => ({ ..._, [key]: cp(v) }), {} as { [key in keyof ProductTypes]: T }
+  );
+}

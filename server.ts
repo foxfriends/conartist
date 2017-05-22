@@ -47,14 +47,14 @@ app.get('/products', async (_, res) => {
       case 'prices':
         data.forEach(([type, quantity, price]) => {
           response.prices[type as keyof ProductTypes] = response.prices[type as keyof ProductTypes] || [];
-          response.prices[type as keyof ProductTypes].push([+quantity, +price]);
+          response.prices[type as keyof ProductTypes]!.push([+quantity, +price]);
         });
         break;
       default:
         data.forEach(([name,quantity]) => {
           const type = path.basename(file, '.csv') as keyof ProductTypes;
           response.products[type] = response.products[type] || [];
-          response.products[type].push([name, +quantity]);
+          response.products[type]!.push([name, +quantity]);
         });
     }
   }));

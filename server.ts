@@ -58,7 +58,6 @@ app.get('/products', async (_, res) => {
         });
     }
   }));
-  console.log(JSON.stringify(response));
   res.header('Content-Type: application/json');
   res.send(JSON.stringify(response));
 });

@@ -9,7 +9,7 @@ import * as Moment from 'moment';
 import { Record, Metric } from '../types';
 
 type Props = {
-  records: Record[]
+  records: Record[];
 };
 type State = {
   start: Date;

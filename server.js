@@ -60,7 +60,6 @@ app.get('/products', (_, res) => __awaiter(this, void 0, void 0, function* () {
                 });
         }
     })));
-    console.log(JSON.stringify(response));
     res.header('Content-Type: application/json');
     res.send(JSON.stringify(response));
 }));

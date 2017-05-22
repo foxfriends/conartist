@@ -8,10 +8,10 @@ import StackedBarChart from './chart/stacked-bar-chart';
 import { Record, ProductTypes, Colors } from '../types';
 
 type Props = {
-  records: Record[]
+  records: Record[];
 };
 type State = {
-  type: keyof ProductTypes | 'All',
+  type: keyof ProductTypes | 'All';
   settings: boolean;
 };
 

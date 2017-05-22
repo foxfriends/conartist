@@ -4,6 +4,7 @@ import * as React from 'react';
 import SalesPerDesign from './sales-per-design';
 import SalesPerType from './sales-per-type';
 import SalesOverTime from './sales-over-time';
+import Inventory from './inventory';
 import { SalesData } from '../types';
 
 type Props = {
@@ -18,6 +19,7 @@ export default class Stats extends React.Component<Props, State> {
         <SalesPerDesign records={this.props.data.records} />
         <SalesPerType records={this.props.data.records} />
         <SalesOverTime records={this.props.data.records} />
+        <Inventory products={this.props.data.products} records={this.props.data.records} />
       </div>
     )
   }

@@ -8,7 +8,7 @@ import BarChart from './chart/bar-chart';
 import { Record, ProductTypes, Metric, Colors } from '../types';
 
 type Props = {
-  records: Record[]
+  records: Record[];
 };
 type State = {
   metric: Metric;

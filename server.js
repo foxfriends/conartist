@@ -41,18 +41,23 @@ function readFile(file) {
     return __awaiter(this, void 0, void 0, function* () {
         if (storage && bucket) {
             const blob = bucket.file(file);
-            const [data] = yield blob.download();
-            return data.toString();
+            if ((yield blob.exists())[0]) {
+                const [data] = yield blob.download();
+                return data.toString();
+            }
+            else {
+                return '';
+            }
         }
         else {
             return yield new Promise((resolve, reject) => fs.readFile(file, (err, data) => err ? reject(err) : resolve(data.toString())));
         }
     });
 }
-function writeFile(file, data) {
+function writeFile(file, data, options) {
     if (storage && bucket) {
         const blob = bucket.file(file);
-        return blob.save(data);
+        return blob.save(data, options);
     }
     else {
         return new Promise((resolve, reject) => fs.writeFile(file, data, (err) => err ? reject(err) : resolve()));
@@ -123,14 +128,6 @@ app.put('/purchase', (req, res) => __awaiter(this, void 0, void 0, function* () 
     res.header('Content-Type: text/plain');
     res.send('Success');
 }));
-app.put('/sync', (req, res) => __awaiter(this, void 0, void 0, function* () {
-    const records = JSON.parse(req.body.records)
-        .sort((a, b) => a.time - b.time);
-    ;
-    yield queueMerge(records);
-    res.header('Content-Type: text/plain');
-    res.send('Success');
-}));
 app.use('/', express.static('public_html'));
 const recordFile = 'data/records.csv';
 let queue = Promise.resolve();
@@ -138,41 +135,6 @@ function queueSave(record) {
     return queue = queue.then(() => __awaiter(this, void 0, void 0, function* () {
         let records = yield readFile(recordFile);
         records += `${record.type},${record.quantity},${record.products.join(';')},${record.price},${record.time}\n`;
-        yield writeFile(recordFile, records);
-    }));
-}
-function queueMerge(records) {
-    return queue = queue.then(() => __awaiter(this, void 0, void 0, function* () {
-        const previous = Papa.parse((yield readFile(path.resolve('data', 'records.csv'))).trim())
-            .data.slice(1).map(([type, quantity, products, price, time]) => ({
-            type: type,
-            quantity: +quantity,
-            products: products.split(';'),
-            price: +price,
-            time: +time
-        })).sort((a, b) => a.time - b.time);
-        const equal = (a, b) => a.type === b.type &&
-            a.quantity === b.quantity &&
-            a.price === b.price &&
-            a.time === b.time &&
-            a.products.join(';') === b.products.join(';');
-        let r = 0, p = 0;
-        while (p !== previous.length && r !== records.length) {
-            const [n, o] = [records[r], previous[p]];
-            if (equal(n, o)) {
-                ++r;
-                ++p;
-            }
-            else if (n.time < o.time) {
-                previous.splice(p, 0, records[r]);
-                ++r;
-            }
-            else {
-                ++p;
-            }
-        }
-        previous.push(...records.slice(r));
-        yield writeFile(recordFile, 'Type,Quantity,Names,Price,Time\n' +
-            previous.map(({ type, quantity, products, price, time }) => `${type},${quantity},${products.join(';')},${price},${time}`).join('\n') + '\n');
+        yield writeFile(recordFile, records, { metadata: { contentType: 'text/csv' } });
     }));
 }

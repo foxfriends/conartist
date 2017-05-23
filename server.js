@@ -16,8 +16,15 @@ const Papa = require("papaparse");
 const Storage = require("@google-cloud/storage");
 let storage, bucket;
 if (process.env.GCLOUD_STORAGE_BUCKET) {
-    storage = new Storage.Storage();
+    storage = Storage();
     bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET);
+}
+else if (process.argv[2] === 'remote') {
+    storage = Storage({
+        projectId: 'conartist-168422',
+        keyFilename: './ConArtist-f4cb1e1f299c.json',
+    });
+    bucket = storage.bucket('conartist');
 }
 function readdir(dir) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -26,7 +33,7 @@ function readdir(dir) {
             return files.map((file) => file.name);
         }
         else {
-            return yield new Promise((resolve, reject) => fs.readdir(dir, (err, files) => err ? reject(err) : resolve(files)));
+            return yield new Promise((resolve, reject) => fs.readdir(dir, (err, files) => err ? reject(err) : resolve(files.map(_ => `${dir}/${_}`))));
         }
     });
 }
@@ -35,7 +42,7 @@ function readFile(file) {
         if (storage && bucket) {
             const blob = bucket.file(file);
             const [data] = yield blob.download();
-            return data;
+            return data.toString();
         }
         else {
             return yield new Promise((resolve, reject) => fs.readFile(file, (err, data) => err ? reject(err) : resolve(data.toString())));
@@ -57,7 +64,7 @@ app.listen(process.env.PORT || 8080, () => {
 });
 app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/products', (_, res) => __awaiter(this, void 0, void 0, function* () {
-    const files = (yield readdir('./data')).map(file => path.resolve('data', file)).filter(_ => path.extname(_) === '.csv');
+    const files = (yield readdir('data')).filter(_ => path.extname(_) === '.csv');
     const response = {
         products: {},
         prices: {},
@@ -125,7 +132,7 @@ app.put('/sync', (req, res) => __awaiter(this, void 0, void 0, function* () {
     res.send('Success');
 }));
 app.use('/', express.static('public_html'));
-const recordFile = path.resolve('data', 'records.csv');
+const recordFile = 'data/records.csv';
 let queue = Promise.resolve();
 function queueSave(record) {
     return queue = queue.then(() => __awaiter(this, void 0, void 0, function* () {

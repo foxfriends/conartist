@@ -1,21 +1,44 @@
 'use strict';
-import * as express from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as Papa from 'papaparse';
+import * as express from 'express';
 import * as bodyParser from 'body-parser';
+import * as Papa from 'papaparse';
+import * as Storage from '@google-cloud/storage';
 import { ProductTypes, Products, Prices, Record } from './src/types';
 
-function readdir(dir: string): Promise<string[]> {
-  return new Promise((resolve, reject) => fs.readdir(dir, (err, files) => err ? reject(err) : resolve(files)));
+let storage: Storage.Storage, bucket: Storage.Bucket;
+if(process.env.GCLOUD_STORAGE_BUCKET) {
+  storage = new Storage.Storage();
+  bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET);
 }
 
-function readFile(file: string): Promise<string> {
-  return new Promise((resolve, reject) => fs.readFile(file, (err, data) => err ? reject(err) : resolve(data.toString())));
+async function readdir(dir: string): Promise<string[]> {
+  if(storage && bucket) {
+    const [ files ] = await bucket.getFiles({ prefix: 'data/' });
+    return files.map((file: Storage.File) => file.name);
+  } else {
+    return await new Promise<string[]>((resolve, reject) => fs.readdir(dir, (err, files) => err ? reject(err) : resolve(files)));
+  }
+}
+
+async function readFile(file: string): Promise<string> {
+  if(storage && bucket) {
+    const blob = bucket.file(file);
+    const [data] = await blob.download();
+    return data;
+  } else {
+    return await new Promise<string>((resolve, reject) => fs.readFile(file, (err, data) => err ? reject(err) : resolve(data.toString())));
+  }
 }
 
 function writeFile(file: string, data: string): Promise<void> {
-  return new Promise<void>((resolve, reject) => fs.writeFile(file, data, (err) => err ? reject(err) : resolve()));
+  if(storage && bucket) {
+    const blob = bucket.file(file);
+    return blob.save(data);
+  } else {
+    return new Promise<void>((resolve, reject) => fs.writeFile(file, data, (err) => err ? reject(err) : resolve()));
+  }
 }
 
 const app = express();

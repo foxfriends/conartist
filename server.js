@@ -8,19 +8,48 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express = require("express");
 const fs = require("fs");
 const path = require("path");
-const Papa = require("papaparse");
+const express = require("express");
 const bodyParser = require("body-parser");
+const Papa = require("papaparse");
+const Storage = require("@google-cloud/storage");
+let storage, bucket;
+if (process.env.GCLOUD_STORAGE_BUCKET) {
+    storage = new Storage.Storage();
+    bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET);
+}
 function readdir(dir) {
-    return new Promise((resolve, reject) => fs.readdir(dir, (err, files) => err ? reject(err) : resolve(files)));
+    return __awaiter(this, void 0, void 0, function* () {
+        if (storage && bucket) {
+            const [files] = yield bucket.getFiles({ prefix: 'data/' });
+            return files.map((file) => file.name);
+        }
+        else {
+            return yield new Promise((resolve, reject) => fs.readdir(dir, (err, files) => err ? reject(err) : resolve(files)));
+        }
+    });
 }
 function readFile(file) {
-    return new Promise((resolve, reject) => fs.readFile(file, (err, data) => err ? reject(err) : resolve(data.toString())));
+    return __awaiter(this, void 0, void 0, function* () {
+        if (storage && bucket) {
+            const blob = bucket.file(file);
+            const [data] = yield blob.download();
+            return data;
+        }
+        else {
+            return yield new Promise((resolve, reject) => fs.readFile(file, (err, data) => err ? reject(err) : resolve(data.toString())));
+        }
+    });
 }
 function writeFile(file, data) {
-    return new Promise((resolve, reject) => fs.writeFile(file, data, (err) => err ? reject(err) : resolve()));
+    if (storage && bucket) {
+        const blob = bucket.file(file);
+        return blob.save(data);
+    }
+    else {
+        return new Promise((resolve, reject) => fs.writeFile(file, data, (err) => err ? reject(err) : resolve()));
+    }
 }
 const app = express();
 app.listen(process.env.PORT || 8080, () => {

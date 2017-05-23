@@ -1,6 +1,9 @@
 {
   "name": "conartist",
   "version": "1.0.0",
+  "engines": {
+    "node": "^7.4.2"
+  },
   "description": "Track inventory and sales records for conventions",
   "main": "index.js",
   "scripts": {
@@ -14,6 +17,7 @@
   "author": "Cameron Eldridge",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/storage": "^1.1.1",
     "body-parser": "^1.17.2",
     "d3": "^4.9.1",
     "express": "^4.15.3",
@@ -35,6 +39,7 @@
     "@types/d3": "^4.9.0",
     "@types/express": "^4.0.35",
     "@types/file-saver": "0.0.1",
+    "@types/google-cloud__storage": "^0.6.0",
     "@types/jszip": "0.0.32",
     "@types/material-ui": "^0.17.7",
     "@types/numeral": "0.0.20",

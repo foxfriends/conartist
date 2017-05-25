@@ -1,10 +1,11 @@
 'use strict';
 
 import { Action, Reducer } from 'redux';
-import { Record, Prices, SalesData, AllProducts } from '../types';
+import { Record, Prices, SalesData, AllProducts } from '../../types';
 
 export enum ActionTypes {
-  Init, Purchase
+  Init,
+  Purchase,
 }
 
 export interface Purchase extends Action {

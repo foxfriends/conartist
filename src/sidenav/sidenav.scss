@@ -1,0 +1,44 @@
+.md-sidenav {
+  position: absolute;
+  overflow: hidden;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  &__content {
+    background-color: white;
+    z-index: 1300;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 400px;
+    max-width: 100vw;
+    transition: transform 0.4s;
+    &--left {
+      left: 0;
+      transform: translateX(-400px);
+    }
+    &--right {
+      right: 0;
+      transform: translateX(400px);
+    }
+    &--open {
+      transform: translateX(0);
+    }
+  }
+  &__backdrop {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    opacity: 0;
+    pointer-events: none;
+    background-color: rgba(0, 0, 0, 0.6);
+    transition: opacity 0.4s;
+    &--visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+}

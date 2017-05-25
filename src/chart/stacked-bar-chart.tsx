@@ -1,6 +1,7 @@
 'use strict';
 import * as React from 'react';
 import * as d3 from 'd3';
+import { Resizable } from '../react-utils';
 
 type Props = {
   bars: { [key: string]: { [key: string]: number } };
@@ -9,16 +10,30 @@ type Props = {
 };
 type State = {};
 
-export default class StackedBarChart extends React.Component<Props, State> {
+class StackedBarChart extends React.Component<Props, State> {
+  private bounds: ClientRect;
+  private svg: SVGSVGElement;
   private readonly margin = { top: 20, right: 20, bottom: 30, left: 40 };
-  private get outerWidth() { return window.innerWidth; }
+  private get outerWidth() { return this.bounds ? this.bounds.width : 150; }
   private get width() { return this.outerWidth - this.margin.left - this.margin.right; }
-  private get outerHeight() { return Math.min(window.innerWidth, 700); }
+  private get outerHeight() { return Math.min(this.outerWidth, 700); }
   private get height() { return this.outerHeight - this.margin.top - this.margin.bottom; }
-  private tooltips: HTMLDivElement;
 
-  private renderChart(el: SVGSVGElement): void {
-    if(!el) { return; }
+  private setWidth(div: HTMLDivElement): void {
+    if(div) {
+      this.bounds = div.getBoundingClientRect();
+      this.renderChart();
+    }
+  }
+
+  private renderChart(el?: SVGSVGElement): void {
+    if(el) {
+      this.svg = el;
+    } else if(this.svg) {
+      el = this.svg;
+    } else {
+      return;
+    }
     el.innerHTML = '';
     const svg = d3.select(el);
     const max = Math.max(...Object.keys(this.props.bars).map(key => Object.keys(this.props.bars[key]).reduce((a, k) => a + this.props.bars[key][k], 0)));
@@ -32,8 +47,11 @@ export default class StackedBarChart extends React.Component<Props, State> {
     const z = d3.scaleOrdinal<string>()
       .domain(Object.keys(this.props.legend))
       .range(Object.keys(this.props.legend).map(_ => this.props.legend[_].color));
-    const g = svg.append('g')
-      .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
+    const g = svg
+      .attr('width', this.outerWidth)
+      .attr('height', this.outerHeight)
+      .append('g')
+        .attr('transform', `translate(${this.margin.left},${this.margin.top})`);
 
     g.append('g')
       .attr('class', 'axis axis--x')
@@ -112,10 +130,11 @@ export default class StackedBarChart extends React.Component<Props, State> {
 
   render() {
     return (
-      <div>
-        <svg width={this.outerWidth} height={this.outerHeight} ref={svg => this.renderChart(svg)}></svg>
-        <div ref={div => this.tooltips = div}></div>
+      <div style={{ width: '100%' }} ref={div => this.setWidth(div)}>
+        <svg ref={svg => this.renderChart(svg)}></svg>
       </div>
     );
   }
-};
+}
+
+export default Resizable(StackedBarChart);

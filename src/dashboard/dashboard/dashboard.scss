@@ -1,0 +1,17 @@
+.dashboard {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+
+  &__card {
+    position: relative;
+    flex-basis: 400px;
+    margin: 4px;
+    flex-grow: 1;
+    overflow: hidden;
+  }
+
+  &__chart {
+    max-width: 100%;
+  }
+}

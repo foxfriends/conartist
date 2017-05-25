@@ -9,9 +9,9 @@ import * as numeral from 'numeral';
 import ProductList from '../product-list';
 import RecordList from '../record-list';
 import Stats from '../stats';
-import { get, put } from '../request';
+import { get, put } from '../../request';
 import { reducer, Purchase, Init, ActionTypes } from './reducer';
-import {  ProductTypes, Products, SalesData, Prices, Record, Colors } from '../types';
+import {  ProductTypes, Products, SalesData, Prices, Record, Colors } from '../../types';
 
 type Props = {};
 type State = {
@@ -20,6 +20,8 @@ type State = {
   tabIndex: number;
   saved: boolean;
 };
+
+const conID = 0;
 
 export default class Sales extends React.Component<Props, State> {
   readonly state: State = {
@@ -39,7 +41,7 @@ export default class Sales extends React.Component<Props, State> {
   }
 
   private async getProducts(): Promise<{ products: Products, prices: Prices, records: Record[] }> {
-    return JSON.parse(await get('/products'));
+    return JSON.parse(await get(`/app/products/${conID}`));
   }
 
   private toProducts(productType: keyof ProductTypes | null): void {
@@ -64,7 +66,7 @@ export default class Sales extends React.Component<Props, State> {
       }
     );
     this.store.getState().records.forEach(
-      ({ type, products: _ }) => _.forEach(
+      ({ type, products: pr }) => pr.forEach(
         product => products[type as keyof ProductTypes]!.find(([_]) => _ === product)![1]--
       )
     );
@@ -81,10 +83,10 @@ export default class Sales extends React.Component<Props, State> {
       quantity: products.length,
       products,
       price,
-      time: Date.now()
+      time: Date.now(),
     };
     this.store.dispatch({ type: ActionTypes.Purchase, record } as Purchase);
-    await put('/purchase', record);
+    await put(`/app/purchase/${conID}`, record);
     this.setState({ saved: true });
   }
 

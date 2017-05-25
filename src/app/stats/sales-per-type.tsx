@@ -1,12 +1,12 @@
 'use strict';
 import * as React from 'react';
 import { Subheader, SelectField, MenuItem, Drawer, IconButton, AppBar, RaisedButton } from 'material-ui';
-import Settings from 'material-ui/svg-icons/action/settings'
-import Close from 'material-ui/svg-icons/navigation/close'
-import BarChart from './chart/bar-chart';
+import Settings from 'material-ui/svg-icons/action/settings';
+import Close from 'material-ui/svg-icons/navigation/close';
+import BarChart from '../../chart/bar-chart';
 import { saveAs } from 'file-saver';
 
-import { Record, Products, ProductTypes, Metric, Colors, empty } from '../types';
+import { Record, Products, ProductTypes, Metric, Colors, empty } from '../../types';
 
 type Props = {
   products: Products;
@@ -57,7 +57,7 @@ export default class SalesPerType extends React.Component<Props, State> {
       }, empty({ customers: 0, items: 0, money: 0 }));
     const blob = new Blob([
       `Type,Customers,Items,Money\n` +
-      Object.keys(data).map((key: keyof ProductTypes) => `${key},${data[key].customers},${data[key].items},${data[key].money}`).join('\n')
+      Object.keys(data).map((key: keyof ProductTypes) => `${key},${data[key].customers},${data[key].items},${data[key].money}`).join('\n'),
     ]);
     saveAs(blob, 'sales-per-type.csv', true);
   }
@@ -96,6 +96,6 @@ export default class SalesPerType extends React.Component<Props, State> {
           </div>
         </Drawer>
       </div>
-    )
+    );
   }
-};
+}

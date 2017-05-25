@@ -6,7 +6,7 @@ import * as Moment from 'moment';
 import { saveAs } from 'file-saver';
 import * as numeral from 'numeral';
 
-import {  ProductTypes, Record, Colors } from '../types';
+import {  ProductTypes, Record, Colors } from '../../types';
 
 type Props = {
   records: Record[];
@@ -20,8 +20,8 @@ export default class RecordList extends React.Component<Props, State> {
       'Type,Quantity,Products,Price,Time\n' +
       this.props.records.map(
         ({ type, quantity, products, price, time }) => `${type},${total.quantity += quantity, quantity},${products.join(';')},${total.price += price, price},${time}`
-      ).join('\n') + `\nTotal,${total.quantity},--,${total.price},--`
-    ])
+      ).join('\n') + `\nTotal,${total.quantity},--,${total.price},--`,
+    ]);
     saveAs(blob, 'records.csv', true);
   }
 

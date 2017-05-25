@@ -1,12 +1,12 @@
 'use strict';
 import * as React from 'react';
 import { Subheader, DatePicker, TimePicker, TextField, SelectField, MenuItem, Drawer, IconButton, AppBar } from 'material-ui';
-import Settings from 'material-ui/svg-icons/action/settings'
-import Close from 'material-ui/svg-icons/navigation/close'
-import LineChart, { Bucket } from './chart/line-chart';
+import Settings from 'material-ui/svg-icons/action/settings';
+import Close from 'material-ui/svg-icons/navigation/close';
+import LineChart, { Bucket } from '../../chart/line-chart';
 import * as Moment from 'moment';
 
-import { Record, Metric } from '../types';
+import { Record, Metric } from '../../types';
 
 type Props = {
   records: Record[];
@@ -60,7 +60,7 @@ export default class SalesOverTime extends React.Component<Props, State> {
       }
     }
     while(this.roundToBucket(this.state.start.getTime()) + buckets.length * this.state.bucketSize <= this.state.end.getTime()) {
-      buckets.push({ quantity: 0, time: this.roundToBucket(this.state.start.getTime()) + buckets.length * this.state.bucketSize})
+      buckets.push({ quantity: 0, time: this.roundToBucket(this.state.start.getTime()) + buckets.length * this.state.bucketSize});
     }
     return buckets;
   }
@@ -71,7 +71,7 @@ export default class SalesOverTime extends React.Component<Props, State> {
     if(new Date(time) < this.state.start || new Date(time) > this.state.end) {
       return updated;
     }
-    for(let bucket of updated) {
+    for(const bucket of updated) {
       if(time === bucket.time) {
         switch(this.state.metric) {
           case 'Customers':
@@ -114,7 +114,7 @@ export default class SalesOverTime extends React.Component<Props, State> {
     if(start < this.state.end) {
       this.setState({ start, timeError: '' });
     } else {
-      this.setState({ start, timeError: 'Time range does not make sense' })
+      this.setState({ start, timeError: 'Time range does not make sense' });
     }
   }
   private endChange(which: 'date' | 'time', date: Date): void {
@@ -131,7 +131,7 @@ export default class SalesOverTime extends React.Component<Props, State> {
     if(this.state.start < end) {
       this.setState({ end, timeError: '' });
     } else {
-      this.setState({ end, timeError: 'Time range does not make sense' })
+      this.setState({ end, timeError: 'Time range does not make sense' });
     }
   }
   private bucketChange(_: React.FormEvent<{}>, bucket: string): void {
@@ -142,7 +142,7 @@ export default class SalesOverTime extends React.Component<Props, State> {
     }
   }
   private metricChange(_: __MaterialUI.TouchTapEvent, __: number, metric: Metric): void {
-    this.setState({ metric })
+    this.setState({ metric });
   }
 
   render() {
@@ -207,6 +207,6 @@ export default class SalesOverTime extends React.Component<Props, State> {
           </div>
         </Drawer>
       </div>
-    )
+    );
   }
-};
+}

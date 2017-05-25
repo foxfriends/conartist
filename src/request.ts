@@ -12,7 +12,7 @@ export function get(url: string): Promise<string> {
 
 export function put(url: string, data: { [key: string]: any }): Promise<string> {
   const params: string[] = [];
-  for(let key of Object.keys(data)) {
+  for(const key of Object.keys(data)) {
     params.push(`${key}=${data[key]}`.replace(' ', '%20'));
   }
   return new Promise<string>((resolve, reject) => {
@@ -20,7 +20,7 @@ export function put(url: string, data: { [key: string]: any }): Promise<string> 
     xhr.onload = () => resolve(xhr.responseText);
     xhr.onerror = () => reject(xhr.statusText);
     xhr.open('PUT', url, true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(params.join('&'));
   });
 }

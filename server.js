@@ -68,12 +68,38 @@ app.listen(process.env.PORT || 8080, () => {
     console.log('Server is listening on port 8080');
 });
 app.use(bodyParser.urlencoded({ extended: true }));
-app.get('/products', (_, res) => __awaiter(this, void 0, void 0, function* () {
+app.get('/dashboard/products', (__, res) => __awaiter(this, void 0, void 0, function* () {
+    const files = (yield readdir('data')).filter(_ => path.extname(_) === '.csv');
+    const products = {};
+    yield Promise.all(files.map((file) => __awaiter(this, void 0, void 0, function* () {
+        const { data } = Papa.parse((yield readFile(file)).trim());
+        const filename = path.basename(file, '.csv');
+        if (filename !== 'records' && filename !== 'prices') {
+            if (data[0].length === 2) {
+                data.forEach(([name, quantity]) => {
+                    const type = path.basename(file, '.csv');
+                    products[type] = products[type] || [];
+                    products[type].push([name, +quantity]);
+                });
+            }
+            else {
+                data.slice(1).forEach(([name, , quantity]) => {
+                    const type = path.basename(file, '.csv');
+                    products[type] = products[type] || [];
+                    products[type].push([name, +quantity]);
+                });
+            }
+        }
+    })));
+    res.header('Content-Type: application/json');
+    res.send(JSON.stringify(products));
+}));
+app.get('/app/products/:con/', (__, res) => __awaiter(this, void 0, void 0, function* () {
     const files = (yield readdir('data')).filter(_ => path.extname(_) === '.csv');
     const response = {
         products: {},
         prices: {},
-        records: []
+        records: [],
     };
     yield Promise.all(files.map((file) => __awaiter(this, void 0, void 0, function* () {
         const { data } = Papa.parse((yield readFile(file)).trim());
@@ -84,7 +110,7 @@ app.get('/products', (_, res) => __awaiter(this, void 0, void 0, function* () {
                     quantity: +quantity,
                     products: names.split(';'),
                     price: +price,
-                    time: +time
+                    time: +time,
                 })).sort((a, b) => a.time - b.time));
                 break;
             case 'prices':
@@ -116,13 +142,13 @@ app.get('/products', (_, res) => __awaiter(this, void 0, void 0, function* () {
     res.header('Content-Type: application/json');
     res.send(JSON.stringify(response));
 }));
-app.put('/purchase', (req, res) => __awaiter(this, void 0, void 0, function* () {
+app.put('/app/purchase/:con', (req, res) => __awaiter(this, void 0, void 0, function* () {
     const record = {
         type: req.body.type,
         quantity: +req.body.quantity,
         products: req.body.products.split(','),
         price: +req.body.price,
-        time: +req.body.time
+        time: +req.body.time,
     };
     yield queueSave(record);
     res.header('Content-Type: text/plain');

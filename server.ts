@@ -10,10 +10,10 @@ import { ProductTypes, Products, Prices, Record } from './src/types';
 let storage: Storage.Storage, bucket: Storage.Bucket;
 if(process.env.GCLOUD_STORAGE_BUCKET) {
   // HACK: some workarounds for bad typescript yay!
-  storage = (<any>Storage)();
+  storage = (Storage as any)();
   bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET);
 } else if(process.argv[2] === 'remote') {
-  storage = (<any>Storage)({
+  storage = (Storage as any)({
     projectId: 'conartist-168422',
     keyFilename: './ConArtist-f4cb1e1f299c.json',
   });
@@ -54,17 +54,48 @@ function writeFile(file: string, data: string, options?: Storage.WriteStreamOpti
 
 const app = express();
 app.listen(process.env.PORT || 8080, () => {
+  // tslint:disable-next-line
   console.log('Server is listening on port 8080');
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/products', async (_, res) => {
+app.get('/dashboard/products', async (__, res) => {
+  const files = (await readdir('data')).filter(_ => path.extname(_) === '.csv');
+  const products: Products = {};
+  await Promise.all(files.map(async file => {
+    const { data }: { data: String[] } = Papa.parse((await readFile(file)).trim());
+    const filename = path.basename(file, '.csv');
+    if(filename !== 'records' && filename !== 'prices') {
+      if(data[0].length === 2) {
+        // simple files
+        data.forEach(([name,quantity]) => {
+          const type = path.basename(file, '.csv') as keyof ProductTypes;
+          products[type] = products[type] || [];
+          products[type]!.push([name, +quantity]);
+        });
+      } else {
+        // exported files
+        data.slice(1).forEach(([name,,quantity]) => {
+          const type = path.basename(file, '.csv') as keyof ProductTypes;
+          products[type] = products[type] || [];
+          products[type]!.push([name, +quantity]);
+        });
+      }
+    }
+  }));
+  res.header('Content-Type: application/json');
+  res.send(JSON.stringify(products));
+});
+
+app.get('/app/products/:con/', async (__, res) => {
+  // TODO: organize by convention
+  // const con: string = req.params.con;
   const files = (await readdir('data')).filter(_ => path.extname(_) === '.csv');
   const response = {
     products: {} as Products,
     prices: {} as Prices,
-    records: [] as Record[]
+    records: [] as Record[],
   };
   await Promise.all(files.map(async file => {
     const { data }: { data: String[] } = Papa.parse((await readFile(file)).trim());
@@ -75,7 +106,7 @@ app.get('/products', async (_, res) => {
             quantity: +quantity,
             products: names.split(';'),
             price: +price,
-            time: +time
+            time: +time,
           } as Record)).sort((a, b) => a.time - b.time));
         break;
       case 'prices':
@@ -106,13 +137,15 @@ app.get('/products', async (_, res) => {
   res.header('Content-Type: application/json');
   res.send(JSON.stringify(response));
 });
-app.put('/purchase', async (req, res) => {
+app.put('/app/purchase/:con', async (req, res) => {
+  // TODO: organize by convention
+  // const con: string = req.params.con;
   const record = {
     type: req.body.type,
     quantity: +req.body.quantity,
     products: req.body.products.split(','),
     price: +req.body.price,
-    time: +req.body.time
+    time: +req.body.time,
   } as Record;
   await queueSave(record);
   res.header('Content-Type: text/plain');

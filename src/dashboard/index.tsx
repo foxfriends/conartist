@@ -8,7 +8,7 @@ injectTapEventPlugin();
 
 import Dashboard from './dashboard';
 
-import './dashboard.scss';
+import './index.scss';
 
 ReactDOM.render(
   <MuiThemeProvider>

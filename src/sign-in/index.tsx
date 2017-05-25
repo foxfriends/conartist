@@ -8,7 +8,7 @@ injectTapEventPlugin();
 
 import SignIn from './sign-in';
 
-import './sign-in.scss';
+import './index.scss';
 
 ReactDOM.render(
   <MuiThemeProvider>

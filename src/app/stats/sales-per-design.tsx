@@ -1,12 +1,12 @@
 'use strict';
 import * as React from 'react';
 import { Subheader, SelectField, MenuItem, Drawer, IconButton, AppBar, RaisedButton } from 'material-ui';
-import Settings from 'material-ui/svg-icons/action/settings'
-import Close from 'material-ui/svg-icons/navigation/close'
-import StackedBarChart from './chart/stacked-bar-chart';
+import Settings from 'material-ui/svg-icons/action/settings';
+import Close from 'material-ui/svg-icons/navigation/close';
+import StackedBarChart from '../../chart/stacked-bar-chart';
 import { saveAs } from 'file-saver';
 
-import { Record, ProductTypes, Colors, Products, empty } from '../types';
+import { Record, ProductTypes, Colors, Products, empty } from '../../types';
 
 type Props = {
   products: Products;
@@ -20,7 +20,7 @@ type State = {
 export default class SalesPerDesign extends React.Component<Props, State> {
   state: State = {
     type: 'All',
-    settings: false
+    settings: false,
   };
   private get bars(): { [key: string]: { [key in keyof ProductTypes]: number } } {
     return this.props.records
@@ -29,12 +29,12 @@ export default class SalesPerDesign extends React.Component<Props, State> {
   }
   private get legend(): { [key: string]: { color: string, name: string } } {
     return Object.keys(this.props.products)
-      .reduce((obj: { [key: string]: { color: string, name: string } }, key: keyof ProductTypes) => ({ ...obj, [key]: { color: Colors[key], name: ProductTypes[key] }}), {})
+      .reduce((obj: { [key: string]: { color: string, name: string } }, key: keyof ProductTypes) => ({ ...obj, [key]: { color: Colors[key], name: ProductTypes[key] }}), {});
   }
 
   private reduceBars(bars: { [key: string]: { [key in keyof ProductTypes]: number } }, record: Record): { [key: string]: { [key in keyof ProductTypes]: number } } {
     const updated = { ...bars };
-    for(let product of record.products) {
+    for(const product of record.products) {
       updated[product] = updated[product] || empty(0);
       ++updated[product][record.type];
     }
@@ -47,14 +47,14 @@ export default class SalesPerDesign extends React.Component<Props, State> {
 
   private save(): void {
     const data = this.props.records
-      .reduce((p, n) => this.reduceBars(p, n), {} as { [key: string]: { [key in keyof ProductTypes]: number } })
+      .reduce((p, n) => this.reduceBars(p, n), {} as { [key: string]: { [key in keyof ProductTypes]: number } });
     const blob = new Blob([
       `Design,Total,${Object.keys(this.props.products).map((_: keyof ProductTypes) => ProductTypes[_]).join(',')}\n` +
       Object.keys(data).map(
         key => `${key},${Object.keys(data[key]).reduce((_, p: keyof ProductTypes) => _ + data[key][p], 0)},${Object.keys(this.props.products).map((_: keyof ProductTypes) => data[key][_]).join(',')}`
-      ).join('\n')
+      ).join('\n'),
     ]);
-    saveAs(blob, 'sales-per-design.csv', true)
+    saveAs(blob, 'sales-per-design.csv', true);
   }
 
   render() {
@@ -91,6 +91,6 @@ export default class SalesPerDesign extends React.Component<Props, State> {
           </div>
         </Drawer>
       </div>
-    )
+    );
   }
-};
+}

@@ -6,7 +6,7 @@ import Close from 'material-ui/svg-icons/navigation/close';
 import Back from 'material-ui/svg-icons/navigation/arrow-back';
 import { grey500 as qtyColor } from 'material-ui/styles/colors';
 import Search from 'material-ui/svg-icons/action/search';
-import { Prices, ProductTypes } from '../types';
+import { Prices, ProductTypes } from '../../types';
 
 type Props = {
   type: keyof ProductTypes;
@@ -64,10 +64,10 @@ export default class ProductList extends React.Component<Props, State> {
     const price = Object.keys(counts).reduce((_, key) =>
       _ + (this.props.prices[key] || [])
         .sort(([a], [b]) => b - a)
-        .reduce((t, [qty, price]) => {
+        .reduce((t, [qty, pr]) => {
           while(counts[key] >= qty) {
             counts[key] -= qty;
-            t += price;
+            t += pr;
           }
           return t;
         }, 0), 0);
@@ -84,7 +84,7 @@ export default class ProductList extends React.Component<Props, State> {
 
   private save(): void {
     if(this.state.priceError === '' && this.state.selected.length > 0) {
-      this.props.save(this.state.selected, +this.state.price)
+      this.props.save(this.state.selected, +this.state.price);
       this.doClose();
     }
   }
@@ -96,9 +96,9 @@ export default class ProductList extends React.Component<Props, State> {
 
   private handleChange(_: React.FormEvent<{}>, price: string) {
     if(/^\$?\d+(\.\d\d?)?$/.test(price)) {
-      this.setState({ price: price, priceError: ''});
+      this.setState({ price, priceError: ''});
     } else {
-      this.setState({ price: price, priceError: 'Price is not a number' });
+      this.setState({ price, priceError: 'Price is not a number' });
     }
   }
 
@@ -117,7 +117,7 @@ export default class ProductList extends React.Component<Props, State> {
           inputStyle={{color: 'white'}}
           autoFocus
           hintText='Filter' />,
-        searchValue: ''
+        searchValue: '',
       });
     }
   }
@@ -172,7 +172,7 @@ export default class ProductList extends React.Component<Props, State> {
                     primaryText={item[0]}
                     onTouchTap={() => this.addProduct(item[0])}
                     rightIcon={<div style={{ display: 'flex', alignItems: 'center', color: qtyColor}}>{qty}</div>} />
-                )
+                );
               }
             ) }
             </List>
@@ -186,7 +186,7 @@ export default class ProductList extends React.Component<Props, State> {
             top: 20,
             right: 20,
             zIndex: 1401,
-            display: this.state.selected.length ? 'flex' : 'none'
+            display: this.state.selected.length ? 'flex' : 'none',
           }}
           style={{
             position: 'fixed',

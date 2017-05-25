@@ -2,13 +2,13 @@
 import * as React from 'react';
 import { Subheader, SelectField, MenuItem, Drawer, IconButton, AppBar, RaisedButton } from 'material-ui';
 import { red300, green300 } from 'material-ui/styles/colors';
-import Settings from 'material-ui/svg-icons/action/settings'
-import Close from 'material-ui/svg-icons/navigation/close'
-import * as JSZip from 'jszip'
+import Settings from 'material-ui/svg-icons/action/settings';
+import Close from 'material-ui/svg-icons/navigation/close';
+import * as JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 
-import StackedBarChart from './chart/stacked-bar-chart';
-import { Products,Record, ProductTypes } from '../types';
+import StackedBarChart from '../../chart/stacked-bar-chart';
+import { Products,Record, ProductTypes } from '../../types';
 
 type Props = {
   products: Products;
@@ -31,7 +31,7 @@ export default class Inventory extends React.Component<Props, State> {
     return {
       remaining: { name: 'Remaining', color: green300 },
       sold: { name: 'Sold', color: red300 },
-    }
+    };
   }
 
   componentWillReceiveProps(props: Props): void {
@@ -62,7 +62,7 @@ export default class Inventory extends React.Component<Props, State> {
       type Entry = [string, number, number, number];
       const products: Entry[] = Object.keys(bars).map<Entry>(name =>
         [name, this.props.products[type]!.find(([_]) => name === _)![1], bars[name].remaining, bars[name].sold]
-      )
+      );
       return [`${type}.csv`, 'Name,Initial,Final,Sold\n' + products.map(_ => _.join(',')).join('\n')];
     }).forEach(([name, content]) => zip.file(name, content));
     saveAs(await zip.generateAsync({type: 'blob'}), 'inventory.zip');
@@ -102,6 +102,6 @@ export default class Inventory extends React.Component<Props, State> {
           </div>
         </Drawer>
       </div>
-    )
+    );
   }
-};
+}

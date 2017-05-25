@@ -18,9 +18,9 @@ export type AllProducts = {
 export type Products = Partial<AllProducts>;
 
 export type Record = {
-  type: keyof ProductTypes,
+  type: keyof ProductTypes;
   quantity: number;
-  products: string[],
+  products: string[];
   price: number;
   time: number;
 };

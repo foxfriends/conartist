@@ -7,7 +7,7 @@ import { Resizable } from '../react-utils';
 
 type Props = {
   bars: { [key: string]: number };
-  colors?: { [key: string]: string };
+  colors?: { [key: string]: string } | ((value: number) => string);
   yLabel: string;
 };
 type State = {};
@@ -77,7 +77,15 @@ class BarChart extends React.Component<Props, State> {
         .attr('class', 'bar')
         .attr('x', d => x(d)!)
         .attr('y', d => y(this.props.bars[d]))
-        .attr('fill', d => (this.props.colors && this.props.colors[d]) || barColor)
+        .attr('fill', d => {
+          if(typeof this.props.colors === 'function') {
+            return this.props.colors(this.props.bars[d]);
+          } else if(typeof this.props.colors === 'object') {
+            return this.props.colors[d];
+          } else {
+            return barColor;
+          }
+        })
         .attr('width', x.bandwidth())
         .attr('height', d => this.height - y(this.props.bars[d]));
 

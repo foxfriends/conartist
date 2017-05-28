@@ -5,8 +5,9 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as Papa from 'papaparse';
 import * as Storage from '@google-cloud/storage';
-import { ProductTypes, Products, Prices, Record } from './src/types';
+import { ProductTypes, Products, Prices, Record, ConData } from './src/types';
 
+// TODO: database for all these things
 let storage: Storage.Storage, bucket: Storage.Bucket;
 if(process.env.GCLOUD_STORAGE_BUCKET) {
   // HACK: some workarounds for bad typescript yay!
@@ -52,6 +53,16 @@ function writeFile(file: string, data: string, options?: Storage.WriteStreamOpti
   }
 }
 
+const getCons = (() => {
+  let cons: { [key: string]: ConData } | null = null;
+  return async (): Promise<{ [key: string]: ConData }> => {
+    if(!cons) {
+      cons = JSON.parse(await readFile('cons.json')) as { [key: string]: ConData };
+    }
+    return cons;
+  };
+})();
+
 const app = express();
 app.listen(process.env.PORT || 8080, () => {
   // tslint:disable-next-line
@@ -59,6 +70,14 @@ app.listen(process.env.PORT || 8080, () => {
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.get('/con-info/:con', async (req, res) => {
+  const cons = await getCons();
+  const data = cons[req.params.con as string] || { title: '' };
+  // determine if user has permissions
+  res.header('Content-Type: application/json');
+  res.send(JSON.stringify(data));
+});
 
 app.get('/dashboard/products', async (__, res) => {
   const files = (await readdir('data')).filter(_ => path.extname(_) === '.csv');

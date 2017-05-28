@@ -35,7 +35,11 @@ export type SalesData = {
   products: AllProducts;
   prices: Prices;
   records: Record[];
-}
+};
+
+export type ConData = {
+  title: string;
+};
 
 export type Metric = 'Customers' | 'Items Sold' | 'Money';
 
@@ -50,13 +54,13 @@ export const Colors: { [key in keyof ProductTypes]: string } = {
 };
 export type Colors = typeof Colors;
 
-export function empty<T>(v: T, keyset: (keyof ProductTypes)[] = Object.keys(ProductTypes) as (keyof ProductTypes)[]): { [key in keyof ProductTypes]: T } {
+export function empty<T>(val: T, keyset: (keyof ProductTypes)[] = Object.keys(ProductTypes) as (keyof ProductTypes)[]): { [key in keyof ProductTypes]: T } {
   function cp(v: any): any {
     if(v instanceof Array) { return [...v]; }
     else if(typeof v === 'object') { return {...v} as T; }
     else { return v; }
   }
   return keyset.reduce(
-    (_: { [key in keyof ProductTypes]: T }, key: keyof ProductTypes) => ({ ..._, [key]: cp(v) }), {} as { [key in keyof ProductTypes]: T }
+    (_: { [key in keyof ProductTypes]: T }, key: keyof ProductTypes) => ({ ..._, [key]: cp(val) }), {} as { [key in keyof ProductTypes]: T }
   );
 }

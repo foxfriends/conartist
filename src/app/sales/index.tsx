@@ -1,7 +1,8 @@
 'use strict';
 
 import * as React from 'react';
-import { List, ListItem, AppBar, Tabs, Tab, Avatar, Snackbar } from 'material-ui';
+import { List, ListItem, AppBar, Tabs, Tab, Avatar, Snackbar, IconButton } from 'material-ui';
+import Close from 'material-ui/svg-icons/navigation/close';
 import { grey500 as priceColor } from 'material-ui/styles/colors';
 import { createStore, Store } from 'redux';
 import * as numeral from 'numeral';
@@ -13,15 +14,17 @@ import { get, put } from '../../request';
 import { reducer, Purchase, Init, ActionTypes } from './reducer';
 import {  ProductTypes, Products, SalesData, Prices, Record, Colors } from '../../types';
 
-type Props = {};
+type Props = {
+  title: string;
+  concode: string;
+  close: () => void;
+};
 type State = {
   productType: keyof ProductTypes | null;
   products: [string, number][];
   tabIndex: number;
   saved: boolean;
 };
-
-const conID = 0;
 
 export default class Sales extends React.Component<Props, State> {
   readonly state: State = {
@@ -41,7 +44,7 @@ export default class Sales extends React.Component<Props, State> {
   }
 
   private async getProducts(): Promise<{ products: Products, prices: Prices, records: Record[] }> {
-    return JSON.parse(await get(`/app/products/${conID}`));
+    return JSON.parse(await get(`/app/products/${this.props.concode}`));
   }
 
   private toProducts(productType: keyof ProductTypes | null): void {
@@ -86,7 +89,7 @@ export default class Sales extends React.Component<Props, State> {
       time: Date.now(),
     };
     this.store.dispatch({ type: ActionTypes.Purchase, record } as Purchase);
-    await put(`/app/purchase/${conID}`, record);
+    await put(`/app/purchase/${this.props.concode}`, record);
     this.setState({ saved: true });
   }
 
@@ -102,8 +105,9 @@ export default class Sales extends React.Component<Props, State> {
     return (
       <div>
         <AppBar
-          title='Anime North 2017'
-          iconStyleLeft={{ display: 'none' }} />
+          title={this.props.title}
+          iconElementLeft={<IconButton><Close /></IconButton>}
+          onLeftIconButtonTouchTap={this.props.close} />
         <Tabs
           value={this.state.tabIndex}
           onChange={(value: number) => this.handleChange(value)}>

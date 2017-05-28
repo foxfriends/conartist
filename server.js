@@ -63,11 +63,26 @@ function writeFile(file, data, options) {
         return new Promise((resolve, reject) => fs.writeFile(file, data, (err) => err ? reject(err) : resolve()));
     }
 }
+const getCons = (() => {
+    let cons = null;
+    return () => __awaiter(this, void 0, void 0, function* () {
+        if (!cons) {
+            cons = JSON.parse(yield readFile('cons.json'));
+        }
+        return cons;
+    });
+})();
 const app = express();
 app.listen(process.env.PORT || 8080, () => {
     console.log('Server is listening on port 8080');
 });
 app.use(bodyParser.urlencoded({ extended: true }));
+app.get('/con-info/:con', (req, res) => __awaiter(this, void 0, void 0, function* () {
+    const cons = yield getCons();
+    const data = cons[req.params.con] || { title: '' };
+    res.header('Content-Type: application/json');
+    res.send(JSON.stringify(data));
+}));
 app.get('/dashboard/products', (__, res) => __awaiter(this, void 0, void 0, function* () {
     const files = (yield readdir('data')).filter(_ => path.extname(_) === '.csv');
     const products = {};

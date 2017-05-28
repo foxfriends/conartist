@@ -6,13 +6,13 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import * as injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
-import Sales from './sales';
+import ConCode from './con-code';
 
 import './app.scss';
 
 ReactDOM.render(
   <MuiThemeProvider>
-    <Sales />
+    <ConCode />
   </MuiThemeProvider>,
   document.querySelector('#app')
 );

@@ -4,7 +4,7 @@ import { TextField, FlatButton, RaisedButton } from 'material-ui';
 
 import { If } from '../../react-utils';
 
-import './sign-in.scss';
+import '../../form.scss';
 
 type Props = {};
 type State = {
@@ -77,8 +77,8 @@ export default class SignIn extends React.Component<Props, State> {
 
   render() {
     return (
-      <div className='sign-in'>
-        <h1 className='sign-in__title'>ConArtist</h1>
+      <div className='form'>
+        <h1 className='form__title'>ConArtist</h1>
         <div>
           <TextField
             name='username'

@@ -2,3 +2,5 @@ node_modules
 src/**/*.js
 data
 ConArtist-*.json
+money.rkt
+yarn.lock

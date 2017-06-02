@@ -9,7 +9,10 @@
   "dependencies": {
     "react": "16.0.0-alpha.6",
     "react-native": "0.44.2",
+    "react-native-action-button": "^2.6.9",
     "react-native-fs": "^2.3.2",
+    "react-native-vector-icons": "^4.2.0",
+    "react-navigation": "^1.0.0-beta.11",
     "react-redux": "^5.0.5",
     "redux": "^3.6.0"
   },
@@ -17,7 +20,8 @@
     "babel-jest": "20.0.3",
     "babel-preset-react-native": "1.9.2",
     "jest": "20.0.4",
-    "react-test-renderer": "16.0.0-alpha.6"
+    "react-test-renderer": "16.0.0-alpha.6",
+    "yarn": "^0.24.5"
   },
   "jest": {
     "preset": "react-native"

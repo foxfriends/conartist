@@ -3,14 +3,21 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import * as fs from 'react-native-fs';
 import { views, pages, text } from './styles';
+import { StackNavigator } from 'react-navigation';
 import SignIn from './sign-in';
 import ConCode from './con-code';
 import ConView from './con-view';
+import ProductList from './con-view/sales/product-list';
 
 const SETTINGS_FILE = fs.DocumentDirectoryPath + '/conartist.settings.json';
 const OFFLINE_DATA_FILE = fs.DocumentDirectoryPath + '/conartist.offline-data.json';
 
-const SIGNIN = 'signin', CONCODE = 'concode', CONVIEW = 'conview';
+const Navigator = StackNavigator({
+  SignIn: { screen: SignIn },
+  ConCode: { screen: ConCode },
+  ConView: { screen: ConView },
+  ProductList: { screen: ProductList },
+});
 
 export default class App extends Component {
   constructor(props) {
@@ -18,7 +25,6 @@ export default class App extends Component {
     // TODO: put some of this in the store
     // TODO: put some of this into OAuth2 things
     this.state = {
-      page: SIGNIN,
       settings: {
         offline: false,
         title: '',
@@ -66,31 +72,57 @@ export default class App extends Component {
     this.setState({ settings: { ...this.state.settings, code }});
   }
 
-  async signIn() {
-    this.setState({ page: CONCODE });
-  }
+  async signIn() { }
 
   async loadCon() {
-    this.setState({ page: CONVIEW, title: 'Anime North 2017' });
+    this.setState({
+      settings: {
+        ...this.state.settings,
+        title: 'Anime North 2017'
+      },
+      data: {
+        records: [],
+        products: {
+          Print11x17: [[ 'abc', 3 ], [ 'def', 6 ], [ 'ghi', 9 ]],
+          Print5x7: [[ 'jkl', 3 ], [ 'mno', 6 ], [ 'pqr', 9 ]],
+        },
+        prices: {
+          Print11x17: [[ 1, 15 ], [ 2, 25 ], [ 3, 30 ]]
+        }
+      }
+    });
+  }
+
+  savePurchase(type, products, price) {
+    this.setState({
+      data: {
+        ...this.state.data,
+        records: [
+          ...this.state.data.records,
+          {
+            type,
+            products,
+            price,
+            time: Date.now(),
+          }
+        ]
+      }
+    });
   }
 
   render() {
     return (
       <View style={[ views.flex, views.vMiddle, pages.signIn ]}>
-        { this.state.page === SIGNIN ?
-          <SignIn
-            updateUser={pass => this.updatePass(pass)}
-            updatePass={pass => this.updatePass(pass)}
-            onSubmit={() => this.signIn()} />
-          : null }
-        { this.state.page === CONCODE ?
-          <ConCode
-            updateCode={pass => this.updateCode(pass)}
-            onSubmit={() => this.loadCon()} />
-          : null }
-        { this.state.page === CONVIEW ?
-          <ConView />
-          : null }
+        <Navigator screenProps={{
+          updateUser: user => this.updateUser(user),
+          updatePass: pass => this.updatePass(pass),
+          updateCode: code => this.updateCode(code),
+          signIn: () => this.signIn(),
+          loadCon: () => this.loadCon(),
+          savePurchase: (type, products, price) => this.savePurchase(type, products, price),
+          data: this.state.data,
+          ...this.state.settings,
+        }}/>
       </View>
     );
   }

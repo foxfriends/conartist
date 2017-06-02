@@ -1,14 +1,17 @@
 'use strict';
 import React, { Component } from 'react';
-import { View } from 'react-native';
-import { views } from '../styles'
+import { TabNavigator } from 'react-navigation';
+import Sales from './sales';
+import History from './history';
+import Stats from './stats';
 
-export default class ConView extends Component {
-  render() {
-    return (
-      <View style={[views.flex, views.paper]}>
-        
-      </View>
-    );
-  }
-}
+const ConView = TabNavigator({
+  Sales: { screen: Sales },
+  History: { screen: History },
+  Stats: { screen: Stats },
+}, {
+  initialRouteName: 'Sales',
+  order: [ 'Sales', 'History', 'Stats' ]
+});
+ConView.navigationOptions = ({ screenProps: { title }}) => ({ title });
+export default ConView;

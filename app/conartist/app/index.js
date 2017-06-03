@@ -88,7 +88,8 @@ export default class App extends Component {
           Print5x7: [[ 'jkl', 3 ], [ 'mno', 6 ], [ 'pqr', 9 ]],
         },
         prices: {
-          Print11x17: [[ 1, 15 ], [ 2, 25 ], [ 3, 30 ]]
+          Print11x17: [[ 1, 15 ], [ 2, 25 ], [ 3, 30 ]],
+          Print5x7: [[ 1, 5 ], [ 3, 10 ]],
         }
       }
     });

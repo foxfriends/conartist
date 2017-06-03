@@ -8,6 +8,9 @@ export default StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
   },
+  hMiddle: {
+    alignItems: 'center',
+  },
   padded: {
     padding: 16,
   },
@@ -29,5 +32,29 @@ export default StyleSheet.create({
   },
   listItemBacking: {
     backgroundColor: 'black',
+  },
+  circle: {
+    borderRadius: 100,
+    width: 36,
+    height: 36,
+  },
+  chip: {
+    margin: 4,
+    padding: 4,
+    paddingLeft: 8,
+    height: 24,
+    flexDirection: 'row',
+    borderRadius: 12,
+    backgroundColor: '#E0E0E0',
+    alignItems: 'center',
+  },
+  chipClose: {
+    borderRadius: 12,
+    height: 16,
+    width: 16,
+    marginLeft: 4,
+    backgroundColor: '#0000003D',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

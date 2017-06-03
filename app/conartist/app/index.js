@@ -20,24 +20,25 @@ const Navigator = StackNavigator({
 });
 
 export default class App extends Component {
+  // TODO: put some of this in the store
+  // TODO: put some of this into OAuth2 things
+  state = {
+    settings: {
+      offline: false,
+      title: '',
+      code: '',
+      user: '',
+      pass: '',
+    },
+    data: {
+      products: {},
+      prices: {},
+      records: [],
+    },
+  };
+
   constructor(props) {
     super(props);
-    // TODO: put some of this in the store
-    // TODO: put some of this into OAuth2 things
-    this.state = {
-      settings: {
-        offline: false,
-        title: '',
-        code: '',
-        user: '',
-        pass: '',
-      },
-      data: {
-        products: {},
-        prices: {},
-        records: [],
-      },
-    };
     this.loadSettings();
   }
 

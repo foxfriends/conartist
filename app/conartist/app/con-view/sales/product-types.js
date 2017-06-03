@@ -1,16 +1,14 @@
 'use strict';
 import React, { Component } from 'react';
 import { Platform, TouchableHighlight, TouchableNativeFeedback, View, FlatList, Text } from 'react-native';
-import { views } from '../../styles'
+import { views, text } from '../../styles'
+import { ProductTypes, Colors } from '../../constants';
 
-export default class ProductTypes extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      productTypes: Object.keys(props.screenProps.data.products),
-      selectedType: '',
-    };
-  }
+export default class ProductTypeList extends Component {
+  state = {
+    productTypes: Object.keys(this.props.screenProps.data.products),
+    selectedType: '',
+  };
 
   componentWillReceiveProps(props) {
     this.setState({ productTypes: Object.keys(props.screenProps.data.products) });
@@ -18,8 +16,13 @@ export default class ProductTypes extends Component {
 
   renderListItem(item) {
     const contents = (
-      <View style={[views.listItem, views.paper]}>
-        <Text style={views.hPadded}>{item}</Text>
+      <View style={[views.listItem, views.padded, views.paper]}>
+        <View style={[views.circle, { backgroundColor: Colors[item] }]}>
+          <View style={[views.flex, views.vMiddle, views.hMiddle]}>
+            <Text style={[text.icon, { color: 'white' }]}>{ ProductTypes[item][0] }</Text>
+          </View>
+        </View>
+        <Text style={[views.hPadded, text.primary]}>{ProductTypes[item]}</Text>
       </View>
     );
     const props = {
@@ -47,7 +50,7 @@ export default class ProductTypes extends Component {
       <View style={[views.flex, views.paper]}>
         <FlatList
           data={this.state.productTypes}
-          keyExtractor={({item}) => item}
+          keyExtractor={(_, i) => `${i}`}
           renderItem={({item}) => this.renderListItem(item)} />
       </View>
     );

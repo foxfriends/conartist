@@ -28,6 +28,10 @@ export default class SalesPerDesign extends Component {
     return updated;
   }
 
+  typeChange(type) {
+    this.setState({ type });
+  }
+
   render() {
     return (
       <StackedBarChart yLabel='Sales' bars={this.bars} legend={this.legend}/>

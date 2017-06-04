@@ -36,18 +36,16 @@ export default class ProductTypeList extends Component {
       );
     } else {
       return (
-        <View style={[views.listItem, views.listItemBacking]}>
-          <TouchableHighlight { ...props }>
-            { contents }
-          </TouchableHighlight>
-        </View>
+        <TouchableHighlight { ...props } style={[views.flex]}>
+          { contents }
+        </TouchableHighlight>
       );
     }
   }
 
   render() {
     return (
-      <View style={[views.flex, views.paper]}>
+      <View style={[views.flex, views.paper ]}>
         <FlatList
           data={this.state.productTypes}
           keyExtractor={(_, i) => `${i}`}

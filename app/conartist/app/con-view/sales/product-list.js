@@ -32,11 +32,9 @@ export default class ProductList extends Component {
       );
     } else {
       return (
-        <View style={[views.listItem, views.listItemBacking]}>
-          <TouchableHighlight { ...props }>
-            { contents }
-          </TouchableHighlight>
-        </View>
+        <TouchableHighlight { ...props } style={[views.flex]}>
+          { contents }
+        </TouchableHighlight>
       );
     }
   }
@@ -118,7 +116,9 @@ export default class ProductList extends Component {
         </View>
         <View style={{ height: 32, alignSelf: 'stretch', flexDirection: 'row' }}>
           <ScrollView horizontal={true} style={views.flex} showsHorizontalScrollIndicator={false}>
-            { this.state.selected.map((item, i) => <Chip text={item} onPress={() => this.removeItem(i)} key={i} />)}
+            { this.state.selected.length
+              ? this.state.selected.map((item, i) => <Chip text={item} onPress={() => this.removeItem(i)} key={i} />)
+              : <Text style={[views.hPadded, text.secondary]}>No items selected</Text>}
           </ScrollView>
         </View>
         <FlatList
@@ -130,8 +130,7 @@ export default class ProductList extends Component {
           buttonColor={saveActive ? '#0099cc' : '#bbbbbb'}
           icon={<Icon name='save' color={saveActive ? 'white' : '#eeeeee'} size={28} />}
           useNativeFeedback={saveActive}
-          activeOpacity={saveActive ? 0.85 : 1}
-          />
+          activeOpacity={saveActive ? 0.85 : 1} />
       </View>
     );
   }

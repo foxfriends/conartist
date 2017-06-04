@@ -38,11 +38,9 @@ export default class History extends Component {
       );
     } else {
       return (
-        <View style={[views.listItem, views.listItemBacking]}>
-          <TouchableHighlight>
-            { contents }
-          </TouchableHighlight>
-        </View>
+        <TouchableHighlight { ...props } style={[views.flex]}>
+          { contents }
+        </TouchableHighlight>
       );
     }
   }

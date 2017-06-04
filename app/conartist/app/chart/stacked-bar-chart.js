@@ -1,9 +1,11 @@
 'use strict';
 import React, { Component } from 'react';
 import { View, Dimensions } from 'react-native';
-import * as d3 from 'd3-scale';
+import * as scale from 'd3-scale';
+import * as shape from 'd3-shape';
 import Axis from './axis';
 import Svg, { G, Rect, Text } from 'react-native-svg';
+const d3 = { ...scale, ...shape };
 
 export default class BarChart extends Component {
   size = Dimensions.get('window').width;
@@ -12,28 +14,25 @@ export default class BarChart extends Component {
   height = this.size - this.margin.top - this.margin.bottom;
 
   get chartRenderer() {
-    const max = Math.max(...Object.values(this.props.bars));
+    const max = Math.max(...Object.values(this.props.bars).map(_ => Object.values(_).reduce((a, _) => a + _, 0)));
     const x = d3.scaleBand()
       .domain(Object.keys(this.props.bars))
       .rangeRound([0, this.width])
       .padding(0.1);
     const y = d3.scaleLinear()
       .domain([0, max])
-      .rangeRound([this.width, 0]);
-    const color = (name, data) => {
-      if(typeof this.props.colors === 'function') {
-        return this.props.colors(data);
-      } else if(typeof this.props.colors === 'object') {
-        return this.props.colors[name];
-      } else {
-        return '#000';
-      }
-    }
-    return { x, y, color };
+      .rangeRound([this.height, 0]);
+    const color = d3.scaleOrdinal()
+      .domain(Object.keys(this.props.legend))
+      .range(Object.values(this.props.legend).map(_ => _.color));
+    const stack = d3.stack()
+      .keys(Object.keys(this.props.legend));
+    return { x, y, color, stack };
   }
 
   render() {
-    const { x, y, color } = this.chartRenderer;
+    const log = x => (alert(JSON.stringify(x)), x);
+    const { x, y, color, stack } = this.chartRenderer;
     return (
       <View style={{ flex: 1 }}>
         <Svg style={{ flex: 1, }} width={this.size} height={this.size}>
@@ -46,8 +45,12 @@ export default class BarChart extends Component {
               <Axis orient={'left'} scale={y} />
             </G>
             <G>
-              { Object.entries(this.props.bars).map(([name, data]) =>
-                <Rect key={name} x={x(name)} y={y(data)} fill={color(name, data)} width={x.bandwidth()} height={this.height - y(data)} />
+            { stack(Object.entries(this.props.bars).map(([name, data]) => ({ name, ...data }))).map((data, i) =>
+                <G key={`${i}`} fill={color(data.key)}>
+                  { data.map((d, i) =>
+                    <Rect key={`${i}`} x={x(d.data.name)} y={y(d[1])} width={x.bandwidth()} height={y(d[0]) - y(d[1])} />
+                  )}
+                </G>
               )}
             </G>
             <G>
@@ -64,6 +67,14 @@ export default class BarChart extends Component {
                   fontSize={Math.min(14, x.bandwidth())}>
                   {name}
                 </Text>
+              )}
+            </G>
+            <G>
+              { Object.entries(this.props.legend).reverse().map(([name, data], i) =>
+                <G key={name} y={i * 20}>
+                  <Rect x={this.width - 19} width={19} height={19} fill={color(name)} />
+                  <Text x={this.width - 24} y={9.5} dy={-15} textAnchor='end' fontSize={10}>{ data.name }</Text>
+                </G>
               )}
             </G>
           </G>

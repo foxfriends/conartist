@@ -12,7 +12,7 @@ function center(scale, value) {
 }
 
 function split([min, max], count = 10) {
-  const sep = (max - min) / count;
+  const sep = Math.ceil((max - min) / count);
   const list = [];
   while(min <= max) {
     list.push(min);

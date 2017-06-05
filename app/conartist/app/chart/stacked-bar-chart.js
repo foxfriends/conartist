@@ -7,7 +7,7 @@ import Axis from './axis';
 import Svg, { G, Rect, Text } from 'react-native-svg';
 const d3 = { ...scale, ...shape };
 
-export default class BarChart extends Component {
+export default class StackedBarChart extends Component {
   size = Dimensions.get('window').width;
   margin = { top: 20, right: 20, bottom: 30, left: 40 };
   width = this.size - this.margin.left - this.margin.right;
@@ -35,7 +35,7 @@ export default class BarChart extends Component {
     const { x, y, color, stack } = this.chartRenderer;
     return (
       <View style={{ flex: 1 }}>
-        <Svg style={{ flex: 1, }} width={this.size} height={this.size}>
+        <Svg style={{ flex: 1 }} width={this.size} height={this.size}>
           <G width={this.size} height={this.size} x={this.margin.left} y={this.margin.top}>
             <G y={this.height}>
               <Axis orient={'bottom'} scale={x} ticks={0} />

@@ -26,7 +26,7 @@ export default class BarChart extends Component {
       } else if(typeof this.props.colors === 'object') {
         return this.props.colors[name];
       } else {
-        return '#000';
+        return '#26C6DA';
       }
     }
     return { x, y, color };
@@ -36,7 +36,7 @@ export default class BarChart extends Component {
     const { x, y, color } = this.chartRenderer;
     return (
       <View style={{ flex: 1 }}>
-        <Svg style={{ flex: 1, }} width={this.size} height={this.size}>
+        <Svg style={{ flex: 1 }} width={this.size} height={this.size}>
           <G width={this.size} height={this.size} x={this.margin.left} y={this.margin.top}>
             <G y={this.height}>
               <Axis orient={'bottom'} scale={x} ticks={0} />

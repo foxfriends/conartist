@@ -17,4 +17,8 @@ export default StyleSheet.create({
     fontSize: 11,
     letterSpacing: 1,
   },
+  subheading: {
+    fontSize: 14,
+    color: '#444',
+  },
 });

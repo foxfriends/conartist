@@ -1,10 +1,12 @@
 'use strict';
 import React, { Component } from 'react';
+import { View, Text } from 'react-native';
 import StackedBarChart from '../../chart/stacked-bar-chart';
 import { ProductTypes, Colors } from '../../constants'
+import { views, text } from '../../styles';
 
 export default class SalesPerDesign extends Component {
-  state: State = {
+  state = {
     type: 'All',
     settings: false,
   };
@@ -34,7 +36,10 @@ export default class SalesPerDesign extends Component {
 
   render() {
     return (
-      <StackedBarChart yLabel='Sales' bars={this.bars} legend={this.legend}/>
+      <View>
+        <Text style={[views.hPadded, text.subheading]}>Sales Per Design</Text>
+        <StackedBarChart yLabel='Sales' bars={this.bars} legend={this.legend}/>
+      </View>
     );
   }
 }

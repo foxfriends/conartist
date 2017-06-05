@@ -1,10 +1,12 @@
 'use strict';
 import React, { Component } from 'react';
+import { View, Text } from 'react-native';
 import BarChart from '../../chart/bar-chart';
-import { Colors } from '../../constants'
+import { Colors } from '../../constants';
+import { views, text } from '../../styles';
 
 export default class SalesPerType extends Component {
-  state: State = {
+  state = {
     metric: 'Customers',
     settings: false,
   };
@@ -35,7 +37,10 @@ export default class SalesPerType extends Component {
 
   render() {
     return (
-      <BarChart yLabel={this.state.metric} bars={this.bars} colors={Colors} />
+      <View>
+        <Text style={[views.hPadded, text.subheading]}>Sales Per Type</Text>
+        <BarChart yLabel={this.state.metric} bars={this.bars} colors={Colors} />
+      </View>
     );
   }
 }

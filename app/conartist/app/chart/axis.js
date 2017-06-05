@@ -61,7 +61,7 @@ export default class Axis extends Component {
             [`d${y}`]: k * 15,
             textAnchor: this.props.orient === 'right' ? 'start' : this.props.orient === 'left' ? 'end' : 'middle',
             fontSize: 10,
-          }
+          };
 
           return (
             <G {...gProps}>

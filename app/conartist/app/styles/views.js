@@ -18,6 +18,10 @@ export default StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
   },
+  vPadded: {
+    paddingTop: 16,
+    paddingBottom: 16,
+  },
   margined: {
     margin: 16,
   },

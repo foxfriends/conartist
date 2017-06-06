@@ -1,14 +1,19 @@
 'use strict';
 import React, { Component } from 'react';
 import { Platform, TouchableHighlight, TouchableNativeFeedback, View, FlatList, Text } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import numeral from 'numeral';
 import moment from 'moment';
 
 import { views, text } from '../../styles'
 import { ProductTypes, Colors } from '../../constants';
 
-
 export default class History extends Component {
+  static navigationOptions = {
+    title: 'History',
+    tabBarIcon: <Icon name='history' size={24} color='white'/>,
+  };
+
   renderListItem(item) {
     // TODO: make this meaningful
     const products = item.products

@@ -6,8 +6,13 @@ import SalesPerDesign from './sales-per-design';
 import SalesOverTime from './sales-over-time';
 import Inventory from './inventory';
 import { views } from '../../styles'
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default class Stats extends Component {
+  static navigationOptions = {
+    title: 'Stats',
+    tabBarIcon: <Icon name='show-chart' size={24} color='white'/>,
+  };
   render() {
     return (
       <ScrollView style={[views.flex, views.paper, views.vPadded]}>

@@ -1,10 +1,16 @@
 'use strict';
 import React, { Component } from 'react';
 import { Platform, TouchableHighlight, TouchableNativeFeedback, View, FlatList, Text } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { views, text } from '../../styles'
 import { ProductTypes, Colors } from '../../constants';
 
 export default class ProductTypeList extends Component {
+  static navigationOptions = {
+    title: 'Sales',
+    tabBarIcon: <Icon name='attach-money' size={24} color='white'/>,
+  };
+
   state = {
     productTypes: Object.keys(this.props.screenProps.data.products),
     selectedType: '',

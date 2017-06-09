@@ -19,21 +19,35 @@ const Navigator = StackNavigator({
   ProductList: { screen: ProductList },
 });
 
+function host(strings, ...params) {
+  function zip(a, b) {
+    a = [...a];
+    for(let i = b.length - 1; i >= 0; --i) {
+      a.splice(2 * i - 1, 0, b[i]);
+    }
+    return a;
+  }
+  return 'http://localhost:8080' + zip(strings, params.map(_ => `${_}`)).join('');
+}
+
 export default class App extends Component {
   // TODO: put some of this in the store
   // TODO: put some of this into OAuth2 things
   state = {
     settings: {
       offline: false,
-      title: '',
-      code: '',
+      auth: null,
       user: '',
       pass: '',
     },
-    data: {
-      products: {},
-      prices: {},
-      records: [],
+    con: {
+      title: '',
+      code: '',
+      data: {
+        products: {},
+        prices: {},
+        records: [],
+      },
     },
   };
 
@@ -45,20 +59,19 @@ export default class App extends Component {
   async loadSettings() {
     if(await fs.exists(SETTINGS_FILE)) {
       const settings = JSON.parse(await fs.readFile(SETTINGS_FILE));
-      const data = settings.offline
+      const con = settings.offline
         ? JSON.parse(await fs.readFile(OFFLINE_DATA_FILE))
-        : this.state.data;
-      this.setState({ settings, data });
+        : this.state.con;
+      this.setState({ settings, con });
     }
   }
 
-  saveSettings() {
-    fs.writeFile(SETTINGS_FILE, JSON.stringify(this.state.settings));
-    if(this.state.settings.offline) {
-      fs.writeFile(OFFLINE_DATA_FILE, JSON.stringify(this.state.data));
-    } else {
-      fs.unlink(OFFLINE_DATA_FILE);
-    }
+  async saveSettings() {
+    await Promise.all([
+      fs.writeFile(SETTINGS_FILE, JSON.stringify(this.state.settings)),
+      fs.writeFile(OFFLINE_DATA_FILE, JSON.stringify(this.state.con)),
+    ]);
+
   }
 
   updateUser(user) {
@@ -70,27 +83,25 @@ export default class App extends Component {
   }
 
   updateCode(code) {
-    this.setState({ settings: { ...this.state.settings, code }});
+    this.setState({ con: { code, title: '', data: { records: [], products: {}, prices: {} }}});
   }
 
-  async signIn() { }
+  async signIn() {
+    this.setState({ user: '', pass: '' });
+  }
 
   async loadCon() {
+    const { title, products, prices, records } = await JSON.parse(fetch(host `/app/con/${this.state.con.code}`));
     this.setState({
       settings: {
         ...this.state.settings,
-        title: 'Anime North 2017'
       },
-      data: {
-        records: [],
-        products: {
-          Print11x17: [[ 'abc', 3 ], [ 'def', 6 ], [ 'ghi', 9 ]],
-          Print5x7: [['abc', 4 ], [ 'jkl', 3 ], [ 'mno', 6 ], [ 'pqr', 9 ]],
+      con: {
+        ...this.state.con,
+        title,
+        data: {
+          products, prices, records,
         },
-        prices: {
-          Print11x17: [[ 1, 15 ], [ 2, 25 ], [ 3, 30 ]],
-          Print5x7: [[ 1, 5 ], [ 3, 10 ]],
-        }
       }
     });
   }
@@ -106,9 +117,9 @@ export default class App extends Component {
             products,
             price,
             time: Date.now(),
-          }
-        ]
-      }
+          },
+        ],
+      },
     });
   }
 
@@ -122,7 +133,7 @@ export default class App extends Component {
           signIn: () => this.signIn(),
           loadCon: () => this.loadCon(),
           savePurchase: (type, products, price) => this.savePurchase(type, products, price),
-          data: this.state.data,
+          data: this.state.con.data,
           ...this.state.settings,
         }}/>
       </View>

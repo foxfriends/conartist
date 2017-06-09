@@ -1,0 +1,20 @@
+{
+  "name": "conartist-server",
+  "version": "1.0.0",
+  "description": "Server for the ConArtist app and website",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Cameron Eldridge",
+  "license": "ISC",
+  "dependencies": {
+    "@types/body-parser": "^1.16.3",
+    "@types/express": "^4.0.35",
+    "@types/pg": "^6.1.41",
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "pg": "^6.2.3",
+    "sql-template-strings": "^2.2.2"
+  }
+}

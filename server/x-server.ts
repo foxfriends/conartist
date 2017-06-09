@@ -1,3 +1,4 @@
+/*
 'use strict';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -186,3 +187,4 @@ function queueSave(record: Record): Promise<void> {
     await writeFile(recordFile, records, { metadata: { contentType: 'text/csv' }});
   });
 }
+*/

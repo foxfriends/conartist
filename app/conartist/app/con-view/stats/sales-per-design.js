@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import StackedBarChart from '../../chart/stacked-bar-chart';
-import { ProductTypes, Colors } from '../../constants'
 import { views, text } from '../../styles';
 
 export default class SalesPerDesign extends Component {
@@ -18,7 +17,7 @@ export default class SalesPerDesign extends Component {
   }
   get legend() {
     return Object.keys(this.props.products)
-      .reduce((obj, key) => ({ ...obj, [key]: { color: Colors[key], name: ProductTypes[key] }}), {});
+      .reduce((obj, key) => ({ ...obj, [key]: this.props.colors[key] }), {});
   }
   reduceBars(bars, record) {
     const updated = { ...bars };

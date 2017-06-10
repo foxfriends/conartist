@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import StackedBarChart from '../../chart/stacked-bar-chart';
-import { ProductTypes, Colors } from '../../constants';
 import { views, text } from '../../styles';
 
 export default class Inventory extends Component {
@@ -16,8 +15,8 @@ export default class Inventory extends Component {
   }
   get legend() {
     return {
-      remaining: { name: 'Remaining', color: '#81C784' },
-      sold: { name: 'Sold', color: '#E57373' },
+      Remaining: '#81C784',
+      Sold: '#E57373',
     };
   }
 
@@ -30,11 +29,11 @@ export default class Inventory extends Component {
   barsForType(type) {
     const bars = {};
     (this.props.products[type] || []).forEach(([name, quantity]) => {
-      bars[name] = { remaining: quantity, sold: 0 };
+      bars[name] = { Remaining: quantity, Sold: 0 };
     });
     this.props.records
       .filter(({type: _}) => _ === type)
-      .forEach(({ products }) => products.forEach(product => (++bars[product].sold, bars[product].remaining && --bars[product].remaining)));
+      .forEach(({ products }) => products.forEach(product => (++bars[product].Sold, bars[product].Remaining && --bars[product].Remaining)));
     return bars;
   }
 

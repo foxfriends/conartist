@@ -43,8 +43,8 @@ async function getConInfo(user_id: number, con_code: string): Promise<ca.Convent
   const client = await connect();
   try {
     const [ raw_con, { user_con_id }] = await getCon(user_id, con_code, client);
-    const { rows: raw_types } = await client.query<Pick<db.ProductType, 'type_id' | 'name'>>(
-      SQL`SELECT type_id, name FROM ProductTypes WHERE user_id = ${user_id}`
+    const { rows: raw_types } = await client.query<Pick<db.ProductType, 'type_id' | 'name' | 'color'>>(
+      SQL`SELECT type_id, name, color FROM ProductTypes WHERE user_id = ${user_id}`
     );
     const { rows: raw_products } = await client.query<Pick<db.Product, 'product_id' | 'type_id' | 'name'>>(
       SQL`SELECT product_id, type_id, name FROM Products WHERE user_id = ${user_id}`
@@ -60,18 +60,23 @@ async function getConInfo(user_id: number, con_code: string): Promise<ca.Convent
     );
     // transform rows to data
     const types = raw_types
-      .reduce((_, { type_id, name }) => ({
+      .reduce((_, { type_id, name, color }) => ({
         ..._,
-        [type_id]: name,
-      }), {} as { [key: number]: string });
+        [type_id]: { name, color },
+      }), {} as { [key: number]: { name: ca.ProductType, color: ca.Color } });
+    const colors = raw_types
+      .reduce((_, { name, color }) => ({
+        ..._,
+        [name]: color,
+      }), {} as { [key in ca.ProductType]: ca.Color });
     const products_by_id = raw_products
       .reduce((_, { product_id, type_id, name }) => ({
         ..._,
         [product_id]: {
           name,
-          type: types[type_id],
+          type: types[type_id].name,
         },
-      }), {} as { [key: number]: { name: string; type: string; }});
+      }), {} as { [key: number]: { name: string; type: ca.ProductType; }});
     const products = raw_inventory
       .map(({ product_id, quantity }) => ({ product: products_by_id[product_id], quantity }))
       .reduce((_, { product: { type, name }, quantity }) => ({
@@ -94,7 +99,7 @@ async function getConInfo(user_id: number, con_code: string): Promise<ca.Convent
         type: products_by_id[products[0]].type,
       }));
     const data: ca.ConventionData = {
-      products, prices, records,
+      products, prices, records, colors,
     };
     const con: ca.Convention = {
       start: new Date(raw_con.start_date),
@@ -157,7 +162,7 @@ async function getUserProducts(user_id: number): Promise<ca.Products> {
       .reduce((_, { type_id, name }) => ({
         ..._,
         [type_id]: name,
-      }), {} as { [key: number]: string });
+      }), {} as { [key: number]: ca.ProductType });
     const products_by_id = raw_products
       .reduce((_, { type_id, name, product_id }) => ({
         ..._,
@@ -165,7 +170,7 @@ async function getUserProducts(user_id: number): Promise<ca.Products> {
           name,
           type: types[type_id],
         },
-      }), {} as Record<string, { name: string; type: string; }>);
+      }), {} as { [key: number]: { name: string; type: ca.ProductType; }});
     const products = raw_inventory
       .map(({ product_id, quantity }) => ({ product: products_by_id[product_id], quantity }))
       .reduce((_, { product: { type, name }, quantity }) => ({
@@ -199,7 +204,7 @@ async function getUserPrices(user_id: number): Promise<ca.Prices> {
       .reduce((_, { type_id, name }) => ({
         ..._,
         [type_id]: name,
-      }), {} as { [key: number]: string });
+      }), {} as { [key: number]: ca.ProductType });
     const products_by_id = raw_products
       .reduce((_, { product_id, type_id, name }) => ({
         ..._,
@@ -207,7 +212,7 @@ async function getUserPrices(user_id: number): Promise<ca.Prices> {
           name,
           type: types[type_id],
         },
-      }), {} as { [key: number]: { name: string; type: string; }});
+      }), {} as { [key: number]: { name: string; type: ca.ProductType; }});
     const prices = raw_prices
       .reduce((_, { type_id, product_id, prices }) => ({
         ..._,

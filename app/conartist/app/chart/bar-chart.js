@@ -60,7 +60,6 @@ export default class BarChart extends Component {
                   rotate={-90}
                   textAnchor='start'
                   fill='#333'
-                  vertialAlign='middle'
                   fontSize={Math.min(14, x.bandwidth())}>
                   {name}
                 </Text>

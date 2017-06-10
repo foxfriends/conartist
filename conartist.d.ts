@@ -1,5 +1,9 @@
 declare namespace ca {
   export type ProductType = string;
+
+  export type Color = [number, number, number];
+  export type Colors = { [key in ProductType]: Color; };
+
   export type Product = [string, number];
   export type Products = { [key in ProductType]: Product[]};
 
@@ -18,6 +22,7 @@ declare namespace ca {
     products: Products;
     records: Records;
     prices: Prices;
+    colors: Colors;
   };
 
   export type Convention = {

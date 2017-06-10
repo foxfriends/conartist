@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import BarChart from '../../chart/bar-chart';
-import { Colors } from '../../constants';
 import { views, text } from '../../styles';
 
 export default class SalesPerType extends Component {
@@ -39,7 +38,7 @@ export default class SalesPerType extends Component {
     return (
       <View>
         <Text style={[views.hPadded, text.subheading]}>Sales Per Type</Text>
-        <BarChart yLabel={this.state.metric} bars={this.bars} colors={Colors} />
+        <BarChart yLabel={this.state.metric} bars={this.bars} colors={this.props.colors} />
       </View>
     );
   }

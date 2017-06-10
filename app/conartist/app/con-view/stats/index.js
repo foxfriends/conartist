@@ -16,11 +16,11 @@ export default class Stats extends Component {
   render() {
     return (
       <ScrollView style={[views.flex, views.paper, views.vPadded]}>
-        <SalesPerDesign products={this.props.screenProps.data.products} records={this.props.screenProps.data.records} />
-        <SalesPerType products={this.props.screenProps.data.products} records={this.props.screenProps.data.records}/>
+        <SalesPerDesign products={this.props.screenProps.data.products} records={this.props.screenProps.data.records} colors={this.props.screenProps.data.colors}/>
+        <SalesPerType products={this.props.screenProps.data.products} records={this.props.screenProps.data.records} colors={this.props.screenProps.data.colors}/>
         <SalesOverTime records={this.props.screenProps.data.records} />
         <Inventory products={this.props.screenProps.data.products} records={this.props.screenProps.data.records}/>
       </ScrollView>
-    )
+    );
   }
 }

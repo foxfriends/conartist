@@ -24,25 +24,24 @@ export default class StackedBarChart extends Component {
       .rangeRound([this.height, 0]);
     const color = d3.scaleOrdinal()
       .domain(Object.keys(this.props.legend))
-      .range(Object.values(this.props.legend).map(_ => _.color));
+      .range(Object.values(this.props.legend));
     const stack = d3.stack()
       .keys(Object.keys(this.props.legend));
     return { x, y, color, stack };
   }
 
   render() {
-    const log = x => (alert(JSON.stringify(x)), x);
     const { x, y, color, stack } = this.chartRenderer;
     return (
       <View style={{ flex: 1 }}>
         <Svg style={{ flex: 1 }} width={this.size} height={this.size}>
           <G width={this.size} height={this.size} x={this.margin.left} y={this.margin.top}>
             <G y={this.height}>
-              <Axis orient={'bottom'} scale={x} ticks={0} />
+              <Axis orient='bottom' scale={x} ticks={0} />
             </G>
             <G>
               <Text fill='black' rotate={-90} y={6} dy={-15} textAnchor='end'>{ this.props.yLabel || 'Y' }</Text>
-              <Axis orient={'left'} scale={y} />
+              <Axis orient='left' scale={y} />
             </G>
             <G>
             { stack(Object.entries(this.props.bars).map(([name, data]) => ({ name, ...data }))).map((data, i) =>
@@ -63,7 +62,6 @@ export default class StackedBarChart extends Component {
                   rotate={-90}
                   textAnchor='start'
                   fill='#333'
-                  vertialAlign='middle'
                   fontSize={Math.min(14, x.bandwidth())}>
                   {name}
                 </Text>
@@ -73,7 +71,7 @@ export default class StackedBarChart extends Component {
               { Object.entries(this.props.legend).reverse().map(([name, data], i) =>
                 <G key={name} y={i * 20}>
                   <Rect x={this.width - 19} width={19} height={19} fill={color(name)} />
-                  <Text x={this.width - 24} y={9.5} dy={-15} textAnchor='end' fontSize={10}>{ data.name }</Text>
+                  <Text x={this.width - 24} y={9.5} dy={-15} textAnchor='end' fontSize={10}>{ name }</Text>
                 </G>
               )}
             </G>

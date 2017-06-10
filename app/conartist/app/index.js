@@ -37,6 +37,7 @@ export default class App extends Component {
     settings: {
       offline: false,
       auth: null,
+      user_id: -1,
       user: '',
       pass: '',
     },
@@ -91,7 +92,7 @@ export default class App extends Component {
   }
 
   async loadCon() {
-    const { title, products, prices, records } = await JSON.parse(fetch(host `/app/con/${this.state.con.code}`));
+    const { title, products, prices, records } = await JSON.parse(fetch(host `/api/user/${this.state.settings.user_id}/con/${this.state.con.code}/`));
     this.setState({
       settings: {
         ...this.state.settings,
@@ -102,7 +103,7 @@ export default class App extends Component {
         data: {
           products, prices, records,
         },
-      }
+      },
     });
   }
 

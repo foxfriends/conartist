@@ -3,9 +3,8 @@ import React, { Component } from 'react';
 import { Platform, TouchableHighlight, TouchableNativeFeedback, View, FlatList, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { views, text } from '../../styles'
-import { ProductTypes, Colors } from '../../constants';
 
-export default class ProductTypeList extends Component {
+export default class ProductTypes extends Component {
   static navigationOptions = {
     title: 'Sales',
     tabBarIcon: <Icon name='attach-money' size={24} color='white'/>,
@@ -23,12 +22,12 @@ export default class ProductTypeList extends Component {
   renderListItem(item) {
     const contents = (
       <View style={[views.listItem, views.padded, views.paper]}>
-        <View style={[views.circle, { backgroundColor: Colors[item] }]}>
+        <View style={[views.circle, { backgroundColor: this.props.screenProps.data.colors[item] }]}>
           <View style={[views.flex, views.vMiddle, views.hMiddle]}>
-            <Text style={[text.icon, { color: 'white' }]}>{ ProductTypes[item][0] }</Text>
+            <Text style={[text.icon, { color: 'white' }]}>{ item[0] }</Text>
           </View>
         </View>
-        <Text style={[views.hPadded, text.primary]}>{ProductTypes[item]}</Text>
+        <Text style={[views.hPadded, text.primary]}>{item[0]}</Text>
       </View>
     );
     const props = {

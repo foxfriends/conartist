@@ -48,17 +48,19 @@ function getConInfo(user_id, con_code) {
         const client = yield connect();
         try {
             const [raw_con, { user_con_id }] = yield getCon(user_id, con_code, client);
-            const { rows: raw_types } = yield client.query(sql_template_strings_1.default `SELECT type_id, name FROM ProductTypes WHERE user_id = ${user_id}`);
+            const { rows: raw_types } = yield client.query(sql_template_strings_1.default `SELECT type_id, name, color FROM ProductTypes WHERE user_id = ${user_id}`);
             const { rows: raw_products } = yield client.query(sql_template_strings_1.default `SELECT product_id, type_id, name FROM Products WHERE user_id = ${user_id}`);
             const { rows: raw_inventory } = yield client.query(sql_template_strings_1.default `SELECT product_id, quantity FROM Inventory WHERE user_con_id = ${user_con_id}`);
             const { rows: raw_prices } = yield client.query(sql_template_strings_1.default `SELECT type_id, product_id, prices FROM Prices WHERE user_con_id = ${user_con_id}`);
             const { rows: raw_records } = yield client.query(sql_template_strings_1.default `SELECT products, price, sale_time FROM Records WHERE user_con_id = ${user_con_id}`);
             const types = raw_types
-                .reduce((_, { type_id, name }) => (Object.assign({}, _, { [type_id]: name })), {});
+                .reduce((_, { type_id, name, color }) => (Object.assign({}, _, { [type_id]: { name, color } })), {});
+            const colors = raw_types
+                .reduce((_, { name, color }) => (Object.assign({}, _, { [name]: color })), {});
             const products_by_id = raw_products
                 .reduce((_, { product_id, type_id, name }) => (Object.assign({}, _, { [product_id]: {
                     name,
-                    type: types[type_id],
+                    type: types[type_id].name,
                 } })), {});
             const products = raw_inventory
                 .map(({ product_id, quantity }) => ({ product: products_by_id[product_id], quantity }))
@@ -76,7 +78,7 @@ function getConInfo(user_id, con_code) {
                 type: products_by_id[products[0]].type,
             }));
             const data = {
-                products, prices, records,
+                products, prices, records, colors,
             };
             const con = {
                 start: new Date(raw_con.start_date),

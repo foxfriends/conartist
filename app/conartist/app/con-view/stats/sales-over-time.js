@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions } from 'react-native';
 import LineChart from '../../chart/line-chart';
-import { Colors } from '../../constants'
 import { views, text } from '../../styles';
 
 export default class SalesOverTime extends Component {

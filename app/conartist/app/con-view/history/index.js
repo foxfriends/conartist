@@ -6,7 +6,6 @@ import numeral from 'numeral';
 import moment from 'moment';
 
 import { views, text } from '../../styles'
-import { ProductTypes, Colors } from '../../constants';
 
 export default class History extends Component {
   static navigationOptions = {
@@ -22,9 +21,9 @@ export default class History extends Component {
       products[key] === 1 ? key : `${key} (${products[key]})`).join(', ');
     const contents = (
       <View style={[views.listItem, views.paper, views.padded, { flexDirection: 'row', alignItems: 'center' }]}>
-        <View style={[views.circle, { backgroundColor: Colors[item.type] }]}>
+        <View style={[views.circle, { backgroundColor: this.props.screenProps.data.colors[item.type] }]}>
           <View style={[views.flex, views.vMiddle, views.hMiddle]}>
-            <Text style={[text.icon, { color: 'white' }]}>{ ProductTypes[item.type][0] }</Text>
+            <Text style={[text.icon, { color: 'white' }]}>{ item.type[0] }</Text>
           </View>
         </View>
         <View style={[views.hPadded]}>

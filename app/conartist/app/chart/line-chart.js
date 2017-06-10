@@ -1,3 +1,4 @@
+// @flow
 'use strict';
 import React, { Component } from 'react';
 import { View, Dimensions } from 'react-native';
@@ -13,7 +14,7 @@ export default class LineChart extends Component {
   width = this.size - this.margin.left - this.margin.right;
   height = this.size - this.margin.top - this.margin.bottom;
 
-  get chartRenderer() {
+  get chartRenderer(): {
     const x = d3.scaleTime()
       .rangeRound([0, this.width])
       .domain([

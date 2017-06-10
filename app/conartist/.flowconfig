@@ -1,4 +1,9 @@
 [ignore]
+# Ignore test files
+.*/__tests__/*
+.*/tests/*
+.*/test/*
+
 ; We fork some components by platform
 .*/*[.]android.js
 

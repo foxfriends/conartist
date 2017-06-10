@@ -1,3 +1,4 @@
+// @flow
 'use strict';
 import React, { Component } from 'react';
 import { View } from 'react-native';
@@ -30,6 +31,8 @@ function host(strings, ...params) {
   return 'http://localhost:8080' + zip(strings, params.map(_ => `${_}`)).join('');
 }
 
+type Props = {};
+
 export default class App extends Component {
   // TODO: put some of this in the store
   // TODO: put some of this into OAuth2 things
@@ -52,7 +55,7 @@ export default class App extends Component {
     },
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.loadSettings();
   }
@@ -72,27 +75,30 @@ export default class App extends Component {
       fs.writeFile(SETTINGS_FILE, JSON.stringify(this.state.settings)),
       fs.writeFile(OFFLINE_DATA_FILE, JSON.stringify(this.state.con)),
     ]);
-
   }
 
-  updateUser(user) {
+  updateUser(user: string) {
     this.setState({ settings: { ...this.state.settings, user }});
   }
 
-  updatePass(pass) {
+  updatePass(pass: string) {
     this.setState({ settings: { ...this.state.settings, pass }});
   }
 
-  updateCode(code) {
+  updateCode(code: string) {
     this.setState({ con: { code, title: '', data: { records: [], products: {}, prices: {} }}});
   }
 
   async signIn() {
-    this.setState({ user: '', pass: '' });
+    const body = JSON.stringify({ usr: this.state.settings.user, psw: this.state.settings.pass });
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    headers.append("Content-Length", `${body.length}`);
+    const response = JSON.parse(await (await fetch(host `/api/auth`, { method: 'POST', headers, body })).json());
   }
 
   async loadCon() {
-    const { title, products, prices, records } = await JSON.parse(fetch(host `/api/user/${this.state.settings.user_id}/con/${this.state.con.code}/`));
+    const { title, products, prices, records } = await JSON.parse(await (await fetch(host`/api/user/${this.state.settings.user_id}/con/${this.state.con.code}/`)).json());
     this.setState({
       settings: {
         ...this.state.settings,
@@ -107,19 +113,22 @@ export default class App extends Component {
     });
   }
 
-  savePurchase(type, products, price) {
+  savePurchase(type: string, products: string[], price: number) {
     this.setState({
-      data: {
-        ...this.state.data,
-        records: [
-          ...this.state.data.records,
-          {
-            type,
-            products,
-            price,
-            time: Date.now(),
-          },
-        ],
+      con: {
+        ...this.state.con,
+        data: {
+          ...this.state.con.data,
+          records: [
+            ...this.state.con.data.records,
+            {
+              type,
+              products,
+              price,
+              time: Date.now(),
+            },
+          ],
+        },
       },
     });
   }

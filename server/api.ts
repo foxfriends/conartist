@@ -2,8 +2,24 @@ import * as express from 'express';
 
 import ca from '../conartist';
 import * as db from './database';
+import * as JWT from 'jsonwebtoken';
 
 const api = express();
+
+const JWTSecret = 'FAKE_SECRET_KEY';
+
+api.post('/auth/', async (req, res) => {
+  res.header('Content-Type: application/json');
+  const { usr, psw } = req.body;
+  try {
+    const { user_id } = await db.logInUser(usr, psw);
+    const jwt = JWT.sign({ usr: user_id } as object, JWTSecret, { expiresIn: '30 days' });
+    res.send(JSON.stringify({ status: 'Success', data: jwt } as ca.APISuccessResult<string>));
+  } catch(error) {
+    console.error(error);
+    res.send(JSON.stringify({ status: 'Error', error: error.message } as ca.APIErrorResult));
+  }
+});
 
 api.get('/user/:user_id/con/:con_code/', async (req, res) => {
   res.header('Content-Type: application/json');

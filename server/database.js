@@ -29,6 +29,27 @@ class DBError extends Error {
 function connect() {
     return pool.connect();
 }
+function logInUser(usr, psw) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const client = yield connect();
+        try {
+            const { rows: raw_user } = yield client.query(sql_template_strings_1.default `SELECT * FROM Users WHERE email = ${usr} and password = ${psw}`);
+            if (raw_user.length === 1) {
+                return raw_user[0];
+            }
+            else {
+                throw new DBError('Invalid username or password');
+            }
+        }
+        catch (error) {
+            throw error;
+        }
+        finally {
+            client.release();
+        }
+    });
+}
+exports.logInUser = logInUser;
 function getCon(user_id, con_code, client) {
     return __awaiter(this, void 0, void 0, function* () {
         const { rows: raw_con } = yield client.query(sql_template_strings_1.default `SELECT * FROM Conventions WHERE con_code = ${con_code}`);

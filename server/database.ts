@@ -30,6 +30,22 @@ function connect(): Promise<pg.Client> {
 
 // TODO: learn how databases really work and make this efficient!
 
+async function logInUser(usr: string, psw: string): Promise<db.User> {
+  const client = await connect();
+  try {
+    const { rows: raw_user } = await client.query<db.User>(SQL`SELECT * FROM Users WHERE email = ${usr} and password = ${psw}`);
+    if(raw_user.length === 1) {
+      return raw_user[0];
+    } else {
+      throw new DBError('Invalid username or password');
+    }
+  } catch(error) {
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
 async function getCon(user_id: number, con_code: string, client: pg.Client): Promise<[db.Convention, db.UserConvention]> {
   const { rows: raw_con } = await client.query<db.Convention>(SQL`SELECT * FROM Conventions WHERE con_code = ${con_code}`);
   if(!raw_con.length) { throw new DBError(`No con "${con_code}" exists`); }
@@ -227,5 +243,5 @@ async function getUserPrices(user_id: number): Promise<ca.Prices> {
 }
 
 export {
-  getConInfo, writeRecords, getUserProducts, getUserPrices,
+  logInUser, getConInfo, writeRecords, getUserProducts, getUserPrices,
 };

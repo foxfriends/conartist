@@ -10,7 +10,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const db = require("./database");
+const JWT = require("jsonwebtoken");
 const api = express();
+const JWTSecret = 'FAKE_SECRET_KEY';
+api.post('/auth/', (req, res) => __awaiter(this, void 0, void 0, function* () {
+    res.header('Content-Type: application/json');
+    const { usr, psw } = req.body;
+    try {
+        const { user_id } = yield db.logInUser(usr, psw);
+        const jwt = JWT.sign({ usr: user_id }, JWTSecret, { expiresIn: '30 days' });
+        res.send(JSON.stringify({ status: 'Success', data: jwt }));
+    }
+    catch (error) {
+        console.error(error);
+        res.send(JSON.stringify({ status: 'Error', error: error.message }));
+    }
+}));
 api.get('/user/:user_id/con/:con_code/', (req, res) => __awaiter(this, void 0, void 0, function* () {
     res.header('Content-Type: application/json');
     try {

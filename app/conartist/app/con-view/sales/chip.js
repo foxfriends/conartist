@@ -1,3 +1,4 @@
+// @flow
 'use strict';
 import React, { PureComponent } from 'react';
 import { View, Text, TouchableWithoutFeedback } from 'react-native';

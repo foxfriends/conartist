@@ -1,3 +1,4 @@
+// @flow
 'use strict';
 import React, { Component } from 'react';
 import { Platform, TextInput, TouchableHighlight, TouchableNativeFeedback, View, FlatList, Text, Button, ScrollView } from 'react-native';

@@ -1,8 +1,9 @@
+// @flow
 'use strict';
 import React, { Component } from 'react';
 import { G, Path, Line, Text } from 'react-native-svg';
 
-function center(scale, value) {
+function center(scale: any, value: number) {
   let offset = 0;
   if(scale.bandwidth) {
     offset = Math.max(0, scale.bandwidth() - 1) / 2;

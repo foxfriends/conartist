@@ -8,13 +8,23 @@ import Axis from './axis';
 import Svg, { G, Rect, Text, Path } from 'react-native-svg';
 const d3 = { ...scale, ...shape };
 
-export default class LineChart extends Component {
+export type Buckets = Bucket[];
+export type Bucket = {
+  time: number,
+  quantity: number,
+};
+
+type Props = {
+  buckets: Buckets,
+};
+
+export default class LineChart extends Component<any, Props, any> {
   size = Dimensions.get('window').width;
   margin = { top: 20, right: 20, bottom: 30, left: 40 };
   width = this.size - this.margin.left - this.margin.right;
   height = this.size - this.margin.top - this.margin.bottom;
 
-  get chartRenderer(): {
+  get chartRenderer(): { x: any, y: any, line: any } {
     const x = d3.scaleTime()
       .rangeRound([0, this.width])
       .domain([

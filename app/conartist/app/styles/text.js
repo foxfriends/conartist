@@ -22,4 +22,7 @@ export default StyleSheet.create({
     fontSize: 14,
     color: '#444',
   },
+  error: {
+    color: '#FF0000',
+  },
 });

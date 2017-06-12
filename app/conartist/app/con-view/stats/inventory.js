@@ -4,30 +4,37 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import StackedBarChart from '../../chart/stacked-bar-chart';
 import { views, text } from '../../styles';
+import type { Bars, Legend } from '../../chart/stacked-bar-chart';
+import type { Record, Records, Products, ProductType } from '../../conartist.types';
 
-export default class Inventory extends Component {
+type Props = {
+  records: Records,
+  products: Products,
+};
+
+export default class Inventory extends Component<any, Props, any> {
   state = {
     type: 'Print11x17',
     settings: false,
   };
 
-  get bars() {
+  get bars(): Bars {
     return this.state.type ? this.barsForType(this.state.type) : {};
   }
-  get legend() {
+  get legend(): Legend {
     return {
       Remaining: '#81C784',
       Sold: '#E57373',
     };
   }
 
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps(props: Props) {
      if(this.state.type === null) {
        this.setState({ type: Object.keys(props.products)[0] });
      }
   }
 
-  barsForType(type) {
+  barsForType(type: string): Bars {
     const bars = {};
     (this.props.products[type] || []).forEach(([name, quantity]) => {
       bars[name] = { Remaining: quantity, Sold: 0 };
@@ -38,7 +45,7 @@ export default class Inventory extends Component {
     return bars;
   }
 
-  reduceBars(bars, record) {
+  reduceBars(bars: Bars, record: Record): Bars {
     const updated = { ...bars };
     for(const product of record.products) {
       updated[product] = updated[product] || {};
@@ -48,7 +55,7 @@ export default class Inventory extends Component {
     return updated;
   }
 
-  typeChange(type) {
+  typeChange(type: ProductType) {
     this.setState({ type });
   }
 

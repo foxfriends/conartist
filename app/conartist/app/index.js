@@ -39,9 +39,11 @@ export default class App extends Component {
   state = {
     settings: {
       offline: false,
+    },
+    user: {
       auth: null,
-      user_id: -1,
-      user: '',
+      id: -1,
+      name: '',
       pass: '',
     },
     con: {
@@ -77,12 +79,12 @@ export default class App extends Component {
     ]);
   }
 
-  updateUser(user: string) {
-    this.setState({ settings: { ...this.state.settings, user }});
+  updateUser(name: string) {
+    this.setState({ user: { ...this.state.user, name }});
   }
 
   updatePass(pass: string) {
-    this.setState({ settings: { ...this.state.settings, pass }});
+    this.setState({ user: { ...this.state.user, pass }});
   }
 
   updateCode(code: string) {
@@ -90,15 +92,23 @@ export default class App extends Component {
   }
 
   async signIn() {
-    const body = JSON.stringify({ usr: this.state.settings.user, psw: this.state.settings.pass });
+    const body = JSON.stringify({ usr: this.state.user.name, psw: this.state.user.pass });
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
     headers.append("Content-Length", `${body.length}`);
     const response = JSON.parse(await (await fetch(host `/api/auth`, { method: 'POST', headers, body })).json());
+    if(response.status === 'Success') {
+      this.setState({ user: { ...this.state.user, ...response.data }});
+      return [true];
+    } else {
+      return [false, response.error];
+    }
   }
 
   async loadCon() {
-    const { title, products, prices, records } = await JSON.parse(await (await fetch(host`/api/user/${this.state.settings.user_id}/con/${this.state.con.code}/`)).json());
+    const headers = new Headers();
+    headers.append("Authorization", this.state.user.auth);
+    const { title, products, prices, records } = await JSON.parse(await (await fetch(host`/api/user/${this.state.user.id}/con/${this.state.con.code}/`, { headers })).json());
     this.setState({
       settings: {
         ...this.state.settings,

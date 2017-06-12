@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import { View, Text, Dimensions } from 'react-native';
 import LineChart from '../../chart/line-chart';
 import { views, text } from '../../styles';
+import type { Buckets } from '../../chart/line-chart';
+import type { Record } from '../../conartist.types';
 
 export default class SalesOverTime extends Component {
   size = Dimensions.get('window').width;
@@ -15,11 +17,11 @@ export default class SalesOverTime extends Component {
     metric: 'Customers',
   };
 
-  roundToBucket(time) {
+  roundToBucket(time: number) {
     return Math.floor(time / this.state.bucketSize) * this.state.bucketSize;
   }
 
-  get buckets() {
+  get buckets(): Buckets {
     const buckets = this.props.records
       .reduce((p, n) => this.reduceBuckets(p, n), [])
       .sort((a, b) => a.time - b.time);
@@ -39,7 +41,7 @@ export default class SalesOverTime extends Component {
     return buckets;
   }
 
-  reduceBuckets(buckets, record) {
+  reduceBuckets(buckets: Buckets, record: Record): Buckets {
     const updated = [...buckets];
     const time = this.roundToBucket(record.time);
     if(new Date(time) < this.state.start || new Date(time) > this.state.end) {
@@ -52,7 +54,7 @@ export default class SalesOverTime extends Component {
             ++bucket.quantity;
             break;
           case 'Items Sold':
-            bucket.quantity += record.quantity;
+            bucket.quantity += record.products.length;
             break;
           case 'Money':
             bucket.quantity += record.price;
@@ -60,7 +62,7 @@ export default class SalesOverTime extends Component {
         return updated;
       }
     }
-    updated.push({ quantity: record.quantity, time });
+    updated.push({ quantity: record.products.length, time });
     return updated;
   }
 

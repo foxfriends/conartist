@@ -8,13 +8,28 @@ import Axis from './axis';
 import Svg, { G, Rect, Text } from 'react-native-svg';
 const d3 = { ...scale, ...shape };
 
-export default class StackedBarChart extends Component {
+export type Bars = {
+  [string]: {
+    [string]: number,
+  },
+};
+
+export type Legend = {
+  [string]: string,
+};
+
+type Props = {
+  bars: Bars,
+  legend: Legend,
+};
+
+export default class StackedBarChart extends Component<any, Props, any> {
   size = Dimensions.get('window').width;
   margin = { top: 20, right: 20, bottom: 30, left: 40 };
   width = this.size - this.margin.left - this.margin.right;
   height = this.size - this.margin.top - this.margin.bottom;
 
-  get chartRenderer() {
+  get chartRenderer(): { x: any, y: any, color: any, stack: any } {
     const max = Math.max(...Object.values(this.props.bars).map(_ => Object.values(_).reduce((a, _) => a + _, 0)));
     const x = d3.scaleBand()
       .domain(Object.keys(this.props.bars))

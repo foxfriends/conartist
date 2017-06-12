@@ -4,8 +4,17 @@ import React, { Component } from 'react';
 import { Platform, TouchableHighlight, TouchableNativeFeedback, View, FlatList, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { views, text } from '../../styles'
+import type { ConventionData } from '../../conartist.types';
 
-export default class ProductTypes extends Component {
+// TODO: add types
+type Props = {
+  navigation: any,
+  screenProps: {
+    data: ConventionData,
+  },
+};
+
+export default class ProductTypes extends Component<any, Props, any> {
   static navigationOptions = {
     title: 'Sales',
     tabBarIcon: <Icon name='attach-money' size={24} color='white'/>,
@@ -16,11 +25,11 @@ export default class ProductTypes extends Component {
     selectedType: '',
   };
 
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps(props: Props) {
     this.setState({ productTypes: Object.keys(props.screenProps.data.products) });
   }
 
-  renderListItem(item) {
+  renderListItem(item: string) {
     const contents = (
       <View style={[views.listItem, views.padded, views.paper]}>
         <View style={[views.circle, { backgroundColor: this.props.screenProps.data.colors[item] }]}>

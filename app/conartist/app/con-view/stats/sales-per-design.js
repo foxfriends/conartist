@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import StackedBarChart from '../../chart/stacked-bar-chart';
 import { views, text } from '../../styles';
+import type { Bars, Legend } from '../../chart/stacked-bar-chart';
+import type { Record, ProductType } from '../../conartist.types';
 
 export default class SalesPerDesign extends Component {
   state = {
@@ -11,16 +13,16 @@ export default class SalesPerDesign extends Component {
     settings: false,
   };
 
-  get bars() {
+  get bars(): Bars {
     return this.props.records
       .filter(record => this.state.type === 'All' || this.state.type === record.type)
       .reduce((p, n) => this.reduceBars(p, n), {});
   }
-  get legend() {
+  get legend(): Legend {
     return Object.keys(this.props.products)
       .reduce((obj, key) => ({ ...obj, [key]: this.props.colors[key] }), {});
   }
-  reduceBars(bars, record) {
+  reduceBars(bars: Bars, record: Record): Bars {
     const updated = { ...bars };
     for(const product of record.products) {
       updated[product] = updated[product] || {};
@@ -30,7 +32,7 @@ export default class SalesPerDesign extends Component {
     return updated;
   }
 
-  typeChange(type) {
+  typeChange(type: ProductType) {
     this.setState({ type });
   }
 

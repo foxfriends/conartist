@@ -5,6 +5,7 @@ import { Platform, TouchableHighlight, TouchableNativeFeedback, View, FlatList, 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import numeral from 'numeral';
 import moment from 'moment';
+import type { Record } from '../../conartist.types';
 
 import { views, text } from '../../styles'
 
@@ -14,7 +15,7 @@ export default class History extends Component {
     tabBarIcon: <Icon name='history' size={24} color='white'/>,
   };
 
-  renderListItem(item) {
+  renderListItem(item: Record) {
     // TODO: make this meaningful
     const products = item.products
       .reduce((o, p) => (o[p] = o[p] ? o[p] + 1 : 1, o), {});
@@ -43,7 +44,7 @@ export default class History extends Component {
       );
     } else {
       return (
-        <TouchableHighlight { ...props } style={[views.flex]}>
+        <TouchableHighlight style={[views.flex]}>
           { contents }
         </TouchableHighlight>
       );

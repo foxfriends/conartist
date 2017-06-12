@@ -11,10 +11,16 @@ export default class SignIn extends Component {
     title: 'ConArtist Sign In',
   }
 
+  state = { errorMessage: null };
+
   async signIn() {
     try {
-      await this.props.screenProps.signIn()
-      this.props.navigation.navigate('ConCode');
+      const [success, error] = await this.props.screenProps.signIn()
+      if(success) {
+        this.props.navigation.navigate('ConCode');
+      } else {
+        this.setState({ errorMessage: error });
+      }
     } catch(_) {
       // login failed
     }
@@ -44,6 +50,11 @@ export default class SignIn extends Component {
           <Button
             title='Sign In'
             onPress={() => this.signIn()} />
+          { this.state.errorMessage &&
+            <Text style={[views.padded, text.error]}>
+              { this.state.errorMessage }
+            </Text>
+          }
           <Text style={views.padded}>
             Need an account? Set one up online at { WEBSITE_URL }
           </Text>

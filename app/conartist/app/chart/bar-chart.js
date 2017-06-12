@@ -6,13 +6,21 @@ import * as d3 from 'd3-scale';
 import Axis from './axis';
 import Svg, { G, Rect, Text } from 'react-native-svg';
 
-export default class BarChart extends Component {
+export type Bars = { [string]: number };
+export type Colors = { [string]: string };
+
+type Props = {
+  bars: Bars,
+  colors: Colors,
+};
+
+export default class BarChart extends Component<any, Props, any> {
   size = Dimensions.get('window').width;
   margin = { top: 20, right: 20, bottom: 30, left: 40 };
   width = this.size - this.margin.left - this.margin.right;
   height = this.size - this.margin.top - this.margin.bottom;
 
-  get chartRenderer() {
+  get chartRenderer(): { x: any, y: any, color: any } {
     const max = Math.max(...Object.values(this.props.bars));
     const x = d3.scaleBand()
       .domain(Object.keys(this.props.bars))

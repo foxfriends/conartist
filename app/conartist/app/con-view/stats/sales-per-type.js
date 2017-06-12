@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import BarChart from '../../chart/bar-chart';
 import { views, text } from '../../styles';
+import type { Bars } from '../../chart/bar-chart';
+import type { Record } from '../../conartist.types';
 
 export default class SalesPerType extends Component {
   state = {
@@ -11,11 +13,11 @@ export default class SalesPerType extends Component {
     settings: false,
   };
 
-  get bars() {
+  get bars(): Bars {
     return this.props.records.reduce((p, n) => this.reduceBars(p, n), {});
   }
 
-  reduceBars(bars, record) {
+  reduceBars(bars: Bars, record: Record): Bars {
     const updated = { ...bars };
     updated[record.type] = updated[record.type] || 0;
     switch(this.state.metric) {
@@ -31,7 +33,7 @@ export default class SalesPerType extends Component {
     return updated;
   }
 
-  metricChange(metric) {
+  metricChange(metric: 'Customers' | 'Money' | 'Items') {
     this.setState({ metric });
   }
 

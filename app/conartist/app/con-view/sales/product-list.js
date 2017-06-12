@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { views, text } from '../../styles'
 import Chip from './chip';
+import type { Product } from '../../conartist.types';
 
 export default class ProductList extends Component {
   static navigationOptions = ({ navigation: { state: { params: { type }}}}) => ({ title: type })
@@ -16,7 +17,7 @@ export default class ProductList extends Component {
     rawPrice: '',
   };
 
-  renderListItem(item) {
+  renderListItem(item: Product) {
     const contents = (
       <View style={[views.listItem, views.paper]}>
         <Text style={[views.hPadded, text.primary]}>{item[0]}</Text>
@@ -45,7 +46,7 @@ export default class ProductList extends Component {
     this.props.navigation.goBack();
   }
 
-  addItem(item) {
+  addItem(item: Product) {
     this.setState({
       selected: [
         ...this.state.selected,
@@ -59,7 +60,7 @@ export default class ProductList extends Component {
     });
   }
 
-  removeItem(index) {
+  removeItem(index: number) {
     const selected = [...this.state.selected];
     selected.splice(index, 1);
     this.setState({
@@ -76,7 +77,7 @@ export default class ProductList extends Component {
     const selected = [...this.state.selected];
     const { type } = this.props.navigation.state.params;
     const { data } = this.props.screenProps;
-    const counts: { [key: string]: number  } = { [type]: 0 };
+    const counts = { [type]: 0 };
     selected.reverse().forEach(name => {
       const fullname = `${type}.${name}`;
       if(data.prices[fullname] !== undefined) {
@@ -98,7 +99,7 @@ export default class ProductList extends Component {
     return price;
   }
 
-  updatePrice(rawPrice) {
+  updatePrice(rawPrice: string) {
     const price = parseFloat(rawPrice);
     this.setState({ rawPrice, price: price || 0 });
   }

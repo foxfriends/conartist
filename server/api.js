@@ -13,6 +13,16 @@ const db = require("./database");
 const JWT = require("jsonwebtoken");
 const api = express();
 const JWTSecret = 'FAKE_SECRET_KEY';
+function assert_authorized(req, user_id) {
+    const auth = req.get('authorization');
+    if (!auth) {
+        throw new Error('No authorization');
+    }
+    const { usr } = JWT.verify(auth, JWTSecret);
+    if (usr !== user_id) {
+        throw new Error('Incorrect credentials');
+    }
+}
 api.post('/auth/', (req, res) => __awaiter(this, void 0, void 0, function* () {
     res.header('Content-Type: application/json');
     const { usr, psw } = req.body;
@@ -26,10 +36,24 @@ api.post('/auth/', (req, res) => __awaiter(this, void 0, void 0, function* () {
         res.send(JSON.stringify({ status: 'Error', error: error.message }));
     }
 }));
+api.post('/auth/:user_id', (req, res) => __awaiter(this, void 0, void 0, function* () {
+    res.header('Content-Type: application/json');
+    try {
+        const { user_id } = req.params;
+        assert_authorized(req, user_id);
+        const jwt = JWT.sign({ usr: user_id }, JWTSecret, { expiresIn: '30 days' });
+        res.send(JSON.stringify({ status: 'Success', data: jwt }));
+    }
+    catch (error) {
+        console.error(error);
+        res.send(JSON.stringify({ status: 'Error', error: error.message }));
+    }
+}));
 api.get('/user/:user_id/con/:con_code/', (req, res) => __awaiter(this, void 0, void 0, function* () {
     res.header('Content-Type: application/json');
     try {
         const { user_id, con_code } = req.params;
+        assert_authorized(req, user_id);
         const data = yield db.getConInfo(user_id, con_code);
         res.send(JSON.stringify({ status: 'Success', data }));
     }
@@ -38,10 +62,11 @@ api.get('/user/:user_id/con/:con_code/', (req, res) => __awaiter(this, void 0, v
         res.send(JSON.stringify({ status: 'Error', error: error.message }));
     }
 }));
-api.put('/user/:user_id/con/:con_code/sale/', (req, res) => __awaiter(this, void 0, void 0, function* () {
+api.put('/user/:user_id/con/:con_code/sales/', (req, res) => __awaiter(this, void 0, void 0, function* () {
     res.header('Content-Type: application/json');
     try {
         const { user_id, con_code } = req.params;
+        assert_authorized(req, user_id);
         const { records } = req.body;
         yield db.writeRecords(user_id, con_code, records);
         res.send(JSON.stringify({ status: 'Success' }));
@@ -55,6 +80,20 @@ api.get('/user/:user_id/products/', (req, res) => __awaiter(this, void 0, void 0
     res.header('Content-Type: application/json');
     try {
         const { user_id } = req.params;
+        assert_authorized(req, user_id);
+        const data = yield db.getUserProducts(user_id);
+        res.send(JSON.stringify({ status: 'Success', data }));
+    }
+    catch (error) {
+        console.error(error);
+        res.send(JSON.stringify({ status: 'Error', error: error.message }));
+    }
+}));
+api.put('/user/:user_id/products/', (req, res) => __awaiter(this, void 0, void 0, function* () {
+    res.header('Content-Type: application/json');
+    try {
+        const { user_id } = req.params;
+        assert_authorized(req, user_id);
         const data = yield db.getUserProducts(user_id);
         res.send(JSON.stringify({ status: 'Success', data }));
     }
@@ -67,8 +106,24 @@ api.get('/user/:user_id/prices/', (req, res) => __awaiter(this, void 0, void 0, 
     res.header('Content-Type: application/json');
     try {
         const { user_id } = req.params;
-        const data = yield db.getUserPrices(user_id);
-        res.send(JSON.stringify({ status: 'Success', data }));
+        assert_authorized(req, user_id);
+        const { products } = req.body;
+        yield db.writeProducts(user_id, products);
+        res.send(JSON.stringify({ status: 'Success' }));
+    }
+    catch (error) {
+        console.error(error);
+        res.send(JSON.stringify({ status: 'Error', error: error.message }));
+    }
+}));
+api.put('/user/:user_id/prices/', (req, res) => __awaiter(this, void 0, void 0, function* () {
+    res.header('Content-Type: application/json');
+    try {
+        const { user_id } = req.params;
+        assert_authorized(req, user_id);
+        const { prices } = req.body;
+        yield db.writePrices(user_id, prices);
+        res.send(JSON.stringify({ status: 'Success' }));
     }
     catch (error) {
         console.error(error);

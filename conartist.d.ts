@@ -1,11 +1,28 @@
 declare namespace ca {
-  export type ProductType = string;
-
   export type Color = [number, number, number];
-  export type Colors = { [key in ProductType]: Color; };
 
-  export type Product = [string, number];
-  export type Products = { [key in ProductType]: Product[]};
+  export type ProductTypes = {
+    [key: string]: {
+      color: Color;
+      name: string;
+      id: number
+    };
+  };
+  export type ProductType = keyof ProductTypes;
+
+  export type Product = {
+    name: string;
+    quantity: number;
+    id: number;
+  };
+  export type Products = { [key in ProductType]: Product[]; };
+
+  export type ProductUpdate = {
+    id: number;
+    name?: string;
+    quantity?: number;
+  };
+  export type ProductsUpdate = ProductUpdate[];
 
   export type Record = {
     type: ProductType;
@@ -14,15 +31,28 @@ declare namespace ca {
     time: number;
   };
   export type Records = Record[];
+  export type RecordUpdate = {
+    products: number[];
+    price: number;
+    time: number;
+  };
+  export type RecordsUpdate = RecordUpdate[];
 
   export type Price = [number, number][];
-  export type Prices = { [key in ProductType]: Price };
+  export type Prices = { [key: string]: Price };
+  export type PriceUpdate = {
+    type_id: number;
+    product_id: number | null;
+    price: Price;
+  };
+
+  export type PricesUpdate = PriceUpdate[];
 
   export type ConventionData = {
     products: Products;
     records: Records;
     prices: Prices;
-    colors: Colors;
+    types: ProductTypes;
   };
 
   export type Convention = {

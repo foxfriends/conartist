@@ -29,6 +29,7 @@ function connect(): Promise<pg.Client> {
 }
 
 // TODO: learn how databases really work and make this efficient!
+// TODO: make space for errors, allowing rollbacks and such
 
 async function logInUser(usr: string, psw: string): Promise<db.User> {
   const client = await connect();
@@ -65,7 +66,7 @@ async function getConInfo(user_id: number, con_code: string): Promise<ca.Convent
     const { rows: raw_products } = await client.query<Pick<db.Product, 'product_id' | 'type_id' | 'name'>>(
       SQL`SELECT product_id, type_id, name FROM Products WHERE user_id = ${user_id}`
     );
-    const { rows: raw_inventory } = await client.query<Pick<db.InventoryItem, 'product_id' | 'quantity' >>(
+    const { rows: raw_inventory } = await client.query<Pick<db.InventoryItem, 'product_id' | 'quantity'>>(
       SQL`SELECT product_id, quantity FROM Inventory WHERE user_con_id = ${user_con_id}`
     );
     const { rows: raw_prices } = await client.query<Pick<db.Price, 'type_id' | 'product_id' | 'prices'>>(
@@ -78,34 +79,30 @@ async function getConInfo(user_id: number, con_code: string): Promise<ca.Convent
     const types = raw_types
       .reduce((_, { type_id, name, color }) => ({
         ..._,
-        [type_id]: { name, color },
-      }), {} as { [key: number]: { name: ca.ProductType, color: ca.Color } });
-    const colors = raw_types
-      .reduce((_, { name, color }) => ({
-        ..._,
-        [name]: color,
-      }), {} as { [key in ca.ProductType]: ca.Color });
+        [type_id]: { name, color, id: type_id },
+      }), {} as ca.ProductTypes);
     const products_by_id = raw_products
       .reduce((_, { product_id, type_id, name }) => ({
         ..._,
         [product_id]: {
           name,
           type: types[type_id].name,
+          id: product_id,
         },
-      }), {} as { [key: number]: { name: string; type: ca.ProductType; }});
+      }), {} as { [key: number]: { name: string; type: ca.ProductType; id: number; }});
     const products = raw_inventory
       .map(({ product_id, quantity }) => ({ product: products_by_id[product_id], quantity }))
-      .reduce((_, { product: { type, name }, quantity }) => ({
+      .reduce((_, { product: { type, name, id }, quantity }) => ({
         ..._,
         [type]: [
           ...(_[type] || []),
-          [name, quantity] as [string, number],
+          { name, quantity, id },
         ],
       }), {} as ca.Products);
     const prices = raw_prices
       .reduce((_, { type_id, product_id, prices }) => ({
         ..._,
-        [`${types[type_id]}${product_id ? `.${products_by_id[product_id].name}` : ''}`]: prices,
+        [`${types[type_id]}${product_id ? `::${products_by_id[product_id].name}` : ''}`]: prices,
       }), {} as ca.Prices);
     const records: ca.Records = raw_records
       .map(({ products, price, sale_time }) => ({
@@ -115,7 +112,7 @@ async function getConInfo(user_id: number, con_code: string): Promise<ca.Convent
         type: products_by_id[products[0]].type,
       }));
     const data: ca.ConventionData = {
-      products, prices, records, colors,
+      products, prices, records, types,
     };
     const con: ca.Convention = {
       start: new Date(raw_con.start_date),
@@ -132,29 +129,15 @@ async function getConInfo(user_id: number, con_code: string): Promise<ca.Convent
   }
 }
 
-type SalesRecord = {
-  products: any[];
-  price: number;
-  time: number;
-};
-
-async function writeRecords(user_id: number, con_code: string, records: SalesRecord[]): Promise<void> {
+async function writeRecords(user_id: number, con_code: string, records: ca.RecordsUpdate): Promise<void> {
   const client = await connect();
   try {
     const [, { user_con_id }] = await getCon(user_id, con_code, client);
-    const { rows: raw_products } = await client.query<Pick<db.Product, 'product_id' | 'name'>>(
-      SQL`SELECT product_id, name FROM Products WHERE user_id = ${user_id} AND name = ANY(${records.map(_ => _.products)})`
-    );
-    const products_by_id = raw_products
-      .reduce((_, { name, product_id }) => ({
-        ..._,
-        [product_id]: name,
-      }), {} as { [key: number]: string });
-    records.forEach(async ({ price, products, time }) => {
+    for(const { price, products, time } of records) {
       await client.query(
-        SQL`INSERT INTO Records (user_con_id, price, products, sale_time) VALUES (${user_con_id}, ${price}, ${products.map(_ => products_by_id[_])}, ${time})`
+        SQL`INSERT INTO Records (user_con_id, price, products, sale_time) VALUES (${user_con_id}, ${price}, ${products}, ${time})`
       );
-    });
+    }
   } catch(error) {
     throw error;
   } finally {
@@ -185,15 +168,16 @@ async function getUserProducts(user_id: number): Promise<ca.Products> {
         [product_id]: {
           name,
           type: types[type_id],
+          id: product_id,
         },
-      }), {} as { [key: number]: { name: string; type: ca.ProductType; }});
+      }), {} as { [key: number]: { name: string; type: ca.ProductType; id: number; }});
     const products = raw_inventory
       .map(({ product_id, quantity }) => ({ product: products_by_id[product_id], quantity }))
-      .reduce((_, { product: { type, name }, quantity }) => ({
+      .reduce((_, { product: { type, name, id }, quantity }) => ({
         ..._,
         [type]: [
           ...(_[type] || []),
-          [name, quantity] as [string, number],
+          { name, quantity, id },
         ],
       }), {} as ca.Products);
     return products;
@@ -232,7 +216,7 @@ async function getUserPrices(user_id: number): Promise<ca.Prices> {
     const prices = raw_prices
       .reduce((_, { type_id, product_id, prices }) => ({
         ..._,
-        [`${types[type_id]}${product_id ? `.${products_by_id[product_id].name}` : ''}`]: prices,
+        [`${types[type_id]}${product_id ? `::${products_by_id[product_id].name}` : ''}`]: prices,
       }), {} as ca.Prices);
     return prices;
   } catch(error) {
@@ -242,6 +226,45 @@ async function getUserPrices(user_id: number): Promise<ca.Prices> {
   }
 }
 
+async function writeProducts(user_id: number, products: ca.ProductsUpdate) {
+  const client = await connect();
+  try {
+    for(const { id, name, quantity } of products) {
+      if(name) {
+        await client.query(
+          SQL`UPDATE Products SET name = ${name} WHERE product_id = ${id}`
+        );
+      }
+      if(quantity) {
+        await client.query(
+          SQL`UPDATE Inventory SET quantity = ${quantity} WHERE product_id = ${id} AND user_id = ${user_id}`
+        );
+      }
+    }
+  } catch(error) {
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
+async function writePrices(user_id: number, prices: ca.PricesUpdate) {
+  const client = await connect();
+  try {
+    for(const { type_id, product_id, price } of prices) {
+      await client.query(
+        SQL`UPDATE Prices SET prices = ${price} WHERE type_id = ${type_id} AND product_id = ${product_id} AND user_id = ${user_id}`
+      );
+    }
+  } catch(error) {
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
 export {
-  logInUser, getConInfo, writeRecords, getUserProducts, getUserPrices,
+  logInUser, getConInfo, writeRecords,
+  getUserProducts, writeProducts,
+  getUserPrices, writePrices,
 };

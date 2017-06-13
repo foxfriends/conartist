@@ -12,7 +12,9 @@
 
     "moduleResolution": "node",
 
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+
+    "lib": [ "DOM", "es2017" ]
   },
   "compileOnSave": true
 }

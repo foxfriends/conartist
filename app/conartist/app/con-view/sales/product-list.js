@@ -79,7 +79,7 @@ export default class ProductList extends Component {
     const { data } = this.props.screenProps;
     const counts = { [type]: 0 };
     selected.reverse().forEach(name => {
-      const fullname = `${type}.${name}`;
+      const fullname = `${type}::${name}`;
       if(data.prices[fullname] !== undefined) {
         counts[fullname] = counts[fullname] ? counts[fullname] + 1 : 1;
       } else {

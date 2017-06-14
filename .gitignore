@@ -1,4 +1,5 @@
 node_modules
-server/*.js
-web/src/*.js
+server/**.js
+web/src/**.js
 data
+web-x

@@ -18,5 +18,6 @@
     "jsonwebtoken": "^7.4.1",
     "pg": "^6.2.3",
     "sql-template-strings": "^2.2.2"
-  }
+  },
+  "private": true
 }

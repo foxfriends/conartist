@@ -1,18 +1,30 @@
-import { TestBed } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { suite as describe, test as it } from 'mocha-typescript';
 import { expect } from 'chai';
 
-import { AppComponent } from './app.component';
+import AppComponent from './app.component';
 
-@describe('App Component')
-export class AppComponentTests {
-  before() {
-    return TestBed.configureTestingModule({ declarations: [ AppComponent ] }).compileComponents();
-  }
-  after() {}
+@Component({
+  selector: 'con-sign-in',
+  template: '',
+})
+class SignInComponent {}
 
-  @it ['should exist'] () {
-    expect(true).to.be.true;
-  }
-}
+type Context = {
+  fixture: ComponentFixture<AppComponent>;
+  component: AppComponent;
+};
+
+describe('App Component', function(this: Mocha.ISuiteCallbackContext & Context) {
+  beforeEach('Configure the module', () => TestBed.configureTestingModule({ declarations: [ AppComponent, SignInComponent ] }));
+  beforeEach('Create the component', () => {
+    this.fixture = TestBed.createComponent(AppComponent);
+    this.component = this.fixture.componentInstance;
+    this.fixture.detectChanges();
+  });
+
+  it('should be created', () => {
+    expect(this.component).not.to.be.undefined;
+  });
+});

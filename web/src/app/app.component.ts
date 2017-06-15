@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 
-import template from './app.template.html';
-import styles from './app.styles.scss';
+import template from './app.component.html';
+import styles from './app.component.scss';
 
 @Component({
   selector: 'con-artist',
   template: template,
   styles: [ styles ],
 })
-export class AppComponent {
-  title = 'app';
+export default class AppComponent {
+  title = 'Con Artist';
 }

@@ -26,6 +26,7 @@
     "core-js": "^2.4.1",
     "hammerjs": "^2.0.8",
     "jwt-decode": "^2.2.0",
+    "reset-css": "^2.2.0",
     "rxjs": "^5.4.1",
     "zone.js": "^0.8.12"
   },
@@ -39,6 +40,7 @@
     "@types/node": "~6.0.60",
     "@types/sinon": "^2.3.1",
     "angular2-template-loader": "^0.6.2",
+    "autoprefixer": "^7.1.1",
     "awesome-typescript-loader": "^3.1.3",
     "chai": "^4.0.2",
     "chai-as-promised": "^7.0.0",
@@ -52,6 +54,7 @@
     "mocha-loader": "^1.1.1",
     "node-sass": "^4.5.3",
     "null-loader": "^0.1.1",
+    "postcss-loader": "^2.0.6",
     "protractor": "~5.1.2",
     "raw-loader": "^0.5.1",
     "sass-loader": "^6.0.5",

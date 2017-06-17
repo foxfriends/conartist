@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { MdButtonModule, MdCardModule, MdInputModule, MdCheckboxModule } from '@angular/material';
-import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+import { MdButtonModule, MdCardModule, MdInputModule, MdCheckboxModule, MdToolbarModule } from '@angular/material';
 
 const modules = [
   MdButtonModule,
   MdCardModule,
   MdInputModule,
   MdCheckboxModule,
+  MdToolbarModule,
 ];
 
 @NgModule({

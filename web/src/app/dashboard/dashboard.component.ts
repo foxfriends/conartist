@@ -13,8 +13,11 @@ import { UserInfo } from '../../../../conartist';
 export default class DashboardComponent implements OnInit {
   info: UserInfo;
   constructor(@Inject(APIService) private api: APIService) {}
+
   async ngOnInit() {
     this.info = await this.api.getUserInfo();
     console.log(this.info);
   }
 }
+
+console.log(styles);

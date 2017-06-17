@@ -46,18 +46,23 @@ module.exports = {
       },
       {
         test: /\.s(c|a)ss$/,
+        exclude: /\.component\.s(c|a)ss$/,
+        loader: 'style-loader!css-loader!postcss-loader!sass-loader'
+      },
+      {
+        test: /\.component\.s(c|a)ss$/,
         include: helpers.root('src', 'app'),
-        loader: 'raw-loader!sass-loader'
+        loader: 'raw-loader!postcss-loader!sass-loader'
       },
       {
         test: /\.css$/,
         exclude: helpers.root('src', 'app'),
-        loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader?sourceMap' })
+        loader: 'style-loader!css-loader!postcss-loader'
       },
       {
         test: /\.css$/,
         include: helpers.root('src', 'app'),
-        loader: 'raw-loader'
+        loader: 'raw-loader!postcss-loader'
       }
     ]
   },

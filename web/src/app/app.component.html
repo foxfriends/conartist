@@ -1,2 +1,22 @@
-<con-sign-in *ngIf="!signedIn" (onSignIn)="signedIn = true"></con-sign-in>
-<con-dashboard *ngIf="signedIn"></con-dashboard>
+<md-toolbar color="primary">
+  <button md-icon-button (click)="sidenav.toggle()" *ngIf="state !== State.SignIn">
+    <md-icon>menu</md-icon>
+  </button>
+  ConArtist
+</md-toolbar>
+<md-sidenav-container>
+  <md-sidenav #sidenav>
+    <md-nav-list>
+      <h3 md-subheader>Navigation</h3>
+      <md-list-item (click)="state = State.Dashboard">Dashboard</md-list-item>
+      <md-list-item (click)="state = State.Inventory">Inventory</md-list-item>
+      <md-list-item (click)="state = State.Conventions">Conventions</md-list-item>
+    </md-nav-list>
+  </md-sidenav>
+  <div [ngSwitch]="state">
+    <con-dashboard *ngSwitchCase="State.Dashboard"></con-dashboard>
+    <con-dashboard *ngSwitchCase="State.Inventory"></con-dashboard>
+    <con-dashboard *ngSwitchCase="State.Conventions"></con-dashboard>
+    <con-sign-in *ngSwitchCase="State.SignIn" (onSignIn)="state = State.Dashboard"></con-sign-in>
+  </div>
+</md-sidenav-container>

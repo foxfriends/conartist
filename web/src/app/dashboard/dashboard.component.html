@@ -1,3 +1,42 @@
-<md-toolbar>
-  ConArtist Dashboard
-</md-toolbar>
+<div class="dashboard__card-grid">
+  <md-card class="dashboard__card">
+    <md-card-header>
+      <md-card-title>Conventions</md-card-title>
+    </md-card-header>
+    <md-card-content>
+      <md-nav-list>
+        <h3 md-subheader *ngIf="currentConventions.length">Current</h3>
+        <md-list-item class="convention" *ngFor="let convention of currentConventions" (click)="viewCon(convention.code)">
+          {{ convention.title }}
+          <span class="convention__code">{{ convention.code }}</span>
+          <span class="convention__date">
+            {{ formatDate(convention.start) }} &ndash; {{ formatDate(convention.end) }}
+          </span>
+        </md-list-item>
+        <md-divider></md-divider>
+        <h3 md-subheader>Upcoming</h3>
+        <md-list-item class="convention" *ngFor="let convention of upcomingConventions" (click)="viewCon(convention.code)">
+          {{ convention.title }}
+          <span class="convention__code">{{ convention.code }}</span>
+          <span class="convention__date">
+            {{ formatDate(convention.start) }} &ndash; {{ formatDate(convention.end) }}
+          </span>
+        </md-list-item>
+        <md-divider></md-divider>
+        <h3 md-subheader>Previous</h3>
+        <md-list-item class="convention" *ngFor="let convention of previousConventions" (click)="viewCon(convention.code)">
+          {{ convention.title }}
+          <span class="convention__code">{{ convention.code }}</span>
+          <span class="convention__date">
+            {{ formatDate(convention.start) }} &ndash; {{ formatDate(convention.end) }}
+          </span>
+        </md-list-item>
+      </md-nav-list>
+    </md-card-content>
+  </md-card>
+  <md-card class="dashboard__card">
+    <md-card-header>
+      <md-card-title>Inventory</md-card-title>
+    </md-card-header>
+  </md-card>
+</div>

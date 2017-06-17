@@ -1,30 +1,29 @@
--- Set up the database --
-
 CREATE DATABASE conartist;
 
 REVOKE CONNECT ON DATABASE conartist FROM PUBLIC;
+
 
 CREATE ROLE conartist_admin WITH LOGIN PASSWORD 'temporary-password';
 GRANT ALL PRIVILEGES ON DATABASE conartist TO conartist_admin;
 
 CREATE ROLE conartist_app WITH LOGIN PASSWORD 'temporary-password';
-REVOKE ALL PRIVILEGES ON DATABASE conartist FROM conartist_app;
 GRANT CONNECT ON DATABASE conartist TO conartist_app;
-GRANT SELECT ON DATABASE conartist TO conartist_app;
-GRANT UPDATE ON DATABASE conartist TO conartist_app;
-GRANT INSERT ON DATABASE conartist TO conartist_app;
-GRANT DELETE ON DATABASE conartist TO conartist_app;
+GRANT USAGE ON SCHEMA public TO conartist_app;
 
 \c conartist;
 SET ROLE conartist_admin;
 
--- Create the user data
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO conartist_app;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO conartist_app;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT USAGE ON SEQUENCES TO conartist_app;
+GRANT USAGE ON ALL SEQUENCES IN SCHEMA public TO conartist_app;
 
 CREATE TABLE Users (
   user_id   SERIAL PRIMARY KEY,
   email     VARCHAR(512) UNIQUE NOT NULL,
   password  VARCHAR(512) NOT NULL,
-  salt      VARCHAR(512) NOT NULL,
   join_date TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP)
 );
 CREATE INDEX index_Users ON Users (email);
@@ -45,10 +44,13 @@ CREATE TABLE User_Conventions (
 );
 CREATE INDEX index_User_Conventions ON User_Conventions (user_id);
 
-CREATE VIEW [Users Conventions] AS
-  SELECT * FROM User_Conventions
-    INNER JOIN Users        USING (user_id)
-    INNER JOIN Conventions  USING (con_id);
+CREATE TABLE ProductTypes (
+  type_id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL REFERENCES Users (user_id) ON DELETE CASCADE,
+  name    VARCHAR(512) NOT NULL,
+  color   INT[3]
+);
+CREATE INDEX index_ProductTypes ON ProductTypes (user_id);
 
 CREATE TABLE Products (
   product_id  SERIAL PRIMARY KEY,
@@ -57,18 +59,6 @@ CREATE TABLE Products (
   name        VARCHAR(512) NOT NULL
 );
 CREATE INDEX index_Products ON Products (user_id, type_id);
-
-CREATE TABLE ProductTypes (
-  type_id SERIAL PRIMARY KEY,
-  user_id INT NOT NULL REFERENCES Users (user_id) ON DELETE CASCADE,
-  name    VARCHAR(512) NOT NULL,
-  color   INT[3],
-);
-CREATE INDEX index_ProductTypes ON ProductTypes (user_id);
-
-CREATE VIEW [Products with Types] AS
-  SELECT * FROM Products
-    JOIN ProductTypes USING (type_id);
 
 CREATE TABLE Inventory (
   inv_id      SERIAL PRIMARY KEY,
@@ -103,11 +93,7 @@ CREATE TABLE Records (
   record_id   SERIAL PRIMARY KEY,
   user_con_id INT NOT NULL REFERENCES User_Conventions (user_con_id) ON DELETE CASCADE,
   price       MONEY NOT NULL,
-  products    INT[] NOT NULL ELEMENT REFERENCES Products (product_id),
+  products    INT[] NOT NULL,
   sale_time   TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP)
 );
 CREATE INDEX index_Records ON Records (user_con_id);
-
-CREATE VIEW [Expanded Records] AS
-  SELECT * FROM Records
-    JOIN Products ON Products.product_id = ANY(Records.products);

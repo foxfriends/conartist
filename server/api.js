@@ -23,8 +23,41 @@ function assert_authorized(req, user_id) {
         throw new Error('Incorrect credentials');
     }
 }
+api.post('/account/new/', (req, res) => __awaiter(this, void 0, void 0, function* () {
+    res.set('Content-Type', 'application/json');
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
+    const { usr, psw } = req.body;
+    try {
+        yield db.createUser(usr, psw);
+        res.send(JSON.stringify({ status: 'Success' }));
+    }
+    catch (error) {
+        console.error(error);
+        res.send(JSON.stringify({ status: 'Error', error: error.message }));
+    }
+}));
+api.get('/account/exists/:usr', (req, res) => __awaiter(this, void 0, void 0, function* () {
+    res.set('Content-Type', 'application/json');
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
+    const { usr } = req.params;
+    try {
+        const exists = yield db.userExists(usr);
+        res.send(JSON.stringify({ status: 'Success', data: exists }));
+    }
+    catch (error) {
+        console.error(error);
+        res.send(JSON.stringify({ status: 'Error', error: error.message }));
+    }
+}));
 api.post('/auth/', (req, res) => __awaiter(this, void 0, void 0, function* () {
-    res.header('Content-Type: application/json');
+    res.set('Content-Type', 'application/json');
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
     const { usr, psw } = req.body;
     try {
         const { user_id } = yield db.logInUser(usr, psw);
@@ -37,7 +70,10 @@ api.post('/auth/', (req, res) => __awaiter(this, void 0, void 0, function* () {
     }
 }));
 api.post('/auth/:user_id', (req, res) => __awaiter(this, void 0, void 0, function* () {
-    res.header('Content-Type: application/json');
+    res.set('Content-Type', 'application/json');
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
     try {
         const { user_id } = req.params;
         assert_authorized(req, user_id);
@@ -50,7 +86,10 @@ api.post('/auth/:user_id', (req, res) => __awaiter(this, void 0, void 0, functio
     }
 }));
 api.get('/user/:user_id/con/:con_code/', (req, res) => __awaiter(this, void 0, void 0, function* () {
-    res.header('Content-Type: application/json');
+    res.set('Content-Type', 'application/json');
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
     try {
         const { user_id, con_code } = req.params;
         assert_authorized(req, user_id);
@@ -63,7 +102,10 @@ api.get('/user/:user_id/con/:con_code/', (req, res) => __awaiter(this, void 0, v
     }
 }));
 api.put('/user/:user_id/con/:con_code/sales/', (req, res) => __awaiter(this, void 0, void 0, function* () {
-    res.header('Content-Type: application/json');
+    res.set('Content-Type', 'application/json');
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
     try {
         const { user_id, con_code } = req.params;
         assert_authorized(req, user_id);
@@ -77,7 +119,10 @@ api.put('/user/:user_id/con/:con_code/sales/', (req, res) => __awaiter(this, voi
     }
 }));
 api.get('/user/:user_id/products/', (req, res) => __awaiter(this, void 0, void 0, function* () {
-    res.header('Content-Type: application/json');
+    res.set('Content-Type', 'application/json');
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
     try {
         const { user_id } = req.params;
         assert_authorized(req, user_id);
@@ -90,7 +135,10 @@ api.get('/user/:user_id/products/', (req, res) => __awaiter(this, void 0, void 0
     }
 }));
 api.put('/user/:user_id/products/', (req, res) => __awaiter(this, void 0, void 0, function* () {
-    res.header('Content-Type: application/json');
+    res.set('Content-Type', 'application/json');
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
     try {
         const { user_id } = req.params;
         assert_authorized(req, user_id);
@@ -103,7 +151,10 @@ api.put('/user/:user_id/products/', (req, res) => __awaiter(this, void 0, void 0
     }
 }));
 api.get('/user/:user_id/prices/', (req, res) => __awaiter(this, void 0, void 0, function* () {
-    res.header('Content-Type: application/json');
+    res.set('Content-Type', 'application/json');
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
     try {
         const { user_id } = req.params;
         assert_authorized(req, user_id);
@@ -117,7 +168,10 @@ api.get('/user/:user_id/prices/', (req, res) => __awaiter(this, void 0, void 0, 
     }
 }));
 api.put('/user/:user_id/prices/', (req, res) => __awaiter(this, void 0, void 0, function* () {
-    res.header('Content-Type: application/json');
+    res.set('Content-Type', 'application/json');
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
     try {
         const { user_id } = req.params;
         assert_authorized(req, user_id);

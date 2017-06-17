@@ -3,7 +3,6 @@ export namespace db {
     user_id: number;
     email: string;
     password: string;
-    salt: string;
     join_date: number;
   };
   export type Users = User[];

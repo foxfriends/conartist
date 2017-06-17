@@ -1,9 +1,43 @@
 'use strict';
 import * as pg from 'pg';
-import SQL from 'sql-template-strings';
+import * as bcrypt from 'bcrypt';
+import * as stream from 'stream';
+import SQL, { SQLStatement } from 'sql-template-strings';
 
 import db from './schema';
 import ca from '../conartist';
+
+interface QueryResult<T> extends pg.QueryResult {
+  rows: T[];
+}
+
+interface ResultBuilder<T> extends QueryResult<T> {
+  addRow(row: T): void;
+}
+
+declare class Query<T> extends pg.Query {
+  on(event: 'row', listener: (row: any, result?: ResultBuilder<T>) => void): this;
+  on(event: 'error', listener: (err: Error) => void): this;
+  on(event: 'end', listener: (result: ResultBuilder<T>) => void): this;
+}
+
+declare class Pool extends pg.Pool {
+  query(queryStream: pg.QueryConfig & stream.Readable): stream.Readable;
+  query<T>(queryTextOrConfig: string | pg.QueryConfig): Promise<QueryResult<T>>;
+  query<T>(queryText: string, values: any[]): Promise<QueryResult<T>>;
+
+  query<T>(queryTextOrConfig: string | pg.QueryConfig, callback: (err: Error, result: QueryResult<T>) => void): Query<T>;
+  query<T>(queryText: string, values: any[], callback: (err: Error, result: QueryResult<T>) => void): Query<T>;
+}
+
+declare class Client extends pg.Client {
+  query(queryStream: pg.QueryConfig & stream.Readable): stream.Readable;
+  query<T>(queryTextOrConfig: string | pg.QueryConfig): Promise<QueryResult<T>>;
+  query<T>(queryText: string, values: any[]): Promise<QueryResult<T>>;
+
+  query<T>(queryTextOrConfig: string | pg.QueryConfig, callback: (err: Error, result: QueryResult<T>) => void): Query<T>;
+  query<T>(queryText: string, values: any[], callback: (err: Error, result: QueryResult<T>) => void): Query<T>;
+}
 
 const config: pg.PoolConfig = {
   user: process.env.CONARTISTPGUSER || 'conartist_app',
@@ -15,7 +49,7 @@ const config: pg.PoolConfig = {
   idleTimeoutMillis: process.env.CONARTISTDBTIMEOUT || 1000 * 60,
 };
 
-const pool = new pg.Pool(config);
+const pool: Pool = new pg.Pool(config);
 
 class DBError extends Error {
   constructor(message: string) {
@@ -24,32 +58,20 @@ class DBError extends Error {
   }
 }
 
-function connect(): Promise<pg.Client> {
+function connect(): Promise<Client> {
   return pool.connect();
+}
+
+function query<T>(query: SQLStatement): Promise<QueryResult<T>> {
+  return pool.query(query);
 }
 
 // TODO: learn how databases really work and make this efficient!
 // TODO: make space for errors, allowing rollbacks and such
 
-async function logInUser(usr: string, psw: string): Promise<db.User> {
-  const client = await connect();
-  try {
-    const { rows: raw_user } = await client.query<db.User>(SQL`SELECT * FROM Users WHERE email = ${usr} and password = ${psw}`);
-    if(raw_user.length === 1) {
-      return raw_user[0];
-    } else {
-      throw new DBError('Invalid username or password');
-    }
-  } catch(error) {
-    throw error;
-  } finally {
-    client.release();
-  }
-}
-
-async function getCon(user_id: number, con_code: string, client: pg.Client): Promise<[db.Convention, db.UserConvention]> {
+async function getCon(user_id: number, con_code: string, client: Client): Promise<[db.Convention, db.UserConvention]> {
   const { rows: raw_con } = await client.query<db.Convention>(SQL`SELECT * FROM Conventions WHERE con_code = ${con_code}`);
-  if(!raw_con.length) { throw new DBError(`No con "${con_code}" exists`); }
+  if(!raw_con.length) { throw new DBError(`No con '${con_code}' exists`); }
   const [{ con_id }] = raw_con;
   const { rows: raw_user_con } =  await client.query<db.UserConvention>(SQL`SELECT * FROM User_Conventions WHERE user_id = ${user_id} AND con_id = ${con_id}`);
   if(!raw_user_con.length) { throw new DBError(`Not registered for con ${raw_con[0].title}`); }
@@ -226,7 +248,7 @@ async function getUserPrices(user_id: number): Promise<ca.Prices> {
   }
 }
 
-async function writeProducts(user_id: number, products: ca.ProductsUpdate) {
+async function writeProducts(user_id: number, products: ca.ProductsUpdate): Promise<void> {
   const client = await connect();
   try {
     for(const { id, name, quantity } of products) {
@@ -248,7 +270,7 @@ async function writeProducts(user_id: number, products: ca.ProductsUpdate) {
   }
 }
 
-async function writePrices(user_id: number, prices: ca.PricesUpdate) {
+async function writePrices(user_id: number, prices: ca.PricesUpdate): Promise<void> {
   const client = await connect();
   try {
     for(const { type_id, product_id, price } of prices) {
@@ -263,8 +285,53 @@ async function writePrices(user_id: number, prices: ca.PricesUpdate) {
   }
 }
 
+async function userExists(usr: string): Promise<boolean> {
+  const { rows } = await query<{ count: number }>(SQL`SELECT 1 FROM Users WHERE email = ${usr}`);
+  return rows.length === 1;
+}
+
+async function logInUser(usr: string, psw: string): Promise<Pick<db.User, 'user_id'>> {
+  const client = await connect();
+  try {
+    const { rows: raw_user } = await client.query<Pick<db.User, 'user_id' | 'password'>>(SQL`SELECT user_id, password FROM Users WHERE email = ${usr}`);
+    if(raw_user.length === 1) {
+      const { user_id, password } = raw_user[0];
+      if(await bcrypt.compare(psw, password)) {
+        return { user_id };
+      } else {
+        throw new DBError('Incorrect email or password');
+      }
+    } else {
+      throw new DBError('Non-existent user');
+    }
+  } catch(error) {
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
+async function createUser(usr: string, psw: string): Promise<void> {
+  const client = await connect();
+  try {
+    const hash = await bcrypt.hash(psw, 10);
+    const { rows } = await query<{ count: number }>(SQL`SELECT 1 FROM Users WHERE email = ${usr}`);
+    if(rows.length === 1) {
+      throw new DBError(`An account is already registered to ${usr}`);
+    }
+    await client.query(
+      SQL`INSERT INTO Users (email, password) VALUES (${usr},${hash})`
+    );
+  } catch(error) {
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
 export {
-  logInUser, getConInfo, writeRecords,
+  getConInfo, writeRecords,
   getUserProducts, writeProducts,
   getUserPrices, writePrices,
+  userExists, logInUser, createUser,
 };

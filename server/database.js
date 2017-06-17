@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const pg = require("pg");
+const bcrypt = require("bcrypt");
 const sql_template_strings_1 = require("sql-template-strings");
 const config = {
     user: process.env.CONARTISTPGUSER || 'conartist_app',
@@ -29,32 +30,14 @@ class DBError extends Error {
 function connect() {
     return pool.connect();
 }
-function logInUser(usr, psw) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const client = yield connect();
-        try {
-            const { rows: raw_user } = yield client.query(sql_template_strings_1.default `SELECT * FROM Users WHERE email = ${usr} and password = ${psw}`);
-            if (raw_user.length === 1) {
-                return raw_user[0];
-            }
-            else {
-                throw new DBError('Invalid username or password');
-            }
-        }
-        catch (error) {
-            throw error;
-        }
-        finally {
-            client.release();
-        }
-    });
+function query(query) {
+    return pool.query(query);
 }
-exports.logInUser = logInUser;
 function getCon(user_id, con_code, client) {
     return __awaiter(this, void 0, void 0, function* () {
         const { rows: raw_con } = yield client.query(sql_template_strings_1.default `SELECT * FROM Conventions WHERE con_code = ${con_code}`);
         if (!raw_con.length) {
-            throw new DBError(`No con "${con_code}" exists`);
+            throw new DBError(`No con '${con_code}' exists`);
         }
         const [{ con_id }] = raw_con;
         const { rows: raw_user_con } = yield client.query(sql_template_strings_1.default `SELECT * FROM User_Conventions WHERE user_id = ${user_id} AND con_id = ${con_id}`);
@@ -234,3 +217,57 @@ function writePrices(user_id, prices) {
     });
 }
 exports.writePrices = writePrices;
+function userExists(usr) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { rows } = yield query(sql_template_strings_1.default `SELECT 1 FROM Users WHERE email = ${usr}`);
+        return rows.length === 1;
+    });
+}
+exports.userExists = userExists;
+function logInUser(usr, psw) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const client = yield connect();
+        try {
+            const { rows: raw_user } = yield client.query(sql_template_strings_1.default `SELECT user_id, password FROM Users WHERE email = ${usr}`);
+            if (raw_user.length === 1) {
+                const { user_id, password } = raw_user[0];
+                if (yield bcrypt.compare(psw, password)) {
+                    return { user_id };
+                }
+                else {
+                    throw new DBError('Incorrect email or password');
+                }
+            }
+            else {
+                throw new DBError('Non-existent user');
+            }
+        }
+        catch (error) {
+            throw error;
+        }
+        finally {
+            client.release();
+        }
+    });
+}
+exports.logInUser = logInUser;
+function createUser(usr, psw) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const client = yield connect();
+        try {
+            const hash = yield bcrypt.hash(psw, 10);
+            const { rows } = yield query(sql_template_strings_1.default `SELECT 1 FROM Users WHERE email = ${usr}`);
+            if (rows.length === 1) {
+                throw new DBError(`An account is already registered to ${usr}`);
+            }
+            yield client.query(sql_template_strings_1.default `INSERT INTO Users (email, password) VALUES (${usr},${hash})`);
+        }
+        catch (error) {
+            throw error;
+        }
+        finally {
+            client.release();
+        }
+    });
+}
+exports.createUser = createUser;

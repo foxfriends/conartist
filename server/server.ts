@@ -9,9 +9,6 @@ app.listen(process.env.PORT || 8080, () => {
   // tslint:disable-next-line
   console.log('Server is listening on port 8080');
 });
-
-app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(bodyParser.json());
 app.use('/api', api);
-
-app.use('/', express.static('public_html'));
+app.use('/', express.static('../web/dist'));

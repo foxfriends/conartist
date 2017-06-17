@@ -24,6 +24,7 @@ CREATE TABLE Users (
   user_id   SERIAL PRIMARY KEY,
   email     VARCHAR(512) UNIQUE NOT NULL,
   password  VARCHAR(512) NOT NULL,
+  keys      INT NOT NULL DEFAULT 1,
   join_date TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP)
 );
 CREATE INDEX index_Users ON Users (email);

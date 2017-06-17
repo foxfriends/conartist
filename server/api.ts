@@ -1,8 +1,9 @@
 import * as express from 'express';
-
-import ca from '../conartist';
-import * as db from './database';
 import * as JWT from 'jsonwebtoken';
+import * as eJWT from 'express-jwt';
+
+import * as ca from '../conartist';
+import * as db from './database';
 
 const api = express();
 
@@ -12,10 +13,13 @@ type AuthToken = { usr: number; };
 type JWT = string;
 
 type Params = {
-  user_id: number;
   con_code: string;
   usr: string;
 };
+
+type User = {
+  usr: number;
+}
 
 type Body = {
   records: ca.RecordsUpdate;
@@ -25,11 +29,8 @@ type Body = {
   psw: string;
 };
 
-function assert_authorized(req: express.Request, user_id: number): void {
-  const auth: JWT = req.get('authorization');
-  if(!auth) { throw new Error('No authorization'); }
-  const { usr } = JWT.verify(auth, JWTSecret) as AuthToken;
-  if(usr !== user_id) { throw new Error('Incorrect credentials'); }
+function assert_authorized() {
+  return eJWT({secret: JWTSecret});
 }
 
 // TODO: less repetition of res.set
@@ -81,14 +82,13 @@ api.post('/auth/', async (req, res) => {
   }
 });
 
-api.post('/auth/:user_id', async (req, res) => {
+api.post('/auth/:user_id', assert_authorized(), async (req, res) => {
   res.set('Content-Type', 'application/json');
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');
   res.set('Expires', '0');
   try {
-    const { user_id } = req.params as Pick<Params, 'user_id'>;
-    assert_authorized(req, user_id);
+    const { usr: user_id } = req.user as User;
     const jwt = JWT.sign({ usr: user_id } as AuthToken, JWTSecret, { expiresIn: '30 days' });
     res.send(JSON.stringify({ status: 'Success', data: jwt } as ca.APISuccessResult<string>));
   } catch(error) {
@@ -97,14 +97,35 @@ api.post('/auth/:user_id', async (req, res) => {
   }
 });
 
-api.get('/user/:user_id/con/:con_code/', async (req, res) => {
+api.get('/user/', assert_authorized(), async (req, res) => {
   res.set('Content-Type', 'application/json');
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');
   res.set('Expires', '0');
   try {
-    const { user_id, con_code } = req.params as Pick<Params, 'user_id' | 'con_code'>;
-    assert_authorized(req, user_id);
+    const { usr: user_id } = req.user as User;
+    // TODO: concurrency
+    const { email, keys } = await db.getUser(user_id);
+    const products = await db.getUserProducts(user_id);
+    const prices = await db.getUserPrices(user_id);
+    const types = await db.getUserTypes(user_id);
+    const conventions = await db.getUserMetaConventions(user_id);
+    const data = { email, keys, products, prices, types, conventions };
+    res.send(JSON.stringify({ status: 'Success', data } as ca.APISuccessResult<ca.UserInfo>));
+  } catch(error) {
+    console.error(error);
+    res.send(JSON.stringify({ status: 'Error', error: error.message } as ca.APIErrorResult));
+  }
+});
+
+api.get('/`con/:con_code/', assert_authorized(), async (req, res) => {
+  res.set('Content-Type', 'application/json');
+  res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+  try {
+    const { con_code } = req.params as Pick<Params, 'con_code'>;
+    const { usr: user_id } = req.user as User;
     const data = await db.getConInfo(user_id, con_code);
     res.send(JSON.stringify({ status: 'Success', data } as ca.APISuccessResult<ca.Convention>));
   } catch(error) {
@@ -113,14 +134,14 @@ api.get('/user/:user_id/con/:con_code/', async (req, res) => {
   }
 });
 
-api.put('/user/:user_id/con/:con_code/sales/', async (req, res) => {
+api.put('/`con/:con_code/sales/', assert_authorized(), async (req, res) => {
   res.set('Content-Type', 'application/json');
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');
   res.set('Expires', '0');
   try {
-    const { user_id, con_code } = req.params as Pick<Params, 'user_id' | 'con_code'>;
-    assert_authorized(req, user_id);
+    const { con_code } = req.params as Pick<Params, 'con_code'>;
+    const { usr: user_id } = req.user as User;
     const { records } = req.body as Pick<Body, 'records'>;
     await db.writeRecords(user_id, con_code, records);
     res.send(JSON.stringify({ status: 'Success' } as ca.APISuccessResult<void>));
@@ -130,14 +151,13 @@ api.put('/user/:user_id/con/:con_code/sales/', async (req, res) => {
   }
 });
 
-api.get('/user/:user_id/products/', async (req, res) => {
+api.get('/products/', assert_authorized(), async (req, res) => {
   res.set('Content-Type', 'application/json');
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');
   res.set('Expires', '0');
   try {
-    const { user_id } = req.params as Pick<Params, 'user_id'>;
-    assert_authorized(req, user_id);
+    const { usr: user_id } = req.user as User;
     const data = await db.getUserProducts(user_id);
     res.send(JSON.stringify({ status: 'Success', data } as ca.APISuccessResult<ca.Products>));
   } catch(error) {
@@ -146,15 +166,15 @@ api.get('/user/:user_id/products/', async (req, res) => {
   }
 });
 
-api.put('/user/:user_id/products/', async (req, res) => {
+api.put('/products/', assert_authorized(), async (req, res) => {
   res.set('Content-Type', 'application/json');
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');
   res.set('Expires', '0');
   try {
-    const { user_id } = req.params as Pick<Params, 'user_id'>;
-    assert_authorized(req, user_id);
-    const data = await db.getUserProducts(user_id);
+    const { usr: user_id } = req.user as User;
+    const { products } = req.body as Pick<Body, 'products'>
+    const data = await db.writeProducts(user_id, products);
     res.send(JSON.stringify({ status: 'Success', data } as ca.APISuccessResult<ca.Products>));
   } catch(error) {
     console.error(error);
@@ -162,34 +182,31 @@ api.put('/user/:user_id/products/', async (req, res) => {
   }
 });
 
-api.get('/user/:user_id/prices/', async (req, res) => {
+api.get('/prices/', assert_authorized(), async (req, res) => {
   res.set('Content-Type', 'application/json');
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');
   res.set('Expires', '0');
   try {
-    const { user_id } = req.params as Pick<Params, 'user_id'>;
-    assert_authorized(req, user_id);
-    const { products } = req.body as Pick<Body, 'products'>;
-    await db.writeProducts(user_id, products);
-    res.send(JSON.stringify({ status: 'Success' } as ca.APISuccessResult<void>));
+    const { usr: user_id } = req.user as User;
+    const data = await db.getUserPrices(user_id);
+    res.send(JSON.stringify({ status: 'Success', data } as ca.APISuccessResult<ca.Prices>));
   } catch(error) {
     console.error(error);
     res.send(JSON.stringify({ status: 'Error', error: error.message } as ca.APIErrorResult));
   }
 });
 
-api.put('/user/:user_id/prices/', async (req, res) => {
+api.put('/prices/', assert_authorized(), async (req, res) => {
   res.set('Content-Type', 'application/json');
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');
   res.set('Expires', '0');
   try {
-    const { user_id } = req.params as Pick<Params, 'user_id'>;
-    assert_authorized(req, user_id);
+    const { usr: user_id } = req.user as User;
     const { prices } = req.body as Pick<Body, 'prices'>;
-    await db.writePrices(user_id, prices);
-    res.send(JSON.stringify({ status: 'Success' } as ca.APISuccessResult<void>));
+    const data = await db.writePrices(user_id, prices);
+    res.send(JSON.stringify({ status: 'Success', data } as ca.APISuccessResult<ca.Prices>));
   } catch(error) {
     console.error(error);
     res.send(JSON.stringify({ status: 'Error', error: error.message } as ca.APIErrorResult));

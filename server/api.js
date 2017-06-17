@@ -9,19 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
-const db = require("./database");
 const JWT = require("jsonwebtoken");
+const eJWT = require("express-jwt");
+const db = require("./database");
 const api = express();
 const JWTSecret = 'FAKE_SECRET_KEY';
-function assert_authorized(req, user_id) {
-    const auth = req.get('authorization');
-    if (!auth) {
-        throw new Error('No authorization');
-    }
-    const { usr } = JWT.verify(auth, JWTSecret);
-    if (usr !== user_id) {
-        throw new Error('Incorrect credentials');
-    }
+function assert_authorized() {
+    return eJWT({ secret: JWTSecret });
 }
 api.post('/account/new/', (req, res) => __awaiter(this, void 0, void 0, function* () {
     res.set('Content-Type', 'application/json');
@@ -69,14 +63,13 @@ api.post('/auth/', (req, res) => __awaiter(this, void 0, void 0, function* () {
         res.send(JSON.stringify({ status: 'Error', error: error.message }));
     }
 }));
-api.post('/auth/:user_id', (req, res) => __awaiter(this, void 0, void 0, function* () {
+api.post('/auth/:user_id', assert_authorized(), (req, res) => __awaiter(this, void 0, void 0, function* () {
     res.set('Content-Type', 'application/json');
     res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.set('Pragma', 'no-cache');
     res.set('Expires', '0');
     try {
-        const { user_id } = req.params;
-        assert_authorized(req, user_id);
+        const { usr: user_id } = req.user;
         const jwt = JWT.sign({ usr: user_id }, JWTSecret, { expiresIn: '30 days' });
         res.send(JSON.stringify({ status: 'Success', data: jwt }));
     }
@@ -85,14 +78,34 @@ api.post('/auth/:user_id', (req, res) => __awaiter(this, void 0, void 0, functio
         res.send(JSON.stringify({ status: 'Error', error: error.message }));
     }
 }));
-api.get('/user/:user_id/con/:con_code/', (req, res) => __awaiter(this, void 0, void 0, function* () {
+api.get('/user/', assert_authorized(), (req, res) => __awaiter(this, void 0, void 0, function* () {
     res.set('Content-Type', 'application/json');
     res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.set('Pragma', 'no-cache');
     res.set('Expires', '0');
     try {
-        const { user_id, con_code } = req.params;
-        assert_authorized(req, user_id);
+        const { usr: user_id } = req.user;
+        const { email, keys } = yield db.getUser(user_id);
+        const products = yield db.getUserProducts(user_id);
+        const prices = yield db.getUserPrices(user_id);
+        const types = yield db.getUserTypes(user_id);
+        const conventions = yield db.getUserMetaConventions(user_id);
+        const data = { email, keys, products, prices, types, conventions };
+        res.send(JSON.stringify({ status: 'Success', data }));
+    }
+    catch (error) {
+        console.error(error);
+        res.send(JSON.stringify({ status: 'Error', error: error.message }));
+    }
+}));
+api.get('/`con/:con_code/', assert_authorized(), (req, res) => __awaiter(this, void 0, void 0, function* () {
+    res.set('Content-Type', 'application/json');
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
+    try {
+        const { con_code } = req.params;
+        const { usr: user_id } = req.user;
         const data = yield db.getConInfo(user_id, con_code);
         res.send(JSON.stringify({ status: 'Success', data }));
     }
@@ -101,14 +114,14 @@ api.get('/user/:user_id/con/:con_code/', (req, res) => __awaiter(this, void 0, v
         res.send(JSON.stringify({ status: 'Error', error: error.message }));
     }
 }));
-api.put('/user/:user_id/con/:con_code/sales/', (req, res) => __awaiter(this, void 0, void 0, function* () {
+api.put('/`con/:con_code/sales/', assert_authorized(), (req, res) => __awaiter(this, void 0, void 0, function* () {
     res.set('Content-Type', 'application/json');
     res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.set('Pragma', 'no-cache');
     res.set('Expires', '0');
     try {
-        const { user_id, con_code } = req.params;
-        assert_authorized(req, user_id);
+        const { con_code } = req.params;
+        const { usr: user_id } = req.user;
         const { records } = req.body;
         yield db.writeRecords(user_id, con_code, records);
         res.send(JSON.stringify({ status: 'Success' }));
@@ -118,14 +131,13 @@ api.put('/user/:user_id/con/:con_code/sales/', (req, res) => __awaiter(this, voi
         res.send(JSON.stringify({ status: 'Error', error: error.message }));
     }
 }));
-api.get('/user/:user_id/products/', (req, res) => __awaiter(this, void 0, void 0, function* () {
+api.get('/products/', assert_authorized(), (req, res) => __awaiter(this, void 0, void 0, function* () {
     res.set('Content-Type', 'application/json');
     res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.set('Pragma', 'no-cache');
     res.set('Expires', '0');
     try {
-        const { user_id } = req.params;
-        assert_authorized(req, user_id);
+        const { usr: user_id } = req.user;
         const data = yield db.getUserProducts(user_id);
         res.send(JSON.stringify({ status: 'Success', data }));
     }
@@ -134,50 +146,47 @@ api.get('/user/:user_id/products/', (req, res) => __awaiter(this, void 0, void 0
         res.send(JSON.stringify({ status: 'Error', error: error.message }));
     }
 }));
-api.put('/user/:user_id/products/', (req, res) => __awaiter(this, void 0, void 0, function* () {
+api.put('/products/', assert_authorized(), (req, res) => __awaiter(this, void 0, void 0, function* () {
     res.set('Content-Type', 'application/json');
     res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.set('Pragma', 'no-cache');
     res.set('Expires', '0');
     try {
-        const { user_id } = req.params;
-        assert_authorized(req, user_id);
-        const data = yield db.getUserProducts(user_id);
-        res.send(JSON.stringify({ status: 'Success', data }));
-    }
-    catch (error) {
-        console.error(error);
-        res.send(JSON.stringify({ status: 'Error', error: error.message }));
-    }
-}));
-api.get('/user/:user_id/prices/', (req, res) => __awaiter(this, void 0, void 0, function* () {
-    res.set('Content-Type', 'application/json');
-    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
-    res.set('Pragma', 'no-cache');
-    res.set('Expires', '0');
-    try {
-        const { user_id } = req.params;
-        assert_authorized(req, user_id);
+        const { usr: user_id } = req.user;
         const { products } = req.body;
-        yield db.writeProducts(user_id, products);
-        res.send(JSON.stringify({ status: 'Success' }));
+        const data = yield db.writeProducts(user_id, products);
+        res.send(JSON.stringify({ status: 'Success', data }));
     }
     catch (error) {
         console.error(error);
         res.send(JSON.stringify({ status: 'Error', error: error.message }));
     }
 }));
-api.put('/user/:user_id/prices/', (req, res) => __awaiter(this, void 0, void 0, function* () {
+api.get('/prices/', assert_authorized(), (req, res) => __awaiter(this, void 0, void 0, function* () {
     res.set('Content-Type', 'application/json');
     res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.set('Pragma', 'no-cache');
     res.set('Expires', '0');
     try {
-        const { user_id } = req.params;
-        assert_authorized(req, user_id);
+        const { usr: user_id } = req.user;
+        const data = yield db.getUserPrices(user_id);
+        res.send(JSON.stringify({ status: 'Success', data }));
+    }
+    catch (error) {
+        console.error(error);
+        res.send(JSON.stringify({ status: 'Error', error: error.message }));
+    }
+}));
+api.put('/prices/', assert_authorized(), (req, res) => __awaiter(this, void 0, void 0, function* () {
+    res.set('Content-Type', 'application/json');
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
+    try {
+        const { usr: user_id } = req.user;
         const { prices } = req.body;
-        yield db.writePrices(user_id, prices);
-        res.send(JSON.stringify({ status: 'Success' }));
+        const data = yield db.writePrices(user_id, prices);
+        res.send(JSON.stringify({ status: 'Success', data }));
     }
     catch (error) {
         console.error(error);

@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators, ValidatorFn, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 
 import { Wait, wait } from '../../util';
@@ -17,6 +17,8 @@ export default class SignInComponent {
   processing = false;
   error: string | null = null;
   notification: string | null = null;
+
+  @Output() onSignIn = new EventEmitter();
 
   signInForm: FormGroup;
   signUpForm: FormGroup;
@@ -113,6 +115,7 @@ export default class SignInComponent {
     try {
       const token = await this.api.signIn(this.signInForm.value.email, this.signInForm.value.password);
       localStorage.setItem('authtoken', token);
+      this.onSignIn.emit();
     } catch(error) {
       this.error = error.message;
     } finally {

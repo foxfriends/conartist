@@ -5,7 +5,7 @@ import * as stream from 'stream';
 import SQL, { SQLStatement } from 'sql-template-strings';
 
 import db from './schema';
-import ca from '../conartist';
+import * as ca from '../conartist';
 
 interface QueryResult<T> extends pg.QueryResult {
   rows: T[];
@@ -67,7 +67,7 @@ function query<T>(query: SQLStatement): Promise<QueryResult<T>> {
 }
 
 // TODO: learn how databases really work and make this efficient!
-// TODO: make space for errors, allowing rollbacks and such
+// TODO: make space for errors, with transactions or rollbacks or whatever it is
 
 async function getCon(user_id: number, con_code: string, client: Client): Promise<[db.Convention, db.UserConvention]> {
   const { rows: raw_con } = await client.query<db.Convention>(SQL`SELECT * FROM Conventions WHERE con_code = ${con_code}`);
@@ -78,7 +78,7 @@ async function getCon(user_id: number, con_code: string, client: Client): Promis
   return [ raw_con[0], raw_user_con[0] ];
 }
 
-async function getConInfo(user_id: number, con_code: string): Promise<ca.Convention> {
+async function getConInfo(user_id: number, con_code: string): Promise<ca.FullConvention> {
   const client = await connect();
   try {
     const [ raw_con, { user_con_id }] = await getCon(user_id, con_code, client);
@@ -101,14 +101,19 @@ async function getConInfo(user_id: number, con_code: string): Promise<ca.Convent
     const types = raw_types
       .reduce((_, { type_id, name, color }) => ({
         ..._,
-        [type_id]: { name, color, id: type_id },
+        [name]: { name, color, id: type_id },
       }), {} as ca.ProductTypes);
+    const types_by_id = raw_types
+      .reduce((_, { type_id, name, color }) => ({
+        ..._,
+        [type_id]: { name, color, id: type_id },
+      }), {} as { [key: number]: { color: ca.Color; name: string; id: number; }});
     const products_by_id = raw_products
       .reduce((_, { product_id, type_id, name }) => ({
         ..._,
         [product_id]: {
           name,
-          type: types[type_id].name,
+          type: types_by_id[type_id].name,
           id: product_id,
         },
       }), {} as { [key: number]: { name: string; type: ca.ProductType; id: number; }});
@@ -118,13 +123,13 @@ async function getConInfo(user_id: number, con_code: string): Promise<ca.Convent
         ..._,
         [type]: [
           ...(_[type] || []),
-          { name, quantity, id },
+          { name, quantity, id, type },
         ],
       }), {} as ca.Products);
     const prices = raw_prices
       .reduce((_, { type_id, product_id, prices }) => ({
         ..._,
-        [`${types[type_id]}${product_id ? `::${products_by_id[product_id].name}` : ''}`]: prices,
+        [`${types_by_id[type_id].name}${product_id ? `::${products_by_id[product_id].name}` : ''}`]: prices,
       }), {} as ca.Prices);
     const records: ca.Records = raw_records
       .map(({ products, price, sale_time }) => ({
@@ -136,7 +141,7 @@ async function getConInfo(user_id: number, con_code: string): Promise<ca.Convent
     const data: ca.ConventionData = {
       products, prices, records, types,
     };
-    const con: ca.Convention = {
+    const con: ca.FullConvention = {
       start: new Date(raw_con.start_date),
       end: new Date(raw_con.end_date),
       title: raw_con.title,
@@ -150,6 +155,24 @@ async function getConInfo(user_id: number, con_code: string): Promise<ca.Convent
     client.release();
   }
 }
+
+async function getUserMetaConventions(user_id: number): Promise<ca.MetaConvention[]> {
+  const client = await connect();
+  try {
+    const { rows } = await client.query<Pick<db.Convention, 'title' | 'code' | 'start_date' | 'end_date'>>(
+      SQL`
+        SELECT Conventions.title, Conventions.code, Conventions.start_date, Conventions.end_date
+        FROM User_Conventions
+        INNER JOIN Conventions ON Conventions.con_id = User_Conventions.con_id
+        WHERE user_id = ${user_id}
+      `);
+    return rows.map(({ title, code, start_date, end_date }) => ({ title, code, start: new Date(start_date), end: new Date(end_date) }));
+  } catch(error) {
+    throw error;
+  } finally {
+    client.release();
+  }
+};
 
 async function writeRecords(user_id: number, con_code: string, records: ca.RecordsUpdate): Promise<void> {
   const client = await connect();
@@ -199,7 +222,7 @@ async function getUserProducts(user_id: number): Promise<ca.Products> {
         ..._,
         [type]: [
           ...(_[type] || []),
-          { name, quantity, id },
+          { name, quantity, id, type },
         ],
       }), {} as ca.Products);
     return products;
@@ -248,21 +271,18 @@ async function getUserPrices(user_id: number): Promise<ca.Prices> {
   }
 }
 
-async function writeProducts(user_id: number, products: ca.ProductsUpdate): Promise<void> {
+async function getUserTypes(user_id: number): Promise<ca.ProductTypes> {
   const client = await connect();
   try {
-    for(const { id, name, quantity } of products) {
-      if(name) {
-        await client.query(
-          SQL`UPDATE Products SET name = ${name} WHERE product_id = ${id}`
-        );
-      }
-      if(quantity) {
-        await client.query(
-          SQL`UPDATE Inventory SET quantity = ${quantity} WHERE product_id = ${id} AND user_id = ${user_id}`
-        );
-      }
-    }
+    const { rows: raw_types } = await client.query<Pick<db.ProductType, 'type_id' | 'name' | 'color'>>(
+      SQL`SELECT type_id, name FROM ProductTypes WHERE user_id = ${user_id}`
+    );
+    const types = raw_types
+      .reduce((_, { type_id, name, color }) => ({
+        ..._,
+        [name]: { name, color, id: type_id },
+      }), {} as ca.ProductTypes);
+    return types;
   } catch(error) {
     throw error;
   } finally {
@@ -270,14 +290,112 @@ async function writeProducts(user_id: number, products: ca.ProductsUpdate): Prom
   }
 }
 
-async function writePrices(user_id: number, prices: ca.PricesUpdate): Promise<void> {
+async function writeProducts(user_id: number, products: ca.ProductsUpdate): Promise<ca.Products> {
   const client = await connect();
   try {
-    for(const { type_id, product_id, price } of prices) {
-      await client.query(
-        SQL`UPDATE Prices SET prices = ${price} WHERE type_id = ${type_id} AND product_id = ${product_id} AND user_id = ${user_id}`
-      );
+    const result = {} as ca.Products;
+    for(const product of products) {
+      if(product.kind === 'create') {
+        const { name, type, quantity } = product;
+        const { rows: [{ product_id }]} = await client.query<Pick<db.Product, 'product_id'>>(
+          SQL`INSERT INTO Products (name,type_id,user_id) VALUES (${name},${type},${user_id}) RETURNING product_id`
+        );
+        const { rows: [{ name: type_name }]} = await client.query<Pick<db.ProductType, 'name'>>(
+          SQL`SELECT name FROM ProductTypes WHERE type_id = ${type}`
+        );
+        await client.query(
+          SQL`INSERT INTO Inventory (quantity,product_id,user_id) VALUES (${quantity},${product_id},${user_id})`
+        );
+        result[type_name] = result[type_name] || [];
+        result[type_name].push({ name, id: product_id, type: type_name, quantity });
+      } else {
+        const { id, name, type, quantity } = product;
+        if(name) {
+          await client.query(
+            SQL`UPDATE Products SET name = ${name} WHERE product_id = ${id} AND user_id = ${user_id}`
+          );
+        }
+        if(type) {
+          await client.query(
+            SQL`UPDATE Products SET type_id = ${type} WHERE product_id = ${id} AND user_id = ${user_id}`
+          );
+        }
+        if(quantity) {
+          await client.query(
+            SQL`UPDATE Inventory SET quantity = ${quantity} WHERE product_id = ${id} AND user_id = ${user_id}`
+          );
+        }
+      }
     }
+    return result;
+  } catch(error) {
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
+async function writePrices(user_id: number, prices: ca.PricesUpdate): Promise<ca.Prices> {
+  const client = await connect();
+  try {
+    const result = {} as ca.Prices;
+    for(const { type_id, product_id, price } of prices) {
+      const { rowCount } = await client.query(SQL`SELECT 1 FROM Prices WHERE user_id = ${user_id} AND type_id = ${type_id} AND product_id = ${product_id}`);
+      if(rowCount === 1) {
+        await client.query(
+          SQL`UPDATE Prices SET prices = ${price} WHERE type_id = ${type_id} AND product_id = ${product_id} AND user_id = ${user_id}`
+        );
+      } else {
+        await client.query(
+          SQL`INSERT INTO Prices (prices,type_id,product_id,user_id) VALUES (${price},${type_id},${product_id},${user_id})`
+        );
+        const { rows: [{ name }] } = await client.query<Pick<db.ProductType, 'name'>>(
+          SQL`SELECT name FROM ProductTypes WHERE type_id = ${type_id}`
+        );
+        let key = name;
+        if(product_id) {
+          const { rows: [{ name }] } = await client.query<Pick<db.Product, 'name'>>(
+            SQL`SELECT name FROM Products WHERE product_id = ${product_id}`
+          );
+          key += '::' + name;
+        }
+        result[key] = price;
+      }
+    }
+    return result;
+  } catch(error) {
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
+async function writeTypes(user_id: number, types: ca.TypesUpdate): Promise<ca.ProductTypes> {
+  const client = await connect();
+  try {
+    const result = {} as ca.ProductTypes;
+    for(const type of types) {
+      if(type.kind === 'create') {
+        const { name, color } = type;
+        const { rows: [{ type_id }] } = await client.query<Pick<db.ProductType, 'type_id'>>(
+          SQL`INSERT INTO ProductTypes (user_id, name, color) VALUES (${user_id},${name},${color}) RETURNING type_id`
+        );
+        result[name] = { id: type_id, name, color };
+      } else {
+        const { id, name, color } = type;
+        if(name) {
+          await client.query(
+            SQL`UPDATE ProductTypes SET name = ${name} WHERE type_id = ${id} AND user_id = ${user_id}`
+          );
+        }
+        if(color) {
+          await client.query(
+            SQL`UPDATE ProductTypes SET color = ${color} WHERE type_id = ${id} AND user_id = ${user_id}`
+          );
+        }
+      }
+    }
+    return result;
   } catch(error) {
     throw error;
   } finally {
@@ -286,8 +404,8 @@ async function writePrices(user_id: number, prices: ca.PricesUpdate): Promise<vo
 }
 
 async function userExists(usr: string): Promise<boolean> {
-  const { rows } = await query<{ count: number }>(SQL`SELECT 1 FROM Users WHERE email = ${usr}`);
-  return rows.length === 1;
+  const { rowCount } = await query(SQL`SELECT 1 FROM Users WHERE email = ${usr}`);
+  return rowCount === 1;
 }
 
 async function logInUser(usr: string, psw: string): Promise<Pick<db.User, 'user_id'>> {
@@ -315,8 +433,8 @@ async function createUser(usr: string, psw: string): Promise<void> {
   const client = await connect();
   try {
     const hash = await bcrypt.hash(psw, 10);
-    const { rows } = await query<{ count: number }>(SQL`SELECT 1 FROM Users WHERE email = ${usr}`);
-    if(rows.length === 1) {
+    const { rowCount } = await query<{ count: number }>(SQL`SELECT 1 FROM Users WHERE email = ${usr}`);
+    if(rowCount === 1) {
       throw new DBError(`An account is already registered to ${usr}`);
     }
     await client.query(
@@ -329,9 +447,18 @@ async function createUser(usr: string, psw: string): Promise<void> {
   }
 }
 
+async function getUser(user_id: number): Promise<Pick<db.User, 'email' | 'keys'>> {
+  const { rows: [ user ]} = await query<Pick<db.User, 'email' | 'keys'>>(
+    SQL`SELECT email, keys FROM Users WHERE user_id = ${user_id}`
+  );
+  return user;
+}
+
 export {
   getConInfo, writeRecords,
   getUserProducts, writeProducts,
   getUserPrices, writePrices,
+  getUserTypes, writeTypes,
+  getUser, getUserMetaConventions,
   userExists, logInUser, createUser,
 };

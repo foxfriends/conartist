@@ -107,7 +107,7 @@ export default class App extends Component {
 
   async loadCon() {
     const headers = new Headers();
-    headers.append("Authorization", this.state.user.auth);
+    headers.append("Authorization", `Bearer ${this.state.user.auth}`);
     const { title, products, prices, records } = await JSON.parse(await (await fetch(host`/api/user/${this.state.user.id}/con/${this.state.con.code}/`, { headers })).json());
     this.setState({
       settings: {

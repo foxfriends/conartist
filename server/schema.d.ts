@@ -4,6 +4,7 @@ export namespace db {
     email: string;
     password: string;
     join_date: number;
+    keys: number;
   };
   export type Users = User[];
 

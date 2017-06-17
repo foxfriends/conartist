@@ -1,1 +1,2 @@
-<con-sign-in></con-sign-in>
+<con-sign-in *ngIf="!signedIn" (onSignIn)="signedIn = true"></con-sign-in>
+<con-dashboard *ngIf="signedIn"></con-dashboard>

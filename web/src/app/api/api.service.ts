@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import ca from '../../../../conartist';
+import { APIResult, UserInfo } from '../../../../conartist';
 
 function host([...strings]: TemplateStringsArray, ...params: any[]): string {
   function zip(a: string[], b: string[]) {
@@ -12,17 +12,24 @@ function host([...strings]: TemplateStringsArray, ...params: any[]): string {
   return 'http://localhost:8080' + zip(strings, params.map(_ => `${_}`)).join('');
 }
 
-async function get<T>(url: string): Promise<ca.APIResult<T>> {
-  const result = await fetch(url);
+async function get<T>(url: string): Promise<APIResult<T>> {
+  const headers = new Headers();
+  if(localStorage.getItem('authtoken')) {
+    headers.append('Authorization', `Bearer ${localStorage.getItem('authtoken')}`);
+  }
+  const result = await fetch(url, { headers });
   return result.json();
 }
 
-async function post<T>(url: string, body: object): Promise<ca.APIResult<T>> {
+async function post<T>(url: string, body: object): Promise<APIResult<T>> {
+  const headers = new Headers();
+  headers.append('Accept', 'application/json');
+  headers.append('Content-Type', 'application/json');
+  if(localStorage.getItem('authtoken')) {
+    headers.append('Authorization', `Bearer ${localStorage.getItem('authtoken')}`);
+  }
   const result = await fetch(url, {
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
+    headers,
     method: 'POST',
     body: JSON.stringify(body),
   })
@@ -53,6 +60,15 @@ export default class APIService {
     const result = await post<string>(host`/api/account/new/`, { usr, psw });
     if(result.status === 'Error') {
       throw new Error('Could not create your account');
+    }
+  }
+
+  async getUserInfo(): Promise<UserInfo> {
+    const result = await get<UserInfo>(host`/api/user/`);
+    if(result.status === 'Success') {
+      return result.data;
+    } else {
+      throw new Error('Could not retrieve user info');
     }
   }
 }

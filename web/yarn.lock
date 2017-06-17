@@ -169,6 +169,10 @@
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.0.0.tgz#4c9adabd2d04265769e6d9e847e86cc404dc7dcd"
 
+"@types/jwt-decode@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@types/jwt-decode/-/jwt-decode-2.2.0.tgz#10c4945a1505f771e4c60d26838dd2d39024ae4c"
+
 "@types/mocha@^2.2.41":
   version "2.2.41"
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-2.2.41.tgz#e27cf0817153eb9f2713b2d3f6c68f1e1c3ca608"
@@ -2712,6 +2716,10 @@ jsprim@^1.2.2:
     extsprintf "1.0.2"
     json-schema "0.2.3"
     verror "1.3.6"
+
+jwt-decode@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-2.2.0.tgz#7d86bd56679f58ce6a84704a657dd392bba81a79"
 
 kind-of@^2.0.1:
   version "2.0.1"

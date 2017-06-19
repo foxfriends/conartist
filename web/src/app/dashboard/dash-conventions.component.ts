@@ -37,4 +37,9 @@ export default class DashConventionsComponent {
     // TODO: allow purchasing of keys
     console.log("buying a key!");
   }
+
+  openAddConventions() {
+    // TODO: allow selecting conventions
+    console.log("adding a convention!");
+  }
 }

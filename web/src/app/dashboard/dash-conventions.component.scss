@@ -6,6 +6,10 @@
   }
   &__button {
     margin-left: auto;
+
+    &--fullwidth {
+      width: 100%;
+    }
   }
   &__button-label {
     display: flex;

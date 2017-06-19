@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import DashboardComponent from './dashboard.component';
 import DashConventionsComponent from './dash-conventions.component';
+import DashInventoryComponent from './dash-inventory.component';
 import MaterialModule from '../material.module';
 
 @NgModule({
@@ -11,6 +12,7 @@ import MaterialModule from '../material.module';
   declarations: [
     DashboardComponent,
     DashConventionsComponent,
+    DashInventoryComponent,
   ],
   exports: [DashboardComponent],
 })

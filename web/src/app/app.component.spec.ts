@@ -34,13 +34,17 @@ describe('App Component', function(this: Mocha.ISuiteCallbackContext & Context) 
 
   it('should show the sign in page when the user is not signed in', () => {
     const signIn = this.fixture.debugElement.query(By.css('con-sign-in'));
-    expect(signIn).not.to.be.null;
+    const dashboard = this.fixture.debugElement.query(By.css('con-dashboard'));
+    expect(signIn, 'the sign in component should exist').not.to.be.null;
+    expect(dashboard, 'the dashboard component should not exist').to.be.null;
   });
 
   it('should show the dashboard after a user signs in', () => {
     this.fixture.debugElement.query(By.css('con-sign-in')).triggerEventHandler('signIn', null);
     this.fixture.detectChanges();
+    const signIn = this.fixture.debugElement.query(By.css('con-sign-in'));
     const dashboard = this.fixture.debugElement.query(By.css('con-dashboard'));
-    expect(dashboard).not.to.be.null;
+    expect(signIn, 'the sign in component should not exist').to.be.null;
+    expect(dashboard, 'the dashboard component should exist').not.to.be.null;
   });
 });

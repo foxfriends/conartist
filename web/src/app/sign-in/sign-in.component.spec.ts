@@ -30,8 +30,6 @@ describe('Sign In Component', function(this: Mocha.ISuiteCallbackContext & Conte
     this.component = this.fixture.componentInstance;
     this.fixture.detectChanges();
   });
-  // beforeEach('Install the clock', () => this.clock = lolex.install());
-  // afterEach('Uninstall the clock', () => this.clock.uninstall());
 
   it('should disable the sign in button until all fields are filled', () => {
     const button = this.fixture.debugElement.query(By.css('button')).nativeElement;
@@ -61,7 +59,6 @@ describe('Sign In Component', function(this: Mocha.ISuiteCallbackContext & Conte
 
     this.component.signInForm.patchValue(existingUser);
     this.component.processSignIn();
-    this.fixture.detectChanges();
 
     await wait(0);
 
@@ -74,7 +71,6 @@ describe('Sign In Component', function(this: Mocha.ISuiteCallbackContext & Conte
 
     this.component.signInForm.patchValue(newUser);
     this.component.processSignIn();
-    this.fixture.detectChanges();
 
     await wait(0);
 
@@ -119,37 +115,37 @@ describe('Sign In Component', function(this: Mocha.ISuiteCallbackContext & Conte
   it('should ensure that email and confirm email must match', () => {
     this.component.signUpForm.patchValue({ email: newUser.email });
     this.fixture.detectChanges();
-    expect(this.component.signUpForm.controls.confirmEmail.valid, 'an empty confirm email is invalid').to.be.false;
+    expect(this.component.signUpForm.controls.confirmEmail.valid, 'an empty confirm email should be invalid').to.be.false;
 
     this.component.signUpForm.patchValue({ confirmEmail: newUser.email });
     this.fixture.detectChanges();
-    expect(this.component.signUpForm.controls.confirmEmail.valid, 'a matching confirm email is valid').to.be.true;
+    expect(this.component.signUpForm.controls.confirmEmail.valid, 'a matching confirm email should be valid').to.be.true;
 
     this.component.signUpForm.patchValue({ email: existingUser.email });
     this.fixture.detectChanges();
-    expect(this.component.signUpForm.controls.confirmEmail.valid, 'a non matching confirm email is invalid').to.be.false;
+    expect(this.component.signUpForm.controls.confirmEmail.valid, 'a non matching confirm email should be invalid').to.be.false;
   });
 
   it('should ensure that password and confirm password must match', () => {
     this.component.signUpForm.patchValue({ password: newUser.password });
     this.fixture.detectChanges();
-    expect(this.component.signUpForm.controls.confirmPassword.valid, 'an empty confirm password is invalid').to.be.false;
+    expect(this.component.signUpForm.controls.confirmPassword.valid, 'an empty confirm password should be invalid').to.be.false;
 
     this.component.signUpForm.patchValue({ confirmPassword: newUser.password });
     this.fixture.detectChanges();
-    expect(this.component.signUpForm.controls.confirmPassword.valid, 'a matching confirm password is valid').to.be.true;
+    expect(this.component.signUpForm.controls.confirmPassword.valid, 'a matching confirm password should be valid').to.be.true;
 
     this.component.signUpForm.patchValue({ password: existingUser.password });
     this.fixture.detectChanges();
-    expect(this.component.signUpForm.controls.confirmPassword.valid, 'a non matching confirm password is invalid').to.be.false;
+    expect(this.component.signUpForm.controls.confirmPassword.valid, 'a non matching confirm password should be invalid').to.be.false;
   });
 
   it('should require that the terms and conditions are accepted', () => {
-    expect(this.component.signUpForm.controls.termsAccepted.value, 'it starts unchecked').to.be.false;
-    expect(this.component.signUpForm.controls.termsAccepted.valid, 'it is invalid when unchecked').to.be.false;
+    expect(this.component.signUpForm.controls.termsAccepted.value, 'it should start unchecked').to.be.false;
+    expect(this.component.signUpForm.controls.termsAccepted.valid, 'it should be invalid when unchecked').to.be.false;
     this.component.signUpForm.patchValue({ termsAccepted: true });
     this.fixture.detectChanges();
-    expect(this.component.signUpForm.controls.termsAccepted.valid, 'it is valid when checked').to.be.true;
+    expect(this.component.signUpForm.controls.termsAccepted.valid, 'it should be valid when checked').to.be.true;
   });
 
   it('should enable the sign up button when the sign up form is filled correctly', () => {
@@ -165,7 +161,9 @@ describe('Sign In Component', function(this: Mocha.ISuiteCallbackContext & Conte
     });
     this.fixture.detectChanges();
     clock.next();
-    expect(this.component.signUpForm.valid, 'it is valid when filled in').to.be.true;
+    const button = this.fixture.debugElement.query(By.css('button')).nativeElement;
+    expect(this.component.signUpForm.valid, 'the form should be valid').to.be.true;
+    expect(button.disabled, 'the button should be enabled').to.be.ok;
     clock.uninstall();
   });
 });

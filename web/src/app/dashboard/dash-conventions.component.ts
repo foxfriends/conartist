@@ -12,6 +12,7 @@ import { Convention } from '../../../../conartist';
 })
 export default class DashConventionsComponent {
   @Input() conventions: Convention[];
+  @Input() keys: number;
 
   get currentConventions(): Convention[] {
     return this.conventions.filter(({ start, end }) => start <= new Date() && new Date() <= end);
@@ -30,5 +31,10 @@ export default class DashConventionsComponent {
 
   formatDate(date: Date): string {
     return moment(date).format("MMM D, YYYY");
+  }
+
+  openBuyKeys() {
+    // TODO: allow purchasing of keys
+    console.log("buying a key!");
   }
 }

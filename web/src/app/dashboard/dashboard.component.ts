@@ -18,7 +18,6 @@ export default class DashboardComponent implements OnInit {
 
   async ngOnInit() {
     this.info = await this.api.getUserInfo().toPromise();
-
     this.info.conventions = [
       {
         title: 'Anime North 2017',

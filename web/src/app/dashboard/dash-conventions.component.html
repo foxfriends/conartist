@@ -1,6 +1,7 @@
-<md-card>
+<md-card class="convention">
   <md-card-header>
-    <md-card-title>Conventions</md-card-title>
+    <md-card-title class="convention__title">Conventions</md-card-title>
+    <button md-button class="convention__button" (click)="openBuyKeys()"><span class="convention__button-label"><md-icon>vpn_key</md-icon> {{ keys }}</span></button>
   </md-card-header>
   <md-card-content>
     <md-nav-list>

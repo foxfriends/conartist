@@ -18,7 +18,7 @@ export default class DashboardComponent implements OnInit {
   constructor(@Inject(APIService) private api: APIService) {}
 
   async ngOnInit() {
-    this.info = await this.api.getUserInfo();
+    this.info = await this.api.getUserInfo().toPromise();
 
     this.info.conventions = [
       {

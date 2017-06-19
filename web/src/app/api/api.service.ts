@@ -1,5 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
+import { Http, Response, RequestOptionsArgs, Headers } from '@angular/http';
 import { APIResult, UserInfo } from '../../../../conartist';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
 
 function host([...strings]: TemplateStringsArray, ...params: any[]): string {
   function zip(a: string[], b: string[]) {
@@ -12,63 +16,52 @@ function host([...strings]: TemplateStringsArray, ...params: any[]): string {
   return 'http://localhost:8080' + zip(strings, params.map(_ => `${_}`)).join('');
 }
 
-async function get<T>(url: string): Promise<APIResult<T>> {
-  const headers = new Headers();
-  if(localStorage.getItem('authtoken')) {
-    headers.append('Authorization', `Bearer ${localStorage.getItem('authtoken')}`);
+function handle<T>(response: Response): T {
+  const result = response.json() as APIResult<T>;
+  if(result.status === 'Success') {
+    return result.data;
+  } else {
+    throw new Error(result.error);
   }
-  const result = await fetch(url, { headers });
-  return result.json();
-}
-
-async function post<T>(url: string, body: object): Promise<APIResult<T>> {
-  const headers = new Headers();
-  headers.append('Accept', 'application/json');
-  headers.append('Content-Type', 'application/json');
-  if(localStorage.getItem('authtoken')) {
-    headers.append('Authorization', `Bearer ${localStorage.getItem('authtoken')}`);
-  }
-  const result = await fetch(url, {
-    headers,
-    method: 'POST',
-    body: JSON.stringify(body),
-  })
-  return result.json();
 }
 
 @Injectable()
 export default class APIService {
-  async isUniqueEmail(email: string): Promise<boolean> {
-    const result = await get<boolean>(host`/api/account/exists/${email}`);
-    if(result.status === 'Success') {
-      return !result.data;
-    } else {
-      return false;
+  constructor(@Inject(Http) private http: Http) {}
+
+  private get options(): RequestOptionsArgs {
+    const headers = new Headers();
+    const token = localStorage.getItem('authtoken');
+    if(token) {
+      headers.append('Authorization', `Bearer ${token}`)
     }
+    return { headers };
   }
 
-  async signIn(usr: string, psw: string): Promise<string> {
-    const result = await post<string>(host`/api/auth/`, { usr, psw });
-    if(result.status === 'Success') {
-      return result.data;
-    } else {
-      throw new Error('Incorrect email or password');
-    }
+  isUniqueEmail(email: string): Observable<boolean> {
+    return this.http
+      .get(host`/api/account/exists/${email}`, this.options)
+      .map(_ => handle<boolean>(_))
+      .map(_ => !_);
   }
 
-  async signUp(usr: string, psw: string): Promise<void> {
-    const result = await post<string>(host`/api/account/new/`, { usr, psw });
-    if(result.status === 'Error') {
-      throw new Error('Could not create your account');
-    }
+  signIn(usr: string, psw: string): Observable<string> {
+    return this.http
+      .post(host`/api/auth/`, { usr, psw }, this.options)
+      .map(_ => handle<string>(_))
+      .catch(_ => Observable.throw(new Error('Incorrect username or password')));
   }
 
-  async getUserInfo(): Promise<UserInfo> {
-    const result = await get<UserInfo>(host`/api/user/`);
-    if(result.status === 'Success') {
-      return result.data;
-    } else {
-      throw new Error('Could not retrieve user info');
-    }
+  signUp(usr: string, psw: string): Observable<void> {
+    return this.http
+      .post(host`/api/account/new/`, { usr, psw }, this.options)
+      .map(_ => { handle<void>(_); })
+      .catch(_ => Observable.throw(new Error('Could not create your account')));
+  }
+
+  getUserInfo(): Observable<UserInfo> {
+    return this.http
+      .get(host`/api/user/`, this.options)
+      .map(_ => handle<UserInfo>(_));
   }
 }

@@ -173,6 +173,10 @@
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@types/jwt-decode/-/jwt-decode-2.2.0.tgz#10c4945a1505f771e4c60d26838dd2d39024ae4c"
 
+"@types/lolex@^1.5.31":
+  version "1.5.31"
+  resolved "https://registry.yarnpkg.com/@types/lolex/-/lolex-1.5.31.tgz#b9e054e26e20a987cf2f49399bdebeec8a03c593"
+
 "@types/mocha@^2.2.41":
   version "2.2.41"
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-2.2.41.tgz#e27cf0817153eb9f2713b2d3f6c68f1e1c3ca608"
@@ -195,7 +199,14 @@
   version "2.53.42"
   resolved "https://registry.yarnpkg.com/@types/selenium-webdriver/-/selenium-webdriver-2.53.42.tgz#74cb77fb6052edaff2a8984ddafd88d419f25cac"
 
-"@types/sinon@^2.3.1":
+"@types/sinon-chai@^2.7.28":
+  version "2.7.28"
+  resolved "https://registry.yarnpkg.com/@types/sinon-chai/-/sinon-chai-2.7.28.tgz#c9f775dee3bd27717f3aa94af3c0c9348e8a8c32"
+  dependencies:
+    "@types/chai" "*"
+    "@types/sinon" "*"
+
+"@types/sinon@*", "@types/sinon@^2.3.1":
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/@types/sinon/-/sinon-2.3.1.tgz#5e214093e9e2345219ab0f31bf310c9790ad0712"
 
@@ -796,6 +807,10 @@ chai-as-promised@^7.0.0:
   dependencies:
     check-error "^1.0.2"
     eslint "^3.19.0"
+
+chai-rx@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/chai-rx/-/chai-rx-0.0.4.tgz#4aa5f9ad13bd5007bd9e0d459bc873770e68733e"
 
 chai@^4.0.2:
   version "4.0.2"
@@ -4531,6 +4546,10 @@ silent-error@^1.0.0:
   resolved "https://registry.yarnpkg.com/silent-error/-/silent-error-1.1.0.tgz#2209706f1c850a9f1d10d0d840918b46f26e1bc9"
   dependencies:
     debug "^2.2.0"
+
+sinon-chai@^2.11.0:
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/sinon-chai/-/sinon-chai-2.11.0.tgz#93d90f989fff67ce45767077ffe575dde1faea6d"
 
 sinon@^2.3.4:
   version "2.3.4"

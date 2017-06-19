@@ -1,7 +1,8 @@
 import { Component, Inject, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators, ValidatorFn, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 
-import { Wait, wait } from '../../util';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/toPromise';
 
 import APIService from '../api/api.service';
 import template from './sign-in.component.html';
@@ -18,7 +19,7 @@ export default class SignInComponent {
   error: string | null = null;
   notification: string | null = null;
 
-  @Output() onSignIn = new EventEmitter();
+  @Output() signIn = new EventEmitter<void>();
 
   signInForm: FormGroup;
   signUpForm: FormGroup;
@@ -30,11 +31,11 @@ export default class SignInComponent {
     });
 
     this.signUpForm = new FormGroup({
-      email: new FormControl('', Validators.required, this.mustBeNewEmail()),
+      email: new FormControl('', Validators.required, this.mustBeNewEmail),
       password: new FormControl('', Validators.required),
-      confirmEmail: new FormControl('', [this.requiredForSignUp(), this.mustEqual('email')]),
-      confirmPassword: new FormControl('', [this.requiredForSignUp(), this.mustEqual('password')]),
-      termsAccepted: new FormControl(false, this.mustBeChecked()),
+      confirmEmail: new FormControl('', [Validators.required, this.mustEqual('email')]),
+      confirmPassword: new FormControl('', [Validators.required, this.mustEqual('password')]),
+      termsAccepted: new FormControl(false, this.mustBeChecked),
     });
 
     // one way form sync
@@ -44,6 +45,22 @@ export default class SignInComponent {
     this.signInForm.get('password')!.valueChanges.forEach((password: string) => {
       this.signUpForm.patchValue({ password })
     });
+    this.signUpForm.get('email')!.valueChanges.forEach((email: string) => {
+      const confirm = this.signUpForm.get('confirmEmail')!;
+      if(email !== confirm.value) {
+        confirm.setErrors({ valid: false });
+      } else {
+        confirm.setErrors(null);
+      }
+    });
+    this.signUpForm.get('password')!.valueChanges.forEach((password: string) => {
+      const confirm = this.signUpForm.get('confirmPassword')!;
+      if(password !== confirm.value) {
+        confirm.setErrors({ valid: false });
+      } else {
+        confirm.setErrors(null);
+      }
+    });
   }
 
   toggleSignUp() {
@@ -51,30 +68,14 @@ export default class SignInComponent {
     this.error = null;
   }
 
-  requiredForSignUp(): ValidatorFn {
+  get mustBeNewEmail(): AsyncValidatorFn {
     return (c: FormControl) => {
-      if(this.isSignUpMode) {
-        return Validators.required(c);
-      }
-      return null;
-    };
-  }
-
-  mustBeNewEmail(): AsyncValidatorFn {
-    let batch: Wait<ValidationErrors | null>;
-    return (c: FormControl) => {
-      if(batch) {
-        batch.reset();
-        return batch;
-      }
-      return batch = wait<ValidationErrors | null>(500, async resolve => {
-        if(await this.api.isUniqueEmail(c.value)) {
-          resolve(null)
-        } else {
-          resolve({ valid: false });
-        }
-      });
-    };
+      c.valueChanges
+        .debounceTime(500)
+        .switchMap(email => this.api.isUniqueEmail(email))
+        .subscribe(valid => valid ? c.setErrors(null) : c.setErrors({ valid }));
+      return Observable.of(null);
+    }
   }
 
   mustEqual(field: string): ValidatorFn {
@@ -86,20 +87,15 @@ export default class SignInComponent {
     };
   }
 
-  mustBeChecked(): ValidatorFn {
-    return (c: FormControl) => {
-      if(this.isSignUpMode && !c.value) {
-        return { valid: false };
-      }
-      return null;
-    }
+  mustBeChecked(c: FormControl): ValidationErrors | null {
+    return c.value ? null : { valid: false };
   }
 
   async processSignUp() {
     this.processing = true;
     this.error = null;
     try {
-      await this.api.signUp(this.signUpForm.value.email, this.signUpForm.value.password);
+      await this.api.signUp(this.signUpForm.value.email, this.signUpForm.value.password).toPromise();
       this.isSignUpMode = false;
       this.notification = 'Account created! You can sign in now';
     } catch(error) {
@@ -113,9 +109,9 @@ export default class SignInComponent {
     this.processing = true;
     this.error = null;
     try {
-      const token = await this.api.signIn(this.signInForm.value.email, this.signInForm.value.password);
+      const token = await this.api.signIn(this.signInForm.value.email, this.signInForm.value.password).toPromise();
       localStorage.setItem('authtoken', token);
-      this.onSignIn.emit();
+      this.signIn.emit();
     } catch(error) {
       this.error = error.message;
     } finally {

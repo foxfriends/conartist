@@ -1,30 +1,46 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 import { expect } from 'chai';
 
 import AppComponent from './app.component';
-
-@Component({
-  selector: 'con-sign-in',
-  template: '',
-})
-class SignInComponent {}
+import MaterialModule from './material.module';
 
 type Context = {
+  authtoken: string | null;
   fixture: ComponentFixture<AppComponent>;
   component: AppComponent;
 };
 
 describe('App Component', function(this: Mocha.ISuiteCallbackContext & Context) {
-  beforeEach('Configure the module', () => TestBed.configureTestingModule({ declarations: [ AppComponent, SignInComponent ] }));
+  @Component({ selector: 'con-sign-in', template: '' }) class SignInComponent {}
+  @Component({ selector: 'con-dashboard', template: '' }) class DashboardComponent {}
+
+  before('Store the existing authtoken', () => {
+    this.authtoken = localStorage.getItem('authtoken');
+    localStorage.removeItem('authtoken');
+  });
+  beforeEach('Configure the module', () => TestBed.configureTestingModule({
+    imports: [ MaterialModule ],
+    declarations: [ AppComponent, SignInComponent, DashboardComponent ],
+  }));
   beforeEach('Create the component', () => {
     this.fixture = TestBed.createComponent(AppComponent);
     this.component = this.fixture.componentInstance;
     this.fixture.detectChanges();
   });
+  after('Restore the existing authtoken', () => this.authtoken && localStorage.setItem('authtoken', this.authtoken));
 
-  it('should be created', () => {
-    expect(this.component).not.to.be.undefined;
+  it('should show the sign in page when the user is not signed in', () => {
+    const signIn = this.fixture.debugElement.query(By.css('con-sign-in'));
+    expect(signIn).not.to.be.null;
+  });
+
+  it('should show the dashboard after a user signs in', () => {
+    this.fixture.debugElement.query(By.css('con-sign-in')).triggerEventHandler('signIn', null);
+    this.fixture.detectChanges();
+    const dashboard = this.fixture.debugElement.query(By.css('con-dashboard'));
+    expect(dashboard).not.to.be.null;
   });
 });

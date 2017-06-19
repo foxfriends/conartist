@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import MaterialModule from './material.module';
@@ -20,6 +21,7 @@ import APIService from './api/api.service';
     SignInModule,
     DashboardModule,
     MaterialModule,
+    HttpModule,
   ],
   providers: [ APIService ],
   bootstrap: [ AppComponent ],

@@ -17,6 +17,6 @@
     <con-dashboard *ngSwitchCase="State.Dashboard"></con-dashboard>
     <con-dashboard *ngSwitchCase="State.Inventory"></con-dashboard>
     <con-dashboard *ngSwitchCase="State.Conventions"></con-dashboard>
-    <con-sign-in *ngSwitchCase="State.SignIn" (onSignIn)="state = State.Dashboard"></con-sign-in>
+    <con-sign-in *ngSwitchCase="State.SignIn" (signIn)="state = State.Dashboard"></con-sign-in>
   </div>
 </md-sidenav-container>

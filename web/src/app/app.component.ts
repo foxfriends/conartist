@@ -24,8 +24,12 @@ export default class AppComponent implements OnInit {
     // if the token exists and has not expired, skip sign in page
     const token = localStorage.getItem('authtoken');
     if(!token) { return; }
-    const { exp } = decode(token);
-    if(new Date(exp * 1000) < new Date()) { return; }
-    this.state = State.Dashboard
+    try {
+      const { exp } = decode(token);
+      if(new Date(exp * 1000) < new Date()) { return; }
+      this.state = State.Dashboard
+    } catch(_) {
+      localStorage.removeItem('authtoken');
+    }
   }
 }

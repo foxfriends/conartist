@@ -1,9 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import * as moment from 'moment';
+import { Observable } from 'rxjs/Observable';
 
 import template from './dash-conventions.component.html';
 import styles from './dash-conventions.component.scss';
-import { Convention } from '../../../../conartist';
+import { Conventions } from '../../../../conartist';
+import StorageService from '../storage/storage.service';
 
 @Component({
   selector: 'con-dash-conventions',
@@ -11,17 +13,22 @@ import { Convention } from '../../../../conartist';
   styles: [ styles ],
 })
 export default class DashConventionsComponent {
-  @Input() conventions: Convention[];
-  @Input() keys: number;
+  private conventions: Observable<Conventions>;
+  private keys: Observable<number>;
 
-  get currentConventions(): Convention[] {
-    return this.conventions.filter(({ start, end }) => start <= new Date() && new Date() <= end);
+  constructor(@Inject(StorageService) storage: StorageService) {
+    this.conventions = storage.conventions;
+    this.keys = storage.keys;
   }
-  get upcomingConventions(): Convention[] {
-    return this.conventions.filter(({ start   }) => start > new Date());
+
+  get currentConventions(): Observable<Conventions> {
+    return this.conventions.map(_ => _.filter(({ start, end }) => start <= new Date() && new Date() <= end));
   }
-  get previousConventions(): Convention[] {
-    return this.conventions.filter(({ end }) => end < new Date()).reverse();
+  get upcomingConventions(): Observable<Conventions> {
+    return this.conventions.map(_ => _.filter(({ start }) => start > new Date()));
+  }
+  get previousConventions(): Observable<Conventions> {
+    return this.conventions.map(_ => _.filter(({ end }) => end < new Date()));
   }
 
   viewCon(code: string): void {

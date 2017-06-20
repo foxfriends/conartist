@@ -1,9 +1,10 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http, Response, RequestOptionsArgs, Headers } from '@angular/http';
-import { APIResult, UserInfo } from '../../../../conartist';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
+
+import { APIResult, UserInfo } from '../../../../conartist';
 
 function host([...strings]: TemplateStringsArray, ...params: any[]): string {
   function zip(a: string[], b: string[]) {

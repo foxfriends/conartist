@@ -16,5 +16,5 @@
 
     "lib": [ "DOM", "es2017" ]
   },
-  "compileOnSave": true
+  "compileOnSave": false
 }

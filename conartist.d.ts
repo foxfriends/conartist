@@ -1,4 +1,4 @@
-export type Color = [number, number, number];
+export type Color = [number, number, number] | number[];
 
 export type ProductTypes = {
   [key: string]: {
@@ -65,7 +65,7 @@ export type RecordUpdate = {
 };
 export type RecordsUpdate = RecordUpdate[];
 
-export type Price = [number, number][];
+export type Price = [number, number][] | number[][];
 export type Prices = { [key: string]: Price };
 export type PriceUpdate = {
   type_id: number;
@@ -98,6 +98,7 @@ export type FullConvention = {
 };
 
 export type Convention = MetaConvention | FullConvention;
+export type Conventions = Convention[];
 
 export type APISuccessResult<T> = {
   status: 'Success';
@@ -115,5 +116,5 @@ export type UserInfo = {
   products: Products;
   prices: Prices;
   types: ProductTypes;
-  conventions: Convention[];
+  conventions: Conventions;
 };

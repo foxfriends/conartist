@@ -1,37 +1,50 @@
 <md-card class="convention">
   <md-card-header>
     <md-card-title class="convention__title">Conventions</md-card-title>
-    <button md-button class="convention__button" (click)="openBuyKeys()" mdTooltip="Buy more keys!"><span class="convention__button-label"><md-icon>vpn_key</md-icon> {{ keys }}</span></button>
+    <button md-button class="convention__button" (click)="openBuyKeys()" mdTooltip="Buy more keys!"><span class="convention__button-label"><md-icon>vpn_key</md-icon> {{ keys|async }}</span></button>
   </md-card-header>
   <md-card-content>
-    <md-nav-list>
-      <h3 md-subheader *ngIf="currentConventions.length">Current</h3>
-      <md-list-item class="convention" *ngFor="let convention of currentConventions" (click)="viewCon(convention.code)">
-        {{ convention.title }}
-        <span class="convention__code">{{ convention.code }}</span>
-        <span class="convention__date">
-          {{ formatDate(convention.start) }} &ndash; {{ formatDate(convention.end) }}
-        </span>
-      </md-list-item>
-      <md-divider></md-divider>
-      <h3 md-subheader>Upcoming</h3>
-      <md-list-item class="convention" *ngFor="let convention of upcomingConventions" (click)="viewCon(convention.code)">
-        {{ convention.title }}
-        <span class="convention__code">{{ convention.code }}</span>
-        <span class="convention__date">
-          {{ formatDate(convention.start) }} &ndash; {{ formatDate(convention.end) }}
-        </span>
-      </md-list-item>
-      <md-divider></md-divider>
-      <h3 md-subheader>Previous</h3>
-      <md-list-item class="convention" *ngFor="let convention of previousConventions" (click)="viewCon(convention.code)">
-        {{ convention.title }}
-        <span class="convention__code">{{ convention.code }}</span>
-        <span class="convention__date">
-          {{ formatDate(convention.start) }} &ndash; {{ formatDate(convention.end) }}
-        </span>
-      </md-list-item>
+    <md-nav-list *ngIf="(conventions|async).length; else noCons">
+      <ng-container *ngIf="(currentConventions|async).length">
+        <h3 md-subheader>Current</h3>
+        <md-list-item class="convention" *ngFor="let convention of currentConventions|async" (click)="viewCon(convention.code)">
+          {{ convention.title }}
+          <span class="convention__code">{{ convention.code }}</span>
+          <span class="convention__date">
+            {{ formatDate(convention.start) }} &ndash; {{ formatDate(convention.end) }}
+          </span>
+        </md-list-item>
+      </ng-container>
+      <md-divider *ngIf="(currentConventions|async).length && (upcomingConventions|async).length"></md-divider>
+      <ng-container *ngIf="(upcomingConventions|async).length">
+        <h3 md-subheader>Upcoming</h3>
+        <md-list-item class="convention" *ngFor="let convention of upc" (click)="viewCon(convention.code)">
+          {{ convention.title }}
+          <span class="convention__code">{{ convention.code }}</span>
+          <span class="convention__date">
+            {{ formatDate(convention.start) }} &ndash; {{ formatDate(convention.end) }}
+          </span>
+        </md-list-item>
+      </ng-container>
+      <md-divider *ngIf="(upcomingConventions|async).length && (previousConventions|async).length"></md-divider>
+      <ng-container *ngIf="(previousConventions|async).length">
+        <h3 md-subheader>Previous</h3>
+        <md-list-item class="convention" *ngFor="let convention of previousConventions|async" (click)="viewCon(convention.code)">
+          {{ convention.title }}
+          <span class="convention__code">{{ convention.code }}</span>
+          <span class="convention__date">
+            {{ formatDate(convention.start) }} &ndash; {{ formatDate(convention.end) }}
+          </span>
+        </md-list-item>
+      </ng-container>
     </md-nav-list>
+    <ng-template #noCons>
+      <div class="convention__placeholder">
+        <span class="convention__placeholder-text">You haven't signed up for any conventions</span>
+        <span class="convention__placeholder-text">Add one now!</span>
+        <md-icon class="convention__placeholder-icon">arrow_downward</md-icon>
+      </div>
+    </ng-template>
   </md-card-content>
   <md-card-actions>
     <button md-button class="convention__button--fullwidth convention__button" (click)="openAddConventions()" mdTooltip="Get more conventions" mdTooltipPosition="above"><md-icon>add</md-icon></button>

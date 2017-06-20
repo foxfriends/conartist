@@ -24,4 +24,18 @@
     font-size: 10pt;
     margin-left: auto;
   }
+  &__placeholder {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: 300;
+    color: #999999;
+  }
+  &__placeholder-text {
+    margin: 4px 0;
+  }
+  &__placeholder-icon {
+    margin: 16px 0 0 0;
+  }
 }

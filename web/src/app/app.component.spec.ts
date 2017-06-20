@@ -16,6 +16,7 @@ type Context = {
 describe('App Component', function(this: Mocha.ISuiteCallbackContext & Context) {
   @Component({ selector: 'con-sign-in', template: '' }) class SignInComponent {}
   @Component({ selector: 'con-dashboard', template: '' }) class DashboardComponent {}
+  @Component({ selector: 'con-inventory', template: '' }) class InventoryComponent {}
 
   before('Store the existing authtoken', () => {
     this.authtoken = localStorage.getItem('authtoken');
@@ -23,7 +24,7 @@ describe('App Component', function(this: Mocha.ISuiteCallbackContext & Context) 
   });
   beforeEach('Configure the module', () => TestBed.configureTestingModule({
     imports: [ MaterialModule ],
-    declarations: [ AppComponent, SignInComponent, DashboardComponent ],
+    declarations: [ AppComponent, SignInComponent, DashboardComponent, InventoryComponent ],
   }));
   beforeEach('Create the component', () => {
     this.fixture = TestBed.createComponent(AppComponent);

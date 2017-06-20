@@ -6,17 +6,6 @@ import 'rxjs/add/operator/map';
 
 import { APIResult, UserInfo } from '../../../../conartist';
 
-function host([...strings]: TemplateStringsArray, ...params: any[]): string {
-  function zip(a: string[], b: string[]) {
-    a = [...a];
-    for(let i = b.length - 1; i >= 0; --i) {
-      a.splice(2 * i - 1, 0, b[i]);
-    }
-    return a;
-  }
-  return 'http://localhost:8080' + zip(strings, params.map(_ => `${_}`)).join('');
-}
-
 function handle<T>(response: Response): T {
   const result = response.json() as APIResult<T>;
   if(result.status === 'Success') {
@@ -28,6 +17,8 @@ function handle<T>(response: Response): T {
 
 @Injectable()
 export default class APIService {
+  static readonly hostURL = 'http://localhost:8080';
+
   constructor(@Inject(Http) private http: Http) {}
 
   private get options(): RequestOptionsArgs {
@@ -39,30 +30,41 @@ export default class APIService {
     return { headers };
   }
 
+  static host([...strings]: TemplateStringsArray, ...params: any[]): string {
+    function zip(a: string[], b: string[]) {
+      a = [...a];
+      for(let i = b.length - 1; i >= 0; --i) {
+        a.splice(2 * i - 1, 0, b[i]);
+      }
+      return a;
+    }
+    return APIService.hostURL + zip(strings, params.map(_ => `${_}`)).join('');
+  }
+
   isUniqueEmail(email: string): Observable<boolean> {
     return this.http
-      .get(host`/api/account/exists/${email}`, this.options)
+      .get(APIService.host`/api/account/exists/${email}`, this.options)
       .map(_ => handle<boolean>(_))
       .map(_ => !_);
   }
 
   signIn(usr: string, psw: string): Observable<string> {
     return this.http
-      .post(host`/api/auth/`, { usr, psw }, this.options)
+      .post(APIService.host`/api/auth/`, { usr, psw }, this.options)
       .map(_ => handle<string>(_))
       .catch(_ => Observable.throw(new Error('Incorrect username or password')));
   }
 
   signUp(usr: string, psw: string): Observable<void> {
     return this.http
-      .post(host`/api/account/new/`, { usr, psw }, this.options)
+      .post(APIService.host`/api/account/new/`, { usr, psw }, this.options)
       .map(_ => { handle<void>(_); })
       .catch(_ => Observable.throw(new Error('Could not create your account')));
   }
 
   getUserInfo(): Observable<UserInfo> {
     return this.http
-      .get(host`/api/user/`, this.options)
+      .get(APIService.host`/api/user/`, this.options)
       .map(_ => handle<UserInfo>(_));
   }
 }

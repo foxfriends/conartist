@@ -116,7 +116,7 @@ async function getConInfo(user_id: number, con_code: string): Promise<ca.FullCon
           type: types_by_id[type_id].name,
           id: product_id,
         },
-      }), {} as { [key: number]: { name: string; type: ca.ProductType; id: number; }});
+      }), {} as { [key: number]: { name: string; type: ca.ProductTypeName; id: number; }});
     const products = raw_inventory
       .map(({ product_id, quantity }) => ({ product: products_by_id[product_id], quantity }))
       .reduce((_, { product: { type, name, id }, quantity }) => ({
@@ -206,7 +206,7 @@ async function getUserProducts(user_id: number): Promise<ca.Products> {
       .reduce((_, { type_id, name }) => ({
         ..._,
         [type_id]: name,
-      }), {} as { [key: number]: ca.ProductType });
+      }), {} as { [key: number]: ca.ProductTypeName });
     const products_by_id = raw_products
       .reduce((_, { type_id, name, product_id }) => ({
         ..._,
@@ -215,7 +215,7 @@ async function getUserProducts(user_id: number): Promise<ca.Products> {
           type: types[type_id],
           id: product_id,
         },
-      }), {} as { [key: number]: { name: string; type: ca.ProductType; id: number; }});
+      }), {} as { [key: number]: { name: string; type: ca.ProductTypeName; id: number; }});
     const products = raw_inventory
       .map(({ product_id, quantity }) => ({ product: products_by_id[product_id], quantity }))
       .reduce((_, { product: { type, name, id }, quantity }) => ({
@@ -249,7 +249,7 @@ async function getUserPrices(user_id: number): Promise<ca.Prices> {
       .reduce((_, { type_id, name }) => ({
         ..._,
         [type_id]: name,
-      }), {} as { [key: number]: ca.ProductType });
+      }), {} as { [key: number]: ca.ProductTypeName });
     const products_by_id = raw_products
       .reduce((_, { product_id, type_id, name }) => ({
         ..._,
@@ -257,7 +257,7 @@ async function getUserPrices(user_id: number): Promise<ca.Prices> {
           name,
           type: types[type_id],
         },
-      }), {} as { [key: number]: { name: string; type: ca.ProductType; }});
+      }), {} as { [key: number]: { name: string; type: ca.ProductTypeName; }});
     const prices = raw_prices
       .reduce((_, { type_id, product_id, prices }) => ({
         ..._,

@@ -1,13 +1,14 @@
-export type Color = [number, number, number] | number[];
+export type Color = [number, number, number] | [number, number, number, number] | number[];
 
-export type ProductTypes = {
-  [key: string]: {
-    color: Color;
-    name: string;
-    id: number
-  };
+export type ProductType = {
+  color: Color;
+  name: string;
+  id: number
 };
-export type ProductType = keyof ProductTypes;
+export type ProductTypes = {
+  [key: string]: ProductType;
+};
+export type ProductTypeName = keyof ProductTypes;
 
 export type NewType = {
   kind: 'create';
@@ -29,9 +30,9 @@ export type Product = {
   name: string;
   quantity: number;
   id: number;
-  type: ProductType;
+  type: ProductTypeName;
 };
-export type Products = { [key in ProductType]: Product[]; };
+export type Products = { [key in ProductTypeName]: Product[]; };
 
 export type NewProduct = {
   kind: 'create';
@@ -52,7 +53,7 @@ export type ProductUpdate = NewProduct | ModifyProduct;
 export type ProductsUpdate = ProductUpdate[];
 
 export type Record = {
-  type: ProductType;
+  type: ProductTypeName;
   products: string[];
   price: number;
   time: number;

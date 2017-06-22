@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import StorageService from '../storage/storage.service';
 import template from './inventory.component.html';
 import styles from './inventory.component.scss';
-import { Products, ProductTypes, Prices } from '../../../../conartist';
+import { Products, ProductTypes, ProductTypeName, Prices } from '../../../../conartist';
 
 @Component({
   selector: 'con-inventory',
@@ -22,7 +22,11 @@ export default class InventoryComponent {
   }
 
   get types() {
-    // NOTE: what order should types come in? save an order in the database?
+    // TODO: what order should types come in? save an order in the database?
     return this._types.map(_ => Object.values(_));
+  }
+
+  products(type: ProductTypeName) {
+    return this._products.map(_ => _[type]);
   }
 }

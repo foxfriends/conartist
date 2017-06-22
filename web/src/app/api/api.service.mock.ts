@@ -25,6 +25,7 @@ export const userInfo: UserInfo = {
   },
   types: {
     type: { name: 'type', color: [255, 0, 0], id: 0 },
+    type2: { name: 'type2', color: [0, 255, 0], id: 1 },
   },
   conventions: [
     { title: 'con-name', code: 'abcde', start: new Date(1497920489636), end: new Date(1498179726301) },

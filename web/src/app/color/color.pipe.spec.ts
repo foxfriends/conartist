@@ -23,9 +23,9 @@ describe('Color Pipe', function(this: Mocha.ISuiteCallbackContext & Context) {
     expect(this.pipe.transform([125, 38, 203, 0.8])).to.equal('rgba(#7d26cb,0.8)');
   });
   it('should transform an array of 4 numbers to a RGBA color', () => {
-    expect(this.pipe.transform([255, 255, 255, 0.5])).to.equal('rgba(255,255,255,0.5)');
-    expect(this.pipe.transform([0, 0, 0, 0.2])).to.equal('rgba(0,0,0,0.2)');
-    expect(this.pipe.transform([125, 38, 203, 0.8])).to.equal('rgba(125,38,203,0.8)');
+    expect(this.pipe.transform([255, 255, 255, 0.5], 'rgb')).to.equal('rgba(255,255,255,0.5)');
+    expect(this.pipe.transform([0, 0, 0, 0.2], 'rgb')).to.equal('rgba(0,0,0,0.2)');
+    expect(this.pipe.transform([125, 38, 203, 0.8], 'rgb')).to.equal('rgba(125,38,203,0.8)');
   });
   it('should not output an RGBA color with alpha 1', () => {
     expect(this.pipe.transform([255, 255, 255, 1])).to.equal('#ffffff');

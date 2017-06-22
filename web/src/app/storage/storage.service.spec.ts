@@ -6,18 +6,22 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/toArray';
 
-import APIServiceMock, { newUser, userInfo } from '../api/api.service.mock';
-import { UserInfo } from '../../../../conartist';
+import APIServiceMock, { newUser, userInfo, validConCode, conventions, fullConventions } from '../api/api.service.mock';
+import { UserInfo, Convention } from '../../../../conartist';
 
 type Context = {
   service: StorageService;
   getUserInfo: Spy;
+  loadConvention: Spy;
 };
 
 describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context) {
   before('Spy on the APIService#getUserInfo', () => this.getUserInfo = spy(APIServiceMock, 'getUserInfo'));
-  after('Reset the APIService#getUserInfo spy', () => this.getUserInfo.reset());
+  before('Spy on the APIService#loadConvention', () => this.loadConvention = spy(APIServiceMock, 'loadConvention'));
+  afterEach('Reset the APIService#getUserInfo spy', () => this.getUserInfo.reset());
+  afterEach('Reset the APIService#loadConvention spy', () => this.loadConvention.reset());
   after('Un-spy on the APIService#getUSerInfo', () => this.getUserInfo.restore());
+  after('Un-spy on the APIService#loadConvention', () => this.loadConvention.restore());
 
   beforeEach('Create a new Storage service', () => this.service = new StorageService(APIServiceMock));
 
@@ -59,4 +63,77 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
       });
     })
   );
+
+  describe('#convention(code)', () => {
+    it('should be an Observable', () => expect(this.service.convention(validConCode)).to.be.an.instanceOf(Observable));
+    it('should immediately emit the most recent value on subscribe', done => {
+      this.service.convention(validConCode).take<Convention>(1).subscribe(
+        _ => expect(_, 'the observable should emit the initial value').to.deep.equal(conventions.find(_ => _.code === validConCode)),
+        _ => expect.fail('the observable should not emit an error'),
+        done,
+      );
+    });
+  });
+
+  describe('#updateConvention(convention)', () => {
+    it('should cause #convention(code) to emit an event with the filled convention', done => {
+      const gen = (function*(): any { // typescript why
+        expect(yield).to.deep.equal(conventions.find(_ => _.code === validConCode));
+        expect(yield).to.deep.equal(fullConventions.find(_ => _.code === validConCode));
+        done();
+      })();
+      gen.next();
+      this.service.convention(validConCode).take(2).subscribe(_ => gen.next(_));
+      this.service.updateConvention(fullConventions.find(_ => _.code === validConCode)!);
+    });
+    it('should cause #conventions to emit an event including the filled convention', done => {
+      const gen = (function*(): any { // typescript why
+        expect(yield).to.deep.equal(conventions);
+        expect(yield).to.deep.equal(conventions.map(_ => _.code === validConCode ? fullConventions.find(_ => _.code === validConCode) : _));
+        done();
+      })();
+      gen.next();
+      this.service.conventions.take(2).subscribe(_ => gen.next(_));
+      this.service.updateConvention(fullConventions.find(_ => _.code === validConCode)!);
+    });
+  });
+
+  describe('#fillConvention(code)', () => {
+    it('should call the API when the requested convention is not filled', () => {
+      this.service.fillConvention(validConCode);
+      expect(this.loadConvention, 'the API should only be accessed once').to.have.been.calledOnce;
+      expect(this.loadConvention, 'the right con code should be passed to the API').to.have.been.calledWith(validConCode);
+    });
+    it('should cause #convention(code) to emit an event with the filled convention', done => {
+      const gen = (function*(): any { // typescript why
+        expect(yield).to.deep.equal(conventions.find(_ => _.code === validConCode));
+        expect(yield).to.deep.equal(fullConventions.find(_ => _.code === validConCode));
+        done();
+      })();
+      gen.next();
+      this.service.convention(validConCode).take(2).subscribe(_ => gen.next(_));
+      this.service.fillConvention(validConCode);
+    });
+    it('should cause #conventions to emit an event including the filled convention', done => {
+      const gen = (function*(): any { // typescript why
+        expect(yield).to.deep.equal(conventions);
+        expect(yield).to.deep.equal(conventions.map(_ => _.code === validConCode ? fullConventions.find(_ => _.code === validConCode) : _));
+        done();
+      })();
+      gen.next();
+      this.service.conventions.take(2).subscribe(_ => gen.next(_));
+      this.service.fillConvention(validConCode);
+    });
+    it('should not call the API when the convention is already filled', done => {
+      this.service.fillConvention(validConCode);
+      this.service.convention(validConCode).subscribe(
+        () => {
+          this.service.fillConvention(validConCode);
+          expect(this.loadConvention, 'the API should only be accessed the first time').to.have.been.calledOnce;
+          expect(this.loadConvention, 'the right con code should be passed to the API').to.have.been.calledWith(validConCode);
+          done();
+        }
+      )
+    });
+  });
 })

@@ -142,6 +142,7 @@ async function getConInfo(user_id: number, con_code: string): Promise<ca.FullCon
       products, prices, records, types,
     };
     const con: ca.FullConvention = {
+      type: 'full',
       start: new Date(raw_con.start_date),
       end: new Date(raw_con.end_date),
       title: raw_con.title,
@@ -166,7 +167,12 @@ async function getUserMetaConventions(user_id: number): Promise<ca.MetaConventio
         INNER JOIN Conventions ON Conventions.con_id = User_Conventions.con_id
         WHERE user_id = ${user_id}
       `);
-    return rows.map(({ title, code, start_date, end_date }) => ({ title, code, start: new Date(start_date), end: new Date(end_date) }));
+    return rows.map(({ title, code, start_date, end_date }) => ({
+      type: 'meta' as 'meta', // typescript why
+      title, code,
+      start: new Date(start_date),
+      end: new Date(end_date)
+    }));
   } catch(error) {
     throw error;
   } finally {

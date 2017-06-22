@@ -84,6 +84,7 @@ export type ConventionData = {
 };
 
 export type MetaConvention = {
+  type: 'meta',
   title: string;
   code: string;
   start: Date;
@@ -91,6 +92,7 @@ export type MetaConvention = {
 };
 
 export type FullConvention = {
+  type: 'full',
   title: string;
   code: string;
   start: Date;

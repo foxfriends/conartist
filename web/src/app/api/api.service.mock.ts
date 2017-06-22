@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import APIService from './api.service';
-import { UserInfo, Records, FullConvention } from '../../../../conartist';
+import { Products, Prices, ProductTypes, UserInfo, Records, MetaConvention, FullConvention } from '../../../../conartist';
 
 export const existingUser = {
   email: 'test@conartist.com',
@@ -14,26 +14,19 @@ export const newUser = {
   password: 'new-password',
 };
 
-export const userInfo: UserInfo = {
-  email: existingUser.email,
-  keys: 3,
-  products: {
-    type: [ { name: 'product-name', quantity: 15, id: 0, type: 'type' } ],
-    type2: [ { name: 'product-name2', quantity: 4, id: 1, type: 'type2' } ],
-  },
-  prices: {
-    type: [ [ 3, 10 ], [1, 5] ],
-    type2: [ [ 1, 2] ],
-  },
-  types: {
-    type: { name: 'type', color: [255, 0, 0], id: 0 },
-    type2: { name: 'type2', color: [0, 255, 0], id: 1 },
-  },
-  conventions: [
-    { title: 'con-name0', code: 'xyzab', start: new Date(1407920489636), end: new Date(1408179726301) },
-    { title: 'con-name1', code: 'abcde', start: new Date(1497920489636), end: new Date(1498179726301) },
-    { title: 'con-name2', code: 'fghij', start: new Date(1527920489636), end: new Date(1528179726301) },
-  ],
+export const products: Products = {
+  type: [ { name: 'product-name', quantity: 15, id: 0, type: 'type' } ],
+  type2: [ { name: 'product-name2', quantity: 4, id: 1, type: 'type2' } ],
+};
+
+export const prices: Prices = {
+  type: [ [ 3, 10 ], [1, 5] ],
+  type2: [ [ 1, 2] ],
+};
+
+export const types: ProductTypes = {
+  type: { name: 'type', color: [255, 0, 0], id: 0 },
+  type2: { name: 'type2', color: [0, 255, 0], id: 1 },
 };
 
 export const records: Records = [
@@ -42,15 +35,34 @@ export const records: Records = [
   { type: 'type2', products: [ 'product-name2', 'product-name2' ], price: 4, time: 1497992889636 },
 ];
 
-export const fullConventions: FullConvention[] = userInfo.conventions.map(_ => ({
+export const conventions: MetaConvention[] = [
+  { type: 'meta', title: 'con-name0', code: 'xyzab', start: new Date(1407920489636), end: new Date(1408179726301) },
+  { type: 'meta', title: 'con-name1', code: 'abcde', start: new Date(1497920489636), end: new Date(1498179726301) },
+  { type: 'meta', title: 'con-name2', code: 'fghij', start: new Date(1527920489636), end: new Date(1528179726301) },
+];
+
+export const fullConventions: FullConvention[] = conventions.map(_ => ({
     ..._,
+    type: 'full' as 'full', // typescript why
     data: {
-      products: userInfo.products,
-      prices: userInfo.prices,
-      types: userInfo.types,
+      products,
+      prices,
+      types,
       records
     }
   }));
+
+export const userInfo: UserInfo = {
+  email: existingUser.email,
+  keys: 3,
+  products,
+  prices,
+  types,
+  conventions,
+};
+
+export const invalidConCode = 'xxxxx';
+export const validConCode = 'abcde';
 
 @Injectable()
 class APIServiceMock extends APIService {

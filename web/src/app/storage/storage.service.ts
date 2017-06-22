@@ -1,8 +1,12 @@
 import { Injectable, Inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/publish';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 import APIService from '../api/api.service';
-import { UserInfo } from '../../../../conartist';
+import { UserInfo, Convention } from '../../../../conartist';
 import { userInfo } from '../api/api.service.mock';
 
 type ObservableUserInfo = {
@@ -44,4 +48,22 @@ export default class StorageService implements ObservableUserInfo {
   get prices() { return this._prices; }
   get types() { return this._types; }
   get conventions() { return this._conventions; }
+
+  fillConvention(code: string) {
+    this._conventions
+      // flatMap doing what I want would be nice... but I guess typescript is too hard for rxjs
+      .take(1)
+      .map(_ => _.find(_ => _.code === code)!).filter(_ => !!_)
+      .flatMap(_ => _.type === 'full' ? Observable.of(_) : this.api.loadConvention(_.code))
+      .subscribe(full => this._conventions.next(this._conventions.getValue().map(_ => _.code === code ? full : _)));
+  }
+
+  convention(code: string) {
+    return this._conventions
+      .map(_ => _.find(_ => _.code === code)!).filter(_ => !!_)
+      .distinctUntilChanged();
+  }
+  updateConvention(con: Convention) {
+    this._conventions.next(this._conventions.getValue().map(_ => _.code === con.code ? con : _));
+  }
 }

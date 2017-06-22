@@ -18,7 +18,7 @@
       <md-divider *ngIf="(currentConventions|async).length && (upcomingConventions|async).length"></md-divider>
       <ng-container *ngIf="(upcomingConventions|async).length">
         <h3 md-subheader>Upcoming</h3>
-        <md-list-item class="convention" *ngFor="let convention of upc" (click)="viewCon(convention.code)">
+        <md-list-item class="convention" *ngFor="let convention of upcomingConventions|async" (click)="viewCon(convention.code)">
           {{ convention.title }}
           <span class="convention__code">{{ convention.code }}</span>
           <span class="convention__date">

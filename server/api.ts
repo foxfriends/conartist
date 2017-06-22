@@ -118,7 +118,7 @@ api.get('/user/', assert_authorized(), async (req, res) => {
   }
 });
 
-api.get('/`con/:con_code/', assert_authorized(), async (req, res) => {
+api.get('/con/:con_code/', assert_authorized(), async (req, res) => {
   res.set('Content-Type', 'application/json');
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');
@@ -127,14 +127,14 @@ api.get('/`con/:con_code/', assert_authorized(), async (req, res) => {
     const { con_code } = req.params as Pick<Params, 'con_code'>;
     const { usr: user_id } = req.user as User;
     const data = await db.getConInfo(user_id, con_code);
-    res.send(JSON.stringify({ status: 'Success', data } as ca.APISuccessResult<ca.Convention>));
+    res.send(JSON.stringify({ status: 'Success', data } as ca.APISuccessResult<ca.FullConvention>));
   } catch(error) {
     console.error(error);
     res.send(JSON.stringify({ status: 'Error', error: error.message } as ca.APIErrorResult));
   }
 });
 
-api.put('/`con/:con_code/sales/', assert_authorized(), async (req, res) => {
+api.put('/con/:con_code/sales/', assert_authorized(), async (req, res) => {
   res.set('Content-Type', 'application/json');
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');

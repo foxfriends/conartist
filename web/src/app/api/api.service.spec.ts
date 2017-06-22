@@ -5,8 +5,8 @@ import { expect } from 'chai';
 import { Observable } from 'rxjs/Observable';
 
 import APIService from './api.service';
-import { newUser } from './api.service.mock';
-import { APISuccessResult, APIErrorResult, APIResult, UserInfo } from '../../../../conartist';
+import { newUser, userInfo, fullConventions } from './api.service.mock';
+import { APISuccessResult, APIErrorResult, APIResult } from '../../../../conartist';
 
 type Context = {
   service: APIService;
@@ -160,7 +160,6 @@ describe('API Service', function(this: Mocha.ISuiteCallbackContext & Context) {
   describe('#getUserInfo', () => {
     it('should request [GET /api/user/] with the authorization header', done => {
       const JWT = 'FakeJWT';
-      const prev = localStorage.getItem('authtoken');
       localStorage.setItem('authtoken', JWT);
       this.backend.connections.take(1).subscribe(
         (c: MockConnection) => {
@@ -173,18 +172,9 @@ describe('API Service', function(this: Mocha.ISuiteCallbackContext & Context) {
       );
       this.service.getUserInfo();
       localStorage.removeItem('authtoken');
-      if(prev) { localStorage.setItem('authtoken', prev); }
     });
 
     it('should return an observable of the success result body', done => {
-      const userInfo: UserInfo = {
-        email: newUser.email,
-        keys: 1,
-        products: {},
-        prices: {},
-        types: {},
-        conventions: [],
-      };
       this.backend.connections.take(1).subscribe(respondWith(new MockAPISuccessResult(userInfo)));
       const result = this.service.getUserInfo();
       expect(result).to.be.an.instanceOf(Observable);
@@ -192,6 +182,49 @@ describe('API Service', function(this: Mocha.ISuiteCallbackContext & Context) {
         _ => expect(_, 'the UserInfo should be emitted').to.deep.equal(userInfo),
         _ => expect.fail('the observable should not emit an error'),
         done,
+      );
+    });
+  });
+
+  describe('#loadConvention', () => {
+    it('should request [GET /api/con/:code] with the authorization header', done => {
+      const JWT = 'FakeJWT';
+      const conCode = 'abcde';
+      localStorage.setItem('authtoken', JWT);
+      this.backend.connections.take(1).subscribe(
+        (c: MockConnection) => {
+          expect(c.request.method).to.equal(RequestMethod.Get);
+          expect(c.request.url).to.equal(APIService.host`/api/con/${conCode}/`);
+          expect(c.request.headers.get('Authorization')).to.equal(`Bearer ${JWT}`);
+        },
+        void 0,
+        done,
+      );
+      this.service.loadConvention(conCode);
+      localStorage.removeItem('authtoken');
+    });
+
+    it('should return an observable of the success result body', done => {
+      this.backend.connections.take(1).subscribe(respondWith(new MockAPISuccessResult(fullConventions[0])));
+      const result = this.service.loadConvention('');
+      expect(result).to.be.an.instanceOf(Observable);
+      result.subscribe(
+        _ => expect(_, 'the UserInfo should be emitted').to.deep.equal(fullConventions[0]),
+        _ => expect.fail('the observable should not emit an error'),
+        done,
+      );
+    });
+
+    it('should produce the correct error message on an error result', done => {
+      const conCode = 'abcde';
+      this.backend.connections.take(1).subscribe(respondWith(new MockAPIErrorResult));
+      this.service.loadConvention(conCode).subscribe(
+        () => expect.fail('the observable should emit an error'),
+        _ => {
+          expect(_, 'the observable should produce an Error object').to.be.an.instanceOf(Error);
+          expect(_.message, 'the error should have the right message').to.deep.equal(`Fetching convention for ${conCode} data failed`);
+          done();
+        },
       );
     });
   });

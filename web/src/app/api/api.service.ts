@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
-import { APIResult, UserInfo } from '../../../../conartist';
+import { APIResult, UserInfo, FullConvention } from '../../../../conartist';
 
 function handle<T>(response: Response): T {
   const result = response.json() as APIResult<T>;
@@ -66,5 +66,12 @@ export default class APIService {
     return this.http
       .get(APIService.host`/api/user/`, this.options)
       .map(_ => handle<UserInfo>(_));
+  }
+
+  loadConvention(code: string): Observable<FullConvention> {
+    return this.http
+      .get(APIService.host`/api/con/${code}/`, this.options)
+      .map(_ => handle<FullConvention>(_))
+      .catch(_ => Observable.throw(new Error(`Fetching convention for ${code} data failed`)));
   }
 }

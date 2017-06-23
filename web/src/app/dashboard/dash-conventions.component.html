@@ -11,7 +11,7 @@
           {{ convention.title }}
           <span class="convention__code">{{ convention.code }}</span>
           <span class="convention__date">
-            {{ formatDate(convention.start) }} &ndash; {{ formatDate(convention.end) }}
+            {{ convention.start | date }} &ndash; {{ convention.end | date }}
           </span>
         </md-list-item>
       </ng-container>
@@ -22,7 +22,7 @@
           {{ convention.title }}
           <span class="convention__code">{{ convention.code }}</span>
           <span class="convention__date">
-            {{ formatDate(convention.start) }} &ndash; {{ formatDate(convention.end) }}
+            {{ convention.start | date }} &ndash; {{ convention.end | date }}
           </span>
         </md-list-item>
       </ng-container>
@@ -33,7 +33,7 @@
           {{ convention.title }}
           <span class="convention__code">{{ convention.code }}</span>
           <span class="convention__date">
-            {{ formatDate(convention.start) }} &ndash; {{ formatDate(convention.end) }}
+            {{ convention.start | date }} &ndash; {{ convention.end | date }}
           </span>
         </md-list-item>
       </ng-container>

@@ -1,4 +1,4 @@
-<md-tab-group (selectChange)="changeType($event.tab)">
+<md-tab-group>
   <md-tab *ngFor="let type of types|async" [label]="type.name">
     <header class="inventory__header" [style.backgroundColor]="type.color|color">
       <h1 class="inventory__title">{{ type.name }}</h1>

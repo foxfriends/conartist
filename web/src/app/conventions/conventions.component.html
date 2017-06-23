@@ -1,0 +1,14 @@
+<md-tab-group [(selectedIndex)]="currentTab">
+  <md-tab label="Conventions">
+    <header class="conventions__header">
+      <h1 class="conventions__title">Conventions</h1>
+    </header>
+    <con-con-list [opened]="openConventions" (conClick)="openConvention($event)"></con-con-list>
+  </md-tab>
+  <md-tab *ngFor="let convention of openConventions" [label]="convention.title">
+    <header class="conventions__header">
+      <h1 class="conventions__title">{{ convention.title }}</h1>
+    </header>
+    <con-record-list [data]="convention.data"></con-record-list>
+  </md-tab>
+</md-tab-group>

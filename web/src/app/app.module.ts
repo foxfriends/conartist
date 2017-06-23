@@ -7,6 +7,7 @@ import MaterialModule from './material.module';
 import SignInModule from './sign-in/sign-in.module';
 import DashboardModule from './dashboard/dashboard.module';
 import InventoryModule from './inventory/inventory.module';
+import ConventionsModule from './conventions/conventions.module';
 
 import AppComponent from './app.component';
 
@@ -22,6 +23,7 @@ import StorageService from './storage/storage.service';
     SignInModule,
     DashboardModule,
     InventoryModule,
+    ConventionsModule,
   ],
   declarations: [ AppComponent ],
   providers: [ APIService, StorageService ],

@@ -1,5 +1,4 @@
 import { Component, Inject } from '@angular/core';
-import * as moment from 'moment';
 import { Observable } from 'rxjs/Observable';
 
 import template from './dash-conventions.component.html';
@@ -34,10 +33,6 @@ export default class DashConventionsComponent {
   viewCon(code: string): void {
     // TODO: Navigate to convention details
     console.log(code);
-  }
-
-  formatDate(date: Date): string {
-    return moment(date).format("MMM D, YYYY");
   }
 
   openBuyKeys() {

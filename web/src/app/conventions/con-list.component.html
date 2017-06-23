@@ -1,0 +1,8 @@
+<!-- TODO: find an md-data-table -->
+<md-nav-list>
+  <md-list-item *ngFor="let convention of conventions|async" (click)="conClick.emit(convention)" class="convention-list__row" [ngClass]="{'convention-list__row--open': opened.includes(convention)}">
+    <span class="convention-list__column convention-list__title">{{ convention.title }}</span>
+    <span class="convention-list__column convention-list__code">{{ convention.code }}</span>
+    <span class="convention-list__column convention-list__date">{{ convention.start | date }} &ndash; {{ convention.end | date }}</span>
+  </md-list-item>
+</md-nav-list>

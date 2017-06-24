@@ -32,13 +32,13 @@ export default class StorageService implements ObservableUserInfo {
     this._conventions = new BehaviorSubject([]);
     this.api.getUserInfo().subscribe(_ => {
       {
-        const _ = userInfo;
+        const _ = { ...userInfo, conventions: fullConventions };
         this._email.next(_.email);
         this._keys.next(_.keys);
         this._products.next(_.products);
         this._prices.next(_.prices);
         this._types.next(_.types);
-        this._conventions.next(fullConventions);
+        this._conventions.next(_.conventions);
       }
     });
   }

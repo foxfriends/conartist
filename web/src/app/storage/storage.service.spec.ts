@@ -34,10 +34,6 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
     ['conventions', [ ...userInfo.conventions, { name: 'convention-2', code: 'defgh', start: new Date(1497574926301), end: new Date(1497834126301) } ]],
   ];
 
-  describe.skip('Sanity check', () => {
-    it('should test all members', () => expect(tests.map((([_]) => _))).to.have.members(Object.keys(userInfo)));
-  });
-
   it('should request the initial user info on start', () => {
     expect(APIServiceMock.getUserInfo).to.have.been.calledOnce;
   });

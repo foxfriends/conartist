@@ -19,3 +19,5 @@ import MaterialModule from '../material.module';
   exports: [ DashboardComponent ],
 })
 export default class DashboardModule { }
+
+export { default as DashboardComponent } from './dashboard.component';

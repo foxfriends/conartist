@@ -3,6 +3,45 @@
     <header class="inventory__header" [style.backgroundColor]="type.color|color">
       <h1 class="inventory__title">{{ type.name }}</h1>
     </header>
-    <con-product-list [products]="products(type.name)|async"></con-product-list>
+    <div class="inventory__card-grid">
+      <md-card class="inventory__card">
+        <md-card-header>
+          <md-card-title>Inventory</md-card-title>
+        </md-card-header>
+        <md-card-content>
+          <con-product-list [products]="products(type.name)|async"></con-product-list>
+        </md-card-content>
+        <md-card-actions>
+          <button md-raised-button class="inventory__button" mdTooltip="Download">
+            <md-icon>file_download</md-icon>
+          </button>
+          <button md-raised-button class="inventory__button" mdTooltip="Upload">
+            <md-icon>file_upload</md-icon>
+          </button>
+          <button md-raised-button class="inventory__button" mdTooltip="Edit">
+            <md-icon>edit</md-icon>
+          </button>
+        </md-card-actions>
+      </md-card>
+      <md-card class="inventory__card">
+        <md-card-header>
+          <md-card-title>Prices</md-card-title>
+        </md-card-header>
+        <md-card-content>
+          <con-prices-list [prices]="prices(type.name)|async"></con-prices-list>
+        </md-card-content>
+        <md-card-actions>
+          <button md-raised-button class="inventory__button" mdTooltip="Download">
+            <md-icon>file_download</md-icon>
+          </button>
+          <button md-raised-button class="inventory__button" mdTooltip="Upload">
+            <md-icon>file_upload</md-icon>
+          </button>
+          <button md-raised-button class="inventory__button" mdTooltip="Edit">
+            <md-icon>edit</md-icon>
+          </button>
+        </md-card-actions>
+      </md-card>
+    </div>
   </md-tab>
 </md-tab-group>

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MdSidenav } from '@angular/material';
 import * as decode from 'jwt-decode';
 
+import APIService from './api/api.service';
 import template from './app.component.html';
 import styles from './app.component.scss';
 
@@ -20,15 +21,21 @@ export default class AppComponent implements OnInit {
   state = State.SignIn;
   sidenav: MdSidenav;
 
-  ngOnInit() {
+  constructor(@Inject(APIService) private api: APIService) {}
+
+  async ngOnInit() {
     // if the token exists and has not expired, skip sign in page
     const token = localStorage.getItem('authtoken');
     if(!token) { return; }
     try {
       const { exp } = decode(token);
       if(new Date(exp * 1000) < new Date()) { return; }
-      this.state = State.Dashboard
+      this.state = State.Dashboard;
+
+      const newToken = await this.api.reauthorize().toPromise();
+      localStorage.setItem('authtoken', newToken);
     } catch(_) {
+      this.state = State.SignIn;
       localStorage.removeItem('authtoken');
     }
   }

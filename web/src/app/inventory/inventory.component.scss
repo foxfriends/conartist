@@ -8,4 +8,19 @@
     font-weight: bold;
     padding: 16px;
   }
+  &__button {
+    &--right {
+      margin-left: auto;
+    }
+  }
+  &__card-grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  &__card {
+    flex-grow: 1;
+    margin: 16px;
+  }
 }

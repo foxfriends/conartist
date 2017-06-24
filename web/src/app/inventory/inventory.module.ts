@@ -5,10 +5,13 @@ import MaterialModule from '../material.module';
 import ColorModule from '../color/color.module';
 import InventoryComponent from './inventory.component';
 import ProductListComponent from './product-list.component';
+import PricesListComponent from './prices-list.component';
 
 @NgModule({
-  imports: [ MaterialModule, CommonModule, ColorModule ],
-  declarations: [ InventoryComponent, ProductListComponent ],
+  imports: [ CommonModule, MaterialModule, ColorModule ],
+  declarations: [ InventoryComponent, ProductListComponent, PricesListComponent ],
   exports: [ InventoryComponent ],
 })
 export default class InventoryModule { }
+
+export { default as InventoryComponent } from './inventory.component';

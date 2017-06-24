@@ -15,24 +15,28 @@ export const newUser = {
 };
 
 export const products: Products = {
-  type: [ { name: 'product-name', quantity: 15, id: 0, type: 'type' } ],
-  type2: [ { name: 'product-name2', quantity: 4, id: 1, type: 'type2' } ],
+  type: [
+    { name: 'product-name', quantity: 15, id: 0, type: 'type', discontinued: false } ,
+    { name: 'product-name2', quantity: 8, id: 1, type: 'type', discontinued: false } ,
+  ],
+  type2: [ { name: 'product-name3', quantity: 4, id: 2, type: 'type2', discontinued: false } ],
 };
 
 export const prices: Prices = {
-  type: [ [ 3, 10 ], [1, 5] ],
-  type2: [ [ 1, 2] ],
+  'type': [ [ 3, 10 ], [1, 5] ],
+  'type::product-name2': [ [ 1, 7 ] ],
+  'type2': [ [ 1, 2] ],
 };
 
 export const types: ProductTypes = {
-  type: { name: 'type', color: [255, 0, 0], id: 0 },
-  type2: { name: 'type2', color: [0, 255, 0], id: 1 },
+  type: { name: 'type', color: [255, 0, 0], id: 0, discontinued: false },
+  type2: { name: 'type2', color: [0, 255, 0], id: 1, discontinued: false },
 };
 
 export const records: Records = [
   { type: 'type', products: [ 'product-name' ], price: 5, time: 1497952889636 },
-  { type: 'type', products: [ 'product-name', 'product-name' ], price: 10, time: 1497972889636 },
-  { type: 'type2', products: [ 'product-name2', 'product-name2' ], price: 4, time: 1497992889636 },
+  { type: 'type', products: [ 'product-name', 'product-name2' ], price: 12, time: 1497972889636 },
+  { type: 'type2', products: [ 'product-name3', 'product-name3' ], price: 4, time: 1497992889636 },
 ];
 
 export const conventions: MetaConvention[] = [
@@ -80,6 +84,10 @@ class APIServiceMock extends APIService {
     } else {
       return Observable.throw(new Error('Incorrect username or password'));
     }
+  }
+
+  reauthorize(): Observable<string> {
+    return Observable.of('FakeJWT');
   }
 
   signUp(usr: string, _psw: string): Observable<undefined> {

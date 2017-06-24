@@ -13,7 +13,7 @@ const JWT = require("jsonwebtoken");
 const eJWT = require("express-jwt");
 const db = require("./database");
 const api = express();
-const JWTSecret = 'FAKE_SECRET_KEY';
+const JWTSecret = 'FAKE_SECRET_KEY' + Date.now();
 function assert_authorized() {
     return eJWT({ secret: JWTSecret });
 }
@@ -63,7 +63,7 @@ api.post('/auth/', (req, res) => __awaiter(this, void 0, void 0, function* () {
         res.send(JSON.stringify({ status: 'Error', error: error.message }));
     }
 }));
-api.post('/auth/:user_id', assert_authorized(), (req, res) => __awaiter(this, void 0, void 0, function* () {
+api.get('/auth/', assert_authorized(), (req, res) => __awaiter(this, void 0, void 0, function* () {
     res.set('Content-Type', 'application/json');
     res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.set('Pragma', 'no-cache');
@@ -98,7 +98,7 @@ api.get('/user/', assert_authorized(), (req, res) => __awaiter(this, void 0, voi
         res.send(JSON.stringify({ status: 'Error', error: error.message }));
     }
 }));
-api.get('/`con/:con_code/', assert_authorized(), (req, res) => __awaiter(this, void 0, void 0, function* () {
+api.get('/con/:con_code/', assert_authorized(), (req, res) => __awaiter(this, void 0, void 0, function* () {
     res.set('Content-Type', 'application/json');
     res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.set('Pragma', 'no-cache');
@@ -114,7 +114,7 @@ api.get('/`con/:con_code/', assert_authorized(), (req, res) => __awaiter(this, v
         res.send(JSON.stringify({ status: 'Error', error: error.message }));
     }
 }));
-api.put('/`con/:con_code/sales/', assert_authorized(), (req, res) => __awaiter(this, void 0, void 0, function* () {
+api.put('/con/:con_code/sales/', assert_authorized(), (req, res) => __awaiter(this, void 0, void 0, function* () {
     res.set('Content-Type', 'application/json');
     res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.set('Pragma', 'no-cache');

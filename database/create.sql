@@ -46,18 +46,20 @@ CREATE TABLE User_Conventions (
 CREATE INDEX index_User_Conventions ON User_Conventions (user_id);
 
 CREATE TABLE ProductTypes (
-  type_id SERIAL PRIMARY KEY,
-  user_id INT NOT NULL REFERENCES Users (user_id) ON DELETE CASCADE,
-  name    VARCHAR(512) NOT NULL,
-  color   INT[3]
+  type_id       SERIAL PRIMARY KEY,
+  user_id       INT NOT NULL REFERENCES Users (user_id) ON DELETE CASCADE,
+  name          VARCHAR(512) NOT NULL,
+  color         INT[3],
+  discontinued  BOOLEAN NOT NULL DEFAULT (FALSE)
 );
 CREATE INDEX index_ProductTypes ON ProductTypes (user_id);
 
 CREATE TABLE Products (
-  product_id  SERIAL PRIMARY KEY,
-  user_id     INT NOT NULL REFERENCES Users         (user_id) ON DELETE CASCADE,
-  type_id     INT NOT NULL REFERENCES ProductTypes  (type_id) ON DELETE CASCADE,
-  name        VARCHAR(512) NOT NULL
+  product_id    SERIAL PRIMARY KEY,
+  type_id       INT NOT NULL REFERENCES ProductTypes  (type_id)   ON DELETE CASCADE,
+  user_id       INT NOT NULL REFERENCES Users         (user_id)   ON DELETE CASCADE,
+  name          VARCHAR(512) NOT NULL,
+  discontinued  BOOLEAN NOT NULL DEFAULT (FALSE)
 );
 CREATE INDEX index_Products ON Products (user_id, type_id);
 

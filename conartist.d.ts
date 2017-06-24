@@ -3,7 +3,8 @@ export type Color = [number, number, number] | [number, number, number, number] 
 export type ProductType = {
   color: Color;
   name: string;
-  id: number
+  id: number;
+  discontinued: boolean;
 };
 export type ProductTypes = {
   [key: string]: ProductType;
@@ -21,9 +22,15 @@ export type ModifyType = {
   id: number;
   color?: Color;
   name?: string;
+  discontinued?: boolean;
 };
 
-export type TypeUpdate = NewType | ModifyType;
+export type DiscontinueType = {
+  kind: 'discontinue';
+  id: number;
+}
+
+export type TypeUpdate = NewType | ModifyType | DiscontinueType;
 export type TypesUpdate = TypeUpdate[];
 
 export type Product = {
@@ -31,6 +38,7 @@ export type Product = {
   quantity: number;
   id: number;
   type: ProductTypeName;
+  discontinued: boolean;
 };
 export type Products = { [key in ProductTypeName]: Product[]; };
 
@@ -44,12 +52,17 @@ export type NewProduct = {
 export type ModifyProduct = {
   kind: 'modify';
   id: number;
-  type?: number;
   name?: string;
   quantity?: number;
+  discontinued?: boolean;
 };
 
-export type ProductUpdate = NewProduct | ModifyProduct;
+export type DiscontinueProduct = {
+  kind: 'discontinue';
+  id: number;
+};
+
+export type ProductUpdate = NewProduct | ModifyProduct | DiscontinueProduct;
 export type ProductsUpdate = ProductUpdate[];
 
 export type Record = {
@@ -66,7 +79,7 @@ export type RecordUpdate = {
 };
 export type RecordsUpdate = RecordUpdate[];
 
-export type Price = [number, number][] | number[][];
+export type Price = number[][];
 export type Prices = { [key: string]: Price };
 export type PriceUpdate = {
   type_id: number;

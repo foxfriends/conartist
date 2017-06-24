@@ -50,9 +50,16 @@ export default class APIService {
 
   signIn(usr: string, psw: string): Observable<string> {
     return this.http
-      .post(APIService.host`/api/auth/`, { usr, psw }, this.options)
+      .post(APIService.host`/api/auth/`, { usr, psw })
       .map(_ => handle<string>(_))
       .catch(_ => Observable.throw(new Error('Incorrect username or password')));
+  }
+
+  reauthorize(): Observable<string> {
+    return this.http
+      .get(APIService.host`/api/auth/`, this.options)
+      .map(_ => handle<string>(_))
+      .catch(_ => Observable.throw(new Error('Invalid auth token')));
   }
 
   signUp(usr: string, psw: string): Observable<void> {

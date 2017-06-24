@@ -52,26 +52,27 @@ function getConInfo(user_id, con_code) {
         const client = yield connect();
         try {
             const [raw_con, { user_con_id }] = yield getCon(user_id, con_code, client);
-            const { rows: raw_types } = yield client.query(sql_template_strings_1.default `SELECT type_id, name, color FROM ProductTypes WHERE user_id = ${user_id}`);
-            const { rows: raw_products } = yield client.query(sql_template_strings_1.default `SELECT product_id, type_id, name FROM Products WHERE user_id = ${user_id}`);
+            const { rows: raw_types } = yield client.query(sql_template_strings_1.default `SELECT type_id, name, color, discontinued FROM ProductTypes WHERE user_id = ${user_id}`);
+            const { rows: raw_products } = yield client.query(sql_template_strings_1.default `SELECT product_id, type_id, name, discontinued FROM Products WHERE user_id = ${user_id}`);
             const { rows: raw_inventory } = yield client.query(sql_template_strings_1.default `SELECT product_id, quantity FROM Inventory WHERE user_con_id = ${user_con_id}`);
             const { rows: raw_prices } = yield client.query(sql_template_strings_1.default `SELECT type_id, product_id, prices FROM Prices WHERE user_con_id = ${user_con_id}`);
             const { rows: raw_records } = yield client.query(sql_template_strings_1.default `SELECT products, price, sale_time FROM Records WHERE user_con_id = ${user_con_id}`);
             const types = raw_types
-                .reduce((_, { type_id, name, color }) => (Object.assign({}, _, { [name]: { name, color, id: type_id } })), {});
+                .reduce((_, { type_id, name, color, discontinued }) => (Object.assign({}, _, { [name]: { name, color, id: type_id, discontinued } })), {});
             const types_by_id = raw_types
                 .reduce((_, { type_id, name, color }) => (Object.assign({}, _, { [type_id]: { name, color, id: type_id } })), {});
             const products_by_id = raw_products
-                .reduce((_, { product_id, type_id, name }) => (Object.assign({}, _, { [product_id]: {
+                .reduce((_, { product_id, type_id, name, discontinued }) => (Object.assign({}, _, { [product_id]: {
                     name,
                     type: types_by_id[type_id].name,
                     id: product_id,
+                    discontinued,
                 } })), {});
             const products = raw_inventory
                 .map(({ product_id, quantity }) => ({ product: products_by_id[product_id], quantity }))
-                .reduce((_, { product: { type, name, id }, quantity }) => (Object.assign({}, _, { [type]: [
+                .reduce((_, { product: { type, name, id, discontinued }, quantity }) => (Object.assign({}, _, { [type]: [
                     ...(_[type] || []),
-                    { name, quantity, id, type },
+                    { name, quantity, id, type, discontinued },
                 ] })), {});
             const prices = raw_prices
                 .reduce((_, { type_id, product_id, prices }) => (Object.assign({}, _, { [`${types_by_id[type_id].name}${product_id ? `::${products_by_id[product_id].name}` : ''}`]: prices })), {});
@@ -86,6 +87,7 @@ function getConInfo(user_id, con_code) {
                 products, prices, records, types,
             };
             const con = {
+                type: 'full',
                 start: new Date(raw_con.start_date),
                 end: new Date(raw_con.end_date),
                 title: raw_con.title,
@@ -113,7 +115,12 @@ function getUserMetaConventions(user_id) {
         INNER JOIN Conventions ON Conventions.con_id = User_Conventions.con_id
         WHERE user_id = ${user_id}
       `);
-            return rows.map(({ title, code, start_date, end_date }) => ({ title, code, start: new Date(start_date), end: new Date(end_date) }));
+            return rows.map(({ title, code, start_date, end_date }) => ({
+                type: 'meta',
+                title, code,
+                start: new Date(start_date),
+                end: new Date(end_date)
+            }));
         }
         catch (error) {
             throw error;
@@ -143,26 +150,27 @@ function writeRecords(user_id, con_code, records) {
     });
 }
 exports.writeRecords = writeRecords;
-function getUserProducts(user_id) {
+function getUserProducts(user_id, includeDiscontinued = false) {
     return __awaiter(this, void 0, void 0, function* () {
         const client = yield connect();
         try {
             const { rows: raw_types } = yield client.query(sql_template_strings_1.default `SELECT type_id, name FROM ProductTypes WHERE user_id = ${user_id}`);
-            const { rows: raw_products } = yield client.query(sql_template_strings_1.default `SELECT product_id, type_id, name FROM Products WHERE user_id = ${user_id}`);
+            const { rows: raw_products } = yield client.query(sql_template_strings_1.default `SELECT product_id, type_id, name, discontinued FROM Products WHERE user_id = ${user_id}`.append(includeDiscontinued ? sql_template_strings_1.default `` : sql_template_strings_1.default `AND discontinued = FALSE`));
             const { rows: raw_inventory } = yield client.query(sql_template_strings_1.default `SELECT quantity, product_id FROM Inventory WHERE user_id = ${user_id}`);
             const types = raw_types
                 .reduce((_, { type_id, name }) => (Object.assign({}, _, { [type_id]: name })), {});
             const products_by_id = raw_products
-                .reduce((_, { type_id, name, product_id }) => (Object.assign({}, _, { [product_id]: {
+                .reduce((_, { type_id, name, product_id, discontinued }) => (Object.assign({}, _, { [product_id]: {
                     name,
                     type: types[type_id],
                     id: product_id,
+                    discontinued,
                 } })), {});
             const products = raw_inventory
                 .map(({ product_id, quantity }) => ({ product: products_by_id[product_id], quantity }))
-                .reduce((_, { product: { type, name, id }, quantity }) => (Object.assign({}, _, { [type]: [
+                .reduce((_, { product: { type, name, id, discontinued }, quantity }) => (Object.assign({}, _, { [type]: [
                     ...(_[type] || []),
-                    { name, quantity, id, type },
+                    { name, quantity, id, type, discontinued },
                 ] })), {});
             return products;
         }
@@ -179,18 +187,18 @@ function getUserPrices(user_id) {
     return __awaiter(this, void 0, void 0, function* () {
         const client = yield connect();
         try {
-            const { rows: raw_types } = yield client.query(sql_template_strings_1.default `SELECT type_id, name FROM ProductTypes WHERE user_id = ${user_id}`);
-            const { rows: raw_products } = yield client.query(sql_template_strings_1.default `SELECT product_id, type_id, name FROM Products WHERE user_id = ${user_id}`);
+            const { rows: raw_types } = yield client.query(sql_template_strings_1.default `SELECT type_id, name, discontinued FROM ProductTypes WHERE user_id = ${user_id}`);
+            const { rows: raw_products } = yield client.query(sql_template_strings_1.default `SELECT product_id, type_id, name, discontinued FROM Products WHERE user_id = ${user_id}`);
             const { rows: raw_prices } = yield client.query(sql_template_strings_1.default `SELECT type_id, product_id, prices FROM Prices WHERE user_id = ${user_id}`);
             const types = raw_types
-                .reduce((_, { type_id, name }) => (Object.assign({}, _, { [type_id]: name })), {});
-            const products_by_id = raw_products
-                .reduce((_, { product_id, type_id, name }) => (Object.assign({}, _, { [product_id]: {
+                .reduce((_, { type_id, name, discontinued }) => discontinued ? _ : Object.assign({}, _, { [type_id]: name }), {});
+            const products = raw_products
+                .reduce((_, { product_id, type_id, name, discontinued }) => discontinued ? _ : Object.assign({}, _, { [product_id]: {
                     name,
                     type: types[type_id],
-                } })), {});
+                } }), {});
             const prices = raw_prices
-                .reduce((_, { type_id, product_id, prices }) => (Object.assign({}, _, { [`${types[type_id]}${product_id ? `::${products_by_id[product_id].name}` : ''}`]: prices })), {});
+                .reduce((_, { type_id, product_id, prices }) => !types[type_id] || product_id === null || !products[product_id] ? _ : Object.assign({}, _, { [`${types[type_id]}${product_id ? `::${products[product_id].name}` : ''}`]: prices }), {});
             return prices;
         }
         catch (error) {
@@ -202,13 +210,13 @@ function getUserPrices(user_id) {
     });
 }
 exports.getUserPrices = getUserPrices;
-function getUserTypes(user_id) {
+function getUserTypes(user_id, includeDiscontinued = false) {
     return __awaiter(this, void 0, void 0, function* () {
         const client = yield connect();
         try {
-            const { rows: raw_types } = yield client.query(sql_template_strings_1.default `SELECT type_id, name FROM ProductTypes WHERE user_id = ${user_id}`);
+            const { rows: raw_types } = yield client.query(sql_template_strings_1.default `SELECT type_id, name, color, discontinued FROM ProductTypes WHERE user_id = ${user_id}`.append(includeDiscontinued ? sql_template_strings_1.default `` : sql_template_strings_1.default `AND discontinued = FALSE`));
             const types = raw_types
-                .reduce((_, { type_id, name, color }) => (Object.assign({}, _, { [name]: { name, color, id: type_id } })), {});
+                .reduce((_, { type_id, name, color, discontinued }) => (Object.assign({}, _, { [name]: { name, color, id: type_id, discontinued } })), {});
             return types;
         }
         catch (error) {
@@ -226,24 +234,32 @@ function writeProducts(user_id, products) {
         try {
             const result = {};
             for (const product of products) {
-                if (product.kind === 'create') {
-                    const { name, type, quantity } = product;
-                    const { rows: [{ product_id }] } = yield client.query(sql_template_strings_1.default `INSERT INTO Products (name,type_id,user_id) VALUES (${name},${type},${user_id}) RETURNING product_id`);
-                    const { rows: [{ name: type_name }] } = yield client.query(sql_template_strings_1.default `SELECT name FROM ProductTypes WHERE type_id = ${type}`);
-                    yield client.query(sql_template_strings_1.default `INSERT INTO Inventory (quantity,product_id,user_id) VALUES (${quantity},${product_id},${user_id})`);
-                    result[type_name] = result[type_name] || [];
-                    result[type_name].push({ name, id: product_id, type: type_name, quantity });
-                }
-                else {
-                    const { id, name, type, quantity } = product;
-                    if (name) {
-                        yield client.query(sql_template_strings_1.default `UPDATE Products SET name = ${name} WHERE product_id = ${id} AND user_id = ${user_id}`);
+                switch (product.kind) {
+                    case 'create': {
+                        const { name, type, quantity } = product;
+                        const { rows: [{ product_id }] } = yield client.query(sql_template_strings_1.default `INSERT INTO Products (name,type_id,user_id) VALUES (${name},${type},${user_id}) RETURNING product_id`);
+                        const { rows: [{ name: type_name }] } = yield client.query(sql_template_strings_1.default `SELECT name FROM ProductTypes WHERE type_id = ${type}`);
+                        yield client.query(sql_template_strings_1.default `INSERT INTO Inventory (quantity,product_id,user_id) VALUES (${quantity},${product_id},${user_id})`);
+                        result[type_name] = result[type_name] || [];
+                        result[type_name].push({ name, id: product_id, type: type_name, quantity, discontinued: false });
+                        break;
                     }
-                    if (type) {
-                        yield client.query(sql_template_strings_1.default `UPDATE Products SET type_id = ${type} WHERE product_id = ${id} AND user_id = ${user_id}`);
+                    case 'modify': {
+                        const { id, name, quantity, discontinued } = product;
+                        if (name) {
+                            yield client.query(sql_template_strings_1.default `UPDATE Products SET name = ${name} WHERE product_id = ${id} AND user_id = ${user_id}`);
+                        }
+                        if (quantity) {
+                            yield client.query(sql_template_strings_1.default `UPDATE Inventory SET quantity = ${quantity} WHERE product_id = ${id} AND user_id = ${user_id}`);
+                        }
+                        if (discontinued === false) {
+                            yield client.query(sql_template_strings_1.default `UPDATE Products SET discontinued = FALSE WHERE product_id = ${id} AND user_id = ${user_id}`);
+                        }
+                        break;
                     }
-                    if (quantity) {
-                        yield client.query(sql_template_strings_1.default `UPDATE Inventory SET quantity = ${quantity} WHERE product_id = ${id} AND user_id = ${user_id}`);
+                    case 'discontinue': {
+                        const { id } = product;
+                        yield client.query(sql_template_strings_1.default `UPDATE Products SET discontinued = TRUE WHERE product_id = ${id} AND user_id = ${user_id}`);
                     }
                 }
             }
@@ -296,18 +312,30 @@ function writeTypes(user_id, types) {
         try {
             const result = {};
             for (const type of types) {
-                if (type.kind === 'create') {
-                    const { name, color } = type;
-                    const { rows: [{ type_id }] } = yield client.query(sql_template_strings_1.default `INSERT INTO ProductTypes (user_id, name, color) VALUES (${user_id},${name},${color}) RETURNING type_id`);
-                    result[name] = { id: type_id, name, color };
-                }
-                else {
-                    const { id, name, color } = type;
-                    if (name) {
-                        yield client.query(sql_template_strings_1.default `UPDATE ProductTypes SET name = ${name} WHERE type_id = ${id} AND user_id = ${user_id}`);
+                switch (type.kind) {
+                    case 'create': {
+                        const { name, color } = type;
+                        const { rows: [{ type_id }] } = yield client.query(sql_template_strings_1.default `INSERT INTO ProductTypes (user_id, name, color) VALUES (${user_id},${name},${color}) RETURNING type_id`);
+                        result[name] = { id: type_id, name, color, discontinued: false };
+                        break;
                     }
-                    if (color) {
-                        yield client.query(sql_template_strings_1.default `UPDATE ProductTypes SET color = ${color} WHERE type_id = ${id} AND user_id = ${user_id}`);
+                    case 'modify': {
+                        const { id, name, color, discontinued } = type;
+                        if (name) {
+                            yield client.query(sql_template_strings_1.default `UPDATE ProductTypes SET name = ${name} WHERE type_id = ${id} AND user_id = ${user_id}`);
+                        }
+                        if (color) {
+                            yield client.query(sql_template_strings_1.default `UPDATE ProductTypes SET color = ${color} WHERE type_id = ${id} AND user_id = ${user_id}`);
+                        }
+                        if (discontinued === false) {
+                            yield client.query(sql_template_strings_1.default `UPDATE ProductTypes SET discontinued = FALSE WHERE type_id = ${id} AND user_id = ${user_id}`);
+                        }
+                        break;
+                    }
+                    case 'discontinue': {
+                        const { id } = type;
+                        yield client.query(sql_template_strings_1.default `UPDATE ProductTypes SET discontinued = TRUE WHERE type_id = ${id} AND user_id = ${user_id}`);
+                        break;
                     }
                 }
             }

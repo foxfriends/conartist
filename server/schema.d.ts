@@ -29,6 +29,7 @@ export namespace db {
     user_id: number;
     type_id: number;
     name: string;
+    discontinued: boolean;
   };
   export type Products = Product[];
 
@@ -37,6 +38,7 @@ export namespace db {
     user_id: number;
     name: string;
     color: [number, number, number];
+    discontinued: boolean;
   };
   export type ProductTypes = ProductType[];
 

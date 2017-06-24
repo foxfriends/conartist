@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 
 import { expect } from 'chai';
 
+import APIServiceMock, { APIService } from './api/api.service.mock';
 import AppComponent from './app.component';
 import MaterialModule from './material.module';
 
@@ -35,6 +36,7 @@ describe('App Component', function(this: Mocha.ISuiteCallbackContext & Context) 
   beforeEach('Configure the module', () => TestBed.configureTestingModule({
     imports: [ MaterialModule ],
     declarations: [ AppComponent, SignInComponent, DashboardComponent, InventoryComponent, ConventionsComponent ],
+    providers: [ { provide: APIService, useValue: APIServiceMock } ],
   }));
   beforeEach('Create the component', () => {
     this.fixture = TestBed.createComponent(AppComponent);

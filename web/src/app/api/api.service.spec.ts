@@ -116,6 +116,44 @@ describe('API Service', function(this: Mocha.ISuiteCallbackContext & Context) {
     });
   });
 
+  describe('#reauthorize', () => {
+    it('should request [GET /api/auth/]', done => {
+      this.backend.connections.take(1).subscribe(
+        (c: MockConnection) => {
+          expect(c.request.method).to.equal(RequestMethod.Get);
+          expect(c.request.url).to.equal(APIService.host`/api/auth/`);
+        },
+        void 0,
+        done,
+      );
+      this.service.reauthorize();
+    });
+
+    it('should return an observable of the success result body', done => {
+      const JWT = 'FakeJWT';
+      this.backend.connections.take(1).subscribe(respondWith(new MockAPISuccessResult(JWT)));
+      const result = this.service.reauthorize();
+      expect(result).to.be.an.instanceOf(Observable);
+      result.subscribe(
+        _ => expect(_, 'the JWT should be emitted').to.equal(JWT),
+        _ => expect.fail('the observable should not emit an error'),
+        done,
+      );
+    });
+
+    it('should produce the correct error message on an error result', done => {
+      this.backend.connections.take(1).subscribe(respondWith(new MockAPIErrorResult));
+      this.service.reauthorize().subscribe(
+        () => expect.fail('the observable should emit an error'),
+        _ => {
+          expect(_, 'the observable should produce an Error object').to.be.an.instanceOf(Error);
+          expect(_.message, 'the error should have the right message').to.deep.equal('Invalid auth token');
+          done();
+        },
+      );
+    });
+  });
+
   describe('#signUp', () => {
     it('should request [POST /api/account/new/] with usr and psw in the body', done => {
       this.backend.connections.take(1).subscribe(

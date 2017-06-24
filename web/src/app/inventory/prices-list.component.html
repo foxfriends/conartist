@@ -1,0 +1,13 @@
+<!-- TODO: find an md-data-table -->
+<md-list class="prices-list">
+  <ng-container *ngFor="let pair of prices;let first = first">
+    <ng-container *ngIf="!first">
+      <md-divider></md-divider>
+      <h3 md-subheader>{{ pair[0].split('::')[1] }}</h3>
+    </ng-container>
+    <md-list-item *ngFor="let price of pair[1]">
+      <span class="prices-list__column">{{ price[0] }}</span>
+      <span class="prices-list__column prices-list__column--currency">{{ price[1] | currency }}</span>
+    </md-list-item>
+  </ng-container>
+</md-list>

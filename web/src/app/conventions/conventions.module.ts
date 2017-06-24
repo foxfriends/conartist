@@ -12,3 +12,5 @@ import MaterialModule from '../material.module';
   exports: [ ConventionsComponent ],
 })
 export default class ConventionsModule { }
+
+export { default as ConventionsComponent } from './conventions.component';

@@ -7,7 +7,7 @@ import * as db from './database';
 
 const api = express();
 
-const JWTSecret = 'FAKE_SECRET_KEY';
+const JWTSecret = 'FAKE_SECRET_KEY' + Date.now();
 
 type AuthToken = { usr: number; };
 type JWT = string;
@@ -30,7 +30,7 @@ type Body = {
 };
 
 function assert_authorized() {
-  return eJWT({secret: JWTSecret});
+  return eJWT({ secret: JWTSecret });
 }
 
 // TODO: less repetition of res.set
@@ -82,7 +82,7 @@ api.post('/auth/', async (req, res) => {
   }
 });
 
-api.post('/auth/:user_id', assert_authorized(), async (req, res) => {
+api.get('/auth/', assert_authorized(), async (req, res) => {
   res.set('Content-Type', 'application/json');
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');

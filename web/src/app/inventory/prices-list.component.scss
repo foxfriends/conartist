@@ -1,0 +1,11 @@
+.prices-list {
+  &__column {
+    display: flex;
+    flex-basis: 0;
+    flex-grow: 1;
+
+    &--currency {
+      justify-content: flex-end;
+    }
+  }
+}

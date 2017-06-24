@@ -29,4 +29,13 @@ export default class InventoryComponent {
   products(type: ProductTypeName) {
     return this._products.map(_ => _[type]);
   }
+
+  prices(type: ProductTypeName) {
+    return this._prices.map(_ =>
+      Object
+        .entries(_)
+        .filter(([_]) => _.split('::')[0] === type)
+        .reduce((_, [n, v]) => ({ ..._, [n]: v }), {} as Prices)
+    );
+  }
 }

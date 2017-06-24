@@ -1,0 +1,6 @@
+<!-- TODO: find an md-data-table -->
+<md-list>
+  <md-list-item *ngFor="let record of data.records">
+    {{ record.type }}; {{ record.products.join(', ') }}; {{ record.price }}; {{ record.time }}
+  </md-list-item>
+</md-list>

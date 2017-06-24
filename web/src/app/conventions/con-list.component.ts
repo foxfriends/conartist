@@ -1,5 +1,6 @@
 import { Component, Inject, Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/take';
 
 import StorageService from '../storage/storage.service';
 import template from './con-list.component.html';
@@ -19,6 +20,7 @@ export default class ConListComponent {
 
   constructor(@Inject(StorageService) storage: StorageService) {
     this._conventions = storage.conventions;
+    this._conventions.take(1).subscribe(_ => _.forEach(_ => storage.fillConvention(_.code)));
   }
 
   get conventions() {

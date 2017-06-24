@@ -1,4 +1,5 @@
-import { Component, Inject, Output, EventEmitter } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, ValidatorFn, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
@@ -19,12 +20,10 @@ export default class SignInComponent {
   error: string | null = null;
   notification: string | null = null;
 
-  @Output() signIn = new EventEmitter<void>();
-
   signInForm: FormGroup;
   signUpForm: FormGroup;
 
-  constructor(@Inject(APIService) private api: APIService) {
+  constructor(@Inject(APIService) private api: APIService, @Inject(Router) private router: Router) {
     this.signInForm = new FormGroup({
       email: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
@@ -111,7 +110,7 @@ export default class SignInComponent {
     try {
       const token = await this.api.signIn(this.signInForm.value.email, this.signInForm.value.password).toPromise();
       localStorage.setItem('authtoken', token);
-      this.signIn.emit();
+      this.router.navigate(['/dashboard']);
     } catch(error) {
       this.error = error.message;
     } finally {

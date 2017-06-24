@@ -1,5 +1,5 @@
 <md-toolbar color="primary">
-  <button md-icon-button (click)="sidenav.toggle()" *ngIf="state !== State.SignIn">
+  <button md-icon-button (click)="sidenav.toggle()">
     <md-icon>menu</md-icon>
   </button>
   ConArtist
@@ -8,15 +8,10 @@
   <md-sidenav #sidenav>
     <md-nav-list>
       <h3 md-subheader>Navigation</h3>
-      <md-list-item (click)="state = State.Dashboard">Dashboard</md-list-item>
-      <md-list-item (click)="state = State.Inventory">Inventory</md-list-item>
-      <md-list-item (click)="state = State.Conventions">Conventions</md-list-item>
+      <md-list-item routerLink="dashboard">Dashboard</md-list-item>
+      <md-list-item routerLink="inventory">Inventory</md-list-item>
+      <md-list-item routerLink="conventions">Conventions</md-list-item>
     </md-nav-list>
   </md-sidenav>
-  <div [ngSwitch]="state">
-    <con-dashboard *ngSwitchCase="State.Dashboard"></con-dashboard>
-    <con-inventory *ngSwitchCase="State.Inventory"></con-inventory>
-    <con-conventions *ngSwitchCase="State.Conventions"></con-conventions>
-    <con-sign-in *ngSwitchCase="State.SignIn" (signIn)="state = State.Dashboard"></con-sign-in>
-  </div>
+  <router-outlet></router-outlet>
 </md-sidenav-container>

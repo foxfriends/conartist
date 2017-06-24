@@ -1,4 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed  } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,11 +19,16 @@ type Context = {
 };
 
 describe('Sign In Component', function(this: Mocha.ISuiteCallbackContext & Context) {
+  class RouterMock {
+    static navigate = spy();
+  }
+
   beforeEach('Configure the module', () => TestBed.configureTestingModule({
     imports: [ NoopAnimationsModule, MaterialModule, ReactiveFormsModule ],
     declarations: [ SignInComponent ],
     providers: [
       { provide: APIService, useValue: APIServiceMock },
+      { provide: Router, useValue: RouterMock },
     ],
   }));
   beforeEach('Create the component', () => {
@@ -30,6 +36,7 @@ describe('Sign In Component', function(this: Mocha.ISuiteCallbackContext & Conte
     this.component = this.fixture.componentInstance;
     this.fixture.detectChanges();
   });
+  afterEach('Reset the router spy', () => RouterMock.navigate.reset());
 
   it('should disable the sign in button until all fields are filled', () => {
     const button = this.fixture.debugElement.query(By.css('button')).nativeElement;
@@ -53,28 +60,18 @@ describe('Sign In Component', function(this: Mocha.ISuiteCallbackContext & Conte
     expect(button.disabled, 'the button should be enabled with both email and password').to.be.not.ok;
   });
 
-  it('should emit a signIn event when the sign in succeeds', async () => {
-    const signIn = spy();
-    this.component.signIn.subscribe(signIn);
-
+  it('should route to the dashboard when sign in succeeds', async () => {
     this.component.signInForm.patchValue(existingUser);
     this.component.processSignIn();
-
-    await wait(0);
-
-    expect(signIn, 'the sign in event should be emitted').to.have.been.calledOnce;
+    await wait();
+    expect(RouterMock.navigate).to.have.been.calledWith(['/dashboard']);
   });
 
-  it('should not emit a signIn event when the sign in fails', async () => {
-    const signIn = spy();
-    this.component.signIn.subscribe(signIn);
-
+  it('should not route to the dashboard when sign in fails', async () => {
     this.component.signInForm.patchValue(newUser);
     this.component.processSignIn();
-
-    await wait(0);
-
-    expect(signIn, 'the sign in event should not be emitted').not.to.have.been.called;
+    await wait();
+    expect(RouterMock.navigate).not.to.have.been.called;
   });
 
   it('should switch to the sign up menu and back when sign up button is pressed', () => {

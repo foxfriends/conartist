@@ -5,7 +5,12 @@
     </header>
     <con-con-list [opened]="openConventions" (conClick)="openConvention($event)"></con-con-list>
   </md-tab>
-  <md-tab *ngFor="let convention of openConventions" [label]="convention.title">
+  <md-tab *ngFor="let convention of openConventions;let i = index">
+    <ng-template md-tab-label>
+      <div class="conventions__tab-label">
+        {{ convention.title }}<md-icon (click)="closeConvention(convention)" class="conventions__icon--in-tab">close</md-icon>
+      </div>
+    </ng-template>
     <header class="conventions__header">
       <h1 class="conventions__title">{{ convention.title }}</h1>
     </header>

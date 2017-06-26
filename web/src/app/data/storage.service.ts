@@ -8,7 +8,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 
 import APIService from '../api/api.service';
 import { UserInfo, Convention } from '../../../../conartist';
-import { userInfo, fullConventions } from '../api/api.service.mock';
+// import { userInfo, fullConventions } from '../api/api.service.mock';
 
 type ObservableUserInfo = {
   [K in keyof UserInfo]: BehaviorSubject<UserInfo[K]>;
@@ -26,13 +26,13 @@ export default class StorageService implements ObservableUserInfo {
   constructor(@Inject(APIService) private api: APIService) {
     this._email = new BehaviorSubject('');
     this._keys = new BehaviorSubject(0);
-    this._products = new BehaviorSubject({});
-    this._prices = new BehaviorSubject({});
-    this._types = new BehaviorSubject({});
+    this._products = new BehaviorSubject([]);
+    this._prices = new BehaviorSubject([]);
+    this._types = new BehaviorSubject([]);
     this._conventions = new BehaviorSubject([]);
     this.api.getUserInfo().subscribe(_ => {
       {
-        const _ = { ...userInfo, conventions: fullConventions };
+        // const _ = { ...userInfo, conventions: fullConventions };
         this._email.next(_.email);
         this._keys.next(_.keys);
         this._products.next(_.products);

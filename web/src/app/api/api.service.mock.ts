@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 
 import APIService from './api.service';
 import { Products, Prices, ProductTypes, UserInfo, Records, MetaConvention, FullConvention } from '../../../../conartist';
@@ -14,29 +15,27 @@ export const newUser = {
   password: 'new-password',
 };
 
-export const products: Products = {
-  type: [
-    { name: 'product-name', quantity: 15, id: 0, type: 'type', discontinued: false } ,
-    { name: 'product-name2', quantity: 8, id: 1, type: 'type', discontinued: false } ,
-  ],
-  type2: [ { name: 'product-name3', quantity: 4, id: 2, type: 'type2', discontinued: false } ],
-};
+export const products: Products = [
+  { name: 'product-name1', quantity: 15, id: 0, type: 0, discontinued: false },
+  { name: 'product-name2', quantity: 8, id: 1, type: 0, discontinued: false },
+  { name: 'product-name3', quantity: 4, id: 2, type: 1, discontinued: false },
+];
 
-export const prices: Prices = {
-  'type': [ [ 3, 10 ], [1, 5] ],
-  'type::product-name2': [ [ 1, 7 ] ],
-  'type2': [ [ 1, 2] ],
-};
+export const prices: Prices = [
+  { type: 0, product: null, prices: [[ 3, 10 ], [1, 5]] },
+  { type: 0, product: 1, prices: [[ 1, 7 ]] },
+  { type: 1, product: null, prices: [[ 1, 2]] },
+];
 
-export const types: ProductTypes = {
-  type: { name: 'type', color: [255, 0, 0], id: 0, discontinued: false },
-  type2: { name: 'type2', color: [0, 255, 0], id: 1, discontinued: false },
-};
+export const types: ProductTypes = [
+  { name: 'type', color: [255, 0, 0], id: 0, discontinued: false },
+  { name: 'type2', color: [0, 255, 0], id: 1, discontinued: false },
+];
 
 export const records: Records = [
-  { type: 'type', products: [ 'product-name' ], price: 5, time: 1497952889636 },
-  { type: 'type', products: [ 'product-name', 'product-name2' ], price: 12, time: 1497972889636 },
-  { type: 'type2', products: [ 'product-name3', 'product-name3' ], price: 4, time: 1497992889636 },
+  { products: [ 0 ], price: 5, time: 1497952889636 },
+  { products: [ 0, 1 ], price: 12, time: 1497972889636 },
+  { products: [ 2, 2 ], price: 4, time: 1497992889636 },
 ];
 
 export const conventions: MetaConvention[] = [
@@ -103,7 +102,12 @@ class APIServiceMock extends APIService {
   }
 
   loadConvention(code: string): Observable<FullConvention> {
-    return Observable.of(fullConventions.find(_ => _.code === code));
+    const con = fullConventions.find(_ => _.code === code);
+    if(con) {
+      return Observable.of(con);
+    } else {
+      return Observable.throw('Con could not be loaded');
+    }
   }
 }
 

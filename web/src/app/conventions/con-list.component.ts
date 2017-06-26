@@ -2,7 +2,7 @@ import { Component, Inject, Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
 
-import StorageService from '../storage/storage.service';
+import StorageService from '../data/storage.service';
 import template from './con-list.component.html';
 import styles from './con-list.component.scss';
 import { Convention, Conventions } from '../../../../conartist';

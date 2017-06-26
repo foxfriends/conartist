@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import template from './dash-conventions.component.html';
 import styles from './dash-conventions.component.scss';
 import { Conventions } from '../../../../conartist';
-import StorageService from '../storage/storage.service';
+import StorageService from '../data/storage.service';
 
 @Component({
   selector: 'con-dash-conventions',

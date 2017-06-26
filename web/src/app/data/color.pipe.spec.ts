@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+
 import ColorPipe from './color.pipe';
 
 type Context = {

@@ -66,6 +66,10 @@ function query<T>(query: SQLStatement): Promise<QueryResult<T>> {
   return pool.query(query);
 }
 
+function byId<ID, T extends { id: ID }>(id: ID): (_: T) => boolean {
+  return _ => _.id === id;
+}
+
 // TODO: learn how databases really work and make this efficient!
 // TODO: make space for errors, with transactions or rollbacks or whatever it is
 
@@ -98,47 +102,11 @@ async function getConInfo(user_id: number, con_code: string): Promise<ca.FullCon
       SQL`SELECT products, price, sale_time FROM Records WHERE user_con_id = ${user_con_id}`
     );
     // transform rows to data
-    const types = raw_types
-      .reduce((_, { type_id, name, color, discontinued }) => ({
-        ..._,
-        [name]: { name, color, id: type_id, discontinued },
-      }), {} as ca.ProductTypes);
-    const types_by_id = raw_types
-      .reduce((_, { type_id, name, color }) => ({
-        ..._,
-        [type_id]: { name, color, id: type_id },
-      }), {} as { [key: number]: { color: ca.Color; name: string; id: number; }});
-    const products_by_id = raw_products
-      .reduce((_, { product_id, type_id, name, discontinued }) => ({
-        ..._,
-        [product_id]: {
-          name,
-          type: types_by_id[type_id].name,
-          id: product_id,
-          discontinued,
-        },
-      }), {} as { [key: number]: { name: string; type: ca.ProductTypeName; id: number; discontinued: boolean; }});
-    const products = raw_inventory
-      .map(({ product_id, quantity }) => ({ product: products_by_id[product_id], quantity }))
-      .reduce((_, { product: { type, name, id, discontinued }, quantity }) => ({
-        ..._,
-        [type]: [
-          ...(_[type] || []),
-          { name, quantity, id, type, discontinued },
-        ],
-      }), {} as ca.Products);
-    const prices = raw_prices
-      .reduce((_, { type_id, product_id, prices }) => ({
-        ..._,
-        [`${types_by_id[type_id].name}${product_id ? `::${products_by_id[product_id].name}` : ''}`]: prices,
-      }), {} as ca.Prices);
-    const records: ca.Records = raw_records
-      .map(({ products, price, sale_time }) => ({
-        products: products.map((_: number) => products_by_id[_].name),
-        price,
-        time: sale_time,
-        type: products_by_id[products[0]].type,
-      }));
+    const inventory = raw_inventory.map(_ => ({ quantity: _.quantity, id: _.product_id }));
+    const types: ca.ProductTypes = raw_types.map(_ => ({ id: _.type_id, name: _.name, discontinued: _.discontinued, color: _.color }));
+    const products: ca.Products = raw_products.map(_ => ({ id: _.product_id, type: _.type_id, quantity: inventory.find(byId(_.product_id))!.quantity, name: _.name, discontinued: _.discontinued}));
+    const prices: ca.Prices = raw_prices.map(_ => ({ type: _.type_id, product: _.product_id, prices: _.prices }));
+    const records: ca.Records = raw_records.map(_ => ({ price: _.price, products: _.products, time: _.sale_time }));
     const data: ca.ConventionData = {
       products, prices, records, types,
     };
@@ -200,39 +168,14 @@ async function writeRecords(user_id: number, con_code: string, records: ca.Recor
 async function getUserProducts(user_id: number, includeDiscontinued: boolean = false): Promise<ca.Products> {
   const client = await connect();
   try {
-    const { rows: raw_types } = await client.query<Pick<db.ProductType, 'type_id' | 'name'>>(
-      SQL`SELECT type_id, name FROM ProductTypes WHERE user_id = ${user_id}`
-    );
     const { rows: raw_products } = await client.query<Pick<db.Product, 'product_id' | 'type_id' | 'name' | 'discontinued'>>(
       SQL`SELECT product_id, type_id, name, discontinued FROM Products WHERE user_id = ${user_id}`.append(includeDiscontinued ? SQL`` : SQL`AND discontinued = FALSE`)
     );
     const { rows: raw_inventory } = await client.query<Pick<db.InventoryItem, 'quantity' | 'product_id'>>(
       SQL`SELECT quantity, product_id FROM Inventory WHERE user_id = ${user_id}`
     );
-    const types = raw_types
-      .reduce((_, { type_id, name }) => ({
-        ..._,
-        [type_id]: name,
-      }), {} as { [key: number]: ca.ProductTypeName });
-    const products_by_id = raw_products
-      .reduce((_, { type_id, name, product_id, discontinued }) => ({
-        ..._,
-        [product_id]: {
-          name,
-          type: types[type_id],
-          id: product_id,
-          discontinued,
-        },
-      }), {} as { [key: number]: { name: string; type: ca.ProductTypeName; id: number; discontinued: boolean; }});
-    const products = raw_inventory
-      .map(({ product_id, quantity }) => ({ product: products_by_id[product_id], quantity }))
-      .reduce((_, { product: { type, name, id, discontinued }, quantity }) => ({
-        ..._,
-        [type]: [
-          ...(_[type] || []),
-          { name, quantity, id, type, discontinued },
-        ],
-      }), {} as ca.Products);
+    const inventory = raw_inventory.map(_ => ({ id: _.product_id, quantity: _.quantity }));
+    const products: ca.Products = raw_products.map(_ => ({ type: _.type_id, id: _.product_id, name: _.name, discontinued: _.discontinued, quantity: inventory.find(byId(_.product_id))!.quantity }))
     return products;
   } catch(error) {
     throw error;
@@ -244,33 +187,10 @@ async function getUserProducts(user_id: number, includeDiscontinued: boolean = f
 async function getUserPrices(user_id: number): Promise<ca.Prices> {
   const client = await connect();
   try {
-    const { rows: raw_types } = await client.query<Pick<db.ProductType, 'type_id' | 'name' | 'discontinued'>>(
-      SQL`SELECT type_id, name, discontinued FROM ProductTypes WHERE user_id = ${user_id}`
-    );
-    const { rows: raw_products } = await client.query<Pick<db.Product, 'product_id' | 'type_id' | 'name' | 'discontinued'>>(
-      SQL`SELECT product_id, type_id, name, discontinued FROM Products WHERE user_id = ${user_id}`
-    );
     const { rows: raw_prices } = await client.query<Pick<db.Price, 'type_id' | 'product_id' | 'prices'>>(
       SQL`SELECT type_id, product_id, prices FROM Prices WHERE user_id = ${user_id}`
     );
-    const types = raw_types
-      .reduce((_, { type_id, name, discontinued }) => discontinued ? _ : {
-        ..._,
-        [type_id]: name,
-      }, {} as { [key: number]: ca.ProductTypeName });
-    const products = raw_products
-      .reduce((_, { product_id, type_id, name, discontinued }) => discontinued ? _ : {
-        ..._,
-        [product_id]: {
-          name,
-          type: types[type_id],
-        },
-      }, {} as { [key: number]: { name: string; type: ca.ProductTypeName; }});
-    const prices = raw_prices
-      .reduce((_, { type_id, product_id, prices }) => !types[type_id] || product_id === null || !products[product_id] ? _ : {
-        ..._,
-        [`${types[type_id]}${product_id ? `::${products[product_id].name}` : ''}`]: prices,
-      }, {} as ca.Prices);
+    const prices: ca.Prices = raw_prices.map(_ => ({ type: _.type_id, product: _.product_id, prices: _.prices}));
     return prices;
   } catch(error) {
     throw error;
@@ -285,11 +205,7 @@ async function getUserTypes(user_id: number, includeDiscontinued: boolean = fals
     const { rows: raw_types } = await client.query<Pick<db.ProductType, 'type_id' | 'name' | 'color' | 'discontinued'>>(
       SQL`SELECT type_id, name, color, discontinued FROM ProductTypes WHERE user_id = ${user_id}`.append(includeDiscontinued ? SQL`` : SQL`AND discontinued = FALSE`)
     );
-    const types = raw_types
-      .reduce((_, { type_id, name, color, discontinued }) => ({
-        ..._,
-        [name]: { name, color, id: type_id, discontinued },
-      }), {} as ca.ProductTypes);
+    const types = raw_types.map(_ => ({ id: _.type_id, name: _.name, color: _.color, discontinued: _.discontinued }));
     return types;
   } catch(error) {
     throw error;
@@ -301,7 +217,7 @@ async function getUserTypes(user_id: number, includeDiscontinued: boolean = fals
 async function writeProducts(user_id: number, products: ca.ProductsUpdate): Promise<ca.Products> {
   const client = await connect();
   try {
-    const result = {} as ca.Products;
+    const result: ca.Products = [];
     for(const product of products) {
       switch(product.kind) {
         case 'create': {
@@ -309,14 +225,13 @@ async function writeProducts(user_id: number, products: ca.ProductsUpdate): Prom
           const { rows: [{ product_id }]} = await client.query<Pick<db.Product, 'product_id'>>(
             SQL`INSERT INTO Products (name,type_id,user_id) VALUES (${name},${type},${user_id}) RETURNING product_id`
           );
-          const { rows: [{ name: type_name }]} = await client.query<Pick<db.ProductType, 'name'>>(
-            SQL`SELECT name FROM ProductTypes WHERE type_id = ${type}`
+          const { rows: [{ type_id }]} = await client.query<Pick<db.ProductType, 'type_id'>>(
+            SQL`SELECT id FROM ProductTypes WHERE type_id = ${type}`
           );
           await client.query(
             SQL`INSERT INTO Inventory (quantity,product_id,user_id) VALUES (${quantity},${product_id},${user_id})`
           );
-          result[type_name] = result[type_name] || [];
-          result[type_name].push({ name, id: product_id, type: type_name, quantity, discontinued: false });
+          result.push({ name, id: product_id, type: type_id, quantity, discontinued: false });
           break;
         }
         case 'modify': {
@@ -357,7 +272,7 @@ async function writeProducts(user_id: number, products: ca.ProductsUpdate): Prom
 async function writePrices(user_id: number, prices: ca.PricesUpdate): Promise<ca.Prices> {
   const client = await connect();
   try {
-    const result = {} as ca.Prices;
+    const result: ca.Prices = [];
     for(const { type_id, product_id, price } of prices) {
       const { rowCount } = await client.query(SQL`SELECT 1 FROM Prices WHERE user_id = ${user_id} AND type_id = ${type_id} AND product_id = ${product_id}`);
       if(rowCount === 1) {
@@ -368,17 +283,7 @@ async function writePrices(user_id: number, prices: ca.PricesUpdate): Promise<ca
         await client.query(
           SQL`INSERT INTO Prices (prices,type_id,product_id,user_id) VALUES (${price},${type_id},${product_id},${user_id})`
         );
-        const { rows: [{ name }] } = await client.query<Pick<db.ProductType, 'name'>>(
-          SQL`SELECT name FROM ProductTypes WHERE type_id = ${type_id}`
-        );
-        let key = name;
-        if(product_id) {
-          const { rows: [{ name }] } = await client.query<Pick<db.Product, 'name'>>(
-            SQL`SELECT name FROM Products WHERE product_id = ${product_id}`
-          );
-          key += '::' + name;
-        }
-        result[key] = price;
+        result.push({ type: type_id, product: product_id, prices: price});
       }
     }
     return result;
@@ -392,7 +297,7 @@ async function writePrices(user_id: number, prices: ca.PricesUpdate): Promise<ca
 async function writeTypes(user_id: number, types: ca.TypesUpdate): Promise<ca.ProductTypes> {
   const client = await connect();
   try {
-    const result = {} as ca.ProductTypes;
+    const result: ca.ProductTypes = [];
     for(const type of types) {
       switch(type.kind) {
         case 'create': {
@@ -400,7 +305,7 @@ async function writeTypes(user_id: number, types: ca.TypesUpdate): Promise<ca.Pr
           const { rows: [{ type_id }] } = await client.query<Pick<db.ProductType, 'type_id'>>(
             SQL`INSERT INTO ProductTypes (user_id, name, color) VALUES (${user_id},${name},${color}) RETURNING type_id`
           );
-          result[name] = { id: type_id, name, color, discontinued: false };
+          result.push({ id: type_id, name, color, discontinued: false });
           break;
         }
         case 'modify': {

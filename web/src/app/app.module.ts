@@ -13,7 +13,6 @@ import RoutingModule from './routing.module';
 import AppComponent from './app.component';
 
 import APIService from './api/api.service';
-import StorageService from './storage/storage.service';
 
 @NgModule({
   imports: [
@@ -28,7 +27,7 @@ import StorageService from './storage/storage.service';
     RoutingModule,
   ],
   declarations: [ AppComponent ],
-  providers: [ APIService, StorageService ],
+  providers: [ APIService ],
   bootstrap: [ AppComponent ],
 })
 export default class AppModule {}

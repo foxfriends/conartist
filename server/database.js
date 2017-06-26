@@ -33,6 +33,9 @@ function connect() {
 function query(query) {
     return pool.query(query);
 }
+function byId(id) {
+    return _ => _.id === id;
+}
 function getCon(user_id, con_code, client) {
     return __awaiter(this, void 0, void 0, function* () {
         const { rows: raw_con } = yield client.query(sql_template_strings_1.default `SELECT * FROM Conventions WHERE con_code = ${con_code}`);
@@ -57,32 +60,11 @@ function getConInfo(user_id, con_code) {
             const { rows: raw_inventory } = yield client.query(sql_template_strings_1.default `SELECT product_id, quantity FROM Inventory WHERE user_con_id = ${user_con_id}`);
             const { rows: raw_prices } = yield client.query(sql_template_strings_1.default `SELECT type_id, product_id, prices FROM Prices WHERE user_con_id = ${user_con_id}`);
             const { rows: raw_records } = yield client.query(sql_template_strings_1.default `SELECT products, price, sale_time FROM Records WHERE user_con_id = ${user_con_id}`);
-            const types = raw_types
-                .reduce((_, { type_id, name, color, discontinued }) => (Object.assign({}, _, { [name]: { name, color, id: type_id, discontinued } })), {});
-            const types_by_id = raw_types
-                .reduce((_, { type_id, name, color }) => (Object.assign({}, _, { [type_id]: { name, color, id: type_id } })), {});
-            const products_by_id = raw_products
-                .reduce((_, { product_id, type_id, name, discontinued }) => (Object.assign({}, _, { [product_id]: {
-                    name,
-                    type: types_by_id[type_id].name,
-                    id: product_id,
-                    discontinued,
-                } })), {});
-            const products = raw_inventory
-                .map(({ product_id, quantity }) => ({ product: products_by_id[product_id], quantity }))
-                .reduce((_, { product: { type, name, id, discontinued }, quantity }) => (Object.assign({}, _, { [type]: [
-                    ...(_[type] || []),
-                    { name, quantity, id, type, discontinued },
-                ] })), {});
-            const prices = raw_prices
-                .reduce((_, { type_id, product_id, prices }) => (Object.assign({}, _, { [`${types_by_id[type_id].name}${product_id ? `::${products_by_id[product_id].name}` : ''}`]: prices })), {});
-            const records = raw_records
-                .map(({ products, price, sale_time }) => ({
-                products: products.map((_) => products_by_id[_].name),
-                price,
-                time: sale_time,
-                type: products_by_id[products[0]].type,
-            }));
+            const inventory = raw_inventory.map(_ => ({ quantity: _.quantity, id: _.product_id }));
+            const types = raw_types.map(_ => ({ id: _.type_id, name: _.name, discontinued: _.discontinued, color: _.color }));
+            const products = raw_products.map(_ => ({ id: _.product_id, type: _.type_id, quantity: inventory.find(byId(_.product_id)).quantity, name: _.name, discontinued: _.discontinued }));
+            const prices = raw_prices.map(_ => ({ type: _.type_id, product: _.product_id, prices: _.prices }));
+            const records = raw_records.map(_ => ({ price: _.price, products: _.products, time: _.sale_time }));
             const data = {
                 products, prices, records, types,
             };
@@ -154,24 +136,10 @@ function getUserProducts(user_id, includeDiscontinued = false) {
     return __awaiter(this, void 0, void 0, function* () {
         const client = yield connect();
         try {
-            const { rows: raw_types } = yield client.query(sql_template_strings_1.default `SELECT type_id, name FROM ProductTypes WHERE user_id = ${user_id}`);
             const { rows: raw_products } = yield client.query(sql_template_strings_1.default `SELECT product_id, type_id, name, discontinued FROM Products WHERE user_id = ${user_id}`.append(includeDiscontinued ? sql_template_strings_1.default `` : sql_template_strings_1.default `AND discontinued = FALSE`));
             const { rows: raw_inventory } = yield client.query(sql_template_strings_1.default `SELECT quantity, product_id FROM Inventory WHERE user_id = ${user_id}`);
-            const types = raw_types
-                .reduce((_, { type_id, name }) => (Object.assign({}, _, { [type_id]: name })), {});
-            const products_by_id = raw_products
-                .reduce((_, { type_id, name, product_id, discontinued }) => (Object.assign({}, _, { [product_id]: {
-                    name,
-                    type: types[type_id],
-                    id: product_id,
-                    discontinued,
-                } })), {});
-            const products = raw_inventory
-                .map(({ product_id, quantity }) => ({ product: products_by_id[product_id], quantity }))
-                .reduce((_, { product: { type, name, id, discontinued }, quantity }) => (Object.assign({}, _, { [type]: [
-                    ...(_[type] || []),
-                    { name, quantity, id, type, discontinued },
-                ] })), {});
+            const inventory = raw_inventory.map(_ => ({ id: _.product_id, quantity: _.quantity }));
+            const products = raw_products.map(_ => ({ type: _.type_id, id: _.product_id, name: _.name, discontinued: _.discontinued, quantity: inventory.find(byId(_.product_id)).quantity }));
             return products;
         }
         catch (error) {
@@ -187,18 +155,8 @@ function getUserPrices(user_id) {
     return __awaiter(this, void 0, void 0, function* () {
         const client = yield connect();
         try {
-            const { rows: raw_types } = yield client.query(sql_template_strings_1.default `SELECT type_id, name, discontinued FROM ProductTypes WHERE user_id = ${user_id}`);
-            const { rows: raw_products } = yield client.query(sql_template_strings_1.default `SELECT product_id, type_id, name, discontinued FROM Products WHERE user_id = ${user_id}`);
             const { rows: raw_prices } = yield client.query(sql_template_strings_1.default `SELECT type_id, product_id, prices FROM Prices WHERE user_id = ${user_id}`);
-            const types = raw_types
-                .reduce((_, { type_id, name, discontinued }) => discontinued ? _ : Object.assign({}, _, { [type_id]: name }), {});
-            const products = raw_products
-                .reduce((_, { product_id, type_id, name, discontinued }) => discontinued ? _ : Object.assign({}, _, { [product_id]: {
-                    name,
-                    type: types[type_id],
-                } }), {});
-            const prices = raw_prices
-                .reduce((_, { type_id, product_id, prices }) => !types[type_id] || product_id === null || !products[product_id] ? _ : Object.assign({}, _, { [`${types[type_id]}${product_id ? `::${products[product_id].name}` : ''}`]: prices }), {});
+            const prices = raw_prices.map(_ => ({ type: _.type_id, product: _.product_id, prices: _.prices }));
             return prices;
         }
         catch (error) {
@@ -215,8 +173,7 @@ function getUserTypes(user_id, includeDiscontinued = false) {
         const client = yield connect();
         try {
             const { rows: raw_types } = yield client.query(sql_template_strings_1.default `SELECT type_id, name, color, discontinued FROM ProductTypes WHERE user_id = ${user_id}`.append(includeDiscontinued ? sql_template_strings_1.default `` : sql_template_strings_1.default `AND discontinued = FALSE`));
-            const types = raw_types
-                .reduce((_, { type_id, name, color, discontinued }) => (Object.assign({}, _, { [name]: { name, color, id: type_id, discontinued } })), {});
+            const types = raw_types.map(_ => ({ id: _.type_id, name: _.name, color: _.color, discontinued: _.discontinued }));
             return types;
         }
         catch (error) {
@@ -232,16 +189,15 @@ function writeProducts(user_id, products) {
     return __awaiter(this, void 0, void 0, function* () {
         const client = yield connect();
         try {
-            const result = {};
+            const result = [];
             for (const product of products) {
                 switch (product.kind) {
                     case 'create': {
                         const { name, type, quantity } = product;
                         const { rows: [{ product_id }] } = yield client.query(sql_template_strings_1.default `INSERT INTO Products (name,type_id,user_id) VALUES (${name},${type},${user_id}) RETURNING product_id`);
-                        const { rows: [{ name: type_name }] } = yield client.query(sql_template_strings_1.default `SELECT name FROM ProductTypes WHERE type_id = ${type}`);
+                        const { rows: [{ type_id }] } = yield client.query(sql_template_strings_1.default `SELECT id FROM ProductTypes WHERE type_id = ${type}`);
                         yield client.query(sql_template_strings_1.default `INSERT INTO Inventory (quantity,product_id,user_id) VALUES (${quantity},${product_id},${user_id})`);
-                        result[type_name] = result[type_name] || [];
-                        result[type_name].push({ name, id: product_id, type: type_name, quantity, discontinued: false });
+                        result.push({ name, id: product_id, type: type_id, quantity, discontinued: false });
                         break;
                     }
                     case 'modify': {
@@ -278,7 +234,7 @@ function writePrices(user_id, prices) {
     return __awaiter(this, void 0, void 0, function* () {
         const client = yield connect();
         try {
-            const result = {};
+            const result = [];
             for (const { type_id, product_id, price } of prices) {
                 const { rowCount } = yield client.query(sql_template_strings_1.default `SELECT 1 FROM Prices WHERE user_id = ${user_id} AND type_id = ${type_id} AND product_id = ${product_id}`);
                 if (rowCount === 1) {
@@ -286,13 +242,7 @@ function writePrices(user_id, prices) {
                 }
                 else {
                     yield client.query(sql_template_strings_1.default `INSERT INTO Prices (prices,type_id,product_id,user_id) VALUES (${price},${type_id},${product_id},${user_id})`);
-                    const { rows: [{ name }] } = yield client.query(sql_template_strings_1.default `SELECT name FROM ProductTypes WHERE type_id = ${type_id}`);
-                    let key = name;
-                    if (product_id) {
-                        const { rows: [{ name }] } = yield client.query(sql_template_strings_1.default `SELECT name FROM Products WHERE product_id = ${product_id}`);
-                        key += '::' + name;
-                    }
-                    result[key] = price;
+                    result.push({ type: type_id, product: product_id, prices: price });
                 }
             }
             return result;
@@ -310,13 +260,13 @@ function writeTypes(user_id, types) {
     return __awaiter(this, void 0, void 0, function* () {
         const client = yield connect();
         try {
-            const result = {};
+            const result = [];
             for (const type of types) {
                 switch (type.kind) {
                     case 'create': {
                         const { name, color } = type;
                         const { rows: [{ type_id }] } = yield client.query(sql_template_strings_1.default `INSERT INTO ProductTypes (user_id, name, color) VALUES (${user_id},${name},${color}) RETURNING type_id`);
-                        result[name] = { id: type_id, name, color, discontinued: false };
+                        result.push({ id: type_id, name, color, discontinued: false });
                         break;
                     }
                     case 'modify': {

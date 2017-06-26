@@ -1,33 +1,33 @@
-export type Color = [number, number, number] | [number, number, number, number] | number[];
+export type ID = number;
+export type ProductTypeName = string;
+
+export type Color = number[]; // better: [number, number, number] | [number, number, number, number];, but typescript sucks at tuples
 
 export type ProductType = {
   color: Color;
-  name: string;
-  id: number | 'new';
+  name: ProductTypeName;
+  id: ID;
   discontinued: boolean;
 };
-export type ProductTypes = {
-  [key: string]: ProductType;
-};
-export type ProductTypeName = keyof ProductTypes;
+export type ProductTypes = ProductType[];
 
 export type NewType = {
   kind: 'create';
   color: Color;
-  name: string;
+  name: ProductTypeName;
 };
 
 export type ModifyType = {
   kind: 'modify';
-  id: number;
+  id: ID;
   color?: Color;
-  name?: string;
+  name?: ProductTypeName;
   discontinued?: boolean;
 };
 
 export type DiscontinueType = {
   kind: 'discontinue';
-  id: number;
+  id: ID;
 }
 
 export type TypeUpdate = NewType | ModifyType | DiscontinueType;
@@ -36,22 +36,22 @@ export type TypesUpdate = TypeUpdate[];
 export type Product = {
   name: string;
   quantity: number;
-  id: number;
-  type: ProductTypeName;
+  id: ID;
+  type: ID;
   discontinued: boolean;
 };
-export type Products = { [key in ProductTypeName]: Product[]; };
+export type Products = Product[];
 
 export type NewProduct = {
   kind: 'create';
   name: string;
-  type: number;
+  type: ID;
   quantity: number;
 };
 
 export type ModifyProduct = {
   kind: 'modify';
-  id: number;
+  id: ID;
   name?: string;
   quantity?: number;
   discontinued?: boolean;
@@ -59,32 +59,37 @@ export type ModifyProduct = {
 
 export type DiscontinueProduct = {
   kind: 'discontinue';
-  id: number;
+  id: ID;
 };
 
 export type ProductUpdate = NewProduct | ModifyProduct | DiscontinueProduct;
 export type ProductsUpdate = ProductUpdate[];
 
 export type Record = {
-  type: ProductTypeName;
-  products: string[];
+  products: ID[];
   price: number;
   time: number;
 };
 export type Records = Record[];
 export type RecordUpdate = {
-  products: number[];
+  products: ID[];
   price: number;
   time: number;
 };
 export type RecordsUpdate = RecordUpdate[];
 
-export type Price = number[][];
-export type Prices = { [key: string]: Price };
+export type PriceList = number[][];
+
+export type Price = {
+  type: ID;
+  product: ID | null,
+  prices: PriceList;
+}
+export type Prices = Price[];
 export type PriceUpdate = {
-  type_id: number;
-  product_id: number | null;
-  price: Price;
+  type_id: ID;
+  product_id: ID | null;
+  price: PriceList;
 };
 
 export type PricesUpdate = PriceUpdate[];

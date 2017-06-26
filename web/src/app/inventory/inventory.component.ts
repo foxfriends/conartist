@@ -1,10 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import StorageService from '../storage/storage.service';
+import StorageService from '../data/storage.service';
 import template from './inventory.component.html';
 import styles from './inventory.component.scss';
-import { Products, ProductTypes, ProductTypeName, Prices } from '../../../../conartist';
+import { Products, ProductTypes, ID, Prices } from '../../../../conartist';
 
 @Component({
   selector: 'con-inventory',
@@ -23,20 +23,15 @@ export default class InventoryComponent {
 
   get types() {
     // TODO: what order should types come in? save an order in the database?
-    return this._types.map(_ => Object.values(_));
+    return this._types.getValue();
   }
 
-  products(type: ProductTypeName) {
-    return this._products.map(_ => _[type]);
+  products(type: ID) {
+    return this._products.getValue().filter(_ => _.type === type);
   }
 
-  prices(type: ProductTypeName) {
-    return this._prices.map(_ =>
-      Object
-        .entries(_)
-        .filter(([_]) => _.split('::')[0] === type)
-        .reduce((_, [n, v]) => ({ ..._, [n]: v }), {} as Prices)
-    );
+  prices(type: ID) {
+    return this._prices.getValue().filter(_ => _.type === type);
   }
 
   tabChange(index: number) {

@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import StorageService from '../storage/storage.service';
 import template from './inventory.component.html';
@@ -12,9 +12,9 @@ import { Products, ProductTypes, ProductTypeName, Prices } from '../../../../con
   styles: [ styles ],
 })
 export default class InventoryComponent {
-  private _products: Observable<Products>
-  private _types: Observable<ProductTypes>
-  private _prices: Observable<Prices>;
+  private _products: BehaviorSubject<Products>
+  private _types: BehaviorSubject<ProductTypes>
+  private _prices: BehaviorSubject<Prices>;
   constructor(@Inject(StorageService) storage: StorageService) {
     this._products = storage.products;
     this._types = storage.types;
@@ -37,5 +37,20 @@ export default class InventoryComponent {
         .filter(([_]) => _.split('::')[0] === type)
         .reduce((_, [n, v]) => ({ ..._, [n]: v }), {} as Prices)
     );
+  }
+
+  tabChange(index: number) {
+    const max = Object.keys(this._types.getValue()).length;
+    if(index === max) {
+      this._types.next({
+        ...this._types.getValue(),
+        [`Type ${index}`]: {
+          name: `Type ${index}`,
+          color: [255, 255, 255],
+          id: 'new',
+          discontinued: false,
+        }
+      });
+    }
   }
 }

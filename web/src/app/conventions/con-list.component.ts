@@ -16,7 +16,7 @@ export default class ConListComponent {
   @Input() opened: Conventions;
   @Output() conClick = new EventEmitter<Convention>();
 
-  private _conventions: Observable<Conventions>
+  private _conventions: Observable<Conventions>;
 
   constructor(@Inject(StorageService) storage: StorageService) {
     this._conventions = storage.conventions;

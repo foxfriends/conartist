@@ -3,7 +3,7 @@ export type Color = [number, number, number] | [number, number, number, number] 
 export type ProductType = {
   color: Color;
   name: string;
-  id: number;
+  id: number | 'new';
   discontinued: boolean;
 };
 export type ProductTypes = {

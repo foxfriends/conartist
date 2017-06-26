@@ -1,0 +1,10 @@
+[conEditable] {
+  outline: none;
+
+  &:hover::after {
+    content: 'edit';
+    font: smaller 'Material Icons';
+    margin: 8px;
+    cursor: pointer;
+  }
+}

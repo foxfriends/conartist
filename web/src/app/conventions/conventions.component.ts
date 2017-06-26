@@ -11,7 +11,7 @@ import { Convention, Conventions } from '../../../../conartist';
 })
 export default class ConventionsComponent {
   openConventions: Conventions = [];
-  currentTab: number = 0;
+  currentTab = 0;
 
   openConvention(convention: Convention) {
     if(!this.openConventions.includes(convention)) {

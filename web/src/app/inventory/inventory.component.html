@@ -1,7 +1,7 @@
-<md-tab-group>
+<md-tab-group (selectedIndexChange)="tabChange($event)">
   <md-tab *ngFor="let type of types|async" [label]="type.name">
     <header class="inventory__header" [style.backgroundColor]="type.color|color">
-      <h1 class="inventory__title">{{ type.name }}</h1>
+      <h1 class="inventory__title" conEditable [(conTent)]=type.name></h1>
     </header>
     <div class="inventory__card-grid">
       <md-card class="inventory__card">
@@ -43,5 +43,12 @@
         </md-card-actions>
       </md-card>
     </div>
+  </md-tab>
+  <md-tab>
+    <ng-template md-tab-label>
+      <div class="inventory__tab-label">
+        <md-icon>add</md-icon>
+      </div>
+    </ng-template>
   </md-tab>
 </md-tab-group>

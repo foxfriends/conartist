@@ -8,6 +8,7 @@ export type ProductType = {
   name: ProductTypeName;
   id: ID;
   discontinued: boolean;
+  dirty?: boolean;
 };
 export type ProductTypes = ProductType[];
 
@@ -20,17 +21,12 @@ export type NewType = {
 export type ModifyType = {
   kind: 'modify';
   id: ID;
-  color?: Color;
-  name?: ProductTypeName;
-  discontinued?: boolean;
+  color: Color;
+  name: ProductTypeName;
+  discontinued: boolean;
 };
 
-export type DiscontinueType = {
-  kind: 'discontinue';
-  id: ID;
-}
-
-export type TypeUpdate = NewType | ModifyType | DiscontinueType;
+export type TypeUpdate = NewType | ModifyType;
 export type TypesUpdate = TypeUpdate[];
 
 export type Product = {
@@ -39,6 +35,7 @@ export type Product = {
   id: ID;
   type: ID;
   discontinued: boolean;
+  dirty?: boolean;
 };
 export type Products = Product[];
 
@@ -52,23 +49,19 @@ export type NewProduct = {
 export type ModifyProduct = {
   kind: 'modify';
   id: ID;
-  name?: string;
-  quantity?: number;
-  discontinued?: boolean;
+  name: string;
+  quantity: number;
+  discontinued: boolean;
 };
 
-export type DiscontinueProduct = {
-  kind: 'discontinue';
-  id: ID;
-};
-
-export type ProductUpdate = NewProduct | ModifyProduct | DiscontinueProduct;
+export type ProductUpdate = NewProduct | ModifyProduct;
 export type ProductsUpdate = ProductUpdate[];
 
 export type Record = {
   products: ID[];
   price: number;
   time: number;
+  dirty?: boolean;
 };
 export type Records = Record[];
 export type RecordUpdate = {
@@ -84,14 +77,15 @@ export type Price = {
   type: ID;
   product: ID | null,
   prices: PriceList;
+  dirty?: boolean;
 }
 export type Prices = Price[];
+
 export type PriceUpdate = {
   type_id: ID;
   product_id: ID | null;
   price: PriceList;
 };
-
 export type PricesUpdate = PriceUpdate[];
 
 export type ConventionData = {

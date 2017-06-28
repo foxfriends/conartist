@@ -236,28 +236,10 @@ async function writeProducts(user_id: number, products: ca.ProductsUpdate): Prom
         }
         case 'modify': {
           const { id, name, quantity, discontinued } = product;
-          if(name) {
-            await client.query(
-              SQL`UPDATE Products SET name = ${name} WHERE product_id = ${id} AND user_id = ${user_id}`
-            );
-          }
-          if(quantity) {
-            await client.query(
-              SQL`UPDATE Inventory SET quantity = ${quantity} WHERE product_id = ${id} AND user_id = ${user_id}`
-            );
-          }
-          if(discontinued === false) {
-            await client.query(
-              SQL`UPDATE Products SET discontinued = FALSE WHERE product_id = ${id} AND user_id = ${user_id}`
-            );
-          }
-          break;
-        }
-        case 'discontinue': {
-          const { id } = product;
           await client.query(
-            SQL`UPDATE Products SET discontinued = TRUE WHERE product_id = ${id} AND user_id = ${user_id}`
+            SQL`UPDATE Products SET name = ${name}, quantity = ${quantity}, discontinued = ${discontinued} WHERE product_id = ${id} AND user_id = ${user_id}`
           );
+          break;
         }
       }
     }
@@ -310,30 +292,11 @@ async function writeTypes(user_id: number, types: ca.TypesUpdate): Promise<ca.Pr
         }
         case 'modify': {
           const { id, name, color, discontinued } = type;
-          if(name) {
             await client.query(
-              SQL`UPDATE ProductTypes SET name = ${name} WHERE type_id = ${id} AND user_id = ${user_id}`
-            );
-          }
-          if(color) {
-            await client.query(
-              SQL`UPDATE ProductTypes SET color = ${color} WHERE type_id = ${id} AND user_id = ${user_id}`
-            );
-          }
-          if(discontinued === false) {
-            await client.query(
-              SQL`UPDATE ProductTypes SET discontinued = FALSE WHERE type_id = ${id} AND user_id = ${user_id}`
+              SQL`UPDATE ProductTypes SET name = ${name}, color = ${color}, discontinued = ${discontinued} WHERE type_id = ${id} AND user_id = ${user_id}`
             );
           }
           break;
-        }
-        case 'discontinue': {
-          const { id } = type;
-          await client.query(
-            SQL`UPDATE ProductTypes SET discontinued = TRUE WHERE type_id = ${id} AND user_id = ${user_id}`
-          );
-          break;
-        }
       }
     }
     return result;

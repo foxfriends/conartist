@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { MdButtonModule, MdCardModule, MdInputModule, MdCheckboxModule, MdToolbarModule, MdSidenavModule, MdListModule, MdIconModule, MdTooltipModule, MdTabsModule } from '@angular/material';
+import { MdButtonModule, MdCardModule, MdInputModule, MdCheckboxModule, MdToolbarModule, MdSidenavModule, MdListModule, MdIconModule, MdTooltipModule, MdTabsModule, MdProgressSpinnerModule, MdSnackBarModule } from '@angular/material';
 
 const modules = [
   MdButtonModule,
@@ -12,6 +12,8 @@ const modules = [
   MdIconModule,
   MdTooltipModule,
   MdTabsModule,
+  MdProgressSpinnerModule,
+  MdSnackBarModule,
 ];
 
 @NgModule({

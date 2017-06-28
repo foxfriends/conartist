@@ -193,4 +193,35 @@ api.put('/prices/', assert_authorized(), (req, res) => __awaiter(this, void 0, v
         res.send(JSON.stringify({ status: 'Error', error: error.message }));
     }
 }));
+api.get('/types/', assert_authorized(), (req, res) => __awaiter(this, void 0, void 0, function* () {
+    res.set('Content-Type', 'application/json');
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
+    try {
+        const { usr: user_id } = req.user;
+        const data = yield db.getUserTypes(user_id);
+        res.send(JSON.stringify({ status: 'Success', data }));
+    }
+    catch (error) {
+        console.error(error);
+        res.send(JSON.stringify({ status: 'Error', error: error.message }));
+    }
+}));
+api.put('/types/', assert_authorized(), (req, res) => __awaiter(this, void 0, void 0, function* () {
+    res.set('Content-Type', 'application/json');
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
+    try {
+        const { usr: user_id } = req.user;
+        const { types } = req.body;
+        const data = yield db.writeTypes(user_id, types);
+        res.send(JSON.stringify({ status: 'Success', data }));
+    }
+    catch (error) {
+        console.error(error);
+        res.send(JSON.stringify({ status: 'Error', error: error.message }));
+    }
+}));
 exports.default = api;

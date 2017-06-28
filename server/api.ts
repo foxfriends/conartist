@@ -25,6 +25,7 @@ type Body = {
   records: ca.RecordsUpdate;
   prices: ca.PricesUpdate;
   products: ca.ProductsUpdate;
+  types: ca.TypesUpdate;
   usr: string;
   psw: string;
 };
@@ -207,6 +208,37 @@ api.put('/prices/', assert_authorized(), async (req, res) => {
     const { prices } = req.body as Pick<Body, 'prices'>;
     const data = await db.writePrices(user_id, prices);
     res.send(JSON.stringify({ status: 'Success', data } as ca.APISuccessResult<ca.Prices>));
+  } catch(error) {
+    console.error(error);
+    res.send(JSON.stringify({ status: 'Error', error: error.message } as ca.APIErrorResult));
+  }
+});
+
+api.get('/types/', assert_authorized(), async (req, res) => {
+  res.set('Content-Type', 'application/json');
+  res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+  try {
+    const { usr: user_id } = req.user as User;
+    const data = await db.getUserTypes(user_id);
+    res.send(JSON.stringify({ status: 'Success', data } as ca.APISuccessResult<ca.ProductTypes>));
+  } catch(error) {
+    console.error(error);
+    res.send(JSON.stringify({ status: 'Error', error: error.message } as ca.APIErrorResult));
+  }
+});
+
+api.put('/types/', assert_authorized(), async (req, res) => {
+  res.set('Content-Type', 'application/json');
+  res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+  try {
+    const { usr: user_id } = req.user as User;
+    const { types } = req.body as Pick<Body, 'types'>;
+    const data = await db.writeTypes(user_id, types);
+    res.send(JSON.stringify({ status: 'Success', data } as ca.APISuccessResult<ca.ProductTypes>));
   } catch(error) {
     console.error(error);
     res.send(JSON.stringify({ status: 'Error', error: error.message } as ca.APIErrorResult));

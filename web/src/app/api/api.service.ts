@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
-import { APIResult, UserInfo, FullConvention } from '../../../../conartist';
+import { APIResult, UserInfo, Products, ProductTypes, FullConvention, TypesUpdate, ProductsUpdate } from '../../../../conartist';
 
 function handle<T>(response: Response): T {
   const result = response.json() as APIResult<T>;
@@ -80,5 +80,39 @@ export default class APIService {
       .get(APIService.host`/api/con/${code}/`, this.options)
       .map(_ => handle<FullConvention>(_))
       .catch(_ => Observable.throw(new Error(`Fetching convention for ${code} data failed`)));
+  }
+
+  saveTypes(types: ProductTypes): Observable<ProductTypes> {
+    const updates: TypesUpdate = types
+        .filter(_ => _.dirty)
+        .map(_ =>
+          _.id < 0  ? ({ kind: 'create' as 'create', name: _.name, color: _.color }) :
+                    ({ kind: 'modify' as 'modify', name: _.name, color: _.color, id: _.id, discontinued: _.discontinued })
+        );
+    if(updates.length) {
+      return this.http
+        .put(APIService.host`/api/types/`, { types: updates }, this.options)
+        .map(_ => handle<ProductTypes>(_))
+        .catch(_ => Observable.throw(new Error('Could not save product types changes')));
+    } else {
+      return Observable.of([]);
+    }
+  }
+
+  saveProducts(products: Products): Observable<Products> {
+    const updates: ProductsUpdate = products
+        .filter(_ => _.dirty)
+        .map(_ =>
+          _.id < 0  ? ({ kind: 'create' as 'create', name: _.name, type: _.type, quantity: _.quantity }) :
+                      ({ kind: 'modify' as 'modify', name: _.name, type: _.type, quantity: _.quantity, id: _.id, discontinued: _.discontinued })
+        );
+    if(updates.length) {
+      return this.http
+        .put(APIService.host`/api/products/`, { products: updates }, this.options)
+        .map(_ => handle<Products>(_))
+        .catch(_ => Observable.throw(new Error('Could not save product changes')));
+    } else {
+      return Observable.of([]);
+    }
   }
 }

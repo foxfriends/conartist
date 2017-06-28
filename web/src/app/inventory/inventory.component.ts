@@ -1,10 +1,11 @@
 import { Component, Inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { MdSnackBar } from '@angular/material';
 
 import StorageService from '../data/storage.service';
 import template from './inventory.component.html';
 import styles from './inventory.component.scss';
-import { Products, ProductTypes, ID, Prices } from '../../../../conartist';
+import { Products, ProductType, ProductTypes, ID, Prices } from '../../../../conartist';
 
 @Component({
   selector: 'con-inventory',
@@ -15,7 +16,13 @@ export default class InventoryComponent {
   private _products: BehaviorSubject<Products>
   private _types: BehaviorSubject<ProductTypes>
   private _prices: BehaviorSubject<Prices>;
-  constructor(@Inject(StorageService) storage: StorageService) {
+
+  saving = false;
+
+  constructor(
+    @Inject(StorageService) private storage: StorageService,
+    @Inject(MdSnackBar) private snackbar: MdSnackBar,
+  ) {
     this._products = storage.products;
     this._types = storage.types;
     this._prices = storage.prices;
@@ -24,6 +31,10 @@ export default class InventoryComponent {
   get types() {
     // TODO: what order should types come in? save an order in the database?
     return this._types.getValue();
+  }
+
+  trackID(type: ProductType) {
+    return type.id;
   }
 
   products(type: ID) {
@@ -37,15 +48,27 @@ export default class InventoryComponent {
   tabChange(index: number) {
     const max = Object.keys(this._types.getValue()).length;
     if(index === max) {
-      this._types.next({
-        ...this._types.getValue(),
-        [`Type ${index}`]: {
-          name: `Type ${index}`,
-          color: [255, 255, 255],
-          id: 'new',
-          discontinued: false,
-        }
-      });
+      this.createType(index + 1);
     }
+  }
+
+  createType(index: number) {
+    this._types.next([
+      ...this._types.getValue(),
+      {
+        name: `Type ${index}`,
+        color: [255, 255, 255],
+        id: -index,
+        discontinued: false,
+        dirty: true,
+      }
+    ]);
+  }
+
+  async saveInventory() {
+    this.saving = true;
+    await this.storage.commit();
+    this.saving = false;
+    this.snackbar.open("Saved", "Dismiss", { duration: 3000 });
   }
 }

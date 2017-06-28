@@ -202,20 +202,8 @@ function writeProducts(user_id, products) {
                     }
                     case 'modify': {
                         const { id, name, quantity, discontinued } = product;
-                        if (name) {
-                            yield client.query(sql_template_strings_1.default `UPDATE Products SET name = ${name} WHERE product_id = ${id} AND user_id = ${user_id}`);
-                        }
-                        if (quantity) {
-                            yield client.query(sql_template_strings_1.default `UPDATE Inventory SET quantity = ${quantity} WHERE product_id = ${id} AND user_id = ${user_id}`);
-                        }
-                        if (discontinued === false) {
-                            yield client.query(sql_template_strings_1.default `UPDATE Products SET discontinued = FALSE WHERE product_id = ${id} AND user_id = ${user_id}`);
-                        }
+                        yield client.query(sql_template_strings_1.default `UPDATE Products SET name = ${name}, quantity = ${quantity}, discontinued = ${discontinued} WHERE product_id = ${id} AND user_id = ${user_id}`);
                         break;
-                    }
-                    case 'discontinue': {
-                        const { id } = product;
-                        yield client.query(sql_template_strings_1.default `UPDATE Products SET discontinued = TRUE WHERE product_id = ${id} AND user_id = ${user_id}`);
                     }
                 }
             }
@@ -269,24 +257,12 @@ function writeTypes(user_id, types) {
                         result.push({ id: type_id, name, color, discontinued: false });
                         break;
                     }
-                    case 'modify': {
-                        const { id, name, color, discontinued } = type;
-                        if (name) {
-                            yield client.query(sql_template_strings_1.default `UPDATE ProductTypes SET name = ${name} WHERE type_id = ${id} AND user_id = ${user_id}`);
-                        }
-                        if (color) {
-                            yield client.query(sql_template_strings_1.default `UPDATE ProductTypes SET color = ${color} WHERE type_id = ${id} AND user_id = ${user_id}`);
-                        }
-                        if (discontinued === false) {
-                            yield client.query(sql_template_strings_1.default `UPDATE ProductTypes SET discontinued = FALSE WHERE type_id = ${id} AND user_id = ${user_id}`);
+                    case 'modify':
+                        {
+                            const { id, name, color, discontinued } = type;
+                            yield client.query(sql_template_strings_1.default `UPDATE ProductTypes SET name = ${name}, color = ${color}, discontinued = ${discontinued} WHERE type_id = ${id} AND user_id = ${user_id}`);
                         }
                         break;
-                    }
-                    case 'discontinue': {
-                        const { id } = type;
-                        yield client.query(sql_template_strings_1.default `UPDATE ProductTypes SET discontinued = TRUE WHERE type_id = ${id} AND user_id = ${user_id}`);
-                        break;
-                    }
                 }
             }
             return result;

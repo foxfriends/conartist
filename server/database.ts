@@ -221,6 +221,7 @@ async function getUserTypes(user_id: number, includeDiscontinued: boolean = fals
 async function writeProducts(user_id: number, products: ca.ProductsUpdate): Promise<ca.Products> {
   const client = await connect();
   try {
+    await client.query(SQL`BEGIN`);
     const result: ca.Products = [];
     for(const product of products) {
       switch(product.kind) {
@@ -247,8 +248,10 @@ async function writeProducts(user_id: number, products: ca.ProductsUpdate): Prom
         }
       }
     }
+    await client.query(SQL`COMMIT`);
     return result;
   } catch(error) {
+    await client.query(SQL`ROLLBACK`);
     throw error;
   } finally {
     client.release();
@@ -258,6 +261,7 @@ async function writeProducts(user_id: number, products: ca.ProductsUpdate): Prom
 async function writePrices(user_id: number, prices: ca.PricesUpdate): Promise<ca.Prices> {
   const client = await connect();
   try {
+    await client.query(SQL`BEGIN`);
     const result: ca.Prices = [];
     for(const { type_id, product_id, price } of prices) {
       const { rowCount } = await client.query(SQL`SELECT 1 FROM Prices WHERE user_id = ${user_id} AND type_id = ${type_id} AND product_id = ${product_id}`);
@@ -272,8 +276,10 @@ async function writePrices(user_id: number, prices: ca.PricesUpdate): Promise<ca
         result.push({ type: type_id, product: product_id, prices: price});
       }
     }
+    await client.query(SQL`COMMIT`);
     return result;
   } catch(error) {
+    await client.query(SQL`ROLLBACK`);
     throw error;
   } finally {
     client.release();
@@ -283,6 +289,7 @@ async function writePrices(user_id: number, prices: ca.PricesUpdate): Promise<ca
 async function writeTypes(user_id: number, types: ca.TypesUpdate): Promise<ca.ProductTypes> {
   const client = await connect();
   try {
+    await client.query(SQL`BEGIN`);
     const result: ca.ProductTypes = [];
     for(const type of types) {
       switch(type.kind) {
@@ -303,8 +310,10 @@ async function writeTypes(user_id: number, types: ca.TypesUpdate): Promise<ca.Pr
           break;
       }
     }
+    await client.query(SQL`COMMIT`);
     return result;
   } catch(error) {
+    await client.query(SQL`ROLLBACK`);
     throw error;
   } finally {
     client.release();

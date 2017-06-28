@@ -61,6 +61,7 @@ export default class StorageService implements ObservableUserInfo {
       .map(_ => _.find(_ => _.code === code)!).filter(_ => !!_)
       .distinctUntilChanged();
   }
+
   updateConvention(con: Convention) {
     this._conventions.next(this._conventions.getValue().map(_ => _.code === con.code ? con : _));
   }

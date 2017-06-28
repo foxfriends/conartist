@@ -107,9 +107,9 @@ api.get('/user/', assert_authorized(), async (req, res) => {
     const { usr: user_id } = req.user as User;
     // TODO: concurrency
     const { email, keys } = await db.getUser(user_id);
-    const products = await db.getUserProducts(user_id);
+    const products = await db.getUserProducts(user_id, true);
     const prices = await db.getUserPrices(user_id);
-    const types = await db.getUserTypes(user_id);
+    const types = await db.getUserTypes(user_id, true);
     const conventions = await db.getUserMetaConventions(user_id);
     const data = { email, keys, products, prices, types, conventions };
     res.send(JSON.stringify({ status: 'Success', data } as ca.APISuccessResult<ca.UserInfo>));

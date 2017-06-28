@@ -17,7 +17,7 @@ export default class EditableDirective implements OnChanges {
 
   onEnterPress(event: KeyboardEvent) {
     event.preventDefault();
-    this.onBlur();
+    this.element.nativeElement.blur();
   }
 
   onBlur() {

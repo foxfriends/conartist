@@ -1,5 +1,5 @@
 node_modules
-server/**.js
+server/*.js
 web/src/**.js
 ./data
 web-x

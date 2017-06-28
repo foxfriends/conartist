@@ -1,7 +1,7 @@
 <!-- TODO: find an md-data-table -->
 <md-list class="product-list">
   <md-list-item *ngFor="let product of products" class="product-list__row">
-    <span class="product-list__column">{{ product.name }}</span>
-    <span class="product-list__column">{{ product.quantity }}</span>
+    <span class="product-list__column" conEditable [conTent]="product.name" (conTentChange)="setProductName($event, product.id)"></span>
+    <span class="product-list__column" conEditable [conTent]="product.quantity" (conTentChange)="setProductQuantity($event, product.id)"></span>
   </md-list-item>
 </md-list>

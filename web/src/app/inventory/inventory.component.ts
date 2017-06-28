@@ -65,6 +65,23 @@ export default class InventoryComponent {
     ]);
   }
 
+  setTypeName(name: string, type: number) {
+    this._types.next(this._types.getValue().map(_ => _.id === type ? { ..._, name, dirty: true } : _));
+  }
+
+  createProduct(type: ProductType, index: number) {
+    this._products.next([
+      ...this._products.getValue(),
+      {
+        name: `${type.name} ${index}`,
+        quantity: 0,
+        type: type.id,
+        id: -index,
+        discontinued: false
+      }
+    ]);
+  }
+
   async saveInventory() {
     this.saving = true;
     await this.storage.commit();

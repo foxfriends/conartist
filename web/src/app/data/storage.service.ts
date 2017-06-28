@@ -68,17 +68,20 @@ export default class StorageService implements ObservableUserInfo {
   async commit() {
     const oldTypes = this._types.getValue();
     let oldProducts = this._products.getValue();
+    let oldPrices = this._prices.getValue();
     const newTypes = await this.api.saveTypes(oldTypes).toPromise();;
     const nextTypes = oldTypes.map(type => {
       if(type.id >= 0) { return { ...type, dirty: false }; };
       const next = newTypes.find(_ => _.name === type.name)!;
-      oldProducts = oldProducts.map(_ => _.type === type.id ? { ..._, type: type.id } : _);
+      oldProducts = oldProducts.map(_ => _.type === type.id ? { ..._, type: next.id } : _);
+      oldPrices = oldPrices.map(_ => _.type === type.id ? { ..._, type: type.id } : _);
       return next;
     });
 
     const newProducts = await this.api.saveProducts(oldProducts).toPromise();
     const nextProducts = oldProducts.map(product => {
       if(product.id >= 0) { return { ...product, dirty: false }; }
+      oldPrices = oldPrices.map(_ => _.product === product.id ? { ..._, product: product.id } : _);
       return newProducts.find(_ => (_.name === product.name && _.type === product.type) || _.id === product.id)!;
     });
 

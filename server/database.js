@@ -136,7 +136,9 @@ function getUserProducts(user_id, includeDiscontinued = false) {
     return __awaiter(this, void 0, void 0, function* () {
         const client = yield connect();
         try {
-            const { rows: raw_products } = yield client.query(sql_template_strings_1.default `SELECT product_id, type_id, name, discontinued FROM Products WHERE user_id = ${user_id}`.append(includeDiscontinued ? sql_template_strings_1.default `` : sql_template_strings_1.default `AND discontinued = FALSE`));
+            const { rows: raw_products } = yield client.query(sql_template_strings_1.default `SELECT product_id, type_id, name, discontinued FROM Products WHERE user_id = ${user_id}`
+                .append(includeDiscontinued ? sql_template_strings_1.default `` : sql_template_strings_1.default ` AND discontinued = FALSE`)
+                .append(sql_template_strings_1.default ` ORDER BY product_id ASC`));
             const { rows: raw_inventory } = yield client.query(sql_template_strings_1.default `SELECT quantity, product_id FROM Inventory WHERE user_id = ${user_id}`);
             const inventory = raw_inventory.map(_ => ({ id: _.product_id, quantity: _.quantity }));
             const products = raw_products.map(_ => ({ type: _.type_id, id: _.product_id, name: _.name, discontinued: _.discontinued, quantity: inventory.find(byId(_.product_id)).quantity }));
@@ -172,7 +174,9 @@ function getUserTypes(user_id, includeDiscontinued = false) {
     return __awaiter(this, void 0, void 0, function* () {
         const client = yield connect();
         try {
-            const { rows: raw_types } = yield client.query(sql_template_strings_1.default `SELECT type_id, name, color, discontinued FROM ProductTypes WHERE user_id = ${user_id}`.append(includeDiscontinued ? sql_template_strings_1.default `` : sql_template_strings_1.default `AND discontinued = FALSE`));
+            const { rows: raw_types } = yield client.query(sql_template_strings_1.default `SELECT type_id, name, color, discontinued FROM ProductTypes WHERE user_id = ${user_id}`
+                .append(includeDiscontinued ? sql_template_strings_1.default `` : sql_template_strings_1.default ` AND discontinued = FALSE`)
+                .append(sql_template_strings_1.default ` ORDER BY type_id ASC`));
             const types = raw_types.map(_ => ({ id: _.type_id, name: _.name, color: _.color, discontinued: _.discontinued }));
             return types;
         }
@@ -195,14 +199,14 @@ function writeProducts(user_id, products) {
                     case 'create': {
                         const { name, type, quantity } = product;
                         const { rows: [{ product_id }] } = yield client.query(sql_template_strings_1.default `INSERT INTO Products (name,type_id,user_id) VALUES (${name},${type},${user_id}) RETURNING product_id`);
-                        const { rows: [{ type_id }] } = yield client.query(sql_template_strings_1.default `SELECT id FROM ProductTypes WHERE type_id = ${type}`);
                         yield client.query(sql_template_strings_1.default `INSERT INTO Inventory (quantity,product_id,user_id) VALUES (${quantity},${product_id},${user_id})`);
-                        result.push({ name, id: product_id, type: type_id, quantity, discontinued: false });
+                        result.push({ name, id: product_id, type, quantity, discontinued: false });
                         break;
                     }
                     case 'modify': {
                         const { id, name, quantity, discontinued } = product;
-                        yield client.query(sql_template_strings_1.default `UPDATE Products SET name = ${name}, quantity = ${quantity}, discontinued = ${discontinued} WHERE product_id = ${id} AND user_id = ${user_id}`);
+                        yield client.query(sql_template_strings_1.default `UPDATE Products SET name = ${name}, discontinued = ${discontinued} WHERE product_id = ${id} AND user_id = ${user_id}`);
+                        yield client.query(sql_template_strings_1.default `UPDATE Inventory SET quantity = ${quantity} WHERE product_id = ${id} AND user_id = ${user_id}`);
                         break;
                     }
                 }

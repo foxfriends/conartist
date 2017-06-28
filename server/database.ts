@@ -169,7 +169,9 @@ async function getUserProducts(user_id: number, includeDiscontinued: boolean = f
   const client = await connect();
   try {
     const { rows: raw_products } = await client.query<Pick<db.Product, 'product_id' | 'type_id' | 'name' | 'discontinued'>>(
-      SQL`SELECT product_id, type_id, name, discontinued FROM Products WHERE user_id = ${user_id}`.append(includeDiscontinued ? SQL`` : SQL`AND discontinued = FALSE`)
+      SQL`SELECT product_id, type_id, name, discontinued FROM Products WHERE user_id = ${user_id}`
+        .append(includeDiscontinued ? SQL`` : SQL` AND discontinued = FALSE`)
+        .append(SQL` ORDER BY product_id ASC`)
     );
     const { rows: raw_inventory } = await client.query<Pick<db.InventoryItem, 'quantity' | 'product_id'>>(
       SQL`SELECT quantity, product_id FROM Inventory WHERE user_id = ${user_id}`
@@ -203,7 +205,9 @@ async function getUserTypes(user_id: number, includeDiscontinued: boolean = fals
   const client = await connect();
   try {
     const { rows: raw_types } = await client.query<Pick<db.ProductType, 'type_id' | 'name' | 'color' | 'discontinued'>>(
-      SQL`SELECT type_id, name, color, discontinued FROM ProductTypes WHERE user_id = ${user_id}`.append(includeDiscontinued ? SQL`` : SQL`AND discontinued = FALSE`)
+      SQL`SELECT type_id, name, color, discontinued FROM ProductTypes WHERE user_id = ${user_id}`
+        .append(includeDiscontinued ? SQL`` : SQL` AND discontinued = FALSE`)
+        .append(SQL` ORDER BY type_id ASC`)
     );
     const types = raw_types.map(_ => ({ id: _.type_id, name: _.name, color: _.color, discontinued: _.discontinued }));
     return types;
@@ -225,20 +229,20 @@ async function writeProducts(user_id: number, products: ca.ProductsUpdate): Prom
           const { rows: [{ product_id }]} = await client.query<Pick<db.Product, 'product_id'>>(
             SQL`INSERT INTO Products (name,type_id,user_id) VALUES (${name},${type},${user_id}) RETURNING product_id`
           );
-          const { rows: [{ type_id }]} = await client.query<Pick<db.ProductType, 'type_id'>>(
-            SQL`SELECT id FROM ProductTypes WHERE type_id = ${type}`
-          );
           await client.query(
             SQL`INSERT INTO Inventory (quantity,product_id,user_id) VALUES (${quantity},${product_id},${user_id})`
           );
-          result.push({ name, id: product_id, type: type_id, quantity, discontinued: false });
+          result.push({ name, id: product_id, type, quantity, discontinued: false });
           break;
         }
         case 'modify': {
           const { id, name, quantity, discontinued } = product;
           await client.query(
-            SQL`UPDATE Products SET name = ${name}, quantity = ${quantity}, discontinued = ${discontinued} WHERE product_id = ${id} AND user_id = ${user_id}`
+            SQL`UPDATE Products SET name = ${name}, discontinued = ${discontinued} WHERE product_id = ${id} AND user_id = ${user_id}`
           );
+          await client.query(
+            SQL`UPDATE Inventory SET quantity = ${quantity} WHERE product_id = ${id} AND user_id = ${user_id}`
+          )
           break;
         }
       }

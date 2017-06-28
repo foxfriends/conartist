@@ -17,6 +17,9 @@ export default class ProductListComponent {
 
   private _products: BehaviorSubject<Products>;
 
+  readonly productNameIsUnique = (name: string) => !this._products.getValue().filter(_ => _.type === this.type.id && _.name === name).length;
+  readonly quantityIsPositive = (quantity: string) => !isNaN(parseInt(quantity, 10)) && parseInt(quantity, 10) >= 0;
+
   constructor(@Inject(StorageService) storage: StorageService) {
     this._products = storage.products;
   }

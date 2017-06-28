@@ -8,7 +8,7 @@
   <md-tab-group (selectedIndexChange)="tabChange($event)">
     <md-tab *ngFor="let type of types;trackBy:trackID" [label]="type.name">
       <header class="inventory__header" [style.backgroundColor]="type.color|color">
-        <h1 class="inventory__title" conEditable [conTent]="type.name" (conTentChange)="setTypeName($event, type.id)"></h1>
+        <h1 class="inventory__title" conEditable [conTent]="type.name" (conTentChange)="setTypeName($event, type.id)" [validator]="typeNameIsUnique"></h1>
       </header>
       <div class="inventory__card-grid">
         <md-card class="inventory__card">

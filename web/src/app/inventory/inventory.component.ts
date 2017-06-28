@@ -17,6 +17,8 @@ export default class InventoryComponent {
   private _types: BehaviorSubject<ProductTypes>
   private _prices: BehaviorSubject<Prices>;
 
+  readonly typeNameIsUnique = (name: string) => !this._types.getValue().filter(_ => _.name === name).length;
+
   saving = false;
 
   constructor(

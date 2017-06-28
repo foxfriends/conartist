@@ -7,11 +7,13 @@ import './editable.directive.scss';
     '(blur)': 'onBlur()',
     '(keydown.enter)': 'onEnterPress($event)',
     'contenteditable': 'true',
+    'spellcheck': 'false',
   },
 })
 export default class EditableDirective implements OnChanges {
   @Input('conTent') content: string;
   @Output('conTentChange') contentChange = new EventEmitter<string>();
+  @Input() validator?: (v: string) => boolean;
 
   constructor(@Inject(ElementRef) private element: ElementRef) {}
 
@@ -21,8 +23,18 @@ export default class EditableDirective implements OnChanges {
   }
 
   onBlur() {
-    const value = this.element.nativeElement.textContent;
+    const value = this.element.nativeElement.textContent.trim();
+    if(!this.validate(value)) {
+      this.element.nativeElement.textContent = this.content;
+      return;
+    }
     this.contentChange.emit(value);
+  }
+
+  validate(v: string) {
+    if(v === '') { return false; }
+    if(this.validator && !this.validator(v)) { return false; }
+    return true;
   }
 
   ngOnChanges(changes: SimpleChanges) {

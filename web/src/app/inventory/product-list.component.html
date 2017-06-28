@@ -1,7 +1,14 @@
 <!-- TODO: find an md-data-table -->
-<md-list class="product-list">
+<md-list class="product-list" *ngIf="products.length; else placeholder">
   <md-list-item *ngFor="let product of products" class="product-list__row">
     <span class="product-list__column" conEditable [conTent]="product.name" (conTentChange)="setProductName($event, product.id)" [validator]="productNameIsUnique"></span>
     <span class="product-list__column" conEditable [conTent]="product.quantity" (conTentChange)="setProductQuantity($event, product.id)" [validator]="quantityIsPositive"></span>
   </md-list-item>
 </md-list>
+<ng-template #placeholder>
+  <div class="product-list__placeholder">
+    <p>
+      You have no available products. Create some with the buttons below!
+    </p>
+  </div>
+</ng-template>

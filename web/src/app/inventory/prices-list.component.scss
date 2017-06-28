@@ -8,4 +8,13 @@
       justify-content: flex-end;
     }
   }
+
+  &__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 56px;
+    height: 100%;
+    color: #999;
+  }
 }

@@ -29,6 +29,11 @@
   &__card {
     flex-grow: 1;
     margin: 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  &__card-content {
+    flex-grow: 1;
   }
 
   &__placeholder {

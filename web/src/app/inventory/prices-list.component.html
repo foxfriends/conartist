@@ -1,5 +1,5 @@
 <!-- TODO: find an md-data-table -->
-<md-list class="prices-list">
+<md-list class="prices-list" *ngIf="prices.length; else placeholder">
   <ng-container *ngFor="let price of prices;let first = first">
     <ng-container *ngIf="!first">
       <md-divider></md-divider>
@@ -11,3 +11,10 @@
     </md-list-item>
   </ng-container>
 </md-list>
+<ng-template #placeholder>
+  <div class="prices-list__placeholder">
+    <p>
+      No prices have been set. Set them with the buttons below!
+    </p>
+  </div>
+</ng-template>

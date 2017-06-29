@@ -14,7 +14,7 @@ export default class TypePipe implements PipeTransform {
     this.types = storage.types;
   }
   transform<K extends keyof ProductType>(id: number, prop?: K): ProductType | ProductType[K] {
-    const type = this.types.getValue().find(_ => _.id === id) || { name: 'Unknown Type', id: -1, color: [255, 255, 255], discontinued: false };
+    const type = this.types.getValue().find(_ => _.id === id) || { name: 'Unknown Type', id: -1, color: 0xFFFFFF, discontinued: false };
     if(prop) {
       return type[prop];
     } else {

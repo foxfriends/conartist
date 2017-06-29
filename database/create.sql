@@ -49,7 +49,7 @@ CREATE TABLE ProductTypes (
   type_id       SERIAL PRIMARY KEY,
   user_id       INT NOT NULL REFERENCES Users (user_id) ON DELETE CASCADE,
   name          VARCHAR(512) NOT NULL,
-  color         INT[3],
+  color         INT,
   discontinued  BOOLEAN NOT NULL DEFAULT (FALSE)
 );
 CREATE INDEX index_ProductTypes ON ProductTypes (user_id);

@@ -57,7 +57,7 @@ export default class InventoryComponent {
       ...this._types.getValue(),
       {
         name: `Type ${index}`,
-        color: [255, 255, 255],
+        color: 0xFFFFFF,
         id: -index,
         discontinued: false,
         dirty: true,
@@ -89,8 +89,7 @@ export default class InventoryComponent {
   }
 
   setTypeColor(type: number) {
-    let hex = Math.ceil(Math.random() * 0xFFFFFF);
-    const color = [ (hex >> 16) & 0xFF, (hex >> 8) & 0xFF, hex & 0xFF ];
+    let color = Math.ceil(Math.random() * 0xFFFFFF);
     this._types.next(this._types.getValue().map(_ => _.id === type ? { ..._, color, dirty: true } : _));
   }
 

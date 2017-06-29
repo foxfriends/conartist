@@ -28,8 +28,8 @@ export const prices: Prices = [
 ];
 
 export const types: ProductTypes = [
-  { name: 'type', color: [255, 0, 0], id: 0, discontinued: false },
-  { name: 'type2', color: [0, 255, 0], id: 1, discontinued: false },
+  { name: 'type', color: 0xFF0000, id: 0, discontinued: false },
+  { name: 'type2', color: 0x00FF00, id: 1, discontinued: false },
 ];
 
 export const records: Records = [

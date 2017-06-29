@@ -3,15 +3,21 @@ import { Color } from '../../../../conartist';
 
 @Pipe({name: 'color'})
 export default class ColorPipe implements PipeTransform {
-  transform([r, g, b, a]: Color, format: 'rgb' | 'hex' = 'hex'): string {
+  transform(color: Color, format: 'rgb' | 'hex' = 'hex'): string {
+    const [r, g, b, a] = [
+      (color >> 16) & 0xFF,
+      (color >> 8) & 0xFF,
+      color & 0xFF,
+      Math.ceil((color > 0xFFFFFF ? (color >> 24) & 0xFF : 255) / 255 * 100) / 100
+    ];
     if(format === 'hex') {
-      if(a === undefined || a === 1) {
-        return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+      if(a === 1) {
+        return `#${(color & 0xFFFFFF).toString(16).padStart(6, '0')}`;
       } else {
-        return `rgba(${this.transform([r,g,b])},${a})`;
+        return `rgba(${this.transform((r << 16) + (g << 8) + b, 'hex')},${a})`;
       }
     } else {
-      if(a === undefined || a === 1) {
+      if(a === 1) {
         return `rgb(${r},${g},${b})`;
       } else {
         return `rgba(${r},${g},${b},${a})`;

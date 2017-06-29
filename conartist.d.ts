@@ -1,7 +1,7 @@
 export type ID = number;
 export type ProductTypeName = string;
 
-export type Color = number[]; // better: [number, number, number] | [number, number, number, number];, but typescript sucks at tuples
+export type Color = number;
 
 export type ProductType = {
   color: Color;

@@ -20,7 +20,8 @@ export default class InventoryComponent {
   readonly typeNameIsUnique = (name: string) => !this._types.getValue().filter(_ => _.name === name).length;
 
   saving = false;
-  showDiscontinued = false;
+  showDiscontinuedProducts = false;
+  showDiscontinuedTypes = false;
 
   constructor(
     @Inject(StorageService) private storage: StorageService,
@@ -33,7 +34,7 @@ export default class InventoryComponent {
 
   get types() {
     // TODO: what order should types come in? save an order in the database?
-    return this._types.getValue();
+    return this._types.getValue().filter(_ => this.showDiscontinuedTypes || !_.discontinued);
   }
 
   trackID(type: ProductType) {
@@ -42,10 +43,6 @@ export default class InventoryComponent {
 
   products(type: ID) {
     return this._products.getValue().filter(_ => _.type === type);
-  }
-
-  prices(type: ID) {
-    return this._prices.getValue().filter(_ => _.type === type);
   }
 
   tabChange(index: number) {
@@ -87,7 +84,18 @@ export default class InventoryComponent {
     this._types.next(this._types.getValue().map(_ => _.id === type ? { ..._, name, dirty: true } : _));
   }
 
+  setTypeDiscontinued(discontinued: boolean, type: number) {
+    this._types.next(this._types.getValue().map(_ => _.id === type ? { ..._, discontinued, dirty: true } : _));
+  }
+
+  setTypeColor(type: number) {
+    let hex = Math.ceil(Math.random() * 0xFFFFFF);
+    const color = [ (hex >> 16) & 0xFF, (hex >> 8) & 0xFF, hex & 0xFF ];
+    this._types.next(this._types.getValue().map(_ => _.id === type ? { ..._, color, dirty: true } : _));
+  }
+
   createProduct(type: ProductType, index: number) {
+    // TODO: check that new name is unique
     this._products.next([
       ...this._products.getValue(),
       {

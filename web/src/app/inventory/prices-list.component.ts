@@ -53,9 +53,10 @@ export default class PricesListComponent {
   }
 
   removePriceRow(index: number, product: number | null) {
-    const prices = this._prices.getValue();
     this._prices.next(
-      prices.map(_ => _.type === this.type.id && _.product === product ? { ..._, price: _.prices.splice(index, 1), dirty: true } : _)
+      this._prices.getValue()
+        .map(_ => _.type === this.type.id && _.product === product ? { ..._, prices: _.prices.filter((_, i) => i !== index), dirty: true } : _)
+        .filter(_ => ((_.product === null || _.product > 0) && _.type > 0) || _.prices.length > 0)
     );
   }
 

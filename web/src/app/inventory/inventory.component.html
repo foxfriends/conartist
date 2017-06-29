@@ -7,26 +7,38 @@
   </button>
   <md-tab-group (selectedIndexChange)="tabChange($event)" dynamicHeight="true">
     <md-tab *ngFor="let type of types;trackBy:trackID" [label]="type.name">
-      <header class="inventory__header" [style.backgroundColor]="type.color|color">
+      <header class="inventory__header" [style.backgroundColor]="type.discontinued ? '#999999' : type.color|color">
         <h1 class="inventory__title" conEditable [conTent]="type.name" (conTentChange)="setTypeName($event, type.id)" [validator]="typeNameIsUnique"></h1>
+        <button md-icon-button class="inventory__spacer--right" (click)="setTypeColor(type.id)" mdTooltip="Change color" mdTooltipPosition="left">
+          <md-icon>color_lens</md-icon>
+        </button>
+        <button md-icon-button (click)="setTypeDiscontinued(!type.discontinued, type.id)" [mdTooltip]="type.discontinued ? 'Restore' : 'Discontinue'" mdTooltipPosition="left">
+          <md-icon *ngIf="!type.discontinued">remove_circle_outline</md-icon>
+          <md-icon *ngIf="type.discontinued">add_circle_outline</md-icon>
+        </button>
+        <div class="inventory__spacer--fullwidth">
+          <md-slide-toggle [(ngModel)]="showDiscontinuedTypes" class="inventory__spacer--right inventory__spacer--bottom" labelPosition="before">
+            Show discontinued
+          </md-slide-toggle>
+        </div>
       </header>
       <div class="inventory__card-grid">
         <md-card class="inventory__card">
           <md-card-header>
             <md-card-title>Inventory</md-card-title>
-            <md-slide-toggle class="inventory__button--right" [(ngModel)]="showDiscontinued" labelPosition="before">Show discontinued</md-slide-toggle>
+            <md-slide-toggle class="inventory__spacer--right" [(ngModel)]="showDiscontinuedProducts" labelPosition="before">Show discontinued</md-slide-toggle>
           </md-card-header>
           <md-card-content class="inventory__card-content">
-            <con-product-list [type]="type" [showDiscontinued]="showDiscontinued"></con-product-list>
+            <con-product-list [type]="type" [showDiscontinued]="showDiscontinuedProducts"></con-product-list>
           </md-card-content>
           <md-card-actions>
-            <button md-raised-button class="inventory__button" mdTooltip="Download">
+            <button md-raised-button mdTooltip="Download">
               <md-icon>file_download</md-icon>
             </button>
-            <button md-raised-button class="inventory__button" mdTooltip="Upload">
+            <button md-raised-button mdTooltip="Upload">
               <md-icon>file_upload</md-icon>
             </button>
-            <button md-raised-button class="inventory__button" (click)="createProduct(type, products(type.id).length + 1)" mdTooltip="New Product">
+            <button md-raised-button (click)="createProduct(type, products(type.id).length + 1)" mdTooltip="New Product">
               <md-icon>add</md-icon>
             </button>
           </md-card-actions>
@@ -36,16 +48,16 @@
             <md-card-title>Prices</md-card-title>
           </md-card-header>
           <md-card-content class="inventory__card-content">
-            <con-prices-list [type]="type" [showDiscontinued]="showDiscontinued"></con-prices-list>
+            <con-prices-list [type]="type" [showDiscontinued]="showDiscontinuedProducts"></con-prices-list>
           </md-card-content>
           <md-card-actions>
-            <button md-raised-button class="inventory__button" mdTooltip="Download">
+            <button md-raised-button mdTooltip="Download">
               <md-icon>file_download</md-icon>
             </button>
-            <button md-raised-button class="inventory__button" mdTooltip="Upload">
+            <button md-raised-button mdTooltip="Upload">
               <md-icon>file_upload</md-icon>
             </button>
-            <button md-raised-button class="inventory__button" mdTooltip="Add" (click)="addPriceRow(type.id)">
+            <button md-raised-button mdTooltip="Add" (click)="addPriceRow(type.id)">
               <md-icon>add</md-icon>
             </button>
           </md-card-actions>
@@ -63,6 +75,7 @@
 </ng-container>
 <ng-template #placeholder>
   <div class="inventory__placeholder">
+    <span class="inventory__spacer--top"></span>
     <p>
       You haven't created any products yet!
     </p>
@@ -70,5 +83,8 @@
       <md-icon>add</md-icon>
     </button>
     <p>Get started!</p>
+    <md-slide-toggle [(ngModel)]="showDiscontinuedTypes" class="inventory__spacer--right inventory__spacer--bottom" labelPosition="before">
+      Show discontinued
+    </md-slide-toggle>
   </div>
 </ng-template>

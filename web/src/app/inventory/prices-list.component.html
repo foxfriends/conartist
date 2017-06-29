@@ -1,18 +1,23 @@
 <!-- TODO: find an md-data-table -->
 <md-list class="prices-list" *ngIf="prices.length; else placeholder">
   <ng-container *ngFor="let price of prices;let first = first">
-    <ng-container *ngIf="price.product">
-      <md-divider *ngIf="!first"></md-divider>
-      <h3 md-subheader>{{ price.product | product:'name' }}</h3>
+    <ng-container *ngIf="price.prices.length && (showDiscontinued || !(price.product && price.product | product:'discontinued'))">
+      <ng-container *ngIf="price.product">
+        <md-divider *ngIf="!first"></md-divider>
+        <h3 md-subheader>{{ price.product | product:'name' }}</h3>
+      </ng-container>
+      <md-list-item *ngFor="let row of price.prices;let i = index;trackBy:trackProduct">
+        <div class="prices-list__column">
+          <span conEditable [conTent]="row[0]" (conTentChange)="setPriceQuantity($event, i, price.product)" [validator]="quantityIsPositive"></span>
+        </div>
+        <div class="prices-list__column prices-list__column--currency">
+          <span conEditable [conTent]="row[1] | currency:'USD':true" (conTentChange)="setPricePrice($event, i, price.product)" [validator]="priceIsPositive"></span>
+        </div>
+        <button md-icon-button class="prices-list__button" (click)="removePriceRow(i, price.product)">
+          <md-icon>remove</md-icon>
+        </button>
+      </md-list-item>
     </ng-container>
-    <md-list-item *ngFor="let row of price.prices;let i = index;trackBy:trackProduct">
-      <div class="prices-list__column">
-        <span conEditable [conTent]="row[0]" (conTentChange)="setPriceQuantity($event, i, price.product)" [validator]="quantityIsPositive"></span>
-      </div>
-      <div class="prices-list__column prices-list__column--currency">
-        <span conEditable [conTent]="row[1] | currency:'USD':true" (conTentChange)="setPricePrice($event, i, price.product)" [validator]="priceIsPositive"></span>
-      </div>
-    </md-list-item>
   </ng-container>
 </md-list>
 <ng-template #placeholder>

@@ -190,7 +190,7 @@ async function getUserPrices(user_id: number): Promise<ca.Prices> {
   const client = await connect();
   try {
     const { rows: raw_prices } = await client.query<Pick<db.Price, 'type_id' | 'product_id' | 'prices'>>(
-      SQL`SELECT type_id, product_id, prices FROM Prices WHERE user_id = ${user_id}`
+      SQL`SELECT type_id, product_id, prices FROM Prices WHERE user_id = ${user_id} AND array_length(prices, 1) > 0`
     );
     const prices: ca.Prices = raw_prices.map(_ => ({ type: _.type_id, product: _.product_id, prices: _.prices}));
     return prices;

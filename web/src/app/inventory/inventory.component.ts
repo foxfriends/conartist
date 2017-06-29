@@ -20,7 +20,7 @@ export default class InventoryComponent {
   readonly typeNameIsUnique = (name: string) => !this._types.getValue().filter(_ => _.name === name).length;
 
   saving = false;
-  showDiscontinuedProducts = false;
+  showDiscontinued = false;
 
   constructor(
     @Inject(StorageService) private storage: StorageService,
@@ -73,7 +73,7 @@ export default class InventoryComponent {
     const existing = prices.find(_ => _.type === type && _.product === product);
     if(existing) {
       const extended = existing.prices.sort((a, b) => a[0] - b[0]);
-      extended.push([ extended[extended.length - 1][0] + 1, 0 ]);
+      extended.push([ (extended[extended.length - 1] || [0])[0] + 1, 0 ]);
       this._prices.next(prices.map(_ => _ === existing ? { ...existing, prices: extended } : _))
     } else {
       this._prices.next([

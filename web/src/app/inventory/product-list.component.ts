@@ -14,7 +14,7 @@ import { Products, Prices, ProductType } from '../../../../conartist';
 })
 export default class ProductListComponent {
   @Input() type: ProductType;
-  @Input() showDiscontinued = true;
+  @Input() showDiscontinued = false;
 
   private _products: BehaviorSubject<Products>;
   private _prices: BehaviorSubject<Prices>;
@@ -48,7 +48,7 @@ export default class ProductListComponent {
     const existing = prices.find(_ => _.type === type && _.product === product);
     if(existing) {
       const extended = existing.prices.sort((a, b) => a[0] - b[0]);
-      extended.push([ extended[extended.length - 1][0] + 1, 0 ]);
+      extended.push([ (extended[extended.length - 1] || [0])[0] + 1, 0 ]);
       this._prices.next(prices.map(_ => _ === existing ? { ...existing, prices: extended, dirty: true } : _))
     } else {
       this._prices.next([

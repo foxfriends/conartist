@@ -12,7 +12,9 @@ import { Price, Prices, ProductType } from '../../../../conartist';
   styles: [ styles ],
 })
 export default class PricesListComponent {
-  @Input('type') type: ProductType;
+  @Input() type: ProductType;
+  @Input() showDiscontinued: boolean = false;
+
   private _prices: BehaviorSubject<Prices>;
 
   readonly quantityIsPositive = (quantity: string) => !isNaN(parseInt(quantity, 10)) && parseInt(quantity, 10) > 0;
@@ -48,6 +50,13 @@ export default class PricesListComponent {
               dirty: true,
             } : _
         ));
+  }
+
+  removePriceRow(index: number, product: number | null) {
+    const prices = this._prices.getValue();
+    this._prices.next(
+      prices.map(_ => _.type === this.type.id && _.product === product ? { ..._, price: _.prices.splice(index, 1), dirty: true } : _)
+    );
   }
 
   get prices(): Prices {

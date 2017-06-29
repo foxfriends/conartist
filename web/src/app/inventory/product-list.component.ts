@@ -40,7 +40,20 @@ export default class ProductListComponent {
   }
 
   setProductDiscontinued(discontinued: boolean, product: number) {
-    this._products.next(this._products.getValue().map(_ => _.id === product ? { ..._, discontinued, dirty: true } : _));
+    const before = this._products.getValue().length;
+    this._products.next(
+      this._products.getValue()
+        .map(_ => _.id === product ? { ..._, discontinued, dirty: true } : _)
+        .filter(_ => _.id >= 0 || !_.discontinued)
+    );
+
+    if(before > this._products.getValue().length) {
+      this._prices.next(
+        this._prices.getValue().filter(
+          _ => _.type !== this.type.id || _.product !== product
+        )
+      )
+    }
   }
 
   addPriceRow(type: number, product: number | null = null) {

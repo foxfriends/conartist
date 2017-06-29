@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import MaterialModule from '../material.module';
 import DataModule from '../data/data.module';
@@ -9,7 +10,7 @@ import ProductListComponent from './product-list.component';
 import PricesListComponent from './prices-list.component';
 
 @NgModule({
-  imports: [ CommonModule, MaterialModule, EditableModule, DataModule ],
+  imports: [ CommonModule, FormsModule, MaterialModule, EditableModule, DataModule ],
   declarations: [ InventoryComponent, ProductListComponent, PricesListComponent ],
   exports: [ InventoryComponent ],
 })

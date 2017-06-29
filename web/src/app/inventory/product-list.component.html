@@ -1,8 +1,19 @@
 <!-- TODO: find an md-data-table -->
 <md-list class="product-list" *ngIf="products.length; else placeholder">
-  <md-list-item *ngFor="let product of products" class="product-list__row">
-    <span class="product-list__column" conEditable [conTent]="product.name" (conTentChange)="setProductName($event, product.id)" [validator]="productNameIsUnique"></span>
-    <span class="product-list__column" conEditable [conTent]="product.quantity" (conTentChange)="setProductQuantity($event, product.id)" [validator]="quantityIsPositive"></span>
+  <md-list-item *ngFor="let product of products" class="product-list__row" [ngClass]="{'product-list__row--discontinued': product.discontinued}">
+    <div class="product-list__column">
+      <span conEditable [conTent]="product.name" (conTentChange)="setProductName($event, product.id)" [validator]="productNameIsUnique"></span>
+    </div>
+    <div class="product-list__column">
+      <span conEditable [conTent]="product.quantity" (conTentChange)="setProductQuantity($event, product.id)" [validator]="quantityIsPositive"></span>
+    </div>
+    <button md-icon-button (click)="setProductDiscontinued(!product.discontinued, product.id)">
+      <md-icon *ngIf="!product.discontinued">remove_circle_outline</md-icon>
+      <md-icon *ngIf="product.discontinued">add_circle_outline</md-icon>
+    </button>
+    <button md-icon-button>
+      <md-icon>attach_money</md-icon>
+    </button>
   </md-list-item>
 </md-list>
 <ng-template #placeholder>

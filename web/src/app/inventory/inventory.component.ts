@@ -20,6 +20,7 @@ export default class InventoryComponent {
   readonly typeNameIsUnique = (name: string) => !this._types.getValue().filter(_ => _.name === name).length;
 
   saving = false;
+  showDiscontinuedProducts = false;
 
   constructor(
     @Inject(StorageService) private storage: StorageService,

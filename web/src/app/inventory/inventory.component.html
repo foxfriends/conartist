@@ -14,9 +14,10 @@
         <md-card class="inventory__card">
           <md-card-header>
             <md-card-title>Inventory</md-card-title>
+            <md-slide-toggle class="inventory__button--right"[(ngModel)]="showDiscontinuedProducts" labelPosition="before">Show discontinued</md-slide-toggle>
           </md-card-header>
           <md-card-content class="inventory__card-content">
-            <con-product-list [type]="type"></con-product-list>
+            <con-product-list [type]="type" [showDiscontinued]="showDiscontinuedProducts"></con-product-list>
           </md-card-content>
           <md-card-actions>
             <button md-raised-button class="inventory__button" mdTooltip="Download">

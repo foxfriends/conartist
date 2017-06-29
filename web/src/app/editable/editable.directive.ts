@@ -5,6 +5,7 @@ import './editable.directive.scss';
   selector: '[conEditable]',
   host: {
     '(blur)': 'onBlur()',
+    '(focus)': 'onFocus()',
     '(keydown.enter)': 'onEnterPress($event)',
     'contenteditable': 'true',
     'spellcheck': 'false',
@@ -20,6 +21,15 @@ export default class EditableDirective implements OnChanges {
   onEnterPress(event: KeyboardEvent) {
     event.preventDefault();
     this.element.nativeElement.blur();
+  }
+
+  onFocus() {
+    const range = document.createRange();
+    const sel = window.getSelection();
+    range.setStart(this.element.nativeElement.firstChild, this.element.nativeElement.textContent.length);
+    range.collapse(true);
+    sel.removeAllRanges();
+    sel.addRange(range);
   }
 
   onBlur() {

@@ -1,4 +1,9 @@
 .product-list {
+  &__row {
+    &--discontinued {
+      color: #999;
+    }
+  }
   &__column {
     flex-basis: 0;
     flex-grow: 1;

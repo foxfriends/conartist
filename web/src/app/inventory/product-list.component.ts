@@ -14,6 +14,7 @@ import { Products, ProductType } from '../../../../conartist';
 })
 export default class ProductListComponent {
   @Input() type: ProductType;
+  @Input() showDiscontinued = true;
 
   private _products: BehaviorSubject<Products>;
 
@@ -25,7 +26,7 @@ export default class ProductListComponent {
   }
 
   get products() {
-    return this._products.getValue().filter(_ => _.type === this.type.id);
+    return this._products.getValue().filter(_ => _.type === this.type.id && (this.showDiscontinued || !_.discontinued));
   }
 
   setProductName(name: string, product: number) {
@@ -34,5 +35,9 @@ export default class ProductListComponent {
 
   setProductQuantity(quantity: string, product: number) {
     this._products.next(this._products.getValue().map(_ => _.id === product ? { ..._, quantity: +quantity, dirty: true } : _));
+  }
+
+  setProductDiscontinued(discontinued: boolean, product: number) {
+    this._products.next(this._products.getValue().map(_ => _.id === product ? { ..._, discontinued, dirty: true } : _));
   }
 }

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
-import { APIResult, UserInfo, Products, ProductTypes, FullConvention, TypesUpdate, ProductsUpdate } from '../../../../conartist';
+import { APIResult, UserInfo, Products, Prices, ProductTypes, FullConvention, TypesUpdate, ProductsUpdate, PricesUpdate } from '../../../../conartist';
 
 function handle<T>(response: Response): T {
   const result = response.json() as APIResult<T>;
@@ -111,6 +111,20 @@ export default class APIService {
         .put(APIService.host`/api/products/`, { products: updates }, this.options)
         .map(_ => handle<Products>(_))
         .catch(_ => Observable.throw(new Error('Could not save product changes')));
+    } else {
+      return Observable.of([]);
+    }
+  }
+
+  savePrices(prices: Prices): Observable<Prices> {
+    const updates: PricesUpdate = prices
+        .filter(_ => _.dirty)
+        .map(_ => ({ type_id: _.type, product_id: _.product, price: _.prices}));
+    if(updates.length) {
+      return this.http
+        .put(APIService.host`/api/prices/`, { prices: updates }, this.options)
+        .map(_ => handle<Prices>(_))
+        .catch(_ => Observable.throw(new Error('Could not save price changes')));
     } else {
       return Observable.of([]);
     }

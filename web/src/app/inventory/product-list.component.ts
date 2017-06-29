@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import StorageService from '../data/storage.service';
 import template from './product-list.component.html';
 import styles from './product-list.component.scss';
-import { Products, ProductType } from '../../../../conartist';
+import { Products, Prices, ProductType } from '../../../../conartist';
 
 @Component({
   selector: 'con-product-list',
@@ -17,12 +17,14 @@ export default class ProductListComponent {
   @Input() showDiscontinued = true;
 
   private _products: BehaviorSubject<Products>;
+  private _prices: BehaviorSubject<Prices>;
 
   readonly productNameIsUnique = (name: string) => !this._products.getValue().filter(_ => _.type === this.type.id && _.name === name).length;
   readonly quantityIsPositive = (quantity: string) => !isNaN(parseInt(quantity, 10)) && parseInt(quantity, 10) >= 0;
 
   constructor(@Inject(StorageService) storage: StorageService) {
     this._products = storage.products;
+    this._prices = storage.prices;
   }
 
   get products() {
@@ -34,10 +36,25 @@ export default class ProductListComponent {
   }
 
   setProductQuantity(quantity: string, product: number) {
-    this._products.next(this._products.getValue().map(_ => _.id === product ? { ..._, quantity: +quantity, dirty: true } : _));
+    this._products.next(this._products.getValue().map(_ => _.id === product ? { ..._, quantity: parseInt(quantity, 10), dirty: true } : _));
   }
 
   setProductDiscontinued(discontinued: boolean, product: number) {
     this._products.next(this._products.getValue().map(_ => _.id === product ? { ..._, discontinued, dirty: true } : _));
+  }
+
+  addPriceRow(type: number, product: number | null = null) {
+    const prices = this._prices.getValue();
+    const existing = prices.find(_ => _.type === type && _.product === product);
+    if(existing) {
+      const extended = existing.prices.sort((a, b) => a[0] - b[0]);
+      extended.push([ extended[extended.length - 1][0] + 1, 0 ]);
+      this._prices.next(prices.map(_ => _ === existing ? { ...existing, prices: extended, dirty: true } : _))
+    } else {
+      this._prices.next([
+        ...prices,
+        { type, product, prices: [ [1, 0] ], dirty: true },
+      ]);
+    }
   }
 }

@@ -11,7 +11,7 @@
       <md-icon *ngIf="!product.discontinued">remove_circle_outline</md-icon>
       <md-icon *ngIf="product.discontinued">add_circle_outline</md-icon>
     </button>
-    <button md-icon-button>
+    <button md-icon-button (click)="addPriceRow(type.id, product.id)">
       <md-icon>attach_money</md-icon>
     </button>
   </md-list-item>

@@ -264,10 +264,14 @@ async function writePrices(user_id: number, prices: ca.PricesUpdate): Promise<ca
     await client.query(SQL`BEGIN`);
     const result: ca.Prices = [];
     for(const { type_id, product_id, price } of prices) {
-      const { rowCount } = await client.query(SQL`SELECT 1 FROM Prices WHERE user_id = ${user_id} AND type_id = ${type_id} AND product_id = ${product_id}`);
+      const { rowCount } = await client.query(
+        SQL`SELECT 1 FROM Prices WHERE user_id = ${user_id} AND type_id = ${type_id}`
+          .append(product_id ? SQL` AND product_id = ${product_id}` : SQL` AND product_id IS NULL`)
+      );
       if(rowCount === 1) {
         await client.query(
-          SQL`UPDATE Prices SET prices = ${price} WHERE type_id = ${type_id} AND product_id = ${product_id} AND user_id = ${user_id}`
+          SQL`UPDATE Prices SET prices = ${price} WHERE type_id = ${type_id} AND user_id = ${user_id}`
+            .append(product_id ? SQL` AND product_id = ${product_id}` : SQL` AND product_id IS NULL`)
         );
       } else {
         await client.query(

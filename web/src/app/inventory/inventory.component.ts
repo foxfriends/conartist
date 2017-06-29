@@ -68,6 +68,21 @@ export default class InventoryComponent {
     ]);
   }
 
+  addPriceRow(type: number, product: number | null = null) {
+    const prices = this._prices.getValue();
+    const existing = prices.find(_ => _.type === type && _.product === product);
+    if(existing) {
+      const extended = existing.prices.sort((a, b) => a[0] - b[0]);
+      extended.push([ extended[extended.length - 1][0] + 1, 0 ]);
+      this._prices.next(prices.map(_ => _ === existing ? { ...existing, prices: extended } : _))
+    } else {
+      this._prices.next([
+        ...prices,
+        { type, product, prices: [ [1, 0] ], dirty: true },
+      ]);
+    }
+  }
+
   setTypeName(name: string, type: number) {
     this._types.next(this._types.getValue().map(_ => _.id === type ? { ..._, name, dirty: true } : _));
   }
@@ -87,8 +102,14 @@ export default class InventoryComponent {
 
   async saveInventory() {
     this.saving = true;
-    await this.storage.commit();
-    this.saving = false;
-    this.snackbar.open("Saved", "Dismiss", { duration: 3000 });
+    try {
+      await this.storage.commit();
+      this.snackbar.open("Saved", "Dismiss", { duration: 3000 });
+    } catch(error) {
+      console.error(error);
+      this.snackbar.open("Failed to save", "Dismiss");
+    } finally {
+      this.saving = false;
+    }
   }
 }

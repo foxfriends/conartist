@@ -31,6 +31,10 @@
     margin: 16px;
     display: flex;
     flex-direction: column;
+
+    &--small {
+      flex-grow: 0.4;
+    }
   }
   &__card-content {
     flex-grow: 1;

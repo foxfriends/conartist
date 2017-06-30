@@ -18,5 +18,7 @@ module.exports = webpackMerge(commonConfig, {
   devServer: {
     historyApiFallback: true,
     stats: 'minimal'
-  }
+  },
+
+  devtool: 'cheap-module-source-map',
 });

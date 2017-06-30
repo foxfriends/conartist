@@ -16,26 +16,26 @@ export const newUser = {
 };
 
 export const products: Products = [
-  { name: 'product-name1', quantity: 15, id: 0, type: 0, discontinued: false },
-  { name: 'product-name2', quantity: 8, id: 1, type: 0, discontinued: false },
-  { name: 'product-name3', quantity: 4, id: 2, type: 1, discontinued: false },
+  { name: 'product-name1', quantity: 15, id: 1, type: 1, discontinued: false },
+  { name: 'product-name2', quantity: 8, id: 2, type: 1, discontinued: false },
+  { name: 'product-name3', quantity: 4, id: 3, type: 2, discontinued: false },
 ];
 
 export const prices: Prices = [
-  { type: 0, product: null, prices: [[3, 10], [1, 5]] },
-  { type: 0, product: 1, prices: [[1, 7], [2, 8]] },
-  { type: 1, product: null, prices: [[1, 2]] },
+  { type: 1, product: null, prices: [[3, 10], [1, 5]] },
+  { type: 1, product: 2, prices: [[1, 7], [2, 8]] },
+  { type: 2, product: null, prices: [[1, 2]] },
 ];
 
 export const types: ProductTypes = [
-  { name: 'type', color: 0xFF0000, id: 0, discontinued: false },
-  { name: 'type2', color: 0x00FF00, id: 1, discontinued: false },
+  { name: 'type', color: 0xFF0000, id: 1, discontinued: false },
+  { name: 'type2', color: 0x00FF00, id: 2, discontinued: false },
 ];
 
 export const records: Records = [
-  { products: [ 0 ], price: 5, time: 1497952889636 },
-  { products: [ 0, 1 ], price: 12, time: 1497972889636 },
-  { products: [ 2, 2 ], price: 4, time: 1497992889636 },
+  { products: [ 1 ], price: 5, time: 1497952889636 },
+  { products: [ 1, 2 ], price: 12, time: 1497972889636 },
+  { products: [ 3, 3 ], price: 4, time: 1497992889636 },
 ];
 
 export const conventions: MetaConvention[] = [

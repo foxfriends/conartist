@@ -56,7 +56,7 @@ export default class PricesListComponent {
     this._prices.next(
       this._prices.getValue()
         .map(_ => _.type === this.type.id && _.product === product ? { ..._, prices: _.prices.filter((_, i) => i !== index), dirty: true } : _)
-        .filter(_ => ((_.product === null || _.product > 0) && _.type > 0) || _.prices.length > 0)
+        .filter(_ => ((_.product === null || _.product >= 0) && _.type >= 0) || _.prices.length > 0)
     );
   }
 

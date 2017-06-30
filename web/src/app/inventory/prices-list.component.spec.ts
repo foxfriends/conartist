@@ -3,11 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { expect } from 'chai';
+import { spy } from 'sinon';
 
 import PricesListComponent from './prices-list.component';
 import MaterialModule from '../material.module';
 import StorageServiceMock, { StorageService } from '../data/storage.service.mock';
-import { types, prices } from '../api/api.service.mock';
+import { types } from '../api/api.service.mock';
 
 type ComponentContext = {
   fixture: ComponentFixture<PricesListComponent>;
@@ -49,41 +50,11 @@ describe('Prices List Component', function() {
     beforeEach('Create the component', () => this.component = new PricesListComponent(StorageServiceMock));
     beforeEach('Set the type for the component', () => this.component.type = types[0]);
     afterEach('Reset the storage service mock', () => StorageServiceMock.reset());
-    it('should set the price for the row [type]', done => {
-      const gen = (function*(): any { // typescript why
-        expect(yield, 'the first row should change').to.deep.equal([
-          { ...prices[0], prices: [[3, 10.5], [1, 5]], dirty: true },
-          ...prices.slice(1),
-        ]);
-        expect(yield, 'the second row should change').to.deep.equal([
-          { ...prices[0], prices: [[3, 10.5], [1, 14]], dirty: true },
-          ...prices.slice(1),
-        ]);
-        done();
-      })();
-      gen.next();
-      StorageServiceMock.prices.skip(1).take(2).subscribe(_ => gen.next(_));
-      this.component.setPricePrice('10.50', 0, null);
-      this.component.setPricePrice('14', 1, null);
-    });
-    it('should set the price for the row [product]', done => {
-      const gen = (function*(): any { // typescript why
-        expect(yield, 'the first row should change').to.deep.equal([
-          prices[0],
-          { ...prices[1], prices: [[1, 10.5], [2, 8]], dirty: true },
-          ...prices.slice(2),
-        ]);
-        expect(yield, 'the second row should change').to.deep.equal([
-          prices[0],
-          { ...prices[1], prices: [[1, 10.5], [2, 14]], dirty: true },
-          ...prices.slice(2),
-        ]);
-        done();
-      })();
-      gen.next();
-      StorageServiceMock.prices.skip(1).take(2).subscribe(_ => gen.next(_));
-      this.component.setPricePrice('10.50', 0, 2);
-      this.component.setPricePrice('14', 1, 2);
+    it('should call StorageService#setPricePrice', () => {
+      const setPricePrice = spy(StorageServiceMock, 'setPricePrice');
+      this.component.setPricePrice('$10.50', 0, null);
+      expect(setPricePrice).to.have.been.calledWith(1, null, 0, 10.5);
+      setPricePrice.restore();
     });
     it('should accept prices prefixed with $', () => {
       this.component.setPricePrice('$10.50', 0, null);
@@ -93,97 +64,7 @@ describe('Prices List Component', function() {
       this.component.setPricePrice('10.50', 0, null);
       StorageServiceMock.prices.take(1).subscribe(_ => expect(_[0].prices[0][1]).to.equal(10.5));
     });
-    it('should round prices to the nearest cent', () => {
-      this.component.setPricePrice('10.501', 0, null);
-      StorageServiceMock.prices.take(1).subscribe(_ => expect(_[0].prices[0][1]).to.equal(10.5));
-      this.component.setPricePrice('10.509', 0, null);
-      StorageServiceMock.prices.take(1).subscribe(_ => expect(_[0].prices[0][1]).to.equal(10.51));
-    });
-  });
-
-  describe('#setPriceQuantity', function(this: Mocha.ISuiteCallbackContext & MethodContext) {
-    beforeEach('Create the component', () => this.component = new PricesListComponent(StorageServiceMock));
-    beforeEach('Set the type for the component', () => this.component.type = types[0]);
-    afterEach('Reset the storage service mock', () => StorageServiceMock.reset());
-    it('should set the quantity for the row [type]', done => {
-      const gen = (function*(): any { // typescript why
-        expect(yield, 'the first row should change').to.deep.equal([
-          { ...prices[0], prices: [[15, 10], [1, 5]], dirty: true },
-          ...prices.slice(1),
-        ]);
-        expect(yield, 'the second row should change').to.deep.equal([
-          { ...prices[0], prices: [[15, 10], [30, 5]], dirty: true },
-          ...prices.slice(1),
-        ]);
-        done();
-      })();
-      gen.next();
-      StorageServiceMock.prices.skip(1).take(2).subscribe(_ => gen.next(_));
-      this.component.setPriceQuantity('15', 0, null);
-      this.component.setPriceQuantity('30', 1, null);
-    });
-    it('should set the quantity for the row [product]', done => {
-      const gen = (function*(): any { // typescript why
-        expect(yield, 'the first row should change').to.deep.equal([
-          prices[0],
-          { ...prices[1], prices: [[4, 7], [2, 8]], dirty: true },
-          ...prices.slice(2),
-        ]);
-        expect(yield, 'the second row should change').to.deep.equal([
-          prices[0],
-          { ...prices[1], prices: [[4, 7], [5, 8]], dirty: true },
-          ...prices.slice(2),
-        ]);
-        done();
-      })();
-      gen.next();
-      StorageServiceMock.prices.skip(1).take(2).subscribe(_ => gen.next(_));
-      this.component.setPriceQuantity('4', 0, 2);
-      this.component.setPriceQuantity('5', 1, 2);
-    });
-  });
-
-  describe('#removePriceRow', function(this: Mocha.ISuiteCallbackContext & MethodContext) {
-    beforeEach('Create the component', () => this.component = new PricesListComponent(StorageServiceMock));
-    beforeEach('Set the type for the component', () => this.component.type = types[0]);
-    afterEach('Reset the storage service mock', () => StorageServiceMock.reset());
-    it('should remove the row from the price listing [type]', done => {
-      const gen = (function*(): any { // typescript why
-        expect(yield, 'the second row should be removed').to.deep.equal([
-          { ...prices[0], prices: [[3, 10]], dirty: true },
-          ...prices.slice(1),
-        ]);
-        expect(yield, 'the first row should be removed').to.deep.equal([
-          { ...prices[0], prices: [], dirty: true },
-          ...prices.slice(1),
-        ]);
-        done();
-      })();
-      gen.next();
-      StorageServiceMock.prices.skip(1).take(2).subscribe(_ => gen.next(_));
-      this.component.removePriceRow(1, null);
-      this.component.removePriceRow(0, null);
-    });
-    it('should remove the row from the price listing [product]', done => {
-      const gen = (function*(): any { // typescript why
-        expect(yield, 'the second row should be removed').to.deep.equal([
-          prices[0],
-          { ...prices[1], prices: [[1, 7]], dirty: true },
-          ...prices.slice(2),
-        ]);
-        expect(yield, 'the first row should be removed').to.deep.equal([
-          prices[0],
-          { ...prices[1], prices: [], dirty: true },
-          ...prices.slice(2),
-        ]);
-        done();
-      })();
-      gen.next();
-      StorageServiceMock.prices.skip(1).take(2).subscribe(_ => gen.next(_));
-      this.component.removePriceRow(1, 2);
-      this.component.removePriceRow(0, 2);
-    });
-  });
+  })
 
   describe('#quantityIsNatural', function(this: Mocha.ISuiteCallbackContext & MethodContext) {
     beforeEach('Create the component', () => this.component = new PricesListComponent(StorageServiceMock));

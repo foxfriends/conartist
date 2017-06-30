@@ -18,7 +18,7 @@ type MethodContext = {
   component: ProductListComponent;
 };
 
-describe('Prices List Component', function() {
+describe('Product List Component', function() {
   describe('Component', function(this: Mocha.ISuiteCallbackContext & ComponentContext) {
     beforeEach('Configure the module', () => TestBed.configureTestingModule({
       imports: [ NoopAnimationsModule, MaterialModule, FormsModule ],
@@ -45,40 +45,12 @@ describe('Prices List Component', function() {
     })
   });
 
-  describe('#setProductName', function(this: Mocha.ISuiteCallbackContext & MethodContext) {
-    beforeEach('Create the component', () => this.component = new ProductListComponent(StorageServiceMock));
-    beforeEach('Set the type for the component', () => this.component.type = types[0]);
-    afterEach('Reset the storage service mock', () => StorageServiceMock.reset());
-    it('should set the name for the product');
-  });
-
-  describe('#setProductQuantity', function(this: Mocha.ISuiteCallbackContext & MethodContext) {
-    beforeEach('Create the component', () => this.component = new ProductListComponent(StorageServiceMock));
-    beforeEach('Set the type for the component', () => this.component.type = types[0]);
-    afterEach('Reset the storage service mock', () => StorageServiceMock.reset());
-    it('should set the quantity for the product');
-  });
-
-  describe('#setProductDiscontinued', function(this: Mocha.ISuiteCallbackContext & MethodContext) {
-    beforeEach('Create the component', () => this.component = new ProductListComponent(StorageServiceMock));
-    beforeEach('Set the type for the component', () => this.component.type = types[0]);
-    afterEach('Reset the storage service mock', () => StorageServiceMock.reset());
-    it('should set discontinued for the product');
-  });
-
-  describe('#addPriceRow', function(this: Mocha.ISuiteCallbackContext & MethodContext) {
-    beforeEach('Create the component', () => this.component = new ProductListComponent(StorageServiceMock));
-    beforeEach('Set the type for the component', () => this.component.type = types[0]);
-    afterEach('Reset the storage service mock', () => StorageServiceMock.reset());
-    it('should set discontinued for the product');
-  });
-
   describe('#productNameIsUnique', function(this: Mocha.ISuiteCallbackContext & MethodContext) {
     beforeEach('Create the component', () => this.component = new ProductListComponent(StorageServiceMock));
     beforeEach('Set the type for the component', () => this.component.type = types[0]);
     afterEach('Reset the storage service mock', () => StorageServiceMock.reset());
-    it('should return true for a unique product name');
-    it('should return false for a not unique product name');
+    it('should return true for a unique product name', () => expect(this.component.productNameIsUnique('unique-name')).to.be.ok);
+    it('should return false for a not unique product name', () => expect(this.component.productNameIsUnique(products[0].name)).not.to.be.ok);
   });
 
   describe('#quantityIsPositive', function(this: Mocha.ISuiteCallbackContext & MethodContext) {

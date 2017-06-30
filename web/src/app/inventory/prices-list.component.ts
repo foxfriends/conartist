@@ -20,44 +20,20 @@ export default class PricesListComponent {
   readonly quantityIsNatural = (quantity: string) => !isNaN(parseInt(quantity, 10)) && parseInt(quantity, 10) > 0 && parseInt(quantity, 10) === parseFloat(quantity);
   readonly priceIsPositive = (price: string) => !isNaN(parseFloat(price.replace(/^\$/,''))) && parseFloat(price.replace(/^\$/,'')) >= 0;
 
-  constructor(@Inject(StorageService) storage: StorageService) {
+  constructor(@Inject(StorageService) private storage: StorageService) {
     this._prices = storage.prices;
   }
 
   setPriceQuantity(quantity: string, index: number, product: number | null) {
-    this._prices.next(
-      this._prices
-        .getValue()
-        .map(
-          _ => _.type === this.type.id && _.product === product
-            ? {
-              ..._,
-              prices: _.prices.map(([q, p], i) => [index === i ? parseInt(quantity, 10) : q, p]),
-              dirty: true,
-            } : _
-        ));
+    this.storage.setPriceQuantity(this.type.id, product, index, parseInt(quantity, 10));
   }
 
   setPricePrice(price: string, index: number, product: number | null) {
-    this._prices.next(
-      this._prices
-        .getValue()
-        .map(
-          _ => _.type === this.type.id && _.product === product
-            ? {
-              ..._,
-              prices: _.prices.map(([q, p], i) => [q, index === i ? Math.round(100 * parseFloat(price.replace(/^\$/,''))) / 100 : p]),
-              dirty: true,
-            } : _
-        ));
+    this.storage.setPricePrice(this.type.id, product, index, parseFloat(price.replace(/^\$/,'')));
   }
 
   removePriceRow(index: number, product: number | null) {
-    this._prices.next(
-      this._prices.getValue()
-        .map(_ => _.type === this.type.id && _.product === product ? { ..._, prices: _.prices.filter((_, i) => i !== index), dirty: true } : _)
-        .filter(_ => ((_.product === null || _.product >= 0) && _.type >= 0) || _.prices.length > 0)
-    );
+    this.storage.removePriceRow(this.type.id, product, index);
   }
 
   get prices(): Prices {

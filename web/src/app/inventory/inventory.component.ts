@@ -53,59 +53,28 @@ export default class InventoryComponent {
   }
 
   createType(index: number) {
-    this._types.next([
-      ...this._types.getValue(),
-      {
-        name: `Type ${index}`,
-        color: 0xFFFFFF,
-        id: -index,
-        discontinued: false,
-        dirty: true,
-      }
-    ]);
+    this.storage.createType(index);
   }
 
-  // TODO: move these modifier methods to the storage service
   addPriceRow(type: number, product: number | null = null) {
-    const prices = this._prices.getValue();
-    const existing = prices.find(_ => _.type === type && _.product === product);
-    if(existing) {
-      const extended = existing.prices.sort((a, b) => a[0] - b[0]);
-      extended.push([ (extended[extended.length - 1] || [0])[0] + 1, 0 ]);
-      this._prices.next(prices.map(_ => _ === existing ? { ...existing, prices: extended } : _))
-    } else {
-      this._prices.next([
-        ...prices,
-        { type, product, prices: [ [1, 0] ], dirty: true },
-      ]);
-    }
+    this.storage.addPriceRow(type, product);
   }
 
   setTypeName(name: string, type: number) {
-    this._types.next(this._types.getValue().map(_ => _.id === type ? { ..._, name, dirty: true } : _));
+    this.storage.setTypeName(type, name);
   }
 
   setTypeDiscontinued(discontinued: boolean, type: number) {
-    this._types.next(this._types.getValue().map(_ => _.id === type ? { ..._, discontinued, dirty: true } : _));
+    this.storage.setTypeDiscontinued(type, discontinued);
   }
 
   setTypeColor(type: number) {
     let color = Math.ceil(Math.random() * 0xFFFFFF);
-    this._types.next(this._types.getValue().map(_ => _.id === type ? { ..._, color, dirty: true } : _));
+    this.storage.setTypeColor(type, color);
   }
 
   createProduct(type: ProductType, index: number) {
-    // TODO: check that new name is unique
-    this._products.next([
-      ...this._products.getValue(),
-      {
-        name: `${type.name} ${index}`,
-        quantity: 0,
-        type: type.id,
-        id: -index,
-        discontinued: false
-      }
-    ]);
+    this.storage.createProduct(type, index);
   }
 
   async saveInventory() {

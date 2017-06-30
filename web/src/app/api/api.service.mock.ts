@@ -22,9 +22,9 @@ export const products: Products = [
 ];
 
 export const prices: Prices = [
-  { type: 0, product: null, prices: [[ 3, 10 ], [1, 5]] },
-  { type: 0, product: 1, prices: [[ 1, 7 ]] },
-  { type: 1, product: null, prices: [[ 1, 2]] },
+  { type: 0, product: null, prices: [[3, 10], [1, 5]] },
+  { type: 0, product: 1, prices: [[1, 7], [2, 8]] },
+  { type: 1, product: null, prices: [[1, 2]] },
 ];
 
 export const types: ProductTypes = [

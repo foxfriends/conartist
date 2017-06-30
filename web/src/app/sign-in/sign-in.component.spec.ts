@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed  } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';

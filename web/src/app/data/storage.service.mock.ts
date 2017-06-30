@@ -8,6 +8,17 @@ class StorageServiceMock extends StorageService {
   constructor() {
     super(APIServiceMock);
   }
+
+  reset() {
+    APIServiceMock.getUserInfo().subscribe(_ => {
+      this.email.next(_.email);
+      this.keys.next(_.keys);
+      this.products.next(_.products);
+      this.prices.next(_.prices);
+      this.types.next(_.types);
+      this.conventions.next(_.conventions);
+    });
+  }
 }
 
 export default new StorageServiceMock;

@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import { spy, SinonSpy as Spy } from 'sinon';
 import StorageService from './storage.service';
-import { Observer } from 'rxjs/Observer';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/toArray';
 
-import APIServiceMock, { newUser, userInfo, validConCode, conventions, fullConventions } from '../api/api.service.mock';
-import { UserInfo, Convention } from '../../../../conartist';
+import APIServiceMock, { validConCode, conventions, fullConventions } from '../api/api.service.mock';
+import { UserInfo } from '../../../../conartist';
 
 type Context = {
   service: StorageService;
@@ -25,50 +25,20 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
 
   beforeEach('Create a new Storage service', () => this.service = new StorageService(APIServiceMock));
 
-  const tests = [
-    ['email', newUser.email],
-    ['keys', 5],
-    ['products', { ...userInfo.products, type2: [ { name: 'product-2', quantity: 30, id: 1, type: 'type2' } ] }],
-    ['prices', { ...userInfo.prices, type2: [ [1, 2] ] }],
-    ['types', { ...userInfo.types, type2: { name: 'type2', color: [0, 0, 255], id: 1 } }],
-    ['conventions', [ ...userInfo.conventions, { name: 'convention-2', code: 'defgh', start: new Date(1497574926301), end: new Date(1497834126301) } ]],
-  ];
+  const tests: (keyof UserInfo)[] = ['email', 'keys', 'products', 'prices', 'types', 'conventions'];
 
   it('should request the initial user info on start', () => {
     expect(APIServiceMock.getUserInfo).to.have.been.calledOnce;
   });
 
-  tests.forEach(<K extends keyof UserInfo>([prop, updated]: [K, UserInfo[K]]) =>
+  tests.forEach((prop: keyof UserInfo) =>
     describe(`#${prop}`, () => {
-      it('should be an Observable', () => expect(this.service[prop]).to.be.an.instanceOf(Observable))
-      it(`should immediately emit the most recent value on subscribe`, done => {
-        this.service[prop].take<UserInfo[K]>(1).subscribe(
-          _ => expect(_, 'the observable should emit the initial value').to.deep.equal(userInfo[prop]),
-          _ => expect.fail('the observable should not emit an error'),
-          done,
-        );
-      });
-      it(`should emit the updated properties when next is called`, done => {
-        this.service[prop].take<UserInfo[K]>(2).toArray().subscribe(
-          _ => expect(_, 'the observable should emit the updated after the initial value').to.deep.equal([userInfo[prop], updated]),
-          _ => expect.fail('the observable should not emit an error'),
-          done,
-        );
-        // NOTE: if typescript were smarter this wouldn't need a type annotation
-        (this.service[prop] as Observer<UserInfo[K]>).next(updated);
-      });
+      it('should be a BehaviorSubject', () => expect(this.service[prop]).to.be.an.instanceOf(BehaviorSubject));
     })
   );
 
   describe('#convention(code)', () => {
     it('should be an Observable', () => expect(this.service.convention(validConCode)).to.be.an.instanceOf(Observable));
-    it('should immediately emit the most recent value on subscribe', done => {
-      this.service.convention(validConCode).take<Convention>(1).subscribe(
-        _ => expect(_, 'the observable should emit the initial value').to.deep.equal(conventions.find(_ => _.code === validConCode)),
-        _ => expect.fail('the observable should not emit an error'),
-        done,
-      );
-    });
   });
 
   describe('#updateConvention(convention)', () => {
@@ -129,7 +99,7 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
           expect(this.loadConvention, 'the right con code should be passed to the API').to.have.been.calledWith(validConCode);
           done();
         }
-      )
+      );
     });
   });
 })

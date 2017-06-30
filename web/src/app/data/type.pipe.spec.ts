@@ -17,7 +17,7 @@ describe('Type Pipe', function(this: Mocha.ISuiteCallbackContext & Context) {
     expect(this.pipe.transform(0)).to.deep.equal(types.find(_ => _.id === 0));
   });
   it('should transform a missing type id to an unknown type object', () => {
-    expect(this.pipe.transform(-1)).to.deep.equal({ name: 'Unknown Type', id: -1, color: [255, 255, 255], discontinued: false });
+    expect(this.pipe.transform(-1)).to.deep.equal({ name: 'Unknown Type', id: -1, color: 0xFFFFFF, discontinued: false });
   });
   const keys: (keyof ProductType)[] = [ 'name', 'id', 'color', 'discontinued' ];
   keys.forEach(key =>

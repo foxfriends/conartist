@@ -17,7 +17,7 @@ export default class PricesListComponent {
 
   private _prices: BehaviorSubject<Prices>;
 
-  readonly quantityIsPositive = (quantity: string) => !isNaN(parseInt(quantity, 10)) && parseInt(quantity, 10) > 0;
+  readonly quantityIsNatural = (quantity: string) => !isNaN(parseInt(quantity, 10)) && parseInt(quantity, 10) > 0 && parseInt(quantity, 10) === parseFloat(quantity);
   readonly priceIsPositive = (price: string) => !isNaN(parseFloat(price.replace(/^\$/,''))) && parseFloat(price.replace(/^\$/,'')) >= 0;
 
   constructor(@Inject(StorageService) storage: StorageService) {

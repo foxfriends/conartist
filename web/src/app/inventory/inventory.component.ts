@@ -65,6 +65,7 @@ export default class InventoryComponent {
     ]);
   }
 
+  // TODO: move these modifier methods to the storage service
   addPriceRow(type: number, product: number | null = null) {
     const prices = this._prices.getValue();
     const existing = prices.find(_ => _.type === type && _.product === product);

@@ -36,6 +36,9 @@ describe('Prices List Component', function() {
     it('should only show the prices for its type');
     it('should show prices for specific products separately');
     it('should react to changes in the stored data');
+    it('should add another row to the type\'s prices when the button is pressed')
+    it('should not show prices for discontinued products when showDiscontinued is false')
+    it('should show prices ofr discontinued products when showDiscontinued is true')
     describe('Rows', () => {
       it('should be editable');
       it('should be removable');

@@ -20,7 +20,7 @@ export default class ProductListComponent {
   private _prices: BehaviorSubject<Prices>;
 
   readonly productNameIsUnique = (name: string) => !this._products.getValue().filter(_ => _.type === this.type.id && _.name === name).length;
-  readonly quantityIsPositive = (quantity: string) => !isNaN(parseInt(quantity, 10)) && parseInt(quantity, 10) >= 0;
+  readonly quantityIsPositive = (quantity: string) => !isNaN(parseInt(quantity, 10)) && parseInt(quantity, 10) >= 0 && parseInt(quantity, 10) === parseFloat(quantity);
 
   constructor(@Inject(StorageService) storage: StorageService) {
     this._products = storage.products;
@@ -31,6 +31,7 @@ export default class ProductListComponent {
     return this._products.getValue().filter(_ => _.type === this.type.id && (this.showDiscontinued || !_.discontinued));
   }
 
+  // TODO: move these modifier methods to the storage service
   setProductName(name: string, product: number) {
     this._products.next(this._products.getValue().map(_ => _.id === product ? { ..._, name, dirty: true } : _));
   }

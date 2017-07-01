@@ -19,9 +19,11 @@ export default class InventoryComponent {
 
   readonly typeNameIsUnique = (name: string) => !this._types.getValue().filter(_ => _.name === name).length;
 
+  tabIndex = 0;
+
   saving = false;
   showDiscontinuedProducts = false;
-  showDiscontinuedTypes = false;
+  private _showDiscontinuedTypes = false;
 
   constructor(
     @Inject(StorageService) private storage: StorageService,
@@ -30,6 +32,25 @@ export default class InventoryComponent {
     this._products = storage.products;
     this._types = storage.types;
     this._prices = storage.prices;
+    this._types.subscribe(() => this.restrictTabIndex());
+  }
+
+  get showDiscontinuedTypes() { return this._showDiscontinuedTypes; }
+  set showDiscontinuedTypes(show: boolean) {
+    const tab = this.types[this.tabIndex].name;
+    this._showDiscontinuedTypes = show;
+    const found = this.types.findIndex(_ => _.name === tab);
+    if(found !== -1) {
+      this.tabIndex = found;
+    } else {
+      this.restrictTabIndex();
+    }
+  }
+
+  private restrictTabIndex() {
+    if(this.tabIndex === this.types.length && this.tabIndex !== 0) {
+      --this.tabIndex;
+    }
   }
 
   get types() {
@@ -46,10 +67,11 @@ export default class InventoryComponent {
   }
 
   tabChange(index: number) {
-    const max = Object.keys(this._types.getValue()).length;
+    const max = this.types.length;
     if(index === max) {
       this.createType(index + 1);
     }
+    this.tabIndex = index;
   }
 
   createType(index: number) {

@@ -145,7 +145,7 @@ export default class StorageService implements ObservableUserInfo {
   }
 
   setTypeDiscontinued(type: number, discontinued: boolean) {
-    this._types.next(this._types.getValue().map(_ => _.id === type ? { ..._, discontinued, dirty: true } : _));
+    this._types.next(this._types.getValue().map(_ => _.id === type ? { ..._, discontinued, dirty: true } : _).filter(_ => _.id > 0 || !_.discontinued));
   }
 
   setTypeColor(type: number, color: number) {

@@ -7,7 +7,7 @@
     <div class="product-list__column">
       <span conEditable [conTent]="product.quantity" (conTentChange)="setProductQuantity($event, product.id)" [validator]="quantityIsNatural"></span>
     </div>
-    <button md-icon-button (click)="setProductDiscontinued(!product.discontinued, product.id)" [mdTooltip]="product.discontinued ? 'Restore' : 'Discontinue'" mdTooltipPosition="left">
+    <button md-icon-button (click)="setProductDiscontinued(!product.discontinued, product.id)" [mdTooltip]="product.discontinued ? 'Restore' : product.id > 0 ? 'Discontinue' : 'Delete'" mdTooltipPosition="left">
       <md-icon *ngIf="!product.discontinued">remove_circle_outline</md-icon>
       <md-icon *ngIf="product.discontinued">add_circle_outline</md-icon>
     </button>

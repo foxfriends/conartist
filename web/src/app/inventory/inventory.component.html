@@ -5,14 +5,14 @@
   <button md-fab (click)="saveInventory()" class="inventory__save-button" [disabled]="saving">
     <md-icon>save</md-icon>
   </button>
-  <md-tab-group (selectedIndexChange)="tabChange($event)" dynamicHeight="true">
+  <md-tab-group [selectedIndex]="tabIndex" (selectedIndexChange)="tabChange($event)" dynamicHeight="true">
     <md-tab *ngFor="let type of types;trackBy:trackID" [label]="type.name">
       <header class="inventory__header" [style.backgroundColor]="type.discontinued ? '#999999' : type.color|color">
         <h1 class="inventory__title" conEditable [conTent]="type.name" (conTentChange)="setTypeName($event, type.id)" [validator]="typeNameIsUnique"></h1>
         <button md-icon-button class="inventory__spacer--right" (click)="setTypeColor(type.id)" mdTooltip="Change color" mdTooltipPosition="left">
           <md-icon>color_lens</md-icon>
         </button>
-        <button md-icon-button (click)="setTypeDiscontinued(!type.discontinued, type.id)" [mdTooltip]="type.discontinued ? 'Restore' : 'Discontinue'" mdTooltipPosition="left">
+        <button md-icon-button (click)="setTypeDiscontinued(!type.discontinued, type.id)" [mdTooltip]="type.discontinued ? 'Restore' : type.id > 0 ? 'Discontinue' : 'Delete'" mdTooltipPosition="left">
           <md-icon *ngIf="!type.discontinued">remove_circle_outline</md-icon>
           <md-icon *ngIf="type.discontinued">add_circle_outline</md-icon>
         </button>

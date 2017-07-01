@@ -15,6 +15,8 @@ type JWT = string;
 type Params = {
   con_code: string;
   usr: string;
+  page?: number;
+  limit?: number;
 };
 
 type User = {
@@ -37,7 +39,7 @@ function assert_authorized() {
 // TODO: less repetition of res.set
 // TODO: figure out how to work with caching instead of try to disable it
 
-api.post('/account/new/', async (req, res) => {
+api.post('/account/new', async (req, res) => {
   res.set('Content-Type', 'application/json');
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');
@@ -67,7 +69,7 @@ api.get('/account/exists/:usr', async (req, res) => {
   }
 });
 
-api.post('/auth/', async (req, res) => {
+api.post('/auth', async (req, res) => {
   res.set('Content-Type', 'application/json');
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');
@@ -83,7 +85,7 @@ api.post('/auth/', async (req, res) => {
   }
 });
 
-api.get('/auth/', assert_authorized(), async (req, res) => {
+api.get('/auth', assert_authorized(), async (req, res) => {
   res.set('Content-Type', 'application/json');
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');
@@ -98,7 +100,7 @@ api.get('/auth/', assert_authorized(), async (req, res) => {
   }
 });
 
-api.get('/user/', assert_authorized(), async (req, res) => {
+api.get('/user', assert_authorized(), async (req, res) => {
   res.set('Content-Type', 'application/json');
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');
@@ -119,7 +121,22 @@ api.get('/user/', assert_authorized(), async (req, res) => {
   }
 });
 
-api.get('/con/:con_code/', assert_authorized(), async (req, res) => {
+api.get('/cons/:page?/:limit?', assert_authorized(), async (req, res) => {
+  res.set('Content-Type', 'application/json');
+  res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+  try {
+    const { page, limit } = req.params as Pick<Params, 'page' | 'limit'>;
+    const data = await db.getConventions(page || 0, limit || 10);
+    res.send(JSON.stringify({ status: 'Success', data } as ca.APISuccessResult<ca.MetaConvention[]>));
+  } catch(error) {
+    console.error(error);
+    res.send(JSON.stringify({ status: 'Error', error: error.message } as ca.APIErrorResult));
+  }
+});
+
+api.get('/con/:con_code', assert_authorized(), async (req, res) => {
   res.set('Content-Type', 'application/json');
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');
@@ -135,7 +152,7 @@ api.get('/con/:con_code/', assert_authorized(), async (req, res) => {
   }
 });
 
-api.put('/con/:con_code/sales/', assert_authorized(), async (req, res) => {
+api.put('/con/:con_code/sales', assert_authorized(), async (req, res) => {
   res.set('Content-Type', 'application/json');
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');
@@ -152,7 +169,7 @@ api.put('/con/:con_code/sales/', assert_authorized(), async (req, res) => {
   }
 });
 
-api.get('/products/', assert_authorized(), async (req, res) => {
+api.get('/products', assert_authorized(), async (req, res) => {
   res.set('Content-Type', 'application/json');
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');
@@ -167,7 +184,7 @@ api.get('/products/', assert_authorized(), async (req, res) => {
   }
 });
 
-api.put('/products/', assert_authorized(), async (req, res) => {
+api.put('/products', assert_authorized(), async (req, res) => {
   res.set('Content-Type', 'application/json');
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');
@@ -183,7 +200,7 @@ api.put('/products/', assert_authorized(), async (req, res) => {
   }
 });
 
-api.get('/prices/', assert_authorized(), async (req, res) => {
+api.get('/prices', assert_authorized(), async (req, res) => {
   res.set('Content-Type', 'application/json');
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');
@@ -198,7 +215,7 @@ api.get('/prices/', assert_authorized(), async (req, res) => {
   }
 });
 
-api.put('/prices/', assert_authorized(), async (req, res) => {
+api.put('/prices', assert_authorized(), async (req, res) => {
   res.set('Content-Type', 'application/json');
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');
@@ -214,7 +231,7 @@ api.put('/prices/', assert_authorized(), async (req, res) => {
   }
 });
 
-api.get('/types/', assert_authorized(), async (req, res) => {
+api.get('/types', assert_authorized(), async (req, res) => {
   res.set('Content-Type', 'application/json');
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');
@@ -229,7 +246,7 @@ api.get('/types/', assert_authorized(), async (req, res) => {
   }
 });
 
-api.put('/types/', assert_authorized(), async (req, res) => {
+api.put('/types', assert_authorized(), async (req, res) => {
   res.set('Content-Type', 'application/json');
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');

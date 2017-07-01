@@ -375,6 +375,27 @@ async function getUser(user_id: number): Promise<Pick<db.User, 'email' | 'keys'>
   return user;
 }
 
+async function getConventions(page: number, limit: number): Promise<ca.MetaConvention[]> {
+  const client = await connect();
+  try {
+    const { rows: raw_cons } = await query<Pick<db.Convention, 'code' | 'title' | 'start_date' | 'end_date'>>(
+      SQL`SELECT code, title, start_date, end_date FROM Conventions WHERE start_date > ${new Date()} LIMIT ${limit} OFFSET ${page * limit}`
+    );
+    const cons = raw_cons.map(_ => ({
+      type: 'meta' as 'meta',
+      title: _.title,
+      code: _.code,
+      start: new Date(_.start_date),
+      end: new Date(_.end_date)
+    }));
+    return cons;
+  } catch(error) {
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
 export {
   getConInfo, writeRecords,
   getUserProducts, writeProducts,
@@ -382,4 +403,5 @@ export {
   getUserTypes, writeTypes,
   getUser, getUserMetaConventions,
   userExists, logInUser, createUser,
+  getConventions,
 };

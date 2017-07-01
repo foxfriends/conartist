@@ -5,11 +5,13 @@ import DashboardComponent from './dashboard.component';
 import DashConventionsComponent from './dash-conventions.component';
 import DashInventoryComponent from './dash-inventory.component';
 import MaterialModule from '../material.module';
+import ModalsModule from '../modals/modals.module';
 
 @NgModule({
   imports: [
     MaterialModule,
     CommonModule,
+    ModalsModule,
   ],
   declarations: [
     DashboardComponent,

@@ -3,8 +3,10 @@ import { Observable } from 'rxjs/Observable';
 
 import template from './dash-conventions.component.html';
 import styles from './dash-conventions.component.scss';
-import { Conventions } from '../../../../conartist';
 import StorageService from '../data/storage.service';
+import ChooseConventionService from '../modals/choose-convention.service';
+
+import { Conventions } from '../../../../conartist';
 
 @Component({
   selector: 'con-dash-conventions',
@@ -15,7 +17,7 @@ export default class DashConventionsComponent {
   private conventions: Observable<Conventions>;
   private keys: Observable<number>;
 
-  constructor(@Inject(StorageService) storage: StorageService) {
+  constructor(@Inject(StorageService) storage: StorageService, @Inject(ChooseConventionService) private chooseConvention: ChooseConventionService) {
     this.conventions = storage.conventions;
     this.keys = storage.keys;
   }
@@ -41,7 +43,6 @@ export default class DashConventionsComponent {
   }
 
   openAddConventions() {
-    // TODO: allow selecting conventions
-    console.log("adding a convention!");
+    this.chooseConvention.open().subscribe(console.log);
   }
 }

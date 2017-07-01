@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
-import { APIResult, UserInfo, Products, Prices, ProductTypes, FullConvention, TypesUpdate, ProductsUpdate, PricesUpdate } from '../../../../conartist';
+import { APIResult, UserInfo, Products, Prices, ProductTypes, MetaConvention, FullConvention, TypesUpdate, ProductsUpdate, PricesUpdate } from '../../../../conartist';
 
 function handle<T>(response: Response): T {
   const result = response.json() as APIResult<T>;
@@ -67,6 +67,22 @@ export default class APIService {
       .post(APIService.host`/api/account/new/`, { usr, psw }, this.options)
       .map(_ => { handle<void>(_); })
       .catch(_ => Observable.throw(new Error('Could not create your account')));
+  }
+
+  getConventions(start?: number, end?: number, limit?: number): Observable<MetaConvention[]> {
+    let url = '/api/cons/';
+    if(start) {
+      url += `${start}/`;
+      if(end) {
+        url += `${end}/`;
+        if(limit) {
+          url += `${limit}/`;
+        }
+      }
+    }
+    return this.http
+      .get(APIService.host `${url}`, this.options)
+      .map(_ => handle<MetaConvention[]>(_));
   }
 
   getUserInfo(): Observable<UserInfo> {

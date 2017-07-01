@@ -1,0 +1,18 @@
+<h2 md-dialog-title>Choose a Convention</h2>
+<md-dialog-content>
+  <!-- TODO: make this a data table -->
+  <md-list>
+    <md-list-item *ngFor="let con of conventions">
+      <span class="choose-convention__column">{{ con.title }}</span>
+      <span class="choose-convention__column">{{ con.code }}</span>
+      <span class="choose-convention__column">{{ con.start | date }}</span>
+      <span class="choose-convention__column">{{ con.end | date }}</span>
+      <span>
+        <button md-icon-button [md-dialog-close]="con"><md-icon>check</md-icon></button>
+      </span>
+    </md-list-item>
+  </md-list>
+</md-dialog-content>
+<md-dialog-actions>
+  <button md-button md-dialog-close>Close</button>
+</md-dialog-actions>

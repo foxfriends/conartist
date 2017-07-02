@@ -149,6 +149,77 @@ async function getUserMetaConventions(user_id: number): Promise<ca.MetaConventio
   }
 };
 
+async function writeUserConventions(user_id: number, conventions: ca.ConventionsUpdate): Promise<void> {
+  const client = await connect();
+  try {
+    await client.query(SQL`BEGIN`);
+    for(const con of conventions) {
+      const { code } = con;
+      const { rows: [{ con_id }] } = await client.query<Pick<db.Convention, 'con_id'>>(
+        SQL`SELECT con_id FROM Conventions WHERE code = ${code}`
+      );
+      switch(con.type) {
+        case 'add': {
+          await client.query(
+            SQL`INSERT INTO User_Conventions (user_id, con_id) VALUES (${user_id},${con_id})`
+          );
+          break;
+        }
+        case 'remove': {
+          await client.query(
+            SQL`DELETE FROM User_Conventions WHERE user_id = ${user_id} AND con_id = ${con_id}`
+          );
+          break;
+        }
+        case 'modify': {
+          const { data } = con;
+          const { rows: [{ user_con_id }]} = await client.query<Pick<db.UserConvention, 'user_con_id'>>(
+            SQL`SELECT user_con_id FROM User_Conventions WHERE user_id = ${user_id} AND con_id = ${con_id}`
+          );
+          for(const { id, quantity } of data.products || []) {
+            if(quantity) {
+              await client.query(
+                SQL`
+                  INSERT INTO Inventory (user_con_id, product_id, quantity)
+                    VALUES (${user_con_id},${id},${quantity})
+                  ON CONFLICT ON unique_purpose DO UPDATE
+                    SET quantity = ${quantity}`
+              );
+            } else {
+              await client.query(
+                SQL`DELETE FROM Inventory WHERE user_con_id = ${user_con_id} AND product_id = ${id}`
+              );
+            }
+          }
+          for(const { type, product, prices } of data.prices || []) {
+            if(prices.length) {
+              await client.query(
+                SQL`
+                  INSERT INTO Prices (user_con_id, type_id, product_id, prices)
+                    VALUES (${user_con_id},${type},${product},${prices})
+                  ON CONFLICT ON unique_purpose DO UPDATE
+                    SET prices = ${prices}`
+              );
+            } else {
+              await client.query(
+                SQL`DELETE FROM Prices WHERE user_con_id = ${user_con_id} AND type_id = ${type}`
+                  .append(product ? SQL` AND product_id = ${product}` : SQL` AND product_id IS NULL`)
+              );
+            }
+          }
+          break;
+        }
+      }
+    }
+    await client.query(SQL`COMMIT`);
+  } catch(error) {
+    await client.query(SQL`ROLLBACK`);
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
 async function writeRecords(user_id: number, con_code: string, records: ca.RecordsUpdate): Promise<void> {
   const client = await connect();
   try {
@@ -401,7 +472,6 @@ export {
   getUserProducts, writeProducts,
   getUserPrices, writePrices,
   getUserTypes, writeTypes,
-  getUser, getUserMetaConventions,
-  userExists, logInUser, createUser,
-  getConventions,
+  getConventions, getUserMetaConventions, writeUserConventions,
+  userExists, logInUser, createUser, getUser,
 };

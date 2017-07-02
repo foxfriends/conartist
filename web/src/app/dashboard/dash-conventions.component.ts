@@ -1,12 +1,12 @@
 import { Component, Inject } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import template from './dash-conventions.component.html';
 import styles from './dash-conventions.component.scss';
 import StorageService from '../data/storage.service';
 import ChooseConventionService from '../modals/choose-convention.service';
 
-import { Conventions } from '../../../../conartist';
+import { MetaConvention, FullConvention, Conventions } from '../../../../conartist';
 
 @Component({
   selector: 'con-dash-conventions',
@@ -14,22 +14,26 @@ import { Conventions } from '../../../../conartist';
   styles: [ styles ],
 })
 export default class DashConventionsComponent {
-  private conventions: Observable<Conventions>;
-  private keys: Observable<number>;
+  private _conventions: BehaviorSubject<Conventions>;
+  private keys: BehaviorSubject<number>;
 
-  constructor(@Inject(StorageService) storage: StorageService, @Inject(ChooseConventionService) private chooseConvention: ChooseConventionService) {
-    this.conventions = storage.conventions;
-    this.keys = storage.keys;
+  constructor(@Inject(StorageService) private storage: StorageService, @Inject(ChooseConventionService) private chooseConvention: ChooseConventionService) {
+    this._conventions = this.storage.conventions;
+    this.keys = this.storage.keys;
   }
 
-  get currentConventions(): Observable<Conventions> {
-    return this.conventions.map(_ => _.filter(({ start, end }) => start <= new Date() && new Date() <= end));
+  get conventions(): (MetaConvention | FullConvention)[] {
+    return this._conventions.getValue().filter((_): _ is MetaConvention | FullConvention => _.type !== 'invalid');
   }
-  get upcomingConventions(): Observable<Conventions> {
-    return this.conventions.map(_ => _.filter(({ start }) => start > new Date()));
+
+  get currentConventions(): (MetaConvention | FullConvention)[] {
+    return this.conventions.filter(({ start, end }) => start <= new Date() && new Date() <= end);
   }
-  get previousConventions(): Observable<Conventions> {
-    return this.conventions.map(_ => _.filter(({ end }) => end < new Date()));
+  get upcomingConventions(): (MetaConvention | FullConvention)[] {
+    return this.conventions.filter(({ start }) => start > new Date());
+  }
+  get previousConventions(): (MetaConvention | FullConvention)[] {
+    return this.conventions.filter(({ end }) => end < new Date());
   }
 
   viewCon(code: string): void {
@@ -43,6 +47,9 @@ export default class DashConventionsComponent {
   }
 
   openAddConventions() {
-    this.chooseConvention.open().subscribe(console.log);
+    this.chooseConvention.open().filter((_): _ is MetaConvention => !!_).subscribe(_ => {
+      this.storage.addConvention(_);
+      this.storage.commit();
+    });
   }
 }

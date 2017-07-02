@@ -96,24 +96,49 @@ export type ConventionData = {
 };
 
 export type MetaConvention = {
-  type: 'meta',
+  type: 'meta';
   title: string;
   code: string;
   start: Date;
   end: Date;
+  dirty?: boolean;
 };
 
 export type FullConvention = {
-  type: 'full',
+  type: 'full';
   title: string;
   code: string;
   start: Date;
   end: Date;
   data: ConventionData;
+  dirty?: boolean;
 };
 
-export type Convention = MetaConvention | FullConvention;
+export type InvalidConvention = {
+  type: 'invalid';
+  code: string;
+  dirty?: boolean;
+}
+
+export type Convention = MetaConvention | FullConvention | InvalidConvention;
 export type Conventions = Convention[];
+
+export type ConventionAdd = {
+  type: 'add';
+  code: string;
+};
+export type ConventionRemove = {
+  type: 'remove';
+  code: string;
+};
+export type ConventionModify = {
+  type: 'modify';
+  code: string;
+  data: Partial<ConventionData>;
+};
+
+export type ConventionUpdate = ConventionAdd | ConventionRemove | ConventionModify;
+export type ConventionsUpdate = ConventionUpdate[];
 
 export type APISuccessResult<T> = {
   status: 'Success';

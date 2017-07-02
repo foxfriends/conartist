@@ -4,15 +4,32 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
-import { APIResult, UserInfo, Products, Prices, ProductTypes, MetaConvention, FullConvention, TypesUpdate, ProductsUpdate, PricesUpdate } from '../../../../conartist';
+import * as ca from '../../../../conartist';
+
+const DATE = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*))(?:Z|(\+|-)([\d|:]*))?$/;
+function parseDates(_key: string, value: any) {
+  if(typeof value === 'string' && DATE.test(value)) {
+    return new Date(value);
+  }
+  return value;
+}
 
 function handle<T>(response: Response): T {
-  const result = response.json() as APIResult<T>;
+  const result = JSON.parse(response.text(), parseDates) as ca.APIResult<T>;
   if(result.status === 'Success') {
     return result.data;
   } else {
     throw new Error(result.error);
   }
+}
+
+function isDirty<T extends { dirty?: boolean; }>(_: T): boolean { return !!_.dirty; }
+
+function onlyDirty(data: ca.ConventionData): Partial<ca.ConventionData> {
+  return {
+    products: data.products.filter(isDirty),
+    prices: data.prices.filter(isDirty),
+  };
 }
 
 @Injectable()
@@ -65,11 +82,11 @@ export default class APIService {
   signUp(usr: string, psw: string): Observable<void> {
     return this.http
       .post(APIService.host`/api/account/new/`, { usr, psw }, this.options)
-      .map(_ => { handle<void>(_); })
+      .map(_ => { handle(_); })
       .catch(_ => Observable.throw(new Error('Could not create your account')));
   }
 
-  getConventions(start?: number, end?: number, limit?: number): Observable<MetaConvention[]> {
+  getConventions(start?: number, end?: number, limit?: number): Observable<ca.MetaConvention[]> {
     let url = '/api/cons/';
     if(start) {
       url += `${start}/`;
@@ -82,67 +99,85 @@ export default class APIService {
     }
     return this.http
       .get(APIService.host `${url}`, this.options)
-      .map(_ => handle<MetaConvention[]>(_));
+      .map(_ => handle<ca.MetaConvention[]>(_));
   }
 
-  getUserInfo(): Observable<UserInfo> {
+  getUserInfo(): Observable<ca.UserInfo> {
     return this.http
       .get(APIService.host`/api/user/`, this.options)
-      .map(_ => handle<UserInfo>(_));
+      .map(_ => handle<ca.UserInfo>(_));
   }
 
-  loadConvention(code: string): Observable<FullConvention> {
+  loadConvention(code: string): Observable<ca.FullConvention> {
     return this.http
       .get(APIService.host`/api/con/${code}/`, this.options)
-      .map(_ => handle<FullConvention>(_))
+      .map(_ => handle<ca.FullConvention>(_))
       .catch(_ => Observable.throw(new Error(`Fetching convention for ${code} data failed`)));
   }
 
-  saveTypes(types: ProductTypes): Observable<ProductTypes> {
-    const updates: TypesUpdate = types
+  saveTypes(types: ca.ProductTypes): Observable<ca.ProductTypes> {
+    const updates: ca.TypesUpdate = types
         .filter(_ => _.dirty)
         .map(_ =>
-          _.id < 0  ? ({ kind: 'create' as 'create', name: _.name, color: _.color }) :
-                    ({ kind: 'modify' as 'modify', name: _.name, color: _.color, id: _.id, discontinued: _.discontinued })
+          _.id < 0  ? ({ kind: 'create' as 'create', name: _.name, color: _.color })
+                    : ({ kind: 'modify' as 'modify', name: _.name, color: _.color, id: _.id, discontinued: _.discontinued })
         );
     if(updates.length) {
       return this.http
         .put(APIService.host`/api/types/`, { types: updates }, this.options)
-        .map(_ => handle<ProductTypes>(_))
+        .map(_ => handle<ca.ProductTypes>(_))
         .catch(_ => Observable.throw(new Error('Could not save product types changes')));
     } else {
       return Observable.of([]);
     }
   }
 
-  saveProducts(products: Products): Observable<Products> {
-    const updates: ProductsUpdate = products
+  saveProducts(products: ca.Products): Observable<ca.Products> {
+    const updates: ca.ProductsUpdate = products
         .filter(_ => _.dirty)
         .map(_ =>
-          _.id < 0  ? ({ kind: 'create' as 'create', name: _.name, type: _.type, quantity: _.quantity }) :
-                      ({ kind: 'modify' as 'modify', name: _.name, type: _.type, quantity: _.quantity, id: _.id, discontinued: _.discontinued })
+          _.id < 0  ? ({ kind: 'create' as 'create', name: _.name, type: _.type, quantity: _.quantity })
+                    : ({ kind: 'modify' as 'modify', name: _.name, type: _.type, quantity: _.quantity, id: _.id, discontinued: _.discontinued })
         );
     if(updates.length) {
       return this.http
         .put(APIService.host`/api/products/`, { products: updates }, this.options)
-        .map(_ => handle<Products>(_))
+        .map(_ => handle<ca.Products>(_))
         .catch(_ => Observable.throw(new Error('Could not save product changes')));
     } else {
       return Observable.of([]);
     }
   }
 
-  savePrices(prices: Prices): Observable<Prices> {
-    const updates: PricesUpdate = prices
+  savePrices(prices: ca.Prices): Observable<ca.Prices> {
+    const updates: ca.PricesUpdate = prices
         .filter(_ => _.dirty)
         .map(_ => ({ type_id: _.type, product_id: _.product, price: _.prices}));
     if(updates.length) {
       return this.http
         .put(APIService.host`/api/prices/`, { prices: updates }, this.options)
-        .map(_ => handle<Prices>(_))
+        .map(_ => handle<ca.Prices>(_))
         .catch(_ => Observable.throw(new Error('Could not save price changes')));
     } else {
       return Observable.of([]);
+    }
+  }
+
+  saveConventions(conventions: ca.Conventions): Observable<void> {
+    const updates: ca.ConventionsUpdate = conventions
+      .filter(_ => _.dirty)
+      .map(_ =>
+        _.type === 'meta' ? ({ type: 'add' as 'add', code: _.code }) :
+        _.type === 'full' ? ({ type: 'modify' as 'modify', code: _.code, data: onlyDirty(_.data) })
+                          : ({ type: 'remove' as 'remove', code: _.code })
+      );
+    if(updates.length) {
+      return this.http
+        .put(APIService.host`/api/cons/`, { conventions: updates }, this.options)
+        .map(_ => { handle(_) })
+        .catch(_ => Observable.throw(new Error('Could not save convention changes')));
+    } else {
+      return Observable.of();
     }
   }
 }

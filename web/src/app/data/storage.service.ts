@@ -14,6 +14,12 @@ type ObservableUserInfo = {
   [K in keyof UserInfo]: BehaviorSubject<UserInfo[K]>;
 }
 
+function clean<T extends { dirty?: boolean; }>(obj: T) {
+  const dup: T = { ...obj as any }; // typescript why
+  delete dup.dirty;
+  return dup;
+}
+
 @Injectable()
 export default class StorageService implements ObservableUserInfo {
   private _email: BehaviorSubject<UserInfo['email']>;
@@ -63,7 +69,31 @@ export default class StorageService implements ObservableUserInfo {
   }
 
   updateConvention(con: Convention) {
-    this._conventions.next(this._conventions.getValue().map(_ => _.code === con.code ? con : _));
+    this._conventions.next(this._conventions.getValue().map(_ => _.code === con.code ? { ...con, dirty: true } : _));
+  }
+
+  addConvention(con: Convention) {
+    try {
+      const withoutInvalid = this._conventions.getValue().filter(_ => {
+        if(_.code === con.code) {
+          if(_.type === 'invalid') {
+            return false;
+          } else {
+            throw new Error('Convention already exists');
+          }
+        }
+        return true;
+      });
+      this._conventions.next([...withoutInvalid, { ...con, dirty: true }]);
+    } finally {}
+  }
+
+  removeConvention(code: string) {
+    this._conventions.next(
+      this._conventions.getValue().map(
+        _ => _.code === code ? { type: 'invalid' as 'invalid', code, dirty: true } : _
+      )
+    );
   }
 
   createProduct(type: ProductType, index: number) {
@@ -192,6 +222,9 @@ export default class StorageService implements ObservableUserInfo {
     const oldTypes = this._types.getValue();
     let oldProducts = this._products.getValue();
     let oldPrices = this._prices.getValue();
+    const oldConventions = this._conventions.getValue();
+    await this.api.saveConventions(oldConventions).toPromise();
+
     const newTypes = await this.api.saveTypes(oldTypes).toPromise();;
     const nextTypes = oldTypes.map(type => {
       if(type.id >= 0) { return { ...type, dirty: false }; };
@@ -211,8 +244,9 @@ export default class StorageService implements ObservableUserInfo {
 
     await this.api.savePrices(oldPrices).toPromise();
 
-    this._types.next(nextTypes);
-    this._products.next(nextProducts);
-    this._prices.next(oldPrices);
+    this._types.next(nextTypes.map(clean));
+    this._products.next(nextProducts.map(clean));
+    this._prices.next(oldPrices.map(clean));
+    this._conventions.next(oldConventions.map(clean));
   }
 }

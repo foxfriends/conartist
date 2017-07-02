@@ -9,7 +9,7 @@ import { MetaConvention } from '../../../../conartist';
 export default class ChooseConventionService {
   constructor(@Inject(MdDialog) private dialog: MdDialog) { }
 
-  open(): Observable<MetaConvention> {
+  open(): Observable<MetaConvention | undefined> {
     return this.dialog.open(ChooseConventionComponent, { width: '800px' }).afterClosed();
   }
 }

@@ -4,10 +4,10 @@
     <button md-button class="convention__button" (click)="openBuyKeys()" mdTooltip="Buy more keys!"><span class="convention__button-label"><md-icon>vpn_key</md-icon> {{ keys|async }}</span></button>
   </md-card-header>
   <md-card-content>
-    <md-nav-list *ngIf="(conventions|async).length; else noCons">
-      <ng-container *ngIf="(currentConventions|async).length">
+    <md-nav-list *ngIf="conventions.length; else noCons">
+      <ng-container *ngIf="currentConventions.length">
         <h3 md-subheader>Current</h3>
-        <md-list-item class="convention" *ngFor="let convention of currentConventions|async" (click)="viewCon(convention.code)">
+        <md-list-item class="convention" *ngFor="let convention of currentConventions" (click)="viewCon(convention.code)">
           {{ convention.title }}
           <span class="convention__code">{{ convention.code }}</span>
           <span class="convention__date">
@@ -15,10 +15,10 @@
           </span>
         </md-list-item>
       </ng-container>
-      <md-divider *ngIf="(currentConventions|async).length && (upcomingConventions|async).length"></md-divider>
-      <ng-container *ngIf="(upcomingConventions|async).length">
+      <md-divider *ngIf="currentConventions.length && upcomingConventions.length"></md-divider>
+      <ng-container *ngIf="upcomingConventions.length">
         <h3 md-subheader>Upcoming</h3>
-        <md-list-item class="convention" *ngFor="let convention of upcomingConventions|async" (click)="viewCon(convention.code)">
+        <md-list-item class="convention" *ngFor="let convention of upcomingConventions" (click)="viewCon(convention.code)">
           {{ convention.title }}
           <span class="convention__code">{{ convention.code }}</span>
           <span class="convention__date">
@@ -26,10 +26,10 @@
           </span>
         </md-list-item>
       </ng-container>
-      <md-divider *ngIf="(upcomingConventions|async).length && (previousConventions|async).length"></md-divider>
-      <ng-container *ngIf="(previousConventions|async).length">
+      <md-divider *ngIf="upcomingConventions.length && previousConventions.length"></md-divider>
+      <ng-container *ngIf="previousConventions.length">
         <h3 md-subheader>Previous</h3>
-        <md-list-item class="convention" *ngFor="let convention of previousConventions|async" (click)="viewCon(convention.code)">
+        <md-list-item class="convention" *ngFor="let convention of previousConventions" (click)="viewCon(convention.code)">
           {{ convention.title }}
           <span class="convention__code">{{ convention.code }}</span>
           <span class="convention__date">

@@ -28,6 +28,7 @@ type Body = {
   prices: ca.PricesUpdate;
   products: ca.ProductsUpdate;
   types: ca.TypesUpdate;
+  conventions: ca.ConventionsUpdate;
   usr: string;
   psw: string;
 };
@@ -130,6 +131,22 @@ api.get('/cons/:page?/:limit?', assert_authorized(), async (req, res) => {
     const { page, limit } = req.params as Pick<Params, 'page' | 'limit'>;
     const data = await db.getConventions(page || 0, limit || 10);
     res.send(JSON.stringify({ status: 'Success', data } as ca.APISuccessResult<ca.MetaConvention[]>));
+  } catch(error) {
+    console.error(error);
+    res.send(JSON.stringify({ status: 'Error', error: error.message } as ca.APIErrorResult));
+  }
+});
+
+api.put('/cons', assert_authorized(), async (req, res) => {
+  res.set('Content-Type', 'application/json');
+  res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+  try {
+    const { conventions } = req.body as Pick<Body, 'conventions'>;
+    const { usr: user_id } = req.user as User;
+    await db.writeUserConventions(user_id, conventions);
+    res.send(JSON.stringify({ status: 'Success' } as ca.APISuccessResult<void>));
   } catch(error) {
     console.error(error);
     res.send(JSON.stringify({ status: 'Error', error: error.message } as ca.APIErrorResult));

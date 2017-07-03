@@ -65,15 +65,6 @@ export default class StorageService implements ObservableUserInfo {
   get types() { return this._types; }
   get conventions() { return this._conventions; }
 
-  fillConvention(code: string) {
-    const con = this._conventions.getValue().find(_ => _.code === code);
-    if(con && con.type !== 'full') {
-      this.api
-        .loadConvention(con.code)
-        .subscribe(filled => this._conventions.next(this._conventions.getValue().map(_ => _.code === code ? filled : _)));
-    }
-  }
-
   convention(code: string) {
     return this._conventions
       .map(_ => _.find(_ => _.code === code)!).filter(_ => !!_)
@@ -104,12 +95,23 @@ export default class StorageService implements ObservableUserInfo {
   }
 
   removeConvention(code: string) {
-    this._conventions.next(
-      this._conventions.getValue().map(
-        _ => _.code === code ? { type: 'invalid' as 'invalid', code, dirty: true } : _
-      )
-    );
-    this._keys.next(this._keys.getValue() + 1);
+    if(this._conventions.getValue().find(_ => _.code === code)) {
+      this._conventions.next(
+        this._conventions.getValue().map(
+          _ => _.code === code ? { type: 'invalid' as 'invalid', code, dirty: true } : _
+        )
+      );
+      this._keys.next(this._keys.getValue() + 1);
+    }
+  }
+
+  fillConvention(code: string) {
+    const con = this._conventions.getValue().find(_ => _.code === code);
+    if(con && con.type !== 'full') {
+      this.api
+        .loadConvention(con.code)
+        .subscribe(filled => this._conventions.next(this._conventions.getValue().map(_ => _.code === code ? filled : _)));
+    }
   }
 
   createProduct(type: ProductType, index: number) {
@@ -155,21 +157,6 @@ export default class StorageService implements ObservableUserInfo {
           _ => _.type !== type || _.product !== product
         )
       )
-    }
-  }
-
-  addPriceRow(type: number, product: number | null = null) {
-    const prices = this._prices.getValue();
-    const existing = prices.find(_ => _.type === type && _.product === product);
-    if(existing) {
-      const extended = existing.prices.sort((a, b) => a[0] - b[0]);
-      extended.push([ (extended[extended.length - 1] || [0])[0] + 1, 0 ]);
-      this._prices.next(prices.map(_ => _ === existing ? { ...existing, prices: extended, dirty: true } : _))
-    } else {
-      this._prices.next([
-        ...prices,
-        { type, product, prices: [ [1, 0] ], dirty: true },
-      ]);
     }
   }
 
@@ -226,6 +213,21 @@ export default class StorageService implements ObservableUserInfo {
         ));
   }
 
+  addPriceRow(type: number, product: number | null = null) {
+    const prices = this._prices.getValue();
+    const existing = prices.find(_ => _.type === type && _.product === product);
+    if(existing) {
+      const extended = existing.prices.sort((a, b) => a[0] - b[0]);
+      extended.push([ (extended[extended.length - 1] || [0])[0] + 1, 0 ]);
+      this._prices.next(prices.map(_ => _ === existing ? { ...existing, prices: extended, dirty: true } : _))
+    } else {
+      this._prices.next([
+        ...prices,
+        { type, product, prices: [ [1, 0] ], dirty: true },
+      ]);
+    }
+  }
+
   removePriceRow(type: number, product: number | null, index: number) {
     this._prices.next(
       this._prices.getValue()
@@ -235,42 +237,53 @@ export default class StorageService implements ObservableUserInfo {
   }
 
   async commit(rollback: boolean = false) {
+    enum Stage { Types, Products, Prices, Conventions, Complete };
+    let stage: Stage = Stage.Types;
     try {
       const oldTypes = this._types.getValue();
       let oldProducts = this._products.getValue();
       let oldPrices = this._prices.getValue();
 
       const newTypes = await this.api.saveTypes(oldTypes).toPromise();;
-      const nextTypes = oldTypes.map(type => {
-        if(type.id >= 0) { return { ...type, dirty: false }; };
-        const next = newTypes.find(_ => _.name === type.name)!;
-        oldProducts = oldProducts.map(_ => _.type === type.id ? { ..._, type: next.id } : _);
-        oldPrices = oldPrices.map(_ => _.type === type.id ? { ..._, type: next.id } : _);
-        return next;
-      });
+      const nextTypes = oldTypes
+        .map(type => {
+          if(type.id >= 0) { return { ...type, dirty: false }; };
+          const next = newTypes.find(_ => _.name === type.name)!;
+          oldProducts = oldProducts.map(_ => _.type === type.id ? { ..._, type: next.id } : _);
+          oldPrices = oldPrices.map(_ => _.type === type.id ? { ..._, type: next.id } : _);
+          return next;
+        })
+        .map(clean);
+      this.__types = nextTypes;
 
+      stage =  Stage.Products;
       const newProducts = await this.api.saveProducts(oldProducts).toPromise();
-      const nextProducts = oldProducts.map(product => {
-        if(product.id >= 0) { return { ...product, dirty: false }; }
-        const next = newProducts.find(_ => _.type === product.type && _.name === product.name)!;
-        oldPrices = oldPrices.map(_ => _.product === product.id ? { ..._, product: next.id } : _);
-        return next;
-      });
+      const nextProducts = oldProducts
+        .map(product => {
+          if(product.id >= 0) { return { ...product, dirty: false }; }
+          const next = newProducts.find(_ => _.type === product.type && _.name === product.name)!;
+          oldPrices = oldPrices.map(_ => _.product === product.id ? { ..._, product: next.id } : _);
+          return next;
+        })
+        .map(clean);
+      this.__products = nextProducts;
 
+      stage = Stage.Prices;
       await this.api.savePrices(oldPrices).toPromise();
+      const nextPrices = oldPrices.map(clean);
+      this.__prices = nextPrices;
 
+      stage = Stage.Conventions;
       const oldConventions = this._conventions.getValue();
       await this.api.saveConventions(oldConventions).toPromise();
+      const nextConventions = oldConventions.map(clean);
+      this.__conventions = nextConventions;
 
-      this._types.next(nextTypes.map(clean));
-      this._products.next(nextProducts.map(clean));
-      this._prices.next(oldPrices.map(clean));
-      this._conventions.next(oldConventions.map(clean));
-
-      this.__types = this._types.getValue();
-      this.__products = this._products.getValue();
-      this.__prices = this._prices.getValue();
-      this.__conventions = this._conventions.getValue();
+      stage = Stage.Complete;
+      this._types.next(nextTypes);
+      this._products.next(nextProducts);
+      this._prices.next(nextPrices);
+      this._conventions.next(nextConventions);
 
       this.snackbar.open("Saved", "Dismiss", { duration: 3000 });
     } catch(error) {
@@ -282,6 +295,17 @@ export default class StorageService implements ObservableUserInfo {
         this._products.next(this.__products);
         this._prices.next(this.__prices);
         this._conventions.next(this.__conventions);
+      } else {
+        switch(stage as Stage) { // typescript why
+          case Stage.Conventions:
+            this._conventions.next(this.__conventions);
+          case Stage.Prices:
+            this._prices.next(this.__prices);
+          case Stage.Products:
+            this._products.next(this.__products);
+          case Stage.Types:
+            this._types.next(this.__types);
+        }
       }
     }
   }

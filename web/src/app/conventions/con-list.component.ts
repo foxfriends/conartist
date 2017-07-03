@@ -1,5 +1,5 @@
 import { Component, Inject, Input, Output, EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/take';
 
 import StorageService from '../data/storage.service';
@@ -16,17 +16,24 @@ export default class ConListComponent {
   @Input() opened: Conventions;
   @Output() conClick = new EventEmitter<Convention>();
 
-  private _conventions: Observable<(MetaConvention | FullConvention)[]>;
+  private _conventions: BehaviorSubject<Conventions>;
 
   constructor(@Inject(StorageService) storage: StorageService) {
-    this._conventions = storage.conventions.map(
-      _ => _.filter((_): _ is MetaConvention | FullConvention => _.type !== 'invalid')
-    );
-    this._conventions.subscribe(_ => _.forEach(_ => storage.fillConvention(_.code)));
-    this._conventions.subscribe(console.table);
+    this._conventions = storage.conventions;
+    this._conventions.subscribe(() => this.conventions.forEach(_ => storage.fillConvention(_.code)));
   }
 
   get conventions() {
-    return this._conventions;
+    return this._conventions.getValue().filter((_): _ is MetaConvention | FullConvention => _.type !== 'invalid');
+  }
+
+  get currentConventions(): (MetaConvention | FullConvention)[] {
+    return this.conventions.filter(({ start, end }) => start <= new Date() && new Date() <= end);
+  }
+  get upcomingConventions(): (MetaConvention | FullConvention)[] {
+    return this.conventions.filter(({ start }) => start > new Date());
+  }
+  get previousConventions(): (MetaConvention | FullConvention)[] {
+    return this.conventions.filter(({ end }) => end < new Date());
   }
 }

@@ -1,8 +1,5 @@
-<md-tab-group [(selectedIndex)]="currentTab">
+<md-tab-group [(selectedIndex)]="currentTab" *ngIf="conventions.length; else placeholder">
   <md-tab label="Conventions">
-    <header class="conventions__header">
-      <h1 class="conventions__title">Conventions</h1>
-    </header>
     <con-con-list [opened]="openConventions" (conClick)="openConvention($event)"></con-con-list>
   </md-tab>
   <md-tab *ngFor="let convention of openConventions;let i = index">
@@ -17,3 +14,16 @@
     <con-record-list [data]="convention.data" *ngIf="convention.data"></con-record-list>
   </md-tab>
 </md-tab-group>
+<ng-template #placeholder>
+  <div class="conventions__placeholder">
+    <p>
+      You haven't signed up for any conventions yet!
+    </p>
+    <button md-fab class="conventions__placeholder-button" (click)="openAddConventions()">
+      <md-icon>add</md-icon>
+    </button>
+    <p>
+      Add one!
+    </p>
+  </div>
+</ng-template>

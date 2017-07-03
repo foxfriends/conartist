@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import { Observable } from 'rxjs/Observable';
 
 import APIService from './api.service';
-import { newUser, userInfo, fullConventions } from './api.service.mock';
+import { newUser, userInfo, conventions, types, products, prices, fullConventions } from './api.service.mock';
 import { APISuccessResult, APIErrorResult, APIResult } from '../../../../conartist';
 
 type Context = {
@@ -13,7 +13,81 @@ type Context = {
   backend: MockBackend;
 };
 
+
 describe('API Service', function(this: Mocha.ISuiteCallbackContext & Context) {
+  const shouldNotRequest = <K extends keyof APIService>(prop: K, args: any[]) =>
+    it(`should not send a request`, () => {
+      this.backend.connections.take(1).subscribe(
+        () => expect.fail('a request should not be sent'),
+      );
+      this.service[prop](...args);
+    });
+  const shouldRequest = <K extends keyof APIService>(prop: K, args: any[], method: 'Get' | 'Put' | 'Post', url: string) =>
+    it(`should request [${method.toUpperCase()} ${url}]`, done => {
+      this.backend.connections.take(1).subscribe(
+        (c: MockConnection) => {
+          expect(c.request.method).to.equal(RequestMethod[method]);
+          expect(c.request.url).to.equal(APIService.host`${url}`);
+        },
+        void 0,
+        done,
+      );
+      this.service[prop](...args);
+    });
+  const shouldRequestWithBody = <K extends keyof APIService, T>(prop: K, args: any[], method: 'Get' | 'Put' | 'Post', url: string, body: T) =>
+    it(`should request [${method.toUpperCase()} ${url}] with a body`, done => {
+      this.backend.connections.take(1).subscribe(
+        (c: MockConnection) => {
+          expect(c.request.method).to.equal(RequestMethod[method]);
+          expect(c.request.url).to.equal(APIService.host`${url}`);
+          expect(JSON.parse(c.request.getBody())).to.deep.equal(body);
+        },
+        void 0,
+        done,
+      );
+      this.service[prop](...args);
+    });
+  const shouldRequestWithAuthHeader = <K extends keyof APIService>(prop: K, args: any[], method: 'Get' | 'Put' | 'Post', url: string) =>
+    it(`should request [${method.toUpperCase()} ${url}] with the authorization header`, done => {
+      const JWT = 'FakeJWT';
+      localStorage.setItem('authtoken', JWT);
+      this.backend.connections.take(1).subscribe(
+        (c: MockConnection) => {
+          expect(c.request.method).to.equal(RequestMethod[method]);
+          expect(c.request.url).to.equal(APIService.host`${url}`);
+          expect(c.request.headers.get('Authorization')).to.equal(`Bearer ${JWT}`);
+        },
+        void 0,
+        done,
+      );
+      this.service[prop](...args);
+      localStorage.removeItem('authtoken');
+    });
+  const shouldReturnAnObservable = <K extends keyof APIService, T>(prop: K, args: any[], response: T, expected: T) =>
+    it('should return an observable of the success result body', done => {
+      this.backend.connections.take(1).subscribe(respondWith(new MockAPISuccessResult(response)));
+      const result: Observable<T> = this.service[prop](...args);
+      expect(result).to.be.an.instanceOf(Observable);
+      result.subscribe(
+        (_: T) => expect(_, 'the correct response should be emitted').to.deep.equal(expected),
+        () => expect.fail('the observable should not emit an error'),
+        done,
+      );
+    });
+  const shouldProduceTheCorrectError = <K extends keyof APIService>(prop: K, args: any[], error: string) =>
+    it('should produce the correct error message on an error result', done => {
+      this.backend.connections.take(1).subscribe(respondWith(new MockAPIErrorResult));
+      this.service[prop](...args).subscribe(
+        () => expect.fail('the observable should emit an error'),
+        (_: Error) => {
+          expect(_, 'the observable should produce an Error object').to.be.an.instanceOf(Error);
+          expect(_.message, 'the error should have the right message').to.deep.equal(error);
+          done();
+        },
+      );
+    });
+
+
   class MockAPISuccessResult<T> implements APISuccessResult<T> {
     readonly status = 'Success';
     constructor(public data: T) {}
@@ -48,222 +122,90 @@ describe('API Service', function(this: Mocha.ISuiteCallbackContext & Context) {
     });
   });
 
-  // TODO: can these be dynamically generated?
-
   describe('#isUniqueEmail', () => {
-    it('should request [GET /api/account/exists/:usr]', done => {
-      this.backend.connections.take(1).subscribe(
-        (c: MockConnection) => {
-          expect(c.request.method).to.equal(RequestMethod.Get);
-          expect(c.request.url).to.equal(APIService.host`/api/account/exists/${newUser.email}`);
-        },
-        void 0,
-        done,
-      );
-      this.service.isUniqueEmail(newUser.email);
-    });
-
-    it('should return an observable of the success result body', done => {
-      this.backend.connections.take(1).subscribe(respondWith(new MockAPISuccessResult(true)));
-      const result = this.service.isUniqueEmail(newUser.email);
-      expect(result).to.be.an.instanceOf(Observable);
-      result.subscribe(
-        _ => expect(_, 'the value should be negated').to.be.false,
-        _ => expect.fail('the observable should not emit an error'),
-        done,
-      );
-    });
+    shouldRequest('isUniqueEmail', [newUser.email], 'Get', `/api/account/exists/${newUser.email}`)
+    shouldReturnAnObservable('isUniqueEmail', [newUser.email], true, false);
   });
 
   describe('#signIn', () => {
-    it('should request [POST /api/auth/] with usr and psw in the body', done => {
-      this.backend.connections.take(1).subscribe(
-        (c: MockConnection) => {
-          expect(c.request.method).to.equal(RequestMethod.Post);
-          expect(c.request.url).to.equal(APIService.host`/api/auth/`);
-          expect(JSON.parse(c.request.getBody())).to.deep.equal({
-            usr: newUser.email, psw: newUser.password
-          });
-        },
-        void 0,
-        done,
-      );
-      this.service.signIn(newUser.email, newUser.password);
-    });
-
-    it('should return an observable of the success result body', done => {
-      const JWT = 'FakeJWT';
-      this.backend.connections.take(1).subscribe(respondWith(new MockAPISuccessResult(JWT)));
-      const result = this.service.signIn(newUser.email, newUser.password);
-      expect(result).to.be.an.instanceOf(Observable);
-      result.subscribe(
-        _ => expect(_, 'the JWT should be emitted').to.equal(JWT),
-        _ => expect.fail('the observable should not emit an error'),
-        done,
-      );
-    });
-
-    it('should produce the correct error message on an error result', done => {
-      this.backend.connections.take(1).subscribe(respondWith(new MockAPIErrorResult));
-      this.service.signIn(newUser.email, newUser.password).subscribe(
-        () => expect.fail('the observable should emit an error'),
-        _ => {
-          expect(_, 'the observable should produce an Error object').to.be.an.instanceOf(Error);
-          expect(_.message, 'the error should have the right message').to.deep.equal('Incorrect username or password');
-          done();
-        },
-      );
-    });
+    shouldRequestWithBody('signIn', [newUser.email, newUser.password], 'Post', '/api/auth/', { usr: newUser.email, psw: newUser.password });
+    shouldReturnAnObservable('signIn', [newUser.email, newUser.password], 'FakeJWT', 'FakeJWT');
+    shouldProduceTheCorrectError('signIn', [newUser.email, newUser.password], 'Incorrect username or password');
   });
 
   describe('#reauthorize', () => {
-    it('should request [GET /api/auth/]', done => {
-      this.backend.connections.take(1).subscribe(
-        (c: MockConnection) => {
-          expect(c.request.method).to.equal(RequestMethod.Get);
-          expect(c.request.url).to.equal(APIService.host`/api/auth/`);
-        },
-        void 0,
-        done,
-      );
-      this.service.reauthorize();
-    });
-
-    it('should return an observable of the success result body', done => {
-      const JWT = 'FakeJWT';
-      this.backend.connections.take(1).subscribe(respondWith(new MockAPISuccessResult(JWT)));
-      const result = this.service.reauthorize();
-      expect(result).to.be.an.instanceOf(Observable);
-      result.subscribe(
-        _ => expect(_, 'the JWT should be emitted').to.equal(JWT),
-        _ => expect.fail('the observable should not emit an error'),
-        done,
-      );
-    });
-
-    it('should produce the correct error message on an error result', done => {
-      this.backend.connections.take(1).subscribe(respondWith(new MockAPIErrorResult));
-      this.service.reauthorize().subscribe(
-        () => expect.fail('the observable should emit an error'),
-        _ => {
-          expect(_, 'the observable should produce an Error object').to.be.an.instanceOf(Error);
-          expect(_.message, 'the error should have the right message').to.deep.equal('Invalid auth token');
-          done();
-        },
-      );
-    });
+    shouldRequest('reauthorize', [], 'Get', '/api/auth/');
+    shouldReturnAnObservable('reauthorize', [], 'FakeJWT', 'FakeJWT');
+    shouldProduceTheCorrectError('reauthorize', [], 'Invalid auth token');
   });
 
   describe('#signUp', () => {
-    it('should request [POST /api/account/new/] with usr and psw in the body', done => {
-      this.backend.connections.take(1).subscribe(
-        (c: MockConnection) => {
-          expect(c.request.method).to.equal(RequestMethod.Post);
-          expect(c.request.url).to.equal(APIService.host`/api/account/new/`);
-          expect(JSON.parse(c.request.getBody())).to.deep.equal({
-            usr: newUser.email, psw: newUser.password
-          });
-        },
-        void 0,
-        done,
-      );
-      this.service.signUp(newUser.email, newUser.password);
-    });
+    shouldRequestWithBody('signUp', [newUser.email, newUser.password], 'Post', '/api/account/new/', { usr: newUser.email, psw: newUser.password });
+    shouldReturnAnObservable('signUp', [newUser.email, newUser.password], 'FakeJWT', undefined);
+    shouldProduceTheCorrectError('signUp', [newUser.email, newUser.password], 'Could not create your account');
+  });
 
-    it('should return an observable of the success result body', done => {
-      const JWT = 'FakeJWT';
-      this.backend.connections.take(1).subscribe(respondWith(new MockAPISuccessResult(JWT)));
-      const result = this.service.signUp(newUser.email, newUser.password);
-      expect(result).to.be.an.instanceOf(Observable);
-      result.subscribe(
-        _ => expect(_, 'no value should be emitted').to.be.undefined,
-        _ => expect.fail('the observable should not emit an error'),
-        done,
-      );
-    });
-
-    it('should produce the correct error message on an error result', done => {
-      this.backend.connections.take(1).subscribe(respondWith(new MockAPIErrorResult));
-      this.service.signUp(newUser.email, newUser.password).subscribe(
-        () => expect.fail('the observable should emit an error'),
-        _ => {
-          expect(_, 'the observable should produce an Error object').to.be.an.instanceOf(Error);
-          expect(_.message, 'the error should have the right message').to.deep.equal('Could not create your account');
-          done();
-        },
-      );
-    });
+  describe('#getConventions', () => {
+    shouldRequestWithAuthHeader('getConventions', [], 'Get', '/api/cons/');
+    shouldRequestWithAuthHeader('getConventions', [1], 'Get', '/api/cons/1/');
+    shouldRequestWithAuthHeader('getConventions', [1, 2], 'Get', '/api/cons/1/2/');
+    shouldRequestWithAuthHeader('getConventions', [1, 2, 3], 'Get', '/api/cons/1/2/3/');
+    shouldReturnAnObservable('getConventions', [], conventions, conventions);
   });
 
   describe('#getUserInfo', () => {
-    it('should request [GET /api/user/] with the authorization header', done => {
-      const JWT = 'FakeJWT';
-      localStorage.setItem('authtoken', JWT);
-      this.backend.connections.take(1).subscribe(
-        (c: MockConnection) => {
-          expect(c.request.method).to.equal(RequestMethod.Get);
-          expect(c.request.url).to.equal(APIService.host`/api/user/`);
-          expect(c.request.headers.get('Authorization')).to.equal(`Bearer ${JWT}`);
-        },
-        void 0,
-        done,
-      );
-      this.service.getUserInfo();
-      localStorage.removeItem('authtoken');
-    });
-
-    it('should return an observable of the success result body', done => {
-      this.backend.connections.take(1).subscribe(respondWith(new MockAPISuccessResult(userInfo)));
-      const result = this.service.getUserInfo();
-      expect(result).to.be.an.instanceOf(Observable);
-      result.subscribe(
-        _ => expect(_, 'the UserInfo should be emitted').to.deep.equal(userInfo),
-        _ => expect.fail('the observable should not emit an error'),
-        done,
-      );
-    });
+    shouldRequestWithAuthHeader('getUserInfo', [], 'Get', '/api/user/');
+    shouldReturnAnObservable('getUserInfo', [], userInfo, userInfo);
   });
 
   describe('#loadConvention', () => {
-    it('should request [GET /api/con/:code] with the authorization header', done => {
-      const JWT = 'FakeJWT';
-      const conCode = 'abcde';
-      localStorage.setItem('authtoken', JWT);
-      this.backend.connections.take(1).subscribe(
-        (c: MockConnection) => {
-          expect(c.request.method).to.equal(RequestMethod.Get);
-          expect(c.request.url).to.equal(APIService.host`/api/con/${conCode}/`);
-          expect(c.request.headers.get('Authorization')).to.equal(`Bearer ${JWT}`);
-        },
-        void 0,
-        done,
-      );
-      this.service.loadConvention(conCode);
-      localStorage.removeItem('authtoken');
-    });
+    shouldRequestWithAuthHeader('loadConvention', ['abcde'], 'Get', '/api/con/abcde/');
+    shouldReturnAnObservable('loadConvention', [''], fullConventions[0], fullConventions[0]);
+    shouldProduceTheCorrectError('loadConvention', ['abcde'], 'Fetching convention data for abcde failed');
+  });
 
-    it('should return an observable of the success result body', done => {
-      this.backend.connections.take(1).subscribe(respondWith(new MockAPISuccessResult(fullConventions[0])));
-      const result = this.service.loadConvention('');
-      expect(result).to.be.an.instanceOf(Observable);
-      result.subscribe(
-        _ => expect(_, 'the UserInfo should be emitted').to.deep.equal(fullConventions[0]),
-        _ => expect.fail('the observable should not emit an error'),
-        done,
-      );
-    });
+  describe('#saveTypes', () => {
+    shouldRequestWithAuthHeader('saveTypes', [types.map(_ => ({ ..._, dirty: true }))], 'Put', '/api/types/');
+    shouldRequestWithBody('saveTypes', [types.map(_ => ({ ..._, dirty: true }))], 'Put', '/api/types/',
+      { types: types.map(_ => ({ kind: 'modify' as 'modify', name: _.name, color: _.color, id: _.id, discontinued: _.discontinued })) }
+    );
+    shouldRequestWithBody('saveTypes', [[{ name: 'name', id: -1, color: 0xffffff, discontinued: false, dirty: true }]], 'Put', '/api/types/',
+      { types: [{ kind: 'create' as 'create', name: 'name', color: 0xffffff }] }
+    );
+    shouldNotRequest('saveTypes', [types]);
+  });
 
-    it('should produce the correct error message on an error result', done => {
-      const conCode = 'abcde';
-      this.backend.connections.take(1).subscribe(respondWith(new MockAPIErrorResult));
-      this.service.loadConvention(conCode).subscribe(
-        () => expect.fail('the observable should emit an error'),
-        _ => {
-          expect(_, 'the observable should produce an Error object').to.be.an.instanceOf(Error);
-          expect(_.message, 'the error should have the right message').to.deep.equal(`Fetching convention for ${conCode} data failed`);
-          done();
-        },
-      );
-    });
+  describe('#saveProducts', () => {
+    shouldRequestWithAuthHeader('saveProducts', [products.map(_ => ({ ..._, dirty: true }))], 'Put', '/api/products/');
+    shouldRequestWithBody('saveProducts', [products.map(_ => ({ ..._, dirty: true }))], 'Put', '/api/products/',
+      { products: products.map(_ => ({ kind: 'modify' as 'modify', name: _.name, type: _.type, quantity: _.quantity, id: _.id, discontinued: _.discontinued })) }
+    );
+    shouldRequestWithBody('saveProducts', [[{ name: 'name', id: -1, type: 1, quantity: 15, discontinued: false, dirty: true }]], 'Put', '/api/products/',
+      { products: [{ kind: 'create' as 'create', name: 'name', type: 1, quantity: 15 }] }
+    );
+    shouldNotRequest('saveProducts', [products]);
+  });
+
+  describe('#savePrices', () => {
+    shouldRequestWithAuthHeader('savePrices', [prices.map(_ => ({ ..._, dirty: true }))], 'Put', '/api/prices/');
+    shouldRequestWithBody('savePrices', [prices.map(_ => ({ ..._, dirty: true }))], 'Put', '/api/prices/',
+      { prices: prices.map(_ => ({ type_id: _.type, product_id: _.product, price: _.prices})) }
+    );
+    shouldNotRequest('savePrices', [prices]);
+  });
+
+  describe('#saveConventions', () => {
+    shouldRequestWithAuthHeader('saveConventions', [conventions.map(_ => ({ ..._, dirty: true }))], 'Put', '/api/cons/');
+    shouldRequestWithBody('saveConventions', [conventions.map(_ => ({ ..._, dirty: true }))], 'Put', '/api/cons/',
+      { conventions: conventions.map(_ => ({ type: 'add' as 'add', code: _.code })) }
+    );
+    shouldRequestWithBody('saveConventions', [fullConventions.map(_ => ({ ..._, dirty: true }))], 'Put', '/api/cons/',
+      { conventions: fullConventions.map(_ => ({ type: 'modify' as 'modify', code: _.code, data: { products: [], prices: [] } })) },
+    );
+    shouldRequestWithBody('saveConventions', [[{ type: 'invalid', code: 'abcde', dirty: true }]], 'Put', '/api/cons/',
+      { conventions: [{ type: 'remove', code: 'abcde' }] },
+    );
+    shouldNotRequest('saveConventions', [conventions]);
+    shouldNotRequest('saveConventions', [fullConventions]);
   });
 });

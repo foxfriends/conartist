@@ -2,7 +2,7 @@
 <md-nav-list>
   <ng-container *ngIf="currentConventions.length">
     <h3 md-subheader>Current</h3>
-    <md-list-item *ngFor="let convention of currentConventions" (click)="conClick.emit(convention)" class="convention-list__row" [ngClass]="{'convention-list__row--open': opened.includes(convention)}">
+    <md-list-item *ngFor="let convention of currentConventions" (click)="conClick.emit(convention)" class="convention-list__row">
       <span class="convention-list__column convention-list__title">{{ convention.title }}</span>
       <span class="convention-list__column convention-list__code">{{ convention.code }}</span>
       <span class="convention-list__column convention-list__date">{{ convention.start | date }} &ndash; {{ convention.end | date }}</span>
@@ -11,7 +11,7 @@
   <md-divider *ngIf="currentConventions.length && upcomingConventions.length"></md-divider>
   <ng-container *ngIf="upcomingConventions.length">
     <h3 md-subheader>Upcoming</h3>
-    <md-list-item *ngFor="let convention of upcomingConventions" (click)="conClick.emit(convention)" class="convention-list__row" [ngClass]="{'convention-list__row--open': opened.includes(convention)}">
+    <md-list-item *ngFor="let convention of upcomingConventions" (click)="conClick.emit(convention)" class="convention-list__row">
       <span class="convention-list__column convention-list__title">{{ convention.title }}</span>
       <span class="convention-list__column convention-list__code">{{ convention.code }}</span>
       <span class="convention-list__column convention-list__date">{{ convention.start | date }} &ndash; {{ convention.end | date }}</span>
@@ -20,7 +20,7 @@
   <md-divider *ngIf="upcomingConventions.length && previousConventions.length"></md-divider>
   <ng-container *ngIf="previousConventions.length">
     <h3 md-subheader>Previous</h3>
-    <md-list-item *ngFor="let convention of previousConventions" (click)="conClick.emit(convention)" class="convention-list__row" [ngClass]="{'convention-list__row--open': opened.includes(convention)}">
+    <md-list-item *ngFor="let convention of previousConventions" (click)="conClick.emit(convention)" class="convention-list__row">
       <span class="convention-list__column convention-list__title">{{ convention.title }}</span>
       <span class="convention-list__column convention-list__code">{{ convention.code }}</span>
       <span class="convention-list__column convention-list__date">{{ convention.start | date }} &ndash; {{ convention.end | date }}</span>

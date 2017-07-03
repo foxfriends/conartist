@@ -1,4 +1,4 @@
-import { Component, Inject, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Inject, Output, EventEmitter } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/take';
 
@@ -13,14 +13,12 @@ import { Convention, Conventions, MetaConvention, FullConvention } from '../../.
   styles: [ styles ],
 })
 export default class ConListComponent {
-  @Input() opened: Conventions;
   @Output() conClick = new EventEmitter<Convention>();
 
   private _conventions: BehaviorSubject<Conventions>;
 
   constructor(@Inject(StorageService) storage: StorageService) {
     this._conventions = storage.conventions;
-    this._conventions.subscribe(() => this.conventions.forEach(_ => storage.fillConvention(_.code)));
   }
 
   get conventions() {

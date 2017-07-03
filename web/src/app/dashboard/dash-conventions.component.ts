@@ -5,6 +5,7 @@ import template from './dash-conventions.component.html';
 import styles from './dash-conventions.component.scss';
 import StorageService from '../data/storage.service';
 import ChooseConventionService from '../modals/choose-convention.service';
+import ErrorService from '../modals/error.service';
 
 import { MetaConvention, FullConvention, Conventions } from '../../../../conartist';
 
@@ -17,7 +18,11 @@ export default class DashConventionsComponent {
   private _conventions: BehaviorSubject<Conventions>;
   private keys: BehaviorSubject<number>;
 
-  constructor(@Inject(StorageService) private storage: StorageService, @Inject(ChooseConventionService) private chooseConvention: ChooseConventionService) {
+  constructor(
+    @Inject(StorageService) private storage: StorageService,
+    @Inject(ChooseConventionService) private chooseConvention: ChooseConventionService,
+    @Inject(ErrorService) private error: ErrorService,
+  ) {
     this._conventions = this.storage.conventions;
     this.keys = this.storage.keys;
   }
@@ -48,8 +53,14 @@ export default class DashConventionsComponent {
 
   openAddConventions() {
     this.chooseConvention.open().filter((_): _ is MetaConvention => !!_).subscribe(_ => {
-      this.storage.addConvention(_);
-      this.storage.commit();
+      try {
+        this.storage.addConvention(_);
+      } catch(error) {
+        console.error(error);
+        this.error.open(error);
+        return;
+      }
+      this.storage.commit(true);
     });
   }
 }

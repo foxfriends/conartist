@@ -2,11 +2,16 @@ import { Injectable } from '@angular/core';
 
 import StorageService from './storage.service';
 import APIServiceMock from '../api/api.service.mock';
+import ErrorServiceMock from '../modals/error.service.mock';
 
 @Injectable()
 class StorageServiceMock extends StorageService {
   constructor() {
-    super(APIServiceMock);
+    super(
+      APIServiceMock,
+      { open() { return {}; } } as any,
+      ErrorServiceMock,
+    );
   }
 
   reset() {

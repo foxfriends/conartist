@@ -1,3 +1,5 @@
+import { inject, TestBed } from '@angular/core/testing';
+import { MdSnackBar } from '@angular/material';
 import { expect } from 'chai';
 import { spy, SinonSpy as Spy } from 'sinon';
 import StorageService from './storage.service';
@@ -7,6 +9,8 @@ import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/toArray';
 
 import APIServiceMock, { validConCode, conventions, prices, products, fullConventions } from '../api/api.service.mock';
+import MaterialModule from '../material.module';
+import ErrorServiceMock, { ErrorService } from '../modals/error.service.mock';
 import { UserInfo } from '../../../../conartist';
 
 type Context = {
@@ -16,6 +20,13 @@ type Context = {
 };
 
 describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context) {
+  beforeEach('Configure testing module', () => TestBed.configureTestingModule({
+    imports: [ MaterialModule ],
+    providers: [
+      { provide: ErrorService, useValue: ErrorServiceMock }
+    ]
+  }));
+
   before('Spy on the APIService#getUserInfo', () => this.getUserInfo = spy(APIServiceMock, 'getUserInfo'));
   before('Spy on the APIService#loadConvention', () => this.loadConvention = spy(APIServiceMock, 'loadConvention'));
   afterEach('Reset the APIService#getUserInfo spy', () => this.getUserInfo.reset());
@@ -23,7 +34,9 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
   after('Un-spy on the APIService#getUSerInfo', () => this.getUserInfo.restore());
   after('Un-spy on the APIService#loadConvention', () => this.loadConvention.restore());
 
-  beforeEach('Create a new Storage service', () => this.service = new StorageService(APIServiceMock));
+  beforeEach('Create a new Storage service', inject([MdSnackBar, ErrorService],
+    (snackbar: MdSnackBar, error: ErrorService) => this.service = new StorageService(APIServiceMock, snackbar, error)
+  ));
 
   const tests: (keyof UserInfo)[] = ['email', 'keys', 'products', 'prices', 'types', 'conventions'];
 
@@ -44,8 +57,8 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
   describe('#updateConvention(convention)', () => {
     it('should cause #convention(code) to emit an event with the filled convention', done => {
       const gen = (function*(): any { // typescript why
-        expect(yield).to.deep.equal(conventions.find(_ => _.code === validConCode));
-        expect(yield).to.deep.equal(fullConventions.find(_ => _.code === validConCode));
+        expect(yield).to.deep.equal({ ...conventions.find(_ => _.code === validConCode) });
+        expect(yield).to.deep.equal({ ...fullConventions.find(_ => _.code === validConCode), dirty: true });
         done();
       })();
       gen.next();
@@ -55,7 +68,7 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
     it('should cause #conventions to emit an event including the filled convention', done => {
       const gen = (function*(): any { // typescript why
         expect(yield).to.deep.equal(conventions);
-        expect(yield).to.deep.equal(conventions.map(_ => _.code === validConCode ? fullConventions.find(_ => _.code === validConCode) : _));
+        expect(yield).to.deep.equal(conventions.map(_ => _.code === validConCode ? { ...fullConventions.find(_ => _.code === validConCode), dirty: true } : _));
         done();
       })();
       gen.next();

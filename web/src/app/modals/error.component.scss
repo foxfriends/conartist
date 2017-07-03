@@ -1,0 +1,15 @@
+.error {
+  &__header {
+    $margin: 24px;
+    margin: -$margin;
+    margin-bottom: $margin;
+  }
+  &__icon {
+    margin-right: 8px;
+  }
+  &__button {
+    &--right {
+      margin-left: auto;
+    }
+  }
+}

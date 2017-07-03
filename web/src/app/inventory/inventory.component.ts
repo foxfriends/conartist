@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { MdSnackBar } from '@angular/material';
 
 import StorageService from '../data/storage.service';
 import template from './inventory.component.html';
@@ -27,7 +26,6 @@ export default class InventoryComponent {
 
   constructor(
     @Inject(StorageService) private storage: StorageService,
-    @Inject(MdSnackBar) private snackbar: MdSnackBar,
   ) {
     this._products = storage.products;
     this._types = storage.types;
@@ -101,14 +99,7 @@ export default class InventoryComponent {
 
   async saveInventory() {
     this.saving = true;
-    try {
-      await this.storage.commit();
-      this.snackbar.open("Saved", "Dismiss", { duration: 3000 });
-    } catch(error) {
-      console.error(error);
-      this.snackbar.open("Failed to save", "Dismiss");
-    } finally {
-      this.saving = false;
-    }
+    await this.storage.commit();
+    this.saving = false;
   }
 }

@@ -73,7 +73,7 @@ CREATE TABLE Inventory (
     (user_id IS NOT NULL AND user_con_id IS NULL) OR
     (user_id IS NULL AND user_con_id IS NOT NULL)
   ),
-  CONSTRAINT unique_purpose UNIQUE (product_id, user_con_id)
+  CONSTRAINT unique_inventory UNIQUE (product_id, user_con_id)
 );
 CREATE INDEX index_Inventory_con ON Inventory (user_con_id);
 CREATE INDEX index_Inventory_user ON Inventory (user_id);
@@ -89,7 +89,7 @@ CREATE TABLE Prices (
     (user_id IS NOT NULL AND user_con_id IS NULL) OR
     (user_id IS NULL AND user_con_id IS NOT NULL)
   ),
-  CONSTRAINT unique_purpose UNIQUE (product_id, type_id, user_con_id)
+  CONSTRAINT unique_prices UNIQUE (product_id, type_id, user_con_id)
 );
 CREATE INDEX index_Prices_con ON Prices (user_con_id);
 CREATE INDEX index_Prices_user ON Prices (user_id);

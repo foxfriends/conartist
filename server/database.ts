@@ -71,10 +71,9 @@ function byId<ID, T extends { id: ID }>(id: ID): (_: T) => boolean {
 }
 
 // TODO: learn how databases really work and make this efficient!
-// TODO: make space for errors, with transactions or rollbacks or whatever it is
 
 async function getCon(user_id: number, con_code: string, client: Client): Promise<[db.Convention, db.UserConvention]> {
-  const { rows: raw_con } = await client.query<db.Convention>(SQL`SELECT * FROM Conventions WHERE con_code = ${con_code}`);
+  const { rows: raw_con } = await client.query<db.Convention>(SQL`SELECT * FROM Conventions WHERE code = ${con_code}`);
   if(!raw_con.length) { throw new DBError(`No con '${con_code}' exists`); }
   const [{ con_id }] = raw_con;
   const { rows: raw_user_con } =  await client.query<db.UserConvention>(SQL`SELECT * FROM User_Conventions WHERE user_id = ${user_id} AND con_id = ${con_id}`);
@@ -104,7 +103,18 @@ async function getConInfo(user_id: number, con_code: string): Promise<ca.FullCon
     // transform rows to data
     const inventory = raw_inventory.map(_ => ({ quantity: _.quantity, id: _.product_id }));
     const types: ca.ProductTypes = raw_types.map(_ => ({ id: _.type_id, name: _.name, discontinued: _.discontinued, color: _.color }));
-    const products: ca.Products = raw_products.map(_ => ({ id: _.product_id, type: _.type_id, quantity: inventory.find(byId(_.product_id))!.quantity, name: _.name, discontinued: _.discontinued}));
+    const products: ca.Products = inventory.map(_ => {
+      const product = raw_products.map(_ => ({ ..._, id: _.product_id })).find(byId(_.id));
+      if(!product) {
+        throw new DBError('Inventory listed for non-existent product');
+      }
+      return {
+        ..._,
+        type: product.type_id,
+        name: product.name,
+        discontinued: product.discontinued
+      };
+    });
     const prices: ca.Prices = raw_prices.map(_ => ({ type: _.type_id, product: _.product_id, prices: _.prices }));
     const records: ca.Records = raw_records.map(_ => ({ price: _.price, products: _.products, time: _.sale_time }));
     const data: ca.ConventionData = {
@@ -153,22 +163,39 @@ async function writeUserConventions(user_id: number, conventions: ca.Conventions
   const client = await connect();
   try {
     await client.query(SQL`BEGIN`);
-    for(const con of conventions) {
+    let { rows: [{ keys }]} = await client.query<Pick<db.User, 'keys'>>(
+      SQL`SELECT keys FROM Users WHERE user_id = ${user_id}`
+    );
+    keys -= (await client.query(SQL`SELECT 1 FROM User_Conventions WHERE user_id = ${user_id}`)).rowCount;
+    // sort to do removes first so that keys can be used optimally
+    for(const con of conventions.sort((a, b) => (a.type === 'remove' ? 0 : 1) - (b.type === 'remove' ? 0 : 1))) {
       const { code } = con;
       const { rows: [{ con_id }] } = await client.query<Pick<db.Convention, 'con_id'>>(
         SQL`SELECT con_id FROM Conventions WHERE code = ${code}`
       );
       switch(con.type) {
         case 'add': {
-          await client.query(
-            SQL`INSERT INTO User_Conventions (user_id, con_id) VALUES (${user_id},${con_id})`
-          );
+          if(keys) {
+            await client.query(
+              SQL`INSERT INTO User_Conventions (user_id, con_id) VALUES (${user_id},${con_id})`
+            );
+            --keys;
+          } else {
+            throw new DBError('You do not have enough unused keys to sign up for another convention');
+          }
           break;
         }
         case 'remove': {
-          await client.query(
+          const { rows: [{ start_date }]} = await client.query<Pick<db.Convention, 'start_date'>>(
+            SQL`SELECT start_date FROM Conventions WHERE con_id = ${con_id}`
+          );
+          if(start_date >= Date.now()) {
+            throw new DBError('Cannot remove yourself from a convention that has started already');
+          }
+          const { rowCount } = await client.query(
             SQL`DELETE FROM User_Conventions WHERE user_id = ${user_id} AND con_id = ${con_id}`
           );
+          keys += rowCount;
           break;
         }
         case 'modify': {
@@ -182,7 +209,7 @@ async function writeUserConventions(user_id: number, conventions: ca.Conventions
                 SQL`
                   INSERT INTO Inventory (user_con_id, product_id, quantity)
                     VALUES (${user_con_id},${id},${quantity})
-                  ON CONFLICT ON unique_purpose DO UPDATE
+                  ON CONFLICT ON unique_inventory DO UPDATE
                     SET quantity = ${quantity}`
               );
             } else {
@@ -197,7 +224,7 @@ async function writeUserConventions(user_id: number, conventions: ca.Conventions
                 SQL`
                   INSERT INTO Prices (user_con_id, type_id, product_id, prices)
                     VALUES (${user_con_id},${type},${product},${prices})
-                  ON CONFLICT ON unique_purpose DO UPDATE
+                  ON CONFLICT ON unique_prices DO UPDATE
                     SET prices = ${prices}`
               );
             } else {
@@ -443,7 +470,10 @@ async function getUser(user_id: number): Promise<Pick<db.User, 'email' | 'keys'>
   const { rows: [ user ]} = await query<Pick<db.User, 'email' | 'keys'>>(
     SQL`SELECT email, keys FROM Users WHERE user_id = ${user_id}`
   );
-  return user;
+  const { rowCount } = await query(
+    SQL`SELECT 1 FROM User_Conventions WHERE user_id = ${user_id}`
+  );
+  return { ...user, keys: user.keys - rowCount };
 }
 
 async function getConventions(page: number, limit: number): Promise<ca.MetaConvention[]> {

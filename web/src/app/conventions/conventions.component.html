@@ -14,6 +14,6 @@
     <header class="conventions__header">
       <h1 class="conventions__title">{{ convention.title }}</h1>
     </header>
-    <con-record-list [data]="convention.data"></con-record-list>
+    <con-record-list [data]="convention.data" *ngIf="convention.data"></con-record-list>
   </md-tab>
 </md-tab-group>

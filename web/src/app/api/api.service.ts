@@ -112,7 +112,7 @@ export default class APIService {
     return this.http
       .get(APIService.host`/api/con/${code}/`, this.options)
       .map(_ => handle<ca.FullConvention>(_))
-      .catch(_ => Observable.throw(new Error(`Fetching convention for ${code} data failed`)));
+      .catch(_ => Observable.throw(new Error(`Fetching convention data for ${code} data failed`)));
   }
 
   saveTypes(types: ca.ProductTypes): Observable<ca.ProductTypes> {

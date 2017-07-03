@@ -22,7 +22,8 @@ export default class ConListComponent {
     this._conventions = storage.conventions.map(
       _ => _.filter((_): _ is MetaConvention | FullConvention => _.type !== 'invalid')
     );
-    this._conventions.take(1).subscribe(_ => _.forEach(_ => storage.fillConvention(_.code)));
+    this._conventions.subscribe(_ => _.forEach(_ => storage.fillConvention(_.code)));
+    this._conventions.subscribe(console.table);
   }
 
   get conventions() {

@@ -9,6 +9,7 @@ import './editable.directive.scss';
     '(keydown.enter)': 'onEnterPress($event)',
     'contenteditable': 'true',
     'spellcheck': 'false',
+    'tabindex': '0',
   },
 })
 export default class EditableDirective implements OnChanges {

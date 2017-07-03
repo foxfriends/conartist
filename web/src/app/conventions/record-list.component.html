@@ -1,6 +1,13 @@
 <!-- TODO: find an md-data-table -->
-<md-list>
-  <md-list-item *ngFor="let record of data.records">
-    {{ record.products[0] | product:'type' | type:'name' }}; {{ record.products.join(', ') }}; {{ record.price }}; {{ record.time }}
-  </md-list-item>
-</md-list>
+<ng-container *ngIf="data.records.length; else placeholder">
+  <md-list>
+    <md-list-item *ngFor="let record of data.records">
+      {{ record.products[0] | product:'type' | type:'name' }}; {{ record.products.join(', ') }}; {{ record.price }}; {{ record.time }}
+    </md-list-item>
+  </md-list>
+</ng-container>
+<ng-template #placeholder>
+  <div class="records__placeholder">
+    <p>You haven't sold anything yet.</p>
+  </div>
+</ng-template>

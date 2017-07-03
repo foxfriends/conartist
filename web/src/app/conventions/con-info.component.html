@@ -1,0 +1,17 @@
+<md-tab-group dynamicHeight="true">
+  <md-tab label="Overview">
+    <header class="con-info__header">
+      <h1 class="con-info__title">{{ convention.title }}</h1>
+    </header>
+  </md-tab>
+  <md-tab label="Inventory">
+
+  </md-tab>
+  <md-tab label="Pricing">
+  </md-tab>
+  <md-tab label="Records">
+    <con-record-list [data]="convention.data" *ngIf="convention.data"></con-record-list>
+  </md-tab>
+  <md-tab label="Stats">
+  </md-tab>
+</md-tab-group>

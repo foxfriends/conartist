@@ -1,10 +1,7 @@
 <ng-container *ngIf="conventions.length; else placeholder">
   <ng-container *ngIf="openConvention; else conList">
-    <header class="conventions__header">
-      <h1 class="conventions__title">{{ openConvention.title }}</h1>
-    </header>
     <ng-container *ngIf="openConvention.data; else loader">
-      <con-record-list [data]="openConvention.data" *ngIf="openConvention.data"></con-record-list>
+      <con-con-info [convention]="openConvention"></con-con-info>
     </ng-container>
     <ng-template #loader>
       <div class="conventions__loading">

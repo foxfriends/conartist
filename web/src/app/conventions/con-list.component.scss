@@ -1,3 +1,4 @@
+@import '../variables';
 .convention-list {
   &__row {
     &--open {
@@ -10,7 +11,7 @@
     flex-basis: 0;
   }
   &__code {
-    color: #999999;
+    color: $secondary;
     margin: 0 16px;
   }
   &__date {

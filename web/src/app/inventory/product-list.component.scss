@@ -1,7 +1,8 @@
+@import '../variables';
 .product-list {
   &__row {
     &--discontinued {
-      color: #999;
+      color: $secondary;
     }
   }
   &__column {
@@ -14,6 +15,6 @@
     justify-content: center;
     min-height: 56px;
     height: 100%;
-    color: #999;
+    color: $secondary;
   }
 }

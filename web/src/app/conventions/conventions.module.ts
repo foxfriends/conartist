@@ -5,14 +5,17 @@ import DataModule from '../data/data.module';
 import ModalsModule from '../modals/modals.module';
 
 import ConventionsComponent from './conventions.component';
-import ConInfoComponent from './con-info.component';
 import ConListComponent from './con-list.component';
+import ConInfoComponent from './con-info.component';
 import RecordListComponent from './record-list.component';
+import ConInventoryComponent from './con-inventory.component';
+import ConPricingComponent from './con-pricing.component';
+import StatsComponent from './stats.component';
 import MaterialModule from '../material.module';
 
 @NgModule({
   imports: [ CommonModule, MaterialModule, DataModule, ModalsModule ],
-  declarations: [ ConventionsComponent, ConListComponent, RecordListComponent, ConInfoComponent ],
+  declarations: [ ConventionsComponent, ConListComponent, RecordListComponent, ConInfoComponent, StatsComponent, ConInventoryComponent, ConPricingComponent ],
   exports: [ ConventionsComponent ],
 })
 export default class ConventionsModule { }

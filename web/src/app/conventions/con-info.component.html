@@ -5,13 +5,15 @@
     </header>
   </md-tab>
   <md-tab label="Inventory">
-
+    <con-con-inventory [data]="convention.data"></con-con-inventory>
   </md-tab>
   <md-tab label="Pricing">
+    <con-con-pricing [data]="convention.data"></con-con-pricing>
   </md-tab>
   <md-tab label="Records">
-    <con-record-list [data]="convention.data" *ngIf="convention.data"></con-record-list>
+    <con-record-list [data]="convention.data"></con-record-list>
   </md-tab>
   <md-tab label="Stats">
+    <con-stats [data]="convention.data"></con-stats>
   </md-tab>
 </md-tab-group>

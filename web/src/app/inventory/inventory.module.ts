@@ -5,12 +5,14 @@ import { FormsModule } from '@angular/forms';
 import MaterialModule from '../material.module';
 import DataModule from '../data/data.module';
 import EditableModule from '../editable/editable.module';
+import ColorPickerModule from '../color-picker/color-picker.module';
+
 import InventoryComponent from './inventory.component';
 import ProductListComponent from './product-list.component';
 import PricesListComponent from './prices-list.component';
 
 @NgModule({
-  imports: [ CommonModule, FormsModule, MaterialModule, EditableModule, DataModule ],
+  imports: [ CommonModule, FormsModule, MaterialModule, EditableModule, DataModule, ColorPickerModule ],
   declarations: [ InventoryComponent, ProductListComponent, PricesListComponent ],
   exports: [ InventoryComponent ],
 })

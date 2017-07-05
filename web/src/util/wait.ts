@@ -3,7 +3,7 @@ export interface Wait<T> extends Promise<T> {
   reset(): void;
   skip(): void;
 }
-type ResRej<T> = (value?: T | PromiseLike<T>) => void;
+export type ResRej<T> = (value?: T | PromiseLike<T>) => void;
 export default <T>(time: number = 0, cb?: (resolve: ResRej<T>, reject: ResRej<T>) => T | PromiseLike<T>) => {
   let timeout: number;
   let res: ResRej<T>;
@@ -13,17 +13,17 @@ export default <T>(time: number = 0, cb?: (resolve: ResRej<T>, reject: ResRej<T>
     res = resolve;
     rej = reject;
   }) as Wait<T>;
-  pr.cancel = () => {
+  pr.cancel = (): Wait<T> => {
     clearTimeout(timeout);
     rej();
     return pr;
   };
-  pr.skip = () => {
+  pr.skip = (): Wait<T> => {
     clearTimeout(timeout);
     cb ? cb(res, rej) : res();
     return pr;
   };
-  pr.reset = () => {
+  pr.reset = (): Wait<T> => {
     clearTimeout(timeout);
     timeout = setTimeout(() => cb ? cb(res, rej) : res(), time);
     return pr;

@@ -3031,6 +3031,10 @@ matcher-collection@^1.0.0:
   dependencies:
     minimatch "^3.0.2"
 
+"material-colors@git+ssh://git@github.com/OinkIguana/material-colors":
+  version "1.2.5"
+  resolved "git+ssh://git@github.com/OinkIguana/material-colors#ef195a1e795b9adabb72a1ebbc7f59a7b3c4ac59"
+
 math-expression-evaluator@^1.2.14:
   version "1.2.17"
   resolved "https://registry.yarnpkg.com/math-expression-evaluator/-/math-expression-evaluator-1.2.17.tgz#de819fdbcd84dccd8fae59c6aeb79615b9d266ac"

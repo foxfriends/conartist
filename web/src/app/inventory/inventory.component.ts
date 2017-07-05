@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import StorageService from '../data/storage.service';
 import template from './inventory.component.html';
 import styles from './inventory.component.scss';
-import { Products, ProductType, ProductTypes, ID, Prices } from '../../../../conartist';
+import { Products, ProductType, ProductTypes, Prices, Color } from '../../../../conartist';
 
 @Component({
   selector: 'con-inventory',
@@ -35,14 +35,16 @@ export default class InventoryComponent {
 
   get showDiscontinuedTypes() { return this._showDiscontinuedTypes; }
   set showDiscontinuedTypes(show: boolean) {
-    const tab = this.types[this.tabIndex].name;
+    const tab = this.types.length ? this.types[this.tabIndex].name : null;
     this._showDiscontinuedTypes = show;
-    const found = this.types.findIndex(_ => _.name === tab);
-    if(found !== -1) {
-      this.tabIndex = found;
-    } else {
-      this.restrictTabIndex();
+    if(tab) {
+      const found = this.types.findIndex(_ => _.name === tab);
+      if(found !== -1) {
+        this.tabIndex = found;
+        return;
+      }
     }
+    this.restrictTabIndex();
   }
 
   private restrictTabIndex() {
@@ -60,7 +62,7 @@ export default class InventoryComponent {
     return type.id;
   }
 
-  products(type: ID) {
+  products(type: number) {
     return this._products.getValue().filter(_ => _.type === type);
   }
 
@@ -88,8 +90,7 @@ export default class InventoryComponent {
     this.storage.setTypeDiscontinued(type, discontinued);
   }
 
-  setTypeColor(type: number) {
-    let color = Math.ceil(Math.random() * 0xFFFFFF);
+  setTypeColor(type: number, color: Color) {
     this.storage.setTypeColor(type, color);
   }
 

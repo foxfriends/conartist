@@ -19,3 +19,4 @@ import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@ang
 TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
 
 import './app/app.module.spec';
+import './util/util.spec.ts';

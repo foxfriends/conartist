@@ -1,0 +1,21 @@
+<div [mdMenuTriggerFor]="colorPicker"><ng-content></ng-content></div>
+<md-menu #colorPicker="mdMenu" class="color-picker__menu">
+  <md-grid-list cols="5" gutterSize="4">
+    <md-grid-tile rowspan="3" colspan="1">
+      <button md-icon-button (click)="prev($event)"><md-icon>keyboard_arrow_left</md-icon></button>
+    </md-grid-tile>
+    <md-grid-tile *ngFor="let color of colors.slice(0, 3)">
+      <button md-icon-button (click)="select(color)" [style.backgroundColor]="color" class="color-picker__color">
+        <md-icon *ngIf="parse(color) === selected" class="color-picker__check">check_circle</md-icon>
+      </button>
+    </md-grid-tile>
+    <md-grid-tile rowspan="3" colspan="1">
+      <button md-icon-button (click)="next($event)"><md-icon>keyboard_arrow_right</md-icon></button>
+    </md-grid-tile>
+    <md-grid-tile *ngFor="let color of colors.slice(3)">
+      <button md-icon-button (click)="select(color)" [style.backgroundColor]="color" class="color-picker__color">
+        <md-icon *ngIf="parse(color) === selected" class="color-picker__check">check_circle</md-icon>
+      </button>
+    </md-grid-tile>
+  </md-grid-list>
+</md-menu>

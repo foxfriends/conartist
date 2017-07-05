@@ -12,9 +12,11 @@
       </ng-template>
       <header class="inventory__header" [style.backgroundColor]="type.color|color">
         <h1 class="inventory__title" conEditable [conTent]="type.name" (conTentChange)="setTypeName($event, type.id)" [validator]="typeNameIsUnique"></h1>
-        <button md-icon-button class="inventory__spacer--right" (click)="setTypeColor(type.id)" mdTooltip="Change color" mdTooltipPosition="left">
-          <md-icon>format_color_fill</md-icon>
-        </button>
+        <con-color-picker class="inventory__spacer--right" (selectedChange)="setTypeColor(type.id, $event)" [selected]="type.color">
+          <button md-icon-button mdTooltip="Change color" mdTooltipPosition="left">
+            <md-icon>format_color_fill</md-icon>
+          </button>
+        </con-color-picker>
         <button md-icon-button (click)="setTypeDiscontinued(!type.discontinued, type.id)" [mdTooltip]="type.discontinued ? 'Restore' : type.id > 0 ? 'Discontinue' : 'Delete'" mdTooltipPosition="left">
           <md-icon *ngIf="!type.discontinued">remove_circle_outline</md-icon>
           <md-icon *ngIf="type.discontinued">add_circle_outline</md-icon>

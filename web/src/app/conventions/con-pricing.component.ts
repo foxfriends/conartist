@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import template from './con-pricing.component.html';
 import styles from './con-pricing.component.scss';
-import { ConventionData } from '../../../../conartist';
+import { FullConvention } from '../../../../conartist';
 
 @Component({
   selector: 'con-con-pricing',
@@ -10,5 +10,5 @@ import { ConventionData } from '../../../../conartist';
   styles: [ styles ],
 })
 export default class ConPricingComponent {
-  @Input() data: ConventionData;
+  @Input() con: FullConvention;
 }

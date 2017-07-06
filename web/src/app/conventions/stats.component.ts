@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import template from './stats.component.html';
 import styles from './stats.component.scss';
-import { ConventionData } from '../../../../conartist';
+import { FullConvention } from '../../../../conartist';
 
 @Component({
   selector: 'con-stats',
@@ -10,5 +10,5 @@ import { ConventionData } from '../../../../conartist';
   styles: [ styles ],
 })
 export default class StatsComponent {
-  @Input() data: ConventionData;
+  @Input() con: FullConvention;
 }

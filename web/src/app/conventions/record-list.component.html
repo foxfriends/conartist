@@ -1,7 +1,7 @@
 <!-- TODO: find an md-data-table -->
-<ng-container *ngIf="data.records.length; else placeholder">
+<ng-container *ngIf="con.data.records.length; else placeholder">
   <md-list>
-    <md-list-item *ngFor="let record of data.records">
+    <md-list-item *ngFor="let record of con.data.records">
       {{ record.products[0] | product:'type' | type:'name' }}; {{ record.products.join(', ') }}; {{ record.price }}; {{ record.time }}
     </md-list-item>
   </md-list>

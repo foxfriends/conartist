@@ -5,15 +5,15 @@
     </header>
   </md-tab>
   <md-tab label="Inventory">
-    <con-con-inventory [data]="convention.data"></con-con-inventory>
+    <con-con-inventory [con]="convention"></con-con-inventory>
   </md-tab>
   <md-tab label="Pricing">
-    <con-con-pricing [data]="convention.data"></con-con-pricing>
+    <con-con-pricing [con]="convention"></con-con-pricing>
   </md-tab>
   <md-tab label="Records">
-    <con-record-list [data]="convention.data"></con-record-list>
+    <con-record-list [con]="convention"></con-record-list>
   </md-tab>
   <md-tab label="Stats">
-    <con-stats [data]="convention.data"></con-stats>
+    <con-stats [con]="convention"></con-stats>
   </md-tab>
 </md-tab-group>

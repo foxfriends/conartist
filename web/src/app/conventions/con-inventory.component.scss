@@ -1,0 +1,11 @@
+.con-inventory {
+  &__row {
+    &--excluded {
+      opacity: 0.5;
+    }
+  }
+  &__column {
+    flex-basis: 0;
+    flex-grow: 1;
+  }
+}

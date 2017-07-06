@@ -1,12 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 
 import template from './conventions.component.html';
 import styles from './conventions.component.scss';
 import StorageService from '../data/storage.service';
 import ChooseConventionService from '../modals/choose-convention.service';
 import ErrorService from '../modals/error.service';
-import { MetaConvention, FullConvention, Conventions } from '../../../../conartist';
+import { MetaConvention, Convention, Conventions } from '../../../../conartist';
 
 @Component({
   selector: 'con-conventions',
@@ -15,7 +16,7 @@ import { MetaConvention, FullConvention, Conventions } from '../../../../conarti
 })
 export default class ConventionsComponent {
   private _conventions: BehaviorSubject<Conventions>;
-  private _openConvention: MetaConvention | FullConvention | null = null;
+  private _openConvention: Observable<Convention> | null;
   currentTab = 0;
 
   constructor(
@@ -23,23 +24,20 @@ export default class ConventionsComponent {
     @Inject(ChooseConventionService) private chooseConvention: ChooseConventionService,
     @Inject(ErrorService) private error: ErrorService,
   ) {
-    this._conventions = storage.conventions;
+    this._conventions = this.storage.conventions;
   }
 
-  get openConvention(): MetaConvention | FullConvention | null {
+  get openConvention(): Observable<Convention> | null {
     return this._openConvention;
   }
 
-  set openConvention(con: MetaConvention | FullConvention | null) {
-    this._openConvention = con;
-    if(con && con.type !== 'full') {
-      this.storage.fillConvention(con.code);
-      this.storage
-        .convention(con.code)
-        .filter((_): _ is FullConvention => _.type === 'full')
-        .take(1)
-        .subscribe(_ => this._openConvention = _);
+  setOpenConvention(con: Convention | null) {
+    if(!con) {
+      this._openConvention = null;
+      return;
     }
+    this.storage.fillConvention(con.code);
+    this._openConvention = this.storage.convention(con.code);
   }
 
   get conventions() {
@@ -47,19 +45,22 @@ export default class ConventionsComponent {
   }
 
   closeConvention() {
-    this.openConvention = null;
+    this._openConvention = null;
   }
 
   openAddConventions() {
-    this.chooseConvention.open().filter((_): _ is MetaConvention => !!_).subscribe(_ => {
-      try {
-        this.storage.addConvention(_);
-      } catch(error) {
-        console.error(error);
-        this.error.open(error);
-        return;
-      }
-      this.storage.commit(true);
-    });
+    this.chooseConvention
+      .open()
+      .filter((_): _ is MetaConvention => !!_)
+      .subscribe(con => {
+        try {
+          this.storage.addConvention(con);
+        } catch(error) {
+          console.error(error);
+          this.error.open(error);
+          return;
+        }
+        this.storage.commit(true);
+      });
   }
 }

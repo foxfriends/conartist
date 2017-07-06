@@ -34,4 +34,8 @@ export default class ConListComponent {
   get previousConventions(): (MetaConvention | FullConvention)[] {
     return this.conventions.filter(({ end }) => end < new Date());
   }
+
+  selectConvention(convention: Convention) {
+    this.conClick.emit(convention);
+  }
 }

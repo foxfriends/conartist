@@ -1,7 +1,7 @@
 <ng-container *ngIf="conventions.length; else placeholder">
-  <ng-container *ngIf="openConvention; else conList">
-    <ng-container *ngIf="openConvention.data; else loader">
-      <con-con-info [convention]="openConvention"></con-con-info>
+  <ng-container *ngIf="openConvention|async as convention; else conList">
+    <ng-container *ngIf="convention.type === 'full'; else loader">
+      <con-con-info [convention]="convention"></con-con-info>
     </ng-container>
     <ng-template #loader>
       <div class="conventions__loading">
@@ -10,7 +10,7 @@
     </ng-template>
   </ng-container>
   <ng-template #conList>
-    <con-con-list (conClick)="openConvention = $event"></con-con-list>
+    <con-con-list (conClick)="setOpenConvention($event)"></con-con-list>
   </ng-template>
 </ng-container>
 <ng-template #placeholder>

@@ -9,3 +9,8 @@ md-sidenav-container {
 md-sidenav {
   width: 400px;
 }
+.toolbar {
+  &--right {
+    margin-left: auto;
+  }
+}

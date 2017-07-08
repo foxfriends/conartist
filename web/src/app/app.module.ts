@@ -8,6 +8,7 @@ import SignInModule from './sign-in/sign-in.module';
 import DashboardModule from './dashboard/dashboard.module';
 import InventoryModule from './inventory/inventory.module';
 import ConventionsModule from './conventions/conventions.module';
+import HelpModule from './help/help.module';
 import RoutingModule from './routing.module';
 
 import AppComponent from './app.component';
@@ -24,6 +25,7 @@ import APIService from './api/api.service';
     DashboardModule,
     InventoryModule,
     ConventionsModule,
+    HelpModule,
     RoutingModule,
   ],
   declarations: [ AppComponent ],

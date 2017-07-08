@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MdSidenav } from '@angular/material';
 
+import HelpService from './help/help.service';
 import template from './app.component.html';
 import styles from './app.component.scss';
 
@@ -11,4 +12,5 @@ import styles from './app.component.scss';
 })
 export default class AppComponent {
   sidenav: MdSidenav;
+  constructor(@Inject(HelpService) public help: HelpService) {}
 }

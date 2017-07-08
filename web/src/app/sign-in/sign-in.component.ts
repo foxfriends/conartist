@@ -4,6 +4,8 @@ import { FormGroup, FormControl, Validators, ValidatorFn, AsyncValidatorFn, Vali
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/switchMap';
 
 import APIService from '../api/api.service';
 import template from './sign-in.component.html';

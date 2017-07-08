@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/filter';
 
 import template from './conventions.component.html';
 import styles from './conventions.component.scss';

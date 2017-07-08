@@ -20,6 +20,7 @@ type Context = {
 };
 
 describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context) {
+  // TODO: Mock the modules manually so the TestBed is not required
   beforeEach('Configure testing module', () => TestBed.configureTestingModule({
     imports: [ MaterialModule ],
     providers: [

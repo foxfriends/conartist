@@ -43,15 +43,15 @@ describe('Convention Data Source', function(this: Mocha.ISuiteCallbackContext & 
     it('should be applied to the data emitted by #connect', () => {
       const sort = (a: Product, b: Product) => a.id - b.id;
       this.dataSource.sort = sort;
-      this.dataSource.connect().subscribe(_ => expect(_).to.deep.equal(products.sort(sort)));
+      this.dataSource.connect().subscribe(_ => expect(_).to.deep.equal(products.slice().sort(sort)));
     });
     it('should cause #connect to re-emit when changed', done => {
       const sort1 = (a: Product, b: Product) => a.id - b.id;
       const sort2 = (a: Product, b: Product) => b.id - a.id;
       const gen = (function*(): any { // typescript why
         expect(yield).to.deep.equal(products);
-        expect(yield).to.deep.equal(products.sort(sort1));
-        expect(yield).to.deep.equal(products.sort(sort2));
+        expect(yield).to.deep.equal(products.slice().sort(sort1));
+        expect(yield).to.deep.equal(products.slice().sort(sort2));
         done();
       })();
       gen.next();

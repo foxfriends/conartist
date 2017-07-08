@@ -1,8 +1,10 @@
 import { Injectable, Inject } from '@angular/core';
 import { MdSnackBar } from '@angular/material';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/skip';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -65,9 +67,10 @@ export default class StorageService implements ObservableUserInfo {
   get types() { return this._types; }
   get conventions() { return this._conventions; }
 
-  convention(code: string) {
+  convention(code: string): Observable<Convention> {
     return this._conventions
-      .map(_ => _.find(_ => _.code === code)!).filter(_ => !!_)
+      .map(_ => _.find(_ => _.code === code))
+      .filter((_): _ is Convention => !!_)
       .distinctUntilChanged();
   }
 

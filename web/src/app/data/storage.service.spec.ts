@@ -139,6 +139,20 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
     });
   });
 
+  describe('#addConventionProduct', () => {
+    it('should add a product to the convention');
+    it('should add a product that was previously removed to the convention');
+    it('should reset a product that was already added to the convention');
+    it('should cause #convention to emit an event with the updated convention');
+    it('should cause #conventions to emit an event with the updated convention');
+  });
+  describe('#removeConventionProduct', () => {
+    it('should remove a product from the convention');
+    it('should do nothing when a product is not added to the convention');
+    it('should cause #convention to emit an event with the updated convention');
+    it('should cause #conventions to emit an event with the updated convention');
+  });
+
   describe('#fillConvention', () => {
     it('should call the API when the requested convention is not filled', () => {
       this.service.fillConvention(validConCode);

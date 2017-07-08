@@ -1,3 +1,33 @@
+<md-table [dataSource]="dataSource">
+  <ng-container cdkColumnDef="selected">
+    <md-header-cell *cdkHeaderCellDef>
+      <!-- TODO: bulk include/exclude -->
+      <md-icon>check</md-icon>
+    </md-header-cell>
+    <md-cell *cdkCellDef="let product">
+      <md-checkbox [checked]="included(product)" (change)="toggleIncluded(product)"></md-checkbox>
+    </md-cell>
+  </ng-container>
+
+  <ng-container cdkColumnDef="name">
+    <md-header-cell *cdkHeaderCellDef>Product</md-header-cell>
+    <md-cell *cdkCellDef="let product">{{ product.name }}</md-cell>
+  </ng-container>
+
+  <ng-container cdkColumnDef="type">
+    <md-header-cell *cdkHeaderCellDef>Type</md-header-cell>
+    <md-cell *cdkCellDef="let product">{{ product.type | type:'name' }}</md-cell>
+  </ng-container>
+
+  <ng-container cdkColumnDef="quantity">
+    <md-header-cell *cdkHeaderCellDef>Quantity</md-header-cell>
+    <md-cell *cdkCellDef="let product">{{ product.quantity }}</md-cell>
+  </ng-container>
+
+  <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+  <md-row *cdkRowDef="let product; columns: displayedColumns"></md-row>
+</md-table>
+<!--
 <md-list>
   <md-list-item *ngFor="let product of products" class="con-inventory__row" [ngClass]="{'con-inventory__row--excluded': !included(product)}">
     <span class="con-inventory__column">
@@ -8,3 +38,4 @@
     <span class="con-inventory__column">{{ product.quantity }}</span>
   </md-list-item>
 </md-list>
+-->

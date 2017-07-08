@@ -1,3 +1,9 @@
+<div class="con-info__saving" *ngIf="saving">
+  <md-spinner></md-spinner>
+</div>
+<button md-fab (click)="saveConvention()" class="con-info__save-button" [disabled]="saving">
+  <md-icon>save</md-icon>
+</button>
 <md-tab-group dynamicHeight="true">
   <md-tab label="Overview">
     <header class="con-info__header">

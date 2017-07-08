@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { MdSnackBar } from '@angular/material';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import 'rxjs/add/operator/mergeMap';
+
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/skip';
@@ -9,7 +9,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 
 import APIService from '../api/api.service';
 import ErrorService from '../modals/error.service';
-import { UserInfo, ProductType, MetaConvention, FullConvention, Convention } from '../../../../conartist';
+import { UserInfo, Product, ProductType, MetaConvention, FullConvention, Convention } from '../../../../conartist';
 
 type ObservableUserInfo = {
   [K in keyof UserInfo]: BehaviorSubject<UserInfo[K]>;
@@ -103,6 +103,28 @@ export default class StorageService implements ObservableUserInfo {
       );
       this._keys.next(this._keys.getValue() + 1);
     }
+  }
+
+  addConventionProduct(con: FullConvention, product: Product) {
+    this.updateConvention({
+      ...con,
+      data: {
+        ...con.data,
+        products: [...con.data.products.filter(_ => _.id !== product.id), { ...product, discontinued: false, dirty: true }]
+      }
+    });
+  }
+  removeConventionProduct(con: FullConvention, product: Product) {
+    this.updateConvention({
+      ...con,
+      data: {
+        ...con.data,
+        products: con.data.products.map(
+          _ => _.id === product.id
+          ? { ..._, discontinued: true, dirty: true }
+          : _)
+      }
+    });
   }
 
   fillConvention(code: string) {
@@ -276,7 +298,16 @@ export default class StorageService implements ObservableUserInfo {
       stage = Stage.Conventions;
       const oldConventions = this._conventions.getValue();
       await this.api.saveConventions(oldConventions).toPromise();
-      const nextConventions = oldConventions.map(clean);
+      const nextConventions = oldConventions
+        .map(clean)
+        .map(_ => _.type === 'full' ? {
+            ..._,
+            data: {
+              ..._.data,
+              products: _.data.products.filter(_ => !_.discontinued).map(clean),
+              prices: _.data.prices.filter(_ => _.prices.length).map(clean),
+            }
+          } : _);
       this.__conventions = nextConventions;
 
       stage = Stage.Complete;

@@ -1,6 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http, Response, RequestOptionsArgs, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
@@ -23,13 +25,29 @@ function handle<T>(response: Response): T {
   }
 }
 
-function isDirty<T extends { dirty?: boolean; }>(_: T): boolean { return !!_.dirty; }
+// TODO: Only send the dirty rows of convention data to the server for update
+// function isDirty<T extends { dirty?: boolean; }>(_: T): boolean { return !!_.dirty; }
+//
+// function onlyDirty(data: ca.ConventionData): Partial<ca.ConventionData> {
+//   return {
+//     products: data.products.filter(isDirty),
+//     prices: data.prices.filter(isDirty),
+//   };
+// }
 
-function onlyDirty(data: ca.ConventionData): Partial<ca.ConventionData> {
-  return {
-    products: data.products.filter(isDirty),
-    prices: data.prices.filter(isDirty),
-  };
+function updatedProducts(products: ca.Products): ca.ProductsUpdate {
+  return products
+    .filter(_ => _.dirty)
+    .map(_ =>
+      _.id < 0  ? ({ kind: 'create' as 'create', name: _.name, type: _.type, quantity: _.quantity })
+                : ({ kind: 'modify' as 'modify', name: _.name, type: _.type, quantity: _.quantity, id: _.id, discontinued: _.discontinued })
+    );
+}
+
+function updatedPrices(prices: ca.Prices): ca.PricesUpdate {
+  return prices
+    .filter(_ => _.dirty)
+    .map(_ => ({ type_id: _.type, product_id: _.product, price: _.prices }));
 }
 
 @Injectable()
@@ -133,12 +151,7 @@ export default class APIService {
   }
 
   saveProducts(products: ca.Products): Observable<ca.Products> {
-    const updates: ca.ProductsUpdate = products
-        .filter(_ => _.dirty)
-        .map(_ =>
-          _.id < 0  ? ({ kind: 'create' as 'create', name: _.name, type: _.type, quantity: _.quantity })
-                    : ({ kind: 'modify' as 'modify', name: _.name, type: _.type, quantity: _.quantity, id: _.id, discontinued: _.discontinued })
-        );
+    const updates = updatedProducts(products);
     if(updates.length) {
       return this.http
         .put(APIService.host`/api/products/`, { products: updates }, this.options)
@@ -150,9 +163,7 @@ export default class APIService {
   }
 
   savePrices(prices: ca.Prices): Observable<ca.Prices> {
-    const updates: ca.PricesUpdate = prices
-        .filter(_ => _.dirty)
-        .map(_ => ({ type_id: _.type, product_id: _.product, price: _.prices}));
+    const updates = updatedPrices(prices);
     if(updates.length) {
       return this.http
         .put(APIService.host`/api/prices/`, { prices: updates }, this.options)
@@ -168,7 +179,7 @@ export default class APIService {
       .filter(_ => _.dirty)
       .map(_ =>
         _.type === 'meta' ? ({ type: 'add' as 'add', code: _.code }) :
-        _.type === 'full' ? ({ type: 'modify' as 'modify', code: _.code, data: onlyDirty(_.data) })
+        _.type === 'full' ? ({ type: 'modify' as 'modify', code: _.code, data: { products: updatedProducts(_.data.products) as ca.ModifyProduct[], prices: updatedPrices(_.data.prices) }})
                           : ({ type: 'remove' as 'remove', code: _.code })
       );
     if(updates.length) {

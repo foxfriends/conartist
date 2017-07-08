@@ -203,13 +203,13 @@ async function writeUserConventions(user_id: number, conventions: ca.Conventions
           const { rows: [{ user_con_id }]} = await client.query<Pick<db.UserConvention, 'user_con_id'>>(
             SQL`SELECT user_con_id FROM User_Conventions WHERE user_id = ${user_id} AND con_id = ${con_id}`
           );
-          for(const { id, quantity } of data.products || []) {
-            if(quantity) {
+          for(const { id, quantity, discontinued } of data.products || []) {
+            if(!discontinued) {
               await client.query(
                 SQL`
                   INSERT INTO Inventory (user_con_id, product_id, quantity)
                     VALUES (${user_con_id},${id},${quantity})
-                  ON CONFLICT ON unique_inventory DO UPDATE
+                  ON CONFLICT ON CONSTRAINT unique_inventory DO UPDATE
                     SET quantity = ${quantity}`
               );
             } else {
@@ -218,19 +218,19 @@ async function writeUserConventions(user_id: number, conventions: ca.Conventions
               );
             }
           }
-          for(const { type, product, prices } of data.prices || []) {
-            if(prices.length) {
+          for(const { type_id, product_id, price } of data.prices || []) {
+            if(price.length) {
               await client.query(
                 SQL`
                   INSERT INTO Prices (user_con_id, type_id, product_id, prices)
-                    VALUES (${user_con_id},${type},${product},${prices})
-                  ON CONFLICT ON unique_prices DO UPDATE
-                    SET prices = ${prices}`
+                    VALUES (${user_con_id},${type_id},${product_id},${price})
+                  ON CONFLICT ON CONSTRAINT unique_prices DO UPDATE
+                    SET prices = ${price}`
               );
             } else {
               await client.query(
-                SQL`DELETE FROM Prices WHERE user_con_id = ${user_con_id} AND type_id = ${type}`
-                  .append(product ? SQL` AND product_id = ${product}` : SQL` AND product_id IS NULL`)
+                SQL`DELETE FROM Prices WHERE user_con_id = ${user_con_id} AND type_id = ${type_id}`
+                  .append(product_id ? SQL` AND product_id = ${product_id}` : SQL` AND product_id IS NULL`)
               );
             }
           }

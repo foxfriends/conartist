@@ -1,3 +1,4 @@
+@import '../variables';
 .con-info {
   &__header {
     min-height: 100px;
@@ -7,5 +8,23 @@
     font-size: 24px;
     font-weight: bold;
     padding: 16px;
+  }
+  &__save-button {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+  }
+
+  &__saving {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: $loadingLayer;
   }
 }

@@ -134,7 +134,10 @@ export type ConventionRemove = {
 export type ConventionModify = {
   type: 'modify';
   code: string;
-  data: Partial<ConventionData>;
+  data: {
+    products: ModifyProduct[];
+    prices: PricesUpdate;
+  }
 };
 
 export type ConventionUpdate = ConventionAdd | ConventionRemove | ConventionModify;

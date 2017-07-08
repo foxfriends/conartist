@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { MdButtonModule, MdCardModule, MdInputModule, MdCheckboxModule, MdToolbarModule, MdSidenavModule, MdListModule, MdIconModule, MdTooltipModule, MdTabsModule, MdProgressSpinnerModule, MdSnackBarModule, MdSlideToggleModule, MdDialogModule, MdMenuModule, MdGridListModule } from '@angular/material';
+import { MdButtonModule, MdCardModule, MdInputModule, MdCheckboxModule, MdToolbarModule, MdSidenavModule, MdListModule, MdIconModule, MdTooltipModule, MdTabsModule, MdProgressSpinnerModule, MdSnackBarModule, MdSlideToggleModule, MdDialogModule, MdMenuModule, MdGridListModule, MdTableModule } from '@angular/material';
+import { CdkTableModule } from '@angular/cdk';
 
 const modules = [
   MdButtonModule,
@@ -18,6 +19,8 @@ const modules = [
   MdDialogModule,
   MdMenuModule,
   MdGridListModule,
+  MdTableModule,
+  CdkTableModule,
 ];
 
 @NgModule({

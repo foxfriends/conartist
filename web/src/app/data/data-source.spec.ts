@@ -15,7 +15,6 @@ describe('Convention Data Source', function(this: Mocha.ISuiteCallbackContext & 
   describe('#connect', () => {
     it('should return an Observable', () => expect(this.dataSource.connect()).to.be.an.instanceof(Observable));
     it('should produce the entire data', () => {
-      this.dataSource.connect().subscribe(console.table);
       this.dataSource.connect().subscribe(_ => expect(_).to.deep.equal(products));
     });
   });

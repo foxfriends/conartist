@@ -2,6 +2,7 @@ import { Component, Input, Inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import StorageService from '../data/storage.service';
+import TypePipe from '../data/type.pipe';
 import ConDataSource from '../data/data-source';
 
 import template from './con-inventory.component.html';
@@ -16,15 +17,19 @@ import { FullConvention, Product, Products } from '../../../../conartist';
 export default class ConInventoryComponent {
   @Input() con: FullConvention;
   private _products: BehaviorSubject<Products>;
-  private _dataSource: ConDataSource<Products>;
+  private _dataSource: ConDataSource<Product>;
 
-  constructor(@Inject(StorageService) private storage: StorageService) {
+  constructor(
+    @Inject(StorageService) private storage: StorageService,
+    @Inject(TypePipe) private type: TypePipe,
+  ) {
     this._products = storage.products;
     this._dataSource = new ConDataSource(this._products);
+    this._dataSource.filter = _ => (!_.discontinued && !this.type.transform(_.type, 'discontinued')) || this.included(_);
   }
 
   included({ id }: Product): boolean {
-    return !!this.con.data.products.find(_ => _.id === id);
+    return !!this.con.data.products.find(_ => _.id === id && !_.discontinued);
   }
 
   toggleIncluded(product: Product) {

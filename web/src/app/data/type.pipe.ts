@@ -13,7 +13,10 @@ export default class TypePipe implements PipeTransform {
   constructor(@Inject(StorageService) storage: StorageService) {
     this.types = storage.types;
   }
-  transform<K extends keyof ProductType>(id: number, prop?: K): ProductType | ProductType[K] {
+
+  transform<K extends keyof ProductType>(id: number): ProductType;
+  transform<K extends keyof ProductType>(id: number, prop: K): ProductType[K];
+  transform<K extends keyof ProductType>(id: number, prop?: K) {
     const type = this.types.getValue().find(_ => _.id === id) || { name: 'Unknown Type', id: -1, color: 0xFFFFFF, discontinued: false };
     if(prop) {
       return type[prop];

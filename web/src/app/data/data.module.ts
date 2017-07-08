@@ -8,7 +8,7 @@ import ModalsModule from '../modals/modals.module';
 @NgModule({
   imports: [ ModalsModule ],
   declarations: [ TypePipe, ProductPipe, ColorPipe ],
-  providers: [ StorageService ],
+  providers: [ StorageService, TypePipe, ProductPipe ],
   exports: [ TypePipe, ProductPipe, ColorPipe ],
 })
 export default class DataModule {}

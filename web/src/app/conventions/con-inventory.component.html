@@ -25,17 +25,5 @@
   </ng-container>
 
   <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-  <md-row *cdkRowDef="let product; columns: displayedColumns"></md-row>
+  <md-row *cdkRowDef="let product; columns: displayedColumns" [ngClass]="{'con-inventory__row--excluded': !included(product)}"></md-row>
 </md-table>
-<!--
-<md-list>
-  <md-list-item *ngFor="let product of products" class="con-inventory__row" [ngClass]="{'con-inventory__row--excluded': !included(product)}">
-    <span class="con-inventory__column">
-      <md-checkbox [checked]="included(product)" (change)="toggleIncluded(product)"></md-checkbox>
-    </span>
-    <span class="con-inventory__column">{{ product.name }}</span>
-    <span class="con-inventory__column">{{ product.type | type:'name' }}</span>
-    <span class="con-inventory__column">{{ product.quantity }}</span>
-  </md-list-item>
-</md-list>
--->

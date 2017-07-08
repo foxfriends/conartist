@@ -1,3 +1,4 @@
+import './data-source.spec';
 import './color.pipe.spec';
 import './type.pipe.spec';
 import './product.pipe.spec';

@@ -13,7 +13,7 @@ export default class ConDataSource<T> extends DataSource<T> {
   get sort() { return this._sort.getValue(); }
   set sort(value) { this._sort.next(value)}
 
-  constructor(private source: BehaviorSubject<T[]>) {
+  constructor(private source: Observable<T[]>) {
     super();
   }
 

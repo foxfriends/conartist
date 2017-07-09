@@ -1,6 +1,6 @@
 {
   "name": "conartist-server",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Server for the ConArtist app and website",
   "main": "server/index.js",
   "scripts": {

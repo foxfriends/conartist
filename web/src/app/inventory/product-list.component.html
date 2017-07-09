@@ -2,10 +2,10 @@
 <md-list class="product-list" *ngIf="products.length; else placeholder">
   <md-list-item *ngFor="let product of products" class="product-list__row" [ngClass]="{'product-list__row--discontinued': product.discontinued}">
     <div class="product-list__column">
-      <span conEditable [conTent]="product.name" (conTentChange)="setProductName($event, product.id)" [validator]="productNameIsUnique"></span>
+      <con-editable [content]="product.name" (contentChange)="setProductName($event, product.id)" [validator]="productNameIsUnique"></con-editable>
     </div>
     <div class="product-list__column">
-      <span conEditable [conTent]="product.quantity" (conTentChange)="setProductQuantity($event, product.id)" [validator]="quantityIsNatural"></span>
+      <con-editable [content]="product.quantity" (contentChange)="setProductQuantity($event, product.id)" [validator]="quantityIsNatural"></con-editable>
     </div>
     <button md-icon-button (click)="setProductDiscontinued(!product.discontinued, product.id)" [mdTooltip]="product.discontinued ? 'Restore' : product.id > 0 ? 'Discontinue' : 'Delete'" mdTooltipPosition="left">
       <md-icon *ngIf="!product.discontinued">remove_circle_outline</md-icon>

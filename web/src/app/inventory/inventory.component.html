@@ -6,7 +6,7 @@
           <div class="inventory__tab-label" [ngClass]="{'inventory__tab-label--discontinued': type.discontinued}">{{ type.name }}</div>
         </ng-template>
         <header class="inventory__header" [style.backgroundColor]="type.color|color">
-          <h1 class="inventory__title" conEditable [conTent]="type.name" (conTentChange)="setTypeName($event, type.id)" [validator]="typeNameIsUnique"></h1>
+          <h1 class="inventory__title" conEditable [content]="type.name" (contentChange)="setTypeName($event, type.id)" [validator]="typeNameIsUnique"></h1>
           <con-color-picker class="inventory__spacer--right" (selectedChange)="setTypeColor(type.id, $event)" [selected]="type.color">
             <button md-icon-button mdTooltip="Change color" mdTooltipPosition="left">
               <md-icon>format_color_fill</md-icon>

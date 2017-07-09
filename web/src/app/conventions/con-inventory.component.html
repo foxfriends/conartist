@@ -1,4 +1,4 @@
-<md-table [dataSource]="dataSource">
+<md-table [dataSource]="dataSource" mdSort>
   <ng-container cdkColumnDef="selected">
     <md-header-cell *cdkHeaderCellDef>
       <!-- TODO: bulk include/exclude -->
@@ -10,17 +10,17 @@
   </ng-container>
 
   <ng-container cdkColumnDef="name">
-    <md-header-cell *cdkHeaderCellDef>Product</md-header-cell>
+    <md-header-cell *cdkHeaderCellDef md-sort-header>Product</md-header-cell>
     <md-cell *cdkCellDef="let product">{{ product.name }}</md-cell>
   </ng-container>
 
   <ng-container cdkColumnDef="type">
-    <md-header-cell *cdkHeaderCellDef>Type</md-header-cell>
+    <md-header-cell *cdkHeaderCellDef md-sort-header>Type</md-header-cell>
     <md-cell *cdkCellDef="let product">{{ product.type | type:'name' }}</md-cell>
   </ng-container>
 
   <ng-container cdkColumnDef="quantity">
-    <md-header-cell *cdkHeaderCellDef>Quantity</md-header-cell>
+    <md-header-cell *cdkHeaderCellDef md-sort-header>Quantity</md-header-cell>
     <md-cell *cdkCellDef="let product">{{ product.quantity }}</md-cell>
   </ng-container>
 

@@ -1,4 +1,5 @@
-import { Component, Input, Inject } from '@angular/core';
+import { Component, Input, Inject, ViewChild, OnInit } from '@angular/core';
+import { MdSort, Sort } from '@angular/material';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import StorageService from '../data/storage.service';
@@ -9,23 +10,49 @@ import template from './con-inventory.component.html';
 import styles from './con-inventory.component.scss';
 import { FullConvention, Product, Products } from '../../../../conartist';
 
+type ColumnName = 'selected' | 'name' | 'type' | 'quantity';
+
 @Component({
   selector: 'con-con-inventory',
   template: template,
   styles: [ styles ],
 })
-export default class ConInventoryComponent {
+export default class ConInventoryComponent implements OnInit {
   @Input() con: FullConvention;
   private _products: BehaviorSubject<Products>;
   private _dataSource: ConDataSource<Product>;
+  @ViewChild(MdSort) sort: MdSort;
 
   constructor(
     @Inject(StorageService) private storage: StorageService,
     @Inject(TypePipe) private type: TypePipe,
   ) {
     this._products = storage.products;
+  }
+  ngOnInit() {
     this._dataSource = new ConDataSource(this._products);
     this._dataSource.filter = _ => (!_.discontinued && !this.type.transform(_.type, 'discontinued')) || this.included(_);
+    this.sort.mdSortChange.subscribe((sort: Sort) => {
+      let fn: (a: Product, b: Product) => number = () => 0;
+      if(sort.direction && sort.active) {
+        const dir = sort.direction === 'asc' ? -1 : 1;
+        switch(sort.active as ColumnName) {
+          case 'selected':
+            fn = (a, b) => (+this.included(a) - +this.included(b)) * dir;
+            break;
+          case 'name':
+            fn = (a, b) => (a.name < b.name ? 1 : -1) * dir;
+            break;
+          case 'type':
+            fn = (a, b) => (this.type.transform(a.type, 'name') < this.type.transform(b.type, 'name') ? 1 : -1) * dir;
+            break;
+          case 'quantity':
+            fn = (a, b) => (a.quantity - b.quantity) * dir;
+            break;
+        }
+      }
+      this._dataSource.sort = fn;
+    });
   }
 
   included({ id }: Product): boolean {
@@ -44,7 +71,7 @@ export default class ConInventoryComponent {
     return this._dataSource;
   }
 
-  get displayedColumns() {
+  get displayedColumns(): ColumnName[] {
     return ['selected', 'name', 'type', 'quantity'];
   }
 }

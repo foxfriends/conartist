@@ -17,7 +17,8 @@
     "linebreak-style": [ true, "LF" ],
     "max-line-length": [ 80 ],
     "prefer-const": true,
-    "trailing-comma": [ true,
+    "trailing-comma": [
+      true,
       {
         "multiline": {
           "objects": "always",
@@ -47,6 +48,6 @@
     "object-literal-shorthand": true,
     "prefer-switch": true,
     "quotemark": [ true, "single" ],
-    "semicolon": [true, "always"]
+    "semicolon": [ true, "always" ]
   }
 }

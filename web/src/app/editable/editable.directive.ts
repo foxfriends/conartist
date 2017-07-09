@@ -15,7 +15,7 @@ import './editable.directive.scss';
 export default class EditableDirective implements OnChanges {
   @Input() content: string;
   @Output() contentChange = new EventEmitter<string>();
-  @Input() validator?: (v: string) => boolean;
+  @Input() validator?: (str: string) => boolean;
 
   constructor(@Inject(ElementRef) private element: ElementRef) {}
 

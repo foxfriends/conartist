@@ -182,7 +182,7 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
     });
     it('should not call the API when the convention is already filled', done => {
       this.service.fillConvention(validConCode);
-      this.service.convention(validConCode).subscribe(
+      this.service.convention(validConCode).filter(_ => _.type === 'full').subscribe(
         () => {
           this.service.fillConvention(validConCode);
           expect(this.loadConvention, 'the API should only be accessed the first time').to.have.been.calledOnce;

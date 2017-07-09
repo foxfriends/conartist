@@ -53,14 +53,14 @@ describe('Product List Component', function() {
     it('should return false for a not unique product name', () => expect(this.component.productNameIsUnique(products[0].name)).not.to.be.ok);
   });
 
-  describe('#quantityIsPositive', function(this: Mocha.ISuiteCallbackContext & MethodContext) {
+  describe('#quantityIsNatural', function(this: Mocha.ISuiteCallbackContext & MethodContext) {
     beforeEach('Create the component', () => this.component = new ProductListComponent(StorageServiceMock));
     beforeEach('Set the type for the component', () => this.component.type = types[0]);
     afterEach('Reset the storage service mock', () => StorageServiceMock.reset());
-    it('should return false for a non-number', () => expect(this.component.quantityIsPositive('five')).not.to.be.ok);
-    it('should return false for negative number', () => expect(this.component.quantityIsPositive('-5')).not.to.be.ok);
-    it('should return false for 0', () => expect(this.component.quantityIsPositive('0')).to.be.ok);
-    it('should return true for a positive number', () => expect(this.component.quantityIsPositive('5')).to.be.ok);
-    it('should return false for a non-integer', () => expect(this.component.quantityIsPositive('3.5')).not.to.be.ok);
+    it('should return false for a non-number', () => expect(this.component.quantityIsNatural('five')).not.to.be.ok);
+    it('should return false for negative number', () => expect(this.component.quantityIsNatural('-5')).not.to.be.ok);
+    it('should return false for 0', () => expect(this.component.quantityIsNatural('0')).to.be.ok);
+    it('should return true for a positive number', () => expect(this.component.quantityIsNatural('5')).to.be.ok);
+    it('should return false for a non-integer', () => expect(this.component.quantityIsNatural('3.5')).not.to.be.ok);
   });
 });

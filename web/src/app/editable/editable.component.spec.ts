@@ -1,14 +1,17 @@
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { expect } from 'chai';
 
-import EditableDirective from './editable.directive';
+import MaterialModule from '../material.module';
+import EditableComponent from './editable.component';
 
 @Component({
   selector: 'test-component',
-  template: `<h1 conEditable [(content)]="content" [validator]="validator"></h1>`,
+  template: `<con-editable [(content)]="content" [validator]="validator"></con-editable>`,
 })
 class TestComponent {
   validator: (str: string) => boolean = () => true;
@@ -21,29 +24,33 @@ type Context = {
   component: TestComponent;
 };
 
-describe('Editable Directive', function(this: Mocha.ISuiteCallbackContext & Context) {
+describe('Editable Component', function(this: Mocha.ISuiteCallbackContext & Context) {
   beforeEach('Configure the module', () => TestBed.configureTestingModule({
-    declarations: [ EditableDirective, TestComponent ],
+    imports: [ NoopAnimationsModule, FormsModule, MaterialModule ],
+    declarations: [ EditableComponent, TestComponent ],
   }));
   beforeEach('Create the component', () => {
     this.fixture = TestBed.createComponent(TestComponent);
     this.component = this.fixture.componentInstance;
-    this.input = this.fixture.debugElement.query(By.directive(EditableDirective));
+    this.input = this.fixture.debugElement.query(By.css('input'));
     this.fixture.detectChanges();
   });
 
   it('should fill the element with the content', () => {
-    expect(this.input.nativeElement.textContent).to.equal('default-content');
+    expect(this.input.nativeElement.value).to.equal('default-content');
   });
 
-  it('should react to external content changes', () => {
+  it('should react to external content changes', async () => {
     this.component.content = 'updated-content';
     this.fixture.detectChanges();
-    expect(this.input.nativeElement.textContent).to.equal('updated-content');
+    await this.fixture.whenStable();
+    expect(this.input.nativeElement.value).to.equal('updated-content');
   });
 
-  it('should update the outer content when edited', () => {
-    this.input.nativeElement.textContent = 'updated-content';
+  it('should update the outer content when edited', async () => {
+    this.input.nativeElement.value = 'updated-content';
+    this.input.nativeElement.dispatchEvent(new Event('input'));
+    await this.fixture.whenStable();
     this.input.triggerEventHandler('blur', null);
     expect(this.component.content).to.equal('updated-content');
   });
@@ -51,7 +58,7 @@ describe('Editable Directive', function(this: Mocha.ISuiteCallbackContext & Cont
   it('should revert changes if the final value is invalid', () => {
     this.component.validator = str => str !== 'invalid';
     this.fixture.detectChanges();
-    this.input.nativeElement.textContent = 'invalid';
+    this.input.nativeElement.value = 'invalid';
     this.input.triggerEventHandler('blur', null);
     expect(this.component.content).to.equal('default-content');
   });

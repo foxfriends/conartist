@@ -1,5 +1,5 @@
 import './api/api.service.spec';
-import './editable/editable.directive.spec';
+import './editable/editable.module.spec';
 
 import './data/data.module.spec';
 

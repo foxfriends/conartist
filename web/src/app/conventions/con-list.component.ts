@@ -1,5 +1,5 @@
 import { Component, Inject, Output, EventEmitter } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/take';
 
@@ -9,7 +9,7 @@ import styles from './con-list.component.scss';
 import { Convention, Conventions, MetaConvention, FullConvention } from '../../../../conartist';
 
 @Component({
-  selector: 'con-con-list',
+  selector: 'con-list',
   template: template,
   styles: [ styles ],
 })
@@ -20,7 +20,6 @@ export default class ConListComponent {
 
   constructor(
     @Inject(StorageService) storage: StorageService,
-    @Inject(ActivatedRoute) private route: ActivatedRoute,
     @Inject(Router) private router: Router,
   ) {
     this._conventions = storage.conventions;
@@ -40,7 +39,7 @@ export default class ConListComponent {
     return this.conventions.filter(({ end }) => end < new Date());
   }
 
-  selectConvention(convention: Convention) {
-    this.router.navigate([convention.code], { relativeTo: this.route });
+  openConvention(convention: Convention) {
+    this.router.navigate(['/conventions', convention.code]);
   }
 }

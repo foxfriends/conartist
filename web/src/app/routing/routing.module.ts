@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { SignInComponent } from '../sign-in/sign-in.module';
-import { DashboardComponent } from '../dashboard/dashboard.module';
-import { InventoryComponent } from '../inventory/inventory.module';
+import SignInComponent from '../sign-in/sign-in.component';
+import DashboardComponent from '../dashboard/dashboard.component';
+import InventoryComponent from '../inventory/inventory.component';
 import ConventionsComponent from '../conventions/conventions.component';
 import ConInfoComponent from '../conventions/con-info.component';
 import ConListComponent from '../conventions/con-list.component';
@@ -22,10 +22,8 @@ export default class RoutingModule {
     { path: 'dashboard', component: DashboardComponent, canActivate: [ AuthGuard ] },
     { path: 'inventory', component: InventoryComponent, canActivate: [ AuthGuard ] },
     { path: 'conventions', component: ConventionsComponent, canActivate: [ AuthGuard ], children: [
-      { path: '', children: [
-        { path: ':code', component: ConInfoComponent, resolve: { convention: ConventionResolver } },
-        { path: '', component: ConListComponent },
-      ]},
+      { path: ':code', component: ConInfoComponent, resolve: { convention: ConventionResolver } },
+      { path: '', component: ConListComponent },
     ]},
     { path: 'sign-in', component: SignInComponent, canActivate: [ UnauthGuard ] },
     { path: '', redirectTo: '/sign-in', pathMatch: 'full', canActivate: [ UnauthGuard ] },

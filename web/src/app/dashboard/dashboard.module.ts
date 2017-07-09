@@ -6,12 +6,14 @@ import DashConventionsComponent from './dash-conventions.component';
 import DashInventoryComponent from './dash-inventory.component';
 import MaterialModule from '../material.module';
 import ModalsModule from '../modals/modals.module';
+import ConventionsModule from '../conventions/conventions.module';
 
 @NgModule({
   imports: [
     MaterialModule,
     CommonModule,
     ModalsModule,
+    ConventionsModule,
   ],
   declarations: [
     DashboardComponent,
@@ -21,5 +23,3 @@ import ModalsModule from '../modals/modals.module';
   exports: [ DashboardComponent ],
 })
 export default class DashboardModule { }
-
-export { default as DashboardComponent } from './dashboard.component';

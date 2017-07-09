@@ -11,5 +11,3 @@ import MaterialModule from '../material.module';
   exports: [SignInComponent],
 })
 export default class SignInModule { }
-
-export { default as SignInComponent } from './sign-in.component';

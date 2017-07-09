@@ -18,5 +18,3 @@ import PricesListComponent from './prices-list.component';
   exports: [ InventoryComponent ],
 })
 export default class InventoryModule { }
-
-export { default as InventoryComponent } from './inventory.component';

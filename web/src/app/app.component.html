@@ -17,4 +17,10 @@
     </md-nav-list>
   </md-sidenav>
   <router-outlet></router-outlet>
+  <div class="conartist__saving" *ngIf="save.saving">
+    <md-spinner></md-spinner>
+  </div>
+  <button md-fab (click)="save.save()" class="conartist__save-button" [disabled]="save.saving" *ngIf="save.visible">
+    <md-icon>save</md-icon>
+  </button>
 </md-sidenav-container>

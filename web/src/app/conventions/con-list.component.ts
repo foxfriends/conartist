@@ -1,4 +1,5 @@
 import { Component, Inject, Output, EventEmitter } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/take';
 
@@ -17,7 +18,11 @@ export default class ConListComponent {
 
   private _conventions: BehaviorSubject<Conventions>;
 
-  constructor(@Inject(StorageService) storage: StorageService) {
+  constructor(
+    @Inject(StorageService) storage: StorageService,
+    @Inject(ActivatedRoute) private route: ActivatedRoute,
+    @Inject(Router) private router: Router,
+  ) {
     this._conventions = storage.conventions;
   }
 
@@ -36,6 +41,6 @@ export default class ConListComponent {
   }
 
   selectConvention(convention: Convention) {
-    this.conClick.emit(convention);
+    this.router.navigate([convention.code], { relativeTo: this.route });
   }
 }

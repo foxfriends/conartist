@@ -9,7 +9,7 @@ import DashboardModule from './dashboard/dashboard.module';
 import InventoryModule from './inventory/inventory.module';
 import ConventionsModule from './conventions/conventions.module';
 import HelpModule from './help/help.module';
-import RoutingModule from './routing.module';
+import RoutingModule from './routing/routing.module';
 
 import AppComponent from './app.component';
 

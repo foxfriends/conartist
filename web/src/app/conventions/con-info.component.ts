@@ -1,6 +1,7 @@
-import { Component, Input, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import 'rxjs/add/operator/switchMap';
 
-import StorageService from '../data/storage.service';
 import template from './con-info.component.html';
 import styles from './con-info.component.scss';
 import { FullConvention } from '../../../../conartist';
@@ -10,14 +11,14 @@ import { FullConvention } from '../../../../conartist';
   template: template,
   styles: [ styles ],
 })
-export default class ConInfoComponent {
-  @Input() convention: FullConvention;
-  saving = false;
-  constructor(@Inject(StorageService) private storage: StorageService) {}
+export default class ConInfoComponent implements OnInit {
+  convention: FullConvention;
 
-  async saveConvention() {
-    this.saving = true;
-    await this.storage.commit();
-    this.saving = false;
+  constructor(
+    @Inject(ActivatedRoute) private route: ActivatedRoute,
+  ) {}
+
+  ngOnInit() {
+    this.route.data.switchMap(_ => _.convention).subscribe((con: FullConvention) => this.convention = con);
   }
 }

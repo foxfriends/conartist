@@ -1,11 +1,5 @@
 <div #inventory>
-  <div class="inventory__saving" *ngIf="saving">
-    <md-spinner></md-spinner>
-  </div>
   <ng-container *ngIf="types.length; else placeholder">
-    <button md-fab (click)="saveInventory()" class="inventory__save-button" [disabled]="saving">
-      <md-icon>save</md-icon>
-    </button>
     <md-tab-group [selectedIndex]="tabIndex" (selectedIndexChange)="tabChange($event)" dynamicHeight="true">
       <md-tab *ngFor="let type of types; trackBy:trackID">
         <ng-template md-tab-label>

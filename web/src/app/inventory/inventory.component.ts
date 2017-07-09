@@ -20,7 +20,6 @@ export default class InventoryComponent {
 
   tabIndex = 0;
 
-  saving = false;
   showDiscontinuedProducts = false;
   private _showDiscontinuedTypes = false;
 
@@ -96,11 +95,5 @@ export default class InventoryComponent {
 
   createProduct(type: ProductType, index: number) {
     this.storage.createProduct(type, index);
-  }
-
-  async saveInventory() {
-    this.saving = true;
-    await this.storage.commit();
-    this.saving = false;
   }
 }

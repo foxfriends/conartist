@@ -67,7 +67,10 @@ export default class StorageService implements ObservableUserInfo {
   get types() { return this._types; }
   get conventions() { return this._conventions; }
 
-  convention(code: string): Observable<Convention> {
+  convention(code: string, fill: boolean = false): Observable<Convention> {
+    if(fill) {
+      this.fillConvention(code);
+    }
     return this._conventions
       .map(_ => _.find(_ => _.code === code))
       .filter((_): _ is Convention => !!_)
@@ -130,13 +133,13 @@ export default class StorageService implements ObservableUserInfo {
     });
   }
 
-  fillConvention(code: string) {
+  async fillConvention(code: string): Promise<Observable<FullConvention>> {
     const con = this._conventions.getValue().find(_ => _.code === code);
-    if(con && con.type !== 'full') {
-      this.api
-        .loadConvention(con.code)
-        .subscribe(filled => this._conventions.next(this._conventions.getValue().map(_ => _.code === code ? filled : _)));
-    }
+    if(!con) { throw new Error(`Convention ${code} does not exist`); }
+    if(con.type === 'full') { return this.convention(code).filter((con): con is FullConvention => con.type === 'full'); }
+    const filled = await this.api.loadConvention(con.code).toPromise();
+    this._conventions.next(this._conventions.getValue().map(_ => _.code === code ? filled : _));
+    return this.convention(code).filter((con): con is FullConvention => con.type === 'full');
   }
 
   createProduct(type: ProductType, index: number) {

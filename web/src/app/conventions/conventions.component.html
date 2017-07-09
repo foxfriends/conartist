@@ -1,17 +1,5 @@
 <ng-container *ngIf="conventions.length; else placeholder">
-  <ng-container *ngIf="openConvention|async as convention; else conList">
-    <ng-container *ngIf="convention.type === 'full'; else loader">
-      <con-con-info [convention]="convention"></con-con-info>
-    </ng-container>
-    <ng-template #loader>
-      <div class="conventions__loading">
-        <md-spinner></md-spinner>
-      </div>
-    </ng-template>
-  </ng-container>
-  <ng-template #conList>
-    <con-con-list (conClick)="setOpenConvention($event)"></con-con-list>
-  </ng-template>
+  <router-outlet></router-outlet>
 </ng-container>
 <ng-template #placeholder>
   <div class="conventions__placeholder">

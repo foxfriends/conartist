@@ -9,13 +9,8 @@
     font-weight: bold;
     padding: 16px;
   }
-  &__save-button {
-    position: fixed;
-    bottom: 40px;
-    right: 40px;
-  }
 
-  &__saving {
+  &__loading {
     position: fixed;
     top: 0;
     bottom: 0;

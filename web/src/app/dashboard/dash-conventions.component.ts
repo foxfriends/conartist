@@ -1,4 +1,5 @@
 import { Component, Inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import template from './dash-conventions.component.html';
@@ -22,6 +23,7 @@ export default class DashConventionsComponent {
     @Inject(StorageService) private storage: StorageService,
     @Inject(ChooseConventionService) private chooseConvention: ChooseConventionService,
     @Inject(ErrorService) private error: ErrorService,
+    @Inject(Router) private router: Router,
   ) {
     this._conventions = this.storage.conventions;
     this.keys = this.storage.keys;
@@ -42,8 +44,7 @@ export default class DashConventionsComponent {
   }
 
   viewCon(code: string): void {
-    // TODO: Navigate to convention details
-    console.log(code);
+    this.router.navigate(['/conventions', code]);
   }
 
   openBuyKeys() {

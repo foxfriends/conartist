@@ -1,41 +1,63 @@
-import { Component, Input, Inject } from '@angular/core';
+import { Component, Input, Inject, OnInit, ViewChild } from '@angular/core';
+import { MdSort, Sort } from '@angular/material';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
+import ConDataSource from '../data/data-source';
 import StorageService from '../data/storage.service';
 import template from './product-list.component.html';
 import styles from './product-list.component.scss';
-import { Products, Prices, ProductType } from '../../../../conartist';
+import { Product, Products, ProductType } from '../../../../conartist';
+type ColumnName = 'name' | 'quantity' | 'discontinue' | 'price';
 
 @Component({
   selector: 'con-product-list',
   template: template,
   styles: [ styles ],
 })
-export default class ProductListComponent {
+export default class ProductListComponent implements OnInit {
+  @ViewChild(MdSort) sort: MdSort;
   @Input() type: ProductType;
-  @Input() showDiscontinued = false;
+  products: BehaviorSubject<Products> = this.storage.products;
+  dataSource = new ConDataSource(this.products.map(_ => _.filter(_ => _.type === this.type.id)));
+  readonly displayedColumns: ColumnName[] = ['name', 'quantity', 'discontinue', 'price'];
 
-  private _products: BehaviorSubject<Products>;
-  private _prices: BehaviorSubject<Prices>;
-
-  readonly productNameIsUnique = (name: string) => !this._products.getValue().filter(_ => _.type === this.type.id && _.name === name).length;
-  readonly quantityIsNatural = (quantity: string) => !isNaN(parseInt(quantity, 10)) && parseInt(quantity, 10) >= 0 && parseInt(quantity, 10) === parseFloat(quantity);
-
-  constructor(@Inject(StorageService) private storage: StorageService) {
-    this._products = storage.products;
-    this._prices = storage.prices;
-  }
-
-  get products() {
-    return this._products.getValue().filter(_ => _.type === this.type.id && (this.showDiscontinued || !_.discontinued));
-  }
-
-  // TODO: move these modifier methods to the storage service
-  setProductName(name: string, product: number) {
-    if(this.productNameIsUnique(name)) {
-      this.storage.setProductName(product, name);
+  private _showDiscontinued = false;
+  get showDiscontinued() { return this._showDiscontinued; }
+  @Input() set showDiscontinued(value) {
+    this._showDiscontinued = value;
+    if(this._showDiscontinued) {
+      this.dataSource.filter = null;
+    } else {
+      this.dataSource.filter = _ => !_.discontinued;
     }
+  }
+
+  constructor(@Inject(StorageService) private storage: StorageService) {}
+
+  ngOnInit() {
+    this.sort.mdSortChange.subscribe((sort: Sort) => {
+      let fn: (a: Product, b: Product) => number = () => 0;
+      if(sort.direction && sort.active) {
+        const dir = sort.direction === 'asc' ? -1 : 1;
+        switch(sort.active as ColumnName) {
+          case 'discontinue':
+            fn = (a, b) => (+a.discontinued - +b.discontinued) * dir;
+            break;
+          case 'name':
+            fn = (a, b) => (a.name < b.name ? 1 : -1) * dir;
+            break;
+          case 'quantity':
+            fn = (a, b) => (a.quantity - b.quantity) * dir;
+            break;
+        }
+      }
+      this.dataSource.sort = fn;
+    });
+  }
+
+  setProductName(name: string, product: number) {
+    this.storage.setProductName(product, name);
   }
 
   setProductQuantity(quantity: string, product: number) {
@@ -49,4 +71,7 @@ export default class ProductListComponent {
   addPriceRow(type: number, product: number | null = null) {
     this.storage.addPriceRow(type, product);
   }
+
+  readonly productNameIsUnique = (name: string) => !this.products.getValue().filter(_ => _.type === this.type.id && _.name === name).length;
+  readonly quantityIsNatural = (quantity: string) => !isNaN(parseInt(quantity, 10)) && parseInt(quantity, 10) >= 0 && parseInt(quantity, 10) === parseFloat(quantity);
 }

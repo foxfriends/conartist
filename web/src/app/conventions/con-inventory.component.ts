@@ -18,9 +18,10 @@ type ColumnName = 'selected' | 'name' | 'type' | 'quantity';
   styles: [ styles ],
 })
 export default class ConInventoryComponent implements OnInit {
+  readonly displayedColumns: ColumnName[] = ['selected', 'name', 'type', 'quantity'];
   @Input() con: FullConvention;
   private _products: BehaviorSubject<Products>;
-  private _dataSource: ConDataSource<Product>;
+  dataSource: ConDataSource<Product>;
   @ViewChild(MdSort) sort: MdSort;
 
   constructor(
@@ -30,8 +31,8 @@ export default class ConInventoryComponent implements OnInit {
     this._products = storage.products;
   }
   ngOnInit() {
-    this._dataSource = new ConDataSource(this._products);
-    this._dataSource.filter = _ => (!_.discontinued && !this.type.transform(_.type, 'discontinued')) || this.included(_);
+    this.dataSource = new ConDataSource(this._products);
+    this.dataSource.filter = _ => (!_.discontinued && !this.type.transform(_.type, 'discontinued')) || this.included(_);
     this.sort.mdSortChange.subscribe((sort: Sort) => {
       let fn: (a: Product, b: Product) => number = () => 0;
       if(sort.direction && sort.active) {
@@ -51,7 +52,7 @@ export default class ConInventoryComponent implements OnInit {
             break;
         }
       }
-      this._dataSource.sort = fn;
+      this.dataSource.sort = fn;
     });
   }
 
@@ -65,13 +66,5 @@ export default class ConInventoryComponent implements OnInit {
     } else {
       this.storage.addConventionProduct(this.con, product);
     }
-  }
-
-  get dataSource() {
-    return this._dataSource;
-  }
-
-  get displayedColumns(): ColumnName[] {
-    return ['selected', 'name', 'type', 'quantity'];
   }
 }

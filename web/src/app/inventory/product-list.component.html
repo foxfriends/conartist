@@ -1,25 +1,46 @@
-<!-- TODO: find an md-data-table -->
-<md-list class="product-list" *ngIf="products.length; else placeholder">
-  <md-list-item *ngFor="let product of products" class="product-list__row" [ngClass]="{'product-list__row--discontinued': product.discontinued}">
-    <div class="product-list__column">
-      <con-editable [content]="product.name" (contentChange)="setProductName($event, product.id)" [validator]="productNameIsUnique"></con-editable>
+<ng-container mdSort>
+  <md-table [dataSource]="dataSource" *ngIf="(products|async).length; else placeholder">
+    <ng-container cdkColumnDef="name">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Product</md-header-cell>
+      <md-cell *cdkCellDef="let product">
+        <con-editable [content]="product.name" (contentChange)="setProductName($event, product.id)" [validator]="productNameIsUnique"></con-editable>
+      </md-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="quantity">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Quantity</md-header-cell>
+      <md-cell *cdkCellDef="let product">
+        <con-editable [content]="product.quantity" (contentChange)="setProductQuantity($event, product.id)" [validator]="quantityIsNatural"></con-editable>
+      </md-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="discontinue">
+      <md-header-cell *cdkHeaderCellDef md-sort-header class="product-list__column--action">Discontinue</md-header-cell>
+      <md-cell *cdkCellDef="let product" class="product-list__column--action">
+        <button md-icon-button (click)="setProductDiscontinued(!product.discontinued, product.id)" [mdTooltip]="product.discontinued ? 'Restore' : product.id > 0 ? 'Discontinue' : 'Delete'" mdTooltipPosition="left">
+          <md-icon *ngIf="!product.discontinued">remove_circle_outline</md-icon>
+          <md-icon *ngIf="product.discontinued">add_circle_outline</md-icon>
+        </button>
+      </md-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="price">
+      <md-header-cell *cdkHeaderCellDef class="product-list__column--action">Set price</md-header-cell>
+      <md-cell *cdkCellDef="let product" class="product-list__column--action">
+        <button md-icon-button (click)="addPriceRow(type.id, product.id)" mdTooltipPosition="right">
+          <md-icon>attach_money</md-icon>
+        </button>
+      </md-cell>
+    </ng-container>
+
+    <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+    <md-row *cdkRowDef="let product; columns: displayedColumns" [ngClass]="{'con-inventory__row--discontinued': product.discontinued}"></md-row>
+  </md-table>
+  <ng-template #placeholder>
+    <div class="product-list__placeholder">
+      <p>
+        You have no available products. Create some with the buttons below!
+      </p>
     </div>
-    <div class="product-list__column">
-      <con-editable [content]="product.quantity" (contentChange)="setProductQuantity($event, product.id)" [validator]="quantityIsNatural"></con-editable>
-    </div>
-    <button md-icon-button (click)="setProductDiscontinued(!product.discontinued, product.id)" [mdTooltip]="product.discontinued ? 'Restore' : product.id > 0 ? 'Discontinue' : 'Delete'" mdTooltipPosition="left">
-      <md-icon *ngIf="!product.discontinued">remove_circle_outline</md-icon>
-      <md-icon *ngIf="product.discontinued">add_circle_outline</md-icon>
-    </button>
-    <button md-icon-button (click)="addPriceRow(type.id, product.id)" mdTooltip="Custom price" mdTooltipPosition="right">
-      <md-icon>attach_money</md-icon>
-    </button>
-  </md-list-item>
-</md-list>
-<ng-template #placeholder>
-  <div class="product-list__placeholder">
-    <p>
-      You have no available products. Create some with the buttons below!
-    </p>
-  </div>
-</ng-template>
+  </ng-template>
+</ng-container>

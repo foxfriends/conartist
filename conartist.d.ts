@@ -78,7 +78,7 @@ export type Price = {
   product: ID | null,
   prices: PriceList;
   dirty?: boolean;
-}
+};
 export type Prices = Price[];
 
 export type PriceUpdate = {
@@ -118,7 +118,7 @@ export type InvalidConvention = {
   type: 'invalid';
   code: string;
   dirty?: boolean;
-}
+};
 
 export type Convention = MetaConvention | FullConvention | InvalidConvention;
 export type Conventions = Convention[];

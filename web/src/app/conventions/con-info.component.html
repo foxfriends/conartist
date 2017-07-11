@@ -1,19 +1,19 @@
-<md-tab-group dynamicHeight="true" *ngIf="convention; else loading">
+<md-tab-group dynamicHeight="true" *ngIf="convention|async as con; else loading">
   <md-tab label="Overview">
     <header class="con-info__header">
-      <h1 class="con-info__title">{{ convention.title }}</h1>
+      <h1 class="con-info__title">{{ con.title }}</h1>
     </header>
   </md-tab>
   <md-tab label="Inventory">
-    <con-con-inventory [con]="convention"></con-con-inventory>
+    <con-con-inventory [con]="con"></con-con-inventory>
   </md-tab>
   <md-tab label="Pricing">
-    <con-con-pricing [con]="convention"></con-con-pricing>
+    <con-con-pricing [con]="con"></con-con-pricing>
   </md-tab>
   <md-tab label="Records">
     <con-record-list [con]="convention"></con-record-list>
   </md-tab>
   <md-tab label="Stats">
-    <con-stats [con]="convention"></con-stats>
+    <con-stats [con]="con"></con-stats>
   </md-tab>
 </md-tab-group>

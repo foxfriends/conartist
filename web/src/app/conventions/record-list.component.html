@@ -1,10 +1,33 @@
 <!-- TODO: find an md-data-table -->
-<ng-container *ngIf="con.data.records.length; else placeholder">
-  <md-list>
-    <md-list-item *ngFor="let record of con.data.records">
-      {{ record.products[0] | product:'type' | type:'name' }}; {{ record.products.join(', ') }}; {{ record.price }}; {{ record.time }}
-    </md-list-item>
-  </md-list>
+<ng-container *ngIf="(con|async).data.records.length; else placeholder">
+  <md-table [dataSource]="dataSource">
+    <ng-container cdkColumnDef="type">
+      <md-header-cell *cdkHeaderCellDef class="records__column--icon">Type</md-header-cell>
+      <md-cell *cdkCellDef="let record" class="records__column--icon">
+        <div class="records__type-icon" [style.backgroundColor]="type(record).color|color">
+          {{ type(record).name[0] }}
+        </div>
+      </md-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="products">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Products</md-header-cell>
+      <md-cell *cdkCellDef="let record">{{ products(record) }}</md-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="price">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Quantity</md-header-cell>
+      <md-cell *cdkCellDef="let record">{{ record.price | currency:'USD':true }}</md-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="time">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Time</md-header-cell>
+      <md-cell *cdkCellDef="let record">{{ record.time | date:'shortTime' }}</md-cell>
+    </ng-container>
+
+    <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+    <md-row *cdkRowDef="let record; columns: displayedColumns"></md-row>
+  </md-table>
 </ng-container>
 <ng-template #placeholder>
   <div class="records__placeholder">

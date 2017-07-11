@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Obsrvable } from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
 
 import template from './con-info.component.html';
@@ -12,13 +13,13 @@ import { FullConvention } from '../../../../conartist';
   styles: [ styles ],
 })
 export default class ConInfoComponent implements OnInit {
-  convention: FullConvention;
+  convention: Observable<FullConvention>;
 
   constructor(
     @Inject(ActivatedRoute) private route: ActivatedRoute,
   ) {}
 
   ngOnInit() {
-    this.route.data.switchMap(_ => _.convention).subscribe((con: FullConvention) => this.convention = con);
+    this.convention = this.route.data.switchMap(_ => _.convention);
   }
 }

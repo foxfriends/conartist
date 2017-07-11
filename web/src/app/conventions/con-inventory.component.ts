@@ -1,6 +1,5 @@
 import { Component, Input, Inject, ViewChild, OnInit } from '@angular/core';
 import { MdSort, Sort } from '@angular/material';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import StorageService from '../data/storage.service';
 import TypePipe from '../data/type.pipe';
@@ -8,7 +7,7 @@ import ConDataSource from '../data/data-source';
 
 import template from './con-inventory.component.html';
 import styles from './con-inventory.component.scss';
-import { FullConvention, Product, Products } from '../../../../conartist';
+import { FullConvention, Product } from '../../../../conartist';
 
 type ColumnName = 'selected' | 'name' | 'type' | 'quantity';
 
@@ -18,18 +17,17 @@ type ColumnName = 'selected' | 'name' | 'type' | 'quantity';
   styles: [ styles ],
 })
 export default class ConInventoryComponent implements OnInit {
-  readonly displayedColumns: ColumnName[] = ['selected', 'name', 'type', 'quantity'];
+  readonly displayedColumns: ColumnName[] = ['name', 'type', 'quantity'];
   @Input() con: FullConvention;
-  private _products: BehaviorSubject<Products>;
+  private _products = this.storage.products;
   dataSource: ConDataSource<Product>;
   @ViewChild(MdSort) sort: MdSort;
 
   constructor(
     @Inject(StorageService) private storage: StorageService,
     @Inject(TypePipe) private type: TypePipe,
-  ) {
-    this._products = storage.products;
-  }
+  ) {}
+
   ngOnInit() {
     this.dataSource = new ConDataSource(this._products);
     this.dataSource.filter = _ => (!_.discontinued && !this.type.transform(_.type, 'discontinued')) || this.included(_);

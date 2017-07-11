@@ -205,13 +205,12 @@ async function writeUserConventions(user_id: number, conventions: ca.Conventions
           );
           for(const { id, quantity, discontinued } of data.products || []) {
             if(!discontinued) {
-              await client.query(
-                SQL`
-                  INSERT INTO Inventory (user_con_id, product_id, quantity)
-                    VALUES (${user_con_id},${id},${quantity})
-                  ON CONFLICT ON CONSTRAINT unique_inventory DO UPDATE
-                    SET quantity = ${quantity}`
-              );
+              await client.query(SQL`
+                INSERT INTO Inventory (user_con_id, product_id, quantity)
+                  VALUES (${user_con_id},${id},${quantity})
+                ON CONFLICT ON CONSTRAINT unique_inventory DO UPDATE
+                  SET quantity = ${quantity}
+              `);
             } else {
               await client.query(
                 SQL`DELETE FROM Inventory WHERE user_con_id = ${user_con_id} AND product_id = ${id}`
@@ -220,13 +219,12 @@ async function writeUserConventions(user_id: number, conventions: ca.Conventions
           }
           for(const { type_id, product_id, price } of data.prices || []) {
             if(price.length) {
-              await client.query(
-                SQL`
-                  INSERT INTO Prices (user_con_id, type_id, product_id, prices)
-                    VALUES (${user_con_id},${type_id},${product_id},${price})
-                  ON CONFLICT ON CONSTRAINT unique_prices DO UPDATE
-                    SET prices = ${price}`
-              );
+              await client.query(SQL`
+                INSERT INTO Prices (user_con_id, type_id, product_id, prices)
+                  VALUES (${user_con_id},${type_id},${product_id},${price})
+                ON CONFLICT ON CONSTRAINT unique_prices DO UPDATE
+                  SET prices = ${price}
+              `);
             } else {
               await client.query(
                 SQL`DELETE FROM Prices WHERE user_con_id = ${user_con_id} AND type_id = ${type_id}`
@@ -251,12 +249,32 @@ async function writeRecords(user_id: number, con_code: string, records: ca.Recor
   const client = await connect();
   try {
     const [, { user_con_id }] = await getCon(user_id, con_code, client);
+    const sold: (number|undefined)[] = [];
+    await client.query(SQL`BEGIN`);
     for(const { price, products, time } of records) {
-      await client.query(
-        SQL`INSERT INTO Records (user_con_id, price, products, sale_time) VALUES (${user_con_id}, ${price}, ${products}, ${time})`
-      );
+      await client.query(SQL`
+        INSERT INTO Records (user_con_id, price, products, sale_time)
+        VALUES (${user_con_id}, ${price}, ${products}, ${time})
+      `);
+      products.forEach(product => sold[product] = (sold[product] || 0) + 1);
     }
+    for(const [product, quantity] of sold.entries()) {
+      if(quantity) {
+        await client.query(SQL`
+          INSERT INTO TABLE Inventory (product_id, user_con_id, quantity)
+          SELECT ${product}, ${user_con_id}, quantity FROM Inventory
+          WHERE user_id = ${user_id} AND product_id = ${product}
+          ON CONFLICT DO NOTHING
+        `);
+        await client.query(SQL`
+          UPDATE Inventory SET quantity = GREATEST(quantity - ${quantity}, 0)
+          WHERE product_id = ${product} AND user_id = ${user_id}
+        `);
+      }
+    }
+    await client.query(SQL`COMMIT`);
   } catch(error) {
+    await client.query(SQL`ROLLBACK`);
     throw error;
   } finally {
     client.release();

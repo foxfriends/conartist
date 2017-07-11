@@ -112,7 +112,7 @@ async function getConInfo(user_id: number, con_code: string): Promise<ca.FullCon
         ..._,
         type: product.type_id,
         name: product.name,
-        discontinued: product.discontinued
+        discontinued: product.discontinued,
       };
     });
     const prices: ca.Prices = raw_prices.map(_ => ({ type: _.type_id, product: _.product_id, prices: _.prices }));
@@ -150,14 +150,14 @@ async function getUserMetaConventions(user_id: number): Promise<ca.MetaConventio
       type: 'meta' as 'meta', // typescript why
       title, code,
       start: new Date(start_date),
-      end: new Date(end_date)
+      end: new Date(end_date),
     }));
   } catch(error) {
     throw error;
   } finally {
     client.release();
   }
-};
+}
 
 async function writeUserConventions(user_id: number, conventions: ca.ConventionsUpdate): Promise<void> {
   const client = await connect();
@@ -275,7 +275,7 @@ async function getUserProducts(user_id: number, includeDiscontinued: boolean = f
       SQL`SELECT quantity, product_id FROM Inventory WHERE user_id = ${user_id}`
     );
     const inventory = raw_inventory.map(_ => ({ id: _.product_id, quantity: _.quantity }));
-    const products: ca.Products = raw_products.map(_ => ({ type: _.type_id, id: _.product_id, name: _.name, discontinued: _.discontinued, quantity: inventory.find(byId(_.product_id))!.quantity }))
+    const products: ca.Products = raw_products.map(_ => ({ type: _.type_id, id: _.product_id, name: _.name, discontinued: _.discontinued, quantity: inventory.find(byId(_.product_id))!.quantity }));
     return products;
   } catch(error) {
     throw error;
@@ -341,7 +341,7 @@ async function writeProducts(user_id: number, products: ca.ProductsUpdate): Prom
           );
           await client.query(
             SQL`UPDATE Inventory SET quantity = ${quantity} WHERE product_id = ${id} AND user_id = ${user_id}`
-          )
+          );
           break;
         }
       }
@@ -487,7 +487,7 @@ async function getConventions(page: number, limit: number): Promise<ca.MetaConve
       title: _.title,
       code: _.code,
       start: new Date(_.start_date),
-      end: new Date(_.end_date)
+      end: new Date(_.end_date),
     }));
     return cons;
   } catch(error) {

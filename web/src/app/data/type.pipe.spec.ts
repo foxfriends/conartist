@@ -21,8 +21,13 @@ describe('Type Pipe', function(this: Mocha.ISuiteCallbackContext & Context) {
   });
   const keys: (keyof ProductType)[] = [ 'name', 'id', 'color', 'discontinued' ];
   keys.forEach(key =>
-    it(`should transform a type id to the ${key} property of the corresponding type`, () =>
-      expect(this.pipe.transform(1, key)).to.deep.equal(types.find(_ => _.id === 1)![key])
-    )
+    it(`should transform a type id to the ${key} property of the corresponding type`, () => {
+      const type = types.find(_ => _.id === 1);
+      if(type) {
+        expect(this.pipe.transform(1, key)).to.deep.equal(type[key])
+      } else {
+        expect.fail('The type being used for this test doesn\'t exist!');
+      }
+    })
   );
 });

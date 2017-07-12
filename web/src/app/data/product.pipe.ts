@@ -14,7 +14,10 @@ export default class ProductPipe implements PipeTransform {
   constructor(@Inject(StorageService) storage: StorageService) {
     this.products = storage.products;
   }
-  transform<K extends keyof Product>(id: number, prop?: K): Product | Product[K] {
+
+  transform<K extends keyof Product>(id: number): Product;
+  transform<K extends keyof Product>(id: number, prop: K): Product[K];
+  transform<K extends keyof Product>(id: number, prop?: K) {
     const product = this.products.getValue().find(_ => _.id === id) || { name: '', type: -1, id: -1, quantity: 0, discontinued: false };
     if(prop) {
       return product[prop];

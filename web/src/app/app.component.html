@@ -3,7 +3,7 @@
     <md-icon>menu</md-icon>
   </button>
   ConArtist
-  <button md-icon-button (click)="help.toggle()" class="toolbar--right">
+  <button md-icon-button (click)="help.toggle()" class="conartist__toolbar--right">
     <md-icon>help</md-icon>
   </button>
 </md-toolbar>
@@ -16,11 +16,13 @@
       <md-list-item routerLink="conventions">Conventions</md-list-item>
     </md-nav-list>
   </md-sidenav>
-  <router-outlet></router-outlet>
+  <div class="conartist__content">
+    <router-outlet></router-outlet>
+  </div>
   <div class="conartist__saving" *ngIf="save.saving">
     <md-spinner></md-spinner>
   </div>
+  <button md-fab (click)="save.save()" class="conartist__save-button" [disabled]="save.saving" *ngIf="save.visible">
+    <md-icon>save</md-icon>
+  </button>
 </md-sidenav-container>
-<button md-fab (click)="save.save()" class="conartist__save-button" [disabled]="save.saving" *ngIf="save.visible">
-  <md-icon>save</md-icon>
-</button>

@@ -30,7 +30,7 @@ export default class ConInventoryComponent implements OnInit {
 
   ngOnInit() {
     this.dataSource = new ConDataSource(this._products);
-    this.dataSource.filter = _ => (!_.discontinued && !this.type.transform(_.type, 'discontinued')) || this.included(_);
+    this.dataSource.filter = _ => (!_.discontinued && !this.type.transform(_.type).discontinued) || this.included(_);
     this.sort.mdSortChange.subscribe((sort: Sort) => {
       let fn: (a: Product, b: Product) => number = () => 0;
       if(sort.direction && sort.active) {
@@ -43,7 +43,7 @@ export default class ConInventoryComponent implements OnInit {
             fn = (a, b) => (a.name < b.name ? 1 : -1) * dir;
             break;
           case 'type':
-            fn = (a, b) => (this.type.transform(a.type, 'name') < this.type.transform(b.type, 'name') ? 1 : -1) * dir;
+            fn = (a, b) => (this.type.transform(a.type).name < this.type.transform(b.type).name ? 1 : -1) * dir;
             break;
           case 'quantity':
             fn = (a, b) => (a.quantity - b.quantity) * dir;

@@ -1,5 +1,8 @@
-import { Component, Input, Inject } from '@angular/core';
+import { Component, Input, Inject, OnInit, ViewChild } from '@angular/core';
+import { MdSort, Sort } from '@angular/material';
 
+import ProductPipe from '../data/product.pipe';
+import TypePipe from '../data/type.pipe';
 import ConDataSource from '../data/data-source';
 import StorageService from '../data/storage.service';
 import template from './con-pricing.component.html';
@@ -20,7 +23,7 @@ type Row = {
   template: template,
   styles: [ styles ],
 })
-export default class ConPricingComponent {
+export default class ConPricingComponent implements OnInit {
   readonly displayedColumns: ColumnName[] = ['type', 'product', 'quantity', 'price'];
   @Input() con: FullConvention;
   private _prices = this.storage.prices;
@@ -35,6 +38,45 @@ export default class ConPricingComponent {
       )
     )
   );
+  @ViewChild(MdSort) sort: MdSort;
 
-  constructor(@Inject(StorageService) private storage: StorageService) {}
+  constructor(
+    @Inject(StorageService) private storage: StorageService,
+    @Inject(ProductPipe) private product: ProductPipe,
+    @Inject(TypePipe) private type: TypePipe,
+  ) {}
+
+  ngOnInit() {
+    this.dataSource.filter = row => {
+      const price = this._prices.getValue().find(_ => _.type === row.type && _.product === row.product);
+      const productDiscontinued = price && price.product ? this.product.transform(price.product).discontinued : false;
+      const typeDiscontinued = price && this.type.transform(price.type).discontinued;
+      const conPrice = this.con.data.prices.find(_ => _.type === row.type && _.product === row.product);
+      return !!conPrice || !(productDiscontinued || typeDiscontinued);
+    }
+    this.sort.mdSortChange.subscribe((sort: Sort) => {
+      let fn: (a: Row, b: Row) => number = () => 0;
+      if(sort.direction && sort.active) {
+        const dir = sort.direction === 'asc' ? -1 : 1;
+        switch(sort.active as ColumnName) {
+          case 'type':
+            fn = (a, b) => (this.type.transform(a.type).name < this.type.transform(b.type).name ? 1 : -1) * dir;
+            break;
+          case 'product':
+            fn = (a, b) => ((
+              (a.product ? this.product.transform(a.product).name : 0) <
+              (b.product ? this.product.transform(b.product).name : 0)
+            ) ? 1 : -1) * dir;
+            break;
+          case 'price':
+            fn = (a, b) => (a.price - b.price) * dir;
+            break;
+          case 'quantity':
+            fn = (a, b) => (a.quantity - b.quantity) * dir;
+            break;
+        }
+      }
+      this.dataSource.sort = fn;
+    });
+  }
 }

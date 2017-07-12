@@ -55,8 +55,9 @@ import 'core-js/es7/reflect';
  * Zone JS is required by Angular itself.
  */
 import 'zone.js/dist/zone';  // Included with Angular CLI.
+import { saveAs } from 'file-saver';
 
-
+(window as any).saveAs = saveAs;
 
 /***************************************************************************************************
  * APPLICATION IMPORTS

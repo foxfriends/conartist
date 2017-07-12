@@ -32,13 +32,13 @@
               <con-product-list [type]="type" [showDiscontinued]="showDiscontinuedProducts"></con-product-list>
             </md-card-content>
             <md-card-actions>
-              <button md-raised-button mdTooltip="Download">
+              <button md-raised-button mdTooltip="Download" (click)="exportInventoryData(type)">
                 <md-icon>file_download</md-icon>
               </button>
-              <button md-raised-button mdTooltip="Upload">
+              <button md-raised-button mdTooltip="Upload" (click)="importInventoryData(type)">
                 <md-icon>file_upload</md-icon>
               </button>
-              <button md-raised-button (click)="createProduct(type, products(type.id).length + 1)" mdTooltip="New Product">
+              <button md-raised-button (click)="createProduct(type)" mdTooltip="New Product">
                 <md-icon>add</md-icon>
               </button>
             </md-card-actions>

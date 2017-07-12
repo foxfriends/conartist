@@ -1,5 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/operator/toPromise';
 
 import StorageService from '../data/storage.service';
 import template from './inventory.component.html';
@@ -15,8 +18,6 @@ export default class InventoryComponent {
   private _products: BehaviorSubject<Products>
   private _types: BehaviorSubject<ProductTypes>
   private _prices: BehaviorSubject<Prices>;
-
-  readonly typeNameIsUnique = (name: string) => !this._types.getValue().filter(_ => _.name === name).length;
 
   tabIndex = 0;
 
@@ -93,7 +94,58 @@ export default class InventoryComponent {
     this.storage.setTypeColor(type, color);
   }
 
-  createProduct(type: ProductType, index: number) {
-    this.storage.createProduct(type, index);
+  createProduct(type: ProductType) {
+    this.storage.createProduct(type);
+  }
+
+  readonly typeNameIsUnique = (name: string) => !this._types.getValue().filter(_ => _.name === name).length;
+
+  async exportInventoryData(type: ProductType) {
+    // TODO: allow for customizing the format of generated files
+    const header = 'ID,Name,Quantity,Discontinued\n';
+    const data = this.products(type.id).map(_ => `${_.id},${_.name},${_.quantity},${_.discontinued}\n`);
+    saveAs(
+      new Blob([header, ...data], { type: 'text/csv;charset=utf-8' }),
+      `conartist-inventory-${type.name}.csv`,
+      true
+    );
+  }
+
+  async importInventoryData(type: ProductType) {
+    const input: HTMLInputElement = document.createElement('INPUT') as HTMLInputElement;
+    input.setAttribute('type', 'file');
+    input.click();
+    await Observable.fromEvent(input, 'change').take(1).toPromise();
+    if(input.files && input.files[0]) {
+      const file = input.files[0];
+      const fr = new FileReader();
+      fr.readAsText(file);
+      await Observable.fromEvent(fr, 'loadend').take(1).toPromise();
+      const products = this.products(type.id);
+      const values = (fr.result as string)
+        .split('\n')
+        .filter(_ => !!_)
+        .map(_ => _.split(',') .map(_ => _.trim())) as [string, string, string, string][];
+      // TODO: handle different row configurations
+      values.forEach(([id, name, quantity, discontinued]) => {
+        if(typeof discontinued === 'undefined') {
+          discontinued = quantity;
+          quantity = name;
+          name = id;
+          id = 'New';
+        }
+        if(isNaN(+quantity)) { return; }
+        const dc = ['y', 'true', 't'].includes(discontinued.toLowerCase());
+        const qty = +quantity;
+        const product =
+          (!isNaN(+id)
+            ? products.find(_ => _.id === +id)
+            : products.find(_ => _.name === name))
+            || this.storage.createProduct(type);
+        this.storage.setProductName(product.id, name);
+        this.storage.setProductQuantity(product.id, qty);
+        this.storage.setProductDiscontinued(product.id, dc);
+      });
+    }
   }
 }

@@ -13,12 +13,12 @@ import { Price, Prices, ProductType } from '../../../../conartist';
 })
 export default class PricesListComponent {
   @Input() type: ProductType;
-  @Input() showDiscontinued: boolean = false;
+  @Input() showDiscontinued = false;
 
   private _prices: BehaviorSubject<Prices>;
 
   readonly quantityIsNatural = (quantity: string) => !isNaN(parseInt(quantity, 10)) && parseInt(quantity, 10) > 0 && parseInt(quantity, 10) === parseFloat(quantity);
-  readonly priceIsPositive = (price: string) => !isNaN(parseFloat(price.replace(/^\$/,''))) && parseFloat(price.replace(/^\$/,'')) >= 0;
+  readonly priceIsPositive = (price: string) => !isNaN(parseFloat(price.replace(/^\$/, ''))) && parseFloat(price.replace(/^\$/, '')) >= 0;
 
   constructor(@Inject(StorageService) private storage: StorageService) {
     this._prices = storage.prices;
@@ -29,7 +29,7 @@ export default class PricesListComponent {
   }
 
   setPricePrice(price: string, index: number, product: number | null) {
-    this.storage.setPricePrice(this.type.id, product, index, parseFloat(price.replace(/^\$/,'')));
+    this.storage.setPricePrice(this.type.id, product, index, parseFloat(price.replace(/^\$/, '')));
   }
 
   removePriceRow(index: number, product: number | null) {

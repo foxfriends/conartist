@@ -196,8 +196,8 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
   describe('#createProduct', () => {
     it('should add a new product to the list', () => {
       const type = types[0];
-      const index = 4;
-      this.service.createProduct(type, index);
+      const index = products.length + 1;
+      this.service.createProduct(type);
       this.service.products.subscribe(_ => expect(_).to.deep.equal(
         [...products, {
           name: `${type.name} ${index}`,
@@ -242,9 +242,9 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
     });
 
     it('should remove the product entirely if it has not been committed', () => {
-      const type = types[0], index = 4;
-      this.service.createProduct(type, index);
-      this.service.setProductDiscontinued(-index, true);
+      const type = types[0];
+      this.service.createProduct(type);
+      this.service.setProductDiscontinued(-products.length - 1, true);
       this.service.products.subscribe(_ => expect(_).to.deep.equal(products));
     });
   });

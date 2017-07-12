@@ -4,9 +4,9 @@
     <ng-container *ngIf="price.prices.length && (showDiscontinued || !(price.product && price.product | product:'discontinued'))">
       <ng-container *ngIf="price.product">
         <md-divider *ngIf="!first"></md-divider>
-        <h3 md-subheader>{{ price.product | product:'name' }}</h3>
+        <h3 md-subheader [ngClass]="{'prices-list__product--discontinued': price.product && price.product | product:'discontinued'}">{{ price.product | product:'name' }}</h3>
       </ng-container>
-      <md-list-item *ngFor="let row of price.prices;let i = index;trackBy:trackProduct">
+      <md-list-item *ngFor="let row of price.prices;let i = index;trackBy:trackProduct" [ngClass]="{'prices-list__product--discontinued': price.product && price.product | product:'discontinued'}">
         <div class="prices-list__column">
           <con-editable [content]="row[0]" (contentChange)="setPriceQuantity($event, i, price.product)" [validator]="quantityIsPositive"></con-editable>
         </div>

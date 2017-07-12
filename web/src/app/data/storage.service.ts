@@ -142,18 +142,21 @@ export default class StorageService implements ObservableUserInfo {
     return this.convention(code).filter((con): con is FullConvention => con.type === 'full');
   }
 
-  createProduct(type: ProductType, index: number) {
+  createProduct(type: ProductType): Product {
     // TODO: check that new name is unique
+    const index = this._products.getValue().length + 1;
+    const product = {
+      name: `${type.name} ${index}`,
+      quantity: 0,
+      type: type.id,
+      id: -index,
+      discontinued: false
+    }
     this._products.next([
       ...this._products.getValue(),
-      {
-        name: `${type.name} ${index}`,
-        quantity: 0,
-        type: type.id,
-        id: -index,
-        discontinued: false
-      }
+      product
     ]);
+    return product;
   }
 
   setProductName(product: number, name: string) {
@@ -272,7 +275,7 @@ export default class StorageService implements ObservableUserInfo {
       let oldProducts = this._products.getValue();
       let oldPrices = this._prices.getValue();
 
-      const newTypes = await this.api.saveTypes(oldTypes).toPromise();;
+      const newTypes = await this.api.saveTypes(oldTypes).toPromise();
       const nextTypes = oldTypes
         .map(type => {
           if(type.id >= 0) { return { ...type, dirty: false }; };
@@ -322,7 +325,7 @@ export default class StorageService implements ObservableUserInfo {
       this._prices.next(nextPrices);
       this._conventions.next(nextConventions);
 
-      this.snackbar.open("Saved", "Dismiss", { duration: 3000 });
+      this.snackbar.open('Saved', 'Dismiss', { duration: 3000 });
     } catch(error) {
       console.error(error);
       this.error.open(error);
@@ -336,10 +339,13 @@ export default class StorageService implements ObservableUserInfo {
         switch(stage as Stage) { // typescript why
           case Stage.Conventions:
             this._conventions.next(this.__conventions);
+            // falls through
           case Stage.Prices:
             this._prices.next(this.__prices);
+            // falls through
           case Stage.Products:
             this._products.next(this.__products);
+            // falls through
           case Stage.Types:
             this._types.next(this.__types);
         }

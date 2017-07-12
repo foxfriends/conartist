@@ -34,7 +34,7 @@
     </ng-container>
 
     <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-    <md-row *cdkRowDef="let product; columns: displayedColumns" [ngClass]="{'con-inventory__row--discontinued': product.discontinued}"></md-row>
+    <md-row *cdkRowDef="let product; columns: displayedColumns" [ngClass]="{'product-list__row--discontinued': product.discontinued}"></md-row>
   </md-table>
   <ng-template #placeholder>
     <div class="product-list__placeholder">

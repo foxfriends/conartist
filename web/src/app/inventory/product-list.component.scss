@@ -2,7 +2,7 @@
 .product-list {
   &__row {
     &--discontinued {
-      color: $secondary;
+      opacity: 0.5;
     }
   }
   &__column {

@@ -9,11 +9,12 @@ import DashboardModule from './dashboard/dashboard.module';
 import InventoryModule from './inventory/inventory.module';
 import ConventionsModule from './conventions/conventions.module';
 import HelpModule from './help/help.module';
+import DataModule from './data/data.module';
 import RoutingModule from './routing/routing.module';
 
 import AppComponent from './app.component';
 
-import APIService from './api/api.service';
+import APIModule from './api/api.module';
 
 @NgModule({
   imports: [
@@ -21,15 +22,16 @@ import APIService from './api/api.service';
     BrowserAnimationsModule,
     HttpModule,
     MaterialModule,
+    DataModule,
     SignInModule,
     DashboardModule,
     InventoryModule,
     ConventionsModule,
     HelpModule,
+    APIModule,
     RoutingModule,
   ],
   declarations: [ AppComponent ],
-  providers: [ APIService ],
   bootstrap: [ AppComponent ],
 })
 export default class AppModule {}

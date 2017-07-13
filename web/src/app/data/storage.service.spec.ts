@@ -10,6 +10,9 @@ import 'rxjs/add/operator/toArray';
 
 import APIServiceMock, { validConCode, conventions, prices, products, types, fullConventions, userInfo } from '../api/api.service.mock';
 import MaterialModule from '../material.module';
+import BroadcastModule from '../broadcast/broadcast.module';
+import BroadcastService from '../broadcast/broadcast.service';
+import { SignInEvent } from '../broadcast/event';
 import ErrorServiceMock, { ErrorService } from '../modals/error.service.mock';
 import { UserInfo, MetaConvention } from '../../../../conartist';
 
@@ -22,7 +25,7 @@ type Context = {
 describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context) {
   // TODO: Mock the modules manually so the TestBed is not required
   beforeEach('Configure testing module', () => TestBed.configureTestingModule({
-    imports: [ MaterialModule ],
+    imports: [ MaterialModule, BroadcastModule ],
     providers: [
       { provide: ErrorService, useValue: ErrorServiceMock }
     ]
@@ -35,13 +38,16 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
   after('Un-spy on the APIService#getUSerInfo', () => this.getUserInfo.restore());
   after('Un-spy on the APIService#loadConvention', () => this.loadConvention.restore());
 
-  beforeEach('Create a new Storage service', inject([MdSnackBar, ErrorService],
-    (snackbar: MdSnackBar, error: ErrorService) => this.service = new StorageService(APIServiceMock, snackbar, error)
+  beforeEach('Create a new Storage service', inject([MdSnackBar, ErrorService, BroadcastService],
+    (snackbar: MdSnackBar, error: ErrorService, broadcast: BroadcastService) => {
+      this.service = new StorageService(APIServiceMock, snackbar, error, broadcast);
+      broadcast.emit(new SignInEvent);
+    }
   ));
 
   const tests: (keyof UserInfo)[] = ['email', 'keys', 'products', 'prices', 'types', 'conventions'];
 
-  it('should request the initial user info on start', () => {
+  it('should request the initial user info on log in', () => {
     expect(APIServiceMock.getUserInfo).to.have.been.calledOnce;
   });
 
@@ -405,5 +411,14 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
     it('should emit the committed values');
     it('should perform a rollback on failure when requested');
     it('should perform a partial rollback when parts failed to be saved');
+  });
+
+  describe('#reset', () => {
+    it('should set each property to its default state');
+  });
+
+  describe('#discard', () => {
+    it('should set each property back to the first loaded value');
+    it('should set each property back to the state after the most recent commit');
   });
 });

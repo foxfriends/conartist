@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import BroadcastModule from '../broadcast/broadcast.module';
 import SignInComponent from '../sign-in/sign-in.component';
 import DashboardComponent from '../dashboard/dashboard.component';
 import InventoryComponent from '../inventory/inventory.component';
@@ -13,7 +14,7 @@ import AuthGuard from './auth-guard';
 import UnauthGuard from './unauth-guard';
 
 @NgModule({
-  imports: [ RouterModule.forRoot(RoutingModule.routes) ],
+  imports: [ BroadcastModule, RouterModule.forRoot(RoutingModule.routes) ],
   exports: [ RouterModule ],
   providers: [ AuthGuard, UnauthGuard, ConventionResolver ]
 })

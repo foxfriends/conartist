@@ -9,6 +9,7 @@ import { spy } from 'sinon';
 import * as lolex from 'lolex';
 import { wait } from '../../util';
 
+import BroadcastService from '../broadcast/broadcast.service';
 import SignInComponent from './sign-in.component';
 import MaterialModule from '../material.module';
 import APIServiceMock, { APIService, existingUser, newUser } from '../api/api.service.mock';
@@ -19,6 +20,7 @@ type Context = {
 };
 
 describe('Sign In Component', function(this: Mocha.ISuiteCallbackContext & Context) {
+  this.timeout(3000); // TODO: figure out why it's so slow here
   class RouterMock {
     static navigate = spy();
   }
@@ -29,6 +31,7 @@ describe('Sign In Component', function(this: Mocha.ISuiteCallbackContext & Conte
     providers: [
       { provide: APIService, useValue: APIServiceMock },
       { provide: Router, useValue: RouterMock },
+      { provide: BroadcastService, useValue: { emit() {} } },
     ],
   }));
   beforeEach('Create the component', () => {

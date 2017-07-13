@@ -11,6 +11,8 @@ import 'rxjs/add/operator/distinctUntilChanged';
 
 import APIService from '../api/api.service';
 import ErrorService from '../modals/error.service';
+import BroadcastService from '../broadcast/broadcast.service';
+import { SignInEvent } from '../broadcast/event';
 import { UserInfo, Product, ProductType, MetaConvention, FullConvention, Convention } from '../../../../conartist';
 
 type ObservableUserInfo = {
@@ -43,21 +45,19 @@ export default class StorageService implements ObservableUserInfo {
     @Inject(APIService) private api: APIService,
     @Inject(MdSnackBar) private snackbar: MdSnackBar,
     @Inject(ErrorService) private error: ErrorService,
+    @Inject(BroadcastService) broadcast: BroadcastService,
   ) {
-    this._email = new BehaviorSubject('');
-    this._keys = new BehaviorSubject(0);
-    this._products = new BehaviorSubject([]);
-    this._prices = new BehaviorSubject([]);
-    this._types = new BehaviorSubject([]);
-    this._conventions = new BehaviorSubject([]);
-    this.api.getUserInfo().subscribe(_ => {
-      this._email.next(this.__email = _.email);
-      this._keys.next(this.__keys = _.keys);
-      this._products.next(this.__products = _.products);
-      this._prices.next(this.__prices = _.prices);
-      this._types.next(this.__types = _.types);
-      this._conventions.next(this.__conventions = _.conventions);
-    });
+    this.reset();
+    broadcast.filter(_ => _ instanceof SignInEvent).subscribe(() =>
+      this.api.getUserInfo().subscribe(_ => {
+        this._email.next(this.__email = _.email);
+        this._keys.next(this.__keys = _.keys);
+        this._products.next(this.__products = _.products);
+        this._prices.next(this.__prices = _.prices);
+        this._types.next(this.__types = _.types);
+        this._conventions.next(this.__conventions = _.conventions);
+      })
+    );
   }
 
   get email() { return this._email; }
@@ -279,7 +279,8 @@ export default class StorageService implements ObservableUserInfo {
       const nextTypes = oldTypes
         .map(type => {
           if(type.id >= 0) { return { ...type, dirty: false }; };
-          const next = newTypes.find(_ => _.name === type.name)!;
+          const next = newTypes.find(_ => _.name === type.name);
+          if(!next) { throw new Error('New product does not exist'); }
           oldProducts = oldProducts.map(_ => _.type === type.id ? { ..._, type: next.id } : _);
           oldPrices = oldPrices.map(_ => _.type === type.id ? { ..._, type: next.id } : _);
           return next;
@@ -292,7 +293,8 @@ export default class StorageService implements ObservableUserInfo {
       const nextProducts = oldProducts
         .map(product => {
           if(product.id >= 0) { return { ...product, dirty: false }; }
-          const next = newProducts.find(_ => _.type === product.type && _.name === product.name)!;
+          const next = newProducts.find(_ => _.type === product.type && _.name === product.name);
+          if(!next) { throw new Error('New product does not exist'); }
           oldPrices = oldPrices.map(_ => _.product === product.id ? { ..._, product: next.id } : _);
           return next;
         })
@@ -351,5 +353,29 @@ export default class StorageService implements ObservableUserInfo {
         }
       }
     }
+  }
+
+  discard() {
+    this._email.next(this.__email);
+    this._keys.next(this.__keys);
+    this._types.next(this.__types);
+    this._products.next(this.__products);
+    this._prices.next(this.__prices);
+    this._conventions.next(this.__conventions);
+  }
+
+  reset() {
+    this._email = new BehaviorSubject('');
+    this.__email = '';
+    this._keys = new BehaviorSubject(0);
+    this.__keys = 0;
+    this._products = new BehaviorSubject([]);
+    this.__products = [];
+    this._prices = new BehaviorSubject([]);
+    this.__prices = [];
+    this._types = new BehaviorSubject([]);
+    this.__types = [];
+    this._conventions = new BehaviorSubject([]);
+    this.__conventions = [];
   }
 }

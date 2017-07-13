@@ -11,10 +11,16 @@ class StorageServiceMock extends StorageService {
       APIServiceMock,
       { open() { return {}; } } as any,
       ErrorServiceMock,
+      {
+        filter() {
+          return { subscribe(cb: () => void) { return cb(); } };
+        }
+      } as any
     );
   }
 
   reset() {
+    super.reset();
     APIServiceMock.getUserInfo().subscribe(_ => {
       this.email.next(_.email);
       this.keys.next(_.keys);

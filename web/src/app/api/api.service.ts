@@ -25,16 +25,6 @@ function handle<T>(response: Response): T {
   }
 }
 
-// TODO: Only send the dirty rows of convention data to the server for update
-// function isDirty<T extends { dirty?: boolean; }>(_: T): boolean { return !!_.dirty; }
-//
-// function onlyDirty(data: ca.ConventionData): Partial<ca.ConventionData> {
-//   return {
-//     products: data.products.filter(isDirty),
-//     prices: data.prices.filter(isDirty),
-//   };
-// }
-
 function updatedProducts(products: ca.Products): ca.ProductsUpdate {
   return products
     .filter(_ => _.dirty)
@@ -53,18 +43,6 @@ function updatedPrices(prices: ca.Prices): ca.PricesUpdate {
 @Injectable()
 export default class APIService {
   static readonly hostURL = 'http://localhost:8080';
-
-  constructor(@Inject(Http) private http: Http) {}
-
-  private get options(): RequestOptionsArgs {
-    const headers = new Headers();
-    const token = localStorage.getItem('authtoken');
-    if(token) {
-      headers.append('Authorization', `Bearer ${token}`)
-    }
-    return { headers };
-  }
-
   static host([...strings]: TemplateStringsArray, ...params: any[]): string {
     function zip(a: string[], b: string[]) {
       a = [...a];
@@ -74,6 +52,19 @@ export default class APIService {
       return a;
     }
     return APIService.hostURL + zip(strings, params.map(_ => `${_}`)).join('');
+  }
+
+  constructor(
+    @Inject(Http) private http: Http,
+  ) {}
+
+  private get options(): RequestOptionsArgs {
+    const headers = new Headers();
+    const token = localStorage.getItem('authtoken');
+    if(token) {
+      headers.append('Authorization', `Bearer ${token}`)
+    }
+    return { headers };
   }
 
   isUniqueEmail(email: string): Observable<boolean> {

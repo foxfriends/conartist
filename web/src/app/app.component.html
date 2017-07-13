@@ -1,5 +1,5 @@
 <md-toolbar color="primary">
-  <button md-icon-button (click)="sidenav.toggle()">
+  <button md-icon-button (click)="sidenav.toggle()" *ngIf="signedIn">
     <md-icon>menu</md-icon>
   </button>
   ConArtist
@@ -11,9 +11,12 @@
   <md-sidenav #sidenav>
     <md-nav-list>
       <h3 md-subheader>Navigation</h3>
-      <md-list-item routerLink="dashboard">Dashboard</md-list-item>
-      <md-list-item routerLink="inventory">Inventory</md-list-item>
-      <md-list-item routerLink="conventions">Conventions</md-list-item>
+      <md-list-item routerLink="dashboard" (click)="sidenav.close()">Dashboard</md-list-item>
+      <md-list-item routerLink="inventory" (click)="sidenav.close()">Inventory</md-list-item>
+      <md-list-item routerLink="conventions" (click)="sidenav.close()">Conventions</md-list-item>
+      <md-divider></md-divider>
+      <h3 md-subheader>Account</h3>
+      <md-list-item (click)="sidenav.close() && signOut()">Sign out</md-list-item>
     </md-nav-list>
   </md-sidenav>
   <div class="conartist__content">

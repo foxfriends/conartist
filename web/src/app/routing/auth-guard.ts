@@ -2,6 +2,8 @@ import { Injectable, Inject } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import * as decode from 'jwt-decode';
 
+import BroadcastService from '../broadcast/broadcast.service';
+import { SignInEvent } from '../broadcast/event';
 import APIService from '../api/api.service';
 
 @Injectable()
@@ -10,6 +12,7 @@ export default class AuthGuard implements CanActivate {
   constructor(
     @Inject(APIService) private api: APIService,
     @Inject(Router) private router: Router,
+    @Inject(BroadcastService) private broadcast: BroadcastService,
   ) {}
 
   async canActivate(): Promise<boolean> {
@@ -24,6 +27,7 @@ export default class AuthGuard implements CanActivate {
       if(!this.authorized) {
         const newToken = await this.api.reauthorize().toPromise();
         localStorage.setItem('authtoken', newToken);
+        this.broadcast.emit(new SignInEvent);
       }
       return this.authorized = true;
     } catch(_) {

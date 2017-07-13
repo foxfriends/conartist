@@ -8,11 +8,11 @@ import Stats from './stats';
 
 const ConView = TabNavigator({
   Sales: { screen: Sales },
-  History: { screen: History },
-  Stats: { screen: Stats },
+  // History: { screen: History },
+  // Stats: { screen: Stats },
 }, {
   initialRouteName: 'Sales',
-  order: [ 'Sales', 'History', 'Stats' ]
+  order: [ 'Sales', ] // 'History', 'Stats' ]
 });
 ConView.navigationOptions = ({ screenProps: { title }}) => ({ title });
 export default ConView;

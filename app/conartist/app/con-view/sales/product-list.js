@@ -10,7 +10,7 @@ import Chip from './chip';
 import type { Product } from '../../conartist.types';
 
 export default class ProductList extends Component {
-  static navigationOptions = ({ navigation: { state: { params: { type }}}}) => ({ title: type })
+  static navigationOptions = ({ navigation: { state: { params: { type }}}}) => ({ title: type.name })
   state = {
     selected: [],
     price: 0,
@@ -20,7 +20,7 @@ export default class ProductList extends Component {
   renderListItem(item: Product) {
     const contents = (
       <View style={[views.listItem, views.paper]}>
-        <Text style={[views.hPadded, text.primary]}>{item[0]}</Text>
+        <Text style={[views.hPadded, text.primary]}>{item.name}</Text>
       </View>
     );
     const props = {
@@ -42,16 +42,13 @@ export default class ProductList extends Component {
   }
 
   savePurchase() {
-    this.props.screenProps.savePurchase(this.props.navigation.state.params.type, this.state.selected, this.state.price)
+    this.props.screenProps.savePurchase(this.state.selected.map(_ => _.id), this.state.price)
     this.props.navigation.goBack();
   }
 
   addItem(item: Product) {
     this.setState({
-      selected: [
-        ...this.state.selected,
-        item[0],
-      ],
+      selected: [ ...this.state.selected, item ],
     }, () => {
       const price = this.calculatePrice();
       this.setState({
@@ -77,25 +74,33 @@ export default class ProductList extends Component {
     const selected = [...this.state.selected];
     const { type } = this.props.navigation.state.params;
     const { data } = this.props.screenProps;
-    const counts = { [type]: 0 };
-    selected.reverse().forEach(name => {
-      const fullname = `${type}::${name}`;
-      if(data.prices[fullname] !== undefined) {
-        counts[fullname] = counts[fullname] ? counts[fullname] + 1 : 1;
+    console.log(data);
+    const counts = { [type.id]: 0 };
+    selected.reverse().forEach(product => {
+      const fullname = `${type.id}::${product.id}`;
+      const found = data.prices.find(_ => _.type === type.id && _.product === product.id);
+      if(found) {
+        counts[fullname] = (counts[fullname] || 0) + 1;
       } else {
-        counts[type]++;
+        counts[type.id]++;
       }
     });
-    const price = Object.keys(counts).reduce((_, key) =>
-      _ + (data.prices[key] || [])
-        .sort(([a], [b]) => b - a)
-        .reduce((t, [qty, pr]) => {
-          while(counts[key] >= qty) {
-            counts[key] -= qty;
-            t += pr;
-          }
-          return t;
-        }, 0), 0);
+    const price = Object.keys(counts)
+      .reduce((_, key) => {
+        const [type, product] = key.split('::').map(_ => isNaN(+_) ? null : +_);
+        console.log(type, product, data.prices.find(_ => _.type === type && _.product === product), data.prices);
+        const price = data.prices.find(_ => _.type === type && _.product === product);
+        const cost = (price ? price.prices : [])
+          .sort(([a], [b]) => b - a)
+          .reduce((t, [qty, pr]) => {
+            while(counts[key] >= qty) {
+              counts[key] -= qty;
+              t += pr;
+            }
+            return t;
+          }, 0)
+        return _ + cost;
+      }, 0);
     return price;
   }
 
@@ -119,12 +124,12 @@ export default class ProductList extends Component {
         <View style={{ height: 32, alignSelf: 'stretch', flexDirection: 'row' }}>
           <ScrollView horizontal={true} style={views.flex} showsHorizontalScrollIndicator={false}>
             { this.state.selected.length
-              ? this.state.selected.map((item, i) => <Chip text={item} onPress={() => this.removeItem(i)} key={i} />)
+              ? this.state.selected.map((item, i) => <Chip text={item.name} onPress={() => this.removeItem(i)} key={i} />)
               : <Text style={[views.hPadded, text.secondary]}>No items selected</Text>}
           </ScrollView>
         </View>
         <FlatList
-          data={this.props.screenProps.data.products[this.props.navigation.state.params.type]}
+          data={this.props.screenProps.data.products.filter(_ => _.type === this.props.navigation.state.params.type.id)}
           keyExtractor={(_, i) => `${i}`}
           renderItem={({item}) => this.renderListItem(item)} />
         <FloatingActionButton

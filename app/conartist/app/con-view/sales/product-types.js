@@ -21,23 +21,23 @@ export default class ProductTypes extends Component<any, Props, any> {
   };
 
   state = {
-    productTypes: Object.keys(this.props.screenProps.data.products),
+    productTypes: this.props.screenProps.data.types,
     selectedType: '',
   };
 
   componentWillReceiveProps(props: Props) {
-    this.setState({ productTypes: Object.keys(props.screenProps.data.products) });
+    this.setState({ productTypes: props.screenProps.data.types });
   }
 
-  renderListItem(item: string) {
+  renderListItem(item: ProductType) {
     const contents = (
       <View style={[views.listItem, views.padded, views.paper]}>
-        <View style={[views.circle, { backgroundColor: this.props.screenProps.data.colors[item] }]}>
+        <View style={[views.circle, { backgroundColor: `#${item.color.toString(16).padStart(6, '0')}` }]}>
           <View style={[views.flex, views.vMiddle, views.hMiddle]}>
-            <Text style={[text.icon, { color: 'white' }]}>{ item[0] }</Text>
+            <Text style={[text.icon, { color: 'white' }]}>{ item.name[0] }</Text>
           </View>
         </View>
-        <Text style={[views.hPadded, text.primary]}>{item[0]}</Text>
+        <Text style={[views.hPadded, text.primary]}>{item.name}</Text>
       </View>
     );
     const props = {
@@ -62,7 +62,7 @@ export default class ProductTypes extends Component<any, Props, any> {
     return (
       <View style={[views.flex, views.paper ]}>
         <FlatList
-          data={this.state.productTypes}
+          data={this.state.productTypes.filter(_ => !_.discontinued)}
           keyExtractor={(_, i) => `${i}`}
           renderItem={({item}) => this.renderListItem(item)} />
       </View>

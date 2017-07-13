@@ -17,8 +17,7 @@ export default class History extends Component {
 
   renderListItem(item: Record) {
     // TODO: make this meaningful
-    const products = item.products
-      .reduce((o, p) => (o[p] = o[p] ? o[p] + 1 : 1, o), {});
+    const products = item.products.reduce((o, p) => (o[p] = o[p] ? o[p] + 1 : 1, o), {});
     const productStr = Object.keys(products).map(key =>
       products[key] === 1 ? key : `${key} (${products[key]})`).join(', ');
     const contents = (

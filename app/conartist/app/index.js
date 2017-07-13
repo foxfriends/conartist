@@ -28,7 +28,7 @@ function host(strings, ...params) {
     }
     return a;
   }
-  return 'http://localhost:8080' + zip(strings, params.map(_ => `${_}`)).join('');
+  return 'http://192.168.122.1:8080' + zip(strings, params.map(_ => `${_}`)).join('');
 }
 
 type Props = {};
@@ -37,11 +37,9 @@ export default class App extends Component {
   // TODO: put some of this in the store
   // TODO: put some of this into OAuth2 things
   state = {
-    settings: {
-      offline: false,
-    },
+    authtoken: null,
+    settings: { offline: false },
     user: {
-      auth: null,
       id: -1,
       name: '',
       pass: '',
@@ -50,8 +48,9 @@ export default class App extends Component {
       title: '',
       code: '',
       data: {
-        products: {},
-        prices: {},
+        types: [],
+        products: [],
+        prices: [],
         records: [],
       },
     },
@@ -88,42 +87,44 @@ export default class App extends Component {
   }
 
   updateCode(code: string) {
-    this.setState({ con: { code, title: '', data: { records: [], products: {}, prices: {} }}});
+    this.setState({ con: { code, title: '', data: { records: [], products: [], prices: [], types: [] }}});
   }
 
   async signIn() {
-    const body = JSON.stringify({ usr: this.state.user.name, psw: this.state.user.pass });
-    const headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    headers.append("Content-Length", `${body.length}`);
-    const response = JSON.parse(await (await fetch(host `/api/auth`, { method: 'POST', headers, body })).json());
-    if(response.status === 'Success') {
-      this.setState({ user: { ...this.state.user, ...response.data }});
-      return [true];
-    } else {
-      return [false, response.error];
+    try {
+      const body = JSON.stringify({ usr: this.state.user.name, psw: this.state.user.pass });
+      const headers = new Headers();
+      headers.append("Content-Type", "application/json");
+      headers.append("Content-Length", `${body.length}`);
+      const response = await (await fetch(host`/api/auth/`, { method: 'POST', headers, body })).json();
+      console.log(response);
+      if(response.status === 'Success') {
+        this.setState({ authtoken: response.data });
+        return [true];
+      } else {
+        return [false, response.error];
+      }
+    } catch(error) {
+      console.warn(error);
     }
   }
 
   async loadCon() {
-    const headers = new Headers();
-    headers.append("Authorization", `Bearer ${this.state.user.auth}`);
-    const { title, products, prices, records } = await JSON.parse(await (await fetch(host`/api/user/${this.state.user.id}/con/${this.state.con.code}/`, { headers })).json());
-    this.setState({
-      settings: {
-        ...this.state.settings,
-      },
-      con: {
-        ...this.state.con,
-        title,
-        data: {
-          products, prices, records,
-        },
-      },
-    });
+    try {
+      const headers = new Headers();
+      headers.append("Authorization", `Bearer ${this.state.authtoken}`);
+      const response = await (await fetch(host`/api/con/${this.state.con.code}/`, { headers })).json();
+      if(response.status === 'Success') {
+        this.setState({ con: response.data });
+      } else {
+        throw new Error('You are not signed up for that convention');
+      }
+    } catch(error) {
+      console.warn(error);
+    }
   }
 
-  savePurchase(type: string, products: string[], price: number) {
+  savePurchase(products: number[], price: number) {
     this.setState({
       con: {
         ...this.state.con,
@@ -132,7 +133,6 @@ export default class App extends Component {
           records: [
             ...this.state.con.data.records,
             {
-              type,
               products,
               price,
               time: Date.now(),
@@ -152,7 +152,7 @@ export default class App extends Component {
           updateCode: code => this.updateCode(code),
           signIn: () => this.signIn(),
           loadCon: () => this.loadCon(),
-          savePurchase: (type, products, price) => this.savePurchase(type, products, price),
+          savePurchase: (products, price) => this.savePurchase(products, price),
           data: this.state.con.data,
           ...this.state.settings,
         }}/>

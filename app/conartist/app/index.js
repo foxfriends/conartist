@@ -113,7 +113,8 @@ export default class App extends Component {
     try {
       const headers = new Headers();
       headers.append("Authorization", `Bearer ${this.state.authtoken}`);
-      const response = await (await fetch(host`/api/con/${this.state.con.code}/`, { headers })).json();
+      const response = await (await fetch(host`/api/con/${this.state.con.code}/true`, { headers })).json();
+      console.log(response);
       if(response.status === 'Success') {
         this.setState({ con: response.data });
       } else {

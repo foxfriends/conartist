@@ -87,8 +87,8 @@ export default class ProductList extends Component {
     });
     const price = Object.keys(counts)
       .reduce((_, key) => {
-        const [type, product] = key.split('::').map(_ => isNaN(+_) ? null : +_);
-        console.log(type, product, data.prices.find(_ => _.type === type && _.product === product), data.prices);
+        const [type, product] = [...key.split('::'), null].map(_ => _ === null ? null : +_);
+        console.log(type, product);
         const price = data.prices.find(_ => _.type === type && _.product === product);
         const cost = (price ? price.prices : [])
           .sort(([a], [b]) => b - a)

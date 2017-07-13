@@ -14,6 +14,7 @@ type JWT = string;
 
 type Params = {
   con_code: string;
+  extend?: boolean;
   usr: string;
   page?: number;
   limit?: number;
@@ -21,7 +22,7 @@ type Params = {
 
 type User = {
   usr: number;
-}
+};
 
 type Body = {
   records: ca.RecordsUpdate;
@@ -153,15 +154,31 @@ api.put('/cons', assert_authorized(), async (req, res) => {
   }
 });
 
-api.get('/con/:con_code', assert_authorized(), async (req, res) => {
+api.get('/con/:con_code/:extend?', assert_authorized(), async (req, res) => {
   res.set('Content-Type', 'application/json');
   res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.set('Pragma', 'no-cache');
   res.set('Expires', '0');
   try {
-    const { con_code } = req.params as Pick<Params, 'con_code'>;
+    const { con_code, extend } = req.params as Pick<Params, 'con_code' | 'extend'>;
     const { usr: user_id } = req.user as User;
-    const data = await db.getConInfo(user_id, con_code);
+    let data = await db.getConInfo(user_id, con_code);
+    if(extend) {
+      const products = await db.getUserProducts(user_id, true);
+      const prices = await db.getUserPrices(user_id);
+      const types = await db.getUserTypes(user_id, true);
+
+      // TODO: don't include discontinued products/types here?
+      data = {
+        ...data,
+        data: {
+          ...data.data,
+          products: products.map(product => data.data.products.find(_ => _.id === product.id) || product),
+          prices: prices.map(price => data.data.prices.find(_ => _.type === price.type && _.product === price.product) || price),
+          types: types.map(type => data.data.types.find(_ => _.id === type.id) || type),
+        },
+      };
+    }
     res.send(JSON.stringify({ status: 'Success', data } as ca.APISuccessResult<ca.FullConvention>));
   } catch(error) {
     console.error(error);
@@ -208,7 +225,7 @@ api.put('/products', assert_authorized(), async (req, res) => {
   res.set('Expires', '0');
   try {
     const { usr: user_id } = req.user as User;
-    const { products } = req.body as Pick<Body, 'products'>
+    const { products } = req.body as Pick<Body, 'products'>;
     const data = await db.writeProducts(user_id, products);
     res.send(JSON.stringify({ status: 'Success', data } as ca.APISuccessResult<ca.Products>));
   } catch(error) {

@@ -5,15 +5,16 @@ import { View } from 'react-native';
 import * as fs from 'react-native-fs';
 import { views, pages, text } from './styles';
 import { StackNavigator } from 'react-navigation';
+import Splash from './splash';
 import SignIn from './sign-in';
 import ConCode from './con-code';
 import ConView from './con-view';
 import ProductList from './con-view/sales/product-list';
 
-const SETTINGS_FILE = fs.DocumentDirectoryPath + '/conartist.settings.json';
-const OFFLINE_DATA_FILE = fs.DocumentDirectoryPath + '/conartist.offline-data.json';
+const SAVE_STATE_FILE = fs.DocumentDirectoryPath + '/conartist.state.json';
 
 const Navigator = StackNavigator({
+  Splash: { screen: Splash },
   SignIn: { screen: SignIn },
   ConCode: { screen: ConCode },
   ConView: { screen: ConView },
@@ -38,22 +39,12 @@ export default class App extends Component {
   // TODO: put some of this into OAuth2 things
   state = {
     authtoken: null,
-    settings: { offline: false },
+    settings: { offlineMode: false },
     user: {
-      id: -1,
       name: '',
       pass: '',
     },
-    con: {
-      title: '',
-      code: '',
-      data: {
-        types: [],
-        products: [],
-        prices: [],
-        records: [],
-      },
-    },
+    con: null,
   };
 
   constructor(props: Props) {
@@ -62,20 +53,51 @@ export default class App extends Component {
   }
 
   async loadSettings() {
-    if(await fs.exists(SETTINGS_FILE)) {
-      const settings = JSON.parse(await fs.readFile(SETTINGS_FILE));
-      const con = settings.offline
-        ? JSON.parse(await fs.readFile(OFFLINE_DATA_FILE))
-        : this.state.con;
-      this.setState({ settings, con });
+    // this function might just be one big hack
+    if(await fs.exists(SAVE_STATE_FILE)) {
+      const state = JSON.parse(await fs.readFile(SAVE_STATE_FILE));
+      await new Promise(resolve => this.setState(state, () => resolve()));
+      if(this.state.authtoken) {
+        const headers = new Headers();
+        headers.append("Authorization", `Bearer ${this.state.authtoken}`);
+        try {
+          const response = await (await fetch(host`/api/auth/`, { method: 'GET', headers })).json();
+          if(response.status === 'Success') {
+            this.setState({ authtoken: response.data });
+            if(this.state.settings.offlineMode && this.state.con) {
+              return ['SignIn', 'ConCode', 'ConView'];
+            } else {
+              this.setState({ settings: { offlineMode: false }, con: null});
+              return ['SignIn', 'ConCode'];
+            }
+          } else {
+            throw new Error('Invalid auth token');
+          }
+        } catch(error) {
+          this.setState({ authtoken: null, con: null, settings: { offlineMode: false } });
+        }
+      }
     }
+    return ['SignIn'];
   }
 
-  async saveSettings() {
-    await Promise.all([
-      fs.writeFile(SETTINGS_FILE, JSON.stringify(this.state.settings)),
-      fs.writeFile(OFFLINE_DATA_FILE, JSON.stringify(this.state.con)),
-    ]);
+  setState(state, cb = () => this.saveSettings()) {
+    super.setState(state, cb);
+  }
+
+  saveInProgress = null;
+  onSaveEnd = () => {};
+  saveSettings() {
+    if(this.saveInProgress === null) {
+      this.saveInProgress = fs.writeFile(SAVE_STATE_FILE, JSON.stringify(this.state));
+      this.saveInProgress.then(() => {
+        this.saveInProgress = null;
+        this.onSaveEnd();
+        this.onSaveEnd = () => {};
+      });
+    } else {
+      this.onSaveEnd = () => this.saveSettings();
+    }
   }
 
   updateUser(name: string) {
@@ -87,7 +109,11 @@ export default class App extends Component {
   }
 
   updateCode(code: string) {
-    this.setState({ con: { code, title: '', data: { records: [], products: [], prices: [], types: [] }}});
+    this.setState({ con: { code }});
+  }
+
+  toggleOfflineMode() {
+    this.setState({ settings: { offlineMode: !this.state.settings.offlineMode } });
   }
 
   async signIn() {
@@ -97,9 +123,8 @@ export default class App extends Component {
       headers.append("Content-Type", "application/json");
       headers.append("Content-Length", `${body.length}`);
       const response = await (await fetch(host`/api/auth/`, { method: 'POST', headers, body })).json();
-      console.log(response);
       if(response.status === 'Success') {
-        this.setState({ authtoken: response.data });
+        this.setState({ authtoken: response.data, user: { name: '', pass: '' } });
         return [true];
       } else {
         return [false, response.error];
@@ -114,7 +139,6 @@ export default class App extends Component {
       const headers = new Headers();
       headers.append("Authorization", `Bearer ${this.state.authtoken}`);
       const response = await (await fetch(host`/api/con/${this.state.con.code}/true`, { headers })).json();
-      console.log(response);
       if(response.status === 'Success') {
         this.setState({ con: response.data });
       } else {
@@ -155,7 +179,8 @@ export default class App extends Component {
           signIn: () => this.signIn(),
           loadCon: () => this.loadCon(),
           savePurchase: (products, price) => this.savePurchase(products, price),
-          data: this.state.con.data,
+          loadSettings: () => this.loadSettings(),
+          data: this.state.con && this.state.con.data,
           ...this.state.settings,
         }}/>
       </View>

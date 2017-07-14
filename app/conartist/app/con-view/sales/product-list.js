@@ -74,7 +74,6 @@ export default class ProductList extends Component {
     const selected = [...this.state.selected];
     const { type } = this.props.navigation.state.params;
     const { data } = this.props.screenProps;
-    console.log(data);
     const counts = { [type.id]: 0 };
     selected.reverse().forEach(product => {
       const fullname = `${type.id}::${product.id}`;
@@ -88,7 +87,6 @@ export default class ProductList extends Component {
     const price = Object.keys(counts)
       .reduce((_, key) => {
         const [type, product] = [...key.split('::'), null].map(_ => _ === null ? null : +_);
-        console.log(type, product);
         const price = data.prices.find(_ => _.type === type && _.product === product);
         const cost = (price ? price.prices : [])
           .sort(([a], [b]) => b - a)

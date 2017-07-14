@@ -19,10 +19,11 @@ export default class SignIn extends Component {
       if(success) {
         this.props.navigation.navigate('ConCode');
       } else {
-        this.setState({ errorMessage: error });
+        throw new Error(error);
       }
-    } catch(_) {
-      // login failed
+    } catch(error) {
+      console.warn(error);
+      this.setState({ errorMessage: 'Incorrect email or password' });
     }
   }
 

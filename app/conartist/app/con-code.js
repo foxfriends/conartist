@@ -8,10 +8,16 @@ export default class ConCode extends Component {
   static navigationOptions = {
     title: 'Enter Convention',
   }
+  state = { errorMessage: null };
 
-  loadCon() {
-    this.props.screenProps.loadCon();
-    this.props.navigation.navigate('ConView');
+  async loadCon() {
+    try {
+      await this.props.screenProps.loadCon();
+      this.setState({ errorMessage: null });
+      this.props.navigation.navigate('ConView');
+    } catch(error) {
+      this.setState({ errorMessage: error.message });
+    }
   }
 
   render() {
@@ -25,6 +31,11 @@ export default class ConCode extends Component {
             placeholder='Con Code'
             returnKeyType='next'
             onChangeText={text => this.props.screenProps.updateCode(text)} />
+          { this.state.errorMessage &&
+            <Text style={[views.padded, text.error]}>
+              { this.state.errorMessage }
+            </Text>
+          }
           <Button
             title='Enter con'
             onPress={() => this.loadCon()} />

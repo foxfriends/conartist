@@ -118,10 +118,11 @@ export default class App extends Component {
       if(response.status === 'Success') {
         this.setState({ con: response.data });
       } else {
-        throw new Error('You are not signed up for that convention');
+        throw new Error('Data was not retrieved successfully');
       }
     } catch(error) {
       console.warn(error);
+      throw new Error('You are not signed up for that convention');
     }
   }
 

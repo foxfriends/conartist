@@ -3,8 +3,9 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import * as fs from 'react-native-fs';
-import { views, pages, text } from './styles';
 import { StackNavigator } from 'react-navigation';
+import SnackBar from 'react-native-snackbar-dialog';
+import { views, pages, text } from './styles';
 import Splash from './splash';
 import SignIn from './sign-in';
 import ConCode from './con-code';
@@ -57,19 +58,20 @@ export default class App extends Component {
     if(await fs.exists(SAVE_STATE_FILE)) {
       const state = JSON.parse(await fs.readFile(SAVE_STATE_FILE));
       await new Promise(resolve => this.setState(state, () => resolve()));
+      if(this.state.settings.offlineMode && this.state.con) {
+        return ['SignIn', 'ConCode', 'ConView'];
+      } else {
+        this.setState({ offlineMode: false });
+      }
       if(this.state.authtoken) {
         const headers = new Headers();
-        headers.append("Authorization", `Bearer ${this.state.authtoken}`);
+        headers.append('Authorization', `Bearer ${this.state.authtoken}`);
         try {
           const response = await (await fetch(host`/api/auth/`, { method: 'GET', headers })).json();
           if(response.status === 'Success') {
             this.setState({ authtoken: response.data });
-            if(this.state.settings.offlineMode && this.state.con) {
-              return ['SignIn', 'ConCode', 'ConView'];
-            } else {
-              this.setState({ settings: { offlineMode: false }, con: null});
-              return ['SignIn', 'ConCode'];
-            }
+            this.setState({ settings: { offlineMode: false }, con: null});
+            return ['SignIn', 'ConCode'];
           } else {
             throw new Error('Invalid auth token');
           }
@@ -82,7 +84,11 @@ export default class App extends Component {
   }
 
   setState(state, cb = () => this.saveSettings()) {
-    super.setState(state, cb);
+    return new Promise(resolve => super.setState(state, async () => {
+      const result = cb && cb();
+      if(result instanceof Promise) { await result; }
+      resolve();
+    }));
   }
 
   saveInProgress = null;
@@ -112,16 +118,19 @@ export default class App extends Component {
     this.setState({ con: { code }});
   }
 
-  toggleOfflineMode() {
-    this.setState({ settings: { offlineMode: !this.state.settings.offlineMode } });
+  setOfflineMode(offlineMode: boolean) {
+    this.setState({ settings: { offlineMode } });
+    if(!offlineMode) {
+      this.syncRecords();
+    }
   }
 
   async signIn() {
     try {
       const body = JSON.stringify({ usr: this.state.user.name, psw: this.state.user.pass });
       const headers = new Headers();
-      headers.append("Content-Type", "application/json");
-      headers.append("Content-Length", `${body.length}`);
+      headers.append('Content-Type', 'application/json');
+      headers.append('Content-Length', `${body.length}`);
       const response = await (await fetch(host`/api/auth/`, { method: 'POST', headers, body })).json();
       if(response.status === 'Success') {
         this.setState({ authtoken: response.data, user: { name: '', pass: '' } });
@@ -137,10 +146,10 @@ export default class App extends Component {
   async loadCon() {
     try {
       const headers = new Headers();
-      headers.append("Authorization", `Bearer ${this.state.authtoken}`);
+      headers.append('Authorization', `Bearer ${this.state.authtoken}`);
       const response = await (await fetch(host`/api/con/${this.state.con.code}/true`, { headers })).json();
       if(response.status === 'Success') {
-        this.setState({ con: response.data });
+        await this.setState({ con: response.data });
       } else {
         throw new Error('Data was not retrieved successfully');
       }
@@ -150,8 +159,8 @@ export default class App extends Component {
     }
   }
 
-  savePurchase(products: number[], price: number) {
-    this.setState({
+  async savePurchase(products: number[], price: number) {
+    await this.setState({
       con: {
         ...this.state.con,
         data: {
@@ -162,11 +171,43 @@ export default class App extends Component {
               products,
               price,
               time: Date.now(),
+              dirty: true,
             },
           ],
         },
       },
     });
+    if(!this.state.settings.offlineMode) {
+      this.syncRecords();
+    }
+  }
+
+  async syncRecords() {
+    const dirtied = this.state.con.data.records.filter(_ => _.dirty);
+    if(dirtied.length === 0) { return; }
+    const body = JSON.stringify({ records: dirtied });
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${this.state.authtoken}`);
+    headers.append('Content-Type', 'application/json');
+    headers.append('Content-Length', `${body.length}`);
+    const response = await (await fetch(host`/api/con/${this.state.con.code}/sales`, { method: 'PUT', headers, body })).json();
+    if(response.status === 'Success') {
+      const { records } = this.state.con.data;
+      dirtied.forEach(({ time }) => records.map(_ => _.time === time ?  { ..._, dirty: false } : _));
+      await this.setState({
+        con: {
+          ...this.state.con,
+          data: {
+            ...this.state.con.data,
+            records
+          },
+        },
+      });
+      SnackBar.show('Saved successfully!');
+    } else {
+      SnackBar.show('Syncing failed. Try again later.');
+      console.warn(response.error);
+    }
   }
 
   render() {
@@ -178,9 +219,11 @@ export default class App extends Component {
           updateCode: code => this.updateCode(code),
           signIn: () => this.signIn(),
           loadCon: () => this.loadCon(),
+          setOfflineMode: offline => this.setOfflineMode(offline),
           savePurchase: (products, price) => this.savePurchase(products, price),
           loadSettings: () => this.loadSettings(),
           data: this.state.con && this.state.con.data,
+          title: this.state.con && this.state.con.title,
           ...this.state.settings,
         }}/>
       </View>

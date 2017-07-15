@@ -10,17 +10,17 @@
     </ng-container>
 
     <ng-container cdkColumnDef="products">
-      <md-header-cell *cdkHeaderCellDef md-sort-header>Products</md-header-cell>
+      <md-header-cell *cdkHeaderCellDef>Products</md-header-cell>
       <md-cell *cdkCellDef="let record">{{ products(record) }}</md-cell>
     </ng-container>
 
     <ng-container cdkColumnDef="price">
-      <md-header-cell *cdkHeaderCellDef md-sort-header>Quantity</md-header-cell>
+      <md-header-cell *cdkHeaderCellDef>Quantity</md-header-cell>
       <md-cell *cdkCellDef="let record">{{ record.price | currency:'USD':true }}</md-cell>
     </ng-container>
 
     <ng-container cdkColumnDef="time">
-      <md-header-cell *cdkHeaderCellDef md-sort-header>Time</md-header-cell>
+      <md-header-cell *cdkHeaderCellDef>Time</md-header-cell>
       <md-cell *cdkCellDef="let record">{{ record.time | date:'shortTime' }}</md-cell>
     </ng-container>
 

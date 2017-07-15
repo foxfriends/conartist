@@ -13,9 +13,9 @@ export default class ConventionResolver implements Resolve<Observable<FullConven
   ) {}
 
   resolve(route: ActivatedRouteSnapshot): Promise<Observable<FullConvention> | null> {
-    const code = route.paramMap.get('code');
+    const code = route.paramMap.get('code') as string;
 
-    return this.storage.fillConvention(code!).then(con => {
+    return this.storage.fillConvention(code).then(con => {
       if (con) {
         return con;
       } else {

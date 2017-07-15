@@ -98,7 +98,7 @@ async function getConInfo(user_id: number, con_code: string): Promise<ca.FullCon
       SQL`SELECT type_id, product_id, prices FROM Prices WHERE user_con_id = ${user_con_id}`
     );
     const { rows: raw_records } = await client.query<Pick<db.Record, 'products' | 'price' | 'sale_time'>>(
-      SQL`SELECT products, price, sale_time FROM Records WHERE user_con_id = ${user_con_id}`
+      SQL`SELECT products, price::money::numeric::float8, sale_time FROM Records WHERE user_con_id = ${user_con_id}`
     );
     // transform rows to data
     const inventory = raw_inventory.map(_ => ({ quantity: _.quantity, id: _.product_id }));
@@ -254,14 +254,14 @@ async function writeRecords(user_id: number, con_code: string, records: ca.Recor
     for(const { price, products, time } of records) {
       await client.query(SQL`
         INSERT INTO Records (user_con_id, price, products, sale_time)
-        VALUES (${user_con_id}, ${price}, ${products}, ${time})
+        VALUES (${user_con_id}, ${price}, ${products}, ${new Date(time)})
       `);
       products.forEach(product => sold[product] = (sold[product] || 0) + 1);
     }
     for(const [product, quantity] of sold.entries()) {
       if(quantity) {
         await client.query(SQL`
-          INSERT INTO TABLE Inventory (product_id, user_con_id, quantity)
+          INSERT INTO Inventory (product_id, user_con_id, quantity)
           SELECT ${product}, ${user_con_id}, quantity FROM Inventory
           WHERE user_id = ${user_id} AND product_id = ${product}
           ON CONFLICT DO NOTHING

@@ -32,8 +32,8 @@ export default class RecordListComponent implements OnInit {
   }
 
   type(record: Record): ProductType {
-    const products = record.products.filter(unique).map(this.productPipe.transform);
-    const typeIds = products.map(_ => _.id).filter(unique);
+    const products = record.products.filter(unique).map(_ => this.productPipe.transform(_));
+    const typeIds = products.map(_ => _.type).filter(unique);
     if(typeIds.length === 1) {
       return this.typePipe.transform(typeIds[0]);
     } else {

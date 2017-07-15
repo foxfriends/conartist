@@ -14,7 +14,9 @@ export default class ConCode extends Component {
     try {
       await this.props.screenProps.loadCon();
       this.setState({ errorMessage: null });
+      console.log("ASDF");
       this.props.navigation.navigate('ConView');
+      console.log("JLK");
     } catch(error) {
       this.setState({ errorMessage: error.message });
     }

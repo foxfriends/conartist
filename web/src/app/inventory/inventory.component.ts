@@ -4,20 +4,19 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/toPromise';
 
-import StorageService from '../data/storage.service';
+import { StorageService } from '../data/storage.service';
 import template from './inventory.component.html';
 import styles from './inventory.component.scss';
-import { Products, ProductType, ProductTypes, Prices, Color } from '../../../../conartist';
 
 @Component({
   selector: 'con-inventory',
   template: template,
   styles: [ styles ],
 })
-export default class InventoryComponent {
-  private _products: BehaviorSubject<Products>
-  private _types: BehaviorSubject<ProductTypes>
-  private _prices: BehaviorSubject<Prices>;
+export class InventoryComponent {
+  private _products: BehaviorSubject<ca.Products>
+  private _types: BehaviorSubject<ca.ProductTypes>
+  private _prices: BehaviorSubject<ca.Prices>;
 
   tabIndex = 0;
 
@@ -58,7 +57,7 @@ export default class InventoryComponent {
     return this._types.getValue().filter(_ => this.showDiscontinuedTypes || !_.discontinued);
   }
 
-  trackID(type: ProductType) {
+  trackID(type: ca.ProductType) {
     return type.id;
   }
 
@@ -90,17 +89,17 @@ export default class InventoryComponent {
     this.storage.setTypeDiscontinued(type, discontinued);
   }
 
-  setTypeColor(type: number, color: Color) {
+  setTypeColor(type: number, color: ca.Color) {
     this.storage.setTypeColor(type, color);
   }
 
-  createProduct(type: ProductType) {
+  createProduct(type: ca.ProductType) {
     this.storage.createProduct(type);
   }
 
   readonly typeNameIsUnique = (name: string) => !this._types.getValue().filter(_ => _.name === name).length;
 
-  async exportInventoryData(type: ProductType) {
+  async exportInventoryData(type: ca.ProductType) {
     // TODO: allow for customizing the format of generated files
     const header = 'ID,Name,Quantity,Discontinued\n';
     const data = this.products(type.id).map(_ => `${_.id},${_.name},${_.quantity},${_.discontinued}\n`);
@@ -111,7 +110,7 @@ export default class InventoryComponent {
     );
   }
 
-  async importInventoryData(type: ProductType) {
+  async importInventoryData(type: ca.ProductType) {
     const input: HTMLInputElement = document.createElement('INPUT') as HTMLInputElement;
     input.setAttribute('type', 'file');
     input.click();

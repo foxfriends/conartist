@@ -1,9 +1,9 @@
 import { Component, Inject } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
-import StorageService from './data/storage.service';
-import HelpService from './help/help.service';
-import SaveService from './data/save.service';
+import { StorageService } from './data/storage.service';
+import { HelpService } from './help/help.service';
+import { SaveService } from './data/save.service';
 import template from './app.component.html';
 import styles from './app.component.scss';
 
@@ -12,7 +12,7 @@ import styles from './app.component.scss';
   template: template,
   styles: [ styles ],
 })
-export default class AppComponent {
+export class AppComponent {
   signedIn = false;
 
   constructor(

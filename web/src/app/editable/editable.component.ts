@@ -7,7 +7,7 @@ import styles from './editable.component.scss';
   template: template,
   styles: [ styles ]
 })
-export default class EditableComponent implements OnChanges {
+export class EditableComponent implements OnChanges {
   @Input() content: string;
   @Output() contentChange = new EventEmitter<string>();
   @Input() validator?: (v: string) => boolean;

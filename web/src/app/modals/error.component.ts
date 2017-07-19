@@ -9,6 +9,6 @@ import styles from './error.component.scss';
   template: template,
   styles: [ styles ],
 })
-export default class ErrorComponent {
+export class ErrorComponent {
   constructor(@Inject(MD_DIALOG_DATA) public error: Error) { }
 }

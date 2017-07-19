@@ -1,9 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
-import StorageService from './storage.service';
+import { StorageService } from './storage.service';
 
 @Injectable()
-export default class SaveService {
+export class SaveService {
   visible = true;
   saving = false;
 

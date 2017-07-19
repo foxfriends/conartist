@@ -12,7 +12,7 @@ import './editable.directive.scss';
     'tabindex': '0',
   },
 })
-export default class EditableDirective implements OnChanges {
+export class EditableDirective implements OnChanges {
   @Input() content: string;
   @Output() contentChange = new EventEmitter<string>();
   @Input() validator?: (str: string) => boolean;

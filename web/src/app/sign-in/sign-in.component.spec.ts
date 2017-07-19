@@ -9,10 +9,10 @@ import { spy } from 'sinon';
 import * as lolex from 'lolex';
 import { wait } from '../../util';
 
-import BroadcastService from '../broadcast/broadcast.service';
-import SignInComponent from './sign-in.component';
-import MaterialModule from '../material.module';
-import APIServiceMock, { APIService, existingUser, newUser } from '../api/api.service.mock';
+import { BroadcastService } from '../broadcast/broadcast.service';
+import { SignInComponent } from './sign-in.component';
+import { MaterialModule } from '../material.module';
+import { APIServiceMock, APIService, existingUser, newUser } from '../api/api.service.mock';
 
 type Context = {
   fixture: ComponentFixture<SignInComponent>;

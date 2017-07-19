@@ -6,8 +6,6 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
-import * as ca from '../../../../conartist';
-
 const DATE = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*))(?:Z|(\+|-)([\d|:]*))?$/;
 function parseDates(_key: string, value: any) {
   if(typeof value === 'string' && DATE.test(value)) {
@@ -41,7 +39,7 @@ function updatedPrices(prices: ca.Prices): ca.PricesUpdate {
 }
 
 @Injectable()
-export default class APIService {
+export class APIService {
   static readonly hostURL = 'http://localhost:8080';
   static host([...strings]: TemplateStringsArray, ...params: any[]): string {
     function zip(a: string[], b: string[]) {
@@ -179,7 +177,7 @@ export default class APIService {
         .map(_ => { handle(_) })
         .catch(_ => Observable.throw(new Error('Could not save convention changes')));
     } else {
-      return Observable.of();
+      return Observable.of<void>();
     }
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import ErrorService from './error.service';
+import { ErrorService } from './error.service';
 
 @Injectable()
 class ErrorServiceMock extends ErrorService {
@@ -11,5 +11,6 @@ class ErrorServiceMock extends ErrorService {
   open(): Observable<void> { return Observable.of(); }
 }
 
-export default new ErrorServiceMock;
-export { default as ErrorService } from './error.service';
+const mock = new ErrorServiceMock;
+export { mock as ErrorServiceMock };
+export { ErrorService } from './error.service';

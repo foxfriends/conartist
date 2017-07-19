@@ -3,7 +3,7 @@ import { CanActivate, Router } from '@angular/router';
 import * as decode from 'jwt-decode';
 
 @Injectable()
-export default class UnauthGuard implements CanActivate {
+export class UnauthGuard implements CanActivate {
   constructor(
     @Inject(Router) private router: Router,
   ) {}

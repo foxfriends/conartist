@@ -1,4 +1,4 @@
 'use strict';
-export { Wait, default as wait } from './wait';
-export { default as Wrappable } from './wrappable';
-export { default as rotate } from './rotate';
+export { Wait, wait } from './wait';
+export { Wrappable } from './wrappable';
+export { rotate } from './rotate';

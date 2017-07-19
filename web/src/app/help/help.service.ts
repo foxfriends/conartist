@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export default class HelpService {
+export class HelpService {
   private _visible = false;
   get visible() {
     return this._visible;

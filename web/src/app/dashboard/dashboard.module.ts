@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import DashboardComponent from './dashboard.component';
-import DashConventionsComponent from './dash-conventions.component';
-import DashInventoryComponent from './dash-inventory.component';
-import MaterialModule from '../material.module';
-import ModalsModule from '../modals/modals.module';
-import ConventionsModule from '../conventions/conventions.module';
+import { DashboardComponent } from './dashboard.component';
+import { DashConventionsComponent } from './dash-conventions.component';
+import { DashInventoryComponent } from './dash-inventory.component';
+import { MaterialModule } from '../material.module';
+import { ModalsModule } from '../modals/modals.module';
+import { ConventionsModule } from '../conventions/conventions.module';
 
 @NgModule({
   imports: [
@@ -22,4 +22,4 @@ import ConventionsModule from '../conventions/conventions.module';
   ],
   exports: [ DashboardComponent ],
 })
-export default class DashboardModule { }
+export class DashboardModule { }

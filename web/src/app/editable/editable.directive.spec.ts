@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 
 import { expect } from 'chai';
 
-import EditableDirective from './editable.directive';
+import { EditableDirective } from './editable.directive';
 
 @Component({
   selector: 'test-component',

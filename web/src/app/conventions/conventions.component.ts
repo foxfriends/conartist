@@ -4,18 +4,17 @@ import 'rxjs/add/operator/filter';
 
 import template from './conventions.component.html';
 import styles from './conventions.component.scss';
-import StorageService from '../data/storage.service';
-import ChooseConventionService from '../modals/choose-convention.service';
-import ErrorService from '../modals/error.service';
-import { MetaConvention, Conventions } from '../../../../conartist';
+import { StorageService } from '../data/storage.service';
+import { ChooseConventionService } from '../modals/choose-convention.service';
+import { ErrorService } from '../modals/error.service';
 
 @Component({
   selector: 'con-conventions',
   template: template,
   styles: [ styles ],
 })
-export default class ConventionsComponent {
-  private _conventions: BehaviorSubject<Conventions>;
+export class ConventionsComponent {
+  private _conventions: BehaviorSubject<ca.Conventions>;
 
   constructor(
     @Inject(StorageService) private storage: StorageService,
@@ -31,7 +30,7 @@ export default class ConventionsComponent {
   openAddConventions() {
     this.chooseConvention
       .open()
-      .filter((_): _ is MetaConvention => !!_)
+      .filter((_): _ is ca.MetaConvention => !!_)
       .subscribe(con => {
         try {
           this.storage.addConvention(con);

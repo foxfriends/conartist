@@ -1,9 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Color } from '../../../../conartist';
 
 @Pipe({name: 'color'})
-export default class ColorPipe implements PipeTransform {
-  transform(color: Color, format: 'rgb' | 'hex' = 'hex'): string {
+export class ColorPipe implements PipeTransform {
+  transform(color: ca.Color, format: 'rgb' | 'hex' = 'hex'): string {
     const [r, g, b, a] = [
       (color >> 16) & 0xFF,
       (color >> 8) & 0xFF,

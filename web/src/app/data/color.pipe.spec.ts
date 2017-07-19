@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import ColorPipe from './color.pipe';
+import { ColorPipe } from './color.pipe';
 
 type Context = {
   pipe: ColorPipe;

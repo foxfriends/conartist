@@ -4,19 +4,17 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import template from './dash-conventions.component.html';
 import styles from './dash-conventions.component.scss';
-import StorageService from '../data/storage.service';
-import ChooseConventionService from '../modals/choose-convention.service';
-import ErrorService from '../modals/error.service';
-
-import { MetaConvention, FullConvention, Conventions } from '../../../../conartist';
+import { StorageService } from '../data/storage.service';
+import { ChooseConventionService } from '../modals/choose-convention.service';
+import { ErrorService } from '../modals/error.service';
 
 @Component({
   selector: 'con-dash-conventions',
   template: template,
   styles: [ styles ],
 })
-export default class DashConventionsComponent {
-  private _conventions: BehaviorSubject<Conventions>;
+export class DashConventionsComponent {
+  private _conventions: BehaviorSubject<ca.Conventions>;
   private keys: BehaviorSubject<number>;
 
   constructor(
@@ -29,17 +27,17 @@ export default class DashConventionsComponent {
     this.keys = this.storage.keys;
   }
 
-  get conventions(): (MetaConvention | FullConvention)[] {
-    return this._conventions.getValue().filter((_): _ is MetaConvention | FullConvention => _.type !== 'invalid');
+  get conventions(): (ca.MetaConvention | ca.FullConvention)[] {
+    return this._conventions.getValue().filter((_): _ is ca.MetaConvention | ca.FullConvention => _.type !== 'invalid');
   }
 
-  get currentConventions(): (MetaConvention | FullConvention)[] {
+  get currentConventions(): (ca.MetaConvention | ca.FullConvention)[] {
     return this.conventions.filter(({ start, end }) => start <= new Date() && new Date() <= end);
   }
-  get upcomingConventions(): (MetaConvention | FullConvention)[] {
+  get upcomingConventions(): (ca.MetaConvention | ca.FullConvention)[] {
     return this.conventions.filter(({ start }) => start > new Date());
   }
-  get previousConventions(): (MetaConvention | FullConvention)[] {
+  get previousConventions(): (ca.MetaConvention | ca.FullConvention)[] {
     return this.conventions.filter(({ end }) => end < new Date());
   }
 
@@ -49,19 +47,21 @@ export default class DashConventionsComponent {
 
   openBuyKeys() {
     // TODO: allow purchasing of keys
-    console.log("buying a key!");
+    console.log('buying a key!');
   }
 
   openAddConventions() {
-    this.chooseConvention.open().filter((_): _ is MetaConvention => !!_).subscribe(_ => {
-      try {
-        this.storage.addConvention(_);
-      } catch(error) {
-        console.error(error);
-        this.error.open(error);
-        return;
-      }
-      this.storage.commit(true);
-    });
+    this.chooseConvention.open()
+      .filter((_): _ is ca.MetaConvention => !!_)
+      .subscribe((con: ca.MetaConvention) => {
+        try {
+          this.storage.addConvention(con);
+        } catch(error) {
+          console.error(error);
+          this.error.open(error);
+          return;
+        }
+        this.storage.commit(true);
+      });
   }
 }

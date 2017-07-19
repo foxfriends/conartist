@@ -1,4 +1,4 @@
-export default class ConEvent<T> {
+export class ConEvent<T> {
   constructor(
     public type: Symbol,
     public payload?: T,

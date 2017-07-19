@@ -8,4 +8,4 @@ import styles from './dashboard.component.scss';
   template: template,
   styles: [ styles ],
 })
-export default class DashboardComponent {}
+export class DashboardComponent {}

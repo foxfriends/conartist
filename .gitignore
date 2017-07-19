@@ -1,6 +1,11 @@
-node_modules
-server/*.js
-server/x-*.ts
-web/src/**.js
-./data
-web-x
+/server/*.js
+/web/src/**.js
+
+/node_modules
+npm-debug.log
+
+/server/x-*.ts
+/web-x
+
+.DS_Store
+Thumbs.db

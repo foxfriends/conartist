@@ -1,13 +1,12 @@
 import { Component, Input, Inject, OnInit, ViewChild } from '@angular/core';
 import { MdSort, Sort } from '@angular/material';
 
-import ProductPipe from '../data/product.pipe';
-import TypePipe from '../data/type.pipe';
-import ConDataSource from '../data/data-source';
-import StorageService from '../data/storage.service';
+import { ProductPipe } from '../data/product.pipe';
+import { TypePipe } from '../data/type.pipe';
+import { ConDataSource } from '../data/data-source';
+import { StorageService } from '../data/storage.service';
 import template from './con-pricing.component.html';
 import styles from './con-pricing.component.scss';
-import { FullConvention } from '../../../../conartist';
 
 type ColumnName = 'product' | 'type' | 'quantity' | 'price';
 
@@ -23,9 +22,9 @@ type Row = {
   template: template,
   styles: [ styles ],
 })
-export default class ConPricingComponent implements OnInit {
+export class ConPricingComponent implements OnInit {
   readonly displayedColumns: ColumnName[] = ['type', 'product', 'quantity', 'price'];
-  @Input() con: FullConvention;
+  @Input() con: ca.FullConvention;
   private _prices = this.storage.prices;
   dataSource = new ConDataSource<Row>(
     this._prices.map(

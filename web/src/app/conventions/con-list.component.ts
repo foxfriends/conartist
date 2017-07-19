@@ -3,20 +3,19 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/take';
 
-import StorageService from '../data/storage.service';
+import { StorageService } from '../data/storage.service';
 import template from './con-list.component.html';
 import styles from './con-list.component.scss';
-import { Convention, Conventions, MetaConvention, FullConvention } from '../../../../conartist';
 
 @Component({
   selector: 'con-list',
   template: template,
   styles: [ styles ],
 })
-export default class ConListComponent {
-  @Output() conClick = new EventEmitter<Convention>();
+export class ConListComponent {
+  @Output() conClick = new EventEmitter<ca.Convention>();
 
-  private _conventions: BehaviorSubject<Conventions>;
+  private _conventions: BehaviorSubject<ca.Conventions>;
 
   constructor(
     @Inject(StorageService) storage: StorageService,
@@ -25,21 +24,21 @@ export default class ConListComponent {
     this._conventions = storage.conventions;
   }
 
-  get conventions() {
-    return this._conventions.getValue().filter((_): _ is MetaConvention | FullConvention => _.type !== 'invalid');
+  get conventions(): (ca.MetaConvention | ca.FullConvention)[] {
+    return this._conventions.getValue().filter((_): _ is ca.MetaConvention | ca.FullConvention => _.type !== 'invalid');
   }
 
-  get currentConventions(): (MetaConvention | FullConvention)[] {
+  get currentConventions(): (ca.MetaConvention | ca.FullConvention)[] {
     return this.conventions.filter(({ start, end }) => start <= new Date() && new Date() <= end);
   }
-  get upcomingConventions(): (MetaConvention | FullConvention)[] {
+  get upcomingConventions(): (ca.MetaConvention | ca.FullConvention)[] {
     return this.conventions.filter(({ start }) => start > new Date());
   }
-  get previousConventions(): (MetaConvention | FullConvention)[] {
+  get previousConventions(): (ca.MetaConvention | ca.FullConvention)[] {
     return this.conventions.filter(({ end }) => end < new Date());
   }
 
-  openConvention(convention: Convention) {
+  openConvention(convention: ca.Convention) {
     this.router.navigate(['/conventions', convention.code]);
   }
 }

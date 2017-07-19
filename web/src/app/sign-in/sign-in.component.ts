@@ -2,14 +2,14 @@ import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, AbstractControl, FormControl, Validators, ValidatorFn, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 
-import BroadcastService from '../broadcast/broadcast.service';
+import { BroadcastService } from '../broadcast/broadcast.service';
 import { SignInEvent } from '../broadcast/event';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/switchMap';
 
-import APIService from '../api/api.service';
+import { APIService } from '../api/api.service';
 import template from './sign-in.component.html';
 import styles from './sign-in.component.scss';
 
@@ -35,7 +35,7 @@ type SignUpForm = {
   template: template,
   styles: [ styles ],
 })
-export default class SignInComponent {
+export class SignInComponent {
   isSignUpMode = false;
   processing = false;
   error: string | null = null;

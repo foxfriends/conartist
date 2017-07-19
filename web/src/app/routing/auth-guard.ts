@@ -2,12 +2,12 @@ import { Injectable, Inject } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import * as decode from 'jwt-decode';
 
-import BroadcastService from '../broadcast/broadcast.service';
+import { BroadcastService } from '../broadcast/broadcast.service';
 import { SignInEvent } from '../broadcast/event';
-import APIService from '../api/api.service';
+import { APIService } from '../api/api.service';
 
 @Injectable()
-export default class AuthGuard implements CanActivate {
+export class AuthGuard implements CanActivate {
   private authorized = false;
   constructor(
     @Inject(APIService) private api: APIService,

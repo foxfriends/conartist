@@ -1,4 +1,5 @@
 /// <reference types="mocha" />
+/// <reference path="../../conartist.d.ts" />
 
 declare module '*.html' {
   const content: string;

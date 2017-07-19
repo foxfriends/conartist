@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import rotate from './rotate';
+import { rotate } from './rotate';
 
 describe('Rotate', function() {
   it('should return a square array rotated', () => {

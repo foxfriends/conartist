@@ -2,16 +2,15 @@ import { Component, Inject } from '@angular/core';
 
 import template from './choose-convention.component.html';
 import styles from './choose-convention.component.scss';
-import APIService from '../api/api.service';
-import { MetaConvention } from '../../../../conartist';
+import { APIService } from '../api/api.service';
 
 @Component({
   selector: 'con-choose-convention',
   template: template,
   styles: [ styles ],
 })
-export default class ChooseConventionComponent {
-  private _conventions: MetaConvention[] = [];
+export class ChooseConventionComponent {
+  private _conventions: ca.MetaConvention[] = [];
   private _page = 0;
   constructor(@Inject(APIService) private api: APIService) {
     this.update();
@@ -29,7 +28,7 @@ export default class ChooseConventionComponent {
     this.api.getConventions(this.page).subscribe(_ => this._conventions = _);
   }
 
-  get conventions(): MetaConvention[] {
+  get conventions(): ca.MetaConvention[] {
     return this._conventions;
   }
 }

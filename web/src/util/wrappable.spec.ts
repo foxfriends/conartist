@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import Wrappable from './wrappable';
+import { Wrappable } from './wrappable';
 
 describe('Wrappable', function() {
   const wrapped = Wrappable([1, 2, 3, 4]);

@@ -6,9 +6,9 @@ import { By } from '@angular/platform-browser';
 
 import { expect } from 'chai';
 
-import APIServiceMock, { APIService } from './api/api.service.mock';
-import AppComponent from './app.component';
-import MaterialModule from './material.module';
+import { APIServiceMock, APIService } from './api/api.service.mock';
+import { AppComponent } from './app.component';
+import { MaterialModule } from './material.module';
 
 @Component({ selector: 'con-sign-in', template: '' }) class SignInComponent {}
 @Component({ selector: 'con-dashboard', template: '' }) class DashboardComponent {}

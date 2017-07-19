@@ -3,7 +3,7 @@ import { Side } from './help.constants';
 @Directive({
   selector: 'con-help-arrow',
 })
-export default class HelpArrowDirective {
+export class HelpArrowDirective {
   @Input() start: string;
   @Input() end: string;
   @Input() startSide: Side = 'center';

@@ -2,19 +2,18 @@ import { inject, TestBed } from '@angular/core/testing';
 import { MdSnackBar } from '@angular/material';
 import { expect } from 'chai';
 import { spy, SinonSpy as Spy } from 'sinon';
-import StorageService from './storage.service';
+import { StorageService } from './storage.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/toArray';
 
-import APIServiceMock, { validConCode, conventions, prices, products, types, fullConventions, userInfo } from '../api/api.service.mock';
-import MaterialModule from '../material.module';
-import BroadcastModule from '../broadcast/broadcast.module';
-import BroadcastService from '../broadcast/broadcast.service';
+import { APIServiceMock, validConCode, conventions, prices, products, types, fullConventions, userInfo } from '../api/api.service.mock';
+import { MaterialModule } from '../material.module';
+import { BroadcastModule } from '../broadcast/broadcast.module';
+import { BroadcastService } from '../broadcast/broadcast.service';
 import { SignInEvent } from '../broadcast/event';
-import ErrorServiceMock, { ErrorService } from '../modals/error.service.mock';
-import { UserInfo, MetaConvention } from '../../../../conartist';
+import { ErrorServiceMock, ErrorService } from '../modals/error.service.mock';
 
 type Context = {
   service: StorageService;
@@ -45,13 +44,13 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
     }
   ));
 
-  const tests: (keyof UserInfo)[] = ['email', 'keys', 'products', 'prices', 'types', 'conventions'];
+  const tests: (keyof ca.UserInfo)[] = ['email', 'keys', 'products', 'prices', 'types', 'conventions'];
 
   it('should request the initial user info on log in', () => {
     expect(APIServiceMock.getUserInfo).to.have.been.calledOnce;
   });
 
-  tests.forEach((prop: keyof UserInfo) =>
+  tests.forEach((prop: keyof ca.UserInfo) =>
     describe(`#${prop}`, () => {
       it('should be a BehaviorSubject', () => expect(this.service[prop]).to.be.an.instanceOf(BehaviorSubject));
     })
@@ -86,7 +85,7 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
 
   describe('#addConvention', () => {
     it('should add a convention to the convention list', () => {
-      const convention: MetaConvention = {
+      const convention: ca.MetaConvention = {
         type: 'meta' as 'meta',
         title: 'title',
         code: 'labne',
@@ -106,7 +105,7 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
       expect(() => this.service.addConvention(convention)).to.throw(Error, 'keys');
     });
     it('should remove a key when successful', () => {
-      const convention: MetaConvention = {
+      const convention: ca.MetaConvention = {
         type: 'meta' as 'meta',
         title: 'title',
         code: 'labne',

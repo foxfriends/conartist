@@ -28,4 +28,4 @@ const modules = [
   imports: modules,
   exports: modules,
 })
-export default class MaterialModule { }
+export class MaterialModule { }

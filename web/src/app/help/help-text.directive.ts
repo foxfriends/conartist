@@ -4,7 +4,7 @@ import { Side } from './help.constants';
 @Directive({
   selector: 'con-help-text',
 })
-export default class HelpTextDirective {
+export class HelpTextDirective {
   @Input() text: string;
   @Input() anchor?: string;
   @Input() position: Side = 'right';

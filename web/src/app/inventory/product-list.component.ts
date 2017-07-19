@@ -3,11 +3,10 @@ import { MdSort, Sort } from '@angular/material';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import ConDataSource from '../data/data-source';
-import StorageService from '../data/storage.service';
+import { ConDataSource } from '../data/data-source';
+import { StorageService } from '../data/storage.service';
 import template from './product-list.component.html';
 import styles from './product-list.component.scss';
-import { Product, Products, ProductType } from '../../../../conartist';
 type ColumnName = 'name' | 'quantity' | 'discontinue' | 'price';
 
 @Component({
@@ -15,10 +14,10 @@ type ColumnName = 'name' | 'quantity' | 'discontinue' | 'price';
   template: template,
   styles: [ styles ],
 })
-export default class ProductListComponent implements OnInit {
+export class ProductListComponent implements OnInit {
   @ViewChild(MdSort) sort: MdSort;
-  @Input() type: ProductType;
-  products: BehaviorSubject<Products> = this.storage.products;
+  @Input() type: ca.ProductType;
+  products: BehaviorSubject<ca.Products> = this.storage.products;
   dataSource = new ConDataSource(this.products.map(_ => _.filter(_ => _.type === this.type.id)));
   readonly displayedColumns: ColumnName[] = ['name', 'quantity', 'discontinue', 'price'];
 
@@ -37,7 +36,7 @@ export default class ProductListComponent implements OnInit {
 
   ngOnInit() {
     this.sort.mdSortChange.subscribe((sort: Sort) => {
-      let fn: (a: Product, b: Product) => number = () => 0;
+      let fn: (a: ca.Product, b: ca.Product) => number = () => 0;
       if(sort.direction && sort.active) {
         const dir = sort.direction === 'asc' ? -1 : 1;
         switch(sort.active as ColumnName) {

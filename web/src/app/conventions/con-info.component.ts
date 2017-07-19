@@ -5,15 +5,14 @@ import 'rxjs/add/operator/switchMap';
 
 import template from './con-info.component.html';
 import styles from './con-info.component.scss';
-import { FullConvention } from '../../../../conartist';
 
 @Component({
   selector: 'con-con-info',
   template: template,
   styles: [ styles ],
 })
-export default class ConInfoComponent implements OnInit {
-  convention: Observable<FullConvention>;
+export class ConInfoComponent implements OnInit {
+  convention: Observable<ca.FullConvention>;
 
   constructor(
     @Inject(ActivatedRoute) private route: ActivatedRoute,

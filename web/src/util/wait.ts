@@ -4,7 +4,7 @@ export interface Wait<T> extends Promise<T> {
   skip(): void;
 }
 export type ResRej<T> = (value?: T | PromiseLike<T>) => void;
-export default <T>(time: number = 0, cb?: (resolve: ResRej<T>, reject: ResRej<T>) => T | PromiseLike<T>) => {
+export const wait = <T>(time: number = 0, cb?: (resolve: ResRej<T>, reject: ResRej<T>) => T | PromiseLike<T>) => {
   let timeout: number;
   let res: ResRej<T>;
   let rej: ResRej<T>;

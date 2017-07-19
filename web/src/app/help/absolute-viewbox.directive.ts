@@ -1,7 +1,7 @@
 import { Directive, ElementRef, Inject, HostBinding } from '@angular/core';
 
 @Directive({ selector: '[conAbsoluteViewbox]' })
-export default class AbsoluteViewboxDirective {
+export class AbsoluteViewboxDirective {
   constructor(@Inject(ElementRef) private element: ElementRef) {}
 
   @HostBinding('attr.viewBox')

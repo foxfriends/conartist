@@ -23,5 +23,3 @@ export const Wrappable = <T>(array: T[]) => new Proxy(array, {
     return false;
   }
 });
-
-export default Wrappable;

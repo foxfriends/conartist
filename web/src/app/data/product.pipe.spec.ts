@@ -1,10 +1,8 @@
 import { expect } from 'chai';
 
-import ProductPipe from './product.pipe';
+import { ProductPipe } from './product.pipe';
 import { products } from '../api/api.service.mock';
-import StorageServiceMock from './storage.service.mock';
-
-import { Product } from '../../../../conartist';
+import { StorageServiceMock } from './storage.service.mock';
 
 type Context = {
   pipe: ProductPipe;
@@ -19,7 +17,7 @@ describe('Product Pipe', function(this: Mocha.ISuiteCallbackContext & Context) {
   it('should transform a missing product id to an unknown product object', () => {
     expect(this.pipe.transform(-1)).to.deep.equal({ name: '', type: -1, id: -1, quantity: 0, discontinued: false });
   });
-  const keys: (keyof Product)[] = [ 'name', 'quantity', 'id', 'type', 'discontinued' ];
+  const keys: (keyof ca.Product)[] = [ 'name', 'quantity', 'id', 'type', 'discontinued' ];
   keys.forEach(key =>
     it(`should transform a product id to the ${key} property of the corresponding product`, () => {
       const product = products.find(_ => _.id === 1);

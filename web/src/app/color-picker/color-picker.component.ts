@@ -1,12 +1,10 @@
 import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 
-// TODO: figure out how to get module resolution working properly in this package
-import colors from 'material-colors/dist/colors';
+import colors from 'material-colors';
 
 import { Wrappable, rotate } from '../../util';
 import template from './color-picker.component.html';
 import styles from './color-picker.component.scss';
-import { Color } from '../../../../conartist';
 
 @Component({
   selector: 'con-color-picker',
@@ -14,9 +12,9 @@ import { Color } from '../../../../conartist';
   styles: [ styles ],
   encapsulation: ViewEncapsulation.None,
 })
-export default class ColorPickerComponent {
-  @Output() selectedChange = new EventEmitter<Color>();
-  @Input() selected: Color;
+export class ColorPickerComponent {
+  @Output() selectedChange = new EventEmitter<ca.Color>();
+  @Input() selected: ca.Color;
   private _index = 1;
   private _colors = Wrappable([
     'red', 'pink', 'purple', 'deepPurple', 'indigo', 'blue', 'lightBlue', 'cyan',
@@ -52,7 +50,7 @@ export default class ColorPickerComponent {
     this.selectedChange.emit(this.selected);
   }
 
-  parse(color: string): Color {
+  parse(color: string): ca.Color {
     return parseInt(color.slice(1), 16) || 0;
   }
 }

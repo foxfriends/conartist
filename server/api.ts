@@ -2,7 +2,7 @@ import * as express from 'express';
 import * as JWT from 'jsonwebtoken';
 import * as eJWT from 'express-jwt';
 
-import * as ca from '../conartist';
+import * as ca from 'conartist';
 import * as db from './database';
 
 const api = express();

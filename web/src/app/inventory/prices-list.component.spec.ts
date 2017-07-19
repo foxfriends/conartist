@@ -5,9 +5,9 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect } from 'chai';
 import { spy } from 'sinon';
 
-import PricesListComponent from './prices-list.component';
-import MaterialModule from '../material.module';
-import StorageServiceMock, { StorageService } from '../data/storage.service.mock';
+import { PricesListComponent } from './prices-list.component';
+import { MaterialModule } from '../material.module';
+import { StorageServiceMock, StorageService } from '../data/storage.service.mock';
 import { types } from '../api/api.service.mock';
 
 type ComponentContext = {

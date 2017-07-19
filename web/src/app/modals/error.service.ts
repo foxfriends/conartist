@@ -2,10 +2,10 @@ import { Injectable, Inject } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 
-import ErrorComponent from './error.component';
+import { ErrorComponent } from './error.component';
 
 @Injectable()
-export default class ErrorService {
+export class ErrorService {
   constructor(@Inject(MdDialog) private dialog: MdDialog) { }
 
   open(error: Error): Observable<void> {

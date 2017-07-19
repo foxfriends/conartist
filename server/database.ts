@@ -5,7 +5,7 @@ import * as stream from 'stream';
 import SQL, { SQLStatement } from 'sql-template-strings';
 
 import db from './schema';
-import * as ca from '../conartist';
+import * as ca from 'conartist';
 
 interface QueryResult<T> extends pg.QueryResult {
   rows: T[];

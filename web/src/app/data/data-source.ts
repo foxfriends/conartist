@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/map';
 
-export default class ConDataSource<T> extends DataSource<T> {
+export class ConDataSource<T> extends DataSource<T> {
   private _filter = new BehaviorSubject<((item: T) => boolean) | null>(null);
   private _sort = new BehaviorSubject<((a: T, b: T) => number) | null>(null);
 

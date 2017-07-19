@@ -4,15 +4,13 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import { expect } from 'chai';
 import { Observable } from 'rxjs/Observable';
 
-import APIService from './api.service';
+import { APIService } from './api.service';
 import { newUser, userInfo, conventions, types, products, prices, fullConventions } from './api.service.mock';
-import { APISuccessResult, APIErrorResult, APIResult } from '../../../../conartist';
 
 type Context = {
   service: APIService;
   backend: MockBackend;
 };
-
 
 describe('API Service', function(this: Mocha.ISuiteCallbackContext & Context) {
   const shouldNotRequest = <K extends keyof APIService>(prop: K, args: any[]) =>
@@ -88,17 +86,17 @@ describe('API Service', function(this: Mocha.ISuiteCallbackContext & Context) {
     });
 
 
-  class MockAPISuccessResult<T> implements APISuccessResult<T> {
+  class MockAPISuccessResult<T> implements ca.APISuccessResult<T> {
     readonly status = 'Success';
     constructor(public data: T) {}
   }
-  class MockAPIErrorResult implements APIErrorResult {
+  class MockAPIErrorResult implements ca.APIErrorResult {
     static readonly errorMessage = 'error-message';
     readonly status = 'Error';
     readonly error = MockAPIErrorResult.errorMessage;
   }
 
-  function respondWith<T>(body: APIResult<T>) {
+  function respondWith<T>(body: ca.APIResult<T>) {
     return (c: MockConnection) => c.mockRespond(new Response(new ResponseOptions({ body })));
   }
 

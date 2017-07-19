@@ -1,13 +1,12 @@
 import { Component, Input, Inject, ViewChild, OnInit } from '@angular/core';
 import { MdSort, Sort } from '@angular/material';
 
-import StorageService from '../data/storage.service';
-import TypePipe from '../data/type.pipe';
-import ConDataSource from '../data/data-source';
+import { StorageService } from '../data/storage.service';
+import { TypePipe } from '../data/type.pipe';
+import { ConDataSource } from '../data/data-source';
 
 import template from './con-inventory.component.html';
 import styles from './con-inventory.component.scss';
-import { FullConvention, Product } from '../../../../conartist';
 
 type ColumnName = 'selected' | 'name' | 'type' | 'quantity';
 
@@ -16,11 +15,11 @@ type ColumnName = 'selected' | 'name' | 'type' | 'quantity';
   template: template,
   styles: [ styles ],
 })
-export default class ConInventoryComponent implements OnInit {
+export class ConInventoryComponent implements OnInit {
   readonly displayedColumns: ColumnName[] = ['name', 'type', 'quantity'];
-  @Input() con: FullConvention;
+  @Input() con: ca.FullConvention;
   private _products = this.storage.products;
-  dataSource: ConDataSource<Product>;
+  dataSource: ConDataSource<ca.Product>;
   @ViewChild(MdSort) sort: MdSort;
 
   constructor(
@@ -32,7 +31,7 @@ export default class ConInventoryComponent implements OnInit {
     this.dataSource = new ConDataSource(this._products);
     this.dataSource.filter = _ => (!_.discontinued && !this.type.transform(_.type).discontinued) || this.included(_);
     this.sort.mdSortChange.subscribe((sort: Sort) => {
-      let fn: (a: Product, b: Product) => number = () => 0;
+      let fn: (a: ca.Product, b: ca.Product) => number = () => 0;
       if(sort.direction && sort.active) {
         const dir = sort.direction === 'asc' ? -1 : 1;
         switch(sort.active as ColumnName) {
@@ -54,11 +53,11 @@ export default class ConInventoryComponent implements OnInit {
     });
   }
 
-  included({ id }: Product): boolean {
+  included({ id }: ca.Product): boolean {
     return !!this.con.data.products.find(_ => _.id === id && !_.discontinued);
   }
 
-  toggleIncluded(product: Product) {
+  toggleIncluded(product: ca.Product) {
     if(this.included(product)) {
       this.storage.removeConventionProduct(this.con, product);
     } else {

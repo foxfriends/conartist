@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscriber } from 'rxjs/Subscriber';
-import ConEvent from './event';
+import { ConEvent } from './event';
 
 @Injectable()
-export default class BroadcastService extends Observable<ConEvent<any>> {
+export class BroadcastService extends Observable<ConEvent<any>> {
   private _subscriber: Subscriber<ConEvent<any>>;
 
   constructor() {

@@ -1,10 +1,10 @@
 import { Component, Inject, Input, ContentChildren, QueryList, HostListener, ChangeDetectorRef } from '@angular/core';
 
 import { Side } from './help.constants';
-import HelpArrowDirective from './help-arrow.directive';
-import HelpTextDirective from './help-text.directive';
-import HelpOutlineDirective from './help-outline.directive';
-import HelpService from './help.service';
+import { HelpArrowDirective } from './help-arrow.directive';
+import { HelpTextDirective } from './help-text.directive';
+import { HelpOutlineDirective } from './help-outline.directive';
+import { HelpService } from './help.service';
 import template from './help.component.html';
 import styles from './help.component.scss';
 
@@ -45,7 +45,7 @@ type RoundRectangle = {
 
 type Outline = Ellipse | Rectangle | RoundRectangle;
 
-type Point = { x: number; y: number;};
+type Point = { x: number; y: number; };
 
 function getCoordinate(element: Element, side: Side): Point {
   const rect = element.getBoundingClientRect();
@@ -76,7 +76,7 @@ function getCoordinate(element: Element, side: Side): Point {
   template: template,
   styles: [ styles ],
 })
-export default class HelpComponent {
+export class HelpComponent {
   @ContentChildren(HelpArrowDirective) private _arrows: QueryList<HelpArrowDirective>;
   @ContentChildren(HelpTextDirective) private _texts: QueryList<HelpTextDirective>;
   @ContentChildren(HelpOutlineDirective) private _outlines: QueryList<HelpOutlineDirective>;
@@ -117,7 +117,6 @@ export default class HelpComponent {
       } else {
         return null;
       }
-      text.anchor ? getCoordinate(document.querySelector(text.anchor)!, text.position) : text;
       return { text: text.text, x, y, className: `${text.className || ''} help__text--${text.position}` };
     }).filter((_): _ is Text => !!_);
   }

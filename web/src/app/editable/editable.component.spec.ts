@@ -6,8 +6,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { expect } from 'chai';
 
-import MaterialModule from '../material.module';
-import EditableComponent from './editable.component';
+import { MaterialModule } from '../material.module';
+import { EditableComponent } from './editable.component';
 
 @Component({
   selector: 'test-component',

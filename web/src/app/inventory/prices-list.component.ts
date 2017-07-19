@@ -1,21 +1,20 @@
 import { Component, Input, Inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import StorageService from '../data/storage.service';
+import { StorageService } from '../data/storage.service';
 import template from './prices-list.component.html';
 import styles from './prices-list.component.scss';
-import { Price, Prices, ProductType } from '../../../../conartist';
 
 @Component({
   selector: 'con-prices-list',
   template: template,
   styles: [ styles ],
 })
-export default class PricesListComponent {
-  @Input() type: ProductType;
+export class PricesListComponent {
+  @Input() type: ca.ProductType;
   @Input() showDiscontinued = false;
 
-  private _prices: BehaviorSubject<Prices>;
+  private _prices: BehaviorSubject<ca.Prices>;
 
   readonly quantityIsNatural = (quantity: string) => !isNaN(parseInt(quantity, 10)) && parseInt(quantity, 10) > 0 && parseInt(quantity, 10) === parseFloat(quantity);
   readonly priceIsPositive = (price: string) => !isNaN(parseFloat(price.replace(/^\$/, ''))) && parseFloat(price.replace(/^\$/, '')) >= 0;
@@ -36,13 +35,13 @@ export default class PricesListComponent {
     this.storage.removePriceRow(this.type.id, product, index);
   }
 
-  get prices(): Prices {
+  get prices(): ca.Prices {
     return this._prices.getValue()
       .filter(_ => _.type === this.type.id)
       .sort((a, b) => (a.product !== null ? a.product : -Infinity) - (b.product !== null ? b.product : -Infinity));
   }
 
-  trackProduct(price: Price) {
+  trackProduct(price: ca.Price) {
     return price.product;
   }
 }

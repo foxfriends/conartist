@@ -4,7 +4,7 @@ import { Shape } from './help.constants';
 @Directive({
   selector: 'con-help-outline',
 })
-export default class HelpOutlineDirective {
+export class HelpOutlineDirective {
   @Input() selector: string | string[];
   @Input() shape: Shape = 'round-rectangle';
 }

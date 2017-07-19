@@ -9,14 +9,13 @@ import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/skip';
 import 'rxjs/add/operator/distinctUntilChanged';
 
-import APIService from '../api/api.service';
-import ErrorService from '../modals/error.service';
-import BroadcastService from '../broadcast/broadcast.service';
+import { APIService } from '../api/api.service';
+import { ErrorService } from '../modals/error.service';
+import { BroadcastService } from '../broadcast/broadcast.service';
 import { SignInEvent } from '../broadcast/event';
-import { UserInfo, Product, ProductType, MetaConvention, FullConvention, Convention } from '../../../../conartist';
 
 type ObservableUserInfo = {
-  [K in keyof UserInfo]: BehaviorSubject<UserInfo[K]>;
+  [K in keyof ca.UserInfo]: BehaviorSubject<ca.UserInfo[K]>;
 }
 
 function clean<T extends { dirty?: boolean; }>(obj: T) {
@@ -26,20 +25,20 @@ function clean<T extends { dirty?: boolean; }>(obj: T) {
 }
 
 @Injectable()
-export default class StorageService implements ObservableUserInfo {
-  private _email: BehaviorSubject<UserInfo['email']>;
-  private _keys: BehaviorSubject<UserInfo['keys']>;
-  private _products: BehaviorSubject<UserInfo['products']>;
-  private _prices: BehaviorSubject<UserInfo['prices']>;
-  private _types: BehaviorSubject<UserInfo['types']>;
-  private _conventions: BehaviorSubject<UserInfo['conventions']>;
+export class StorageService implements ObservableUserInfo {
+  private _email: BehaviorSubject<ca.UserInfo['email']>;
+  private _keys: BehaviorSubject<ca.UserInfo['keys']>;
+  private _products: BehaviorSubject<ca.UserInfo['products']>;
+  private _prices: BehaviorSubject<ca.UserInfo['prices']>;
+  private _types: BehaviorSubject<ca.UserInfo['types']>;
+  private _conventions: BehaviorSubject<ca.UserInfo['conventions']>;
 
-  private __email: UserInfo['email'];
-  private __keys: UserInfo['keys'];
-  private __products: UserInfo['products'];
-  private __prices: UserInfo['prices'];
-  private __types: UserInfo['types'];
-  private __conventions: UserInfo['conventions'];
+  private __email: ca.UserInfo['email'];
+  private __keys: ca.UserInfo['keys'];
+  private __products: ca.UserInfo['products'];
+  private __prices: ca.UserInfo['prices'];
+  private __types: ca.UserInfo['types'];
+  private __conventions: ca.UserInfo['conventions'];
 
   constructor(
     @Inject(APIService) private api: APIService,
@@ -67,21 +66,21 @@ export default class StorageService implements ObservableUserInfo {
   get types() { return this._types; }
   get conventions() { return this._conventions; }
 
-  convention(code: string, fill: boolean = false): Observable<Convention> {
+  convention(code: string, fill: boolean = false): Observable<ca.Convention> {
     if(fill) {
       this.fillConvention(code);
     }
     return this._conventions
       .map(_ => _.find(_ => _.code === code))
-      .filter((_): _ is Convention => !!_)
+      .filter((_): _ is ca.Convention => !!_)
       .distinctUntilChanged();
   }
 
-  updateConvention(con: Convention) {
+  updateConvention(con: ca.Convention) {
     this._conventions.next(this._conventions.getValue().map(_ => _.code === con.code ? { ...con, dirty: true } : _));
   }
 
-  addConvention(con: MetaConvention | FullConvention) {
+  addConvention(con: ca.MetaConvention | ca.FullConvention) {
     if(this._keys.getValue()) {
       const withoutInvalid = this._conventions.getValue().filter(_ => {
         if(_.code === con.code) {
@@ -111,7 +110,7 @@ export default class StorageService implements ObservableUserInfo {
     }
   }
 
-  addConventionProduct(con: FullConvention, product: Product) {
+  addConventionProduct(con: ca.FullConvention, product: ca.Product) {
     this.updateConvention({
       ...con,
       data: {
@@ -120,7 +119,7 @@ export default class StorageService implements ObservableUserInfo {
       }
     });
   }
-  removeConventionProduct(con: FullConvention, product: Product) {
+  removeConventionProduct(con: ca.FullConvention, product: ca.Product) {
     this.updateConvention({
       ...con,
       data: {
@@ -133,16 +132,16 @@ export default class StorageService implements ObservableUserInfo {
     });
   }
 
-  async fillConvention(code: string): Promise<Observable<FullConvention>> {
+  async fillConvention(code: string): Promise<Observable<ca.FullConvention>> {
     const con = this._conventions.getValue().find(_ => _.code === code);
-    if(!con) { throw new Error(`Convention ${code} does not exist`); }
-    if(con.type === 'full') { return this.convention(code).filter((con): con is FullConvention => con.type === 'full'); }
+    if(!con) { throw new Error(`ca.Convention ${code} does not exist`); }
+    if(con.type === 'full') { return this.convention(code).filter((con): con is ca.FullConvention => con.type === 'full'); }
     const filled = await this.api.loadConvention(con.code).toPromise();
     this._conventions.next(this._conventions.getValue().map(_ => _.code === code ? filled : _));
-    return this.convention(code).filter((con): con is FullConvention => con.type === 'full');
+    return this.convention(code).filter((con): con is ca.FullConvention => con.type === 'full');
   }
 
-  createProduct(type: ProductType): Product {
+  createProduct(type: ca.ProductType): ca.Product {
     // TODO: check that new name is unique
     const index = this._products.getValue().length + 1;
     const product = {

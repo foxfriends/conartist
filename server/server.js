@@ -10,6 +10,6 @@ app.listen(process.env.PORT || 8080, () => {
 });
 app.use(bodyParser.json());
 app.use('/api', api_1.default);
-app.use('/test/', (_, res) => res.sendFile(path.resolve('../web/dist/test.html')));
-app.use('/', express.static('../web/dist'));
-app.use('/', (_, res) => res.sendFile(path.resolve('../web/dist/index.html')));
+app.use('/test/', (_, res) => res.sendFile(path.resolve(__dirname, '../web/dist/test.html')));
+app.use('/', express.static(path.resolve(__dirname, '../web/dist')));
+app.use('/', (_, res) => res.sendFile(path.resolve(__dirname, '../web/dist/index.html')));

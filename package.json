@@ -1,0 +1,19 @@
+{
+  "name": "conartist",
+  "version": "1.0.0",
+  "description": "The all in one solution to tracking inventory and sales records at conventions!",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd server; npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OinkIguana/conartist.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OinkIguana/conartist/issues"
+  },
+  "homepage": "https://github.com/OinkIguana/conartist#readme"
+}

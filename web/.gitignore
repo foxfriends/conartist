@@ -1,6 +1,3 @@
-/public_html/*.js
-/public_html/*.js.map
-/public_html/*.css
 /tmp
 /out-tsc
 

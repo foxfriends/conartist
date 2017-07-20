@@ -1,7 +1,7 @@
 <h2 md-dialog-title>Choose a Convention</h2>
 <md-dialog-content>
   <!-- TODO: make this a data table -->
-  <md-list>
+  <md-list *ngIf="conventions.length; else placeholder">
     <md-list-item *ngFor="let con of conventions">
       <span class="choose-convention__column">{{ con.title }}</span>
       <span class="choose-convention__column">{{ con.code }}</span>
@@ -12,6 +12,11 @@
       </span>
     </md-list-item>
   </md-list>
+  <ng-template #placeholder>
+    <div class="choose-convention__placeholder">
+      No conventions are currently available.
+    </div>
+  </ng-template>
 </md-dialog-content>
 <md-dialog-actions>
   <button md-button md-dialog-close>Close</button>

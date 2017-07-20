@@ -1,7 +1,15 @@
+@import '../variables';
 .choose-convention {
   &__column {
     display: flex;
     flex-basis: 0;
     flex-grow: 1;
+  }
+  &__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    color: $secondary;
   }
 }

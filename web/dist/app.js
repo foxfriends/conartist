@@ -2189,14 +2189,14 @@ InventoryModule = __decorate([
 /***/ "./src/app/modals/choose-convention.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2 md-dialog-title>Choose a Convention</h2>\n<md-dialog-content>\n  <!-- TODO: make this a data table -->\n  <md-list>\n    <md-list-item *ngFor=\"let con of conventions\">\n      <span class=\"choose-convention__column\">{{ con.title }}</span>\n      <span class=\"choose-convention__column\">{{ con.code }}</span>\n      <span class=\"choose-convention__column\">{{ con.start | date }}</span>\n      <span class=\"choose-convention__column\">{{ con.end | date }}</span>\n      <span>\n        <button md-icon-button [md-dialog-close]=\"con\"><md-icon>check</md-icon></button>\n      </span>\n    </md-list-item>\n  </md-list>\n</md-dialog-content>\n<md-dialog-actions>\n  <button md-button md-dialog-close>Close</button>\n</md-dialog-actions>\n"
+module.exports = "<h2 md-dialog-title>Choose a Convention</h2>\n<md-dialog-content>\n  <!-- TODO: make this a data table -->\n  <md-list *ngIf=\"conventions.length; else placeholder\">\n    <md-list-item *ngFor=\"let con of conventions\">\n      <span class=\"choose-convention__column\">{{ con.title }}</span>\n      <span class=\"choose-convention__column\">{{ con.code }}</span>\n      <span class=\"choose-convention__column\">{{ con.start | date }}</span>\n      <span class=\"choose-convention__column\">{{ con.end | date }}</span>\n      <span>\n        <button md-icon-button [md-dialog-close]=\"con\"><md-icon>check</md-icon></button>\n      </span>\n    </md-list-item>\n  </md-list>\n  <ng-template #placeholder>\n    <div class=\"choose-convention__placeholder\">\n      No conventions are currently available.\n    </div>\n  </ng-template>\n</md-dialog-content>\n<md-dialog-actions>\n  <button md-button md-dialog-close>Close</button>\n</md-dialog-actions>\n"
 
 /***/ }),
 
 /***/ "./src/app/modals/choose-convention.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ".choose-convention__column {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-preferred-size: 0;\n      flex-basis: 0;\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1; }\n"
+module.exports = ".choose-convention__column {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-preferred-size: 0;\n      flex-basis: 0;\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1; }\n\n.choose-convention__placeholder {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  padding: 16px;\n  color: rgba(0, 0, 0, 0.54); }\n"
 
 /***/ }),
 

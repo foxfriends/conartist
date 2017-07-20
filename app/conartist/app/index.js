@@ -30,7 +30,7 @@ function host(strings, ...params) {
     }
     return a;
   }
-  return 'http://192.168.122.1:8080' + zip(strings, params.map(_ => `${_}`)).join('');
+  return 'https://con--artist.herokuapp.com' + zip(strings, params.map(_ => `${_}`)).join('');
 }
 
 type Props = {};

@@ -126,13 +126,14 @@ export class InventoryComponent {
         .filter(_ => !!_)
         .map(_ => _.split(',') .map(_ => _.trim())) as [string, string, string, string][];
       // TODO: handle different row configurations
-      values.forEach(([id, name, quantity, discontinued]) => {
-        if(typeof discontinued === 'undefined') {
-          discontinued = quantity;
-          quantity = name;
-          name = id;
-          id = 'New';
+      values.forEach(row => {
+        if(row.length < 4) {
+          row.unshift('New');
         }
+        if(row.length < 4) {
+          row[3] = 'false';
+        }
+        const [ id, name, quantity, discontinued ] = row;
         if(isNaN(+quantity)) { return; }
         const dc = ['y', 'true', 't'].includes(discontinued.toLowerCase());
         const qty = +quantity;

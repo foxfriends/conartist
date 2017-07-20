@@ -2096,13 +2096,14 @@ let InventoryComponent = class InventoryComponent {
                     .split('\n')
                     .filter(_ => !!_)
                     .map(_ => _.split(',').map(_ => _.trim()));
-                values.forEach(([id, name, quantity, discontinued]) => {
-                    if (typeof discontinued === 'undefined') {
-                        discontinued = quantity;
-                        quantity = name;
-                        name = id;
-                        id = 'New';
+                values.forEach(row => {
+                    if (row.length < 4) {
+                        row.unshift('New');
                     }
+                    if (row.length < 4) {
+                        row[3] = 'false';
+                    }
+                    const [id, name, quantity, discontinued] = row;
                     if (isNaN(+quantity)) {
                         return;
                     }

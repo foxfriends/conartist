@@ -40,7 +40,7 @@ function updatedPrices(prices: ca.Prices): ca.PricesUpdate {
 
 @Injectable()
 export class APIService {
-  static readonly hostURL = 'http://localhost:8080';
+  static readonly hostURL = `${window.location.protocol}//${window.location.host}`;
   static host([...strings]: TemplateStringsArray, ...params: any[]): string {
     function zip(a: string[], b: string[]) {
       a = [...a];

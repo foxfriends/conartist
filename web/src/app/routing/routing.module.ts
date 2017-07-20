@@ -5,6 +5,7 @@ import { BroadcastModule } from '../broadcast/broadcast.module';
 import { SignInComponent } from '../sign-in/sign-in.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { InventoryComponent } from '../inventory/inventory.component';
+import { PricesComponent } from '../prices/prices.component';
 import { ConventionsComponent } from '../conventions/conventions.component';
 import { ConInfoComponent } from '../conventions/con-info.component';
 import { ConListComponent } from '../conventions/con-list.component';
@@ -22,6 +23,7 @@ export class RoutingModule {
   static routes: Routes = [
     { path: 'dashboard', component: DashboardComponent, canActivate: [ AuthGuard ] },
     { path: 'inventory', component: InventoryComponent, canActivate: [ AuthGuard ] },
+    { path: 'prices', component: PricesComponent, canActivate: [ AuthGuard ] },
     { path: 'conventions', component: ConventionsComponent, canActivate: [ AuthGuard ], children: [
       { path: ':code', component: ConInfoComponent, resolve: { convention: ConventionResolver } },
       { path: '', component: ConListComponent },

@@ -1,0 +1,24 @@
+<md-table [dataSource]="dataSource" mdSort>
+  <ng-container cdkColumnDef="type">
+    <md-header-cell *cdkHeaderCellDef md-sort-header>Type</md-header-cell>
+    <md-cell *cdkCellDef="let row">{{ row.type | type:'name' }}</md-cell>
+  </ng-container>
+
+  <ng-container cdkColumnDef="product">
+    <md-header-cell *cdkHeaderCellDef md-sort-header>Product</md-header-cell>
+    <md-cell *cdkCellDef="let row">{{ row.product | product:'name' }}</md-cell>
+  </ng-container>
+
+  <ng-container cdkColumnDef="quantity">
+    <md-header-cell *cdkHeaderCellDef md-sort-header>Quantity</md-header-cell>
+    <md-cell *cdkCellDef="let row">{{ row.quantity }}</md-cell>
+  </ng-container>
+
+  <ng-container cdkColumnDef="price">
+    <md-header-cell *cdkHeaderCellDef md-sort-header>Price</md-header-cell>
+    <md-cell *cdkCellDef="let row">{{ row.price | currency:'USD':true }}</md-cell>
+  </ng-container>
+
+  <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+  <md-row *cdkRowDef="let row; columns: displayedColumns"></md-row>
+</md-table>

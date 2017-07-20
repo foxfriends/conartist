@@ -7,6 +7,7 @@ import { MaterialModule } from './material.module';
 import { SignInModule } from './sign-in/sign-in.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { InventoryModule } from './inventory/inventory.module';
+import { PricesModule } from './prices/prices.module';
 import { ConventionsModule } from './conventions/conventions.module';
 import { HelpModule } from './help/help.module';
 import { DataModule } from './data/data.module';
@@ -26,6 +27,7 @@ import { APIModule } from './api/api.module';
     SignInModule,
     DashboardModule,
     InventoryModule,
+    PricesModule,
     ConventionsModule,
     HelpModule,
     APIModule,

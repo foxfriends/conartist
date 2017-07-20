@@ -298,18 +298,20 @@ APIModule = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__sign_in_sign_in_module__ = __webpack_require__("./src/app/sign-in/sign-in.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__dashboard_dashboard_module__ = __webpack_require__("./src/app/dashboard/dashboard.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__inventory_inventory_module__ = __webpack_require__("./src/app/inventory/inventory.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__conventions_conventions_module__ = __webpack_require__("./src/app/conventions/conventions.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__help_help_module__ = __webpack_require__("./src/app/help/help.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__data_data_module__ = __webpack_require__("./src/app/data/data.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__routing_routing_module__ = __webpack_require__("./src/app/routing/routing.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__app_component__ = __webpack_require__("./src/app/app.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__api_api_module__ = __webpack_require__("./src/app/api/api.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__prices_prices_module__ = __webpack_require__("./src/app/prices/prices.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__conventions_conventions_module__ = __webpack_require__("./src/app/conventions/conventions.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__help_help_module__ = __webpack_require__("./src/app/help/help.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__data_data_module__ = __webpack_require__("./src/app/data/data.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__routing_routing_module__ = __webpack_require__("./src/app/routing/routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__app_component__ = __webpack_require__("./src/app/app.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__api_api_module__ = __webpack_require__("./src/app/api/api.module.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -333,17 +335,18 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
             __WEBPACK_IMPORTED_MODULE_2__angular_http__["e" /* HttpModule */],
             __WEBPACK_IMPORTED_MODULE_4__material_module__["a" /* MaterialModule */],
-            __WEBPACK_IMPORTED_MODULE_10__data_data_module__["a" /* DataModule */],
+            __WEBPACK_IMPORTED_MODULE_11__data_data_module__["a" /* DataModule */],
             __WEBPACK_IMPORTED_MODULE_5__sign_in_sign_in_module__["a" /* SignInModule */],
             __WEBPACK_IMPORTED_MODULE_6__dashboard_dashboard_module__["a" /* DashboardModule */],
             __WEBPACK_IMPORTED_MODULE_7__inventory_inventory_module__["a" /* InventoryModule */],
-            __WEBPACK_IMPORTED_MODULE_8__conventions_conventions_module__["a" /* ConventionsModule */],
-            __WEBPACK_IMPORTED_MODULE_9__help_help_module__["a" /* HelpModule */],
-            __WEBPACK_IMPORTED_MODULE_13__api_api_module__["a" /* APIModule */],
-            __WEBPACK_IMPORTED_MODULE_11__routing_routing_module__["a" /* RoutingModule */],
+            __WEBPACK_IMPORTED_MODULE_8__prices_prices_module__["a" /* PricesModule */],
+            __WEBPACK_IMPORTED_MODULE_9__conventions_conventions_module__["a" /* ConventionsModule */],
+            __WEBPACK_IMPORTED_MODULE_10__help_help_module__["a" /* HelpModule */],
+            __WEBPACK_IMPORTED_MODULE_14__api_api_module__["a" /* APIModule */],
+            __WEBPACK_IMPORTED_MODULE_12__routing_routing_module__["a" /* RoutingModule */],
         ],
-        declarations: [__WEBPACK_IMPORTED_MODULE_12__app_component__["a" /* AppComponent */]],
-        bootstrap: [__WEBPACK_IMPORTED_MODULE_12__app_component__["a" /* AppComponent */]],
+        declarations: [__WEBPACK_IMPORTED_MODULE_13__app_component__["a" /* AppComponent */]],
+        bootstrap: [__WEBPACK_IMPORTED_MODULE_13__app_component__["a" /* AppComponent */]],
     })
 ], AppModule);
 
@@ -2345,6 +2348,159 @@ ModalsModule = __decorate([
 
 /***/ }),
 
+/***/ "./src/app/prices/prices.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<md-table [dataSource]=\"dataSource\" mdSort>\n  <ng-container cdkColumnDef=\"type\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Type</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.type | type:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"product\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Product</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.product | product:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"quantity\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Quantity</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.quantity }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"price\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Price</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.price | currency:'USD':true }}</md-cell>\n  </ng-container>\n\n  <md-header-row *cdkHeaderRowDef=\"displayedColumns\"></md-header-row>\n  <md-row *cdkRowDef=\"let row; columns: displayedColumns\"></md-row>\n</md-table>\n"
+
+/***/ }),
+
+/***/ "./src/app/prices/prices.component.scss":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/prices/prices.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PricesComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_material__ = __webpack_require__("./node_modules/@angular/material/@angular/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__data_product_pipe__ = __webpack_require__("./src/app/data/product.pipe.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__data_type_pipe__ = __webpack_require__("./src/app/data/type.pipe.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__data_data_source__ = __webpack_require__("./src/app/data/data-source.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__data_storage_service__ = __webpack_require__("./src/app/data/storage.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__prices_component_html__ = __webpack_require__("./src/app/prices/prices.component.html");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__prices_component_html___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__prices_component_html__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__prices_component_scss__ = __webpack_require__("./src/app/prices/prices.component.scss");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__prices_component_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__prices_component_scss__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+
+
+
+
+
+
+
+
+let PricesComponent = class PricesComponent {
+    constructor(storage, product, type) {
+        this.storage = storage;
+        this.product = product;
+        this.type = type;
+        this.displayedColumns = ['type', 'product', 'quantity', 'price'];
+        this._prices = this.storage.prices;
+        this.dataSource = new __WEBPACK_IMPORTED_MODULE_4__data_data_source__["a" /* ConDataSource */](this._prices.map(_ => [].concat(..._.map(({ product, type, prices }) => prices.map(_ => ({ product, type, quantity: _[0], price: _[1] }))))));
+    }
+    ngOnInit() {
+        this.dataSource.filter = row => {
+            const price = this._prices.getValue().find(_ => _.type === row.type && _.product === row.product);
+            const productDiscontinued = price && price.product ? this.product.transform(price.product).discontinued : false;
+            const typeDiscontinued = price && this.type.transform(price.type).discontinued;
+            return !(productDiscontinued || typeDiscontinued);
+        };
+        this.sort.mdSortChange.subscribe((sort) => {
+            let fn = () => 0;
+            if (sort.direction && sort.active) {
+                const dir = sort.direction === 'asc' ? -1 : 1;
+                switch (sort.active) {
+                    case 'type':
+                        fn = (a, b) => (this.type.transform(a.type).name < this.type.transform(b.type).name ? 1 : -1) * dir;
+                        break;
+                    case 'product':
+                        fn = (a, b) => (((a.product ? this.product.transform(a.product).name : 0) <
+                            (b.product ? this.product.transform(b.product).name : 0)) ? 1 : -1) * dir;
+                        break;
+                    case 'price':
+                        fn = (a, b) => (a.price - b.price) * dir;
+                        break;
+                    case 'quantity':
+                        fn = (a, b) => (a.quantity - b.quantity) * dir;
+                        break;
+                }
+            }
+            this.dataSource.sort = fn;
+        });
+    }
+};
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_16" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["q" /* MdSort */]),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_material__["q" /* MdSort */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_material__["q" /* MdSort */]) === "function" && _a || Object)
+], PricesComponent.prototype, "sort", void 0);
+PricesComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+        selector: 'con-pricing',
+        template: __WEBPACK_IMPORTED_MODULE_6__prices_component_html___default.a,
+        styles: [__WEBPACK_IMPORTED_MODULE_7__prices_component_scss___default.a],
+    }),
+    __param(0, Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_5__data_storage_service__["a" /* StorageService */])),
+    __param(1, Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_2__data_product_pipe__["a" /* ProductPipe */])),
+    __param(2, Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_3__data_type_pipe__["a" /* TypePipe */])),
+    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_5__data_storage_service__["a" /* StorageService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__data_storage_service__["a" /* StorageService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__data_product_pipe__["a" /* ProductPipe */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__data_product_pipe__["a" /* ProductPipe */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__data_type_pipe__["a" /* TypePipe */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__data_type_pipe__["a" /* TypePipe */]) === "function" && _d || Object])
+], PricesComponent);
+
+var _a, _b, _c, _d;
+//# sourceMappingURL=prices.component.js.map
+
+/***/ }),
+
+/***/ "./src/app/prices/prices.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PricesModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("./node_modules/@angular/common/@angular/common.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__material_module__ = __webpack_require__("./src/app/material.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__data_data_module__ = __webpack_require__("./src/app/data/data.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__editable_editable_module__ = __webpack_require__("./src/app/editable/editable.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__color_picker_color_picker_module__ = __webpack_require__("./src/app/color-picker/color-picker.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__help_help_module__ = __webpack_require__("./src/app/help/help.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__prices_component__ = __webpack_require__("./src/app/prices/prices.component.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+
+
+
+
+let PricesModule = class PricesModule {
+};
+PricesModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["d" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_3__material_module__["a" /* MaterialModule */], __WEBPACK_IMPORTED_MODULE_5__editable_editable_module__["a" /* EditableModule */], __WEBPACK_IMPORTED_MODULE_4__data_data_module__["a" /* DataModule */], __WEBPACK_IMPORTED_MODULE_6__color_picker_color_picker_module__["a" /* ColorPickerModule */], __WEBPACK_IMPORTED_MODULE_7__help_help_module__["a" /* HelpModule */]],
+        declarations: [__WEBPACK_IMPORTED_MODULE_8__prices_component__["a" /* PricesComponent */]],
+        exports: [__WEBPACK_IMPORTED_MODULE_8__prices_component__["a" /* PricesComponent */]],
+    })
+], PricesModule);
+
+//# sourceMappingURL=prices.module.js.map
+
+/***/ }),
+
 /***/ "./src/app/routing/auth-guard.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2493,12 +2649,13 @@ var _a, _b;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__sign_in_sign_in_component__ = __webpack_require__("./src/app/sign-in/sign-in.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__dashboard_dashboard_component__ = __webpack_require__("./src/app/dashboard/dashboard.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__inventory_inventory_component__ = __webpack_require__("./src/app/inventory/inventory.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__conventions_conventions_component__ = __webpack_require__("./src/app/conventions/conventions.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__conventions_con_info_component__ = __webpack_require__("./src/app/conventions/con-info.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__conventions_con_list_component__ = __webpack_require__("./src/app/conventions/con-list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__convention_resolver__ = __webpack_require__("./src/app/routing/convention-resolver.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__auth_guard__ = __webpack_require__("./src/app/routing/auth-guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__unauth_guard__ = __webpack_require__("./src/app/routing/unauth-guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__prices_prices_component__ = __webpack_require__("./src/app/prices/prices.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__conventions_conventions_component__ = __webpack_require__("./src/app/conventions/conventions.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__conventions_con_info_component__ = __webpack_require__("./src/app/conventions/con-info.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__conventions_con_list_component__ = __webpack_require__("./src/app/conventions/con-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__convention_resolver__ = __webpack_require__("./src/app/routing/convention-resolver.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__auth_guard__ = __webpack_require__("./src/app/routing/auth-guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__unauth_guard__ = __webpack_require__("./src/app/routing/unauth-guard.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2517,24 +2674,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 let RoutingModule = RoutingModule_1 = class RoutingModule {
 };
 RoutingModule.routes = [
-    { path: 'dashboard', component: __WEBPACK_IMPORTED_MODULE_4__dashboard_dashboard_component__["a" /* DashboardComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_10__auth_guard__["a" /* AuthGuard */]] },
-    { path: 'inventory', component: __WEBPACK_IMPORTED_MODULE_5__inventory_inventory_component__["a" /* InventoryComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_10__auth_guard__["a" /* AuthGuard */]] },
-    { path: 'conventions', component: __WEBPACK_IMPORTED_MODULE_6__conventions_conventions_component__["a" /* ConventionsComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_10__auth_guard__["a" /* AuthGuard */]], children: [
-            { path: ':code', component: __WEBPACK_IMPORTED_MODULE_7__conventions_con_info_component__["a" /* ConInfoComponent */], resolve: { convention: __WEBPACK_IMPORTED_MODULE_9__convention_resolver__["a" /* ConventionResolver */] } },
-            { path: '', component: __WEBPACK_IMPORTED_MODULE_8__conventions_con_list_component__["a" /* ConListComponent */] },
+    { path: 'dashboard', component: __WEBPACK_IMPORTED_MODULE_4__dashboard_dashboard_component__["a" /* DashboardComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_11__auth_guard__["a" /* AuthGuard */]] },
+    { path: 'inventory', component: __WEBPACK_IMPORTED_MODULE_5__inventory_inventory_component__["a" /* InventoryComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_11__auth_guard__["a" /* AuthGuard */]] },
+    { path: 'prices', component: __WEBPACK_IMPORTED_MODULE_6__prices_prices_component__["a" /* PricesComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_11__auth_guard__["a" /* AuthGuard */]] },
+    { path: 'conventions', component: __WEBPACK_IMPORTED_MODULE_7__conventions_conventions_component__["a" /* ConventionsComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_11__auth_guard__["a" /* AuthGuard */]], children: [
+            { path: ':code', component: __WEBPACK_IMPORTED_MODULE_8__conventions_con_info_component__["a" /* ConInfoComponent */], resolve: { convention: __WEBPACK_IMPORTED_MODULE_10__convention_resolver__["a" /* ConventionResolver */] } },
+            { path: '', component: __WEBPACK_IMPORTED_MODULE_9__conventions_con_list_component__["a" /* ConListComponent */] },
         ] },
-    { path: 'sign-in', component: __WEBPACK_IMPORTED_MODULE_3__sign_in_sign_in_component__["a" /* SignInComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_11__unauth_guard__["a" /* UnauthGuard */]] },
-    { path: '', redirectTo: '/sign-in', pathMatch: 'full', canActivate: [__WEBPACK_IMPORTED_MODULE_11__unauth_guard__["a" /* UnauthGuard */]] },
-    { path: '**', redirectTo: '/sign-in', canActivate: [__WEBPACK_IMPORTED_MODULE_11__unauth_guard__["a" /* UnauthGuard */]] },
+    { path: 'sign-in', component: __WEBPACK_IMPORTED_MODULE_3__sign_in_sign_in_component__["a" /* SignInComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_12__unauth_guard__["a" /* UnauthGuard */]] },
+    { path: '', redirectTo: '/sign-in', pathMatch: 'full', canActivate: [__WEBPACK_IMPORTED_MODULE_12__unauth_guard__["a" /* UnauthGuard */]] },
+    { path: '**', redirectTo: '/sign-in', canActivate: [__WEBPACK_IMPORTED_MODULE_12__unauth_guard__["a" /* UnauthGuard */]] },
 ];
 RoutingModule = RoutingModule_1 = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
         imports: [__WEBPACK_IMPORTED_MODULE_2__broadcast_broadcast_module__["a" /* BroadcastModule */], __WEBPACK_IMPORTED_MODULE_1__angular_router__["i" /* RouterModule */].forRoot(RoutingModule_1.routes)],
         exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["i" /* RouterModule */]],
-        providers: [__WEBPACK_IMPORTED_MODULE_10__auth_guard__["a" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_11__unauth_guard__["a" /* UnauthGuard */], __WEBPACK_IMPORTED_MODULE_9__convention_resolver__["a" /* ConventionResolver */]]
+        providers: [__WEBPACK_IMPORTED_MODULE_11__auth_guard__["a" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_12__unauth_guard__["a" /* UnauthGuard */], __WEBPACK_IMPORTED_MODULE_10__convention_resolver__["a" /* ConventionResolver */]]
     })
 ], RoutingModule);
 

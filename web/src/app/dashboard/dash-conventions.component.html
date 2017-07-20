@@ -4,7 +4,7 @@
     <button md-button class="convention__button" (click)="openBuyKeys()" mdTooltip="Buy more keys!"><span class="convention__button-label"><md-icon>vpn_key</md-icon> {{ keys|async }}</span></button>
   </md-card-header>
   <md-card-content>
-    <con-list *ngIf="conventions.length"></con-list>
+    <con-list *ngIf="conventions.length; else placeholder"></con-list>
     <ng-template #placeholder>
       <div class="convention__placeholder">
         <span class="convention__placeholder-text">You haven't signed up for any conventions</span>

@@ -1,7 +1,7 @@
-<div #inventory>
-  <ng-container *ngIf="types.length; else placeholder">
+<div class="inventory" #inventory>
+  <ng-container *ngIf="(types|async).length; else placeholder">
     <md-tab-group [selectedIndex]="tabIndex" (selectedIndexChange)="tabChange($event)" dynamicHeight="true">
-      <md-tab *ngFor="let type of types; trackBy:trackID">
+      <md-tab *ngFor="let type of types|async; trackBy:trackID">
         <ng-template md-tab-label>
           <div class="inventory__tab-label" [ngClass]="{'inventory__tab-label--discontinued': type.discontinued}">{{ type.name }}</div>
         </ng-template>

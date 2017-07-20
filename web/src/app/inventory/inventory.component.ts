@@ -34,10 +34,10 @@ export class InventoryComponent {
 
   get showDiscontinuedTypes() { return this._showDiscontinuedTypes; }
   set showDiscontinuedTypes(show: boolean) {
-    const tab = this.types.length ? this.types[this.tabIndex].name : null;
+    const tab = this.__types.length ? this.__types[this.tabIndex].name : null;
     this._showDiscontinuedTypes = show;
     if(tab) {
-      const found = this.types.findIndex(_ => _.name === tab);
+      const found = this.__types.findIndex(_ => _.name === tab);
       if(found !== -1) {
         this.tabIndex = found;
         return;
@@ -47,12 +47,17 @@ export class InventoryComponent {
   }
 
   private restrictTabIndex() {
-    if(this.tabIndex === this.types.length && this.tabIndex !== 0) {
+    if(this.tabIndex === this.__types.length && this.tabIndex !== 0) {
       --this.tabIndex;
     }
   }
 
   get types() {
+    // TODO: what order should types come in? save an order in the database?
+    return this._types.map(_ => _.filter(_ => this.showDiscontinuedTypes || !_.discontinued));
+  }
+
+  private get __types() {
     // TODO: what order should types come in? save an order in the database?
     return this._types.getValue().filter(_ => this.showDiscontinuedTypes || !_.discontinued);
   }
@@ -66,7 +71,7 @@ export class InventoryComponent {
   }
 
   tabChange(index: number) {
-    const max = this.types.length;
+    const max = this.__types.length;
     if(index === max) {
       this.createType(index + 1);
     }

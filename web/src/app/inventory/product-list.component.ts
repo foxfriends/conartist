@@ -1,4 +1,4 @@
-import { Component, Input, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, Inject, OnInit, OnChanges, ViewChild, SimpleChanges } from '@angular/core';
 import { MdSort, Sort } from '@angular/material';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -14,7 +14,7 @@ type ColumnName = 'name' | 'quantity' | 'discontinue' | 'price';
   template: template,
   styles: [ styles ],
 })
-export class ProductListComponent implements OnInit {
+export class ProductListComponent implements OnInit, OnChanges {
   @ViewChild(MdSort) sort: MdSort;
   @Input() type: ca.ProductType;
   products: BehaviorSubject<ca.Products> = this.storage.products;
@@ -53,6 +53,13 @@ export class ProductListComponent implements OnInit {
       }
       this.dataSource.sort = fn;
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes.type) {
+      console.log(this.type.id);
+      this.dataSource = new ConDataSource(this.products.map(_ => _.filter(_ => _.type === this.type.id)));
+    }
   }
 
   setProductName(name: string, product: number) {

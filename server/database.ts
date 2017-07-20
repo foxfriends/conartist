@@ -4,9 +4,6 @@ import * as bcrypt from 'bcrypt';
 import * as stream from 'stream';
 import SQL, { SQLStatement } from 'sql-template-strings';
 
-import db from './schema';
-import * as ca from 'conartist';
-
 interface QueryResult<T> extends pg.QueryResult {
   rows: T[];
 }
@@ -39,7 +36,9 @@ declare class Client extends pg.Client {
   query<T>(queryText: string, values: any[], callback: (err: Error, result: QueryResult<T>) => void): Query<T>;
 }
 
-const config: pg.PoolConfig = {
+const config: pg.PoolConfig = process.env.DATABASE_URL ? {
+  connectionString: process.env.DATABASE_URL as string,
+} as pg.PoolConfig : { // typescript package was not updated yet i guess
   user: process.env.CONARTISTPGUSER || 'conartist_app',
   database: process.env.CONARTISTDB || 'conartist',
   password: process.env.CONARTISTPASSWORD || 'temporary-password',

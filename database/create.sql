@@ -2,7 +2,6 @@ CREATE DATABASE conartist;
 
 REVOKE CONNECT ON DATABASE conartist FROM PUBLIC;
 
-
 CREATE ROLE conartist_admin WITH LOGIN PASSWORD 'temporary-password';
 GRANT ALL PRIVILEGES ON DATABASE conartist TO conartist_admin;
 

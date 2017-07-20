@@ -11,7 +11,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const pg = require("pg");
 const bcrypt = require("bcrypt");
 const sql_template_strings_1 = require("sql-template-strings");
-const config = {
+const config = process.env.DATABASE_URL ? {
+    connectionString: process.env.DATABASE_URL,
+} : {
     user: process.env.CONARTISTPGUSER || 'conartist_app',
     database: process.env.CONARTISTDB || 'conartist',
     password: process.env.CONARTISTPASSWORD || 'temporary-password',

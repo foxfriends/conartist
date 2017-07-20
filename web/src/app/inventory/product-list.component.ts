@@ -57,7 +57,6 @@ export class ProductListComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if(changes.type) {
-      console.log(this.type.id);
       this.dataSource = new ConDataSource(this.products.map(_ => _.filter(_ => _.type === this.type.id)));
     }
   }

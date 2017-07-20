@@ -1,5 +1,5 @@
 <ng-container mdSort>
-  <md-table [dataSource]="dataSource" *ngIf="(products|async).length; else placeholder">
+  <md-table [dataSource]="dataSource" *ngIf="(dataSource.connect()|async).length; else placeholder">
     <ng-container cdkColumnDef="name">
       <md-header-cell *cdkHeaderCellDef md-sort-header>Product</md-header-cell>
       <md-cell *cdkCellDef="let product">

@@ -47,14 +47,13 @@ export class ConPricingComponent implements OnInit {
 
   ngOnInit() {
     this.dataSource.filter = row => {
-      const price = this._prices.getValue().find(_ => _.type === row.type && _.product === row.product);
-      const productDiscontinued = price && price.product ? this.product.transform(price.product).discontinued : false;
-      const typeDiscontinued = price && this.type.transform(price.type).discontinued;
+      const productDiscontinued = row.product ? this.product.transform(row.product).discontinued : false;
+      const typeDiscontinued = this.type.transform(row.type).discontinued;
       const conPrice = this.con.data.prices.find(_ => _.type === row.type && _.product === row.product);
       return !!conPrice || !(productDiscontinued || typeDiscontinued);
     }
     this.sort.mdSortChange.subscribe((sort: Sort) => {
-      let fn: (a: Row, b: Row) => number = () => 0;
+      let fn: ((a: Row, b: Row) => number) | null = null;
       if(sort.direction && sort.active) {
         const dir = sort.direction === 'asc' ? -1 : 1;
         switch(sort.active as ColumnName) {

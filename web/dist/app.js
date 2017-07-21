@@ -610,7 +610,7 @@ let ConInventoryComponent = class ConInventoryComponent {
         this.dataSource = new __WEBPACK_IMPORTED_MODULE_4__data_data_source__["a" /* ConDataSource */](this._products);
         this.dataSource.filter = _ => (!_.discontinued && !this.type.transform(_.type).discontinued) || this.included(_);
         this.sort.mdSortChange.subscribe((sort) => {
-            let fn = () => 0;
+            let fn = null;
             if (sort.direction && sort.active) {
                 const dir = sort.direction === 'asc' ? -1 : 1;
                 switch (sort.active) {
@@ -758,7 +758,7 @@ var _a, _b;
 /***/ "./src/app/conventions/con-pricing.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<md-table [dataSource]=\"dataSource\" mdSort>\n  <ng-container cdkColumnDef=\"type\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Type</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.type | type:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"product\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Product</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.product | product:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"quantity\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Quantity</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.quantity }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"price\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Price</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.price | currency:'USD':true }}</md-cell>\n  </ng-container>\n\n  <md-header-row *cdkHeaderRowDef=\"displayedColumns\"></md-header-row>\n  <md-row *cdkRowDef=\"let row; columns: displayedColumns\"></md-row>\n</md-table>\n"
+module.exports = "<md-table [dataSource]=\"dataSource\" mdSort>\n  <ng-container cdkColumnDef=\"type\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Type</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.type | type:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"product\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Product</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.product | product:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"quantity\">\n    <md-header-cell *cdkHeaderCellDef>Quantity</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.quantity }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"price\">\n    <md-header-cell *cdkHeaderCellDef>Price</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.price | currency:'USD':true }}</md-cell>\n  </ng-container>\n\n  <md-header-row *cdkHeaderRowDef=\"displayedColumns\"></md-header-row>\n  <md-row *cdkRowDef=\"let row; columns: displayedColumns\"></md-row>\n</md-table>\n"
 
 /***/ }),
 
@@ -815,14 +815,13 @@ let ConPricingComponent = class ConPricingComponent {
     }
     ngOnInit() {
         this.dataSource.filter = row => {
-            const price = this._prices.getValue().find(_ => _.type === row.type && _.product === row.product);
-            const productDiscontinued = price && price.product ? this.product.transform(price.product).discontinued : false;
-            const typeDiscontinued = price && this.type.transform(price.type).discontinued;
+            const productDiscontinued = row.product ? this.product.transform(row.product).discontinued : false;
+            const typeDiscontinued = this.type.transform(row.type).discontinued;
             const conPrice = this.con.data.prices.find(_ => _.type === row.type && _.product === row.product);
             return !!conPrice || !(productDiscontinued || typeDiscontinued);
         };
         this.sort.mdSortChange.subscribe((sort) => {
-            let fn = () => 0;
+            let fn = null;
             if (sort.direction && sort.active) {
                 const dir = sort.direction === 'asc' ? -1 : 1;
                 switch (sort.active) {
@@ -2351,14 +2350,14 @@ ModalsModule = __decorate([
 /***/ "./src/app/prices/prices.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<md-table [dataSource]=\"dataSource\" mdSort>\n  <ng-container cdkColumnDef=\"type\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Type</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.type | type:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"product\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Product</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.product | product:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"quantity\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Quantity</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.quantity }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"price\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Price</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.price | currency:'USD':true }}</md-cell>\n  </ng-container>\n\n  <md-header-row *cdkHeaderRowDef=\"displayedColumns\"></md-header-row>\n  <md-row *cdkRowDef=\"let row; columns: displayedColumns\"></md-row>\n</md-table>\n"
+module.exports = "<md-table [dataSource]=\"dataSource\" mdSort>\n  <ng-container cdkColumnDef=\"type\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Type</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.type | type:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"product\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Product</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.product | product:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"quantity\">\n    <md-header-cell *cdkHeaderCellDef>Quantity</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">\n      <con-editable [content]=\"row.quantity\" (contentChange)=\"setQuantity($event, row.type, row.product, row.index)\" [validator]=\"quantityIsNatural\"></con-editable>\n    </md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"price\">\n    <md-header-cell *cdkHeaderCellDef>Price</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">\n      <con-editable [content]=\"row.price | currency:'USD':true\" (contentChange)=\"setPrice($event, row.type, row.product, row.index)\" [validator]=\"priceIsPositive\"></con-editable>\n    </md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"delete\">\n    <md-header-cell *cdkHeaderCellDef class=\"prices__column--action\">Delete</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\" class=\"prices__column--action\">\n      <button md-icon-button (click)=\"deleteRow(row.type, row.product, row.index)\">\n        <md-icon>remove_circle_outline</md-icon>\n      </button>\n    </md-cell>\n  </ng-container>\n\n  <md-header-row *cdkHeaderRowDef=\"displayedColumns\"></md-header-row>\n  <md-row *cdkRowDef=\"let row; columns: displayedColumns\"></md-row>\n</md-table>\n"
 
 /***/ }),
 
 /***/ "./src/app/prices/prices.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = ".prices__column--action {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-flex: 0;\n      -ms-flex-positive: 0;\n          flex-grow: 0;\n  -ms-flex-negative: 0;\n      flex-shrink: 0;\n  -ms-flex-preferred-size: 80px;\n      flex-basis: 80px;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center; }\n"
 
 /***/ }),
 
@@ -2402,19 +2401,20 @@ let PricesComponent = class PricesComponent {
         this.storage = storage;
         this.product = product;
         this.type = type;
-        this.displayedColumns = ['type', 'product', 'quantity', 'price'];
+        this.displayedColumns = ['type', 'product', 'quantity', 'price', 'delete'];
         this._prices = this.storage.prices;
-        this.dataSource = new __WEBPACK_IMPORTED_MODULE_4__data_data_source__["a" /* ConDataSource */](this._prices.map(_ => [].concat(..._.map(({ product, type, prices }) => prices.map(_ => ({ product, type, quantity: _[0], price: _[1] }))))));
+        this.dataSource = new __WEBPACK_IMPORTED_MODULE_4__data_data_source__["a" /* ConDataSource */](this._prices.map(_ => [].concat(..._.map(({ product, type, prices }) => prices.map(([quantity, price], index) => ({ index, product, type, quantity, price }))))));
+        this.quantityIsNatural = (quantity) => !isNaN(parseInt(quantity, 10)) && parseInt(quantity, 10) > 0 && parseInt(quantity, 10) === parseFloat(quantity);
+        this.priceIsPositive = (price) => !isNaN(parseFloat(price.replace(/^\$/, ''))) && parseFloat(price.replace(/^\$/, '')) >= 0;
     }
     ngOnInit() {
         this.dataSource.filter = row => {
-            const price = this._prices.getValue().find(_ => _.type === row.type && _.product === row.product);
-            const productDiscontinued = price && price.product ? this.product.transform(price.product).discontinued : false;
-            const typeDiscontinued = price && this.type.transform(price.type).discontinued;
+            const productDiscontinued = row.product ? this.product.transform(row.product).discontinued : false;
+            const typeDiscontinued = this.type.transform(row.type).discontinued;
             return !(productDiscontinued || typeDiscontinued);
         };
         this.sort.mdSortChange.subscribe((sort) => {
-            let fn = () => 0;
+            let fn = null;
             if (sort.direction && sort.active) {
                 const dir = sort.direction === 'asc' ? -1 : 1;
                 switch (sort.active) {
@@ -2435,6 +2435,15 @@ let PricesComponent = class PricesComponent {
             }
             this.dataSource.sort = fn;
         });
+    }
+    setQuantity(quantity, type, product, index) {
+        this.storage.setPriceQuantity(type, product, index, parseInt(quantity, 10));
+    }
+    setPrice(price, type, product, index) {
+        this.storage.setPricePrice(type, product, index, parseFloat(price.replace(/^\$/, '')));
+    }
+    removeRow(type, product, index) {
+        this.storage.removePriceRow(type, product, index);
     }
 };
 __decorate([

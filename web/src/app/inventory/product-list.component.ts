@@ -36,7 +36,7 @@ export class ProductListComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.sort.mdSortChange.subscribe((sort: Sort) => {
-      let fn: (a: ca.Product, b: ca.Product) => number = () => 0;
+      let fn: ((a: ca.Product, b: ca.Product) => number) | null = null;
       if(sort.direction && sort.active) {
         const dir = sort.direction === 'asc' ? -1 : 1;
         switch(sort.active as ColumnName) {

@@ -31,7 +31,7 @@ export class ConInventoryComponent implements OnInit {
     this.dataSource = new ConDataSource(this._products);
     this.dataSource.filter = _ => (!_.discontinued && !this.type.transform(_.type).discontinued) || this.included(_);
     this.sort.mdSortChange.subscribe((sort: Sort) => {
-      let fn: (a: ca.Product, b: ca.Product) => number = () => 0;
+      let fn: ((a: ca.Product, b: ca.Product) => number) | null = null;
       if(sort.direction && sort.active) {
         const dir = sort.direction === 'asc' ? -1 : 1;
         switch(sort.active as ColumnName) {

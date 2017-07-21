@@ -8,9 +8,10 @@ import { StorageService } from '../data/storage.service';
 import template from './prices.component.html';
 import styles from './prices.component.scss';
 
-type ColumnName = 'product' | 'type' | 'quantity' | 'price';
+type ColumnName = 'product' | 'type' | 'quantity' | 'price' | 'delete';
 
 type Row = {
+  index: number;
   product: number | null;
   type: number;
   quantity: number;
@@ -23,14 +24,14 @@ type Row = {
   styles: [ styles ],
 })
 export class PricesComponent implements OnInit {
-  readonly displayedColumns: ColumnName[] = ['type', 'product', 'quantity', 'price'];
+  readonly displayedColumns: ColumnName[] = ['type', 'product', 'quantity', 'price', 'delete'];
   private _prices = this.storage.prices;
   dataSource = new ConDataSource<Row>(
     this._prices.map(
       _ => ([] as Row[]).concat(
         ..._.map(
           ({ product, type, prices }) => prices.map(
-            _ => ({ product, type, quantity: _[0], price: _[1] })
+            ([quantity, price], index) => ({ index, product, type, quantity, price })
           )
         )
       )
@@ -46,13 +47,12 @@ export class PricesComponent implements OnInit {
 
   ngOnInit() {
     this.dataSource.filter = row => {
-      const price = this._prices.getValue().find(_ => _.type === row.type && _.product === row.product);
-      const productDiscontinued = price && price.product ? this.product.transform(price.product).discontinued : false;
-      const typeDiscontinued = price && this.type.transform(price.type).discontinued;
+      const productDiscontinued = row.product ? this.product.transform(row.product).discontinued : false;
+      const typeDiscontinued = this.type.transform(row.type).discontinued;
       return !(productDiscontinued || typeDiscontinued);
-    }
+    };
     this.sort.mdSortChange.subscribe((sort: Sort) => {
-      let fn: (a: Row, b: Row) => number = () => 0;
+      let fn: ((a: Row, b: Row) => number) | null = null;
       if(sort.direction && sort.active) {
         const dir = sort.direction === 'asc' ? -1 : 1;
         switch(sort.active as ColumnName) {
@@ -76,4 +76,17 @@ export class PricesComponent implements OnInit {
       this.dataSource.sort = fn;
     });
   }
+
+  // TODO: this is duplicated in the PricesListComponent
+  setQuantity(quantity: string, type: number, product: number | null, index: number) {
+    this.storage.setPriceQuantity(type, product, index, parseInt(quantity, 10));
+  }
+  setPrice(price: string, type: number, product: number | null, index: number) {
+    this.storage.setPricePrice(type, product, index, parseFloat(price.replace(/^\$/, '')));
+  }
+  removeRow(type: number, product: number, index: number) {
+    this.storage.removePriceRow(type, product, index);
+  }
+  readonly quantityIsNatural = (quantity: string) => !isNaN(parseInt(quantity, 10)) && parseInt(quantity, 10) > 0 && parseInt(quantity, 10) === parseFloat(quantity);
+  readonly priceIsPositive = (price: string) => !isNaN(parseFloat(price.replace(/^\$/, ''))) && parseFloat(price.replace(/^\$/, '')) >= 0;
 }

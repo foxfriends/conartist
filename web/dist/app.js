@@ -2408,11 +2408,13 @@ let PricesComponent = class PricesComponent {
         this.priceIsPositive = (price) => !isNaN(parseFloat(price.replace(/^\$/, ''))) && parseFloat(price.replace(/^\$/, '')) >= 0;
     }
     ngOnInit() {
-        this.dataSource.filter = row => {
-            const productDiscontinued = row.product ? this.product.transform(row.product).discontinued : false;
-            const typeDiscontinued = this.type.transform(row.type).discontinued;
-            return !(productDiscontinued || typeDiscontinued);
-        };
+        setTimeout(() => {
+            this.dataSource.filter = row => {
+                const productDiscontinued = row.product ? this.product.transform(row.product).discontinued : false;
+                const typeDiscontinued = this.type.transform(row.type).discontinued;
+                return !(productDiscontinued || typeDiscontinued);
+            };
+        });
         this.sort.mdSortChange.subscribe((sort) => {
             let fn = null;
             if (sort.direction && sort.active) {

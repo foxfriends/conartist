@@ -46,11 +46,13 @@ export class PricesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.dataSource.filter = row => {
-      const productDiscontinued = row.product ? this.product.transform(row.product).discontinued : false;
-      const typeDiscontinued = this.type.transform(row.type).discontinued;
-      return !(productDiscontinued || typeDiscontinued);
-    };
+    setTimeout(() => { // HACK: delay this so that the filter gets applied from the start
+      this.dataSource.filter = row => {
+        const productDiscontinued = row.product ? this.product.transform(row.product).discontinued : false;
+        const typeDiscontinued = this.type.transform(row.type).discontinued;
+        return !(productDiscontinued || typeDiscontinued);
+      };
+    })
     this.sort.mdSortChange.subscribe((sort: Sort) => {
       let fn: ((a: Row, b: Row) => number) | null = null;
       if(sort.direction && sort.active) {

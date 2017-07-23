@@ -139,9 +139,9 @@ export class InventoryComponent {
           row[3] = 'false';
         }
         const [ id, name, quantity, discontinued ] = row;
-        if(isNaN(+quantity)) { return; }
+        if(isNaN(parseInt(quantity, 10))) { return; }
         const dc = ['y', 'true', 't'].includes(discontinued.toLowerCase());
-        const qty = +quantity;
+        const qty = parseInt(quantity, 10);
         const product =
           (!isNaN(+id)
             ? products.find(_ => _.id === +id)

@@ -23,4 +23,8 @@ export class TypePipe implements PipeTransform {
       return type;
     }
   }
+
+  reverse(name: string): ca.ProductType {
+    return this.types.getValue().find(_ => _.name === name) || { name: 'Unknown Type', id: -1, color: 0xFFFFFF, discontinued: false };
+  }
 }

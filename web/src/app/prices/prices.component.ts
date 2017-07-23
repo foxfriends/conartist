@@ -1,5 +1,8 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MdSort, Sort } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/operator/toPromise';
 
 import { ProductPipe } from '../data/product.pipe';
 import { TypePipe } from '../data/type.pipe';
@@ -77,6 +80,61 @@ export class PricesComponent implements OnInit {
       }
       this.dataSource.sort = fn;
     });
+  }
+
+  exportPricesData() {
+    // TODO: allow for customizing the format of generated files
+    const header = 'Type,Product,Quantity,Price\n';
+    const data = ([] as Row[]).concat(...this._prices.getValue()
+      .map(({ product, type, prices }) => prices.map(
+          ([quantity, price], index) => ({ index, product, type, quantity, price })
+        )
+      ))
+      .map(_ => `${this.type.transform(_.type).name},${_.product ? this.product.transform(_.product).name : 'None'},${_.quantity},${_.price}\n`)
+    saveAs(
+      new Blob([header, ...data], { type: 'text/csv;charset=utf-8' }),
+      'conartist-prices.csv',
+      true
+    );
+  }
+
+  async importPricesData() {
+    const input: HTMLInputElement = document.createElement('INPUT') as HTMLInputElement;
+    input.setAttribute('type', 'file');
+    input.click();
+    await Observable.fromEvent(input, 'change').take(1).toPromise();
+    if(input.files && input.files[0]) {
+      const file = input.files[0];
+      const fr = new FileReader();
+      fr.readAsText(file);
+      await Observable.fromEvent(fr, 'loadend').take(1).toPromise();
+      const values = (fr.result as string)
+        .split('\n')
+        .filter(_ => !!_)
+        .map(_ => _.split(',') .map(_ => _.trim())) as [string, string, string, string][];
+      // TODO: handle different row configurations
+      const set = values
+        .reduce(([...set], [ type, product, quantity, price ]) => {
+          if(isNaN(parseInt(quantity, 10))) { return set; }
+          if(isNaN(parseFloat(price.replace(/^\$/, '')))) { return set; }
+          const qty = +quantity;
+          const prc = parseFloat(price.replace(/^\$/, ''));
+          const prd = (product === 'None' ? null : this.product.reverse(product).id)
+          const typ = this.type.reverse(type).id;
+          const i = set.findIndex(_ => _.type === typ && _.product === prd);
+          if(i === -1) {
+            set.push({ type: typ, product: prd, prices: [[qty, prc]]});
+          } else {
+            set[i] = { ...set[i], prices: [...set[i].prices, [qty, prc]]};
+          }
+          return set;
+        }, [] as ca.Prices);
+      set.forEach(price => this.storage.setPriceList(price.type, price.product, price.prices));
+    }
+  }
+
+  addRow() {
+    // nooop
   }
 
   // TODO: this is duplicated in the PricesListComponent

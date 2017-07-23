@@ -2109,11 +2109,11 @@ let InventoryComponent = class InventoryComponent {
                         row[3] = 'false';
                     }
                     const [id, name, quantity, discontinued] = row;
-                    if (isNaN(+quantity)) {
+                    if (isNaN(parseInt(quantity, 10))) {
                         return;
                     }
                     const dc = ['y', 'true', 't'].includes(discontinued.toLowerCase());
-                    const qty = +quantity;
+                    const qty = parseInt(quantity, 10);
                     const product = (!isNaN(+id)
                         ? products.find(_ => _.id === +id)
                         : products.find(_ => _.name === name))
@@ -2350,14 +2350,14 @@ ModalsModule = __decorate([
 /***/ "./src/app/prices/prices.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<md-table [dataSource]=\"dataSource\" mdSort>\n  <ng-container cdkColumnDef=\"type\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Type</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.type | type:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"product\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Product</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.product | product:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"quantity\">\n    <md-header-cell *cdkHeaderCellDef>Quantity</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">\n      <con-editable [content]=\"row.quantity\" (contentChange)=\"setQuantity($event, row.type, row.product, row.index)\" [validator]=\"quantityIsNatural\"></con-editable>\n    </md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"price\">\n    <md-header-cell *cdkHeaderCellDef>Price</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">\n      <con-editable [content]=\"row.price | currency:'USD':true\" (contentChange)=\"setPrice($event, row.type, row.product, row.index)\" [validator]=\"priceIsPositive\"></con-editable>\n    </md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"delete\">\n    <md-header-cell *cdkHeaderCellDef class=\"prices__column--action\">Delete</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\" class=\"prices__column--action\">\n      <button md-icon-button (click)=\"deleteRow(row.type, row.product, row.index)\">\n        <md-icon>remove_circle_outline</md-icon>\n      </button>\n    </md-cell>\n  </ng-container>\n\n  <md-header-row *cdkHeaderRowDef=\"displayedColumns\"></md-header-row>\n  <md-row *cdkRowDef=\"let row; columns: displayedColumns\"></md-row>\n</md-table>\n"
+module.exports = "<md-table [dataSource]=\"dataSource\" mdSort>\n  <ng-container cdkColumnDef=\"type\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Type</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.type | type:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"product\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Product</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.product | product:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"quantity\">\n    <md-header-cell *cdkHeaderCellDef>Quantity</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">\n      <con-editable [content]=\"row.quantity\" (contentChange)=\"setQuantity($event, row.type, row.product, row.index)\" [validator]=\"quantityIsNatural\"></con-editable>\n    </md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"price\">\n    <md-header-cell *cdkHeaderCellDef>Price</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">\n      <con-editable [content]=\"row.price | currency:'USD':true\" (contentChange)=\"setPrice($event, row.type, row.product, row.index)\" [validator]=\"priceIsPositive\"></con-editable>\n    </md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"delete\">\n    <md-header-cell *cdkHeaderCellDef class=\"prices__column--action\">Delete</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\" class=\"prices__column--action\">\n      <button md-icon-button (click)=\"removeRow(row.type, row.product, row.index)\">\n        <md-icon>remove_circle_outline</md-icon>\n      </button>\n    </md-cell>\n  </ng-container>\n\n  <md-header-row *cdkHeaderRowDef=\"displayedColumns\"></md-header-row>\n  <md-row *cdkRowDef=\"let row; columns: displayedColumns\"></md-row>\n</md-table>\n<div class=\"prices__actions\">\n  <button md-raised-button mdTooltip=\"Download\" (click)=\"exportPricesData()\">\n    <md-icon>file_download</md-icon>\n  </button>\n  <button md-raised-button mdTooltip=\"Upload\" (click)=\"importPricesData()\">\n    <md-icon>file_upload</md-icon>\n  </button>\n  <button md-raised-button (click)=\"addRow()\" mdTooltip=\"Add Row\">\n    <md-icon>add</md-icon>\n  </button>\n</div>\n"
 
 /***/ }),
 
 /***/ "./src/app/prices/prices.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ".prices__column--action {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-flex: 0;\n      -ms-flex-positive: 0;\n          flex-grow: 0;\n  -ms-flex-negative: 0;\n      flex-shrink: 0;\n  -ms-flex-preferred-size: 80px;\n      flex-basis: 80px;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center; }\n"
+module.exports = ".prices__column--action {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-flex: 0;\n      -ms-flex-positive: 0;\n          flex-grow: 0;\n  -ms-flex-negative: 0;\n      flex-shrink: 0;\n  -ms-flex-preferred-size: 80px;\n      flex-basis: 80px;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center; }\n\n.prices__actions {\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  padding: 6px;\n  background-color: white;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.12); }\n"
 
 /***/ }),
 
@@ -2368,14 +2368,20 @@ module.exports = ".prices__column--action {\n  display: -webkit-box;\n  display:
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PricesComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_material__ = __webpack_require__("./node_modules/@angular/material/@angular/material.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__data_product_pipe__ = __webpack_require__("./src/app/data/product.pipe.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__data_type_pipe__ = __webpack_require__("./src/app/data/type.pipe.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__data_data_source__ = __webpack_require__("./src/app/data/data-source.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__data_storage_service__ = __webpack_require__("./src/app/data/storage.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__prices_component_html__ = __webpack_require__("./src/app/prices/prices.component.html");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__prices_component_html___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__prices_component_html__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__prices_component_scss__ = __webpack_require__("./src/app/prices/prices.component.scss");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__prices_component_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__prices_component_scss__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_observable_fromEvent__ = __webpack_require__("./node_modules/rxjs/add/observable/fromEvent.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_observable_fromEvent___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_observable_fromEvent__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_toPromise__ = __webpack_require__("./node_modules/rxjs/add/operator/toPromise.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_toPromise__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__data_product_pipe__ = __webpack_require__("./src/app/data/product.pipe.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__data_type_pipe__ = __webpack_require__("./src/app/data/type.pipe.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__data_data_source__ = __webpack_require__("./src/app/data/data-source.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__data_storage_service__ = __webpack_require__("./src/app/data/storage.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__prices_component_html__ = __webpack_require__("./src/app/prices/prices.component.html");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__prices_component_html___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__prices_component_html__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__prices_component_scss__ = __webpack_require__("./src/app/prices/prices.component.scss");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__prices_component_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__prices_component_scss__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2388,6 +2394,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
 
 
 
@@ -2403,7 +2420,7 @@ let PricesComponent = class PricesComponent {
         this.type = type;
         this.displayedColumns = ['type', 'product', 'quantity', 'price', 'delete'];
         this._prices = this.storage.prices;
-        this.dataSource = new __WEBPACK_IMPORTED_MODULE_4__data_data_source__["a" /* ConDataSource */](this._prices.map(_ => [].concat(..._.map(({ product, type, prices }) => prices.map(([quantity, price], index) => ({ index, product, type, quantity, price }))))));
+        this.dataSource = new __WEBPACK_IMPORTED_MODULE_7__data_data_source__["a" /* ConDataSource */](this._prices.map(_ => [].concat(..._.map(({ product, type, prices }) => prices.map(([quantity, price], index) => ({ index, product, type, quantity, price }))))));
         this.quantityIsNatural = (quantity) => !isNaN(parseInt(quantity, 10)) && parseInt(quantity, 10) > 0 && parseInt(quantity, 10) === parseFloat(quantity);
         this.priceIsPositive = (price) => !isNaN(parseFloat(price.replace(/^\$/, ''))) && parseFloat(price.replace(/^\$/, '')) >= 0;
     }
@@ -2438,6 +2455,55 @@ let PricesComponent = class PricesComponent {
             this.dataSource.sort = fn;
         });
     }
+    exportPricesData() {
+        const header = 'Type,Product,Quantity,Price\n';
+        const data = [].concat(...this._prices.getValue()
+            .map(({ product, type, prices }) => prices.map(([quantity, price], index) => ({ index, product, type, quantity, price }))))
+            .map(_ => `${this.type.transform(_.type).name},${_.product ? this.product.transform(_.product).name : 'None'},${_.quantity},${_.price}\n`);
+        saveAs(new Blob([header, ...data], { type: 'text/csv;charset=utf-8' }), 'conartist-prices.csv', true);
+    }
+    importPricesData() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const input = document.createElement('INPUT');
+            input.setAttribute('type', 'file');
+            input.click();
+            yield __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].fromEvent(input, 'change').take(1).toPromise();
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const fr = new FileReader();
+                fr.readAsText(file);
+                yield __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].fromEvent(fr, 'loadend').take(1).toPromise();
+                const values = fr.result
+                    .split('\n')
+                    .filter(_ => !!_)
+                    .map(_ => _.split(',').map(_ => _.trim()));
+                const set = values
+                    .reduce(([...set], [type, product, quantity, price]) => {
+                    if (isNaN(parseInt(quantity, 10))) {
+                        return set;
+                    }
+                    if (isNaN(parseFloat(price.replace(/^\$/, '')))) {
+                        return set;
+                    }
+                    const qty = +quantity;
+                    const prc = parseFloat(price.replace(/^\$/, ''));
+                    const prd = (product === 'None' ? null : this.product.reverse(product).id);
+                    const typ = this.type.reverse(type).id;
+                    const i = set.findIndex(_ => _.type === typ && _.product === prd);
+                    if (i === -1) {
+                        set.push({ type: typ, product: prd, prices: [[qty, prc]] });
+                    }
+                    else {
+                        set[i] = Object.assign({}, set[i], { prices: [...set[i].prices, [qty, prc]] });
+                    }
+                    return set;
+                }, []);
+                set.forEach(price => this.storage.setPriceList(price.type, price.product, price.prices));
+            }
+        });
+    }
+    addRow() {
+    }
     setQuantity(quantity, type, product, index) {
         this.storage.setPriceQuantity(type, product, index, parseInt(quantity, 10));
     }
@@ -2455,13 +2521,13 @@ __decorate([
 PricesComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
         selector: 'con-pricing',
-        template: __WEBPACK_IMPORTED_MODULE_6__prices_component_html___default.a,
-        styles: [__WEBPACK_IMPORTED_MODULE_7__prices_component_scss___default.a],
+        template: __WEBPACK_IMPORTED_MODULE_9__prices_component_html___default.a,
+        styles: [__WEBPACK_IMPORTED_MODULE_10__prices_component_scss___default.a],
     }),
-    __param(0, Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_5__data_storage_service__["a" /* StorageService */])),
-    __param(1, Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_2__data_product_pipe__["a" /* ProductPipe */])),
-    __param(2, Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_3__data_type_pipe__["a" /* TypePipe */])),
-    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_5__data_storage_service__["a" /* StorageService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__data_storage_service__["a" /* StorageService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__data_product_pipe__["a" /* ProductPipe */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__data_product_pipe__["a" /* ProductPipe */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__data_type_pipe__["a" /* TypePipe */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__data_type_pipe__["a" /* TypePipe */]) === "function" && _d || Object])
+    __param(0, Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_8__data_storage_service__["a" /* StorageService */])),
+    __param(1, Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_5__data_product_pipe__["a" /* ProductPipe */])),
+    __param(2, Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_6__data_type_pipe__["a" /* TypePipe */])),
+    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_8__data_storage_service__["a" /* StorageService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8__data_storage_service__["a" /* StorageService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5__data_product_pipe__["a" /* ProductPipe */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__data_product_pipe__["a" /* ProductPipe */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_6__data_type_pipe__["a" /* TypePipe */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__data_type_pipe__["a" /* TypePipe */]) === "function" && _d || Object])
 ], PricesComponent);
 
 var _a, _b, _c, _d;

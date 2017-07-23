@@ -24,4 +24,8 @@ export class ProductPipe implements PipeTransform {
       return product;
     }
   }
+
+  reverse(name: string): ca.Product {
+    return this.products.getValue().find(_ => _.name === name) || { name: '', type: -1, id: -1, quantity: 0, discontinued: false };
+  }
 }

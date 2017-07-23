@@ -26,7 +26,7 @@
   <ng-container cdkColumnDef="delete">
     <md-header-cell *cdkHeaderCellDef class="prices__column--action">Delete</md-header-cell>
     <md-cell *cdkCellDef="let row" class="prices__column--action">
-      <button md-icon-button (click)="deleteRow(row.type, row.product, row.index)">
+      <button md-icon-button (click)="removeRow(row.type, row.product, row.index)">
         <md-icon>remove_circle_outline</md-icon>
       </button>
     </md-cell>
@@ -35,3 +35,14 @@
   <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
   <md-row *cdkRowDef="let row; columns: displayedColumns"></md-row>
 </md-table>
+<div class="prices__actions">
+  <button md-raised-button mdTooltip="Download" (click)="exportPricesData()">
+    <md-icon>file_download</md-icon>
+  </button>
+  <button md-raised-button mdTooltip="Upload" (click)="importPricesData()">
+    <md-icon>file_upload</md-icon>
+  </button>
+  <button md-raised-button (click)="addRow()" mdTooltip="Add Row">
+    <md-icon>add</md-icon>
+  </button>
+</div>

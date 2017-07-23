@@ -1,3 +1,5 @@
+@import "../variables";
+
 .prices {
   &__column {
     &--action {
@@ -7,5 +9,11 @@
       flex-basis: 80px;
       justify-content: center;
     }
+  }
+  &__actions {
+    box-sizing: border-box;
+    padding: 6px; // HACK: this is just conveniently adding up to the height of one md-table row
+    background-color: white;
+    border-bottom: 1px solid $divider;
   }
 }

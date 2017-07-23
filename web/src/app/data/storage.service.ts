@@ -215,6 +215,20 @@ export class StorageService implements ObservableUserInfo {
     this._types.next(this._types.getValue().map(_ => _.id === type ? { ..._, color, dirty: true } : _));
   }
 
+  setPriceList(type: number, product: number | null, prices: ca.PriceList) {
+    this._prices.next(
+      this._prices
+        .getValue()
+        .map(
+          _ => _.type === type && _.product === product
+            ? {
+              ..._,
+              prices,
+              dirty: true,
+            } : _
+        ));
+  }
+
   setPriceQuantity(type: number, product: number | null, index: number, quantity: number) {
     this._prices.next(
       this._prices

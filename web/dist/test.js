@@ -30267,7 +30267,7 @@ const conventions = [
 ];
 /* harmony export (immutable) */ __webpack_exports__["c"] = conventions;
 
-const fullConventions = conventions.map(_ => (Object.assign({}, _, { type: 'full', data: {
+const fullConventions = conventions.map((_) => (Object.assign({}, _, { type: 'full', data: {
         products,
         prices,
         types,

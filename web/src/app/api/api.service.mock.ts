@@ -43,9 +43,9 @@ export const conventions: ca.MetaConvention[] = [
   { type: 'meta', title: 'con-name2', code: 'fghij', start: new Date(1527920489636), end: new Date(1528179726301) },
 ];
 
-export const fullConventions: ca.FullConvention[] = conventions.map(_ => ({
+export const fullConventions: ca.FullConvention[] = conventions.map((_): ca.FullConvention => ({
     ..._,
-    type: 'full' as 'full', // typescript why
+    type: 'full',
     data: {
       products,
       prices,

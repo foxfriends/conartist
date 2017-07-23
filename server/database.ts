@@ -145,8 +145,8 @@ async function getUserMetaConventions(user_id: number): Promise<ca.MetaConventio
         INNER JOIN Conventions ON Conventions.con_id = User_Conventions.con_id
         WHERE user_id = ${user_id}
       `);
-    return rows.map(({ title, code, start_date, end_date }) => ({
-      type: 'meta' as 'meta', // typescript why
+    return rows.map(({ title, code, start_date, end_date }): ca.MetaConvention => ({
+      type: 'meta',
       title, code,
       start: new Date(start_date),
       end: new Date(end_date),
@@ -499,8 +499,8 @@ async function getConventions(page: number, limit: number): Promise<ca.MetaConve
     const { rows: raw_cons } = await query<Pick<db.Convention, 'code' | 'title' | 'start_date' | 'end_date'>>(
       SQL`SELECT code, title, start_date, end_date FROM Conventions WHERE start_date > ${new Date()} LIMIT ${limit} OFFSET ${page * limit}`
     );
-    const cons = raw_cons.map(_ => ({
-      type: 'meta' as 'meta',
+    const cons = raw_cons.map((_): ca.MetaConvention => ({
+      type: 'meta',
       title: _.title,
       code: _.code,
       start: new Date(_.start_date),

@@ -405,7 +405,7 @@ let ColorPickerComponent = class ColorPickerComponent {
         ].map((_) => [__WEBPACK_IMPORTED_MODULE_1_material_colors__["a" /* default */][_]['100'], __WEBPACK_IMPORTED_MODULE_1_material_colors__["a" /* default */][_]['200'], __WEBPACK_IMPORTED_MODULE_1_material_colors__["a" /* default */][_]['300']]));
     }
     get colors() {
-        return Array.prototype.concat(...Object(__WEBPACK_IMPORTED_MODULE_2__util__["b" /* rotate */])([
+        return Array.prototype.concat(...Object(__WEBPACK_IMPORTED_MODULE_2__util__["c" /* rotate */])([
             this._colors[this._index - 1],
             this._colors[this._index],
             this._colors[this._index + 1],
@@ -695,6 +695,7 @@ module.exports = ".convention-list__row--open {\n  background-color: #FFFFDD; }\
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__con_list_component_html___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__con_list_component_html__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__con_list_component_scss__ = __webpack_require__("./src/app/conventions/con-list.component.scss");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__con_list_component_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__con_list_component_scss__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__util__ = __webpack_require__("./src/util/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -713,6 +714,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 
 
 
+
 let ConListComponent = class ConListComponent {
     constructor(storage, router) {
         this.router = router;
@@ -723,13 +725,13 @@ let ConListComponent = class ConListComponent {
         return this._conventions.getValue().filter((_) => _.type !== 'invalid');
     }
     get currentConventions() {
-        return this.conventions.filter(({ start, end }) => start <= new Date() && new Date() <= end);
+        return this.conventions.filter(({ start, end }) => start <= Object(__WEBPACK_IMPORTED_MODULE_6__util__["b" /* endOfDay */])(new Date()) && Object(__WEBPACK_IMPORTED_MODULE_6__util__["d" /* startOfDay */])(new Date()) <= end);
     }
     get upcomingConventions() {
-        return this.conventions.filter(({ start }) => start > new Date());
+        return this.conventions.filter(({ start }) => start > Object(__WEBPACK_IMPORTED_MODULE_6__util__["b" /* endOfDay */])(new Date()));
     }
     get previousConventions() {
-        return this.conventions.filter(({ end }) => end < new Date());
+        return this.conventions.filter(({ end }) => end < Object(__WEBPACK_IMPORTED_MODULE_6__util__["d" /* startOfDay */])(new Date()));
     }
     openConvention(convention) {
         this.router.navigate(['/conventions', convention.code]);
@@ -1219,15 +1221,6 @@ let DashConventionsComponent = class DashConventionsComponent {
     }
     get conventions() {
         return this._conventions.getValue().filter((_) => _.type !== 'invalid');
-    }
-    get currentConventions() {
-        return this.conventions.filter(({ start, end }) => start <= new Date() && new Date() <= end);
-    }
-    get upcomingConventions() {
-        return this.conventions.filter(({ start }) => start > new Date());
-    }
-    get previousConventions() {
-        return this.conventions.filter(({ end }) => end < new Date());
     }
     viewCon(code) {
         this.router.navigate(['/conventions', code]);

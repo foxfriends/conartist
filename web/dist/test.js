@@ -2773,7 +2773,6 @@ describe('API Service', function () {
         shouldRequestWithAuthHeader('getConventions', [], 'Get', '/api/cons/');
         shouldRequestWithAuthHeader('getConventions', [1], 'Get', '/api/cons/1/');
         shouldRequestWithAuthHeader('getConventions', [1, 2], 'Get', '/api/cons/1/2/');
-        shouldRequestWithAuthHeader('getConventions', [1, 2, 3], 'Get', '/api/cons/1/2/3/');
         shouldReturnAnObservable('getConventions', [], __WEBPACK_IMPORTED_MODULE_6__api_service_mock__["c" /* conventions */], __WEBPACK_IMPORTED_MODULE_6__api_service_mock__["c" /* conventions */]);
     });
     describe('#getUserInfo', () => {
@@ -3395,6 +3394,33 @@ describe('Storage Service', function () {
     });
     describe('#setTypeColor', () => {
         it('should set the color for the type');
+    });
+    describe('#setPriceList', () => {
+        it('should set the prices list for the row [type]', done => {
+            const gen = (function* () {
+                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the first row should change').to.deep.equal([
+                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */][0], { prices: [[1, 10.50]], dirty: true }),
+                    ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */].slice(1),
+                ]);
+                done();
+            })();
+            gen.next();
+            this.service.prices.skip(1).take(1).subscribe(_ => gen.next(_));
+            this.service.setPriceList(1, null, [[1, 10.50]]);
+        });
+        it('should set the price for the row [product]', done => {
+            const gen = (function* () {
+                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the first row should change').to.deep.equal([
+                    __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */][0],
+                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */][1], { prices: [[0, 10.50]], dirty: true }),
+                    ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */].slice(2),
+                ]);
+                done();
+            })();
+            gen.next();
+            this.service.prices.skip(1).take(2).subscribe(_ => gen.next(_));
+            this.service.setPriceList(1, 2, [[0, 10.50]]);
+        });
     });
     describe('#setPricePrice', () => {
         it('should set the price for the row [type]', done => {
@@ -4044,13 +4070,13 @@ describe('Sign In Component', function () {
     it('should route to the dashboard when sign in succeeds', () => __awaiter(this, void 0, void 0, function* () {
         this.component.signInForm.patchValue(__WEBPACK_IMPORTED_MODULE_12__api_api_service_mock__["d" /* existingUser */]);
         this.component.processSignIn();
-        yield Object(__WEBPACK_IMPORTED_MODULE_8__util__["c" /* wait */])();
+        yield Object(__WEBPACK_IMPORTED_MODULE_8__util__["e" /* wait */])();
         Object(__WEBPACK_IMPORTED_MODULE_5_chai__["expect"])(RouterMock.navigate).to.have.been.calledWith(['/dashboard']);
     }));
     it('should not route to the dashboard when sign in fails', () => __awaiter(this, void 0, void 0, function* () {
         this.component.signInForm.patchValue(__WEBPACK_IMPORTED_MODULE_12__api_api_service_mock__["f" /* newUser */]);
         this.component.processSignIn();
-        yield Object(__WEBPACK_IMPORTED_MODULE_8__util__["c" /* wait */])();
+        yield Object(__WEBPACK_IMPORTED_MODULE_8__util__["e" /* wait */])();
         Object(__WEBPACK_IMPORTED_MODULE_5_chai__["expect"])(RouterMock.navigate).not.to.have.been.called;
     }));
     it('should switch to the sign up menu and back when sign up button is pressed', () => {
@@ -4168,8 +4194,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__angular_platform_browser_dynamic_testing__ = __webpack_require__("./node_modules/@angular/platform-browser-dynamic/@angular/platform-browser-dynamic/testing.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__app_app_module_spec__ = __webpack_require__("./src/app/app.module.spec.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__app_app_module_spec___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__app_app_module_spec__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__util_util_spec_ts__ = __webpack_require__("./src/util/util.spec.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__util_util_spec_ts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__util_util_spec_ts__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__util_index_spec_ts__ = __webpack_require__("./src/util/index.spec.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__util_index_spec_ts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__util_index_spec_ts__);
 
 
 
@@ -4188,6 +4214,57 @@ __WEBPACK_IMPORTED_MODULE_10__angular_core_testing__["a" /* TestBed */].initTest
 
 
 //# sourceMappingURL=test.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@ngtools/webpack/src/index.js!./node_modules/@ngtools/webpack/src/index.js!./src/util/date.spec.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chai__ = __webpack_require__("./node_modules/chai/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chai___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_chai__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__date__ = __webpack_require__("./src/util/date.ts");
+
+
+describe('#startOfDay', function () {
+    it('should return a date corresponding to the start of the day', () => {
+        const date = new Date('2017-07-23T21:06:16.699Z');
+        const adjusted = new Date(date);
+        adjusted.setHours(0, 0, 0, 0);
+        Object(__WEBPACK_IMPORTED_MODULE_0_chai__["expect"])(Object(__WEBPACK_IMPORTED_MODULE_1__date__["b" /* startOfDay */])(date).getTime()).to.equal(adjusted.getTime());
+    });
+});
+describe('#endOfDay', function () {
+    it('should return a date corresponding to the start of the day', () => {
+        const date = new Date('2017-07-23T21:06:16.699Z');
+        const adjusted = new Date(date);
+        adjusted.setHours(23, 59, 59, 999);
+        Object(__WEBPACK_IMPORTED_MODULE_0_chai__["expect"])(Object(__WEBPACK_IMPORTED_MODULE_1__date__["a" /* endOfDay */])(date).getTime()).to.equal(adjusted.getTime());
+    });
+});
+//# sourceMappingURL=date.spec.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@ngtools/webpack/src/index.js!./node_modules/@ngtools/webpack/src/index.js!./src/util/index.spec.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__wait_spec__ = __webpack_require__("./src/util/wait.spec.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__wait_spec___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__wait_spec__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__wrappable_spec__ = __webpack_require__("./src/util/wrappable.spec.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__wrappable_spec___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__wrappable_spec__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__rotate_spec__ = __webpack_require__("./src/util/rotate.spec.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__rotate_spec___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__rotate_spec__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__date_spec__ = __webpack_require__("./src/util/date.spec.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__date_spec___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__date_spec__);
+
+
+
+
+//# sourceMappingURL=index.spec.js.map
 
 /***/ }),
 
@@ -4215,24 +4292,6 @@ describe('Rotate', function () {
     });
 });
 //# sourceMappingURL=rotate.spec.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@ngtools/webpack/src/index.js!./node_modules/@ngtools/webpack/src/index.js!./src/util/util.spec.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__wait_spec__ = __webpack_require__("./src/util/wait.spec.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__wait_spec___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__wait_spec__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__wrappable_spec__ = __webpack_require__("./src/util/wrappable.spec.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__wrappable_spec___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__wrappable_spec__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__rotate_spec__ = __webpack_require__("./src/util/rotate.spec.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__rotate_spec___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__rotate_spec__);
-
-
-
-//# sourceMappingURL=util.spec.js.map
 
 /***/ }),
 
@@ -30812,13 +30871,13 @@ if(false) {
 
 /***/ }),
 
-/***/ "./src/util/rotate.spec.ts":
+/***/ "./src/util/date.spec.ts":
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__("./node_modules/mocha-loader/web.js");
 if(typeof window !== 'undefined' && window.initMochaPhantomJS) { window.initMochaPhantomJS(); }
 mocha.setup({"ui":"bdd"});
-__webpack_require__("./node_modules/@ngtools/webpack/src/index.js!./node_modules/@ngtools/webpack/src/index.js!./src/util/rotate.spec.ts")
+__webpack_require__("./node_modules/@ngtools/webpack/src/index.js!./node_modules/@ngtools/webpack/src/index.js!./src/util/date.spec.ts")
 __webpack_require__("./node_modules/mocha-loader/start.js");
 if(false) {
 	module.hot.accept();
@@ -30833,13 +30892,34 @@ if(false) {
 
 /***/ }),
 
-/***/ "./src/util/util.spec.ts":
+/***/ "./src/util/index.spec.ts":
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__("./node_modules/mocha-loader/web.js");
 if(typeof window !== 'undefined' && window.initMochaPhantomJS) { window.initMochaPhantomJS(); }
 mocha.setup({"ui":"bdd"});
-__webpack_require__("./node_modules/@ngtools/webpack/src/index.js!./node_modules/@ngtools/webpack/src/index.js!./src/util/util.spec.ts")
+__webpack_require__("./node_modules/@ngtools/webpack/src/index.js!./node_modules/@ngtools/webpack/src/index.js!./src/util/index.spec.ts")
+__webpack_require__("./node_modules/mocha-loader/start.js");
+if(false) {
+	module.hot.accept();
+	module.hot.dispose(function() {
+		mocha.suite.suites.length = 0;
+		var stats = document.getElementById('mocha-stats');
+		var report = document.getElementById('mocha-report');
+		stats && stats.parentNode.removeChild(stats);
+		report && report.parentNode.removeChild(report);
+	});
+}
+
+/***/ }),
+
+/***/ "./src/util/rotate.spec.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__("./node_modules/mocha-loader/web.js");
+if(typeof window !== 'undefined' && window.initMochaPhantomJS) { window.initMochaPhantomJS(); }
+mocha.setup({"ui":"bdd"});
+__webpack_require__("./node_modules/@ngtools/webpack/src/index.js!./node_modules/@ngtools/webpack/src/index.js!./src/util/rotate.spec.ts")
 __webpack_require__("./node_modules/mocha-loader/start.js");
 if(false) {
 	module.hot.accept();

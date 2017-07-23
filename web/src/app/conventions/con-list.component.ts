@@ -6,6 +6,7 @@ import 'rxjs/add/operator/take';
 import { StorageService } from '../data/storage.service';
 import template from './con-list.component.html';
 import styles from './con-list.component.scss';
+import { startOfDay, endOfDay} from '../../util';
 
 @Component({
   selector: 'con-list',
@@ -29,13 +30,13 @@ export class ConListComponent {
   }
 
   get currentConventions(): (ca.MetaConvention | ca.FullConvention)[] {
-    return this.conventions.filter(({ start, end }) => start <= new Date() && new Date() <= end);
+    return this.conventions.filter(({ start, end }) => start <= endOfDay(new Date()) && startOfDay(new Date()) <= end);
   }
   get upcomingConventions(): (ca.MetaConvention | ca.FullConvention)[] {
-    return this.conventions.filter(({ start }) => start > new Date());
+    return this.conventions.filter(({ start }) => start > endOfDay(new Date()));
   }
   get previousConventions(): (ca.MetaConvention | ca.FullConvention)[] {
-    return this.conventions.filter(({ end }) => end < new Date());
+    return this.conventions.filter(({ end }) => end < startOfDay(new Date()));
   }
 
   openConvention(convention: ca.Convention) {

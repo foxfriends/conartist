@@ -269,6 +269,34 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
     it('should set the color for the type');
   });
 
+  describe('#setPriceList', () => {
+    it('should set the prices list for the row [type]', done => {
+      const gen = (function*(): any { // typescript why
+        expect(yield, 'the first row should change').to.deep.equal([
+          { ...prices[0], prices: [[1, 10.50]], dirty: true },
+          ...prices.slice(1),
+        ]);
+        done();
+      })();
+      gen.next();
+      this.service.prices.skip(1).take(1).subscribe(_ => gen.next(_));
+      this.service.setPriceList(1, null, [[1, 10.50]]);
+    });
+    it('should set the price for the row [product]', done => {
+      const gen = (function*(): any { // typescript why
+        expect(yield, 'the first row should change').to.deep.equal([
+          prices[0],
+          { ...prices[1], prices: [[0, 10.50]], dirty: true },
+          ...prices.slice(2),
+        ]);
+        done();
+      })();
+      gen.next();
+      this.service.prices.skip(1).take(2).subscribe(_ => gen.next(_));
+      this.service.setPriceList(1, 2, [[0, 10.50]]);
+    });
+  });
+
   describe('#setPricePrice', () => {
     it('should set the price for the row [type]', done => {
       const gen = (function*(): any { // typescript why

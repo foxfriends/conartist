@@ -31,16 +31,6 @@ export class DashConventionsComponent {
     return this._conventions.getValue().filter((_): _ is ca.MetaConvention | ca.FullConvention => _.type !== 'invalid');
   }
 
-  get currentConventions(): (ca.MetaConvention | ca.FullConvention)[] {
-    return this.conventions.filter(({ start, end }) => start <= new Date() && new Date() <= end);
-  }
-  get upcomingConventions(): (ca.MetaConvention | ca.FullConvention)[] {
-    return this.conventions.filter(({ start }) => start > new Date());
-  }
-  get previousConventions(): (ca.MetaConvention | ca.FullConvention)[] {
-    return this.conventions.filter(({ end }) => end < new Date());
-  }
-
   viewCon(code: string): void {
     this.router.navigate(['/conventions', code]);
   }

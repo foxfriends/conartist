@@ -147,7 +147,6 @@ describe('API Service', function(this: Mocha.ISuiteCallbackContext & Context) {
     shouldRequestWithAuthHeader('getConventions', [], 'Get', '/api/cons/');
     shouldRequestWithAuthHeader('getConventions', [1], 'Get', '/api/cons/1/');
     shouldRequestWithAuthHeader('getConventions', [1, 2], 'Get', '/api/cons/1/2/');
-    shouldRequestWithAuthHeader('getConventions', [1, 2, 3], 'Get', '/api/cons/1/2/3/');
     shouldReturnAnObservable('getConventions', [], conventions, conventions);
   });
 

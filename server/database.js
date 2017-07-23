@@ -462,7 +462,8 @@ function getConventions(page, limit) {
     return __awaiter(this, void 0, void 0, function* () {
         const client = yield connect();
         try {
-            const { rows: raw_cons } = yield query(sql_template_strings_1.default `SELECT code, title, start_date, end_date FROM Conventions WHERE start_date > ${new Date()} LIMIT ${limit} OFFSET ${page * limit}`);
+            const { rows: raw_cons } = yield query(sql_template_strings_1.default `SELECT code, title, start_date, end_date FROM Conventions WHERE start_date > ${new Date()}`
+                .append(limit ? sql_template_strings_1.default `LIMIT ${limit} OFFSET ${page * limit}` : sql_template_strings_1.default ``));
             const cons = raw_cons.map((_) => ({
                 type: 'meta',
                 title: _.title,

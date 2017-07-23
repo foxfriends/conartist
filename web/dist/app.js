@@ -648,8 +648,8 @@ __decorate([
     __metadata("design:type", Object)
 ], ConInventoryComponent.prototype, "con", void 0);
 __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_16" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["q" /* MdSort */]),
-    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_material__["q" /* MdSort */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_material__["q" /* MdSort */]) === "function" && _a || Object)
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_16" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["r" /* MdSort */]),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_material__["r" /* MdSort */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_material__["r" /* MdSort */]) === "function" && _a || Object)
 ], ConInventoryComponent.prototype, "sort", void 0);
 ConInventoryComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
@@ -849,8 +849,8 @@ __decorate([
     __metadata("design:type", Object)
 ], ConPricingComponent.prototype, "con", void 0);
 __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_16" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["q" /* MdSort */]),
-    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_material__["q" /* MdSort */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_material__["q" /* MdSort */]) === "function" && _a || Object)
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_16" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["r" /* MdSort */]),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_material__["r" /* MdSort */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_material__["r" /* MdSort */]) === "function" && _a || Object)
 ], ConPricingComponent.prototype, "sort", void 0);
 ConPricingComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
@@ -2191,14 +2191,14 @@ InventoryModule = __decorate([
 /***/ "./src/app/modals/choose-convention.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2 md-dialog-title>Choose a Convention</h2>\n<md-dialog-content>\n  <!-- TODO: make this a data table -->\n  <md-list *ngIf=\"conventions.length; else placeholder\">\n    <md-list-item *ngFor=\"let con of conventions\">\n      <span class=\"choose-convention__column\">{{ con.title }}</span>\n      <span class=\"choose-convention__column\">{{ con.code }}</span>\n      <span class=\"choose-convention__column\">{{ con.start | date }}</span>\n      <span class=\"choose-convention__column\">{{ con.end | date }}</span>\n      <span>\n        <button md-icon-button [md-dialog-close]=\"con\"><md-icon>check</md-icon></button>\n      </span>\n    </md-list-item>\n  </md-list>\n  <ng-template #placeholder>\n    <div class=\"choose-convention__placeholder\">\n      No conventions are currently available.\n    </div>\n  </ng-template>\n</md-dialog-content>\n<md-dialog-actions>\n  <button md-button md-dialog-close>Close</button>\n</md-dialog-actions>\n"
+module.exports = "<h2 md-dialog-title>Choose a Convention</h2>\n<md-dialog-content>\n  <!-- TODO: make this a data table -->\n  <div *ngIf=\"conCount; else placeholder\">\n    <md-table [dataSource]=\"dataSource\">\n      <ng-container cdkColumnDef=\"name\">\n        <md-header-cell *cdkHeaderCellDef>Name</md-header-cell>\n        <md-cell *cdkCellDef=\"let con\">\n          {{ con.title }}\n        </md-cell>\n      </ng-container>\n\n      <ng-container cdkColumnDef=\"code\">\n        <md-header-cell *cdkHeaderCellDef>Code</md-header-cell>\n        <md-cell *cdkCellDef=\"let con\">\n          {{ con.code }}\n        </md-cell>\n      </ng-container>\n\n      <ng-container cdkColumnDef=\"start\">\n        <md-header-cell *cdkHeaderCellDef>Start</md-header-cell>\n        <md-cell *cdkCellDef=\"let con\">\n          {{ con.start | date }}\n        </md-cell>\n      </ng-container>\n\n      <ng-container cdkColumnDef=\"end\">\n        <md-header-cell *cdkHeaderCellDef>End</md-header-cell>\n        <md-cell *cdkCellDef=\"let con\">\n          {{ con.end | date }}\n        </md-cell>\n      </ng-container>\n\n      <ng-container cdkColumnDef=\"choose\">\n        <md-header-cell *cdkHeaderCellDef class=\"choose-convention__column--action\">Choose</md-header-cell>\n        <md-cell *cdkCellDef=\"let con\" class=\"choose-convention__column--action\">\n          <button md-icon-button [md-dialog-close]=\"con\">\n            <md-icon>check</md-icon>\n          </button>\n        </md-cell>\n      </ng-container>\n\n      <md-header-row *cdkHeaderRowDef=\"displayedColumns\"></md-header-row>\n      <md-row *cdkRowDef=\"let con; columns: displayedColumns\"></md-row>\n    </md-table>\n    <md-paginator\n      [pageIndex]=\"page\"\n      [length]=\"conCount\"\n      [pageSize]=\"pageSize\"\n      (page)=\"page = $event.pageIndex\">\n    </md-paginator>\n  </div>\n  <ng-template #placeholder>\n    <div class=\"choose-convention__placeholder\">\n      No conventions are currently available.\n    </div>\n  </ng-template>\n</md-dialog-content>\n<md-dialog-actions>\n  <button md-button md-dialog-close>Close</button>\n</md-dialog-actions>\n"
 
 /***/ }),
 
 /***/ "./src/app/modals/choose-convention.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ".choose-convention__column {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-preferred-size: 0;\n      flex-basis: 0;\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1; }\n\n.choose-convention__placeholder {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  padding: 16px;\n  color: rgba(0, 0, 0, 0.54); }\n"
+module.exports = ".choose-convention__column--action {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-flex: 0;\n      -ms-flex-positive: 0;\n          flex-grow: 0;\n  -ms-flex-negative: 0;\n      flex-shrink: 0;\n  -ms-flex-preferred-size: 80px;\n      flex-basis: 80px;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center; }\n\n.choose-convention__placeholder {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  padding: 16px;\n  color: rgba(0, 0, 0, 0.54); }\n"
 
 /***/ }),
 
@@ -2208,11 +2208,14 @@ module.exports = ".choose-convention__column {\n  display: -webkit-box;\n  displ
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChooseConventionComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__choose_convention_component_html__ = __webpack_require__("./src/app/modals/choose-convention.component.html");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__choose_convention_component_html___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__choose_convention_component_html__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__choose_convention_component_scss__ = __webpack_require__("./src/app/modals/choose-convention.component.scss");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__choose_convention_component_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__choose_convention_component_scss__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__api_api_service__ = __webpack_require__("./src/app/api/api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/BehaviorSubject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__choose_convention_component_html__ = __webpack_require__("./src/app/modals/choose-convention.component.html");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__choose_convention_component_html___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__choose_convention_component_html__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__choose_convention_component_scss__ = __webpack_require__("./src/app/modals/choose-convention.component.scss");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__choose_convention_component_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__choose_convention_component_scss__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__api_api_service__ = __webpack_require__("./src/app/api/api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__data_data_source__ = __webpack_require__("./src/app/data/data-source.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2229,35 +2232,36 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 
 
 
+
+
 let ChooseConventionComponent = class ChooseConventionComponent {
     constructor(api) {
         this.api = api;
-        this._conventions = [];
-        this._page = 0;
-        this.update();
+        this.pageSize = 5;
+        this._conventions = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["BehaviorSubject"]([]);
+        this.displayedColumns = ['name', 'code', 'start', 'end', 'choose'];
+        this.conCount = 0;
+        this.dataSource = new __WEBPACK_IMPORTED_MODULE_5__data_data_source__["a" /* ConDataSource */](this._conventions, null, null, { size: this.pageSize, index: 0 });
+        this.api.getConventions().subscribe(_ => {
+            this.conCount = _.length;
+            this._conventions.next(_);
+        });
     }
     get page() {
-        return this._page;
+        return this.dataSource.page ? this.dataSource.page.index : 0;
     }
-    set page(page) {
-        this._page = page;
-        this.update();
-    }
-    update() {
-        this.api.getConventions(this.page).subscribe(_ => this._conventions = _);
-    }
-    get conventions() {
-        return this._conventions;
+    set page(index) {
+        this.dataSource.page = { size: this.pageSize, index };
     }
 };
 ChooseConventionComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
         selector: 'con-choose-convention',
-        template: __WEBPACK_IMPORTED_MODULE_1__choose_convention_component_html___default.a,
-        styles: [__WEBPACK_IMPORTED_MODULE_2__choose_convention_component_scss___default.a],
+        template: __WEBPACK_IMPORTED_MODULE_2__choose_convention_component_html___default.a,
+        styles: [__WEBPACK_IMPORTED_MODULE_3__choose_convention_component_scss___default.a],
     }),
-    __param(0, Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_3__api_api_service__["a" /* APIService */])),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__api_api_service__["a" /* APIService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__api_api_service__["a" /* APIService */]) === "function" && _a || Object])
+    __param(0, Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_4__api_api_service__["a" /* APIService */])),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_4__api_api_service__["a" /* APIService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__api_api_service__["a" /* APIService */]) === "function" && _a || Object])
 ], ChooseConventionComponent);
 
 var _a;
@@ -2515,8 +2519,8 @@ let PricesComponent = class PricesComponent {
     }
 };
 __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_16" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["q" /* MdSort */]),
-    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_material__["q" /* MdSort */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_material__["q" /* MdSort */]) === "function" && _a || Object)
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_16" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["r" /* MdSort */]),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_material__["r" /* MdSort */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_material__["r" /* MdSort */]) === "function" && _a || Object)
 ], PricesComponent.prototype, "sort", void 0);
 PricesComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({

@@ -129,7 +129,7 @@ api.get('/cons/:page?/:limit?', assert_authorized(), async (req, res) => {
   res.set('Expires', '0');
   try {
     const { page, limit } = req.params as Pick<Params, 'page' | 'limit'>;
-    const data = await db.getConventions(page || 0, limit || 10);
+    const data = await db.getConventions(page || 0, limit || 0);
     res.send(JSON.stringify({ status: 'Success', data } as ca.APISuccessResult<ca.MetaConvention[]>));
   } catch(error) {
     console.error(error);

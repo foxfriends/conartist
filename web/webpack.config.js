@@ -113,7 +113,6 @@ module.exports = {
     ]
   },
   'plugins': [
-    // new NoEmitOnErrorsPlugin(),
     new GlobCopyWebpackPlugin({
       'patterns': [
         'assets'

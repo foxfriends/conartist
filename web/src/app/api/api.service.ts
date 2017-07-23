@@ -93,15 +93,12 @@ export class APIService {
       .catch(_ => Observable.throw(new Error('Could not create your account')));
   }
 
-  getConventions(start?: number, end?: number, limit?: number): Observable<ca.MetaConvention[]> {
+  getConventions(page?: number, limit?: number): Observable<ca.MetaConvention[]> {
     let url = '/api/cons/';
-    if(start) {
-      url += `${start}/`;
-      if(end) {
-        url += `${end}/`;
-        if(limit) {
-          url += `${limit}/`;
-        }
+    if(page) {
+      url += `${page}/`;
+      if(limit) {
+        url += `${limit}/`;
       }
     }
     return this.http

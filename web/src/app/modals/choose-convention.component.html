@@ -1,17 +1,55 @@
 <h2 md-dialog-title>Choose a Convention</h2>
 <md-dialog-content>
   <!-- TODO: make this a data table -->
-  <md-list *ngIf="conventions.length; else placeholder">
-    <md-list-item *ngFor="let con of conventions">
-      <span class="choose-convention__column">{{ con.title }}</span>
-      <span class="choose-convention__column">{{ con.code }}</span>
-      <span class="choose-convention__column">{{ con.start | date }}</span>
-      <span class="choose-convention__column">{{ con.end | date }}</span>
-      <span>
-        <button md-icon-button [md-dialog-close]="con"><md-icon>check</md-icon></button>
-      </span>
-    </md-list-item>
-  </md-list>
+  <div *ngIf="conCount; else placeholder">
+    <md-table [dataSource]="dataSource">
+      <ng-container cdkColumnDef="name">
+        <md-header-cell *cdkHeaderCellDef>Name</md-header-cell>
+        <md-cell *cdkCellDef="let con">
+          {{ con.title }}
+        </md-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="code">
+        <md-header-cell *cdkHeaderCellDef>Code</md-header-cell>
+        <md-cell *cdkCellDef="let con">
+          {{ con.code }}
+        </md-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="start">
+        <md-header-cell *cdkHeaderCellDef>Start</md-header-cell>
+        <md-cell *cdkCellDef="let con">
+          {{ con.start | date }}
+        </md-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="end">
+        <md-header-cell *cdkHeaderCellDef>End</md-header-cell>
+        <md-cell *cdkCellDef="let con">
+          {{ con.end | date }}
+        </md-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="choose">
+        <md-header-cell *cdkHeaderCellDef class="choose-convention__column--action">Choose</md-header-cell>
+        <md-cell *cdkCellDef="let con" class="choose-convention__column--action">
+          <button md-icon-button [md-dialog-close]="con">
+            <md-icon>check</md-icon>
+          </button>
+        </md-cell>
+      </ng-container>
+
+      <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+      <md-row *cdkRowDef="let con; columns: displayedColumns"></md-row>
+    </md-table>
+    <md-paginator
+      [pageIndex]="page"
+      [length]="conCount"
+      [pageSize]="pageSize"
+      (page)="page = $event.pageIndex">
+    </md-paginator>
+  </div>
   <ng-template #placeholder>
     <div class="choose-convention__placeholder">
       No conventions are currently available.

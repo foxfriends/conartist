@@ -497,7 +497,8 @@ async function getConventions(page: number, limit: number): Promise<ca.MetaConve
   const client = await connect();
   try {
     const { rows: raw_cons } = await query<Pick<db.Convention, 'code' | 'title' | 'start_date' | 'end_date'>>(
-      SQL`SELECT code, title, start_date, end_date FROM Conventions WHERE start_date > ${new Date()} LIMIT ${limit} OFFSET ${page * limit}`
+      SQL`SELECT code, title, start_date, end_date FROM Conventions WHERE start_date > ${new Date()}`
+        .append(limit ? SQL`LIMIT ${limit} OFFSET ${page * limit}` : SQL``)
     );
     const cons = raw_cons.map((_): ca.MetaConvention => ({
       type: 'meta',

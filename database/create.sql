@@ -32,8 +32,8 @@ CREATE TABLE Conventions (
   con_id      SERIAL PRIMARY KEY,
   code        CHAR(5) UNIQUE NOT NULL,
   title       VARCHAR(512) NOT NULL,
-  start_date  TIMESTAMP NOT NULL,
-  end_date    TIMESTAMP NOT NULL
+  start_date  DATE NOT NULL,
+  end_date    DATE NOT NULL
 );
 CREATE INDEX index_Conventions on Conventions (code);
 

@@ -4070,13 +4070,13 @@ describe('Sign In Component', function () {
     it('should route to the dashboard when sign in succeeds', () => __awaiter(this, void 0, void 0, function* () {
         this.component.signInForm.patchValue(__WEBPACK_IMPORTED_MODULE_12__api_api_service_mock__["d" /* existingUser */]);
         this.component.processSignIn();
-        yield Object(__WEBPACK_IMPORTED_MODULE_8__util__["e" /* wait */])();
+        yield Object(__WEBPACK_IMPORTED_MODULE_8__util__["f" /* wait */])();
         Object(__WEBPACK_IMPORTED_MODULE_5_chai__["expect"])(RouterMock.navigate).to.have.been.calledWith(['/dashboard']);
     }));
     it('should not route to the dashboard when sign in fails', () => __awaiter(this, void 0, void 0, function* () {
         this.component.signInForm.patchValue(__WEBPACK_IMPORTED_MODULE_12__api_api_service_mock__["f" /* newUser */]);
         this.component.processSignIn();
-        yield Object(__WEBPACK_IMPORTED_MODULE_8__util__["e" /* wait */])();
+        yield Object(__WEBPACK_IMPORTED_MODULE_8__util__["f" /* wait */])();
         Object(__WEBPACK_IMPORTED_MODULE_5_chai__["expect"])(RouterMock.navigate).not.to.have.been.called;
     }));
     it('should switch to the sign up menu and back when sign up button is pressed', () => {
@@ -4247,6 +4247,54 @@ describe('#endOfDay', function () {
 
 /***/ }),
 
+/***/ "./node_modules/@ngtools/webpack/src/index.js!./node_modules/@ngtools/webpack/src/index.js!./src/util/deferred.spec.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chai__ = __webpack_require__("./node_modules/chai/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_chai___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_chai__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__deferred__ = __webpack_require__("./src/util/deferred.ts");
+
+
+describe('Deferred', function () {
+    const theValue = Symbol();
+    it('should be and act like a promise', () => {
+        const def = new __WEBPACK_IMPORTED_MODULE_1__deferred__["a" /* Deferred */]((resolve, reject) => {
+            Object(__WEBPACK_IMPORTED_MODULE_0_chai__["expect"])(resolve).to.be.a('function');
+            Object(__WEBPACK_IMPORTED_MODULE_0_chai__["expect"])(reject).to.be.a('function');
+            resolve(theValue);
+        });
+        Object(__WEBPACK_IMPORTED_MODULE_0_chai__["expect"])(def).to.be.an.instanceof(Promise);
+        return Object(__WEBPACK_IMPORTED_MODULE_0_chai__["expect"])(def).to.eventually.equal(theValue);
+    });
+    it('should resolve when the resolve method is called', () => {
+        const def = new __WEBPACK_IMPORTED_MODULE_1__deferred__["a" /* Deferred */]();
+        def.resolve(theValue);
+        return Object(__WEBPACK_IMPORTED_MODULE_0_chai__["expect"])(def).to.eventually.equal(theValue);
+    });
+    it('should reject when the reject method is called', () => {
+        const def = new __WEBPACK_IMPORTED_MODULE_1__deferred__["a" /* Deferred */]();
+        def.reject(theValue);
+        return Object(__WEBPACK_IMPORTED_MODULE_0_chai__["expect"])(def).to.eventually.be.rejectedWith(theValue);
+    });
+    it('should be properly thennable when returning a value', () => {
+        const def = new __WEBPACK_IMPORTED_MODULE_1__deferred__["a" /* Deferred */]();
+        const then = def.then(() => theValue);
+        def.resolve();
+        Object(__WEBPACK_IMPORTED_MODULE_0_chai__["expect"])(then).to.eventually.equal(theValue);
+    });
+    it('should be properly thennable when returning a promise', () => {
+        const def = new __WEBPACK_IMPORTED_MODULE_1__deferred__["a" /* Deferred */]();
+        const then = def.then(() => Promise.resolve(theValue));
+        def.resolve();
+        Object(__WEBPACK_IMPORTED_MODULE_0_chai__["expect"])(then).to.eventually.equal(theValue);
+    });
+});
+//# sourceMappingURL=deferred.spec.js.map
+
+/***/ }),
+
 /***/ "./node_modules/@ngtools/webpack/src/index.js!./node_modules/@ngtools/webpack/src/index.js!./src/util/index.spec.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4260,6 +4308,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__rotate_spec___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__rotate_spec__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__date_spec__ = __webpack_require__("./src/util/date.spec.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__date_spec___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__date_spec__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__deferred_spec__ = __webpack_require__("./src/util/deferred.spec.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__deferred_spec___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__deferred_spec__);
+
 
 
 
@@ -30878,6 +30929,27 @@ __webpack_require__("./node_modules/mocha-loader/web.js");
 if(typeof window !== 'undefined' && window.initMochaPhantomJS) { window.initMochaPhantomJS(); }
 mocha.setup({"ui":"bdd"});
 __webpack_require__("./node_modules/@ngtools/webpack/src/index.js!./node_modules/@ngtools/webpack/src/index.js!./src/util/date.spec.ts")
+__webpack_require__("./node_modules/mocha-loader/start.js");
+if(false) {
+	module.hot.accept();
+	module.hot.dispose(function() {
+		mocha.suite.suites.length = 0;
+		var stats = document.getElementById('mocha-stats');
+		var report = document.getElementById('mocha-report');
+		stats && stats.parentNode.removeChild(stats);
+		report && report.parentNode.removeChild(report);
+	});
+}
+
+/***/ }),
+
+/***/ "./src/util/deferred.spec.ts":
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__("./node_modules/mocha-loader/web.js");
+if(typeof window !== 'undefined' && window.initMochaPhantomJS) { window.initMochaPhantomJS(); }
+mocha.setup({"ui":"bdd"});
+__webpack_require__("./node_modules/@ngtools/webpack/src/index.js!./node_modules/@ngtools/webpack/src/index.js!./src/util/deferred.spec.ts")
 __webpack_require__("./node_modules/mocha-loader/start.js");
 if(false) {
 	module.hot.accept();

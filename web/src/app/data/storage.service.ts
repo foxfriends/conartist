@@ -13,6 +13,7 @@ import { APIService } from '../api/api.service';
 import { ErrorService } from '../modals/error.service';
 import { BroadcastService } from '../broadcast/broadcast.service';
 import { SignInEvent } from '../broadcast/event';
+import { Deferred } from '../../util';
 
 type ObservableUserInfo = {
   [K in keyof ca.UserInfo]: BehaviorSubject<ca.UserInfo[K]>;
@@ -40,6 +41,8 @@ export class StorageService implements ObservableUserInfo {
   private __types: ca.UserInfo['types'];
   private __conventions: ca.UserInfo['conventions'];
 
+  private initialized = new Deferred<void>();
+
   constructor(
     @Inject(APIService) private api: APIService,
     @Inject(MdSnackBar) private snackbar: MdSnackBar,
@@ -55,6 +58,7 @@ export class StorageService implements ObservableUserInfo {
         this._prices.next(this.__prices = _.prices);
         this._types.next(this.__types = _.types);
         this._conventions.next(this.__conventions = _.conventions);
+        this.initialized.resolve();
       })
     );
   }
@@ -133,6 +137,7 @@ export class StorageService implements ObservableUserInfo {
   }
 
   async fillConvention(code: string): Promise<Observable<ca.FullConvention>> {
+    await this.initialized;
     const con = this._conventions.getValue().find(_ => _.code === code);
     if(!con) { throw new Error(`ca.Convention ${code} does not exist`); }
     if(con.type === 'full') { return this.convention(code).filter((con): con is ca.FullConvention => con.type === 'full'); }
@@ -390,5 +395,6 @@ export class StorageService implements ObservableUserInfo {
     this.__types = [];
     this._conventions = new BehaviorSubject([]);
     this.__conventions = [];
+    this.initialized = new Deferred();
   }
 }

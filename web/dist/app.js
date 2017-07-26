@@ -398,14 +398,14 @@ let ColorPickerComponent = class ColorPickerComponent {
     constructor() {
         this.selectedChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this._index = 1;
-        this._colors = Object(__WEBPACK_IMPORTED_MODULE_2__util__["a" /* Wrappable */])([
+        this._colors = Object(__WEBPACK_IMPORTED_MODULE_2__util__["b" /* Wrappable */])([
             'red', 'pink', 'purple', 'deepPurple', 'indigo', 'blue', 'lightBlue', 'cyan',
             'teal', 'green', 'lightGreen', 'lime', 'yellow', 'amber', 'orange', 'deepOrange',
             'brown', 'grey', 'blueGrey',
         ].map((_) => [__WEBPACK_IMPORTED_MODULE_1_material_colors__["a" /* default */][_]['100'], __WEBPACK_IMPORTED_MODULE_1_material_colors__["a" /* default */][_]['200'], __WEBPACK_IMPORTED_MODULE_1_material_colors__["a" /* default */][_]['300']]));
     }
     get colors() {
-        return Array.prototype.concat(...Object(__WEBPACK_IMPORTED_MODULE_2__util__["c" /* rotate */])([
+        return Array.prototype.concat(...Object(__WEBPACK_IMPORTED_MODULE_2__util__["d" /* rotate */])([
             this._colors[this._index - 1],
             this._colors[this._index],
             this._colors[this._index + 1],
@@ -725,13 +725,13 @@ let ConListComponent = class ConListComponent {
         return this._conventions.getValue().filter((_) => _.type !== 'invalid');
     }
     get currentConventions() {
-        return this.conventions.filter(({ start, end }) => start <= Object(__WEBPACK_IMPORTED_MODULE_6__util__["b" /* endOfDay */])(new Date()) && Object(__WEBPACK_IMPORTED_MODULE_6__util__["d" /* startOfDay */])(new Date()) <= end);
+        return this.conventions.filter(({ start, end }) => start <= Object(__WEBPACK_IMPORTED_MODULE_6__util__["c" /* endOfDay */])(new Date()) && Object(__WEBPACK_IMPORTED_MODULE_6__util__["e" /* startOfDay */])(new Date()) <= end);
     }
     get upcomingConventions() {
-        return this.conventions.filter(({ start }) => start > Object(__WEBPACK_IMPORTED_MODULE_6__util__["b" /* endOfDay */])(new Date()));
+        return this.conventions.filter(({ start }) => start > Object(__WEBPACK_IMPORTED_MODULE_6__util__["c" /* endOfDay */])(new Date()));
     }
     get previousConventions() {
-        return this.conventions.filter(({ end }) => end < Object(__WEBPACK_IMPORTED_MODULE_6__util__["d" /* startOfDay */])(new Date()));
+        return this.conventions.filter(({ end }) => end < Object(__WEBPACK_IMPORTED_MODULE_6__util__["e" /* startOfDay */])(new Date()));
     }
     openConvention(convention) {
         this.router.navigate(['/conventions', convention.code]);

@@ -31,7 +31,7 @@ export class ConventionsComponent {
     this.chooseConvention
       .open()
       .filter((_): _ is ca.MetaConvention => !!_)
-      .subscribe(con => {
+      .subscribe((con: ca.MetaConvention) => {
         try {
           this.storage.addConvention(con);
         } catch(error) {

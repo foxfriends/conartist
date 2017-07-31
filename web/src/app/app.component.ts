@@ -22,8 +22,8 @@ export class AppComponent {
     @Inject(StorageService) private storage: StorageService,
   ) {
     this.router.events
-      .filter((_): _ is NavigationEnd => _ instanceof NavigationEnd)
-      .subscribe(_ => this.signedIn = _.urlAfterRedirects !== '/sign-in')
+      .filter((_): _ is NavigationEnd => _ instanceof NavigationEnd) // rxjs why
+      .subscribe((_: NavigationEnd) => this.signedIn = _.urlAfterRedirects !== '/sign-in')
   }
 
   signOut() {

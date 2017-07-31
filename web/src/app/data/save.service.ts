@@ -13,7 +13,7 @@ export class SaveService {
   ) {
     this.router.events
       .filter((event): event is NavigationStart => event instanceof NavigationStart)
-      .subscribe(({ url }) => this.visible = !url.includes('sign-in'));
+      .subscribe(({ url }: NavigationStart) => this.visible = !url.includes('sign-in'));
   }
 
   async save() {

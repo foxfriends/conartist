@@ -1,6 +1,6 @@
 webpackJsonp([2],{
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/lib/index.js!./node_modules/sass-loader/lib/loader.js!./src/main.scss":
+/***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/index.js!./node_modules/sass-loader/lib/loader.js!./src/main.scss":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(undefined);
@@ -9,7 +9,7 @@ exports.push([module.i, "@import url(https://fonts.googleapis.com/icon?family=Ma
 exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Roboto:300,400);", ""]);
 
 // module
-exports.push([module.i, "html {\n  min-height: 100%; }\n\nhtml, body {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  font-family: 'Roboto', sans-serif; }\n", ""]);
+exports.push([module.i, "html {\n  min-height: 100%; }\n\nhtml, body {\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-positive: 1;\n      flex-grow: 1;\n  -ms-flex-direction: column;\n      flex-direction: column;\n  font-family: 'Roboto', sans-serif; }\n", ""]);
 
 // exports
 
@@ -364,7 +364,7 @@ module.exports = "<div [mdMenuTriggerFor]=\"colorPicker\"><ng-content></ng-conte
 /***/ "./src/app/color-picker/color-picker.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ".color-picker__menu {\n  width: 216px;\n  max-width: unset;\n  height: 144px; }\n\n.color-picker__nav {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center; }\n\n.color-picker__check {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translate(-50%, -50%);\n      -ms-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  color: #ffffff; }\n"
+module.exports = ".color-picker__menu {\n  width: 216px;\n  max-width: unset;\n  height: 144px; }\n\n.color-picker__nav {\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-align: center;\n      align-items: center; }\n\n.color-picker__check {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  -ms-transform: translate(-50%, -50%);\n      transform: translate(-50%, -50%);\n  color: #ffffff; }\n"
 
 /***/ }),
 
@@ -495,7 +495,7 @@ module.exports = "<md-tab-group dynamicHeight=\"true\" *ngIf=\"convention|async 
 /***/ "./src/app/conventions/con-info.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ".con-info__header {\n  min-height: 100px;\n  -webkit-box-shadow: inset 0 -3px 3px -3px rgba(0, 0, 0, 0.5);\n          box-shadow: inset 0 -3px 3px -3px rgba(0, 0, 0, 0.5); }\n\n.con-info__title {\n  font-size: 24px;\n  font-weight: bold;\n  padding: 16px; }\n\n.con-info__loading {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  background: rgba(0, 0, 0, 0.3);\n  z-index: 700; }\n"
+module.exports = ".con-info__header {\n  min-height: 100px;\n  box-shadow: inset 0 -3px 3px -3px rgba(0, 0, 0, 0.5); }\n\n.con-info__title {\n  font-size: 24px;\n  font-weight: bold;\n  padding: 16px; }\n\n.con-info__loading {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-align: center;\n      align-items: center;\n  -ms-flex-pack: center;\n      justify-content: center;\n  background: rgba(0, 0, 0, 0.3);\n  z-index: 700; }\n"
 
 /***/ }),
 
@@ -562,7 +562,7 @@ module.exports = "<md-table [dataSource]=\"dataSource\" mdSort>\n  <ng-container
 /***/ "./src/app/conventions/con-inventory.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ".con-inventory__row--excluded {\n  opacity: 0.5; }\n\n.con-inventory__column {\n  -ms-flex-preferred-size: 0;\n      flex-basis: 0;\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1; }\n"
+module.exports = ".con-inventory__row--excluded {\n  opacity: 0.5; }\n\n.con-inventory__column {\n  -ms-flex-preferred-size: 0;\n      flex-basis: 0;\n  -ms-flex-positive: 1;\n      flex-grow: 1; }\n"
 
 /***/ }),
 
@@ -677,7 +677,7 @@ module.exports = "<!-- TODO: find an md-data-table -->\n<md-nav-list>\n  <ng-con
 /***/ "./src/app/conventions/con-list.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ".convention-list__row--open {\n  background-color: #FFFFDD; }\n\n.convention-list__column {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n  -ms-flex-preferred-size: 0;\n      flex-basis: 0; }\n\n.convention-list__code {\n  color: rgba(0, 0, 0, 0.54);\n  margin: 0 16px; }\n\n.convention-list__date {\n  font-size: 10pt;\n  -webkit-box-pack: end;\n      -ms-flex-pack: end;\n          justify-content: flex-end; }\n"
+module.exports = ".convention-list__row--open {\n  background-color: #FFFFDD; }\n\n.convention-list__column {\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-positive: 1;\n      flex-grow: 1;\n  -ms-flex-preferred-size: 0;\n      flex-basis: 0; }\n\n.convention-list__code {\n  color: rgba(0, 0, 0, 0.54);\n  margin: 0 16px; }\n\n.convention-list__date {\n  font-size: 10pt;\n  -ms-flex-pack: end;\n      justify-content: flex-end; }\n"
 
 /***/ }),
 
@@ -881,7 +881,7 @@ module.exports = "<ng-container *ngIf=\"conventions.length; else placeholder\">\
 /***/ "./src/app/conventions/conventions.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ".conventions__placeholder {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  width: 100%;\n  height: 100%;\n  padding: 16px;\n  color: rgba(0, 0, 0, 0.54); }\n\n.conventions__placeholder-button {\n  margin: 16px; }\n"
+module.exports = ".conventions__placeholder {\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-direction: column;\n      flex-direction: column;\n  -ms-flex-align: center;\n      align-items: center;\n  -ms-flex-pack: center;\n      justify-content: center;\n  box-sizing: border-box;\n  width: 100%;\n  height: 100%;\n  padding: 16px;\n  color: rgba(0, 0, 0, 0.54); }\n\n.conventions__placeholder-button {\n  margin: 16px; }\n"
 
 /***/ }),
 
@@ -933,7 +933,7 @@ let ConventionsComponent = class ConventionsComponent {
         this.chooseConvention
             .open()
             .filter((_) => !!_)
-            .subscribe(con => {
+            .subscribe((con) => {
             try {
                 this.storage.addConvention(con);
             }
@@ -1024,7 +1024,7 @@ module.exports = "<ng-container *ngIf=\"(con|async).data.records.length; else pl
 /***/ "./src/app/conventions/record-list.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ".records__column--icon {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-flex: 0;\n      -ms-flex-positive: 0;\n          flex-grow: 0;\n  -ms-flex-negative: 0;\n      flex-shrink: 0;\n  -ms-flex-preferred-size: 80px;\n      flex-basis: 80px;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center; }\n\n.records__type-icon {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  width: 40px;\n  height: 40px;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  font-size: 16pt;\n  font-weight: bold;\n  color: white;\n  border-radius: 100%; }\n\n.records__placeholder {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  width: 100%;\n  height: 100%;\n  padding: 16px;\n  color: rgba(0, 0, 0, 0.54); }\n"
+module.exports = ".records__column--icon {\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-positive: 0;\n      flex-grow: 0;\n  -ms-flex-negative: 0;\n      flex-shrink: 0;\n  -ms-flex-preferred-size: 80px;\n      flex-basis: 80px;\n  -ms-flex-pack: center;\n      justify-content: center; }\n\n.records__type-icon {\n  display: -ms-flexbox;\n  display: flex;\n  width: 40px;\n  height: 40px;\n  -ms-flex-align: center;\n      align-items: center;\n  -ms-flex-pack: center;\n      justify-content: center;\n  font-size: 16pt;\n  font-weight: bold;\n  color: white;\n  border-radius: 100%; }\n\n.records__placeholder {\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-direction: column;\n      flex-direction: column;\n  -ms-flex-align: center;\n      align-items: center;\n  -ms-flex-pack: center;\n      justify-content: center;\n  box-sizing: border-box;\n  width: 100%;\n  height: 100%;\n  padding: 16px;\n  color: rgba(0, 0, 0, 0.54); }\n"
 
 /***/ }),
 
@@ -1119,7 +1119,7 @@ module.exports = "<ng-container *ngIf=\"con.data.records.length; else placeholde
 /***/ "./src/app/conventions/stats.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ".stats__placeholder {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  width: 100%;\n  height: 100%;\n  padding: 16px;\n  color: rgba(0, 0, 0, 0.54); }\n"
+module.exports = ".stats__placeholder {\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-direction: column;\n      flex-direction: column;\n  -ms-flex-align: center;\n      align-items: center;\n  -ms-flex-pack: center;\n      justify-content: center;\n  box-sizing: border-box;\n  width: 100%;\n  height: 100%;\n  padding: 16px;\n  color: rgba(0, 0, 0, 0.54); }\n"
 
 /***/ }),
 
@@ -1173,7 +1173,7 @@ module.exports = "<md-card class=\"convention\">\n  <md-card-header>\n    <md-ca
 /***/ "./src/app/dashboard/dash-conventions.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ".convention__title {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  margin: 0; }\n\n.convention__button {\n  margin-left: auto; }\n  .convention__button--fullwidth {\n    width: 100%; }\n\n.convention__button-label {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -ms-flex-pack: distribute;\n      justify-content: space-around; }\n\n.convention__code {\n  color: rgba(0, 0, 0, 0.54);\n  margin: 0 16px; }\n\n.convention__date {\n  font-size: 10pt;\n  margin-left: auto; }\n\n.convention__placeholder {\n  width: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  font-weight: 300;\n  color: rgba(0, 0, 0, 0.54); }\n\n.convention__placeholder-text {\n  margin: 4px 0; }\n\n.convention__placeholder-icon {\n  margin: 16px 0 0 0; }\n"
+module.exports = ".convention__title {\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-align: center;\n      align-items: center;\n  margin: 0; }\n\n.convention__button {\n  margin-left: auto; }\n  .convention__button--fullwidth {\n    width: 100%; }\n\n.convention__button-label {\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-align: center;\n      align-items: center;\n  -ms-flex-pack: distribute;\n      justify-content: space-around; }\n\n.convention__code {\n  color: rgba(0, 0, 0, 0.54);\n  margin: 0 16px; }\n\n.convention__date {\n  font-size: 10pt;\n  margin-left: auto; }\n\n.convention__placeholder {\n  width: 100%;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-direction: column;\n      flex-direction: column;\n  -ms-flex-align: center;\n      align-items: center;\n  font-weight: 300;\n  color: rgba(0, 0, 0, 0.54); }\n\n.convention__placeholder-text {\n  margin: 4px 0; }\n\n.convention__placeholder-icon {\n  margin: 16px 0 0 0; }\n"
 
 /***/ }),
 
@@ -1330,7 +1330,7 @@ module.exports = "<div class=\"dashboard__card-grid\">\n  <con-dash-conventions 
 /***/ "./src/app/dashboard/dashboard.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ":host {\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1; }\n\n.dashboard {\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1; }\n  .dashboard__card-grid {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: row;\n            flex-direction: row;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n    width: 100%; }\n  .dashboard__card {\n    -webkit-box-flex: 1;\n        -ms-flex-positive: 1;\n            flex-grow: 1;\n    margin: 16px; }\n"
+module.exports = ":host {\n  -ms-flex-positive: 1;\n      flex-grow: 1; }\n\n.dashboard {\n  -ms-flex-positive: 1;\n      flex-grow: 1; }\n  .dashboard__card-grid {\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-direction: row;\n        flex-direction: row;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n    width: 100%; }\n  .dashboard__card {\n    -ms-flex-positive: 1;\n        flex-grow: 1;\n    margin: 16px; }\n"
 
 /***/ }),
 
@@ -1704,7 +1704,7 @@ module.exports = "<ng-container *ngIf=\"visible\">\n  <svg (click)=\"visible = f
 /***/ "./src/app/help/help.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ":host {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  right: 0;\n  left: 0;\n  z-index: 1000;\n  pointer-events: none; }\n\nsvg {\n  width: 100%;\n  height: 100%;\n  pointer-events: auto;\n  background-color: rgba(0, 0, 0, 0.4); }\n  svg rect, svg ellipse, svg path {\n    stroke: white;\n    stroke-width: 1px;\n    fill: none; }\n  svg text {\n    stroke: none;\n    fill: white; }\n\n.help__text--left, .help__text--center, .help__text--right {\n  alignment-baseline: middle; }\n\n.help__text--top-left, .help__text--top, .help__text--top-right {\n  alignment-baseline: bottom; }\n\n.help__text--bottom-left, .help__text--bottom, .help__text--bottom-right {\n  alignment-baseline: top; }\n\n.help__text--top, .help__text--center, .help__text--bottom {\n  text-anchor: middle; }\n\n.help__text--top-right, .help__text--right, .help__text--bottom-right {\n  text-anchor: start;\n  -webkit-transform: translateX(5px);\n      -ms-transform: translateX(5px);\n          transform: translateX(5px); }\n\n.help__text--top-left, .help__text--left, .help__text--bottom-left {\n  text-anchor: end;\n  -webkit-transform: translateX(-5px);\n      -ms-transform: translateX(-5px);\n          transform: translateX(-5px); }\n"
+module.exports = ":host {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  right: 0;\n  left: 0;\n  z-index: 1000;\n  pointer-events: none; }\n\nsvg {\n  width: 100%;\n  height: 100%;\n  pointer-events: auto;\n  background-color: rgba(0, 0, 0, 0.4); }\n  svg rect, svg ellipse, svg path {\n    stroke: white;\n    stroke-width: 1px;\n    fill: none; }\n  svg text {\n    stroke: none;\n    fill: white; }\n\n.help__text--left, .help__text--center, .help__text--right {\n  alignment-baseline: middle; }\n\n.help__text--top-left, .help__text--top, .help__text--top-right {\n  alignment-baseline: bottom; }\n\n.help__text--bottom-left, .help__text--bottom, .help__text--bottom-right {\n  alignment-baseline: top; }\n\n.help__text--top, .help__text--center, .help__text--bottom {\n  text-anchor: middle; }\n\n.help__text--top-right, .help__text--right, .help__text--bottom-right {\n  text-anchor: start;\n  -ms-transform: translateX(5px);\n      transform: translateX(5px); }\n\n.help__text--top-left, .help__text--left, .help__text--bottom-left {\n  text-anchor: end;\n  -ms-transform: translateX(-5px);\n      transform: translateX(-5px); }\n"
 
 /***/ }),
 
@@ -1956,7 +1956,7 @@ module.exports = "<div class=\"inventory\" #inventory>\n  <ng-container *ngIf=\"
 /***/ "./src/app/inventory/inventory.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ".inventory {\n  height: 100%; }\n  .inventory__tab-label {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    height: 100%; }\n    .inventory__tab-label--discontinued {\n      opacity: 0.5; }\n  .inventory__header {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    min-height: 100px;\n    -webkit-box-shadow: inset 0 -3px 3px -3px rgba(0, 0, 0, 0.5);\n            box-shadow: inset 0 -3px 3px -3px rgba(0, 0, 0, 0.5);\n    padding: 16px;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap; }\n  .inventory__title {\n    display: inline-block;\n    font-size: 24px;\n    font-weight: bold;\n    -ms-flex-item-align: start;\n        align-self: flex-start; }\n  .inventory__spacer--fullwidth {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-preferred-size: 100%;\n        flex-basis: 100%; }\n  .inventory__spacer--right {\n    margin-left: auto; }\n  .inventory__spacer--top {\n    margin-bottom: auto; }\n  .inventory__spacer--bottom {\n    margin-top: auto; }\n  .inventory__card-grid {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: row;\n            flex-direction: row;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n    width: 100%; }\n  .inventory__card {\n    -webkit-box-flex: 1;\n        -ms-flex-positive: 1;\n            flex-grow: 1;\n    margin: 16px;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column; }\n    .inventory__card--small {\n      -webkit-box-flex: 0.4;\n          -ms-flex-positive: 0.4;\n              flex-grow: 0.4; }\n  .inventory__card-content {\n    -webkit-box-flex: 1;\n        -ms-flex-positive: 1;\n            flex-grow: 1; }\n  .inventory__placeholder {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    -webkit-box-sizing: border-box;\n            box-sizing: border-box;\n    width: 100%;\n    height: 100%;\n    padding: 16px;\n    color: rgba(0, 0, 0, 0.54); }\n  .inventory__placeholder-button {\n    margin: 16px; }\n"
+module.exports = ".inventory {\n  height: 100%; }\n  .inventory__tab-label {\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-align: center;\n        align-items: center;\n    -ms-flex-pack: center;\n        justify-content: center;\n    height: 100%; }\n    .inventory__tab-label--discontinued {\n      opacity: 0.5; }\n  .inventory__header {\n    display: -ms-flexbox;\n    display: flex;\n    min-height: 100px;\n    box-shadow: inset 0 -3px 3px -3px rgba(0, 0, 0, 0.5);\n    padding: 16px;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap; }\n  .inventory__title {\n    display: inline-block;\n    font-size: 24px;\n    font-weight: bold;\n    -ms-flex-item-align: start;\n        align-self: flex-start; }\n  .inventory__spacer--fullwidth {\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-preferred-size: 100%;\n        flex-basis: 100%; }\n  .inventory__spacer--right {\n    margin-left: auto; }\n  .inventory__spacer--top {\n    margin-bottom: auto; }\n  .inventory__spacer--bottom {\n    margin-top: auto; }\n  .inventory__card-grid {\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-direction: row;\n        flex-direction: row;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n    width: 100%; }\n  .inventory__card {\n    -ms-flex-positive: 1;\n        flex-grow: 1;\n    margin: 16px;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-direction: column;\n        flex-direction: column; }\n    .inventory__card--small {\n      -ms-flex-positive: 0.4;\n          flex-grow: 0.4; }\n  .inventory__card-content {\n    -ms-flex-positive: 1;\n        flex-grow: 1; }\n  .inventory__placeholder {\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-direction: column;\n        flex-direction: column;\n    -ms-flex-align: center;\n        align-items: center;\n    -ms-flex-pack: center;\n        justify-content: center;\n    box-sizing: border-box;\n    width: 100%;\n    height: 100%;\n    padding: 16px;\n    color: rgba(0, 0, 0, 0.54); }\n  .inventory__placeholder-button {\n    margin: 16px; }\n"
 
 /***/ }),
 
@@ -2191,7 +2191,7 @@ module.exports = "<h2 md-dialog-title>Choose a Convention</h2>\n<md-dialog-conte
 /***/ "./src/app/modals/choose-convention.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ".choose-convention__column--action {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-flex: 0;\n      -ms-flex-positive: 0;\n          flex-grow: 0;\n  -ms-flex-negative: 0;\n      flex-shrink: 0;\n  -ms-flex-preferred-size: 80px;\n      flex-basis: 80px;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center; }\n\n.choose-convention__placeholder {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  padding: 16px;\n  color: rgba(0, 0, 0, 0.54); }\n"
+module.exports = ".choose-convention__column--action {\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-positive: 0;\n      flex-grow: 0;\n  -ms-flex-negative: 0;\n      flex-shrink: 0;\n  -ms-flex-preferred-size: 80px;\n      flex-basis: 80px;\n  -ms-flex-pack: center;\n      justify-content: center; }\n\n.choose-convention__placeholder {\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-align: center;\n      align-items: center;\n  -ms-flex-pack: center;\n      justify-content: center;\n  padding: 16px;\n  color: rgba(0, 0, 0, 0.54); }\n"
 
 /***/ }),
 
@@ -2354,7 +2354,7 @@ module.exports = "<md-table [dataSource]=\"dataSource\" mdSort>\n  <ng-container
 /***/ "./src/app/prices/prices.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ".prices__column--action {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-flex: 0;\n      -ms-flex-positive: 0;\n          flex-grow: 0;\n  -ms-flex-negative: 0;\n      flex-shrink: 0;\n  -ms-flex-preferred-size: 80px;\n      flex-basis: 80px;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center; }\n\n.prices__actions {\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  padding: 6px;\n  background-color: white;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.12); }\n"
+module.exports = ".prices__column--action {\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-positive: 0;\n      flex-grow: 0;\n  -ms-flex-negative: 0;\n      flex-shrink: 0;\n  -ms-flex-preferred-size: 80px;\n      flex-basis: 80px;\n  -ms-flex-pack: center;\n      justify-content: center; }\n\n.prices__actions {\n  box-sizing: border-box;\n  padding: 6px;\n  background-color: white;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.12); }\n"
 
 /***/ }),
 
@@ -2900,22 +2900,17 @@ const environment = {
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/postcss-loader/lib/index.js!./node_modules/sass-loader/lib/loader.js!./src/main.scss");
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/postcss-loader/index.js!./node_modules/sass-loader/lib/loader.js!./src/main.scss");
 if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__("./node_modules/style-loader/lib/addStyles.js")(content, options);
+var update = __webpack_require__("./node_modules/style-loader/addStyles.js")(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/postcss-loader/lib/index.js!../node_modules/sass-loader/lib/loader.js!./main.scss", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/postcss-loader/lib/index.js!../node_modules/sass-loader/lib/loader.js!./main.scss");
+		module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/postcss-loader/index.js!../node_modules/sass-loader/lib/loader.js!./main.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/postcss-loader/index.js!../node_modules/sass-loader/lib/loader.js!./main.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});

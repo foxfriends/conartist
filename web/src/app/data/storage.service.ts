@@ -77,7 +77,7 @@ export class StorageService implements ObservableUserInfo {
     return this._conventions
       .map(_ => _.find(_ => _.code === code))
       .filter((_): _ is ca.Convention => !!_)
-      .distinctUntilChanged();
+      .distinctUntilChanged() as Observable<ca.Convention>; // rxjs why
   }
 
   updateConvention(con: ca.Convention) {

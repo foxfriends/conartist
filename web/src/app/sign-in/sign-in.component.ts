@@ -16,6 +16,7 @@ import styles from './sign-in.component.scss';
 // angular plz
 declare class ConFormGroup<T extends Record<string, AbstractControl>> extends FormGroup {
   get<K extends keyof T>(key: K): T[K];
+  get(key: string): null;
 };
 
 type SignInForm = {
@@ -52,7 +53,7 @@ export class SignInComponent {
     this.signInForm = new FormGroup({
       email: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
-    });
+    }) as ConFormGroup<SignInForm>;
 
     this.signUpForm = new FormGroup({
       email: new FormControl('', Validators.required, this.mustBeNewEmail),
@@ -60,7 +61,7 @@ export class SignInComponent {
       confirmEmail: new FormControl('', [Validators.required, this.mustEqual('email')]),
       confirmPassword: new FormControl('', [Validators.required, this.mustEqual('password')]),
       termsAccepted: new FormControl(false, this.mustBeChecked),
-    });
+    }) as ConFormGroup<SignUpForm>;
 
     // one way form sync
     this.signInForm.get('email').valueChanges.forEach((email: string) => {

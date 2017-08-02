@@ -226,7 +226,7 @@ api.put('/prices', assert_authorized(), (req, res) => __awaiter(this, void 0, vo
     try {
         const { usr: user_id } = req.user;
         const { prices } = req.body;
-        const data = yield db.writePrices(user_id, prices);
+        const data = simplePrices(yield db.writePrices(user_id, prices));
         res.send(JSON.stringify({ status: 'Success', data }));
     }
     catch (error) {

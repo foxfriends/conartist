@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import { Observable } from 'rxjs/Observable';
 
 import { APIService } from './api.service';
-import { newUser, userInfo, conventions, types, products, prices, fullConventions } from './api.service.mock';
+import { newUser, userInfo, conventions, types, products, prices, simplePrices, fullConventions } from './api.service.mock';
 
 type Context = {
   service: APIService;
@@ -184,9 +184,9 @@ describe('API Service', function(this: Mocha.ISuiteCallbackContext & Context) {
   });
 
   describe('#savePrices', () => {
-    shouldRequestWithAuthHeader('savePrices', [prices.map(_ => ({ ..._, dirty: true }))], 'Put', '/api/prices/');
-    shouldRequestWithBody('savePrices', [prices.map(_ => ({ ..._, dirty: true }))], 'Put', '/api/prices/',
-      { prices: prices.map(_ => ({ type_id: _.type, product_id: _.product, price: _.prices})) }
+    shouldRequestWithAuthHeader('savePrices', [simplePrices.map(_ => ({ ..._, dirty: true }))], 'Put', '/api/prices/');
+    shouldRequestWithBody('savePrices', [simplePrices.map(_ => ({ ..._, dirty: true }))], 'Put', '/api/prices/',
+      { prices: prices.map(_ => ({ type_id: _.type, product_id: _.product, price: _.prices })) }
     );
     shouldNotRequest('savePrices', [prices]);
   });
@@ -195,9 +195,6 @@ describe('API Service', function(this: Mocha.ISuiteCallbackContext & Context) {
     shouldRequestWithAuthHeader('saveConventions', [conventions.map(_ => ({ ..._, dirty: true }))], 'Put', '/api/cons/');
     shouldRequestWithBody('saveConventions', [conventions.map(_ => ({ ..._, dirty: true }))], 'Put', '/api/cons/',
       { conventions: conventions.map(_ => ({ type: 'add' as 'add', code: _.code })) }
-    );
-    shouldRequestWithBody('saveConventions', [fullConventions.map(_ => ({ ..._, dirty: true }))], 'Put', '/api/cons/',
-      { conventions: fullConventions.map(_ => ({ type: 'modify' as 'modify', code: _.code, data: { products: [], prices: [] } })) },
     );
     shouldRequestWithBody('saveConventions', [[{ type: 'invalid', code: 'abcde', dirty: true }]], 'Put', '/api/cons/',
       { conventions: [{ type: 'remove', code: 'abcde' }] },

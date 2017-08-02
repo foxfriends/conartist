@@ -2797,14 +2797,13 @@ describe('API Service', function () {
         shouldNotRequest('saveProducts', [__WEBPACK_IMPORTED_MODULE_6__api_service_mock__["h" /* products */]]);
     });
     describe('#savePrices', () => {
-        shouldRequestWithAuthHeader('savePrices', [__WEBPACK_IMPORTED_MODULE_6__api_service_mock__["g" /* prices */].map(_ => (Object.assign({}, _, { dirty: true })))], 'Put', '/api/prices/');
-        shouldRequestWithBody('savePrices', [__WEBPACK_IMPORTED_MODULE_6__api_service_mock__["g" /* prices */].map(_ => (Object.assign({}, _, { dirty: true })))], 'Put', '/api/prices/', { prices: __WEBPACK_IMPORTED_MODULE_6__api_service_mock__["g" /* prices */].map(_ => ({ type_id: _.type, product_id: _.product, price: _.prices })) });
+        shouldRequestWithAuthHeader('savePrices', [__WEBPACK_IMPORTED_MODULE_6__api_service_mock__["i" /* simplePrices */].map(_ => (Object.assign({}, _, { dirty: true })))], 'Put', '/api/prices/');
+        shouldRequestWithBody('savePrices', [__WEBPACK_IMPORTED_MODULE_6__api_service_mock__["i" /* simplePrices */].map(_ => (Object.assign({}, _, { dirty: true })))], 'Put', '/api/prices/', { prices: __WEBPACK_IMPORTED_MODULE_6__api_service_mock__["g" /* prices */].map(_ => ({ type_id: _.type, product_id: _.product, price: _.prices })) });
         shouldNotRequest('savePrices', [__WEBPACK_IMPORTED_MODULE_6__api_service_mock__["g" /* prices */]]);
     });
     describe('#saveConventions', () => {
         shouldRequestWithAuthHeader('saveConventions', [__WEBPACK_IMPORTED_MODULE_6__api_service_mock__["c" /* conventions */].map(_ => (Object.assign({}, _, { dirty: true })))], 'Put', '/api/cons/');
         shouldRequestWithBody('saveConventions', [__WEBPACK_IMPORTED_MODULE_6__api_service_mock__["c" /* conventions */].map(_ => (Object.assign({}, _, { dirty: true })))], 'Put', '/api/cons/', { conventions: __WEBPACK_IMPORTED_MODULE_6__api_service_mock__["c" /* conventions */].map(_ => ({ type: 'add', code: _.code })) });
-        shouldRequestWithBody('saveConventions', [__WEBPACK_IMPORTED_MODULE_6__api_service_mock__["e" /* fullConventions */].map(_ => (Object.assign({}, _, { dirty: true })))], 'Put', '/api/cons/', { conventions: __WEBPACK_IMPORTED_MODULE_6__api_service_mock__["e" /* fullConventions */].map(_ => ({ type: 'modify', code: _.code, data: { products: [], prices: [] } })) });
         shouldRequestWithBody('saveConventions', [[{ type: 'invalid', code: 'abcde', dirty: true }]], 'Put', '/api/cons/', { conventions: [{ type: 'remove', code: 'abcde' }] });
         shouldNotRequest('saveConventions', [__WEBPACK_IMPORTED_MODULE_6__api_service_mock__["c" /* conventions */]]);
         shouldNotRequest('saveConventions', [__WEBPACK_IMPORTED_MODULE_6__api_service_mock__["e" /* fullConventions */]]);
@@ -3161,6 +3160,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__broadcast_broadcast_service__ = __webpack_require__("./src/app/broadcast/broadcast.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__broadcast_event__ = __webpack_require__("./src/app/broadcast/event.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__modals_error_service_mock__ = __webpack_require__("./src/app/modals/error.service.mock.ts");
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try {
+            step(generator.next(value));
+        }
+        catch (e) {
+            reject(e);
+        } }
+        function rejected(value) { try {
+            step(generator["throw"](value));
+        }
+        catch (e) {
+            reject(e);
+        } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 
 
 
@@ -3297,11 +3314,11 @@ describe('Storage Service', function () {
         it('should cause #conventions to emit an event with the updated convention');
     });
     describe('#fillConvention', () => {
-        it('should call the API when the requested convention is not filled', () => {
-            this.service.fillConvention(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */]);
-            Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(this.loadConvention, 'the API should only be accessed once').to.have.been.calledOnce;
+        it('should call the API when the requested convention is not filled', () => __awaiter(this, void 0, void 0, function* () {
+            yield this.service.fillConvention(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */]);
+            Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(this.loadConvention, 'the API should be called').to.have.been.calledOnce;
             Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(this.loadConvention, 'the right con code should be passed to the API').to.have.been.calledWith(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */]);
-        });
+        }));
         it('should cause #convention to emit an event with the filled convention', done => {
             const gen = (function* () {
                 Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield).to.deep.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["c" /* conventions */].find(_ => _.code === __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */]));
@@ -3416,7 +3433,7 @@ describe('Storage Service', function () {
         });
         it('should not use the actual array index', () => {
             this.service.setPricePrice(7, 15);
-            this.service.prices.take(1).subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_[7].price).to.equal(15));
+            this.service.prices.take(1).subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_[4].price).to.equal(15));
         });
         it('should round prices to the nearest cent', () => {
             this.service.setPricePrice(0, 10.501);
@@ -3446,7 +3463,7 @@ describe('Storage Service', function () {
         });
         it('should not use the actual array index', () => {
             this.service.setPriceQuantity(7, 15);
-            this.service.prices.take(1).subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_[7].quantity).to.equal(15));
+            this.service.prices.take(1).subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_[4].quantity).to.equal(15));
         });
     });
     describe('#addPriceRow', () => {
@@ -3468,12 +3485,8 @@ describe('Storage Service', function () {
     describe('#removePriceRow', () => {
         it('should remove the row from the price listing', done => {
             const gen = (function* () {
-                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the first row should be removed').to.deep.equal([
-                    ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */].slice(1),
-                ]);
-                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the second row should be removed').to.deep.equal([
-                    ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */].slice(2),
-                ]);
+                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the first row should be removed').to.deep.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* simplePrices */].slice(1));
+                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the second row should be removed').to.deep.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* simplePrices */].slice(2));
                 done();
             })();
             gen.next();
@@ -3483,7 +3496,7 @@ describe('Storage Service', function () {
         });
         it('should not use the actual array index', () => {
             this.service.removePriceRow(7);
-            this.service.prices.take(1).subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_).to.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */].slice(0, 4)));
+            this.service.prices.take(1).subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_).to.deep.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* simplePrices */].slice(0, 4)));
         });
     });
     describe('#commit', () => {
@@ -3802,23 +3815,34 @@ describe('Prices List Component', function () {
             it('should be removable');
         });
     });
-    describe('#setPricePrice', function () {
+    describe('#setPrice', function () {
         beforeEach('Create the component', () => this.component = new __WEBPACK_IMPORTED_MODULE_5__prices_list_component__["a" /* PricesListComponent */](__WEBPACK_IMPORTED_MODULE_7__data_storage_service_mock__["b" /* StorageServiceMock */]));
         beforeEach('Set the type for the component', () => this.component.type = __WEBPACK_IMPORTED_MODULE_8__api_api_service_mock__["j" /* types */][0]);
         afterEach('Reset the storage service mock', () => __WEBPACK_IMPORTED_MODULE_7__data_storage_service_mock__["b" /* StorageServiceMock */].reset());
         it('should call StorageService#setPricePrice', () => {
             const setPricePrice = Object(__WEBPACK_IMPORTED_MODULE_4_sinon__["spy"])(__WEBPACK_IMPORTED_MODULE_7__data_storage_service_mock__["b" /* StorageServiceMock */], 'setPricePrice');
-            this.component.setPricePrice('$10.50', 0);
+            this.component.setPrice('$10.50', 0);
             Object(__WEBPACK_IMPORTED_MODULE_3_chai__["expect"])(setPricePrice).to.have.been.calledWith(0, 10.5);
             setPricePrice.restore();
         });
         it('should accept prices prefixed with $', () => {
-            this.component.setPricePrice('$10.50', 0);
+            this.component.setPrice('$10.50', 0);
             __WEBPACK_IMPORTED_MODULE_7__data_storage_service_mock__["b" /* StorageServiceMock */].prices.take(1).subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_3_chai__["expect"])(_[0].price).to.equal(10.5));
         });
         it('should accept prices not prefixed with $', () => {
-            this.component.setPricePrice('10.50', 0);
+            this.component.setPrice('10.50', 0);
             __WEBPACK_IMPORTED_MODULE_7__data_storage_service_mock__["b" /* StorageServiceMock */].prices.take(1).subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_3_chai__["expect"])(_[0].price).to.equal(10.5));
+        });
+    });
+    describe('#setQuantity', function () {
+        beforeEach('Create the component', () => this.component = new __WEBPACK_IMPORTED_MODULE_5__prices_list_component__["a" /* PricesListComponent */](__WEBPACK_IMPORTED_MODULE_7__data_storage_service_mock__["b" /* StorageServiceMock */]));
+        beforeEach('Set the type for the component', () => this.component.type = __WEBPACK_IMPORTED_MODULE_8__api_api_service_mock__["j" /* types */][0]);
+        afterEach('Reset the storage service mock', () => __WEBPACK_IMPORTED_MODULE_7__data_storage_service_mock__["b" /* StorageServiceMock */].reset());
+        it('should call StorageService#setPriceQuantity', () => {
+            const setPriceQuantity = Object(__WEBPACK_IMPORTED_MODULE_4_sinon__["spy"])(__WEBPACK_IMPORTED_MODULE_7__data_storage_service_mock__["b" /* StorageServiceMock */], 'setPriceQuantity');
+            this.component.setQuantity('10', 0);
+            Object(__WEBPACK_IMPORTED_MODULE_3_chai__["expect"])(setPriceQuantity).to.have.been.calledWith(0, 10);
+            setPriceQuantity.restore();
         });
     });
     describe('#quantityIsNatural', function () {

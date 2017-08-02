@@ -248,7 +248,7 @@ export class StorageService implements ObservableUserInfo {
           _ => _.index === index
             ? {
               ..._,
-              price,
+              price: Math.round(price * 100) / 100,
               dirty: true,
             } : _
         ));
@@ -263,6 +263,7 @@ export class StorageService implements ObservableUserInfo {
   }
 
   removePriceRow(index: number) {
+    // TODO: removing the last row of a price here will not notify the server of any changes!
     this._prices.next(this._prices.getValue().filter(_ => _.index !== index));
   }
 

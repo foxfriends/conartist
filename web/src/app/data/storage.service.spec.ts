@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/toArray';
 
-import { APIServiceMock, validConCode, conventions, prices, products, types, fullConventions, userInfo, simplePrices } from '../api/api.service.mock';
+import { APIServiceMock, validConCode, conventions, products, types, fullConventions, userInfo, simplePrices } from '../api/api.service.mock';
 import { MaterialModule } from '../material.module';
 import { BroadcastModule } from '../broadcast/broadcast.module';
 import { BroadcastService } from '../broadcast/broadcast.service';
@@ -160,9 +160,9 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
   });
 
   describe('#fillConvention', () => {
-    it('should call the API when the requested convention is not filled', () => {
-      this.service.fillConvention(validConCode);
-      expect(this.loadConvention, 'the API should only be accessed once').to.have.been.calledOnce;
+    it('should call the API when the requested convention is not filled', async () => {
+      await this.service.fillConvention(validConCode);
+      expect(this.loadConvention, 'the API should be called').to.have.been.calledOnce;
       expect(this.loadConvention, 'the right con code should be passed to the API').to.have.been.calledWith(validConCode);
     });
     it('should cause #convention to emit an event with the filled convention', done => {
@@ -290,7 +290,7 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
     });
     it('should not use the actual array index', () => {
       this.service.setPricePrice(7, 15);
-      this.service.prices.take(1).subscribe(_ => expect(_[7].price).to.equal(15));
+      this.service.prices.take(1).subscribe(_ => expect(_[4].price).to.equal(15));
     });
     it('should round prices to the nearest cent', () => {
       this.service.setPricePrice(0, 10.501);
@@ -321,7 +321,7 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
     });
     it('should not use the actual array index', () => {
       this.service.setPriceQuantity(7, 15);
-      this.service.prices.take(1).subscribe(_ => expect(_[7].quantity).to.equal(15));
+      this.service.prices.take(1).subscribe(_ => expect(_[4].quantity).to.equal(15));
     });
   });
 
@@ -345,12 +345,8 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
   describe('#removePriceRow', () => {
     it('should remove the row from the price listing', done => {
       const gen = (function*(): any { // typescript why
-        expect(yield, 'the first row should be removed').to.deep.equal([
-          ...prices.slice(1),
-        ]);
-        expect(yield, 'the second row should be removed').to.deep.equal([
-          ...prices.slice(2),
-        ]);
+        expect(yield, 'the first row should be removed').to.deep.equal(simplePrices.slice(1));
+        expect(yield, 'the second row should be removed').to.deep.equal(simplePrices.slice(2));
         done();
       })();
       gen.next();
@@ -360,7 +356,7 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
     });
     it('should not use the actual array index', () => {
       this.service.removePriceRow(7);
-      this.service.prices.take(1).subscribe(_ => expect(_).to.equal(prices.slice(0, 4)));
+      this.service.prices.take(1).subscribe(_ => expect(_).to.deep.equal(simplePrices.slice(0, 4)));
     });
   });
 

@@ -265,8 +265,8 @@ api.put('/prices', assert_authorized(), async (req, res) => {
   try {
     const { usr: user_id } = req.user as User;
     const { prices } = req.body as Pick<Body, 'prices'>;
-    const data = await db.writePrices(user_id, prices);
-    res.send(JSON.stringify({ status: 'Success', data } as ca.APISuccessResult<ca.Prices>));
+    const data = simplePrices(await db.writePrices(user_id, prices));
+    res.send(JSON.stringify({ status: 'Success', data } as ca.APISuccessResult<ca.SimplePrices>));
   } catch(error) {
     console.error(error);
     res.send(JSON.stringify({ status: 'Error', error: error.message } as ca.APIErrorResult));

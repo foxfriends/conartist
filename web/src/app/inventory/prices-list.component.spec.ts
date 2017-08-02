@@ -46,25 +46,37 @@ describe('Prices List Component', function() {
     })
   });
 
-  describe('#setPricePrice', function(this: Mocha.ISuiteCallbackContext & MethodContext) {
+  describe('#setPrice', function(this: Mocha.ISuiteCallbackContext & MethodContext) {
     beforeEach('Create the component', () => this.component = new PricesListComponent(StorageServiceMock));
     beforeEach('Set the type for the component', () => this.component.type = types[0]);
     afterEach('Reset the storage service mock', () => StorageServiceMock.reset());
     it('should call StorageService#setPricePrice', () => {
       const setPricePrice = spy(StorageServiceMock, 'setPricePrice');
-      this.component.setPricePrice('$10.50', 0);
+      this.component.setPrice('$10.50', 0);
       expect(setPricePrice).to.have.been.calledWith(0, 10.5);
       setPricePrice.restore();
     });
     it('should accept prices prefixed with $', () => {
-      this.component.setPricePrice('$10.50', 0);
+      this.component.setPrice('$10.50', 0);
       StorageServiceMock.prices.take(1).subscribe(_ => expect(_[0].price).to.equal(10.5));
     });
     it('should accept prices not prefixed with $', () => {
-      this.component.setPricePrice('10.50', 0);
+      this.component.setPrice('10.50', 0);
       StorageServiceMock.prices.take(1).subscribe(_ => expect(_[0].price).to.equal(10.5));
     });
-  })
+  });
+
+  describe('#setQuantity', function(this: Mocha.ISuiteCallbackContext & MethodContext) {
+    beforeEach('Create the component', () => this.component = new PricesListComponent(StorageServiceMock));
+    beforeEach('Set the type for the component', () => this.component.type = types[0]);
+    afterEach('Reset the storage service mock', () => StorageServiceMock.reset());
+    it('should call StorageService#setPriceQuantity', () => {
+      const setPriceQuantity = spy(StorageServiceMock, 'setPriceQuantity');
+      this.component.setQuantity('10', 0);
+      expect(setPriceQuantity).to.have.been.calledWith(0, 10);
+      setPriceQuantity.restore();
+    });
+  });
 
   describe('#quantityIsNatural', function(this: Mocha.ISuiteCallbackContext & MethodContext) {
     beforeEach('Create the component', () => this.component = new PricesListComponent(StorageServiceMock));

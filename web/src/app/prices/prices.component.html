@@ -12,21 +12,21 @@
   <ng-container cdkColumnDef="quantity">
     <md-header-cell *cdkHeaderCellDef>Quantity</md-header-cell>
     <md-cell *cdkCellDef="let row">
-      <con-editable [content]="row.quantity" (contentChange)="setQuantity($event, row.type, row.product, row.index)" [validator]="quantityIsNatural"></con-editable>
+      <con-editable [content]="row.quantity" (contentChange)="setQuantity($event, row.index)" [validator]="quantityIsNatural"></con-editable>
     </md-cell>
   </ng-container>
 
   <ng-container cdkColumnDef="price">
     <md-header-cell *cdkHeaderCellDef>Price</md-header-cell>
     <md-cell *cdkCellDef="let row">
-      <con-editable [content]="row.price | currency:'USD':true" (contentChange)="setPrice($event, row.type, row.product, row.index)" [validator]="priceIsPositive"></con-editable>
+      <con-editable [content]="row.price | currency:'USD':true" (contentChange)="setPrice($event, row.index)" [validator]="priceIsPositive"></con-editable>
     </md-cell>
   </ng-container>
 
   <ng-container cdkColumnDef="delete">
     <md-header-cell *cdkHeaderCellDef class="prices__column--action">Delete</md-header-cell>
     <md-cell *cdkCellDef="let row" class="prices__column--action">
-      <button md-icon-button (click)="removeRow(row.type, row.product, row.index)">
+      <button md-icon-button (click)="removeRow(row.index)">
         <md-icon>remove_circle_outline</md-icon>
       </button>
     </md-cell>

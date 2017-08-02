@@ -37,6 +37,15 @@ function assert_authorized() {
   return eJWT({ secret: JWTSecret });
 }
 
+function simplePrices(rawData: ca.Prices): ca.SimplePrices {
+  let index = 0;
+  return ([] as ca.SimplePrices).concat(...rawData.map(
+    row => row.prices.map(
+      prices => ({ index: index++, type: row.type, product: row.product, price: prices[1], quantity: prices[0] })
+    )
+  ));
+}
+
 // TODO: less repetition of res.set
 // TODO: figure out how to work with caching instead of try to disable it
 
@@ -111,7 +120,7 @@ api.get('/user', assert_authorized(), async (req, res) => {
     // TODO: concurrency
     const { email, keys } = await db.getUser(user_id);
     const products = await db.getUserProducts(user_id, true);
-    const prices = await db.getUserPrices(user_id);
+    const prices = simplePrices(await db.getUserPrices(user_id));
     const types = await db.getUserTypes(user_id, true);
     const conventions = await db.getUserMetaConventions(user_id);
     const data = { email, keys, products, prices, types, conventions };
@@ -240,8 +249,8 @@ api.get('/prices', assert_authorized(), async (req, res) => {
   res.set('Expires', '0');
   try {
     const { usr: user_id } = req.user as User;
-    const data = await db.getUserPrices(user_id);
-    res.send(JSON.stringify({ status: 'Success', data } as ca.APISuccessResult<ca.Prices>));
+    const data = simplePrices(await db.getUserPrices(user_id));
+    res.send(JSON.stringify({ status: 'Success', data } as ca.APISuccessResult<ca.SimplePrices>));
   } catch(error) {
     console.error(error);
     res.send(JSON.stringify({ status: 'Error', error: error.message } as ca.APIErrorResult));

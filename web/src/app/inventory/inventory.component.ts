@@ -16,7 +16,6 @@ import styles from './inventory.component.scss';
 export class InventoryComponent {
   private _products: BehaviorSubject<ca.Products>
   private _types: BehaviorSubject<ca.ProductTypes>
-  private _prices: BehaviorSubject<ca.Prices>;
 
   tabIndex = 0;
 
@@ -28,7 +27,6 @@ export class InventoryComponent {
   ) {
     this._products = storage.products;
     this._types = storage.types;
-    this._prices = storage.prices;
     this._types.subscribe(() => this.restrictTabIndex());
   }
 

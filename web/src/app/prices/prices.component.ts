@@ -13,14 +13,6 @@ import styles from './prices.component.scss';
 
 type ColumnName = 'product' | 'type' | 'quantity' | 'price' | 'delete';
 
-type Row = {
-  index: number;
-  product: number | null;
-  type: number;
-  quantity: number;
-  price: number;
-};
-
 @Component({
   selector: 'con-pricing',
   template: template,
@@ -28,18 +20,12 @@ type Row = {
 })
 export class PricesComponent implements OnInit {
   readonly displayedColumns: ColumnName[] = ['type', 'product', 'quantity', 'price', 'delete'];
-  private _prices = this.storage.prices;
-  dataSource = new ConDataSource<Row>(
-    this._prices.map(
-      _ => ([] as Row[]).concat(
-        ..._.map(
-          ({ product, type, prices }) => prices.map(
-            ([quantity, price], index) => ({ index, product, type, quantity, price })
-          )
-        )
-      )
-    )
-  );
+  private readonly _prices = this.storage.prices;
+  dataSource = new ConDataSource(this._prices, row => {
+    const productDiscontinued = row.product ? this.product.transform(row.product).discontinued : false;
+    const typeDiscontinued = this.type.transform(row.type).discontinued;
+    return !(productDiscontinued || typeDiscontinued);
+  });
   @ViewChild(MdSort) sort: MdSort;
 
   constructor(
@@ -49,15 +35,8 @@ export class PricesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    setTimeout(() => { // HACK: delay this so that the filter gets applied from the start
-      this.dataSource.filter = row => {
-        const productDiscontinued = row.product ? this.product.transform(row.product).discontinued : false;
-        const typeDiscontinued = this.type.transform(row.type).discontinued;
-        return !(productDiscontinued || typeDiscontinued);
-      };
-    })
     this.sort.mdSortChange.subscribe((sort: Sort) => {
-      let fn: ((a: Row, b: Row) => number) | null = null;
+      let fn: ((a: ca.SimplePrice, b: ca.SimplePrice) => number) | null = null;
       if(sort.direction && sort.active) {
         const dir = sort.direction === 'asc' ? -1 : 1;
         switch(sort.active as ColumnName) {
@@ -85,11 +64,7 @@ export class PricesComponent implements OnInit {
   exportPricesData() {
     // TODO: allow for customizing the format of generated files
     const header = 'Type,Product,Quantity,Price\n';
-    const data = ([] as Row[]).concat(...this._prices.getValue()
-      .map(({ product, type, prices }) => prices.map(
-          ([quantity, price], index) => ({ index, product, type, quantity, price })
-        )
-      ))
+    const data = this._prices.getValue()
       .map(_ => `${this.type.transform(_.type).name},${_.product ? this.product.transform(_.product).name : 'None'},${_.quantity},${_.price}\n`)
     saveAs(
       new Blob([header, ...data], { type: 'text/csv;charset=utf-8' }),
@@ -113,39 +88,37 @@ export class PricesComponent implements OnInit {
         .filter(_ => !!_)
         .map(_ => _.split(',') .map(_ => _.trim())) as [string, string, string, string][];
       // TODO: handle different row configurations
-      const set = values
-        .reduce(([...set], [ type, product, quantity, price ]) => {
-          if(isNaN(parseInt(quantity, 10))) { return set; }
-          if(isNaN(parseFloat(price.replace(/^\$/, '')))) { return set; }
-          const qty = +quantity;
+      values
+        .forEach(([ type, product, quantity, price ]) => {
+          if(isNaN(parseInt(quantity, 10))) { return; }
+          if(isNaN(parseFloat(price.replace(/^\$/, '')))) { return; }
+          const qty = parseInt(quantity, 10);
           const prc = parseFloat(price.replace(/^\$/, ''));
-          const prd = (product === 'None' ? null : this.product.reverse(product).id)
+          const prd = product === 'None' ? null : this.product.reverse(product).id;
           const typ = this.type.reverse(type).id;
-          const i = set.findIndex(_ => _.type === typ && _.product === prd);
-          if(i === -1) {
-            set.push({ type: typ, product: prd, prices: [[qty, prc]]});
+          const exists = this._prices.getValue().find(_ => _.type === typ && _.product === prd && _.quantity === qty);
+          if(exists) {
+            this.storage.setPricePrice(exists.index, prc);
           } else {
-            set[i] = { ...set[i], prices: [...set[i].prices, [qty, prc]]};
+            this.storage.addPriceRow(typ, prd, qty, prc);
           }
-          return set;
         }, [] as ca.Prices);
-      set.forEach(price => this.storage.setPriceList(price.type, price.product, price.prices));
     }
   }
 
   addRow() {
-    // nooop
+    // noop
   }
 
   // TODO: this is duplicated in the PricesListComponent
-  setQuantity(quantity: string, type: number, product: number | null, index: number) {
-    this.storage.setPriceQuantity(type, product, index, parseInt(quantity, 10));
+  setQuantity(quantity: string, index: number) {
+    this.storage.setPriceQuantity(index, parseInt(quantity, 10));
   }
-  setPrice(price: string, type: number, product: number | null, index: number) {
-    this.storage.setPricePrice(type, product, index, parseFloat(price.replace(/^\$/, '')));
+  setPrice(price: string, index: number) {
+    this.storage.setPricePrice(index, parseFloat(price.replace(/^\$/, '')));
   }
-  removeRow(type: number, product: number, index: number) {
-    this.storage.removePriceRow(type, product, index);
+  removeRow(index: number) {
+    this.storage.removePriceRow(index);
   }
   readonly quantityIsNatural = (quantity: string) => !isNaN(parseInt(quantity, 10)) && parseInt(quantity, 10) > 0 && parseInt(quantity, 10) === parseFloat(quantity);
   readonly priceIsPositive = (price: string) => !isNaN(parseFloat(price.replace(/^\$/, ''))) && parseFloat(price.replace(/^\$/, '')) >= 0;

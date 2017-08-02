@@ -43,6 +43,11 @@ export class StorageService implements ObservableUserInfo {
 
   private initialized = new Deferred<void>();
 
+  private _priceIndex = 0;
+  get priceIndex() {
+    return this._priceIndex++;
+  }
+
   constructor(
     @Inject(APIService) private api: APIService,
     @Inject(MdSnackBar) private snackbar: MdSnackBar,
@@ -56,6 +61,7 @@ export class StorageService implements ObservableUserInfo {
         this._keys.next(this.__keys = _.keys);
         this._products.next(this.__products = _.products);
         this._prices.next(this.__prices = _.prices);
+        this._priceIndex = _.prices.length + 1;
         this._types.next(this.__types = _.types);
         this._conventions.next(this.__conventions = _.conventions);
         this.initialized.resolve();
@@ -220,69 +226,44 @@ export class StorageService implements ObservableUserInfo {
     this._types.next(this._types.getValue().map(_ => _.id === type ? { ..._, color, dirty: true } : _));
   }
 
-  setPriceList(type: number, product: number | null, prices: ca.PriceList) {
+  setPriceQuantity(index: number, quantity: number) {
     this._prices.next(
       this._prices
         .getValue()
         .map(
-          _ => _.type === type && _.product === product
+          _ => _.index === index
             ? {
               ..._,
-              prices,
+              quantity,
               dirty: true,
             } : _
         ));
   }
 
-  setPriceQuantity(type: number, product: number | null, index: number, quantity: number) {
+  setPricePrice(index: number, price: number) {
     this._prices.next(
       this._prices
         .getValue()
         .map(
-          _ => _.type === type && _.product === product
+          _ => _.index === index
             ? {
               ..._,
-              prices: _.prices.map(([q, p], i) => [index === i ? quantity : q, p]),
+              price,
               dirty: true,
             } : _
         ));
   }
 
-  setPricePrice(type: number, product: number | null, index: number, price: number) {
-    this._prices.next(
-      this._prices
-        .getValue()
-        .map(
-          _ => _.type === type && _.product === product
-            ? {
-              ..._,
-              prices: _.prices.map(([q, p], i) => [q, index === i ? Math.round(100 * price) / 100 : p]),
-              dirty: true,
-            } : _
-        ));
-  }
-
-  addPriceRow(type: number, product: number | null = null) {
+  addPriceRow(type: number, product: number | null = null, quantity: number = 1, price: number = 0) {
     const prices = this._prices.getValue();
-    const existing = prices.find(_ => _.type === type && _.product === product);
-    if(existing) {
-      const extended = existing.prices.sort((a, b) => a[0] - b[0]);
-      extended.push([ (extended[extended.length - 1] || [0])[0] + 1, 0 ]);
-      this._prices.next(prices.map(_ => _ === existing ? { ...existing, prices: extended, dirty: true } : _))
-    } else {
-      this._prices.next([
-        ...prices,
-        { type, product, prices: [ [1, 0] ], dirty: true },
-      ]);
-    }
+    this._prices.next([
+      ...prices,
+      { index: this.priceIndex, type, product, price, quantity, dirty: true },
+    ]);
   }
 
-  removePriceRow(type: number, product: number | null, index: number) {
-    this._prices.next(
-      this._prices.getValue()
-        .map(_ => _.type === type && _.product === product ? { ..._, prices: _.prices.filter((_, i) => i !== index), dirty: true } : _)
-        .filter(_ => ((_.product === null || _.product >= 0) && _.type >= 0) || _.prices.length > 0)
-    );
+  removePriceRow(index: number) {
+    this._prices.next(this._prices.getValue().filter(_ => _.index !== index));
   }
 
   async commit(rollback: boolean = false) {

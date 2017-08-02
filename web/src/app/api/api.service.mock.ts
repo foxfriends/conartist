@@ -26,6 +26,14 @@ export const prices: ca.Prices = [
   { type: 2, product: null, prices: [[1, 2]] },
 ];
 
+export const simplePrices: ca.SimplePrices = [
+  { index: 0, type: 1, product: null, quantity: 3, price: 10 },
+  { index: 1, type: 1, product: null, quantity: 1, price: 5 },
+  { index: 2, type: 1, product: 2, quantity: 1, price: 7 },
+  { index: 3, type: 1, product: 2, quantity: 2, price: 8 },
+  { index: 7, type: 2, product: null, quantity: 1, price: 2 },
+];
+
 export const types: ca.ProductTypes = [
   { name: 'type', color: 0xFF0000, id: 1, discontinued: false },
   { name: 'type2', color: 0x00FF00, id: 2, discontinued: false },
@@ -58,7 +66,7 @@ export const userInfo: ca.UserInfo = {
   email: existingUser.email,
   keys: 3,
   products,
-  prices,
+  prices: simplePrices,
   types,
   conventions,
 };

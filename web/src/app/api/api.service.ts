@@ -32,10 +32,21 @@ function updatedProducts(products: ca.Products): ca.ProductsUpdate {
     );
 }
 
-function updatedPrices(prices: ca.Prices): ca.PricesUpdate {
+function updatedPrices(prices: ca.SimplePrices): ca.PricesUpdate {
   return prices
     .filter(_ => _.dirty)
-    .map(_ => ({ type_id: _.type, product_id: _.product, price: _.prices }));
+    .reduce((prev, row) => {
+      const i = prev.findIndex(_ => _.type_id === row.type && _.product_id === row.product);
+      if(i === -1) {
+        const next = prices.filter(_ => _.type === row.type && _.product === row.product)
+          .reduce((price, current) => {
+            return { ...price, price: [...price.price, [current.quantity, current.price]] };
+          }, { type_id: row.type, product_id: row.product, price: [] } as ca.PriceUpdate);
+        return [...prev, next];
+      } else {
+        return prev;
+      }
+    }, [] as ca.PricesUpdate);
 }
 
 @Injectable()
@@ -148,12 +159,12 @@ export class APIService {
     }
   }
 
-  savePrices(prices: ca.Prices): Observable<ca.Prices> {
+  savePrices(prices: ca.SimplePrices): Observable<ca.SimplePrices> {
     const updates = updatedPrices(prices);
     if(updates.length) {
       return this.http
         .put(APIService.host`/api/prices/`, { prices: updates }, this.options)
-        .map(_ => handle<ca.Prices>(_))
+        .map(_ => handle<ca.SimplePrices>(_))
         .catch(_ => Observable.throw(new Error('Could not save price changes')));
     } else {
       return Observable.of([]);
@@ -164,8 +175,8 @@ export class APIService {
     const updates: ca.ConventionsUpdate = conventions
       .filter(_ => _.dirty)
       .map(_ =>
-        _.type === 'meta' ? ({ type: 'add' as 'add', code: _.code }) :
-        _.type === 'full' ? ({ type: 'modify' as 'modify', code: _.code, data: { products: updatedProducts(_.data.products) as ca.ModifyProduct[], prices: updatedPrices(_.data.prices) }})
+        _.type === 'meta' ? ({ type: 'add' as 'add', code: _.code }) // : // NOTE: updating conventions is currently unneeded and unsupported
+        // _.type === 'full' ? ({ type: 'modify' as 'modify', code: _.code, data: { products: updatedProducts(_.data.products) as ca.ModifyProduct[], prices: updatedPrices(_.data.prices) }})
                           : ({ type: 'remove' as 'remove', code: _.code })
       );
     if(updates.length) {

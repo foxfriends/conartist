@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/toArray';
 
-import { APIServiceMock, validConCode, conventions, prices, products, types, fullConventions, userInfo } from '../api/api.service.mock';
+import { APIServiceMock, validConCode, conventions, prices, products, types, fullConventions, userInfo, simplePrices } from '../api/api.service.mock';
 import { MaterialModule } from '../material.module';
 import { BroadcastModule } from '../broadcast/broadcast.module';
 import { BroadcastService } from '../broadcast/broadcast.service';
@@ -269,161 +269,98 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
     it('should set the color for the type');
   });
 
-  describe('#setPriceList', () => {
-    it('should set the prices list for the row [type]', done => {
-      const gen = (function*(): any { // typescript why
-        expect(yield, 'the first row should change').to.deep.equal([
-          { ...prices[0], prices: [[1, 10.50]], dirty: true },
-          ...prices.slice(1),
-        ]);
-        done();
-      })();
-      gen.next();
-      this.service.prices.skip(1).take(1).subscribe(_ => gen.next(_));
-      this.service.setPriceList(1, null, [[1, 10.50]]);
-    });
-    it('should set the price for the row [product]', done => {
-      const gen = (function*(): any { // typescript why
-        expect(yield, 'the first row should change').to.deep.equal([
-          prices[0],
-          { ...prices[1], prices: [[0, 10.50]], dirty: true },
-          ...prices.slice(2),
-        ]);
-        done();
-      })();
-      gen.next();
-      this.service.prices.skip(1).take(2).subscribe(_ => gen.next(_));
-      this.service.setPriceList(1, 2, [[0, 10.50]]);
-    });
-  });
-
   describe('#setPricePrice', () => {
-    it('should set the price for the row [type]', done => {
+    it('should set the price for the row', done => {
       const gen = (function*(): any { // typescript why
         expect(yield, 'the first row should change').to.deep.equal([
-          { ...prices[0], prices: [[3, 10.5], [1, 5]], dirty: true },
-          ...prices.slice(1),
+          { ...simplePrices[0], price: 10.5, dirty: true },
+          ...simplePrices.slice(1),
         ]);
         expect(yield, 'the second row should change').to.deep.equal([
-          { ...prices[0], prices: [[3, 10.5], [1, 14]], dirty: true },
-          ...prices.slice(1),
+          { ...simplePrices[0], price: 10.5, dirty: true },
+          { ...simplePrices[1], price: 14, dirty: true },
+          ...simplePrices.slice(2),
         ]);
         done();
       })();
       gen.next();
       this.service.prices.skip(1).take(2).subscribe(_ => gen.next(_));
-      this.service.setPricePrice(1, null, 0, 10.50);
-      this.service.setPricePrice(1, null, 1, 14);
+      this.service.setPricePrice(0, 10.50);
+      this.service.setPricePrice(1, 14);
     });
-    it('should set the price for the row [product]', done => {
-      const gen = (function*(): any { // typescript why
-        expect(yield, 'the first row should change').to.deep.equal([
-          prices[0],
-          { ...prices[1], prices: [[1, 10.5], [2, 8]], dirty: true },
-          ...prices.slice(2),
-        ]);
-        expect(yield, 'the second row should change').to.deep.equal([
-          prices[0],
-          { ...prices[1], prices: [[1, 10.5], [2, 14]], dirty: true },
-          ...prices.slice(2),
-        ]);
-        done();
-      })();
-      gen.next();
-      this.service.prices.skip(1).take(2).subscribe(_ => gen.next(_));
-      this.service.setPricePrice(1, 2, 0, 10.50);
-      this.service.setPricePrice(1, 2, 1, 14);
+    it('should not use the actual array index', () => {
+      this.service.setPricePrice(7, 15);
+      this.service.prices.take(1).subscribe(_ => expect(_[7].price).to.equal(15));
     });
     it('should round prices to the nearest cent', () => {
-      this.service.setPricePrice(1, null, 0, 10.501);
-      this.service.prices.take(1).subscribe(_ => expect(_[0].prices[0][1]).to.equal(10.5));
-      this.service.setPricePrice(1, null, 0, 10.509);
-      this.service.prices.take(1).subscribe(_ => expect(_[0].prices[0][1]).to.equal(10.51));
+      this.service.setPricePrice(0, 10.501);
+      this.service.prices.take(1).subscribe(_ => expect(_[0].price).to.equal(10.5));
+      this.service.setPricePrice(0, 10.509);
+      this.service.prices.take(1).subscribe(_ => expect(_[0].price).to.equal(10.51));
     });
   });
 
   describe('#setPriceQuantity', () => {
-    it('should set the quantity for the row [type]', done => {
+    it('should set the quantity for the row', done => {
       const gen = (function*(): any { // typescript why
         expect(yield, 'the first row should change').to.deep.equal([
-          { ...prices[0], prices: [[15, 10], [1, 5]], dirty: true },
-          ...prices.slice(1),
+          { ...simplePrices[0], quantity: 15, dirty: true },
+          ...simplePrices.slice(1),
         ]);
         expect(yield, 'the second row should change').to.deep.equal([
-          { ...prices[0], prices: [[15, 10], [30, 5]], dirty: true },
-          ...prices.slice(1),
+          { ...simplePrices[0], quantity: 15, dirty: true },
+          { ...simplePrices[1], quantity: 30, dirty: true },
+          ...simplePrices.slice(2),
         ]);
         done();
       })();
       gen.next();
       this.service.prices.skip(1).take(2).subscribe(_ => gen.next(_));
-      this.service.setPriceQuantity(1, null, 0, 15);
-      this.service.setPriceQuantity(1, null, 1, 30);
+      this.service.setPriceQuantity(0, 15);
+      this.service.setPriceQuantity(1, 30);
     });
-    it('should set the quantity for the row [product]', done => {
-      const gen = (function*(): any { // typescript why
-        expect(yield, 'the first row should change').to.deep.equal([
-          prices[0],
-          { ...prices[1], prices: [[4, 7], [2, 8]], dirty: true },
-          ...prices.slice(2),
-        ]);
-        expect(yield, 'the second row should change').to.deep.equal([
-          prices[0],
-          { ...prices[1], prices: [[4, 7], [5, 8]], dirty: true },
-          ...prices.slice(2),
-        ]);
-        done();
-      })();
-      gen.next();
-      this.service.prices.skip(1).take(2).subscribe(_ => gen.next(_));
-      this.service.setPriceQuantity(1, 2, 0, 4);
-      this.service.setPriceQuantity(1, 2, 1, 5);
+    it('should not use the actual array index', () => {
+      this.service.setPriceQuantity(7, 15);
+      this.service.prices.take(1).subscribe(_ => expect(_[7].quantity).to.equal(15));
     });
   });
 
   describe('#addPriceRow', () => {
-    it('should add a row to the prices listing [type]');
-    it('should add a row to the prices listing [product]');
-    it('should create a new price listing [type]');
-    it('should create a new price listing [product]');
+    it('should create a new price listing', () => {
+      this.service.addPriceRow(0, 3);
+      this.service.prices.take(1).subscribe(prices => {
+        expect(prices.length).to.equal(6);
+        expect(prices[5]).to.deep.equal({ index: 6, type: 0, product: 3, price: 0, quantity: 1, dirty: true });
+      });
+    });
+    it('should accept an initial price and quantity', () => {
+      this.service.addPriceRow(0, 3, 4, 5);
+      this.service.prices.take(1).subscribe(prices => {
+        expect(prices.length).to.equal(6);
+        expect(prices[5]).to.deep.equal({ index: 6, type: 0, product: 3, price: 5, quantity: 4, dirty: true });
+      });
+    });
   });
 
   describe('#removePriceRow', () => {
-    it('should remove the row from the price listing [type]', done => {
+    it('should remove the row from the price listing', done => {
       const gen = (function*(): any { // typescript why
-        expect(yield, 'the second row should be removed').to.deep.equal([
-          { ...prices[0], prices: [[3, 10]], dirty: true },
+        expect(yield, 'the first row should be removed').to.deep.equal([
           ...prices.slice(1),
         ]);
-        expect(yield, 'the first row should be removed').to.deep.equal([
-          { ...prices[0], prices: [], dirty: true },
-          ...prices.slice(1),
+        expect(yield, 'the second row should be removed').to.deep.equal([
+          ...prices.slice(2),
         ]);
         done();
       })();
       gen.next();
       this.service.prices.skip(1).take(2).subscribe(_ => gen.next(_));
-      this.service.removePriceRow(1, null, 1);
-      this.service.removePriceRow(1, null, 0);
+      this.service.removePriceRow(0);
+      this.service.removePriceRow(1);
     });
-    it('should remove the row from the price listing [product]', done => {
-      const gen = (function*(): any { // typescript why
-        expect(yield, 'the second row should be removed').to.deep.equal([
-          prices[0],
-          { ...prices[1], prices: [[1, 7]], dirty: true },
-          ...prices.slice(2),
-        ]);
-        expect(yield, 'the first row should be removed').to.deep.equal([
-          prices[0],
-          { ...prices[1], prices: [], dirty: true },
-          ...prices.slice(2),
-        ]);
-        done();
-      })();
-      gen.next();
-      this.service.prices.skip(1).take(2).subscribe(_ => gen.next(_));
-      this.service.removePriceRow(1, 2, 1);
-      this.service.removePriceRow(1, 2, 0);
+    it('should not use the actual array index', () => {
+      this.service.removePriceRow(7);
+      this.service.prices.take(1).subscribe(_ => expect(_).to.equal(prices.slice(0, 4)));
     });
   });
 

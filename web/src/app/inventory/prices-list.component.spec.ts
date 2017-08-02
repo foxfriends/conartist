@@ -52,17 +52,17 @@ describe('Prices List Component', function() {
     afterEach('Reset the storage service mock', () => StorageServiceMock.reset());
     it('should call StorageService#setPricePrice', () => {
       const setPricePrice = spy(StorageServiceMock, 'setPricePrice');
-      this.component.setPricePrice('$10.50', 0, null);
-      expect(setPricePrice).to.have.been.calledWith(1, null, 0, 10.5);
+      this.component.setPricePrice('$10.50', 0);
+      expect(setPricePrice).to.have.been.calledWith(0, 10.5);
       setPricePrice.restore();
     });
     it('should accept prices prefixed with $', () => {
-      this.component.setPricePrice('$10.50', 0, null);
-      StorageServiceMock.prices.take(1).subscribe(_ => expect(_[0].prices[0][1]).to.equal(10.5));
+      this.component.setPricePrice('$10.50', 0);
+      StorageServiceMock.prices.take(1).subscribe(_ => expect(_[0].price).to.equal(10.5));
     });
     it('should accept prices not prefixed with $', () => {
-      this.component.setPricePrice('10.50', 0, null);
-      StorageServiceMock.prices.take(1).subscribe(_ => expect(_[0].prices[0][1]).to.equal(10.5));
+      this.component.setPricePrice('10.50', 0);
+      StorageServiceMock.prices.take(1).subscribe(_ => expect(_[0].price).to.equal(10.5));
     });
   })
 

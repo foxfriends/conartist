@@ -1,9 +1,11 @@
 import { Component, Input, Inject } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
+import { ConDataSource } from '../data/data-source';
 import { StorageService } from '../data/storage.service';
 import template from './prices-list.component.html';
 import styles from './prices-list.component.scss';
+
+type ColumnName = 'product' | 'type' | 'quantity' | 'price' | 'delete';
 
 @Component({
   selector: 'con-prices-list',
@@ -14,28 +16,28 @@ export class PricesListComponent {
   @Input() type: ca.ProductType;
   @Input() showDiscontinued = false;
 
-  private _prices: BehaviorSubject<ca.Prices>;
+  readonly displayedColumns: ColumnName[] = ['type', 'product', 'quantity', 'price', 'delete'];
+  private readonly _prices = this.storage.prices;
+  dataSource = new ConDataSource(this._prices, row => row.type === this.type.id, (a, b) => ((a.product || 0) - (b.product || 0)));
 
   readonly quantityIsNatural = (quantity: string) => !isNaN(parseInt(quantity, 10)) && parseInt(quantity, 10) > 0 && parseInt(quantity, 10) === parseFloat(quantity);
   readonly priceIsPositive = (price: string) => !isNaN(parseFloat(price.replace(/^\$/, ''))) && parseFloat(price.replace(/^\$/, '')) >= 0;
 
-  constructor(@Inject(StorageService) private storage: StorageService) {
-    this._prices = storage.prices;
+  constructor(@Inject(StorageService) private storage: StorageService) {}
+
+  setQuantity(quantity: string, index: number) {
+    this.storage.setPriceQuantity(index, parseInt(quantity, 10));
   }
 
-  setPriceQuantity(quantity: string, index: number, product: number | null) {
-    this.storage.setPriceQuantity(this.type.id, product, index, parseInt(quantity, 10));
+  setPrice(price: string, index: number) {
+    this.storage.setPricePrice(index, parseFloat(price.replace(/^\$/, '')));
   }
 
-  setPricePrice(price: string, index: number, product: number | null) {
-    this.storage.setPricePrice(this.type.id, product, index, parseFloat(price.replace(/^\$/, '')));
+  removeRow(index: number) {
+    this.storage.removePriceRow(index);
   }
 
-  removePriceRow(index: number, product: number | null) {
-    this.storage.removePriceRow(this.type.id, product, index);
-  }
-
-  get prices(): ca.Prices {
+  get prices(): ca.SimplePrices {
     return this._prices.getValue()
       .filter(_ => _.type === this.type.id)
       .sort((a, b) => (a.product !== null ? a.product : -Infinity) - (b.product !== null ? b.product : -Infinity));

@@ -1,17 +1,18 @@
 @import '../variables';
 .prices-list {
   &__product {
-      &--discontinued {
-        opacity: 0.5;
-      }
+    &--discontinued {
+      opacity: 0.5;
+    }
   }
-  &__column {
-    display: flex;
-    flex-basis: 0;
-    flex-grow: 1;
 
-    &--currency {
-      justify-content: flex-end;
+  &__column {
+    &--action {
+      display: flex;
+      flex-grow: 0;
+      flex-shrink: 0;
+      flex-basis: 80px;
+      justify-content: center;
     }
   }
 

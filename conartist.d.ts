@@ -76,11 +76,21 @@ declare namespace ca {
 
   export type Price = {
     type: ID;
-    product: ID | null,
+    product: ID | null;
     prices: PriceList;
     dirty?: boolean;
   };
   export type Prices = Price[];
+
+  export type SimplePrice = {
+    type: ID;
+    index: number;
+    product: ID | null;
+    price: number;
+    quantity: number;
+    dirty?: boolean;
+  };
+  export type SimplePrices = SimplePrice[];
 
   export type PriceUpdate = {
     type_id: ID;
@@ -158,7 +168,7 @@ declare namespace ca {
     email: string;
     keys: number;
     products: Products;
-    prices: Prices;
+    prices: SimplePrices;
     types: ProductTypes;
     conventions: Conventions;
   };

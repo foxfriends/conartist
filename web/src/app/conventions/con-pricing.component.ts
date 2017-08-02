@@ -10,13 +10,6 @@ import styles from './con-pricing.component.scss';
 
 type ColumnName = 'product' | 'type' | 'quantity' | 'price';
 
-type Row = {
-  product: number | null;
-  type: number;
-  quantity: number;
-  price: number;
-};
-
 @Component({
   selector: 'con-con-pricing',
   template: template,
@@ -26,17 +19,7 @@ export class ConPricingComponent implements OnInit {
   readonly displayedColumns: ColumnName[] = ['type', 'product', 'quantity', 'price'];
   @Input() con: ca.FullConvention;
   private _prices = this.storage.prices;
-  dataSource = new ConDataSource<Row>(
-    this._prices.map(
-      _ => ([] as Row[]).concat(
-        ..._.map(
-          ({ product, type, prices }) => prices.map(
-            _ => ({ product, type, quantity: _[0], price: _[1] })
-          )
-        )
-      )
-    )
-  );
+  dataSource = new ConDataSource(this._prices);
   @ViewChild(MdSort) sort: MdSort;
 
   constructor(
@@ -53,7 +36,7 @@ export class ConPricingComponent implements OnInit {
       return !!conPrice || !(productDiscontinued || typeDiscontinued);
     }
     this.sort.mdSortChange.subscribe((sort: Sort) => {
-      let fn: ((a: Row, b: Row) => number) | null = null;
+      let fn: ((a: ca.SimplePrice, b: ca.SimplePrice) => number) | null = null;
       if(sort.direction && sort.active) {
         const dir = sort.direction === 'asc' ? -1 : 1;
         switch(sort.active as ColumnName) {

@@ -813,7 +813,7 @@ let ConPricingComponent = class ConPricingComponent {
         this.type = type;
         this.displayedColumns = ['type', 'product', 'quantity', 'price'];
         this._prices = this.storage.prices;
-        this.dataSource = new __WEBPACK_IMPORTED_MODULE_4__data_data_source__["a" /* ConDataSource */](this._prices.map(_ => [].concat(..._.map(({ product, type, prices }) => prices.map(_ => ({ product, type, quantity: _[0], price: _[1] }))))));
+        this.dataSource = new __WEBPACK_IMPORTED_MODULE_4__data_data_source__["a" /* ConDataSource */](this._prices);
     }
     ngOnInit() {
         this.dataSource.filter = row => {
@@ -2013,7 +2013,6 @@ let InventoryComponent = class InventoryComponent {
         this.typeNameIsUnique = (name) => !this._types.getValue().filter(_ => _.name === name).length;
         this._products = storage.products;
         this._types = storage.types;
-        this._prices = storage.prices;
         this._types.subscribe(() => this.restrictTabIndex());
     }
     get showDiscontinuedTypes() { return this._showDiscontinuedTypes; }
@@ -2347,7 +2346,7 @@ ModalsModule = __decorate([
 /***/ "./src/app/prices/prices.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<md-table [dataSource]=\"dataSource\" mdSort>\n  <ng-container cdkColumnDef=\"type\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Type</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.type | type:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"product\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Product</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.product | product:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"quantity\">\n    <md-header-cell *cdkHeaderCellDef>Quantity</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">\n      <con-editable [content]=\"row.quantity\" (contentChange)=\"setQuantity($event, row.type, row.product, row.index)\" [validator]=\"quantityIsNatural\"></con-editable>\n    </md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"price\">\n    <md-header-cell *cdkHeaderCellDef>Price</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">\n      <con-editable [content]=\"row.price | currency:'USD':true\" (contentChange)=\"setPrice($event, row.type, row.product, row.index)\" [validator]=\"priceIsPositive\"></con-editable>\n    </md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"delete\">\n    <md-header-cell *cdkHeaderCellDef class=\"prices__column--action\">Delete</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\" class=\"prices__column--action\">\n      <button md-icon-button (click)=\"removeRow(row.type, row.product, row.index)\">\n        <md-icon>remove_circle_outline</md-icon>\n      </button>\n    </md-cell>\n  </ng-container>\n\n  <md-header-row *cdkHeaderRowDef=\"displayedColumns\"></md-header-row>\n  <md-row *cdkRowDef=\"let row; columns: displayedColumns\"></md-row>\n</md-table>\n<div class=\"prices__actions\">\n  <button md-raised-button mdTooltip=\"Download\" (click)=\"exportPricesData()\">\n    <md-icon>file_download</md-icon>\n  </button>\n  <button md-raised-button mdTooltip=\"Upload\" (click)=\"importPricesData()\">\n    <md-icon>file_upload</md-icon>\n  </button>\n  <button md-raised-button (click)=\"addRow()\" mdTooltip=\"Add Row\">\n    <md-icon>add</md-icon>\n  </button>\n</div>\n"
+module.exports = "<md-table [dataSource]=\"dataSource\" mdSort>\n  <ng-container cdkColumnDef=\"type\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Type</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.type | type:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"product\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Product</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.product | product:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"quantity\">\n    <md-header-cell *cdkHeaderCellDef>Quantity</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">\n      <con-editable [content]=\"row.quantity\" (contentChange)=\"setQuantity($event, row.index)\" [validator]=\"quantityIsNatural\"></con-editable>\n    </md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"price\">\n    <md-header-cell *cdkHeaderCellDef>Price</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">\n      <con-editable [content]=\"row.price | currency:'USD':true\" (contentChange)=\"setPrice($event, row.index)\" [validator]=\"priceIsPositive\"></con-editable>\n    </md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"delete\">\n    <md-header-cell *cdkHeaderCellDef class=\"prices__column--action\">Delete</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\" class=\"prices__column--action\">\n      <button md-icon-button (click)=\"removeRow(row.index)\">\n        <md-icon>remove_circle_outline</md-icon>\n      </button>\n    </md-cell>\n  </ng-container>\n\n  <md-header-row *cdkHeaderRowDef=\"displayedColumns\"></md-header-row>\n  <md-row *cdkRowDef=\"let row; columns: displayedColumns\"></md-row>\n</md-table>\n<div class=\"prices__actions\">\n  <button md-raised-button mdTooltip=\"Download\" (click)=\"exportPricesData()\">\n    <md-icon>file_download</md-icon>\n  </button>\n  <button md-raised-button mdTooltip=\"Upload\" (click)=\"importPricesData()\">\n    <md-icon>file_upload</md-icon>\n  </button>\n  <button md-raised-button (click)=\"addRow()\" mdTooltip=\"Add Row\">\n    <md-icon>add</md-icon>\n  </button>\n</div>\n"
 
 /***/ }),
 
@@ -2417,18 +2416,15 @@ let PricesComponent = class PricesComponent {
         this.type = type;
         this.displayedColumns = ['type', 'product', 'quantity', 'price', 'delete'];
         this._prices = this.storage.prices;
-        this.dataSource = new __WEBPACK_IMPORTED_MODULE_7__data_data_source__["a" /* ConDataSource */](this._prices.map(_ => [].concat(..._.map(({ product, type, prices }) => prices.map(([quantity, price], index) => ({ index, product, type, quantity, price }))))));
+        this.dataSource = new __WEBPACK_IMPORTED_MODULE_7__data_data_source__["a" /* ConDataSource */](this._prices, row => {
+            const productDiscontinued = row.product ? this.product.transform(row.product).discontinued : false;
+            const typeDiscontinued = this.type.transform(row.type).discontinued;
+            return !(productDiscontinued || typeDiscontinued);
+        });
         this.quantityIsNatural = (quantity) => !isNaN(parseInt(quantity, 10)) && parseInt(quantity, 10) > 0 && parseInt(quantity, 10) === parseFloat(quantity);
         this.priceIsPositive = (price) => !isNaN(parseFloat(price.replace(/^\$/, ''))) && parseFloat(price.replace(/^\$/, '')) >= 0;
     }
     ngOnInit() {
-        setTimeout(() => {
-            this.dataSource.filter = row => {
-                const productDiscontinued = row.product ? this.product.transform(row.product).discontinued : false;
-                const typeDiscontinued = this.type.transform(row.type).discontinued;
-                return !(productDiscontinued || typeDiscontinued);
-            };
-        });
         this.sort.mdSortChange.subscribe((sort) => {
             let fn = null;
             if (sort.direction && sort.active) {
@@ -2454,8 +2450,7 @@ let PricesComponent = class PricesComponent {
     }
     exportPricesData() {
         const header = 'Type,Product,Quantity,Price\n';
-        const data = [].concat(...this._prices.getValue()
-            .map(({ product, type, prices }) => prices.map(([quantity, price], index) => ({ index, product, type, quantity, price }))))
+        const data = this._prices.getValue()
             .map(_ => `${this.type.transform(_.type).name},${_.product ? this.product.transform(_.product).name : 'None'},${_.quantity},${_.price}\n`);
         saveAs(new Blob([header, ...data], { type: 'text/csv;charset=utf-8' }), 'conartist-prices.csv', true);
     }
@@ -2474,41 +2469,39 @@ let PricesComponent = class PricesComponent {
                     .split('\n')
                     .filter(_ => !!_)
                     .map(_ => _.split(',').map(_ => _.trim()));
-                const set = values
-                    .reduce(([...set], [type, product, quantity, price]) => {
+                values
+                    .forEach(([type, product, quantity, price]) => {
                     if (isNaN(parseInt(quantity, 10))) {
-                        return set;
+                        return;
                     }
                     if (isNaN(parseFloat(price.replace(/^\$/, '')))) {
-                        return set;
+                        return;
                     }
-                    const qty = +quantity;
+                    const qty = parseInt(quantity, 10);
                     const prc = parseFloat(price.replace(/^\$/, ''));
-                    const prd = (product === 'None' ? null : this.product.reverse(product).id);
+                    const prd = product === 'None' ? null : this.product.reverse(product).id;
                     const typ = this.type.reverse(type).id;
-                    const i = set.findIndex(_ => _.type === typ && _.product === prd);
-                    if (i === -1) {
-                        set.push({ type: typ, product: prd, prices: [[qty, prc]] });
+                    const exists = this._prices.getValue().find(_ => _.type === typ && _.product === prd && _.quantity === qty);
+                    if (exists) {
+                        this.storage.setPricePrice(exists.index, prc);
                     }
                     else {
-                        set[i] = Object.assign({}, set[i], { prices: [...set[i].prices, [qty, prc]] });
+                        this.storage.addPriceRow(typ, prd, qty, prc);
                     }
-                    return set;
                 }, []);
-                set.forEach(price => this.storage.setPriceList(price.type, price.product, price.prices));
             }
         });
     }
     addRow() {
     }
-    setQuantity(quantity, type, product, index) {
-        this.storage.setPriceQuantity(type, product, index, parseInt(quantity, 10));
+    setQuantity(quantity, index) {
+        this.storage.setPriceQuantity(index, parseInt(quantity, 10));
     }
-    setPrice(price, type, product, index) {
-        this.storage.setPricePrice(type, product, index, parseFloat(price.replace(/^\$/, '')));
+    setPrice(price, index) {
+        this.storage.setPricePrice(index, parseFloat(price.replace(/^\$/, '')));
     }
-    removeRow(type, product, index) {
-        this.storage.removePriceRow(type, product, index);
+    removeRow(index) {
+        this.storage.removePriceRow(index);
     }
 };
 __decorate([

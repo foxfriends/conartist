@@ -2777,7 +2777,7 @@ describe('API Service', function () {
     });
     describe('#getUserInfo', () => {
         shouldRequestWithAuthHeader('getUserInfo', [], 'Get', '/api/user/');
-        shouldReturnAnObservable('getUserInfo', [], __WEBPACK_IMPORTED_MODULE_6__api_service_mock__["j" /* userInfo */], __WEBPACK_IMPORTED_MODULE_6__api_service_mock__["j" /* userInfo */]);
+        shouldReturnAnObservable('getUserInfo', [], __WEBPACK_IMPORTED_MODULE_6__api_service_mock__["k" /* userInfo */], __WEBPACK_IMPORTED_MODULE_6__api_service_mock__["k" /* userInfo */]);
     });
     describe('#loadConvention', () => {
         shouldRequestWithAuthHeader('loadConvention', ['abcde'], 'Get', '/api/con/abcde/');
@@ -2785,10 +2785,10 @@ describe('API Service', function () {
         shouldProduceTheCorrectError('loadConvention', ['abcde'], 'Fetching convention data for abcde failed');
     });
     describe('#saveTypes', () => {
-        shouldRequestWithAuthHeader('saveTypes', [__WEBPACK_IMPORTED_MODULE_6__api_service_mock__["i" /* types */].map(_ => (Object.assign({}, _, { dirty: true })))], 'Put', '/api/types/');
-        shouldRequestWithBody('saveTypes', [__WEBPACK_IMPORTED_MODULE_6__api_service_mock__["i" /* types */].map(_ => (Object.assign({}, _, { dirty: true })))], 'Put', '/api/types/', { types: __WEBPACK_IMPORTED_MODULE_6__api_service_mock__["i" /* types */].map(_ => ({ kind: 'modify', name: _.name, color: _.color, id: _.id, discontinued: _.discontinued })) });
+        shouldRequestWithAuthHeader('saveTypes', [__WEBPACK_IMPORTED_MODULE_6__api_service_mock__["j" /* types */].map(_ => (Object.assign({}, _, { dirty: true })))], 'Put', '/api/types/');
+        shouldRequestWithBody('saveTypes', [__WEBPACK_IMPORTED_MODULE_6__api_service_mock__["j" /* types */].map(_ => (Object.assign({}, _, { dirty: true })))], 'Put', '/api/types/', { types: __WEBPACK_IMPORTED_MODULE_6__api_service_mock__["j" /* types */].map(_ => ({ kind: 'modify', name: _.name, color: _.color, id: _.id, discontinued: _.discontinued })) });
         shouldRequestWithBody('saveTypes', [[{ name: 'name', id: -1, color: 0xffffff, discontinued: false, dirty: true }]], 'Put', '/api/types/', { types: [{ kind: 'create', name: 'name', color: 0xffffff }] });
-        shouldNotRequest('saveTypes', [__WEBPACK_IMPORTED_MODULE_6__api_service_mock__["i" /* types */]]);
+        shouldNotRequest('saveTypes', [__WEBPACK_IMPORTED_MODULE_6__api_service_mock__["j" /* types */]]);
     });
     describe('#saveProducts', () => {
         shouldRequestWithAuthHeader('saveProducts', [__WEBPACK_IMPORTED_MODULE_6__api_service_mock__["h" /* products */].map(_ => (Object.assign({}, _, { dirty: true })))], 'Put', '/api/products/');
@@ -3201,28 +3201,28 @@ describe('Storage Service', function () {
         it('should be a BehaviorSubject', () => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(this.service[prop]).to.be.an.instanceOf(__WEBPACK_IMPORTED_MODULE_5_rxjs_BehaviorSubject__["BehaviorSubject"]));
     }));
     describe('#convention', () => {
-        it('should be an Observable', () => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(this.service.convention(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* validConCode */])).to.be.an.instanceOf(__WEBPACK_IMPORTED_MODULE_6_rxjs_Observable__["Observable"]));
+        it('should be an Observable', () => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(this.service.convention(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */])).to.be.an.instanceOf(__WEBPACK_IMPORTED_MODULE_6_rxjs_Observable__["Observable"]));
     });
     describe('#updateConvention', () => {
         it('should cause #convention to emit an event with the filled convention', done => {
             const gen = (function* () {
-                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield).to.deep.equal(Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["c" /* conventions */].find(_ => _.code === __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* validConCode */])));
-                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield).to.deep.equal(Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["e" /* fullConventions */].find(_ => _.code === __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* validConCode */]), { dirty: true }));
+                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield).to.deep.equal(Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["c" /* conventions */].find(_ => _.code === __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */])));
+                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield).to.deep.equal(Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["e" /* fullConventions */].find(_ => _.code === __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */]), { dirty: true }));
                 done();
             })();
             gen.next();
-            this.service.convention(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* validConCode */]).take(2).subscribe(_ => gen.next(_));
-            this.service.updateConvention(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["e" /* fullConventions */].find(_ => _.code === __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* validConCode */]));
+            this.service.convention(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */]).take(2).subscribe(_ => gen.next(_));
+            this.service.updateConvention(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["e" /* fullConventions */].find(_ => _.code === __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */]));
         });
         it('should cause #conventions to emit an event including the filled convention', done => {
             const gen = (function* () {
                 Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield).to.deep.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["c" /* conventions */]);
-                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield).to.deep.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["c" /* conventions */].map(_ => _.code === __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* validConCode */] ? Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["e" /* fullConventions */].find(_ => _.code === __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* validConCode */]), { dirty: true }) : _));
+                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield).to.deep.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["c" /* conventions */].map(_ => _.code === __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */] ? Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["e" /* fullConventions */].find(_ => _.code === __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */]), { dirty: true }) : _));
                 done();
             })();
             gen.next();
             this.service.conventions.take(2).subscribe(_ => gen.next(_));
-            this.service.updateConvention(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["e" /* fullConventions */].find(_ => _.code === __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* validConCode */]));
+            this.service.updateConvention(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["e" /* fullConventions */].find(_ => _.code === __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */]));
         });
     });
     describe('#addConvention', () => {
@@ -3255,12 +3255,12 @@ describe('Storage Service', function () {
                 end: new Date(30000),
             };
             this.service.addConvention(convention);
-            this.service.keys.subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_).to.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["j" /* userInfo */].keys - 1));
+            this.service.keys.subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_).to.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* userInfo */].keys - 1));
         });
         it('should not remove a key when unsuccessful', () => {
             const convention = __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["c" /* conventions */][0];
             Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(() => this.service.addConvention(convention)).to.throw(Error, convention.title);
-            this.service.keys.subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_).to.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["j" /* userInfo */].keys));
+            this.service.keys.subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_).to.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* userInfo */].keys));
         });
     });
     describe('#removeConvention', () => {
@@ -3275,12 +3275,12 @@ describe('Storage Service', function () {
         it('should add a key when a convention is removed', () => {
             const code = 'xyzab';
             this.service.removeConvention(code);
-            this.service.keys.subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_).to.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["j" /* userInfo */].keys + 1));
+            this.service.keys.subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_).to.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* userInfo */].keys + 1));
         });
         it('should not add a key when a convention is not removed', () => {
             const code = '-----';
             this.service.removeConvention(code);
-            this.service.keys.subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_).to.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["j" /* userInfo */].keys));
+            this.service.keys.subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_).to.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* userInfo */].keys));
         });
     });
     describe('#addConventionProduct', () => {
@@ -3298,43 +3298,43 @@ describe('Storage Service', function () {
     });
     describe('#fillConvention', () => {
         it('should call the API when the requested convention is not filled', () => {
-            this.service.fillConvention(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* validConCode */]);
+            this.service.fillConvention(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */]);
             Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(this.loadConvention, 'the API should only be accessed once').to.have.been.calledOnce;
-            Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(this.loadConvention, 'the right con code should be passed to the API').to.have.been.calledWith(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* validConCode */]);
+            Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(this.loadConvention, 'the right con code should be passed to the API').to.have.been.calledWith(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */]);
         });
         it('should cause #convention to emit an event with the filled convention', done => {
             const gen = (function* () {
-                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield).to.deep.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["c" /* conventions */].find(_ => _.code === __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* validConCode */]));
-                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield).to.deep.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["e" /* fullConventions */].find(_ => _.code === __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* validConCode */]));
+                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield).to.deep.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["c" /* conventions */].find(_ => _.code === __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */]));
+                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield).to.deep.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["e" /* fullConventions */].find(_ => _.code === __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */]));
                 done();
             })();
             gen.next();
-            this.service.convention(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* validConCode */]).take(2).subscribe(_ => gen.next(_));
-            this.service.fillConvention(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* validConCode */]);
+            this.service.convention(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */]).take(2).subscribe(_ => gen.next(_));
+            this.service.fillConvention(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */]);
         });
         it('should cause #conventions to emit an event including the filled convention', done => {
             const gen = (function* () {
                 Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield).to.deep.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["c" /* conventions */]);
-                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield).to.deep.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["c" /* conventions */].map(_ => _.code === __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* validConCode */] ? __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["e" /* fullConventions */].find(_ => _.code === __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* validConCode */]) : _));
+                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield).to.deep.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["c" /* conventions */].map(_ => _.code === __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */] ? __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["e" /* fullConventions */].find(_ => _.code === __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */]) : _));
                 done();
             })();
             gen.next();
             this.service.conventions.take(2).subscribe(_ => gen.next(_));
-            this.service.fillConvention(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* validConCode */]);
+            this.service.fillConvention(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */]);
         });
         it('should not call the API when the convention is already filled', done => {
-            this.service.fillConvention(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* validConCode */]);
-            this.service.convention(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* validConCode */]).filter(_ => _.type === 'full').subscribe(() => {
-                this.service.fillConvention(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* validConCode */]);
+            this.service.fillConvention(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */]);
+            this.service.convention(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */]).filter(_ => _.type === 'full').subscribe(() => {
+                this.service.fillConvention(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */]);
                 Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(this.loadConvention, 'the API should only be accessed the first time').to.have.been.calledOnce;
-                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(this.loadConvention, 'the right con code should be passed to the API').to.have.been.calledWith(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["k" /* validConCode */]);
+                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(this.loadConvention, 'the right con code should be passed to the API').to.have.been.calledWith(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["l" /* validConCode */]);
                 done();
             });
         });
     });
     describe('#createProduct', () => {
         it('should add a new product to the list', () => {
-            const type = __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* types */][0];
+            const type = __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["j" /* types */][0];
             const index = __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["h" /* products */].length + 1;
             this.service.createProduct(type);
             this.service.products.subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_).to.deep.equal([...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["h" /* products */], {
@@ -3375,7 +3375,7 @@ describe('Storage Service', function () {
             ]));
         });
         it('should remove the product entirely if it has not been committed', () => {
-            const type = __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* types */][0];
+            const type = __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["j" /* types */][0];
             this.service.createProduct(type);
             this.service.setProductDiscontinued(-__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["h" /* products */].length - 1, true);
             this.service.products.subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_).to.deep.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["h" /* products */]));
@@ -3395,157 +3395,95 @@ describe('Storage Service', function () {
     describe('#setTypeColor', () => {
         it('should set the color for the type');
     });
-    describe('#setPriceList', () => {
-        it('should set the prices list for the row [type]', done => {
-            const gen = (function* () {
-                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the first row should change').to.deep.equal([
-                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */][0], { prices: [[1, 10.50]], dirty: true }),
-                    ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */].slice(1),
-                ]);
-                done();
-            })();
-            gen.next();
-            this.service.prices.skip(1).take(1).subscribe(_ => gen.next(_));
-            this.service.setPriceList(1, null, [[1, 10.50]]);
-        });
-        it('should set the price for the row [product]', done => {
-            const gen = (function* () {
-                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the first row should change').to.deep.equal([
-                    __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */][0],
-                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */][1], { prices: [[0, 10.50]], dirty: true }),
-                    ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */].slice(2),
-                ]);
-                done();
-            })();
-            gen.next();
-            this.service.prices.skip(1).take(2).subscribe(_ => gen.next(_));
-            this.service.setPriceList(1, 2, [[0, 10.50]]);
-        });
-    });
     describe('#setPricePrice', () => {
-        it('should set the price for the row [type]', done => {
+        it('should set the price for the row', done => {
             const gen = (function* () {
                 Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the first row should change').to.deep.equal([
-                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */][0], { prices: [[3, 10.5], [1, 5]], dirty: true }),
-                    ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */].slice(1),
+                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* simplePrices */][0], { price: 10.5, dirty: true }),
+                    ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* simplePrices */].slice(1),
                 ]);
                 Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the second row should change').to.deep.equal([
-                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */][0], { prices: [[3, 10.5], [1, 14]], dirty: true }),
-                    ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */].slice(1),
+                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* simplePrices */][0], { price: 10.5, dirty: true }),
+                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* simplePrices */][1], { price: 14, dirty: true }),
+                    ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* simplePrices */].slice(2),
                 ]);
                 done();
             })();
             gen.next();
             this.service.prices.skip(1).take(2).subscribe(_ => gen.next(_));
-            this.service.setPricePrice(1, null, 0, 10.50);
-            this.service.setPricePrice(1, null, 1, 14);
+            this.service.setPricePrice(0, 10.50);
+            this.service.setPricePrice(1, 14);
         });
-        it('should set the price for the row [product]', done => {
-            const gen = (function* () {
-                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the first row should change').to.deep.equal([
-                    __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */][0],
-                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */][1], { prices: [[1, 10.5], [2, 8]], dirty: true }),
-                    ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */].slice(2),
-                ]);
-                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the second row should change').to.deep.equal([
-                    __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */][0],
-                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */][1], { prices: [[1, 10.5], [2, 14]], dirty: true }),
-                    ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */].slice(2),
-                ]);
-                done();
-            })();
-            gen.next();
-            this.service.prices.skip(1).take(2).subscribe(_ => gen.next(_));
-            this.service.setPricePrice(1, 2, 0, 10.50);
-            this.service.setPricePrice(1, 2, 1, 14);
+        it('should not use the actual array index', () => {
+            this.service.setPricePrice(7, 15);
+            this.service.prices.take(1).subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_[7].price).to.equal(15));
         });
         it('should round prices to the nearest cent', () => {
-            this.service.setPricePrice(1, null, 0, 10.501);
-            this.service.prices.take(1).subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_[0].prices[0][1]).to.equal(10.5));
-            this.service.setPricePrice(1, null, 0, 10.509);
-            this.service.prices.take(1).subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_[0].prices[0][1]).to.equal(10.51));
+            this.service.setPricePrice(0, 10.501);
+            this.service.prices.take(1).subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_[0].price).to.equal(10.5));
+            this.service.setPricePrice(0, 10.509);
+            this.service.prices.take(1).subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_[0].price).to.equal(10.51));
         });
     });
     describe('#setPriceQuantity', () => {
-        it('should set the quantity for the row [type]', done => {
+        it('should set the quantity for the row', done => {
             const gen = (function* () {
                 Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the first row should change').to.deep.equal([
-                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */][0], { prices: [[15, 10], [1, 5]], dirty: true }),
-                    ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */].slice(1),
+                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* simplePrices */][0], { quantity: 15, dirty: true }),
+                    ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* simplePrices */].slice(1),
                 ]);
                 Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the second row should change').to.deep.equal([
-                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */][0], { prices: [[15, 10], [30, 5]], dirty: true }),
-                    ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */].slice(1),
+                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* simplePrices */][0], { quantity: 15, dirty: true }),
+                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* simplePrices */][1], { quantity: 30, dirty: true }),
+                    ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* simplePrices */].slice(2),
                 ]);
                 done();
             })();
             gen.next();
             this.service.prices.skip(1).take(2).subscribe(_ => gen.next(_));
-            this.service.setPriceQuantity(1, null, 0, 15);
-            this.service.setPriceQuantity(1, null, 1, 30);
+            this.service.setPriceQuantity(0, 15);
+            this.service.setPriceQuantity(1, 30);
         });
-        it('should set the quantity for the row [product]', done => {
-            const gen = (function* () {
-                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the first row should change').to.deep.equal([
-                    __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */][0],
-                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */][1], { prices: [[4, 7], [2, 8]], dirty: true }),
-                    ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */].slice(2),
-                ]);
-                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the second row should change').to.deep.equal([
-                    __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */][0],
-                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */][1], { prices: [[4, 7], [5, 8]], dirty: true }),
-                    ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */].slice(2),
-                ]);
-                done();
-            })();
-            gen.next();
-            this.service.prices.skip(1).take(2).subscribe(_ => gen.next(_));
-            this.service.setPriceQuantity(1, 2, 0, 4);
-            this.service.setPriceQuantity(1, 2, 1, 5);
+        it('should not use the actual array index', () => {
+            this.service.setPriceQuantity(7, 15);
+            this.service.prices.take(1).subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_[7].quantity).to.equal(15));
         });
     });
     describe('#addPriceRow', () => {
-        it('should add a row to the prices listing [type]');
-        it('should add a row to the prices listing [product]');
-        it('should create a new price listing [type]');
-        it('should create a new price listing [product]');
+        it('should create a new price listing', () => {
+            this.service.addPriceRow(0, 3);
+            this.service.prices.take(1).subscribe(prices => {
+                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(prices.length).to.equal(6);
+                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(prices[5]).to.deep.equal({ index: 6, type: 0, product: 3, price: 0, quantity: 1, dirty: true });
+            });
+        });
+        it('should accept an initial price and quantity', () => {
+            this.service.addPriceRow(0, 3, 4, 5);
+            this.service.prices.take(1).subscribe(prices => {
+                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(prices.length).to.equal(6);
+                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(prices[5]).to.deep.equal({ index: 6, type: 0, product: 3, price: 5, quantity: 4, dirty: true });
+            });
+        });
     });
     describe('#removePriceRow', () => {
-        it('should remove the row from the price listing [type]', done => {
+        it('should remove the row from the price listing', done => {
             const gen = (function* () {
-                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the second row should be removed').to.deep.equal([
-                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */][0], { prices: [[3, 10]], dirty: true }),
+                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the first row should be removed').to.deep.equal([
                     ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */].slice(1),
                 ]);
-                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the first row should be removed').to.deep.equal([
-                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */][0], { prices: [], dirty: true }),
-                    ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */].slice(1),
+                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the second row should be removed').to.deep.equal([
+                    ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */].slice(2),
                 ]);
                 done();
             })();
             gen.next();
             this.service.prices.skip(1).take(2).subscribe(_ => gen.next(_));
-            this.service.removePriceRow(1, null, 1);
-            this.service.removePriceRow(1, null, 0);
+            this.service.removePriceRow(0);
+            this.service.removePriceRow(1);
         });
-        it('should remove the row from the price listing [product]', done => {
-            const gen = (function* () {
-                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the second row should be removed').to.deep.equal([
-                    __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */][0],
-                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */][1], { prices: [[1, 7]], dirty: true }),
-                    ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */].slice(2),
-                ]);
-                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the first row should be removed').to.deep.equal([
-                    __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */][0],
-                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */][1], { prices: [], dirty: true }),
-                    ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */].slice(2),
-                ]);
-                done();
-            })();
-            gen.next();
-            this.service.prices.skip(1).take(2).subscribe(_ => gen.next(_));
-            this.service.removePriceRow(1, 2, 1);
-            this.service.removePriceRow(1, 2, 0);
+        it('should not use the actual array index', () => {
+            this.service.removePriceRow(7);
+            this.service.prices.take(1).subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_).to.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["g" /* prices */].slice(0, 4)));
         });
     });
     describe('#commit', () => {
@@ -3589,14 +3527,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 describe('Type Pipe', function () {
     beforeEach('Instantiate the pipe', () => this.pipe = new __WEBPACK_IMPORTED_MODULE_1__type_pipe__["a" /* TypePipe */](__WEBPACK_IMPORTED_MODULE_3__storage_service_mock__["b" /* StorageServiceMock */]));
     it('should transform a type id to the corresponding type', () => {
-        Object(__WEBPACK_IMPORTED_MODULE_0_chai__["expect"])(this.pipe.transform(1)).to.deep.equal(__WEBPACK_IMPORTED_MODULE_2__api_api_service_mock__["i" /* types */].find(_ => _.id === 1));
+        Object(__WEBPACK_IMPORTED_MODULE_0_chai__["expect"])(this.pipe.transform(1)).to.deep.equal(__WEBPACK_IMPORTED_MODULE_2__api_api_service_mock__["j" /* types */].find(_ => _.id === 1));
     });
     it('should transform a missing type id to an unknown type object', () => {
         Object(__WEBPACK_IMPORTED_MODULE_0_chai__["expect"])(this.pipe.transform(-1)).to.deep.equal({ name: 'Unknown Type', id: -1, color: 0xFFFFFF, discontinued: false });
     });
     const keys = ['name', 'id', 'color', 'discontinued'];
     keys.forEach(key => it(`should transform a type id to the ${key} property of the corresponding type`, () => {
-        const type = __WEBPACK_IMPORTED_MODULE_2__api_api_service_mock__["i" /* types */].find(_ => _.id === 1);
+        const type = __WEBPACK_IMPORTED_MODULE_2__api_api_service_mock__["j" /* types */].find(_ => _.id === 1);
         if (type) {
             Object(__WEBPACK_IMPORTED_MODULE_0_chai__["expect"])(this.pipe.transform(1, key)).to.deep.equal(type[key]);
         }
@@ -3866,26 +3804,26 @@ describe('Prices List Component', function () {
     });
     describe('#setPricePrice', function () {
         beforeEach('Create the component', () => this.component = new __WEBPACK_IMPORTED_MODULE_5__prices_list_component__["a" /* PricesListComponent */](__WEBPACK_IMPORTED_MODULE_7__data_storage_service_mock__["b" /* StorageServiceMock */]));
-        beforeEach('Set the type for the component', () => this.component.type = __WEBPACK_IMPORTED_MODULE_8__api_api_service_mock__["i" /* types */][0]);
+        beforeEach('Set the type for the component', () => this.component.type = __WEBPACK_IMPORTED_MODULE_8__api_api_service_mock__["j" /* types */][0]);
         afterEach('Reset the storage service mock', () => __WEBPACK_IMPORTED_MODULE_7__data_storage_service_mock__["b" /* StorageServiceMock */].reset());
         it('should call StorageService#setPricePrice', () => {
             const setPricePrice = Object(__WEBPACK_IMPORTED_MODULE_4_sinon__["spy"])(__WEBPACK_IMPORTED_MODULE_7__data_storage_service_mock__["b" /* StorageServiceMock */], 'setPricePrice');
-            this.component.setPricePrice('$10.50', 0, null);
-            Object(__WEBPACK_IMPORTED_MODULE_3_chai__["expect"])(setPricePrice).to.have.been.calledWith(1, null, 0, 10.5);
+            this.component.setPricePrice('$10.50', 0);
+            Object(__WEBPACK_IMPORTED_MODULE_3_chai__["expect"])(setPricePrice).to.have.been.calledWith(0, 10.5);
             setPricePrice.restore();
         });
         it('should accept prices prefixed with $', () => {
-            this.component.setPricePrice('$10.50', 0, null);
-            __WEBPACK_IMPORTED_MODULE_7__data_storage_service_mock__["b" /* StorageServiceMock */].prices.take(1).subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_3_chai__["expect"])(_[0].prices[0][1]).to.equal(10.5));
+            this.component.setPricePrice('$10.50', 0);
+            __WEBPACK_IMPORTED_MODULE_7__data_storage_service_mock__["b" /* StorageServiceMock */].prices.take(1).subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_3_chai__["expect"])(_[0].price).to.equal(10.5));
         });
         it('should accept prices not prefixed with $', () => {
-            this.component.setPricePrice('10.50', 0, null);
-            __WEBPACK_IMPORTED_MODULE_7__data_storage_service_mock__["b" /* StorageServiceMock */].prices.take(1).subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_3_chai__["expect"])(_[0].prices[0][1]).to.equal(10.5));
+            this.component.setPricePrice('10.50', 0);
+            __WEBPACK_IMPORTED_MODULE_7__data_storage_service_mock__["b" /* StorageServiceMock */].prices.take(1).subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_3_chai__["expect"])(_[0].price).to.equal(10.5));
         });
     });
     describe('#quantityIsNatural', function () {
         beforeEach('Create the component', () => this.component = new __WEBPACK_IMPORTED_MODULE_5__prices_list_component__["a" /* PricesListComponent */](__WEBPACK_IMPORTED_MODULE_7__data_storage_service_mock__["b" /* StorageServiceMock */]));
-        beforeEach('Set the type for the component', () => this.component.type = __WEBPACK_IMPORTED_MODULE_8__api_api_service_mock__["i" /* types */][0]);
+        beforeEach('Set the type for the component', () => this.component.type = __WEBPACK_IMPORTED_MODULE_8__api_api_service_mock__["j" /* types */][0]);
         afterEach('Reset the storage service mock', () => __WEBPACK_IMPORTED_MODULE_7__data_storage_service_mock__["b" /* StorageServiceMock */].reset());
         it('should return false for a non-number', () => Object(__WEBPACK_IMPORTED_MODULE_3_chai__["expect"])(this.component.quantityIsNatural('five')).not.to.be.ok);
         it('should return false for negative number', () => Object(__WEBPACK_IMPORTED_MODULE_3_chai__["expect"])(this.component.quantityIsNatural('-5')).not.to.be.ok);
@@ -3895,7 +3833,7 @@ describe('Prices List Component', function () {
     });
     describe('#priceIsPositive', function () {
         beforeEach('Create the component', () => this.component = new __WEBPACK_IMPORTED_MODULE_5__prices_list_component__["a" /* PricesListComponent */](__WEBPACK_IMPORTED_MODULE_7__data_storage_service_mock__["b" /* StorageServiceMock */]));
-        beforeEach('Set the type for the component', () => this.component.type = __WEBPACK_IMPORTED_MODULE_8__api_api_service_mock__["i" /* types */][0]);
+        beforeEach('Set the type for the component', () => this.component.type = __WEBPACK_IMPORTED_MODULE_8__api_api_service_mock__["j" /* types */][0]);
         afterEach('Reset the storage service mock', () => __WEBPACK_IMPORTED_MODULE_7__data_storage_service_mock__["b" /* StorageServiceMock */].reset());
         it('should return false for a non-number', () => Object(__WEBPACK_IMPORTED_MODULE_3_chai__["expect"])(this.component.priceIsPositive('five')).not.to.be.ok);
         it('should return false for negative number', () => Object(__WEBPACK_IMPORTED_MODULE_3_chai__["expect"])(this.component.priceIsPositive('-5')).not.to.be.ok);
@@ -3958,14 +3896,14 @@ describe('Product List Component', function () {
     });
     describe('#productNameIsUnique', function () {
         beforeEach('Create the component', () => this.component = new __WEBPACK_IMPORTED_MODULE_4__product_list_component__["a" /* ProductListComponent */](__WEBPACK_IMPORTED_MODULE_6__data_storage_service_mock__["b" /* StorageServiceMock */]));
-        beforeEach('Set the type for the component', () => this.component.type = __WEBPACK_IMPORTED_MODULE_7__api_api_service_mock__["i" /* types */][0]);
+        beforeEach('Set the type for the component', () => this.component.type = __WEBPACK_IMPORTED_MODULE_7__api_api_service_mock__["j" /* types */][0]);
         afterEach('Reset the storage service mock', () => __WEBPACK_IMPORTED_MODULE_6__data_storage_service_mock__["b" /* StorageServiceMock */].reset());
         it('should return true for a unique product name', () => Object(__WEBPACK_IMPORTED_MODULE_3_chai__["expect"])(this.component.productNameIsUnique('unique-name')).to.be.ok);
         it('should return false for a not unique product name', () => Object(__WEBPACK_IMPORTED_MODULE_3_chai__["expect"])(this.component.productNameIsUnique(__WEBPACK_IMPORTED_MODULE_7__api_api_service_mock__["h" /* products */][0].name)).not.to.be.ok);
     });
     describe('#quantityIsNatural', function () {
         beforeEach('Create the component', () => this.component = new __WEBPACK_IMPORTED_MODULE_4__product_list_component__["a" /* ProductListComponent */](__WEBPACK_IMPORTED_MODULE_6__data_storage_service_mock__["b" /* StorageServiceMock */]));
-        beforeEach('Set the type for the component', () => this.component.type = __WEBPACK_IMPORTED_MODULE_7__api_api_service_mock__["i" /* types */][0]);
+        beforeEach('Set the type for the component', () => this.component.type = __WEBPACK_IMPORTED_MODULE_7__api_api_service_mock__["j" /* types */][0]);
         afterEach('Reset the storage service mock', () => __WEBPACK_IMPORTED_MODULE_6__data_storage_service_mock__["b" /* StorageServiceMock */].reset());
         it('should return false for a non-number', () => Object(__WEBPACK_IMPORTED_MODULE_3_chai__["expect"])(this.component.quantityIsNatural('five')).not.to.be.ok);
         it('should return false for negative number', () => Object(__WEBPACK_IMPORTED_MODULE_3_chai__["expect"])(this.component.quantityIsNatural('-5')).not.to.be.ok);
@@ -30391,11 +30329,20 @@ const prices = [
 ];
 /* harmony export (immutable) */ __webpack_exports__["g"] = prices;
 
+const simplePrices = [
+    { index: 0, type: 1, product: null, quantity: 3, price: 10 },
+    { index: 1, type: 1, product: null, quantity: 1, price: 5 },
+    { index: 2, type: 1, product: 2, quantity: 1, price: 7 },
+    { index: 3, type: 1, product: 2, quantity: 2, price: 8 },
+    { index: 7, type: 2, product: null, quantity: 1, price: 2 },
+];
+/* harmony export (immutable) */ __webpack_exports__["i"] = simplePrices;
+
 const types = [
     { name: 'type', color: 0xFF0000, id: 1, discontinued: false },
     { name: 'type2', color: 0x00FF00, id: 2, discontinued: false },
 ];
-/* harmony export (immutable) */ __webpack_exports__["i"] = types;
+/* harmony export (immutable) */ __webpack_exports__["j"] = types;
 
 const records = [
     { products: [1], price: 5, time: 1497952889636 },
@@ -30423,17 +30370,17 @@ const userInfo = {
     email: existingUser.email,
     keys: 3,
     products,
-    prices,
+    prices: simplePrices,
     types,
     conventions,
 };
-/* harmony export (immutable) */ __webpack_exports__["j"] = userInfo;
+/* harmony export (immutable) */ __webpack_exports__["k"] = userInfo;
 
 const invalidConCode = 'xxxxx';
 /* unused harmony export invalidConCode */
 
 const validConCode = 'abcde';
-/* harmony export (immutable) */ __webpack_exports__["k"] = validConCode;
+/* harmony export (immutable) */ __webpack_exports__["l"] = validConCode;
 
 let APIServiceMock = class APIServiceMock extends __WEBPACK_IMPORTED_MODULE_3__api_service__["a" /* APIService */] {
     constructor() {

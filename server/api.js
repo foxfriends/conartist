@@ -17,6 +17,10 @@ const JWTSecret = 'FAKE_SECRET_KEY' + Date.now();
 function assert_authorized() {
     return eJWT({ secret: JWTSecret });
 }
+function simplePrices(rawData) {
+    let index = 0;
+    return [].concat(...rawData.map(row => row.prices.map(prices => ({ index: index++, type: row.type, product: row.product, price: prices[1], quantity: prices[0] }))));
+}
 api.post('/account/new', (req, res) => __awaiter(this, void 0, void 0, function* () {
     res.set('Content-Type', 'application/json');
     res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
@@ -87,7 +91,7 @@ api.get('/user', assert_authorized(), (req, res) => __awaiter(this, void 0, void
         const { usr: user_id } = req.user;
         const { email, keys } = yield db.getUser(user_id);
         const products = yield db.getUserProducts(user_id, true);
-        const prices = yield db.getUserPrices(user_id);
+        const prices = simplePrices(yield db.getUserPrices(user_id));
         const types = yield db.getUserTypes(user_id, true);
         const conventions = yield db.getUserMetaConventions(user_id);
         const data = { email, keys, products, prices, types, conventions };
@@ -206,7 +210,7 @@ api.get('/prices', assert_authorized(), (req, res) => __awaiter(this, void 0, vo
     res.set('Expires', '0');
     try {
         const { usr: user_id } = req.user;
-        const data = yield db.getUserPrices(user_id);
+        const data = simplePrices(yield db.getUserPrices(user_id));
         res.send(JSON.stringify({ status: 'Success', data }));
     }
     catch (error) {

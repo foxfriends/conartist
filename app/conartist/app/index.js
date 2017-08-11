@@ -56,17 +56,17 @@ export default class App extends Component {
   async loadSettings() {
     // this function might just be one big hack
     if(await fs.exists(SAVE_STATE_FILE)) {
-      const state = JSON.parse(await fs.readFile(SAVE_STATE_FILE));
-      await new Promise(resolve => this.setState(state, () => resolve()));
-      if(this.state.settings.offlineMode && this.state.con) {
-        return ['SignIn', 'ConCode', 'ConView'];
-      } else {
-        this.setState({ offlineMode: false });
-      }
-      if(this.state.authtoken) {
-        const headers = new Headers();
-        headers.append('Authorization', `Bearer ${this.state.authtoken}`);
-        try {
+      try {
+        const state = JSON.parse(await fs.readFile(SAVE_STATE_FILE));
+        await new Promise(resolve => this.setState(state, () => resolve()));
+        if(this.state.settings.offlineMode && this.state.con) {
+          return ['SignIn', 'ConCode', 'ConView'];
+        } else {
+          this.setState({ offlineMode: false });
+        }
+        if(this.state.authtoken) {
+          const headers = new Headers();
+          headers.append('Authorization', `Bearer ${this.state.authtoken}`);
           const response = await (await fetch(host`/api/auth/`, { method: 'GET', headers })).json();
           if(response.status === 'Success') {
             this.setState({ authtoken: response.data });
@@ -75,9 +75,9 @@ export default class App extends Component {
           } else {
             throw new Error('Invalid auth token');
           }
-        } catch(error) {
-          this.setState({ authtoken: null, con: null, settings: { offlineMode: false } });
         }
+      } catch(error) {
+        this.setState({ authtoken: null, con: null, settings: { offlineMode: false } });
       }
     }
     return ['SignIn'];

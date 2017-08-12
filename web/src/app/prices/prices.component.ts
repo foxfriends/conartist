@@ -20,7 +20,8 @@ type ColumnName = 'product' | 'type' | 'quantity' | 'price' | 'delete';
 })
 export class PricesComponent implements OnInit {
   readonly displayedColumns: ColumnName[] = ['type', 'product', 'quantity', 'price', 'delete'];
-  private readonly _prices = this.storage.prices;
+  private readonly __prices = this.storage.prices;
+  private readonly _prices = this.__prices.map(_ => _.filter(_ => _.price >= 0));
   private readonly _types = this.storage.types;
   private readonly _products = this.storage.products;
   dataSource = new ConDataSource(this._prices, row => {
@@ -74,13 +75,15 @@ export class PricesComponent implements OnInit {
   exportPricesData() {
     // TODO: allow for customizing the format of generated files
     const header = 'Type,Product,Quantity,Price\n';
-    const data = this._prices.getValue()
-      .map(_ => `${this.type.transform(_.type).name},${_.product ? this.product.transform(_.product).name : 'None'},${_.quantity},${_.price}\n`)
-    saveAs(
-      new Blob([header, ...data], { type: 'text/csv;charset=utf-8' }),
-      'conartist-prices.csv',
-      true
-    );
+    this._prices
+      .map(data => data.map(_ => `${this.type.transform(_.type).name},${_.product ? this.product.transform(_.product).name : 'None'},${_.quantity},${_.price}\n`))
+      .subscribe(data => {
+        saveAs(
+          new Blob([header, ...data], { type: 'text/csv;charset=utf-8' }),
+          'conartist-prices.csv',
+          true
+        );
+      });
   }
 
   async importPricesData() {
@@ -106,7 +109,7 @@ export class PricesComponent implements OnInit {
           const prc = parseFloat(price.replace(/^\$/, ''));
           const prd = product === 'None' ? null : this.product.reverse(product).id;
           const typ = this.type.reverse(type).id;
-          const exists = this._prices.getValue().find(_ => _.type === typ && _.product === prd && _.quantity === qty);
+          const exists = this.__prices.getValue().find(_ => _.type === typ && _.product === prd && _.quantity === qty);
           if(exists) {
             this.storage.setPricePrice(exists.index, prc);
           } else {

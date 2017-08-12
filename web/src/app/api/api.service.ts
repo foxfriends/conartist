@@ -40,7 +40,8 @@ function updatedPrices(prices: ca.SimplePrices): ca.PricesUpdate {
       if(i === -1) {
         const next = prices.filter(_ => _.type === row.type && _.product === row.product)
           .reduce((price, current) => {
-            return { ...price, price: [...price.price, [current.quantity, current.price]] };
+            // negative price meant that it was deleted
+            return { ...price, price: [...price.price, [current.quantity, current.price]].filter(_ => _[1] > 0) };
           }, { type_id: row.type, product_id: row.product, price: [] } as ca.PriceUpdate);
         return [...prev, next];
       } else {

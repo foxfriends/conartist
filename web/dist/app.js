@@ -2415,7 +2415,8 @@ let PricesComponent = class PricesComponent {
         this.product = product;
         this.type = type;
         this.displayedColumns = ['type', 'product', 'quantity', 'price', 'delete'];
-        this._prices = this.storage.prices;
+        this.__prices = this.storage.prices;
+        this._prices = this.__prices.map(_ => _.filter(_ => _.price >= 0));
         this._types = this.storage.types;
         this._products = this.storage.products;
         this.dataSource = new __WEBPACK_IMPORTED_MODULE_7__data_data_source__["a" /* ConDataSource */](this._prices, row => {
@@ -2458,9 +2459,11 @@ let PricesComponent = class PricesComponent {
     }
     exportPricesData() {
         const header = 'Type,Product,Quantity,Price\n';
-        const data = this._prices.getValue()
-            .map(_ => `${this.type.transform(_.type).name},${_.product ? this.product.transform(_.product).name : 'None'},${_.quantity},${_.price}\n`);
-        saveAs(new Blob([header, ...data], { type: 'text/csv;charset=utf-8' }), 'conartist-prices.csv', true);
+        this._prices
+            .map(data => data.map(_ => `${this.type.transform(_.type).name},${_.product ? this.product.transform(_.product).name : 'None'},${_.quantity},${_.price}\n`))
+            .subscribe(data => {
+            saveAs(new Blob([header, ...data], { type: 'text/csv;charset=utf-8' }), 'conartist-prices.csv', true);
+        });
     }
     importPricesData() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -2489,7 +2492,7 @@ let PricesComponent = class PricesComponent {
                     const prc = parseFloat(price.replace(/^\$/, ''));
                     const prd = product === 'None' ? null : this.product.reverse(product).id;
                     const typ = this.type.reverse(type).id;
-                    const exists = this._prices.getValue().find(_ => _.type === typ && _.product === prd && _.quantity === qty);
+                    const exists = this.__prices.getValue().find(_ => _.type === typ && _.product === prd && _.quantity === qty);
                     if (exists) {
                         this.storage.setPricePrice(exists.index, prc);
                     }

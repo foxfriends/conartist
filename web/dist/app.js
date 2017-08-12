@@ -648,8 +648,8 @@ __decorate([
     __metadata("design:type", Object)
 ], ConInventoryComponent.prototype, "con", void 0);
 __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_16" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["r" /* MdSort */]),
-    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_material__["r" /* MdSort */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_material__["r" /* MdSort */]) === "function" && _a || Object)
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_16" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["s" /* MdSort */]),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_material__["s" /* MdSort */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_material__["s" /* MdSort */]) === "function" && _a || Object)
 ], ConInventoryComponent.prototype, "sort", void 0);
 ConInventoryComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
@@ -851,8 +851,8 @@ __decorate([
     __metadata("design:type", Object)
 ], ConPricingComponent.prototype, "con", void 0);
 __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_16" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["r" /* MdSort */]),
-    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_material__["r" /* MdSort */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_material__["r" /* MdSort */]) === "function" && _a || Object)
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_16" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["s" /* MdSort */]),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_material__["s" /* MdSort */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_material__["s" /* MdSort */]) === "function" && _a || Object)
 ], ConPricingComponent.prototype, "sort", void 0);
 ConPricingComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
@@ -2346,7 +2346,7 @@ ModalsModule = __decorate([
 /***/ "./src/app/prices/prices.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<md-table [dataSource]=\"dataSource\" mdSort>\n  <ng-container cdkColumnDef=\"type\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Type</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.type | type:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"product\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Product</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.product | product:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"quantity\">\n    <md-header-cell *cdkHeaderCellDef>Quantity</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">\n      <con-editable [content]=\"row.quantity\" (contentChange)=\"setQuantity($event, row.index)\" [validator]=\"quantityIsNatural\"></con-editable>\n    </md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"price\">\n    <md-header-cell *cdkHeaderCellDef>Price</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">\n      <con-editable [content]=\"row.price | currency:'USD':true\" (contentChange)=\"setPrice($event, row.index)\" [validator]=\"priceIsPositive\"></con-editable>\n    </md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"delete\">\n    <md-header-cell *cdkHeaderCellDef class=\"prices__column--action\">Delete</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\" class=\"prices__column--action\">\n      <button md-icon-button (click)=\"removeRow(row.index)\">\n        <md-icon>remove_circle_outline</md-icon>\n      </button>\n    </md-cell>\n  </ng-container>\n\n  <md-header-row *cdkHeaderRowDef=\"displayedColumns\"></md-header-row>\n  <md-row *cdkRowDef=\"let row; columns: displayedColumns\"></md-row>\n</md-table>\n<div class=\"prices__actions\">\n  <button md-raised-button mdTooltip=\"Download\" (click)=\"exportPricesData()\">\n    <md-icon>file_download</md-icon>\n  </button>\n  <button md-raised-button mdTooltip=\"Upload\" (click)=\"importPricesData()\">\n    <md-icon>file_upload</md-icon>\n  </button>\n  <button md-raised-button (click)=\"addRow()\" mdTooltip=\"Add Row\">\n    <md-icon>add</md-icon>\n  </button>\n</div>\n"
+module.exports = "<md-table [dataSource]=\"dataSource\" mdSort>\n  <ng-container cdkColumnDef=\"type\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Type</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">\n      <md-select [ngModel]=\"row.type\" (change)=\"setType($event, row.index)\">\n         <md-option *ngFor=\"let type of types\" [value]=\"type.id\">{{ type.name }}</md-option>\n      </md-select>\n    </md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"product\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Product</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">\n      <md-select [ngModel]=\"row.product\" (change)=\"setProduct($event, row.index)\">\n        <md-option [value]=\"null\">None</md-option>\n        <md-option *ngFor=\"let product of products(row.type)\" [value]=\"product.id\">{{ product.name }}</md-option>\n      </md-select>\n    </md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"quantity\">\n    <md-header-cell *cdkHeaderCellDef>Quantity</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">\n      <con-editable [content]=\"row.quantity\" (contentChange)=\"setQuantity($event, row.index)\" [validator]=\"quantityIsNatural\"></con-editable>\n    </md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"price\">\n    <md-header-cell *cdkHeaderCellDef>Price</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">\n      <con-editable [content]=\"row.price | currency:'USD':true\" (contentChange)=\"setPrice($event, row.index)\" [validator]=\"priceIsPositive\"></con-editable>\n    </md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"delete\">\n    <md-header-cell *cdkHeaderCellDef class=\"prices__column--action\">Delete</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\" class=\"prices__column--action\">\n      <button md-icon-button (click)=\"removeRow(row.index)\">\n        <md-icon>remove_circle_outline</md-icon>\n      </button>\n    </md-cell>\n  </ng-container>\n\n  <md-header-row *cdkHeaderRowDef=\"displayedColumns\"></md-header-row>\n  <md-row *cdkRowDef=\"let row; columns: displayedColumns\"></md-row>\n</md-table>\n<div class=\"prices__actions\">\n  <button md-raised-button mdTooltip=\"Download\" (click)=\"exportPricesData()\">\n    <md-icon>file_download</md-icon>\n  </button>\n  <button md-raised-button mdTooltip=\"Upload\" (click)=\"importPricesData()\">\n    <md-icon>file_upload</md-icon>\n  </button>\n  <button md-raised-button (click)=\"addRow()\" mdTooltip=\"Add Row\">\n    <md-icon>add</md-icon>\n  </button>\n</div>\n"
 
 /***/ }),
 
@@ -2416,6 +2416,8 @@ let PricesComponent = class PricesComponent {
         this.type = type;
         this.displayedColumns = ['type', 'product', 'quantity', 'price', 'delete'];
         this._prices = this.storage.prices;
+        this._types = this.storage.types;
+        this._products = this.storage.products;
         this.dataSource = new __WEBPACK_IMPORTED_MODULE_7__data_data_source__["a" /* ConDataSource */](this._prices, row => {
             const productDiscontinued = row.product ? this.product.transform(row.product).discontinued : false;
             const typeDiscontinued = this.type.transform(row.type).discontinued;
@@ -2423,6 +2425,12 @@ let PricesComponent = class PricesComponent {
         });
         this.quantityIsNatural = (quantity) => !isNaN(parseInt(quantity, 10)) && parseInt(quantity, 10) > 0 && parseInt(quantity, 10) === parseFloat(quantity);
         this.priceIsPositive = (price) => !isNaN(parseFloat(price.replace(/^\$/, ''))) && parseFloat(price.replace(/^\$/, '')) >= 0;
+    }
+    get types() {
+        return this._types.getValue();
+    }
+    products(type) {
+        return this._products.getValue().filter(_ => _.type === type);
     }
     ngOnInit() {
         this.sort.mdSortChange.subscribe((sort) => {
@@ -2493,6 +2501,13 @@ let PricesComponent = class PricesComponent {
         });
     }
     addRow() {
+        this.storage.addPriceRow(this.types[0].id);
+    }
+    setType(type, index) {
+        this.storage.setPriceType(index, type.value);
+    }
+    setProduct(product, index) {
+        this.storage.setPriceProduct(index, product.value);
     }
     setQuantity(quantity, index) {
         this.storage.setPriceQuantity(index, parseInt(quantity, 10));
@@ -2505,8 +2520,8 @@ let PricesComponent = class PricesComponent {
     }
 };
 __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_16" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["r" /* MdSort */]),
-    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_material__["r" /* MdSort */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_material__["r" /* MdSort */]) === "function" && _a || Object)
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_16" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["s" /* MdSort */]),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_material__["s" /* MdSort */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_material__["s" /* MdSort */]) === "function" && _a || Object)
 ], PricesComponent.prototype, "sort", void 0);
 PricesComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({

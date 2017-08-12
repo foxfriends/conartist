@@ -3206,7 +3206,7 @@ describe('Storage Service', function () {
     afterEach('Reset the APIService#loadConvention spy', () => this.loadConvention.reset());
     after('Un-spy on the APIService#getUSerInfo', () => this.getUserInfo.restore());
     after('Un-spy on the APIService#loadConvention', () => this.loadConvention.restore());
-    beforeEach('Create a new Storage service', Object(__WEBPACK_IMPORTED_MODULE_0__angular_core_testing__["c" /* inject */])([__WEBPACK_IMPORTED_MODULE_1__angular_material__["p" /* MdSnackBar */], __WEBPACK_IMPORTED_MODULE_14__modals_error_service_mock__["a" /* ErrorService */], __WEBPACK_IMPORTED_MODULE_12__broadcast_broadcast_service__["a" /* BroadcastService */]], (snackbar, error, broadcast) => {
+    beforeEach('Create a new Storage service', Object(__WEBPACK_IMPORTED_MODULE_0__angular_core_testing__["c" /* inject */])([__WEBPACK_IMPORTED_MODULE_1__angular_material__["q" /* MdSnackBar */], __WEBPACK_IMPORTED_MODULE_14__modals_error_service_mock__["a" /* ErrorService */], __WEBPACK_IMPORTED_MODULE_12__broadcast_broadcast_service__["a" /* BroadcastService */]], (snackbar, error, broadcast) => {
         this.service = new __WEBPACK_IMPORTED_MODULE_4__storage_service__["a" /* StorageService */](__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["b" /* APIServiceMock */], snackbar, error, broadcast);
         broadcast.emit(new __WEBPACK_IMPORTED_MODULE_13__broadcast_event__["a" /* SignInEvent */]);
     }));

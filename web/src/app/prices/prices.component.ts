@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MdSort, Sort } from '@angular/material';
+import { MdSort, Sort, MdSelectChange } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/toPromise';
@@ -21,12 +21,22 @@ type ColumnName = 'product' | 'type' | 'quantity' | 'price' | 'delete';
 export class PricesComponent implements OnInit {
   readonly displayedColumns: ColumnName[] = ['type', 'product', 'quantity', 'price', 'delete'];
   private readonly _prices = this.storage.prices;
+  private readonly _types = this.storage.types;
+  private readonly _products = this.storage.products;
   dataSource = new ConDataSource(this._prices, row => {
     const productDiscontinued = row.product ? this.product.transform(row.product).discontinued : false;
     const typeDiscontinued = this.type.transform(row.type).discontinued;
     return !(productDiscontinued || typeDiscontinued);
   });
   @ViewChild(MdSort) sort: MdSort;
+
+  get types() {
+    return this._types.getValue();
+  }
+
+  products(type: number) {
+    return this._products.getValue().filter(_ => _.type === type);
+  }
 
   constructor(
     @Inject(StorageService) private storage: StorageService,
@@ -107,9 +117,15 @@ export class PricesComponent implements OnInit {
   }
 
   addRow() {
-    // noop
+    this.storage.addPriceRow(this.types[0].id);
   }
 
+  setType(type: MdSelectChange, index: number) {
+    this.storage.setPriceType(index, type.value);
+  }
+  setProduct(product: MdSelectChange, index: number) {
+    this.storage.setPriceProduct(index, product.value);
+  }
   // TODO: this is duplicated in the PricesListComponent
   setQuantity(quantity: string, index: number) {
     this.storage.setPriceQuantity(index, parseInt(quantity, 10));

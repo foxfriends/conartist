@@ -1,12 +1,21 @@
 <md-table [dataSource]="dataSource" mdSort>
   <ng-container cdkColumnDef="type">
     <md-header-cell *cdkHeaderCellDef md-sort-header>Type</md-header-cell>
-    <md-cell *cdkCellDef="let row">{{ row.type | type:'name' }}</md-cell>
+    <md-cell *cdkCellDef="let row">
+      <md-select [ngModel]="row.type" (change)="setType($event, row.index)">
+         <md-option *ngFor="let type of types" [value]="type.id">{{ type.name }}</md-option>
+      </md-select>
+    </md-cell>
   </ng-container>
 
   <ng-container cdkColumnDef="product">
     <md-header-cell *cdkHeaderCellDef md-sort-header>Product</md-header-cell>
-    <md-cell *cdkCellDef="let row">{{ row.product | product:'name' }}</md-cell>
+    <md-cell *cdkCellDef="let row">
+      <md-select [ngModel]="row.product" (change)="setProduct($event, row.index)">
+        <md-option [value]="null">None</md-option>
+        <md-option *ngFor="let product of products(row.type)" [value]="product.id">{{ product.name }}</md-option>
+      </md-select>
+    </md-cell>
   </ng-container>
 
   <ng-container cdkColumnDef="quantity">

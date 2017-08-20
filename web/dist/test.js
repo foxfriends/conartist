@@ -3485,8 +3485,15 @@ describe('Storage Service', function () {
     describe('#removePriceRow', () => {
         it('should remove the row from the price listing', done => {
             const gen = (function* () {
-                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the first row should be removed').to.deep.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* simplePrices */].slice(1));
-                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the second row should be removed').to.deep.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* simplePrices */].slice(2));
+                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the first row should be removed').to.deep.equal([
+                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* simplePrices */][0], { price: -1, dirty: true }),
+                    ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* simplePrices */].slice(1),
+                ]);
+                Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(yield, 'the second row should be removed').to.deep.equal([
+                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* simplePrices */][0], { price: -1, dirty: true }),
+                    Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* simplePrices */][1], { price: -1, dirty: true }),
+                    ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* simplePrices */].slice(2),
+                ]);
                 done();
             })();
             gen.next();
@@ -3496,7 +3503,10 @@ describe('Storage Service', function () {
         });
         it('should not use the actual array index', () => {
             this.service.removePriceRow(7);
-            this.service.prices.take(1).subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_).to.deep.equal(__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* simplePrices */].slice(0, 4)));
+            this.service.prices.take(1).subscribe(_ => Object(__WEBPACK_IMPORTED_MODULE_2_chai__["expect"])(_).to.deep.equal([
+                ...__WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* simplePrices */].slice(0, 4),
+                Object.assign({}, __WEBPACK_IMPORTED_MODULE_9__api_api_service_mock__["i" /* simplePrices */][4], { price: -1, dirty: true }),
+            ]));
         });
     });
     describe('#commit', () => {

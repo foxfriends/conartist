@@ -345,8 +345,15 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
   describe('#removePriceRow', () => {
     it('should remove the row from the price listing', done => {
       const gen = (function*(): any { // typescript why
-        expect(yield, 'the first row should be removed').to.deep.equal(simplePrices.slice(1));
-        expect(yield, 'the second row should be removed').to.deep.equal(simplePrices.slice(2));
+        expect(yield, 'the first row should be removed').to.deep.equal([
+          { ...simplePrices[0], price: -1, dirty: true },
+          ...simplePrices.slice(1),
+        ]);
+        expect(yield, 'the second row should be removed').to.deep.equal([
+          { ...simplePrices[0], price: -1, dirty: true },
+          { ...simplePrices[1], price: -1, dirty: true },
+          ...simplePrices.slice(2),
+        ]);
         done();
       })();
       gen.next();
@@ -356,7 +363,10 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
     });
     it('should not use the actual array index', () => {
       this.service.removePriceRow(7);
-      this.service.prices.take(1).subscribe(_ => expect(_).to.deep.equal(simplePrices.slice(0, 4)));
+      this.service.prices.take(1).subscribe(_ => expect(_).to.deep.equal([
+        ...simplePrices.slice(0, 4),
+        { ...simplePrices[4], price: -1, dirty: true },
+      ]));
     });
   });
 

@@ -40,7 +40,7 @@ function byId(id) {
 }
 function getCon(user_id, con_code, client) {
     return __awaiter(this, void 0, void 0, function* () {
-        const { rows: raw_con } = yield client.query(sql_template_strings_1.default `SELECT * FROM Conventions WHERE code = ${con_code}`);
+        const { rows: raw_con } = yield client.query(sql_template_strings_1.default `SELECT * FROM Conventions WHERE code = ${con_code.toUpperCase()}`);
         if (!raw_con.length) {
             throw new DBError(`No con '${con_code}' exists`);
         }

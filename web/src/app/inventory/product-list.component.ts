@@ -18,7 +18,7 @@ export class ProductListComponent implements OnInit, OnChanges {
   @ViewChild(MdSort) sort: MdSort;
   @Input() type: ca.ProductType;
   products: BehaviorSubject<ca.Products> = this.storage.products;
-  dataSource = new ConDataSource(this.products.map(_ => _.filter(_ => _.type === this.type.id)));
+  dataSource = new ConDataSource(this.products.map(_ => _.filter(_ => _.type === this.type.id)), undefined, (a, b) => a.id - b.id);
   readonly displayedColumns: ColumnName[] = ['name', 'quantity', 'discontinue', 'price'];
 
   private _showDiscontinued = false;
@@ -26,7 +26,7 @@ export class ProductListComponent implements OnInit, OnChanges {
   @Input() set showDiscontinued(value) {
     this._showDiscontinued = value;
     if(this._showDiscontinued) {
-      this.dataSource.filter = null;
+      this.dataSource.filter = undefined;
     } else {
       this.dataSource.filter = _ => !_.discontinued;
     }
@@ -36,7 +36,7 @@ export class ProductListComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.sort.mdSortChange.subscribe((sort: Sort) => {
-      let fn: ((a: ca.Product, b: ca.Product) => number) | null = null;
+      let fn: ((a: ca.Product, b: ca.Product) => number) | undefined;
       if(sort.direction && sort.active) {
         const dir = sort.direction === 'asc' ? -1 : 1;
         switch(sort.active as ColumnName) {
@@ -57,7 +57,9 @@ export class ProductListComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if(changes.type) {
-      this.dataSource = new ConDataSource(this.products.map(_ => _.filter(_ => _.type === this.type.id)), this.dataSource.filter);
+      const prevFilter = this.dataSource.filter;
+      this.dataSource = new ConDataSource(this.products.map(_ => _.filter(_ => _.type === this.type.id)), undefined, (a, b) => a.id - b.id);
+      this.dataSource.filter = prevFilter;
     }
   }
 

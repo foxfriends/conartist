@@ -610,7 +610,7 @@ let ConInventoryComponent = class ConInventoryComponent {
         this.dataSource = new __WEBPACK_IMPORTED_MODULE_4__data_data_source__["a" /* ConDataSource */](this._products);
         this.dataSource.filter = _ => (!_.discontinued && !this.type.transform(_.type).discontinued) || this.included(_);
         this.sort.mdSortChange.subscribe((sort) => {
-            let fn = null;
+            let fn;
             if (sort.direction && sort.active) {
                 const dir = sort.direction === 'asc' ? -1 : 1;
                 switch (sort.active) {
@@ -823,7 +823,7 @@ let ConPricingComponent = class ConPricingComponent {
             return !!conPrice || !(productDiscontinued || typeDiscontinued);
         };
         this.sort.mdSortChange.subscribe((sort) => {
-            let fn = null;
+            let fn;
             if (sort.direction && sort.active) {
                 const dir = sort.direction === 'asc' ? -1 : 1;
                 switch (sort.active) {
@@ -2233,7 +2233,7 @@ let ChooseConventionComponent = class ChooseConventionComponent {
         this._conventions = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["BehaviorSubject"]([]);
         this.displayedColumns = ['name', 'code', 'start', 'end', 'choose'];
         this.conCount = 0;
-        this.dataSource = new __WEBPACK_IMPORTED_MODULE_5__data_data_source__["a" /* ConDataSource */](this._conventions, null, null, { size: this.pageSize, index: 0 });
+        this.dataSource = new __WEBPACK_IMPORTED_MODULE_5__data_data_source__["a" /* ConDataSource */](this._conventions, undefined, undefined, { size: this.pageSize, index: 0 });
         this.api.getConventions().subscribe(_ => {
             this.conCount = _.length;
             this._conventions.next(_);
@@ -2435,7 +2435,7 @@ let PricesComponent = class PricesComponent {
     }
     ngOnInit() {
         this.sort.mdSortChange.subscribe((sort) => {
-            let fn = null;
+            let fn;
             if (sort.direction && sort.active) {
                 const dir = sort.direction === 'asc' ? -1 : 1;
                 switch (sort.active) {

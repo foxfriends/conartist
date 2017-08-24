@@ -19,7 +19,7 @@ export class ChooseConventionComponent {
   readonly displayedColumns: ColumnName[] = ['name', 'code',  'start', 'end', 'choose'];
   conCount = 0;
 
-  dataSource = new ConDataSource(this._conventions, null, null, { size: this.pageSize, index: 0 });
+  dataSource = new ConDataSource(this._conventions, undefined, undefined, { size: this.pageSize, index: 0 });
   constructor(@Inject(APIService) private api: APIService) {
     this.api.getConventions().subscribe(_ => {
       this.conCount = _.length;

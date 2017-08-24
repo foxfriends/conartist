@@ -41,5 +41,6 @@ md-sidenav {
   &__content {
     height: 100%;
     overflow: auto;
+    max-height: calc(100vh - 64px);
   }
 }

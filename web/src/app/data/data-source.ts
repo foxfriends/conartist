@@ -2,7 +2,6 @@ import { DataSource } from '@angular/cdk';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/observable/combineLatest';
-import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 
 export type Filter<T> = ((item: T) => boolean);
@@ -40,8 +39,7 @@ export class ConDataSource<T> extends DataSource<T> {
           .filter(filter || this.initialFilter)
           .sort(sort || this.initialSort)
           .splice(page.index * page.size || 0, ...(page.size ? [page.size] : []))
-      )
-      .do(console.log);
+      );
   }
 
   disconnect() {}

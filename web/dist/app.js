@@ -9,7 +9,7 @@ exports.push([module.i, "@import url(https://fonts.googleapis.com/icon?family=Ma
 exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Roboto:300,400);", ""]);
 
 // module
-exports.push([module.i, "html {\n  min-height: 100%; }\n\nhtml, body {\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-positive: 1;\n      flex-grow: 1;\n  -ms-flex-direction: column;\n      flex-direction: column;\n  font-family: 'Roboto', sans-serif; }\n", ""]);
+exports.push([module.i, "html {\n  min-height: 100%; }\n\nhtml, body {\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-positive: 1;\n      flex-grow: 1;\n  -ms-flex-direction: column;\n      flex-direction: column;\n  font-family: 'Roboto', sans-serif; }\n\n.mat-sidenav-content {\n  height: calc(100vh - 64px) !important; }\n", ""]);
 
 // exports
 

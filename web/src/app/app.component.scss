@@ -39,8 +39,8 @@ md-sidenav {
   }
 
   &__content {
-    height: 100%;
-    overflow: auto;
+    // would rather this be 100%, but it doesn't work in Chrome
     max-height: calc(100vh - 64px);
+    overflow: auto;
   }
 }

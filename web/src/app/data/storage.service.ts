@@ -160,7 +160,8 @@ export class StorageService implements ObservableUserInfo {
       quantity: 0,
       type: type.id,
       id: -index,
-      discontinued: false
+      discontinued: false,
+      dirty: true,
     }
     this._products.next([
       ...this._products.getValue(),

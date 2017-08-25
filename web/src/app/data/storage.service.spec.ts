@@ -209,7 +209,8 @@ describe('Storage Service', function(this: Mocha.ISuiteCallbackContext & Context
           quantity: 0,
           type: type.id,
           id: -index,
-          discontinued: false
+          discontinued: false,
+          dirty: true,
         }]
       ))
     });

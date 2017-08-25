@@ -3359,7 +3359,8 @@ describe('Storage Service', function () {
                     quantity: 0,
                     type: type.id,
                     id: -index,
-                    discontinued: false
+                    discontinued: false,
+                    dirty: true,
                 }]));
         });
         it('should avoid name collisions');

@@ -9,6 +9,16 @@ import template from './product-list.component.html';
 import styles from './product-list.component.scss';
 type ColumnName = 'name' | 'quantity' | 'discontinue' | 'price';
 
+function sortProductsById({id: a}: ca.Product, {id: b}: ca.Product): number {
+  if(a > 0 && b < 0) {
+    return -1;
+  } else if(a < 0 && b > 0) {
+    return 1;
+  } else {
+    return Math.abs(a) - Math.abs(b);
+  }
+}
+
 @Component({
   selector: 'con-product-list',
   template: template,
@@ -18,7 +28,11 @@ export class ProductListComponent implements OnInit, OnChanges {
   @ViewChild(MdSort) sort: MdSort;
   @Input() type: ca.ProductType;
   products: BehaviorSubject<ca.Products> = this.storage.products;
-  dataSource = new ConDataSource(this.products.map(_ => _.filter(_ => _.type === this.type.id)), undefined, (a, b) => a.id - b.id);
+  dataSource = new ConDataSource(
+    this.products.map(_ => _.filter(_ => _.type === this.type.id)),
+    undefined,
+    sortProductsById,
+  );
   readonly displayedColumns: ColumnName[] = ['name', 'quantity', 'discontinue', 'price'];
 
   private _showDiscontinued = false;
@@ -58,7 +72,7 @@ export class ProductListComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if(changes.type) {
       const prevFilter = this.dataSource.filter;
-      this.dataSource = new ConDataSource(this.products.map(_ => _.filter(_ => _.type === this.type.id)), undefined, (a, b) => a.id - b.id);
+      this.dataSource = new ConDataSource(this.products.map(_ => _.filter(_ => _.type === this.type.id)), undefined, sortProductsById);
       this.dataSource.filter = prevFilter;
     }
   }

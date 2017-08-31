@@ -13,7 +13,7 @@ const JWT = require("jsonwebtoken");
 const eJWT = require("express-jwt");
 const db = require("./database");
 const api = express();
-const JWTSecret = 'FAKE_SECRET_KEY' + Date.now();
+const JWTSecret = 'FAKE_SECRET_KEY';
 function assert_authorized() {
     return eJWT({ secret: JWTSecret });
 }

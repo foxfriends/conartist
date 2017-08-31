@@ -6,7 +6,7 @@ import * as db from './database';
 
 const api = express();
 
-const JWTSecret = 'FAKE_SECRET_KEY' + Date.now();
+const JWTSecret = 'FAKE_SECRET_KEY'; // + Date.now();
 
 type AuthToken = { usr: number; };
 type JWT = string;

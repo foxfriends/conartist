@@ -193,7 +193,7 @@ export default class App extends Component {
     const response = await (await fetch(host`/api/con/${this.state.con.code}/sales`, { method: 'PUT', headers, body })).json();
     if(response.status === 'Success') {
       const { records } = this.state.con.data;
-      dirtied.forEach(({ time }) => records.map(_ => _.time === time ?  { ..._, dirty: false } : _));
+      dirtied.forEach(({ time }) => records = records.map(_ => _.time === time ? { ..._, dirty: false } : _));
       await this.setState({
         con: {
           ...this.state.con,

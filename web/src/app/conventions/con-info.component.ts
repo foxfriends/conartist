@@ -21,4 +21,8 @@ export class ConInfoComponent implements OnInit {
   ngOnInit() {
     this.convention = this.route.data.switchMap(_ => _.convention);
   }
+
+  get totalSales(): Observable<number> {
+    return this.convention.map(_ => _.data.records.reduce((prev, { price }) => prev + price, 0));
+  }
 }

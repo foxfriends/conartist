@@ -3,6 +3,14 @@
     <header class="con-info__header">
       <h1 class="con-info__title">{{ con.title }}</h1>
     </header>
+    <md-card>
+      <md-card-header>
+        <md-card-title>Summary</md-card-title>
+      </md-card-header>
+      <md-card-content>
+        Total Sales: {{ totalSales | async }}
+      </md-card-content>
+    </md-card>
   </md-tab>
   <md-tab label="Inventory">
     <con-con-inventory [con]="con"></con-con-inventory>

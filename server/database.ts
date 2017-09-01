@@ -72,7 +72,7 @@ function byId<ID, T extends { id: ID }>(id: ID): (_: T) => boolean {
 // TODO: learn how databases really work and make this efficient!
 
 async function getCon(user_id: number, con_code: string, client: Client): Promise<[db.Convention, db.UserConvention]> {
-  const { rows: raw_con } = await client.query<db.Convention>(SQL`SELECT * FROM Conventions WHERE code = ${con_code.toUpperCase()}`);
+  const { rows: raw_con } = await client.query<db.Convention>(SQL`SELECT * FROM Conventions WHERE UPPER(code) = ${con_code.toUpperCase()}`);
   if(!raw_con.length) { throw new DBError(`No con '${con_code}' exists`); }
   const [{ con_id }] = raw_con;
   const { rows: raw_user_con } =  await client.query<db.UserConvention>(SQL`SELECT * FROM User_Conventions WHERE user_id = ${user_id} AND con_id = ${con_id}`);

@@ -488,7 +488,7 @@ ColorPickerModule = __decorate([
 /***/ "./src/app/conventions/con-info.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<md-tab-group dynamicHeight=\"true\" *ngIf=\"convention|async as con; else loading\">\n  <md-tab label=\"Overview\">\n    <header class=\"con-info__header\">\n      <h1 class=\"con-info__title\">{{ con.title }}</h1>\n    </header>\n  </md-tab>\n  <md-tab label=\"Inventory\">\n    <con-con-inventory [con]=\"con\"></con-con-inventory>\n  </md-tab>\n  <md-tab label=\"Pricing\">\n    <con-con-pricing [con]=\"con\"></con-con-pricing>\n  </md-tab>\n  <md-tab label=\"Records\">\n    <con-record-list [con]=\"convention\"></con-record-list>\n  </md-tab>\n  <md-tab label=\"Stats\">\n    <con-stats [con]=\"con\"></con-stats>\n  </md-tab>\n</md-tab-group>\n"
+module.exports = "<md-tab-group dynamicHeight=\"true\" *ngIf=\"convention|async as con; else loading\">\n  <md-tab label=\"Overview\">\n    <header class=\"con-info__header\">\n      <h1 class=\"con-info__title\">{{ con.title }}</h1>\n    </header>\n    <md-card>\n      <md-card-header>\n        <md-card-title>Summary</md-card-title>\n      </md-card-header>\n      <md-card-content>\n        Total Sales: {{ totalSales | async }}\n      </md-card-content>\n    </md-card>\n  </md-tab>\n  <md-tab label=\"Inventory\">\n    <con-con-inventory [con]=\"con\"></con-con-inventory>\n  </md-tab>\n  <md-tab label=\"Pricing\">\n    <con-con-pricing [con]=\"con\"></con-con-pricing>\n  </md-tab>\n  <md-tab label=\"Records\">\n    <con-record-list [con]=\"convention\"></con-record-list>\n  </md-tab>\n  <md-tab label=\"Stats\">\n    <con-stats [con]=\"con\"></con-stats>\n  </md-tab>\n</md-tab-group>\n"
 
 /***/ }),
 
@@ -535,6 +535,9 @@ let ConInfoComponent = class ConInfoComponent {
     }
     ngOnInit() {
         this.convention = this.route.data.switchMap(_ => _.convention);
+    }
+    get totalSales() {
+        return this.convention.map(_ => _.data.records.reduce((prev, { price }) => prev + price, 0));
     }
 };
 ConInfoComponent = __decorate([

@@ -1,0 +1,14 @@
+{
+  "name": "conartist",
+  "version": "1.0.0",
+  "description": "Conartist web dashboard",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Cameron Eldridge",
+  "license": "MIT",
+  "devDependencies": {
+    "elm-webpack-loader": "^4.3.1"
+  }
+}

@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/OinkIguana/conartist/issues"
   },
-  "homepage": "https://github.com/OinkIguana/conartist#readme"
+  "homepage": "https://github.com/OinkIguana/conartist#readme",
+  "devDependencies": {
+    "elm-webpack-loader": "^4.3.1"
+  }
 }

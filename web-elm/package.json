@@ -9,6 +9,7 @@
   "author": "Cameron Eldridge",
   "license": "MIT",
   "devDependencies": {
+    "elm": "^0.18.0",
     "elm-webpack-loader": "^4.3.1"
   }
 }

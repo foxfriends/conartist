@@ -1,7 +1,9 @@
 import Html exposing (Html)
-import Model exposing (Model, model)
-import Update exposing (Msg, update)
+import Model exposing (Model, init)
+import Msg exposing (Msg)
+import Update exposing (update)
 import View exposing (view)
+import Subscriptions exposing (subscriptions)
 
 main : Program Never Model Msg
-main = Html.beginnerProgram { model = model, update = update, view = view }
+main = Html.program { init = init, update = update, view = view, subscriptions = subscriptions }

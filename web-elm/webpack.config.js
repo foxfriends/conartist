@@ -10,7 +10,7 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.elm$/, exclude: /(elm-stuff|node_modules)/, loader: 'elm-webpack-loader' },
+      { test: /\.elm$/, loader: 'elm-webpack-loader', exclude: /(elm-stuff|node_modules)/ },
     ],
   },
 };

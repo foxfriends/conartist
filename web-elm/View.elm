@@ -8,13 +8,14 @@ import Msg exposing (Msg)
 
 import VSignIn
 import VDashboard
+import VSidenav
 
 view : Model -> Html Msg
 view model = case model.page of
   SignIn _  -> main_ [ class "ca__content" ] [VSignIn.view model]
   _         ->
     div [ class "ca" ]
-      [ div [ class "ca__sidenav"] []
+      [ VSidenav.view model
       , main_ [ class "ca__content" ]
         [ case model.page of
             Dashboard -> VDashboard.view model

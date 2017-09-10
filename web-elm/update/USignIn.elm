@@ -27,7 +27,10 @@ update msg model = case model.page of
                 , ("psw", Json.string page.password) ] )
               (ConRequest.decode Decode.string))
         DidSignIn (Ok (ConRequest.Success authtoken)) -> let user = model.user in
-          ({ model | user = Just { email = page.email, authtoken = authtoken } }, Cmd.none)
+          ( { model
+            | user = Just { email = page.email, authtoken = authtoken }
+            , page = Dashboard }
+          , Cmd.none)
         DidSignIn (Ok (ConRequest.Failure  error)) ->
           ({ model | page = SignIn { page | status = Failure error } }, Cmd.none)
         DidSignIn (Err _) ->

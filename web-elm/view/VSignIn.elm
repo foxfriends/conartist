@@ -1,6 +1,6 @@
 module VSignIn exposing (view)
 import Html exposing (Html, div, input, button, text)
-import Html.Attributes exposing (type_)
+import Html.Attributes exposing (type_, placeholder)
 import Html.Events exposing (onInput, onClick)
 import Html.Keyed as K
 
@@ -13,12 +13,12 @@ view : Model -> Html Msg
 view model = case model.page of
   Page.SignIn page ->
     K.node "div" [] <|
-      [ ("username", input [type_ "text", onInput Email] [] )]
+      [ ("username", input [type_ "text", placeholder "Email", onInput Email] [] )]
       ++ (if page.is_sign_in
-          then [ ("password", input [type_ "password", onInput Password] []) ]
-          else [ ("confirm_email", input [type_ "text", onInput CEmail] [])
-               , ("password", input [type_ "password", onInput Password] [])
-               , ("confirm_password", input [type_ "password", onInput CPassword] [])
+          then [ ("password", input [type_ "password", placeholder "Password", onInput Password] []) ]
+          else [ ("confirm_email", input [type_ "text", placeholder "Confirm Email", onInput CEmail] [])
+               , ("password", input [type_ "password", placeholder "Password", onInput Password] [])
+               , ("confirm_password", input [type_ "password", placeholder "Confirm Password", onInput CPassword] [])
                , ("terms", input [type_ "checkbox", onClick ToggleTerms] []) ])
       ++ [ ("submit", button [ onClick DoSignIn ] [ text "Log In" ])
          , ("toggle_sign_in", button [ onClick ToggleSignIn ] [ text "Create an account" ]) ]

@@ -57,7 +57,7 @@ api.post('/account/new', async (req, res) => {
   const { usr, psw } = req.body as Pick<Body, 'usr' | 'psw'>;
   try {
     await db.createUser(usr, psw);
-    res.send(JSON.stringify({ status: 'Success' } as ca.APISuccessResult<void>));
+    res.send(JSON.stringify({ status: 'Success', data: null } as ca.APISuccessResult<null>));
   } catch(error) {
     console.error(error);
     res.send(JSON.stringify({ status: 'Error', error: error.message } as ca.APIErrorResult));
@@ -155,7 +155,7 @@ api.put('/cons', assert_authorized(), async (req, res) => {
     const { conventions } = req.body as Pick<Body, 'conventions'>;
     const { usr: user_id } = req.user as User;
     await db.writeUserConventions(user_id, conventions);
-    res.send(JSON.stringify({ status: 'Success' } as ca.APISuccessResult<void>));
+    res.send(JSON.stringify({ status: 'Success', data: null } as ca.APISuccessResult<null>));
   } catch(error) {
     console.error(error);
     res.send(JSON.stringify({ status: 'Error', error: error.message } as ca.APIErrorResult));
@@ -204,7 +204,7 @@ api.put('/con/:con_code/sales', assert_authorized(), async (req, res) => {
     const { usr: user_id } = req.user as User;
     const { records } = req.body as Pick<Body, 'records'>;
     await db.writeRecords(user_id, con_code, records);
-    res.send(JSON.stringify({ status: 'Success' } as ca.APISuccessResult<void>));
+    res.send(JSON.stringify({ status: 'Success', data: null } as ca.APISuccessResult<null>));
   } catch(error) {
     console.error(error);
     res.send(JSON.stringify({ status: 'Error', error: error.message } as ca.APIErrorResult));

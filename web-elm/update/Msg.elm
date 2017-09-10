@@ -13,3 +13,6 @@ type Msg
   | ToggleSignIn
   | DoSignIn
   | DidSignIn (Result Http.Error (ConRequest String))
+  | DoCreateAccount
+  | DidCreateAccount (Result Http.Error (ConRequest ()))
+  | DidCheckExistingEmail (Result Http.Error (ConRequest Bool))

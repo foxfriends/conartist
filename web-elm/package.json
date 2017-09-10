@@ -9,8 +9,18 @@
   "author": "Cameron Eldridge",
   "license": "MIT",
   "devDependencies": {
+    "autoprefixer": "^7.1.4",
+    "css-loader": "^0.28.7",
     "elm": "^0.18.0",
     "elm-webpack-loader": "^4.3.1",
+    "extract-text-webpack-plugin": "^3.0.0",
+    "fast-sass-loader": "^1.2.5",
+    "node-sass": "^4.5.3",
+    "postcss-loader": "^2.0.6",
+    "uglifyjs-webpack-plugin": "^0.4.6",
     "webpack": "^3.5.6"
+  },
+  "dependencies": {
+    "reset-css": "^2.2.1"
   }
 }

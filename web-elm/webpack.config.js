@@ -12,5 +12,6 @@ module.exports = {
     rules: [
       { test: /\.elm$/, loader: 'elm-webpack-loader', exclude: /(elm-stuff|node_modules)/ },
     ],
+    noParse: /\.elm$/,
   },
 };

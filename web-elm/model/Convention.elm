@@ -1,6 +1,7 @@
 module Convention exposing (Convention, isDirty)
 import List exposing (foldl)
 import Date exposing (Date)
+
 import Product exposing (Product)
 import Price exposing (Price)
 import ProductType exposing (ProductType)

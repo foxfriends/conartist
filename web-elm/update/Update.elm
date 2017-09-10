@@ -1,7 +1,8 @@
 module Update exposing (update)
+import Lazy exposing (Lazy, lazy, force)
+
 import Model exposing (Model)
 import Msg exposing (Msg)
-import Lazy exposing (Lazy, lazy, force)
 
 import Load
 import USignIn

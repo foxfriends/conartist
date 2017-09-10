@@ -1,12 +1,13 @@
 module USignIn exposing (update)
+import Http
+import Json.Decode as Decode
+import Json.Encode as Json
+
 import Model exposing (Model)
 import Page exposing (Page(..))
 import Status exposing (Status(..))
 import Msg exposing (Msg(..))
-import Http
 import ConRequest
-import Json.Decode as Decode
-import Json.Encode as Json
 
 update : Msg -> Model -> Maybe (Model, Cmd Msg)
 update msg model = case model.page of

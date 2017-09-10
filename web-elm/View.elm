@@ -1,6 +1,7 @@
 module View exposing (view)
-import Model exposing (Model)
 import Html exposing (Html, div)
+
+import Model exposing (Model)
 import Page exposing (Page(..))
 import Msg exposing (Msg)
 

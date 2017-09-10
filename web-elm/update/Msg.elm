@@ -1,5 +1,6 @@
 module Msg exposing (Msg(..))
 import Http
+
 import ConRequest exposing (ConRequest)
 
 type Msg

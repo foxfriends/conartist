@@ -1,5 +1,6 @@
 module Model exposing (Model, init)
 import List exposing (foldl)
+
 import Msg exposing (Msg)
 import Convention exposing (Convention)
 import Page exposing (Page)

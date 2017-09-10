@@ -1,4 +1,6 @@
 module Msg exposing (Msg(..))
+import Http
+import ConRequest exposing (ConRequest)
 
 type Msg
   -- sign in
@@ -9,3 +11,4 @@ type Msg
   | ToggleTerms
   | ToggleSignIn
   | DoSignIn
+  | DidSignIn (Result Http.Error (ConRequest String))

@@ -6,13 +6,13 @@ import Page exposing (Page)
 import User exposing (User)
 
 type alias Model =
-  { userInfo: Maybe User
+  { user: Maybe User
   , page: Page
   , conventions: List Convention }
 
 init : (Model, Cmd Msg)
 init =
-  ( { userInfo = Nothing
+  ( { user = Nothing
     , page = Page.signIn
     , conventions = [] }
   , Cmd.none )

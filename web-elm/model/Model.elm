@@ -6,11 +6,9 @@ import Page exposing (Page)
 import User exposing (User)
 
 type alias Model =
-  { user: Maybe User
+  { user: User
   , authtoken : String
   , page: Page }
 
 isDirty : Model -> Bool
-isDirty { user } = case user of
-  Just user -> foldl (\c -> \p -> p || Convention.isDirty c ) False user.conventions
-  Nothing -> False
+isDirty { user } = foldl (\c -> \p -> p || Convention.isDirty c ) False user.conventions

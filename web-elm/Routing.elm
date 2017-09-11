@@ -5,6 +5,7 @@ import Navigation exposing (Location)
 import Model exposing (Model)
 import Msg exposing (Msg(..))
 import Page exposing (Page(..))
+import Load
 import LocalStorage
 
 matchers : Parser (Page -> a) a
@@ -25,15 +26,19 @@ parseLocation location = case parsePath matchers location of
 
 update : Msg -> Model -> Maybe (Model, Cmd Msg)
 update msg model = case msg of
-  LSRetrive ("authtoken", Just authtoken) -> Just
-    ( { model
-    | page = Dashboard
-    , authtoken = authtoken }
-    , Cmd.none )
+  LSRetrive ("authtoken", Just authtoken) ->
+    let newmodel =
+      { model
+      | page = Dashboard
+      , authtoken = authtoken }
+    in Just
+      (newmodel, Cmd.batch
+        [ Navigation.newUrl dashboardPath
+        , Load.user newmodel ] )
   LSRetrive ("authtoken", Nothing) -> Just
     ( { model
-    | page = Page.signIn
-    , authtoken = "" }
+      | page = Page.signIn
+      , authtoken = "" }
     , Navigation.newUrl signInPath )
   DoSignOut   -> Just ( { model | page = Page.signIn, authtoken = "" }, Cmd.batch [ LocalStorage.remove "authtoken", Navigation.newUrl signInPath ])
   DoNav url   -> Just ( model, Navigation.newUrl url )

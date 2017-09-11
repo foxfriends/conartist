@@ -37,15 +37,17 @@ update msg model = case model.page of
       DoSignIn -> Just
         ( { model | page = SignIn { page | status = Progress 0 } }
         , doSignIn page.email page.password )
-      DidSignIn (Ok (ConRequest.Success authtoken)) -> Just <| let user = model.user in
-      let newmodel =
+      DidSignIn (Ok (ConRequest.Success authtoken)) -> Just <|
+        let newmodel =
           { model
-          | user = Just { email = page.email, keys = 0, products = [], productTypes = [], prices = [], conventions = [] }
+          | user = { email = page.email, keys = 0, products = [], productTypes = [], prices = [], conventions = [] }
           , authtoken = authtoken
-          , page = Dashboard } in
-        (newmodel , Cmd.batch
-          [ Load.user newmodel
-          , LocalStorage.set ("authtoken", authtoken) ] )
+          , page = Dashboard }
+        in
+          (newmodel
+          , Cmd.batch
+            [ Load.user newmodel
+            , LocalStorage.set ("authtoken", authtoken) ] )
       DidSignIn (Ok (ConRequest.Failure error)) -> Just
         ( { model | page = SignIn { page | status = Failure error } }
         , Cmd.none )

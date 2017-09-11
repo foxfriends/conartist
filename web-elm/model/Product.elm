@@ -30,5 +30,5 @@ decode = Decode.map (\a -> Clean a) <|
     (Decode.field "id" Decode.int)
     (Decode.field "name" Decode.string)
     (Decode.field "quantity" Decode.int)
-    (Decode.field "type_id" Decode.int)
+    (Decode.field "type" Decode.int)
     (Decode.field "discontinued" Decode.bool)

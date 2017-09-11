@@ -1,4 +1,4 @@
-module Convention exposing (Convention, isDirty, decode)
+module Convention exposing (Convention, isDirty, decode, asMeta)
 import Json.Decode as Decode exposing (Decoder)
 import List exposing (foldl)
 import Date exposing (Date)
@@ -38,10 +38,15 @@ isDirty con = case con of
 decode : Decoder Convention
 decode = Decode.map (\a -> Meta a) <|
   Decode.map4 MetaConvention
-    (Decode.field "name" Decode.string)
+    (Decode.field "title" Decode.string)
     (Decode.field "code" Decode.string)
     (Decode.field "start" (Decode.map stringToDate Decode.string))
     (Decode.field "end" (Decode.map stringToDate Decode.string))
 
 stringToDate : (String -> Date)
 stringToDate = Date.fromString >> Result.toMaybe >> (Maybe_.unwrap_or <| Date.fromTime 0)
+
+asMeta : Convention -> MetaConvention
+asMeta con = case con of
+  Meta con -> con
+  Full con -> MetaConvention con.name con.code con.start con.end

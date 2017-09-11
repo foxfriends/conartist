@@ -2,25 +2,19 @@ module Price exposing (Price, isDirty, decode)
 import Json.Decode as Decode exposing (Decoder)
 
 type alias FullPrice =
-  { id: Int
+  { index: Int
   , type_id: Int
   , product_id: Maybe Int
   , price: Float
   , quantity: Int }
 
 type alias DeletedPrice =
-  { id: Int }
-
-type alias NewPrice =
-  { type_id: Int
-  , product_id: Maybe Int
-  , price: Float
-  , quantity: Int }
+  { index: Int }
 
 type Price
   = Clean FullPrice
   | Dirty FullPrice
-  | New NewPrice
+  | New FullPrice
   | Deleted DeletedPrice
 
 isDirty : Price -> Bool
@@ -33,8 +27,8 @@ isDirty price = case price of
 decode : Decoder Price
 decode = Decode.map (\a -> Clean a) <|
   Decode.map5 FullPrice
-    (Decode.field "id" Decode.int)
-    (Decode.field "type_id" Decode.int)
-    (Decode.field "product_id" (Decode.maybe Decode.int))
+    (Decode.field "index" Decode.int)
+    (Decode.field "type" Decode.int)
+    (Decode.field "product" (Decode.maybe Decode.int))
     (Decode.field "price" Decode.float)
     (Decode.field "quantity" Decode.int)

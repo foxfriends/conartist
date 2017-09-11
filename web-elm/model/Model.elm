@@ -5,6 +5,7 @@ import Msg exposing (Msg)
 import Convention exposing (Convention)
 import Page exposing (Page)
 import User exposing (User)
+import LocalStorage
 
 type alias Model =
   { user: Maybe User
@@ -16,7 +17,7 @@ init =
   ( { user = Nothing
     , authtoken = ""
     , page = Page.signIn }
-  , Cmd.none )
+  , LocalStorage.get "authtoken" )
 
 isDirty : Model -> Bool
 isDirty { user } = case user of

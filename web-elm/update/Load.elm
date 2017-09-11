@@ -18,6 +18,6 @@ user model =
     , headers = [ Http.header "Authorization" ("Bearer " ++ model.authtoken) ]
     , url = "/api/user"
     , body = Http.emptyBody
-    , expect = Http.expectJson (ConRequest.decode <| User.decode )
+    , expect = Http.expectJson (ConRequest.decode User.decode )
     , timeout = Nothing
     , withCredentials = False }

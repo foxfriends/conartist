@@ -9,11 +9,17 @@ import Page exposing (Page(..))
 import Status exposing (Status(..))
 import Load
 import ConRequest
+import LocalStorage
 
 update : Msg -> Model -> Maybe (Model, Cmd Msg)
 update msg model = case model.page of
   SignIn page ->
     case msg of
+      LSRetrive ("authtoken", Just authtoken) -> Just
+        ( { model
+          | page = Dashboard
+          , authtoken = authtoken }
+        , Cmd.none )
       -- TODO: make form validation more user friendly
       Email new -> Just
         ( { model | page = validateForm <| SignIn { page | email = new } }
@@ -42,7 +48,9 @@ update msg model = case model.page of
           | user = Just { email = page.email, keys = 0, products = [], productTypes = [], prices = [], conventions = [] }
           , authtoken = authtoken
           , page = Dashboard } in
-        (newmodel , Load.user newmodel)
+        (newmodel , Cmd.batch
+          [ Load.user newmodel
+          , LocalStorage.set ("authtoken", authtoken) ] )
       DidSignIn (Ok (ConRequest.Failure error)) -> Just
         ( { model | page = SignIn { page | status = Failure error } }
         , Cmd.none )

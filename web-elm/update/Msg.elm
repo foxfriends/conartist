@@ -22,3 +22,5 @@ type Msg
   | OpenConSignUp
   -- loading
   | DidLoadUser (Result Http.Error (ConRequest User))
+  -- localStorage
+  | LSRetrive (String, Maybe String)

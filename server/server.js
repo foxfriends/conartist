@@ -11,3 +11,4 @@ app.listen(process.env.PORT || 8080, () => {
 app.use(bodyParser.json());
 app.use('/api', api_1.default);
 app.use('/', express.static(path.resolve(__dirname, '../web-elm')));
+app.use('/', (_, res) => res.sendFile(path.resolve(__dirname, '../web-elm/index.html')));

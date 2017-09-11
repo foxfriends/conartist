@@ -1,23 +1,14 @@
-module Model exposing (Model, init)
+module Model exposing (Model)
 import List exposing (foldl)
 
-import Msg exposing (Msg)
 import Convention exposing (Convention)
 import Page exposing (Page)
 import User exposing (User)
-import LocalStorage
 
 type alias Model =
   { user: Maybe User
   , authtoken : String
   , page: Page }
-
-init : (Model, Cmd Msg)
-init =
-  ( { user = Nothing
-    , authtoken = ""
-    , page = Page.signIn }
-  , LocalStorage.get "authtoken" )
 
 isDirty : Model -> Bool
 isDirty { user } = case user of

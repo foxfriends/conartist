@@ -16,3 +16,4 @@ app.use('/api', api);
 // app.use('/', express.static(path.resolve(__dirname, '../web/dist')));
 // app.use('/', (_, res) => res.sendFile(path.resolve(__dirname, '../web/dist/index.html')));
 app.use('/', express.static(path.resolve(__dirname, '../web-elm')));
+app.use('/', (_, res) => res.sendFile(path.resolve(__dirname, '../web-elm/index.html')));

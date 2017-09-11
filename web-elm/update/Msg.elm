@@ -1,5 +1,6 @@
 module Msg exposing (Msg(..))
 import Http
+import Navigation exposing (Location)
 
 import ConRequest exposing (ConRequest)
 import User exposing (User)
@@ -13,6 +14,7 @@ type Msg
   | ToggleTerms
   | ToggleSignIn
   | DoSignIn
+  | DoSignOut
   | DidSignIn (Result Http.Error (ConRequest String))
   | DoCreateAccount
   | DidCreateAccount (Result Http.Error (ConRequest ()))
@@ -24,3 +26,6 @@ type Msg
   | DidLoadUser (Result Http.Error (ConRequest User))
   -- localStorage
   | LSRetrive (String, Maybe String)
+  -- Navigation
+  | DoNav String
+  | DidNav Location

@@ -3,9 +3,10 @@ import Status exposing (Status(..))
 
 type Page
   = Dashboard
-  | Products
-  | Prices
-  | Convention
+  | Inventory
+  | Pricing
+  | Conventions
+  | Convention String
   | SignIn { email: String
            , password: String
            , c_email: String

@@ -2,6 +2,7 @@ module Msg exposing (Msg(..))
 import Http
 
 import ConRequest exposing (ConRequest)
+import User exposing (User)
 
 type Msg
   -- sign in
@@ -16,3 +17,8 @@ type Msg
   | DoCreateAccount
   | DidCreateAccount (Result Http.Error (ConRequest ()))
   | DidCheckExistingEmail (Result Http.Error (ConRequest Bool))
+  -- dashboard
+  | OpenKeyPurchase
+  | OpenConSignUp
+  -- loading
+  | DidLoadUser (Result Http.Error (ConRequest User))

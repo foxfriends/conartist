@@ -8,16 +8,17 @@ import User exposing (User)
 
 type alias Model =
   { user: Maybe User
-  , page: Page
-  , conventions: List Convention }
+  , authtoken : String
+  , page: Page }
 
 init : (Model, Cmd Msg)
 init =
   ( { user = Nothing
-    , page = Page.signIn
-    , conventions = [] }
+    , authtoken = ""
+    , page = Page.signIn }
   , Cmd.none )
 
 isDirty : Model -> Bool
-isDirty model =
-  foldl (\c -> \p -> p || Convention.isDirty c ) False model.conventions
+isDirty { user } = case user of
+  Just user -> foldl (\c -> \p -> p || Convention.isDirty c ) False user.conventions
+  Nothing -> False

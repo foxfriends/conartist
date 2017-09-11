@@ -25,6 +25,16 @@ parseLocation location = case parsePath matchers location of
 
 update : Msg -> Model -> Maybe (Model, Cmd Msg)
 update msg model = case msg of
+  LSRetrive ("authtoken", Just authtoken) -> Just
+    ( { model
+    | page = Dashboard
+    , authtoken = authtoken }
+    , Cmd.none )
+  LSRetrive ("authtoken", Nothing) -> Just
+    ( { model
+    | page = Page.signIn
+    , authtoken = "" }
+    , Navigation.newUrl signInPath )
   DoSignOut   -> Just ( { model | page = Page.signIn, authtoken = "" }, Cmd.batch [ LocalStorage.remove "authtoken", Navigation.newUrl signInPath ])
   DoNav url   -> Just ( model, Navigation.newUrl url )
   DidNav loc  -> Just ( { model | page = parseLocation loc }, Cmd.none )

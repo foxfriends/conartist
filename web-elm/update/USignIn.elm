@@ -15,16 +15,6 @@ update : Msg -> Model -> Maybe (Model, Cmd Msg)
 update msg model = case model.page of
   SignIn page ->
     case msg of
-      LSRetrive ("authtoken", Just authtoken) -> Just
-        ( { model
-          | page = Dashboard
-          , authtoken = authtoken }
-        , Cmd.none )
-      LSRetrive ("authtoken", Nothing) -> Just
-        ( { model
-          | page = Page.signIn
-          , authtoken = "" }
-        , Cmd.none )
       -- TODO: make form validation more user friendly
       Email new -> Just
         ( { model | page = validateForm <| SignIn { page | email = new } }

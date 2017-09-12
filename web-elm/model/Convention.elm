@@ -1,4 +1,4 @@
-module Convention exposing (Convention, isDirty, decode, asMeta)
+module Convention exposing (..)
 import Json.Decode as Decode exposing (Decoder)
 import List exposing (foldl)
 import Date exposing (Date)

@@ -3,19 +3,22 @@ import Html exposing (Html, div, button, text, span)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
 import Date exposing (Date)
-import Date.Format exposing (format)
-import List exposing (map, isEmpty)
+import Date.Extra as Date exposing (isBetween, toFormattedString)
+import List exposing (map, filter, isEmpty, foldl)
 
 import Model exposing (Model)
-import Convention exposing (Convention)
+import Convention exposing (Convention, MetaConvention)
 import Msg exposing (Msg(..))
 
 view : Model -> Html Msg
-view model = div [ class "dashboard" ]
-  [ card "Conventions" []
-    [ titledList "Previous" conListRow model.user.conventions ]
-    [ button [ onClick OpenKeyPurchase ] [ text "Buy a key" ]
-    , button [ onClick OpenConSignUp ] [ text "Add a convention" ] ] ]
+view model =  let sorted = splitByDate model.now (map Convention.asMeta model.user.conventions) in
+  div [ class "dashboard" ]
+    [ card "Conventions" []
+      [ titledList "Current" conListRow sorted.current
+      , titledList "Upcoming" conListRow sorted.upcoming
+      , titledList "Previous" conListRow sorted.previous ]
+      [ button [ onClick OpenKeyPurchase ] [ text "Buy a key" ]
+      , button [ onClick OpenConSignUp ] [ text "Add a convention" ] ] ]
 
 card : String -> List (Html.Attribute Msg) -> List (Html Msg) -> List (Html Msg) -> Html Msg
 card title attrs contents actions =
@@ -30,8 +33,8 @@ titledList title body list =
     then div [ class "list list--empty" ] []
     else div [ class "list"] ( div [ class "list__title" ] [ text title ] :: (list |> map body) )
 
-conListRow : Convention -> Html Msg
-conListRow con = let { code, name, start, end } = Convention.asMeta con in
+conListRow : MetaConvention -> Html Msg
+conListRow con = let { code, name, start, end } = con in
   div
     [ class "list__row" ]
     [ span [ class "list__column list__column--primary" ] [ text name ]
@@ -39,4 +42,20 @@ conListRow con = let { code, name, start, end } = Convention.asMeta con in
     , span [ class "list__column list__column--right" ] [ text <| (formatConDate start) ++ "–" ++ (formatConDate end) ] ]
 
 formatConDate : Date -> String
-formatConDate = format "%b %e"
+formatConDate = toFormattedString "MMM d, y"
+
+type alias SortedConventions =
+  { previous: List MetaConvention
+  , current: List MetaConvention
+  , upcoming: List MetaConvention }
+
+splitByDate : Date -> List MetaConvention -> SortedConventions
+splitByDate now = foldl
+  (\con -> \p -> case (Date.compare con.start now, Date.compare now con.end) of
+    (LT, LT)  -> { p | current = con :: p.current }
+    (EQ, EQ)  -> { p | current = con :: p.current }
+    (EQ, LT)  -> { p | current = con :: p.current }
+    (LT, EQ)  -> { p | current = con :: p.current }
+    (GT, _ )  -> { p | upcoming = con :: p.upcoming }
+    (_ , GT)  -> { p | previous = con :: p.previous } )
+  (SortedConventions [] [] [])

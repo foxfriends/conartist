@@ -1,5 +1,6 @@
 module Msg exposing (Msg(..))
 import Http
+import Date exposing (Date)
 import Navigation exposing (Location)
 
 import ConRequest exposing (ConRequest)
@@ -29,3 +30,4 @@ type Msg
   -- Navigation
   | DoNav String
   | DidNav Location
+  | SetDate Date

@@ -11,13 +11,15 @@ import VDashboard
 import VSidenav
 
 view : Model -> Html Msg
-view model = case model.page of
-  SignIn _  -> main_ [ class "ca__content" ] [ VSignIn.view model ]
-  _         ->
-    div [ class "ca" ]
+view model = let content =
+  case model.page of
+    SignIn _  -> [ main_ [ class "ca__content" ] [ VSignIn.view model ] ]
+    _         ->
       [ main_
-          [ class "ca__content" ]
-          [ case model.page of
-              Dashboard -> VDashboard.view model
-              _         -> div [] [] ]
+        [ class "ca__content" ]
+        [ case model.page of
+            Dashboard -> VDashboard.view model
+            _         -> div [] [] ]
       , VSidenav.view model ]
+  in
+    div [ class "ca" ] content

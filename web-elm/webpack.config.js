@@ -13,10 +13,14 @@ module.exports = {
   module: {
     rules: [
       { test: /\.elm$/, loader: 'elm-webpack-loader', exclude: /(elm-stuff|node_modules)/ },
-      { test: /\.(sass|s?css)$/, exclude: /(elm-stuff|node_modules)/, use:
-        ExtractTextPlugin.extract({
+      // TODO: using url-loader temporarily. update to file loader eventualy
+      { test: /\.(png|svg|gif|jpe?g)$/, loader: 'url-loader!img-loader' },
+      { test: /\.(sass|s?css)$/,
+        exclude: /(elm-stuff|node_modules)/,
+        use: ExtractTextPlugin.extract({
           use: 'css-loader?minimize=true!postcss-loader!fast-sass-loader',
-        }) },
+        }),
+      },
     ],
     noParse: /\.elm$/,
   },

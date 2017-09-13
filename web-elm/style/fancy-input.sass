@@ -1,0 +1,28 @@
+.fancy-input
+  position: relative
+  height: 32px
+  &__field
+    border: none
+    background: none
+    margin: 0
+    padding: 0
+    width: 100%
+    height: 100%
+  &__underline
+    position: relative
+    width: 100%
+    overflow: visible
+  &__underline--primary,
+  &__underline--secondary
+    position: absolute
+    width: 100%
+    transform-origin: center
+    transform: scaleX(0)
+    transition: transform 0.1s
+  &__underline--primary
+    border-bottom: 2px solid $color--primary
+  &__underline--secondary
+    border-bottom: 1px solid $color--placeholder
+  &__field:focus + &__underline &__underline--primary,
+  &__field:hover + &__underline &__underline--secondary
+    transform: scaleX(1)

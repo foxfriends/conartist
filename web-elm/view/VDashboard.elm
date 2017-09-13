@@ -9,6 +9,7 @@ import List exposing (map, filter, isEmpty, foldl)
 import Model exposing (Model)
 import Convention exposing (Convention, MetaConvention)
 import Msg exposing (Msg(..))
+import Card exposing (card)
 
 view : Model -> Html Msg
 view model =  let sorted = splitByDate model.now (map Convention.asMeta model.user.conventions) in
@@ -19,13 +20,6 @@ view model =  let sorted = splitByDate model.now (map Convention.asMeta model.us
       , titledList "Previous" conListRow sorted.previous ]
       [ button [ onClick OpenKeyPurchase ] [ text "Buy a key" ]
       , button [ onClick OpenConSignUp ] [ text "Add a convention" ] ] ]
-
-card : String -> List (Html.Attribute Msg) -> List (Html Msg) -> List (Html Msg) -> Html Msg
-card title attrs contents actions =
-  div ([ class "card" ] ++ attrs)
-    [ div [ class "card__title" ] [ text title ]
-    , div [ class "card__contents" ] contents
-    , div [ class "card__actions" ] actions ]
 
 titledList : String -> (a -> Html Msg) -> List a -> Html Msg
 titledList title body list =

@@ -1,0 +1,76 @@
+@import helper
+
+.fancy-input
+  $font-size: 11pt
+  position: relative
+  height: 32px
+  &__placeholder
+    position: absolute
+    top: -4px
+    left: 0
+    color: $color--placeholder
+    transition: transform 0.2s, font-size 0.2s
+    transform: none
+    font-size: 7pt
+  &--invalid &__placeholder
+    color: $color--warn
+  &__field:focus ~ &__placeholder
+    color: $color--primary
+  &--empty &__field:not(:focus) ~ &__placeholder
+    transform: translateY(14px)
+    font-size: $font-size
+  &__field
+    border: none
+    background: none
+    margin: 0
+    padding: 0
+    width: 100%
+    height: 100%
+    outline: none
+    font-size: $font-size
+  &__underline
+    position: relative
+    width: 100%
+    overflow: visible
+  &__underline--primary,
+  &__underline--secondary,
+  &__underline--warn
+    position: absolute
+    width: 100%
+    transform-origin: center
+    transform: scaleX(0)
+    transition: transform 0.1s
+  &__underline--primary
+    border-bottom: 2px solid $color--primary
+  &__underline--warn
+    border-bottom: 2px solid $color--warn
+  &__underline--secondary
+    border-bottom: 1px solid $color--placeholder
+  &__underline &__underline--secondary,
+  &__field:focus ~ &__underline &__underline--primary,
+  &--invalid &__underline &__underline--warn
+    transform: scaleX(1)
+
+.fancy-check
+  &__label
+  &__box
+
+.fancy-button
+  border: none
+  border-radius: 2px
+  background: none
+  height: 40px
+  padding: 0 16px
+  margin: 8px
+  cursor: pointer
+  &--primary
+    +card(1)
+    transition: box-shadow 0.2s
+    border: 1px solid darker($color--primary, 8%)
+    background-image: linear-gradient(to bottom, lighter($color--primary), $color--primary)
+    &:hover
+      +card(0)
+  &--flat
+    transition: background-color 0.2s
+    &:hover
+      background-color: transparentize(darker($color--primary, 30%, 30%), 0.9)

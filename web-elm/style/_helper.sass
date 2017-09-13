@@ -1,3 +1,5 @@
+@import hsv
+
 @function top-shadow($depth)
   $primary-offset: nth(1.5 3 10 14 19, $depth) * 1px
   $blur: nth(1.5 3 10 14 19, $depth) * 4px
@@ -11,6 +13,31 @@
   $color: rgba(black, nth(.24 .23 .23 .22 .22, $depth))
 
   @return 0 $primary-offset $blur $color
+
+@function darker($colorv, $sat: 5%, $val: 5%)
+  $hsv: color_to_hsv($colorv)
+
+  $h: nth($hsv, 1)
+  $s: nth($hsv, 2) / 100%
+  $v: nth($hsv, 3) / 100%
+
+  $s: min($s + $sat / 100%, 1)
+  $v: max($v - $val / 100%, 0)
+
+  @return hsv_to_color($h, $s, $v)
+
+@function lighter($colorv, $sat: 5%, $val: 5%)
+  $hsv: color_to_hsv($colorv)
+
+  $h: nth($hsv, 1)
+  $s: nth($hsv, 2) / 100%
+  $v: nth($hsv, 3) / 100%
+
+  $s: max($s - $sat / 100%, 0)
+  $v: min($v + $val / 100%, 1)
+
+
+  @return hsv_to_color($h, $s, $v)
 
 =card($depth)
   @if $depth < 1

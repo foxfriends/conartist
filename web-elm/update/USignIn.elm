@@ -5,7 +5,7 @@ import Json.Encode as Json
 
 import Model exposing (Model)
 import Msg exposing (Msg(..))
-import Page exposing (Page(..))
+import Page exposing (Page(..), SignInPageState)
 import Status exposing (Status(..))
 import Load
 import ConRequest
@@ -17,14 +17,14 @@ update msg model = case model.page of
     case msg of
       -- TODO: make form validation more user friendly
       Email new -> Just
-        ( { model | page = validateForm <| SignIn { page | email = new } }
+        ( { model | page = SignIn <| validateForm { page | email = new } }
         , if page.is_sign_in then Cmd.none else checkExistingEmail new )
       DidCheckExistingEmail (Ok (ConRequest.Success False)) -> Just (model, Cmd.none)
       DidCheckExistingEmail (Ok _) -> Just ({ model | page = SignIn { page | status = Failure "That email is already in use" }}, Cmd.none)
-      CEmail new    -> Just ({ model | page = validateForm <| SignIn { page | c_email = new } }, Cmd.none)
-      Password new  -> Just ({ model | page = validateForm <| SignIn { page | password = new } }, Cmd.none)
-      CPassword new -> Just ({ model | page = validateForm <| SignIn { page | c_password = new } }, Cmd.none)
-      ToggleTerms   -> Just ({ model | page = validateForm <| SignIn { page | terms_accepted = not page.terms_accepted } }, Cmd.none)
+      CEmail new    -> Just ({ model | page = SignIn <| validateForm { page | c_email = new } }, Cmd.none)
+      Password new  -> Just ({ model | page = SignIn <| validateForm { page | password = new } }, Cmd.none)
+      CPassword new -> Just ({ model | page = SignIn <| validateForm { page | c_password = new } }, Cmd.none)
+      ToggleTerms   -> Just ({ model | page = SignIn <| validateForm { page | terms_accepted = not page.terms_accepted } }, Cmd.none)
       ToggleSignIn  -> Just
         ( { model
           | page = SignIn { page
@@ -52,7 +52,7 @@ update msg model = case model.page of
         ( { model | page = SignIn { page | status = Failure error } }
         , Cmd.none )
       DoCreateAccount -> Just <|
-        let valid = validateForm <| SignIn page in
+        let valid = SignIn (validateForm page) in
           case valid of
             SignIn { status } -> case status of
               Success _ ->
@@ -77,17 +77,17 @@ update msg model = case model.page of
       _ -> Nothing
   _ -> Nothing
 
-validateForm : Page -> Page
-validateForm p = case p of
-  SignIn page ->
-    let { email, c_email, password, c_password, terms_accepted, is_sign_in } = page in
-      if is_sign_in then p
-      else
-        if      not <| c_email == email       then SignIn { page | status = Failure "Emails do not match" }
-        else if not <| c_password == password then SignIn { page | status = Failure "Passwords do not match" }
-        else if not <| terms_accepted         then SignIn { page | status = Failure "Please accept the terms and conditions" }
-        else                                       SignIn { page | status = Success "" }
-  _ -> p
+validateForm : SignInPageState -> SignInPageState
+validateForm page =
+  let { email, c_email, password, c_password, terms_accepted, is_sign_in } = page in
+    if is_sign_in then page
+    else
+      if      email == ""                   then { page | status = Failure "Email cannot be blank" }
+      else if not <| c_email == email       then { page | status = Failure "Emails do not match" }
+      else if password == ""                then { page | status = Failure "Password cannot be blank" }
+      else if not <| c_password == password then { page | status = Failure "Passwords do not match" }
+      else if not <| terms_accepted         then { page | status = Failure "Please accept the terms and conditions" }
+      else                                       { page | status = Success "" }
 
 checkExistingEmail : String -> Cmd Msg
 checkExistingEmail email =

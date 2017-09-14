@@ -10,6 +10,7 @@ import VSignIn
 import VDashboard
 import VSidenav
 import VToolbar
+import VInventory
 
 view : Model -> Html Msg
 view model = let content =
@@ -22,6 +23,7 @@ view model = let content =
           [ class "ca__content" ]
           [ case model.page of
               Dashboard -> VDashboard.view model
+              Inventory -> VInventory.view model
               _         -> div [] [] ]
         , VSidenav.view model ] ]
   in

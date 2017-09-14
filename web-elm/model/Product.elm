@@ -1,8 +1,9 @@
-module Product exposing (Product, isDirty, decode)
+module Product exposing (..)
 import Json.Decode as Decode exposing (Decoder)
 
 type alias NewProduct =
-  { name: String
+  { localId: Int
+  , name: String
   , quantity: Int
   , type_id: Int }
 
@@ -32,3 +33,9 @@ decode = Decode.map (\a -> Clean a) <|
     (Decode.field "quantity" Decode.int)
     (Decode.field "type" Decode.int)
     (Decode.field "discontinued" Decode.bool)
+
+normalize : Product -> FullProduct
+normalize prod = case prod of
+  Clean p -> p
+  Dirty p -> p
+  New   p -> FullProduct -p.localId p.name p.quantity p.type_id False

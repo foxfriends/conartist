@@ -23,11 +23,13 @@ type Msg
   -- dashboard
   | OpenKeyPurchase
   | OpenConSignUp
+  -- inventory
+  | ChangeInventoryTab Int
   -- loading
   | DidLoadUser (Result Http.Error (ConRequest User))
   -- localStorage
   | LSRetrive (String, Maybe String)
-  -- Navigation
+  -- navigation
   | DoNav String
   | DidNav Location
   | SetDate Date

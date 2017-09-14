@@ -40,9 +40,11 @@ update msg model = case msg of
       | page = Page.signIn
       , authtoken = "" }
     , Navigation.newUrl signInPath )
-  DoSignOut   -> Just ( { model | page = Page.signIn, authtoken = "" }, Cmd.batch [ LocalStorage.remove "authtoken", Navigation.newUrl signInPath ])
-  DoNav url   -> Just ( model, Navigation.newUrl url )
-  DidNav loc  -> Just ( { model | page = parseLocation loc }, Cmd.none )
+  DoSignOut   -> Just
+    ( { model | sidenav_visible = False, page = Page.signIn, authtoken = "" }
+    , Cmd.batch [ LocalStorage.remove "authtoken", Navigation.newUrl signInPath ] )
+  DoNav url   -> Just ( { model | sidenav_visible = False }, Navigation.newUrl url )
+  DidNav loc  -> Just ( { model | page = parseLocation loc, sidenav_visible = False }, Cmd.none )
   _           -> Nothing
 
 dashboardPath : String

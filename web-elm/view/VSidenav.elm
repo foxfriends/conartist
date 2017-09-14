@@ -28,9 +28,10 @@ doSignOut =
      , href url ]
 
 view : Model -> Html Msg
-view _ = div [ class "ca__sidenav" ]
-  [ a (navigateTo Routing.dashboardPath) [text "Dashboard"]
-  , a (navigateTo Routing.inventoryPath) [text "Inventory"]
-  , a (navigateTo Routing.pricingPath) [text "Pricing"]
-  , a (navigateTo Routing.conventionsPath) [text "Conventions"]
-  , a doSignOut [text "Sign Out"] ]
+view { sidenav_visible } = let visibility = class <| if sidenav_visible then "ca__sidenav--open" else "" in
+  div [ class "ca__sidenav", visibility ]
+    [ a (navigateTo Routing.dashboardPath) [text "Dashboard"]
+    , a (navigateTo Routing.inventoryPath) [text "Inventory"]
+    , a (navigateTo Routing.pricingPath) [text "Pricing"]
+    , a (navigateTo Routing.conventionsPath) [text "Conventions"]
+    , a doSignOut [text "Sign Out"] ]

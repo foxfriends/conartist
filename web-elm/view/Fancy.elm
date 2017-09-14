@@ -3,6 +3,7 @@ module Fancy exposing (..)
 import Html exposing (Html, div, span, label, text)
 import Html.Attributes exposing (class, type_)
 import Html.Events exposing (onClick)
+import Icon exposing (icon)
 
 input : String -> String -> List (Html.Attribute msg) -> List (Html.Attribute msg) -> Html msg
 input placeholder value baseAttrs inputAttrs =
@@ -27,8 +28,13 @@ button bstyle buttonText attrs =
   let style = case bstyle of
     Primary -> "fancy-button--primary"
     Flat -> "fancy-button--flat"
-  in Html.button ([ class "fancy-button", class style ] ++ attrs) [ text buttonText ]
+    Icon -> "fancy-button--icon"
+  in let content = case bstyle of
+    Icon -> icon buttonText
+    _    -> text buttonText
+  in Html.button ([ class "fancy-button", class style ] ++ attrs) [ content ]
 
 type ButtonStyle
   = Primary
   | Flat
+  | Icon

@@ -40,6 +40,7 @@
   @return hsv_to_color($h, $s, $v)
 
 =card($depth)
+  z-index: $depth
   @if $depth < 1
     box-shadow: none
   @else if $depth > 5

@@ -6,7 +6,34 @@
 .ca
   font-size: 12pt
   background-image: url('images/asanoha-400px.png')
-  &, &__content
+  width: 100vw
+  height: 100vh
+  &__toolbar
+    +card(1)
+    display: flex
+    align-items: center
+    padding: 0 20px
+    height: 50px
+    background-color: $color--primary
+  &__container
+    z-index: 0
+    position: absolute
+    top: 50px
+    bottom: 0
     width: 100vw
-    height: 100vh
     transform: translate3d(0, 0, 0)
+  &__sidenav
+    $sidenav-width: 300px
+    +card(4)
+    position: fixed
+    right: 100%
+    top: 0
+    bottom: 0
+    display: flex
+    flex-direction: column
+    transform: none
+    transition: transform 0.4s
+    background: white
+    width: $sidenav-width
+    &--open
+      transform: translateX($sidenav-width)

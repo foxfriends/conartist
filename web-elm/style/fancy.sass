@@ -70,7 +70,21 @@
     background-image: linear-gradient(to bottom, lighter($color--primary), $color--primary)
     &:hover
       +card(0)
+    &:active
+      background-image: linear-gradient(to bottom, $color--primary, darker($color--primary, 3%))
+
   &--flat
     transition: background-color 0.2s
     &:hover
       background-color: transparentize(darker($color--primary, 30%, 30%), 0.9)
+    &:active
+      background-color: transparentize(darker($color--primary, 50%, 50%), 0.85)
+  &--icon
+    @extend .fancy-button--flat
+    display: flex
+    align-items: center
+    justify-content: center
+    border-radius: 100%
+    width: 40px
+    height: 40px
+    padding: 0

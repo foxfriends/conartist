@@ -10,6 +10,7 @@ import Model exposing (Model)
 import Convention exposing (Convention, MetaConvention)
 import Msg exposing (Msg(..))
 import Card exposing (card)
+import Fancy exposing (ButtonStyle(..))
 
 view : Model -> Html Msg
 view model =  let sorted = splitByDate model.now (map Convention.asMeta model.user.conventions) in
@@ -18,8 +19,8 @@ view model =  let sorted = splitByDate model.now (map Convention.asMeta model.us
       [ titledList "Current" conListRow sorted.current
       , titledList "Upcoming" conListRow sorted.upcoming
       , titledList "Previous" conListRow sorted.previous ]
-      [ button [ onClick OpenKeyPurchase ] [ text "Buy a key" ]
-      , button [ onClick OpenConSignUp ] [ text "Add a convention" ] ] ]
+      [ Fancy.button Primary "Buy a key" [ onClick OpenKeyPurchase ]
+      , Fancy.button Primary "Add a convention" [ onClick OpenConSignUp ] ] ]
 
 titledList : String -> (a -> Html Msg) -> List a -> Html Msg
 titledList title body list =

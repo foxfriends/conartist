@@ -14,7 +14,8 @@ init loc =
   ( { user = User.new
     , authtoken = ""
     , page = parseLocation loc
-    , now = Date.fromTime 0 }
+    , now = Date.fromTime 0
+    , sidenav_visible = False}
   , Cmd.batch
     [ LocalStorage.get "authtoken"
     , Task.perform SetDate Date.now ] )

@@ -10,7 +10,8 @@ type alias Model =
   { user: User
   , authtoken : String
   , page: Page
-  , now: Date }
+  , now: Date
+  , sidenav_visible: Bool }
 
 isDirty : Model -> Bool
 isDirty { user } = foldl (\c -> \p -> p || Convention.isDirty c ) False user.conventions

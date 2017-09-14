@@ -31,3 +31,4 @@ type Msg
   | DoNav String
   | DidNav Location
   | SetDate Date
+  | ToggleSidenav

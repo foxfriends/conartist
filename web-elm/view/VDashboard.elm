@@ -9,26 +9,31 @@ import List exposing (map, filter, isEmpty, foldl)
 import Model exposing (Model)
 import Convention exposing (Convention, MetaConvention)
 import Msg exposing (Msg(..))
-import Card exposing (card)
+import Card exposing (card, cardWithHeader)
 import Fancy exposing (ButtonStyle(..))
+import Icon exposing (icon)
 
 view : Model -> Html Msg
-view model =  let sorted = splitByDate model.now (map Convention.asMeta model.user.conventions) in
-  div [ class "dashboard" ]
-    [ card "Conventions" []
-      [ titledList "Current" conListRow sorted.current
-      , titledList "Upcoming" conListRow sorted.upcoming
-      , titledList "Previous" conListRow sorted.previous ]
-      [ Fancy.button Primary "Buy a key" [ onClick OpenKeyPurchase ]
-      , Fancy.button Primary "Add a convention" [ onClick OpenConSignUp ] ] ]
+view model =
+  let sorted = splitByDate model.now (map Convention.asMeta model.user.conventions) in
+  let cardHeader = [ text "Conventions"
+                   , span [ class "dashboard__keys" ] [ Fancy.buttonWithContent Flat [ icon "vpn_key" [], text << toString <| model.user.keys ] [] ] ] in
+    div
+      [ class "dashboard" ]
+      [ cardWithHeader cardHeader [ class "dashboard__card" ]
+        [ titledList "Current" conListRow sorted.current
+        , titledList "Upcoming" conListRow sorted.upcoming
+        , titledList "Previous" conListRow sorted.previous ]
+        [ Fancy.button Primary "Buy a key" [ onClick OpenKeyPurchase ]
+        , Fancy.button Primary "Add a convention" [ onClick OpenConSignUp ] ] ]
 
-titledList : String -> (a -> Html Msg) -> List a -> Html Msg
+titledList : String -> (a -> Html msg) -> List a -> Html msg
 titledList title body list =
   if isEmpty list
     then div [ class "list list--empty" ] []
-    else div [ class "list"] ( div [ class "list__title" ] [ text title ] :: (list |> map body) )
+    else div [ class "list"] ( div [ class "list__title" ] [ span [ class "list__title-text" ] [ text title ] ] :: (list |> map body) )
 
-conListRow : MetaConvention -> Html Msg
+conListRow : MetaConvention -> Html msg
 conListRow con = let { code, name, start, end } = con in
   div
     [ class "list__row" ]

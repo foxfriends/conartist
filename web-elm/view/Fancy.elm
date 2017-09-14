@@ -24,15 +24,19 @@ checkbox msg labelText =
     , span [ class "fancy-check__label"] [ text labelText ] ]
 
 button : ButtonStyle -> String -> List (Html.Attribute msg) -> Html msg
-button bstyle buttonText attrs =
+button bstyle buttonText =
+  let content = case bstyle of
+    Icon -> icon buttonText []
+    _    -> text buttonText
+  in buttonWithContent bstyle [ content ]
+
+buttonWithContent : ButtonStyle -> List (Html msg) -> List (Html.Attribute msg) -> Html msg
+buttonWithContent bstyle content attrs =
   let style = case bstyle of
     Primary -> "fancy-button--primary"
     Flat -> "fancy-button--flat"
     Icon -> "fancy-button--icon"
-  in let content = case bstyle of
-    Icon -> icon buttonText
-    _    -> text buttonText
-  in Html.button ([ class "fancy-button", class style ] ++ attrs) [ content ]
+  in Html.button ([ class "fancy-button", class style ] ++ attrs) content
 
 type ButtonStyle
   = Primary

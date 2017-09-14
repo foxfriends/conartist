@@ -56,8 +56,11 @@
   &__box
 
 .fancy-button
+  display: flex
+  align-items: center
+  justify-content: center
   border: none
-  border-radius: 2px
+  border-radius: 20px
   background: none
   height: 40px
   padding: 0 16px
@@ -65,25 +68,21 @@
   cursor: pointer
   &--primary
     +card(1)
-    transition: box-shadow 0.2s
+    transition: box-shadow 0.1s
     border: 1px solid darker($color--primary, 8%)
     background-image: linear-gradient(to bottom, lighter($color--primary), $color--primary)
     &:hover
-      +card(0)
-    &:active
       background-image: linear-gradient(to bottom, $color--primary, darker($color--primary, 3%))
-
+    &:active
+      +card(0)
   &--flat
-    transition: background-color 0.2s
+    transition: background-color 0.1s
     &:hover
       background-color: transparentize(darker($color--primary, 30%, 30%), 0.9)
     &:active
       background-color: transparentize(darker($color--primary, 50%, 50%), 0.85)
   &--icon
     @extend .fancy-button--flat
-    display: flex
-    align-items: center
-    justify-content: center
     border-radius: 100%
     width: 40px
     height: 40px

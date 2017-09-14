@@ -14,7 +14,7 @@ matchers =
     [ map Page.signIn top
     , map Page.signIn <| s "sign-in"
     , map Dashboard <| s "dashboard"
-    , map Inventory <| s "inventory"
+    , map Page.inventory <| s "inventory"
     , map Pricing <| s "prices"
     , map Convention <| s "conventions" </> string
     , map Conventions <| s "conventions" ]

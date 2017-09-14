@@ -9,6 +9,8 @@ a:link, a:visited
 a:hover, a:active
   color: darker($color--primary, 10%)
 
+$toolbar-height: 50px
+
 .ca
   font-size: 12pt
   background-image: url('images/asanoha-400px.png')
@@ -19,15 +21,16 @@ a:hover, a:active
     display: flex
     align-items: center
     padding: 0 20px
-    height: 50px
+    height: $toolbar-height
     background-color: $color--primary
   &__container
     z-index: 0
     position: absolute
-    top: 50px
+    top: $toolbar-height
     bottom: 0
     width: 100vw
     transform: translate3d(0, 0, 0)
+    overflow: auto
   &__sidenav
     $sidenav-width: 300px
     position: fixed

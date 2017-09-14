@@ -9,12 +9,13 @@ import ProductType exposing (ProductType, FullType)
 import Product exposing (FullProduct)
 import Table exposing (table)
 import Join exposing (ProductWithType)
+import Page exposing (InventoryPageState)
 
-view : Model -> Html Msg
-view model =
+view : Model -> InventoryPageState -> Html Msg
+view model page =
   let pts = List.map ProductType.normalize model.user.productTypes in
   let tabList = List.map (\t -> (t.name, inventoryTab model t)) pts in
-    tabs ChangeInventoryTab [ class "inventory" ] tabList 0
+    tabs ChangeInventoryTab [ class "inventory" ] tabList page.current_tab
 
 inventoryTab : Model -> FullType -> Html Msg
 inventoryTab model pt =

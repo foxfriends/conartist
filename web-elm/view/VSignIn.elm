@@ -11,15 +11,13 @@ import Status exposing (Status)
 import Card exposing (card)
 import Fancy exposing (ButtonStyle(..))
 
-view : Model -> Html Msg
-view model = case model.page of
-  Page.SignIn page ->
-    div [ class "sign-in" ]
-     [ card "Sign in" [ class "sign-in__form"]
-        [ K.node "div" [ class "sign-in__fields"] <| signInForm page
-        , div [ class "sign-in__info" ] <| signInInfo page.is_sign_in page.status ]
-        (signInButtons page.is_sign_in page.status) ]
-  _ -> div [] []
+view : Model -> SignInPageState -> Html Msg
+view model page =
+  div [ class "sign-in" ]
+   [ card "Sign in" [ class "sign-in__form"]
+      [ K.node "div" [ class "sign-in__fields"] <| signInForm page
+      , div [ class "sign-in__info" ] <| signInInfo page.is_sign_in page.status ]
+      (signInButtons page.is_sign_in page.status) ]
 
 signInForm : SignInPageState -> List (String, Html Msg)
 signInForm page = if page.is_sign_in

@@ -1,0 +1,37 @@
+.tabs
+  display: flex
+  flex-direction: column
+  height: 100%
+  min-height: 0
+  &__titles
+    box-sizing: border-box
+    display: flex
+    flex-basis: 50px
+    flex-shrink: 0
+    flex-grow: 0
+    padding: 16px
+  &__title
+    flex-basis: 150px
+    display: flex
+    align-items: center
+    justify-content: center
+    cursor: pointer
+  &__contents
+    position: relative
+    flex-grow: 1
+    min-height: 0
+  &__content
+    max-height: 100%
+    min-height: 0
+    overflow: auto
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    transition: transform 0.4s
+    &--current
+      transform: none
+    &--negative
+      transform: translateX(100%)
+    &--positive
+      transform: translateX(-100%)

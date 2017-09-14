@@ -3,11 +3,14 @@ import Status exposing (Status(..))
 
 type Page
   = Dashboard
-  | Inventory
+  | Inventory InventoryPageState
   | Pricing
   | Conventions
   | Convention String
   | SignIn SignInPageState
+
+type alias InventoryPageState =
+  { current_tab: Int }
 
 type alias SignInPageState =
   { email: String
@@ -19,4 +22,7 @@ type alias SignInPageState =
   , status: Status }
 
 signIn : Page
-signIn = SignIn { email = "", password = "", c_email = "", c_password = "", terms_accepted = False, is_sign_in = True, status = Success "" }
+signIn = SignIn <| SignInPageState "" "" "" "" False True (Success "")
+
+inventory : Page
+inventory = Inventory <| InventoryPageState 0

@@ -27,14 +27,19 @@ parseLocation location = case parsePath matchers location of
 update : Msg -> Model -> Maybe (Model, Cmd Msg)
 update msg model = case msg of
   LSRetrive ("authtoken", Just authtoken) ->
-    let newmodel =
-      { model
-      | page = Dashboard
-      , authtoken = authtoken }
-    in Just
-      (newmodel, Cmd.batch
-        [ Navigation.newUrl dashboardPath
-        , Load.user newmodel ] )
+    case model.page of
+      SignIn _ ->
+        let newmodel =
+          { model
+          | page = Dashboard
+          , authtoken = authtoken }
+        in Just
+          (newmodel, Cmd.batch
+            [ Navigation.newUrl dashboardPath
+            , Load.user newmodel ] )
+      _ ->
+        let newmodel = { model | authtoken = authtoken }
+        in Just (newmodel, Load.user newmodel )
   LSRetrive ("authtoken", Nothing) -> Just
     ( { model
       | page = Page.signIn

@@ -6,6 +6,7 @@ import Json.Decode as Decode
 
 import Model exposing (Model)
 import Msg exposing (Msg(..))
+import Lists exposing (list)
 import Routing
 
 navigateTo : String -> List (Html.Attribute Msg)
@@ -28,10 +29,16 @@ doSignOut =
      , href url ]
 
 view : Model -> Html Msg
-view { sidenav_visible } = let visibility = class <| if sidenav_visible then "ca__sidenav--open" else "" in
-  div [ class "ca__sidenav", visibility ]
-    [ a (navigateTo Routing.dashboardPath) [text "Dashboard"]
-    , a (navigateTo Routing.inventoryPath) [text "Inventory"]
-    , a (navigateTo Routing.pricingPath) [text "Pricing"]
-    , a (navigateTo Routing.conventionsPath) [text "Conventions"]
-    , a doSignOut [text "Sign Out"] ]
+view { sidenav_visible } =
+  let visibility = class <| if sidenav_visible then "ca__sidenav--open" else "" in
+  let items =
+    [ (navigateTo Routing.dashboardPath, "Dashboard")
+    , (navigateTo Routing.inventoryPath, "Inventory")
+    , (navigateTo Routing.pricingPath, "Pricing")
+    , (navigateTo Routing.conventionsPath, "Conventions")
+    , (doSignOut, "Sign Out") ] in
+  div [ class "ca__sidenav", visibility ] [ list navListRow items ]
+
+navListRow : (List (Html.Attribute Msg), String) -> Html Msg
+navListRow (attrs, title) =
+  a ([ class "ca__nav-link list__row list__row--clickable"] ++ attrs) [text title]

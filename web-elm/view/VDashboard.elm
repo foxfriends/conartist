@@ -12,6 +12,8 @@ import Msg exposing (Msg(..))
 import Card exposing (card, cardWithHeader)
 import Fancy exposing (ButtonStyle(..))
 import Icon exposing (icon)
+import Routing exposing (conventionPath)
+import Lists exposing (titledList)
 
 view : Model -> Html Msg
 view model =
@@ -27,19 +29,13 @@ view model =
         [ Fancy.button Primary "Buy a key" [ onClick OpenKeyPurchase ]
         , Fancy.button Primary "Add a convention" [ onClick OpenConSignUp ] ] ]
 
-titledList : String -> (a -> Html msg) -> List a -> Html msg
-titledList title body list =
-  if isEmpty list
-    then div [ class "list list--empty" ] []
-    else div [ class "list"] ( div [ class "list__title" ] [ span [ class "list__title-text" ] [ text title ] ] :: (list |> map body) )
-
-conListRow : MetaConvention -> Html msg
+conListRow : MetaConvention -> Html Msg
 conListRow con = let { code, name, start, end } = con in
   div
-    [ class "list__row" ]
-    [ span [ class "list__column list__column--primary" ] [ text name ]
-    , span [ class "list__column list__column--secondary" ] [ text code ]
-    , span [ class "list__column list__column--right" ] [ text <| (formatConDate start) ++ "–" ++ (formatConDate end) ] ]
+    [ class "list__row list__row--clickable", onClick (DoNav (conventionPath code)) ]
+    [ span [ class "list__column" ] [ text name ]
+    , span [ class "list__column" ] [ text code ]
+    , span [ class "list__column" ] [ text <| (formatConDate start) ++ "–" ++ (formatConDate end) ] ]
 
 formatConDate : Date -> String
 formatConDate = toFormattedString "MMM d, y"

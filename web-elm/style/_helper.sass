@@ -1,5 +1,15 @@
 @import hsv
 
+$color--primary: rgb(110, 171, 244)
+$color--accent: rgb(128, 194, 138)
+$color--warn: rgb(191, 79, 44)
+$color--placeholder: transparentize(black, 0.46)
+$color__text--body: transparentize(black, 0.13)
+$color__text--secondary: transparentize(black, 0.46)
+$color__text--heading: $color__text--secondary
+
+$font--body: "Quicksand"
+
 @function top-shadow($depth)
   $primary-offset: nth(1.5 3 10 14 19, $depth) * 1px
   $blur: nth(1.5 3 10 14 19, $depth) * 4px
@@ -48,12 +58,9 @@
   @else
     box-shadow: bottom-shadow($depth), top-shadow($depth)
 
-$color--primary: rgb(110, 171, 244)
-$color--accent: rgb(128, 194, 138)
-$color--warn: rgb(191, 79, 44)
-$color--placeholder: transparentize(black, 0.46)
-$color__text--body: transparentize(black, 0.13)
-$color__text--secondary: transparentize(black, 0.46)
-$color__text--heading: $color__text--secondary
-
-$font--body: "Quicksand"
+%flat-clickable
+  cursor: pointer
+  &:hover
+    background-color: transparentize(darker($color--primary, 30%, 30%), 0.9)
+  &:active
+    background-color: transparentize(darker($color--primary, 50%, 50%), 0.85)

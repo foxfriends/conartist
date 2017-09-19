@@ -42,3 +42,11 @@ type ButtonStyle
   = Primary
   | Flat
   | Icon
+
+select : a -> List a -> (a -> String) -> (a -> msg) -> Html msg
+select value options nameOf onSelect =
+  Html.div [ class "fancy-select"] <| List.map (option nameOf) options
+
+option : (a -> String) -> a -> Html msg
+option name opt =
+  Html.div [ class "fancy-select__option" ] [ text <| name opt ]

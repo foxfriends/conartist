@@ -26,6 +26,8 @@ type Msg
   -- inventory
   | ChangeInventoryTab Int
   | ProductName Int String
+  | ProductQuantity Int String
+  | ToggleDiscontinued Int
   -- loading
   | DidLoadUser (Result Http.Error (ConRequest User))
   -- localStorage

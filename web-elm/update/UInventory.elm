@@ -22,5 +22,21 @@ update msg model = case model.page of
           { user
           | products = List_.updateAt (\p -> (Product.normalize p).id == id) (Product.setName name) products } }
       , Cmd.none )
+    ProductQuantity id quantity ->
+      let user = model.user in
+      let products = user.products in
+      ( { model
+        | user =
+          { user
+          | products = List_.updateAt (\p -> (Product.normalize p).id == id) (Product.setQuantity quantity) products } }
+      , Cmd.none )
+    ToggleDiscontinued id ->
+      let user = model.user in
+      let products = user.products in
+      ( { model
+        | user =
+          { user
+          | products = List_.filterUpdateAt (\p -> (Product.normalize p).id == id) Product.toggleDiscontinued products } }
+      , Cmd.none )
     _ -> (model, Cmd.none)
   _ -> (model, Cmd.none)

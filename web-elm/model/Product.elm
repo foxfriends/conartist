@@ -45,3 +45,29 @@ setName name product = case product of
   New p -> New { p | name = name }
   Clean p -> Dirty { p | name = name }
   Dirty p -> Dirty { p | name = name }
+
+setQuantity : String -> Product -> Product
+setQuantity quantityStr product =
+  case notSoBuggyToInt quantityStr of
+    Ok quantity ->
+      case product of
+        New p -> New { p | quantity = quantity }
+        Clean p -> Dirty { p | quantity = quantity }
+        Dirty p -> Dirty { p | quantity = quantity }
+    Err _ ->
+      case product of
+        New p -> New { p | quantity = 0 }
+        Clean p -> Dirty { p | quantity = 0 }
+        Dirty p -> Dirty { p | quantity = 0 }
+
+toggleDiscontinued : Product -> Maybe Product
+toggleDiscontinued product = case product of
+  New p -> Nothing
+  Clean p -> Just <| Dirty { p | discontinued = not p.discontinued }
+  Dirty p -> Just <| Dirty { p | discontinued = not p.discontinued }
+
+notSoBuggyToInt : String -> Result String Int
+notSoBuggyToInt str = case str of
+  "-" -> Err "Not a number"
+  "+" -> Err "Not a number"
+  _ -> String.toInt str

@@ -14,3 +14,12 @@ updateAt : (a -> Bool) -> (a -> a) -> List a -> List a
 updateAt pred fn list = case list of
   first :: rest -> if pred first then (fn first) :: rest else first :: updateAt pred fn rest
   [] -> []
+
+filterUpdateAt : (a -> Bool) -> (a -> Maybe a) -> List a -> List a
+filterUpdateAt pred fn list = case list of
+  first :: rest -> if pred first then
+    case fn first of
+      Just i -> i :: rest
+      Nothing -> rest
+    else first :: filterUpdateAt pred fn rest
+  [] -> []

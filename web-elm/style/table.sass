@@ -1,1 +1,15 @@
+@import helper
+
 .table
+  display: grid
+  &__cell
+    display: flex
+    align-items: center
+    box-sizing: border-box
+    padding: 0 16px
+    height: 48px
+    border-bottom: 1px solid $color--divider
+    &--header
+      @extend .table__cell
+      color: $color__text--secondary
+      font-size: 10pt

@@ -6,7 +6,7 @@ table : List String -> (a -> List (Html msg)) -> List a -> Html msg
 table columnHeaders columns data =
   div
     [ class "table"
-    , style [ ("grid-template-columns", String.repeat 4 "1fr ") ] ]
+    , style [ ("grid-template-columns", String.repeat (List.length columnHeaders) "1fr ") ] ]
     ((List.map headerColumn columnHeaders) ++ List.map column (List.concatMap columns data))
 
 headerColumn : String -> Html msg

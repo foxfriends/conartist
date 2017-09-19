@@ -34,3 +34,5 @@ type Msg
   | DidNav Location
   | SetDate Date
   | ToggleSidenav
+  -- other
+  | Batch (List Msg)

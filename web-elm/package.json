@@ -23,6 +23,7 @@
     "webpack": "^3.5.6"
   },
   "dependencies": {
-    "reset-css": "^2.2.1"
+    "reset-css": "^2.2.1",
+    "rxjs": "^5.4.3"
   }
 }

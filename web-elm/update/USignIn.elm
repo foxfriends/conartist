@@ -11,21 +11,21 @@ import Load
 import ConRequest
 import LocalStorage
 
-update : Msg -> Model -> Maybe (Model, Cmd Msg)
+update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case model.page of
   SignIn page ->
     case msg of
       -- TODO: make form validation more user friendly
-      Email new -> Just
+      Email new ->
         ( { model | page = SignIn <| validateForm { page | email = new } }
         , if page.is_sign_in then Cmd.none else checkExistingEmail new )
-      DidCheckExistingEmail (Ok (ConRequest.Success False)) -> Just (model, Cmd.none)
-      DidCheckExistingEmail (Ok _) -> Just ({ model | page = SignIn { page | status = Failure "That email is already in use" }}, Cmd.none)
-      CEmail new    -> Just ({ model | page = SignIn <| validateForm { page | c_email = new } }, Cmd.none)
-      Password new  -> Just ({ model | page = SignIn <| validateForm { page | password = new } }, Cmd.none)
-      CPassword new -> Just ({ model | page = SignIn <| validateForm { page | c_password = new } }, Cmd.none)
-      ToggleTerms   -> Just ({ model | page = SignIn <| validateForm { page | terms_accepted = not page.terms_accepted } }, Cmd.none)
-      ToggleSignIn  -> Just
+      DidCheckExistingEmail (Ok (ConRequest.Success False)) ->  (model, Cmd.none)
+      DidCheckExistingEmail (Ok _) ->  ({ model | page = SignIn { page | status = Failure "That email is already in use" }}, Cmd.none)
+      CEmail new    ->  ({ model | page = SignIn <| validateForm { page | c_email = new } }, Cmd.none)
+      Password new  ->  ({ model | page = SignIn <| validateForm { page | password = new } }, Cmd.none)
+      CPassword new ->  ({ model | page = SignIn <| validateForm { page | c_password = new } }, Cmd.none)
+      ToggleTerms   ->  ({ model | page = SignIn <| validateForm { page | terms_accepted = not page.terms_accepted } }, Cmd.none)
+      ToggleSignIn  ->
         ( { model
           | page = SignIn { page
                           | is_sign_in = not page.is_sign_in
@@ -34,10 +34,10 @@ update msg model = case model.page of
                           , terms_accepted = False
                           , status = Success "" } }
         , Cmd.none)
-      DoSignIn -> Just
+      DoSignIn ->
         ( { model | page = SignIn { page | status = Progress 0 } }
         , doSignIn page.email page.password )
-      DidSignIn (Ok (ConRequest.Success authtoken)) -> Just <|
+      DidSignIn (Ok (ConRequest.Success authtoken)) ->
         let newmodel =
           { model
           | user = { email = page.email, keys = 0, products = [], productTypes = [], prices = [], conventions = [] }
@@ -48,10 +48,10 @@ update msg model = case model.page of
           , Cmd.batch
             [ Load.user newmodel
             , LocalStorage.set ("authtoken", authtoken) ] )
-      DidSignIn (Ok (ConRequest.Failure error)) -> Just
+      DidSignIn (Ok (ConRequest.Failure error)) ->
         ( { model | page = SignIn { page | status = Failure error } }
         , Cmd.none )
-      DoCreateAccount -> Just <|
+      DoCreateAccount ->
         let valid = SignIn (validateForm page) in
           case valid of
             SignIn { status } -> case status of
@@ -60,22 +60,22 @@ update msg model = case model.page of
                 , createAccount page.email page.password )
               _ -> ( { model | page = valid }, Cmd.none )
             _ -> ( { model | page = valid }, Cmd.none )
-      DidCreateAccount (Ok (ConRequest.Success _)) -> Just
+      DidCreateAccount (Ok (ConRequest.Success _)) ->
         ( { model | page = SignIn
             { page
             | status = Success "Account created successfully! Log in to get started"
             , is_sign_in = True } }
         , Cmd.none)
-      DidCreateAccount (Ok (ConRequest.Failure reason)) -> Just
+      DidCreateAccount (Ok (ConRequest.Failure reason)) ->
         ( { model | page = SignIn { page | status = Failure reason } } , Cmd.none)
-      DidSignIn (Err _) -> Just
+      DidSignIn (Err _) ->
         ({ model | page = SignIn { page | status = Failure "Something went wrong. Try again later!" } }, Cmd.none)
-      DidCreateAccount (Err _) -> Just
+      DidCreateAccount (Err _) ->
         ({ model | page = SignIn { page | status = Failure "Something went wrong. Try again later!" } }, Cmd.none)
-      DidCheckExistingEmail (Err _) -> Just
+      DidCheckExistingEmail (Err _) ->
         ({ model | page = SignIn { page | status = Failure "Something went wrong. Try again later!" } }, Cmd.none)
-      _ -> Nothing
-  _ -> Nothing
+      _ -> (model, Cmd.none)
+  _ -> (model, Cmd.none)
 
 validateForm : SignInPageState -> SignInPageState
 validateForm page =

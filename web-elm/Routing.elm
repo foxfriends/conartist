@@ -7,24 +7,25 @@ import Msg exposing (Msg(..))
 import Page exposing (Page(..))
 import Load
 import LocalStorage
+import Emit exposing (..)
 
-matchers : Parser (Page -> a) a
+matchers : Parser ((Page, Cmd Msg) -> a) a
 matchers =
   oneOf
-    [ map Page.signIn top
-    , map Page.signIn <| s "sign-in"
-    , map Dashboard <| s "dashboard"
-    , map Page.inventory <| s "inventory"
-    , map Pricing <| s "prices"
-    , map Convention <| s "conventions" </> string
-    , map Conventions <| s "conventions" ]
+    [ map (Page.signIn, Cmd.none) top
+    , map (Page.signIn, Cmd.none) <| s "sign-in"
+    , map (Dashboard, Cmd.none) <| s "dashboard"
+    , map (Page.inventory, emit (inventoryTabChange 0)) <| s "inventory"
+    , map (Pricing, Cmd.none) <| s "prices"
+    , map (\s -> (Convention s, Cmd.none)) <| s "conventions" </> string
+    , map (Conventions, Cmd.none) <| s "conventions" ]
 
-parseLocation : Location -> Page
+parseLocation : Location -> (Page, Cmd Msg)
 parseLocation location = case parsePath matchers location of
   Just page -> page
-  Nothing -> Page.signIn
+  Nothing -> (Page.signIn, Cmd.none)
 
-update : Msg -> Model -> Maybe (Model, Cmd Msg)
+update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case msg of
   LSRetrive ("authtoken", Just authtoken) ->
     case model.page of
@@ -33,24 +34,24 @@ update msg model = case msg of
           { model
           | page = Dashboard
           , authtoken = authtoken }
-        in Just
+        in
           (newmodel, Cmd.batch
             [ Navigation.newUrl dashboardPath
             , Load.user newmodel ] )
       _ ->
         let newmodel = { model | authtoken = authtoken }
-        in Just (newmodel, Load.user newmodel )
-  LSRetrive ("authtoken", Nothing) -> Just
+        in (newmodel, Load.user newmodel )
+  LSRetrive ("authtoken", Nothing) ->
     ( { model
       | page = Page.signIn
       , authtoken = "" }
     , Navigation.newUrl signInPath )
-  DoSignOut   -> Just
+  DoSignOut   ->
     ( { model | sidenav_visible = False, page = Page.signIn, authtoken = "" }
     , Cmd.batch [ LocalStorage.remove "authtoken", Navigation.newUrl signInPath ] )
-  DoNav url   -> Just ( { model | sidenav_visible = False }, Navigation.newUrl url )
-  DidNav loc  -> Just ( { model | page = parseLocation loc, sidenav_visible = False }, Cmd.none )
-  _           -> Nothing
+  DoNav url   -> ( { model | sidenav_visible = False }, Navigation.newUrl url )
+  DidNav loc  -> let (page, cmd) = parseLocation loc in ( { model | page = page, sidenav_visible = False }, cmd )
+  _           -> (model, Cmd.none)
 
 dashboardPath : String
 dashboardPath = "/dashboard"

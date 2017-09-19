@@ -19,5 +19,6 @@
   "homepage": "https://github.com/OinkIguana/conartist#readme",
   "devDependencies": {
     "elm-webpack-loader": "^4.3.1"
-  }
+  },
+  "dependencies": {}
 }

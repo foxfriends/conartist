@@ -13,8 +13,11 @@ import Page exposing (InventoryPageState)
 
 view : Model -> InventoryPageState -> Html Msg
 view model page =
-  let pts = List.map ProductType.normalize model.user.productTypes in
-  let tabList = List.map (\t -> (t.name, inventoryTab model t)) pts in
+  let tabList =
+    model.user.productTypes
+      |> List.map ProductType.normalize
+      |> List.map (\t -> (t.name, inventoryTab model t))
+  in
     tabs ChangeInventoryTab [ class "inventory" ] tabList page.current_tab
 
 inventoryTab : Model -> FullType -> Html Msg
@@ -30,4 +33,4 @@ inventoryTab model pt =
 
 inventoryRow : ProductWithType -> List (Html Msg)
 inventoryRow { name, quantity, type_, discontinued } =
-  [ text name, text type_.name, (text << toString) quantity, (text << toString) discontinued ]
+  [ text name, text type_.name, text << toString <| quantity, text << toString <| discontinued ]

@@ -6,7 +6,5 @@ or_else d m = case m of
   Nothing -> force d
   _ -> m
 
-unwrap_or : a -> Maybe a -> a
-unwrap_or d m = case m of
-  Nothing -> d
-  Just v -> v
+and_then_with_default : a -> (a -> Maybe b) -> Maybe a -> Maybe b
+and_then_with_default def fn m = fn (Maybe.withDefault def m)

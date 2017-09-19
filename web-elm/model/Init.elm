@@ -10,12 +10,13 @@ import LocalStorage
 import User
 
 init : Location -> (Model, Cmd Msg)
-init loc =
+init loc = let (page, cmd) = parseLocation loc in
   ( { user = User.new
     , authtoken = ""
-    , page = parseLocation loc
+    , page = page
     , now = Date.fromTime 0
     , sidenav_visible = False}
   , Cmd.batch
     [ LocalStorage.get "authtoken"
-    , Task.perform SetDate Date.now ] )
+    , Task.perform SetDate Date.now
+    , cmd ] )

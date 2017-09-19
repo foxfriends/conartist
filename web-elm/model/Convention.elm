@@ -44,7 +44,7 @@ decode = Decode.map (\a -> Meta a) <|
     (Decode.field "end" (Decode.map stringToDate Decode.string))
 
 stringToDate : (String -> Date)
-stringToDate = Date.fromString >> Result.toMaybe >> (Maybe_.unwrap_or <| Date.fromTime 0)
+stringToDate = Date.fromString >> Result.toMaybe >> (Maybe.withDefault <| Date.fromTime 0)
 
 asMeta : Convention -> MetaConvention
 asMeta con = case con of

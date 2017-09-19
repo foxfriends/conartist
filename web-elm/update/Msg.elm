@@ -12,7 +12,7 @@ type Msg
   | CEmail String
   | Password String
   | CPassword String
-  | ToggleTerms
+  | Terms Bool
   | ToggleSignIn
   | DoSignIn
   | DoSignOut
@@ -25,6 +25,7 @@ type Msg
   | OpenConSignUp
   -- inventory
   | ChangeInventoryTab Int
+  | ProductName Int String
   -- loading
   | DidLoadUser (Result Http.Error (ConRequest User))
   -- localStorage

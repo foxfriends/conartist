@@ -39,3 +39,9 @@ normalize prod = case prod of
   Clean p -> p
   Dirty p -> p
   New   p -> FullProduct -p.localId p.name p.quantity p.type_id False
+
+setName : String -> Product -> Product
+setName name product = case product of
+  New p -> New { p | name = name }
+  Clean p -> Dirty { p | name = name }
+  Dirty p -> Dirty { p | name = name }

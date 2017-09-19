@@ -1,26 +1,26 @@
 module Fancy exposing (..)
 
 import Html exposing (Html, div, span, label, text)
-import Html.Attributes exposing (class, type_)
-import Html.Events exposing (onClick)
+import Html.Attributes exposing (class, type_, value)
+import Html.Events exposing (onClick, onCheck)
 import Icon exposing (icon)
 
 input : String -> String -> List (Html.Attribute msg) -> List (Html.Attribute msg) -> Html msg
-input placeholder value baseAttrs inputAttrs =
-  let state = class <| if value == "" then "fancy-input--empty" else "" in
+input placeholder val baseAttrs inputAttrs =
+  let state = class <| if val == "" then "fancy-input--empty" else "" in
   div
     ( [ class "fancy-input", state ] ++ baseAttrs )
-    [ Html.input ([ class "fancy-input__field" ] ++ inputAttrs) []
+    [ Html.input ([ class "fancy-input__field", value val ] ++ inputAttrs) []
     , span [ class "fancy-input__placeholder" ] [ text placeholder ]
     , div [ class "fancy-input__underline" ]
       [ div [ class "fancy-input__underline--secondary" ] []
       , div [ class "fancy-input__underline--primary" ] []
       , div [ class "fancy-input__underline--warn" ] [] ] ]
 
-checkbox : msg -> String -> Html msg
+checkbox : (Bool -> msg) -> String -> Html msg
 checkbox msg labelText =
   label [ class "fancy-check"]
-    [ Html.input [ type_ "checkbox", class "fancy-check__box", onClick msg ] []
+    [ Html.input [ type_ "checkbox", class "fancy-check__box", onCheck msg ] []
     , span [ class "fancy-check__label"] [ text labelText ] ]
 
 button : ButtonStyle -> String -> List (Html.Attribute msg) -> Html msg

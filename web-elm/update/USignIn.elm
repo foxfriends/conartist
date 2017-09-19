@@ -24,7 +24,7 @@ update msg model = case model.page of
       CEmail new    ->  ({ model | page = SignIn <| validateForm { page | c_email = new } }, Cmd.none)
       Password new  ->  ({ model | page = SignIn <| validateForm { page | password = new } }, Cmd.none)
       CPassword new ->  ({ model | page = SignIn <| validateForm { page | c_password = new } }, Cmd.none)
-      ToggleTerms   ->  ({ model | page = SignIn <| validateForm { page | terms_accepted = not page.terms_accepted } }, Cmd.none)
+      Terms terms   ->  ({ model | page = SignIn <| validateForm { page | terms_accepted = terms } }, Cmd.none)
       ToggleSignIn  ->
         ( { model
           | page = SignIn { page

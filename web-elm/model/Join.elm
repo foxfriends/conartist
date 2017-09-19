@@ -6,7 +6,7 @@ import List_
 type alias ProductWithType =
   { id: Int
   , name: String
-  , type_: FullType
+  , product_type: FullType
   , quantity: Int
   , discontinued: Bool}
 

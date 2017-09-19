@@ -1,6 +1,7 @@
 module VInventory exposing (view)
 import Html exposing (Html, div, text)
-import Html.Attributes exposing (class)
+import Html.Attributes exposing (class, type_)
+import Html.Events exposing (onInput)
 
 import Model exposing (Model)
 import Msg exposing (Msg(..))
@@ -10,6 +11,7 @@ import Product exposing (FullProduct)
 import Table exposing (table)
 import Join exposing (ProductWithType)
 import Page exposing (InventoryPageState)
+import Fancy
 
 view : Model -> InventoryPageState -> Html Msg
 view model page =
@@ -32,5 +34,6 @@ inventoryTab model pt =
         (List.map Product.normalize model.user.products) ) ]
 
 inventoryRow : ProductWithType -> List (Html Msg)
-inventoryRow { name, quantity, type_, discontinued } =
-  [ text name, text type_.name, text << toString <| quantity, text << toString <| discontinued ]
+inventoryRow { id, name, quantity, product_type, discontinued } =
+  [ Fancy.input "Product Name" name [] [ type_ "text", onInput (ProductName id) ]
+  , text product_type.name, text << toString <| quantity, text << toString <| discontinued ]

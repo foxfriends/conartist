@@ -18,7 +18,8 @@ type alias FullProduct =
   , discontinued: Bool }
 
 type alias RequestProduct =
-  { id: Maybe Int
+  { kind: String
+  , id: Maybe Int
   , type_id: Int
   , name: String
   , quantity: Int
@@ -82,15 +83,16 @@ notSoBuggyToInt str = case str of
   "+" -> Err "Not a number"
   _   -> String.toInt str
 
-requestFormat : Product -> RequestProduct
+requestFormat : Product -> Maybe RequestProduct
 requestFormat product = case product of
-  New p   -> RequestProduct Nothing p.type_id p.name p.quantity False
-  Clean p -> RequestProduct (Just p.id) p.type_id p.name p.quantity p.discontinued
-  Dirty p -> RequestProduct (Just p.id) p.type_id p.name p.quantity p.discontinued
+  New p   -> Just <| RequestProduct "create" Nothing p.type_id p.name p.quantity False
+  Clean p -> Nothing
+  Dirty p -> Just <| RequestProduct "modify" (Just p.id) p.type_id p.name p.quantity p.discontinued
 
 requestJson : RequestProduct -> Json.Value
 requestJson request = Json.object
-  [ ("id", request.id |> Maybe.map Json.int |> Maybe.withDefault Json.null )
+  [ ("kind", Json.string request.kind)
+  , ("id", request.id |> Maybe.map Json.int |> Maybe.withDefault Json.null )
   , ("type", Json.int request.type_id)
   , ("name", Json.string request.name)
   , ("quantity", Json.int request.quantity)
@@ -98,23 +100,16 @@ requestJson request = Json.object
 
 individualClean : List FullProduct -> Product -> Product
 individualClean updates product =
-  let doClean = \p ->
+  let replaceNew = \p ->
     updates
-      |> List_.find (\x -> x.id == p.id)
+      |> List_.find (\x -> x.name == p.name)
       |> Maybe.map Clean
-      |> Maybe.withDefault (Dirty p)
-  in
-    let replaceNew = \p ->
-      updates
-        |> List_.find (\x -> x.name == p.name)
-        |> Maybe.map Clean
-        |> Maybe.withDefault (New p)
+      |> Maybe.withDefault (New p)
   in
     case product of
       Clean _ -> product
-      Dirty p -> doClean p
+      Dirty p -> Clean p
       New   p -> replaceNew p
-
 
 clean : List FullProduct -> List Product -> List Product
 clean updates = List.map (individualClean updates)

@@ -6,7 +6,6 @@ import Date exposing (Date)
 import Product exposing (Product)
 import Price exposing (Price)
 import ProductType exposing (ProductType)
-import Maybe_
 
 type alias MetaConvention =
   { name: String

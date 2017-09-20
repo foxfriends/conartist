@@ -22,7 +22,7 @@ view model page =
   in
     div []
       [ tabs ChangeInventoryTab [ class "inventory" ] tabList page.current_tab
-      , Fancy.button FAB "save" [ onClick SaveProducts, disabled (not <| Model.isDirty model) ] ]
+      , Fancy.button FAB "save" [ class "inventory__save", onClick SaveProducts, disabled (not <| Model.isDirty model) ] ]
 
 inventoryTab : Model -> FullType -> Html Msg
 inventoryTab model pt =

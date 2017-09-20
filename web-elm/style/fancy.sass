@@ -93,12 +93,17 @@
   &--fab
     @extend .fancy-button
     @extend %round-button
-    +card(4)
+    +card(3)
     width: 50px
     height: 50px
     background-color: $color--primary
     transition: box-shadow 0.1s
-    &:hover
-      background-color: darker($color--primary)
-    &:active
-      +card(2)
+    &:disabled
+      cursor: default
+      color: #666
+      background-color: #BBB
+    &:not(:disabled)
+      &:hover
+        background-color: darker($color--primary)
+      &:active
+        +card(2)

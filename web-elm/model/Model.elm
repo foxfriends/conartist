@@ -3,7 +3,9 @@ import List exposing (foldl)
 import Date exposing (Date)
 
 import Product
-import Convention exposing (Convention)
+import Price
+import ProductType
+import Convention
 import Page exposing (Page)
 import User exposing (User)
 
@@ -15,7 +17,11 @@ type alias Model =
   , sidenav_visible: Bool }
 
 isDirty : Model -> Bool
-isDirty { user } = foldl (\c -> \p -> p || Convention.isDirty c ) False user.conventions
+isDirty { user } =
+      foldl (\c -> \p -> p || Convention.isDirty c ) False user.conventions
+  ||  foldl (\c -> \p -> p || Product.isDirty c ) False user.products
+  ||  foldl (\c -> \p -> p || Price.isDirty c ) False user.prices
+  ||  foldl (\c -> \p -> p || ProductType.isDirty c ) False user.productTypes
 
 clean : a -> Model -> Model
 clean updates model = model

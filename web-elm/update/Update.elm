@@ -4,6 +4,7 @@ import Model exposing (Model)
 import Msg exposing (Msg(..))
 
 import Load
+import Save
 import USignIn
 import UDashboard
 import UInventory
@@ -25,6 +26,7 @@ update msg model =
     ToggleSidenav -> ({ model | sidenav_visible = not model.sidenav_visible }, Cmd.none)
     _ -> (model, Cmd.none))
   |> continue Load.update msg
+  |> continue Save.update msg
   |> continue Routing.update msg
   |> continue USignIn.update msg
   |> continue UDashboard.update msg

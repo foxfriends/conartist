@@ -22,17 +22,17 @@ saveProducts : Model -> Cmd Msg
 saveProducts model =
   model.user.products
     |> List.filter Product.isDirty
-    |> List.map Product.requestFormat
+    |> List.filterMap Product.requestFormat
     |> List.map Product.requestJson
     |> \products -> Json.object [ ("products", Json.list products) ]
     |> Http.jsonBody
     |> \body ->
       Http.request
         { method = "PUT"
-        , headers = [ Http.header "Authorization" <| "Bearer " ++ model.authtoken ]
+        , headers = [ Http.header "Authorization" ("Bearer " ++ model.authtoken) ]
         , url = "/api/products"
         , body = body
-        , expect = Http.expectJson (Decode.field "products" (ConRequest.decode (Decode.list Product.decode)))
+        , expect = Http.expectJson (ConRequest.decode (Decode.list Product.decode))
         , timeout = Nothing
-        , withCredentials = False}
+        , withCredentials = False }
     |> Http.send SavedProducts

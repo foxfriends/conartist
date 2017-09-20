@@ -27,6 +27,7 @@ button : ButtonStyle -> String -> List (Html.Attribute msg) -> Html msg
 button bstyle buttonText =
   let content = case bstyle of
     Icon -> icon buttonText []
+    FAB  -> icon buttonText []
     _    -> text buttonText
   in buttonWithContent bstyle [ content ]
 
@@ -36,12 +37,14 @@ buttonWithContent bstyle content attrs =
     Primary -> "fancy-button--primary"
     Flat -> "fancy-button--flat"
     Icon -> "fancy-button--icon"
-  in Html.button ([ class "fancy-button", class style ] ++ attrs) content
+    FAB -> "fancy-button--fab"
+  in Html.button ([ class style ] ++ attrs) content
 
 type ButtonStyle
   = Primary
   | Flat
   | Icon
+  | FAB
 
 select : a -> List a -> (a -> String) -> (a -> msg) -> Html msg
 select value options nameOf onSelect =

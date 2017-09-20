@@ -55,19 +55,26 @@
   &__label
   &__box
 
+%round-button
+  padding: 0
+  width: 40px
+  height: 40px
+  border-radius: 100%
+
 .fancy-button
   display: flex
   align-items: center
   justify-content: center
   border: none
-  border-radius: 20px
   background: none
   height: 40px
   padding: 0 16px
   margin: 8px
   cursor: pointer
   &--primary
+    @extend .fancy-button
     +card(1)
+    border-radius: 20px
     transition: box-shadow 0.1s
     border: 1px solid darker($color--primary, 8%)
     background-image: linear-gradient(to bottom, lighter($color--primary), $color--primary)
@@ -76,14 +83,22 @@
     &:active
       +card(0)
   &--flat
-    transition: background-color 0.1s
-    &:hover
-      background-color: transparentize(darker($color--primary, 30%, 30%), 0.9)
-    &:active
-      background-color: transparentize(darker($color--primary, 50%, 50%), 0.85)
+    @extend .fancy-button
+    @extend %flat-clickable
+    border-radius: 20px
   &--icon
-    @extend .fancy-button--flat
-    border-radius: 100%
-    width: 40px
-    height: 40px
-    padding: 0
+    @extend .fancy-button
+    @extend %flat-clickable
+    @extend %round-button
+  &--fab
+    @extend .fancy-button
+    @extend %round-button
+    +card(4)
+    width: 50px
+    height: 50px
+    background-color: $color--primary
+    transition: box-shadow 0.1s
+    &:hover
+      background-color: darker($color--primary)
+    &:active
+      +card(2)

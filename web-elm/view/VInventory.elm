@@ -1,6 +1,6 @@
 module VInventory exposing (view)
 import Html exposing (Html, div, text)
-import Html.Attributes exposing (class, type_)
+import Html.Attributes exposing (class, type_, disabled)
 import Html.Events exposing (onInput, onClick)
 
 import Model exposing (Model)
@@ -20,7 +20,9 @@ view model page =
       |> List.map ProductType.normalize
       |> List.map (\t -> (t.name, inventoryTab model t))
   in
-    tabs ChangeInventoryTab [ class "inventory" ] tabList page.current_tab
+    div []
+      [ tabs ChangeInventoryTab [ class "inventory" ] tabList page.current_tab
+      , Fancy.button FAB "save" [ onClick SaveProducts, disabled (not <| Model.isDirty model) ] ]
 
 inventoryTab : Model -> FullType -> Html Msg
 inventoryTab model pt =

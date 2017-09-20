@@ -1,5 +1,8 @@
 module Product exposing (..)
 import Json.Decode as Decode exposing (Decoder)
+import Json.Encode as Json
+
+import List_
 
 type alias NewProduct =
   { localId: Int
@@ -14,6 +17,13 @@ type alias FullProduct =
   , type_id: Int
   , discontinued: Bool }
 
+type alias RequestProduct =
+  { id: Maybe Int
+  , type_id: Int
+  , name: String
+  , quantity: Int
+  , discontinued: Bool }
+
 type Product
   = Clean FullProduct
   | Dirty FullProduct
@@ -25,8 +35,8 @@ isDirty prod = case prod of
   Dirty _ -> True
   New   _ -> True
 
-decode : Decoder Product
-decode = Decode.map (\a -> Clean a) <|
+decode : Decoder FullProduct
+decode =
   Decode.map5 FullProduct
     (Decode.field "id" Decode.int)
     (Decode.field "name" Decode.string)
@@ -51,18 +61,18 @@ setQuantity quantityStr product =
   case notSoBuggyToInt quantityStr of
     Ok quantity ->
       case product of
-        New p -> New { p | quantity = quantity }
+        New p   -> New { p | quantity = quantity }
         Clean p -> Dirty { p | quantity = quantity }
         Dirty p -> Dirty { p | quantity = quantity }
     Err _ ->
       case product of
-        New p -> New { p | quantity = 0 }
+        New p   -> New { p | quantity = 0 }
         Clean p -> Dirty { p | quantity = 0 }
         Dirty p -> Dirty { p | quantity = 0 }
 
 toggleDiscontinued : Product -> Maybe Product
 toggleDiscontinued product = case product of
-  New p -> Nothing
+  New p   -> Nothing
   Clean p -> Just <| Dirty { p | discontinued = not p.discontinued }
   Dirty p -> Just <| Dirty { p | discontinued = not p.discontinued }
 
@@ -70,4 +80,41 @@ notSoBuggyToInt : String -> Result String Int
 notSoBuggyToInt str = case str of
   "-" -> Err "Not a number"
   "+" -> Err "Not a number"
-  _ -> String.toInt str
+  _   -> String.toInt str
+
+requestFormat : Product -> RequestProduct
+requestFormat product = case product of
+  New p   -> RequestProduct Nothing p.type_id p.name p.quantity False
+  Clean p -> RequestProduct (Just p.id) p.type_id p.name p.quantity p.discontinued
+  Dirty p -> RequestProduct (Just p.id) p.type_id p.name p.quantity p.discontinued
+
+requestJson : RequestProduct -> Json.Value
+requestJson request = Json.object
+  [ ("id", request.id |> Maybe.map Json.int |> Maybe.withDefault Json.null )
+  , ("type", Json.int request.type_id)
+  , ("name", Json.string request.name)
+  , ("quantity", Json.int request.quantity)
+  , ("discontinued", Json.bool request.discontinued) ]
+
+individualClean : List FullProduct -> Product -> Product
+individualClean updates product =
+  let doClean = \p ->
+    updates
+      |> List_.find (\x -> x.id == p.id)
+      |> Maybe.map Clean
+      |> Maybe.withDefault (Dirty p)
+  in
+    let replaceNew = \p ->
+      updates
+        |> List_.find (\x -> x.name == p.name)
+        |> Maybe.map Clean
+        |> Maybe.withDefault (New p)
+  in
+    case product of
+      Clean _ -> product
+      Dirty p -> doClean p
+      New   p -> replaceNew p
+
+
+clean : List FullProduct -> List Product -> List Product
+clean updates = List.map (individualClean updates)

@@ -20,7 +20,7 @@ decode =
   Decode.map6 User
     (Decode.field "email" Decode.string )
     (Decode.field "keys" Decode.int )
-    (Decode.field "products" (Decode.list Product.decode) )
+    (Decode.field "products" (Decode.map (List.map Product.Clean) (Decode.list Product.decode)))
     (Decode.field "types" (Decode.list ProductType.decode))
     (Decode.field "prices" (Decode.list Price.decode) )
     (Decode.field "conventions" (Decode.list Convention.decode) )

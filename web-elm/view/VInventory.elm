@@ -34,7 +34,8 @@ inventoryTab model pt =
           |> List.map ProductType.normalize)
         (model.user.products
           |> List.map Product.normalize
-          |> List.filter (\p -> p.type_id == pt.id) ) ) ]
+          |> List.filter (\p -> p.type_id == pt.id)
+          |> List.filter (\p -> not p.discontinued) ) ) ]
 
 inventoryRow : ProductWithType -> List (Html Msg)
 inventoryRow { id, name, quantity, product_type, discontinued } =

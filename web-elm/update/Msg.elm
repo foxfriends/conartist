@@ -4,6 +4,9 @@ import Date exposing (Date)
 import Navigation exposing (Location)
 
 import ConRequest exposing (ConRequest)
+import Product
+import ProductType exposing (ProductType)
+import Price exposing (Price)
 import User exposing (User)
 
 type Msg
@@ -30,6 +33,13 @@ type Msg
   | ToggleDiscontinued Int
   -- loading
   | DidLoadUser (Result Http.Error (ConRequest User))
+  -- saving
+  | SaveProducts
+  | SavePrices
+  | SaveTypes
+  | SavedProducts (Result Http.Error (ConRequest (List Product.FullProduct)))
+  | SavedPrices (Result Http.Error (ConRequest (List Price)))
+  | SavedTypes (Result Http.Error (ConRequest (List ProductType)))
   -- localStorage
   | LSRetrive (String, Maybe String)
   -- navigation

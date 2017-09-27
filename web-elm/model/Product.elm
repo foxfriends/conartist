@@ -113,3 +113,6 @@ individualClean updates product =
 
 clean : List FullProduct -> List Product -> List Product
 clean updates = List.map (individualClean updates)
+
+new : Int -> Int -> Product
+new id type_id = New (NewProduct id ("Product " ++ toString id) 0 type_id)

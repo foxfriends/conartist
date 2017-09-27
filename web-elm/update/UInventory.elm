@@ -48,5 +48,15 @@ update msg model = case model.page of
         | user =
           { user
           | productTypes = productTypes ++ [ ProductType.new len ] } }
+    NewProduct ->
+      let user = model.user in
+      let products = user.products in
+      let type_id = List.head (List.drop page.current_tab user.productTypes) |> Maybe.map (\x -> (ProductType.normalize x).id) |> Maybe.withDefault 0 in
+      let len = products |> List.filter (\x -> (Product.normalize x).type_id == type_id) |> List.length in
+      ( { model
+        | user =
+          { user
+          | products = products ++ [ Product.new len type_id ] } }
+      , Cmd.none )
     _ -> (model, Cmd.none)
   _ -> (model, Cmd.none)

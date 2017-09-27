@@ -5,7 +5,7 @@ import Html.Events exposing (onInput, onClick)
 
 import Model exposing (Model)
 import Msg exposing (Msg(..))
-import Tabs exposing (tabs)
+import Tabs exposing (tabs, TabItem(..))
 import ProductType exposing (ProductType, FullType)
 import Product exposing (FullProduct)
 import Table exposing (table)
@@ -19,9 +19,10 @@ view model page =
     model.user.productTypes
       |> List.map ProductType.normalize
       |> List.map (\t -> (t.name, inventoryTab model t))
+      |> List.map Tab
   in
     div []
-      [ tabs ChangeInventoryTab [ class "inventory" ] tabList page.current_tab
+      [ tabs ChangeInventoryTab [ class "inventory" ] (tabList ++ [ newTabButton ]) page.current_tab
       , Fancy.button FAB "save" [ class "inventory__save", onClick SaveProducts, disabled (not <| Model.isDirty model) ] ]
 
 inventoryTab : Model -> FullType -> Html Msg
@@ -44,3 +45,6 @@ inventoryRow { id, name, quantity, product_type, discontinued } =
   [ Fancy.input "" name [] [ type_ "text", onInput (ProductName id) ]
   , Fancy.input "" (toString quantity) [] [ type_ "text", onInput (ProductQuantity id) ]
   , Fancy.button Icon (if discontinued then "add_circle_outline" else "remove_circle_outline") [ onClick (ToggleDiscontinued id) ] ]
+
+newTabButton : TabItem Msg
+newTabButton = Button("add", NewProductType)

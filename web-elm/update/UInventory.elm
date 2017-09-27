@@ -4,6 +4,7 @@ import Page exposing (Page(..))
 import Msg exposing (Msg(..))
 import Emit exposing (emit, inventoryTabChange)
 import Product
+import ProductType
 import List_
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -38,5 +39,14 @@ update msg model = case model.page of
           { user
           | products = List_.filterUpdateAt (\p -> (Product.normalize p).id == id) Product.toggleDiscontinued products } }
       , Cmd.none )
+    NewProductType ->
+      let user = model.user in
+      let productTypes = user.productTypes in
+      let len = List.length productTypes in
+      update (ChangeInventoryTab len) <|
+        { model
+        | user =
+          { user
+          | productTypes = productTypes ++ [ ProductType.new len ] } }
     _ -> (model, Cmd.none)
   _ -> (model, Cmd.none)

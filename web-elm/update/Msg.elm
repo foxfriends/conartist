@@ -28,6 +28,7 @@ type Msg
   | OpenConSignUp
   -- inventory
   | ChangeInventoryTab Int
+  | NewProductType
   | ProductName Int String
   | ProductQuantity Int String
   | ToggleDiscontinued Int

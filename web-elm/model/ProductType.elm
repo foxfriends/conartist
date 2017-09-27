@@ -36,3 +36,6 @@ normalize t = case t of
   Clean t -> t
   Dirty t -> t
   New   t -> FullType -t.localId t.name t.color False
+
+new : Int -> ProductType
+new id = New (NewType id ("New Type " ++ toString id) 0xFFFFFF)

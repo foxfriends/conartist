@@ -77,9 +77,9 @@
     border-radius: 20px
     transition: box-shadow 0.1s
     border: 1px solid darker($color--primary, 8%)
-    background-image: linear-gradient(to bottom, lighter($color--primary), $color--primary)
+    +natural-light(lighter($color--primary))
     &:hover
-      background-image: linear-gradient(to bottom, $color--primary, darker($color--primary, 3%))
+      +natural-light($color--primary)
     &:active
       +card(0)
   &--flat

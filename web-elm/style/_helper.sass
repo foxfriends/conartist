@@ -47,7 +47,6 @@ $font--body: "Quicksand"
   $s: max($s - $sat / 100%, 0)
   $v: min($v + $val / 100%, 1)
 
-
   @return hsv_to_color($h, $s, $v)
 
 =card($depth)
@@ -61,7 +60,17 @@ $font--body: "Quicksand"
 
 %flat-clickable
   cursor: pointer
-  &:hover
-    background-color: transparentize(darker($color--primary, 30%, 30%), 0.9)
-  &:active
-    background-color: transparentize(darker($color--primary, 50%, 50%), 0.85)
+  &:disabled
+    cursor: default
+    color: $color--placeholder
+  &:not(:disabled)
+    &:hover
+      background-color: transparentize(darker($color--primary, 30%, 30%), 0.9)
+    &:active
+      background-color: transparentize(darker($color--primary, 50%, 50%), 0.85)
+
+=natural-light($color: white)
+  @if $color == white
+    background-image: linear-gradient(to bottom, white, darken(white, 3))
+  @else
+    background-image: linear-gradient(to bottom, $color, darker($color, 2%, 2%))

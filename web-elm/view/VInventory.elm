@@ -5,7 +5,7 @@ import Html.Events exposing (onInput, onClick)
 
 import Model exposing (Model)
 import Msg exposing (Msg(..))
-import Tabs exposing (tabs, TabItem(..))
+import Tabs exposing (tabsWithFooter, TabItem(..))
 import ProductType exposing (ProductType, FullType)
 import Product exposing (FullProduct)
 import Table exposing (table)
@@ -21,16 +21,14 @@ view model page =
       |> List.map (\t -> (t.name, inventoryTab model t))
       |> List.map Tab
   in
-    div []
-      [ tabs ChangeInventoryTab [ class "inventory" ] (tabList ++ [ newTabButton ]) page.current_tab
-      , Fancy.button FAB "save" [ class "inventory__save", onClick SaveProducts, disabled (not <| Model.isDirty model) ] ]
+    tabsWithFooter (inventoryFooter model) ChangeInventoryTab [ class "inventory" ] (tabList ++ [ newTabButton ]) page.current_tab
 
 inventoryTab : Model -> FullType -> Html Msg
 inventoryTab model pt =
   div
     [ class "inventory__tab" ]
     [ table
-      [ "Name", "Quantity", "Discontinued" ]
+      [ "Name", "Quantity", "Discontinue" ]
       inventoryRow
       ( Join.productsWithTypes
         (model.user.productTypes
@@ -48,3 +46,8 @@ inventoryRow { id, name, quantity, product_type, discontinued } =
 
 newTabButton : TabItem Msg
 newTabButton = Button("add", NewProductType)
+
+inventoryFooter : Model -> List (Html Msg)
+inventoryFooter model =
+  [ Fancy.button Icon "add" [ onClick NewProduct ]
+  , Fancy.button Icon "save" [ onClick SaveProducts, disabled (not <| Model.isDirty model) ] ]

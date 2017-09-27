@@ -29,6 +29,7 @@ type Msg
   -- inventory
   | ChangeInventoryTab Int
   | NewProductType
+  | NewProduct
   | ProductName Int String
   | ProductQuantity Int String
   | ToggleDiscontinued Int

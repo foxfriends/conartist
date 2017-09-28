@@ -26,11 +26,12 @@ update msg model = case model.page of
     ProductTypeDiscontinued id ->
       let user = model.user in
       let types = user.productTypes in
-      ( { model
+      let result =
+        { model
         | user =
           { user
           | productTypes = List_.filterUpdateAt (\t -> let u = (ProductType.normalize t) in u.id == id) ProductType.toggleDiscontinued types } }
-      , Cmd.none )
+      in if model.show_discontinued then result ! [] else update (ChangeInventoryTab (page.current_tab - 1)) result
     ProductName type_ id name ->
       let user = model.user in
       let products = user.products in
@@ -59,7 +60,14 @@ update msg model = case model.page of
       let user = model.user in
       let productTypes = user.productTypes in
       let len = List.length productTypes in
-      update (ChangeInventoryTab len) <|
+      let tabIndex = if model.show_discontinued
+          then len
+          else productTypes
+            |> List.map ProductType.normalize
+            |> List.filter (\t -> not t.discontinued)
+            |> List.length
+      in
+      update (ChangeInventoryTab tabIndex) <|
         { model
         | user =
           { user
@@ -67,7 +75,14 @@ update msg model = case model.page of
     NewProduct ->
       let user = model.user in
       let products = user.products in
-      let type_id = List.head (List.drop page.current_tab user.productTypes) |> Maybe.map (\x -> (ProductType.normalize x).id) |> Maybe.withDefault 0 in
+      let type_id = user.productTypes
+          |> List.map ProductType.normalize
+          |> (if model.show_discontinued then identity else List.filter (\t -> not t.discontinued))
+          |> List.drop page.current_tab
+          |> List.head
+          |> Maybe.map (\t -> t.id)
+          |> Maybe.withDefault 0
+      in
       let len = products |> List.filter (\x -> (Product.normalize x).type_id == type_id) |> List.length in
       ( { model
         | user =

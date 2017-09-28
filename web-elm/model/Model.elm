@@ -14,6 +14,7 @@ type alias Model =
   , authtoken : String
   , page: Page
   , now: Date
+  , show_discontinued: Bool
   , sidenav_visible: Bool }
 
 isDirty : Model -> Bool

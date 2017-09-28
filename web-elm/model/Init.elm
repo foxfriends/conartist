@@ -15,7 +15,8 @@ init loc = let (page, cmd) = parseLocation loc in
     , authtoken = ""
     , page = page
     , now = Date.fromTime 0
-    , sidenav_visible = False}
+    , show_discontinued = False
+    , sidenav_visible = False }
   , Cmd.batch
     [ LocalStorage.get "authtoken"
     , Task.perform SetDate Date.now

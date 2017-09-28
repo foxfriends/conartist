@@ -51,7 +51,12 @@ newTabButton = Button("add", NewProductType)
 
 inventoryFooter : Model -> Int -> List (Html Msg)
 inventoryFooter model currentTab =
-  case model.user.productTypes |> List.drop currentTab |> List.head |> Maybe.map ProductType.normalize of
+  case model.user.productTypes
+    |> List.map ProductType.normalize
+    |> (if model.show_discontinued then identity else List.filter (\t -> not t.discontinued))
+    |> List.drop currentTab
+    |> List.head
+  of
     Just t ->
       [ Fancy.button Icon (if t.discontinued then "add_circle_outline" else "remove_circle_outline") [ onClick (ProductTypeDiscontinued t.id) ]
       , Fancy.input "" t.name [] [ onInput (ProductTypeName t.id) ]

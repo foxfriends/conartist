@@ -30,6 +30,8 @@ type Msg
   | ChangeInventoryTab Int
   | NewProductType
   | NewProduct
+  | ProductTypeName Int String
+  | ProductTypeDiscontinued Int
   | ProductName Int Int String
   | ProductQuantity Int Int String
   | ProductDiscontinued Int Int

@@ -15,6 +15,22 @@ update msg model = case model.page of
       , emit (inventoryTabChange tab) )
     DidLoadUser _ ->
       ( model, emit (inventoryTabChange page.current_tab) )
+    ProductTypeName id name ->
+      let user = model.user in
+      let types = user.productTypes in
+      ( { model
+        | user =
+          { user
+          | productTypes = List_.updateAt (\t -> let u = (ProductType.normalize t) in u.id == id) (ProductType.setName name) types } }
+      , Cmd.none )
+    ProductTypeDiscontinued id ->
+      let user = model.user in
+      let types = user.productTypes in
+      ( { model
+        | user =
+          { user
+          | productTypes = List_.filterUpdateAt (\t -> let u = (ProductType.normalize t) in u.id == id) ProductType.toggleDiscontinued types } }
+      , Cmd.none )
     ProductName type_ id name ->
       let user = model.user in
       let products = user.products in

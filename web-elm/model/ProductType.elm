@@ -78,3 +78,15 @@ clean updates = List.map (individualClean updates)
 
 new : Int -> ProductType
 new id = New (NewType id ("New Type " ++ toString id) 0xFFFFFF)
+
+setName : String -> ProductType -> ProductType
+setName name type_ = case type_ of
+  New p   -> New   { p | name = name }
+  Clean p -> Dirty { p | name = name }
+  Dirty p -> Dirty { p | name = name }
+
+toggleDiscontinued : ProductType -> Maybe ProductType
+toggleDiscontinued type_ = case type_ of
+  New p   -> Nothing
+  Clean p -> Just <| Dirty { p | discontinued = not p.discontinued }
+  Dirty p -> Just <| Dirty { p | discontinued = not p.discontinued }

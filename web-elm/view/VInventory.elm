@@ -21,7 +21,7 @@ view model page =
       |> List.map (\t -> (t.name, inventoryTab model t))
       |> List.map Tab
   in
-    tabsWithFooter (inventoryFooter model) ChangeInventoryTab [ class "inventory" ] (tabList ++ [ newTabButton ]) page.current_tab
+    tabsWithFooter (inventoryFooter model page.current_tab) ChangeInventoryTab [ class "inventory" ] (tabList ++ [ newTabButton ]) page.current_tab
 
 inventoryTab : Model -> FullType -> Html Msg
 inventoryTab model pt =
@@ -47,7 +47,12 @@ inventoryRow { id, name, quantity, product_type, discontinued } =
 newTabButton : TabItem Msg
 newTabButton = Button("add", NewProductType)
 
-inventoryFooter : Model -> List (Html Msg)
-inventoryFooter model =
-  [ Fancy.button Icon "add" [ onClick NewProduct ]
-  , Fancy.button Icon "save" [ onClick SaveTypes, disabled (not <| Model.isDirty model) ] ]
+inventoryFooter : Model -> Int -> List (Html Msg)
+inventoryFooter model currentTab =
+  case model.user.productTypes |> List.drop currentTab |> List.head |> Maybe.map ProductType.normalize of
+    Just t ->
+      [ Fancy.button Icon (if t.discontinued then "add_circle_outline" else "remove_circle_outline") [ onClick (ProductTypeDiscontinued t.id) ]
+      , Fancy.input "" t.name [] [ onInput (ProductTypeName t.id) ]
+      , Fancy.button Icon "add" [ onClick NewProduct ]
+      , Fancy.button Icon "save" [ onClick SaveTypes, disabled (not <| Model.isDirty model) ] ]
+    Nothing -> []

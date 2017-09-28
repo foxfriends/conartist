@@ -55,7 +55,7 @@ normalize prod = case prod of
 
 setName : String -> Product -> Product
 setName name product = case product of
-  New p -> New { p | name = name }
+  New p   -> New   { p | name = name }
   Clean p -> Dirty { p | name = name }
   Dirty p -> Dirty { p | name = name }
 

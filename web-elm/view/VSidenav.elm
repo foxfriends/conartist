@@ -36,6 +36,7 @@ view { sidenav_visible } =
     , (navigateTo Routing.inventoryPath, "Inventory")
     , (navigateTo Routing.pricingPath, "Pricing")
     , (navigateTo Routing.conventionsPath, "Conventions")
+    , (navigateTo Routing.settingsPath, "Settings")
     , (doSignOut, "Sign Out") ] in
   div [ class "ca__sidenav", visibility ] [ list navListRow items ]
 

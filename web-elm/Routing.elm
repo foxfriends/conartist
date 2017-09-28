@@ -18,6 +18,7 @@ matchers =
     , map (Page.inventory, emit (inventoryTabChange 0)) <| s "inventory"
     , map (Pricing, Cmd.none) <| s "prices"
     , map (\s -> (Convention s, Cmd.none)) <| s "conventions" </> string
+    , map (Settings, Cmd.none) <| s "settings"
     , map (Conventions, Cmd.none) <| s "conventions" ]
 
 parseLocation : Location -> (Page, Cmd Msg)
@@ -67,6 +68,9 @@ conventionsPath = "/conventions"
 
 conventionPath : String -> String
 conventionPath = (++) "/conventions/"
+
+settingsPath : String
+settingsPath = "/settings"
 
 signInPath : String
 signInPath = "/sign-in"

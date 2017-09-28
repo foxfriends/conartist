@@ -7,6 +7,7 @@ type Page
   | Pricing
   | Conventions
   | Convention String
+  | Settings
   | SignIn SignInPageState
 
 type alias InventoryPageState =

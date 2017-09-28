@@ -18,6 +18,7 @@ view model page =
   let tabList =
     model.user.productTypes
       |> List.map ProductType.normalize
+      |> List.filter (\p -> not p.discontinued)
       |> List.map (\t -> (t.name, inventoryTab model t))
       |> List.map Tab
   in
@@ -32,7 +33,8 @@ inventoryTab model pt =
       inventoryRow
       ( Join.productsWithTypes
         (model.user.productTypes
-          |> List.map ProductType.normalize)
+          |> List.map ProductType.normalize
+          |> List.filter (\p -> not p.discontinued))
         (model.user.products
           |> List.map Product.normalize
           |> List.filter (\p -> p.type_id == pt.id)

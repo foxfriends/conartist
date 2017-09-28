@@ -1,6 +1,8 @@
 module Product exposing (..)
 import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Json
+import ProductType exposing (ProductType)
+import Dict
 
 import List_
 
@@ -113,6 +115,18 @@ individualClean updates product =
 
 clean : List FullProduct -> List Product -> List Product
 clean updates = List.map (individualClean updates)
+
+fillNewTypes : List ProductType.FullType -> List ProductType -> List Product -> List Product
+fillNewTypes updates originals products =
+  let oldNews = List.filterMap (\o -> case o of
+    ProductType.New p -> Just p
+    _                 -> Nothing) originals
+  in
+  let typeMapping = Dict.fromList (updates |> List.filterMap (\u -> List_.find (\o -> o.name == u.name) oldNews |> Maybe.map (\f -> (f.localId, u.id))))
+  in products
+    |> List.map (\p -> case p of
+      New prod -> New { prod | type_id = Dict.get (-prod.type_id) (Debug.log "type mapping" typeMapping) |> Maybe.withDefault prod.type_id }
+      _ -> p)
 
 new : Int -> Int -> Product
 new id type_id = New (NewProduct id ("Product " ++ toString id) 0 type_id)

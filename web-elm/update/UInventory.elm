@@ -15,29 +15,29 @@ update msg model = case model.page of
       , emit (inventoryTabChange tab) )
     DidLoadUser _ ->
       ( model, emit (inventoryTabChange page.current_tab) )
-    ProductName id name ->
+    ProductName type_ id name ->
       let user = model.user in
       let products = user.products in
       ( { model
         | user =
           { user
-          | products = List_.updateAt (\p -> (Product.normalize p).id == id) (Product.setName name) products } }
+          | products = List_.updateAt (\p -> let q = (Product.normalize p) in q.id == id && q.type_id == type_) (Product.setName name) products } }
       , Cmd.none )
-    ProductQuantity id quantity ->
+    ProductQuantity type_ id quantity ->
       let user = model.user in
       let products = user.products in
       ( { model
         | user =
           { user
-          | products = List_.updateAt (\p -> (Product.normalize p).id == id) (Product.setQuantity quantity) products } }
+          | products = List_.updateAt (\p -> let q = (Product.normalize p) in q.id == id && q.type_id == type_) (Product.setQuantity quantity) products } }
       , Cmd.none )
-    ToggleDiscontinued id ->
+    ProductDiscontinued type_ id ->
       let user = model.user in
       let products = user.products in
       ( { model
         | user =
           { user
-          | products = List_.filterUpdateAt (\p -> (Product.normalize p).id == id) Product.toggleDiscontinued products } }
+          | products = List_.filterUpdateAt (\p -> let q = (Product.normalize p) in q.id == id && q.type_id == type_) Product.toggleDiscontinued products } }
       , Cmd.none )
     NewProductType ->
       let user = model.user in
@@ -56,7 +56,7 @@ update msg model = case model.page of
       ( { model
         | user =
           { user
-          | products = products ++ [ Product.new len type_id ] } }
+          | products = products ++ [ Debug.log "new product" <| Product.new len type_id ] } }
       , Cmd.none )
     _ -> (model, Cmd.none)
   _ -> (model, Cmd.none)

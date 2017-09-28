@@ -40,9 +40,9 @@ inventoryTab model pt =
 
 inventoryRow : ProductWithType -> List (Html Msg)
 inventoryRow { id, name, quantity, product_type, discontinued } =
-  [ Fancy.input "" name [] [ type_ "text", onInput (ProductName id) ]
-  , Fancy.input "" (toString quantity) [] [ type_ "text", onInput (ProductQuantity id) ]
-  , Fancy.button Icon (if discontinued then "add_circle_outline" else "remove_circle_outline") [ onClick (ToggleDiscontinued id) ] ]
+  [ Fancy.input "" name [] [ type_ "text", onInput (ProductName product_type.id id) ]
+  , Fancy.input "" (toString quantity) [] [ type_ "text", onInput (ProductQuantity product_type.id id) ]
+  , Fancy.button Icon (if discontinued then "add_circle_outline" else "remove_circle_outline") [ onClick (ProductDiscontinued product_type.id id) ] ]
 
 newTabButton : TabItem Msg
 newTabButton = Button("add", NewProductType)
@@ -50,4 +50,4 @@ newTabButton = Button("add", NewProductType)
 inventoryFooter : Model -> List (Html Msg)
 inventoryFooter model =
   [ Fancy.button Icon "add" [ onClick NewProduct ]
-  , Fancy.button Icon "save" [ onClick SaveProducts, disabled (not <| Model.isDirty model) ] ]
+  , Fancy.button Icon "save" [ onClick SaveTypes, disabled (not <| Model.isDirty model) ] ]

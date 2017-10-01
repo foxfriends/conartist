@@ -90,3 +90,17 @@ toggleDiscontinued type_ = case type_ of
   New p   -> Nothing
   Clean p -> Just <| Dirty { p | discontinued = not p.discontinued }
   Dirty p -> Just <| Dirty { p | discontinued = not p.discontinued }
+
+validateRequest : List ProductType -> Result String (List ProductType)
+validateRequest types =
+  let validate = (\types -> \bad ->
+    case types of
+      item :: rest ->
+        let name = (normalize item).name in
+          if List.member name bad
+          then Err <| "Type name " ++ name ++ " is duplicated"
+          else validate rest (name :: bad)
+            |> Result.andThen (\valids -> Ok (item :: valids))
+      [] -> Ok []
+  )
+  in validate types []

@@ -87,7 +87,7 @@ update msg model = case model.page of
       ( { model
         | user =
           { user
-          | products = products ++ [ Debug.log "new product" <| Product.new len type_id ] } }
+          | products = products ++ [ Product.new len type_id ] } }
       , Cmd.none )
     _ -> (model, Cmd.none)
   _ -> (model, Cmd.none)

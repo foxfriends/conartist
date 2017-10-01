@@ -46,3 +46,9 @@ cleanTypes updates model =
       { user
       | productTypes = ProductType.clean updates types
       , products = Product.fillNewTypes updates types products } }
+
+validateRequest : Model -> Result String Model
+validateRequest model =
+  ProductType.validateRequest model.user.productTypes
+    |> Result.andThen (\_ -> Product.validateRequest model.user.products)
+    |> Result.map (\_ -> model)

@@ -32,6 +32,7 @@ type Msg
   | NewProduct
   | ProductTypeName Int String
   | ProductTypeDiscontinued Int
+  | ProductTypeColor
   | ProductName Int Int String
   | ProductQuantity Int Int String
   | ProductDiscontinued Int Int

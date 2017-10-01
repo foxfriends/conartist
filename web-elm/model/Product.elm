@@ -130,3 +130,17 @@ fillNewTypes updates originals products =
 
 new : Int -> Int -> Product
 new id type_id = New (NewProduct id ("Product " ++ toString id) 0 type_id)
+
+validateRequest : List Product -> Result String (List Product)
+validateRequest types =
+  let validate = (\types -> \bad ->
+    case types of
+      item :: rest ->
+        let { name, type_id } = normalize item in
+          if List.member (type_id, name) bad
+          then Err <| "Product of type " ++ toString type_id ++ " with name " ++ name ++ " is duplicated"
+          else validate rest ((type_id, name) :: bad)
+            |> Result.andThen (\valids -> Ok (item :: valids))
+      [] -> Ok []
+  )
+  in validate types []

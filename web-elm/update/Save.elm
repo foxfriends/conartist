@@ -11,13 +11,21 @@ import Msg exposing (Msg(..))
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case msg of
-  Save -> update SaveTypes <| Debug.log "dirty model" model
-  SaveProducts -> (model, saveProducts model)
+  Save -> update SaveTypes model
+  SaveProducts ->
+    Model.validateRequest model
+      |> Result.map (\_ -> (model, saveProducts model))
+      |> Result.mapError (Debug.log "Error: ")
+      |> Result.withDefault (model, Cmd.none)
   SavePrices -> (model, Cmd.none)
-  SaveTypes -> (model, saveTypes model)
+  SaveTypes ->
+    Model.validateRequest model
+      |> Result.map (\_ -> (model, saveTypes model))
+      |> Result.mapError (Debug.log "Error: ")
+      |> Result.withDefault (model, Cmd.none)
   SavedProducts (Ok (Success updates)) -> (Model.cleanProducts updates model, Cmd.none)
   SavedPrices (Ok (Success updates)) -> (Model.clean updates model, Cmd.none)
-  SavedTypes (Ok (Success updates)) -> update SaveProducts <| Debug.log "cleaned types" (Model.cleanTypes updates model)
+  SavedTypes (Ok (Success updates)) -> update SaveProducts (Model.cleanTypes updates model)
   _ -> (model, Cmd.none)
 
 saveProducts : Model -> Cmd Msg

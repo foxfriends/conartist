@@ -47,7 +47,7 @@ inventoryRow { id, name, quantity, product_type, discontinued } =
   , Fancy.button Icon (if discontinued then "add_circle_outline" else "remove_circle_outline") [ onClick (ProductDiscontinued product_type.id id) ] ]
 
 newTabButton : TabItem Msg
-newTabButton = Button("add", NewProductType)
+newTabButton = Button ("add", NewProductType)
 
 inventoryFooter : Model -> Int -> List (Html Msg)
 inventoryFooter model currentTab =
@@ -60,6 +60,7 @@ inventoryFooter model currentTab =
     Just t ->
       [ Fancy.button Icon (if t.discontinued then "add_circle_outline" else "remove_circle_outline") [ onClick (ProductTypeDiscontinued t.id) ]
       , Fancy.input "" t.name [] [ onInput (ProductTypeName t.id) ]
+      , Fancy.button Icon "format_color_fill" [ onClick ProductTypeColor ]
       , Fancy.button Icon "add" [ onClick NewProduct ]
       , Fancy.button Icon "save" [ onClick SaveTypes, disabled (not <| Model.isDirty model) ] ]
     Nothing -> []

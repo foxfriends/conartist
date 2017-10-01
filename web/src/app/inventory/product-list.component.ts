@@ -49,7 +49,7 @@ export class ProductListComponent implements OnInit, OnChanges {
   constructor(@Inject(StorageService) private storage: StorageService) {}
 
   ngOnInit() {
-    this.sort.mdSortChange.subscribe((sort: Sort) => {
+    this.sort.sortChange.subscribe((sort: Sort) => {
       let fn: ((a: ca.Product, b: ca.Product) => number) | undefined;
       if(sort.direction && sort.active) {
         const dir = sort.direction === 'asc' ? -1 : 1;

@@ -1,16 +1,16 @@
 <md-table [dataSource]="dataSource" mdSort>
-  <ng-container cdkColumnDef="type">
-    <md-header-cell *cdkHeaderCellDef md-sort-header>Type</md-header-cell>
-    <md-cell *cdkCellDef="let row">
+  <ng-container mdColumnDef="type">
+    <md-header-cell *mdHeaderCellDef md-sort-header>Type</md-header-cell>
+    <md-cell *mdCellDef="let row">
       <md-select [ngModel]="row.type" (change)="setType($event, row.index)">
          <md-option *ngFor="let type of types" [value]="type.id">{{ type.name }}</md-option>
       </md-select>
     </md-cell>
   </ng-container>
 
-  <ng-container cdkColumnDef="product">
-    <md-header-cell *cdkHeaderCellDef md-sort-header>Product</md-header-cell>
-    <md-cell *cdkCellDef="let row">
+  <ng-container mdColumnDef="product">
+    <md-header-cell *mdHeaderCellDef md-sort-header>Product</md-header-cell>
+    <md-cell *mdCellDef="let row">
       <md-select [ngModel]="row.product" (change)="setProduct($event, row.index)">
         <md-option [value]="null">None</md-option>
         <md-option *ngFor="let product of products(row.type)" [value]="product.id">{{ product.name }}</md-option>
@@ -18,31 +18,31 @@
     </md-cell>
   </ng-container>
 
-  <ng-container cdkColumnDef="quantity">
-    <md-header-cell *cdkHeaderCellDef>Quantity</md-header-cell>
-    <md-cell *cdkCellDef="let row">
+  <ng-container mdColumnDef="quantity">
+    <md-header-cell *mdHeaderCellDef>Quantity</md-header-cell>
+    <md-cell *mdCellDef="let row">
       <con-editable [content]="row.quantity" (contentChange)="setQuantity($event, row.index)" [validator]="quantityIsNatural"></con-editable>
     </md-cell>
   </ng-container>
 
-  <ng-container cdkColumnDef="price">
-    <md-header-cell *cdkHeaderCellDef>Price</md-header-cell>
-    <md-cell *cdkCellDef="let row">
+  <ng-container mdColumnDef="price">
+    <md-header-cell *mdHeaderCellDef>Price</md-header-cell>
+    <md-cell *mdCellDef="let row">
       <con-editable [content]="row.price | currency:'USD':true" (contentChange)="setPrice($event, row.index)" [validator]="priceIsPositive"></con-editable>
     </md-cell>
   </ng-container>
 
-  <ng-container cdkColumnDef="delete">
-    <md-header-cell *cdkHeaderCellDef class="prices__column--action">Delete</md-header-cell>
-    <md-cell *cdkCellDef="let row" class="prices__column--action">
+  <ng-container mdColumnDef="delete">
+    <md-header-cell *mdHeaderCellDef class="prices__column--action">Delete</md-header-cell>
+    <md-cell *mdCellDef="let row" class="prices__column--action">
       <button md-icon-button (click)="removeRow(row.index)">
         <md-icon>remove_circle_outline</md-icon>
       </button>
     </md-cell>
   </ng-container>
 
-  <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-  <md-row *cdkRowDef="let row; columns: displayedColumns"></md-row>
+  <md-header-row *mdHeaderRowDef="displayedColumns"></md-header-row>
+  <md-row *mdRowDef="let row; columns: displayedColumns"></md-row>
 </md-table>
 <div class="prices__actions">
   <button md-raised-button mdTooltip="Download" (click)="exportPricesData()">

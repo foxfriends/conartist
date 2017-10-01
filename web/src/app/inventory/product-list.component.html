@@ -1,22 +1,22 @@
 <ng-container mdSort>
   <md-table [dataSource]="dataSource" *ngIf="(dataSource.connect()|async).length; else placeholder">
-    <ng-container cdkColumnDef="name">
-      <md-header-cell *cdkHeaderCellDef md-sort-header>Product</md-header-cell>
-      <md-cell *cdkCellDef="let product">
+    <ng-container mdColumnDef="name">
+      <md-header-cell *mdHeaderCellDef md-sort-header>Product</md-header-cell>
+      <md-cell *mdCellDef="let product">
         <con-editable [content]="product.name" (contentChange)="setProductName($event, product.id)" [validator]="productNameIsUnique"></con-editable>
       </md-cell>
     </ng-container>
 
-    <ng-container cdkColumnDef="quantity">
-      <md-header-cell *cdkHeaderCellDef md-sort-header>Quantity</md-header-cell>
-      <md-cell *cdkCellDef="let product">
+    <ng-container mdColumnDef="quantity">
+      <md-header-cell *mdHeaderCellDef md-sort-header>Quantity</md-header-cell>
+      <md-cell *mdCellDef="let product">
         <con-editable [content]="product.quantity" (contentChange)="setProductQuantity($event, product.id)" [validator]="quantityIsNatural"></con-editable>
       </md-cell>
     </ng-container>
 
-    <ng-container cdkColumnDef="discontinue">
-      <md-header-cell *cdkHeaderCellDef md-sort-header class="product-list__column--action">Discontinue</md-header-cell>
-      <md-cell *cdkCellDef="let product" class="product-list__column--action">
+    <ng-container mdColumnDef="discontinue">
+      <md-header-cell *mdHeaderCellDef md-sort-header class="product-list__column--action">Discontinue</md-header-cell>
+      <md-cell *mdCellDef="let product" class="product-list__column--action">
         <button md-icon-button (click)="setProductDiscontinued(!product.discontinued, product.id)" [mdTooltip]="product.discontinued ? 'Restore' : product.id > 0 ? 'Discontinue' : 'Delete'" mdTooltipPosition="left">
           <md-icon *ngIf="!product.discontinued">remove_circle_outline</md-icon>
           <md-icon *ngIf="product.discontinued">add_circle_outline</md-icon>
@@ -24,17 +24,17 @@
       </md-cell>
     </ng-container>
 
-    <ng-container cdkColumnDef="price">
-      <md-header-cell *cdkHeaderCellDef class="product-list__column--action">Set price</md-header-cell>
-      <md-cell *cdkCellDef="let product" class="product-list__column--action">
+    <ng-container mdColumnDef="price">
+      <md-header-cell *mdHeaderCellDef class="product-list__column--action">Set price</md-header-cell>
+      <md-cell *mdCellDef="let product" class="product-list__column--action">
         <button md-icon-button (click)="addPriceRow(type.id, product.id)" mdTooltipPosition="right">
           <md-icon>attach_money</md-icon>
         </button>
       </md-cell>
     </ng-container>
 
-    <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-    <md-row *cdkRowDef="let product; columns: displayedColumns" [ngClass]="{'product-list__row--discontinued': product.discontinued}"></md-row>
+    <md-header-row *mdHeaderRowDef="displayedColumns"></md-header-row>
+    <md-row *mdRowDef="let product; columns: displayedColumns" [ngClass]="{'product-list__row--discontinued': product.discontinued}"></md-row>
   </md-table>
   <ng-template #placeholder>
     <div class="product-list__placeholder">

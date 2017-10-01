@@ -124,7 +124,7 @@ export class HelpComponent {
   get outlines(): Outline[] {
     return this._outlines.map(outline => {
       const children = this.helpFor.querySelectorAll(typeof outline.selector === 'string' ? outline.selector : outline.selector.join(','));
-      if(!children.length) { return; }
+      if(!children.length) { return []; }
       const bounds = ([].map.call(children, (_: Element) => _.getBoundingClientRect()) as ClientRect[])
         .reduce((_, { top, right, bottom, left }) => {
           return {

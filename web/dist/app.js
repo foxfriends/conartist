@@ -558,7 +558,7 @@ var _a;
 /***/ "./src/app/conventions/con-inventory.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<md-table [dataSource]=\"dataSource\" mdSort>\n  <ng-container cdkColumnDef=\"selected\">\n    <md-header-cell *cdkHeaderCellDef>\n      <!-- TODO: bulk include/exclude -->\n      <!-- TODO: decide if this will be a feature -->\n      <md-icon>check</md-icon>\n    </md-header-cell>\n    <md-cell *cdkCellDef=\"let product\">\n      <md-checkbox [checked]=\"included(product)\" (change)=\"toggleIncluded(product)\"></md-checkbox>\n    </md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"name\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Product</md-header-cell>\n    <md-cell *cdkCellDef=\"let product\">{{ product.name }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"type\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Type</md-header-cell>\n    <md-cell *cdkCellDef=\"let product\">{{ product.type | type:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"quantity\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Quantity</md-header-cell>\n    <md-cell *cdkCellDef=\"let product\">{{ product.quantity }}</md-cell>\n  </ng-container>\n\n  <md-header-row *cdkHeaderRowDef=\"displayedColumns\"></md-header-row>\n  <md-row *cdkRowDef=\"let product; columns: displayedColumns\"></md-row>\n</md-table>\n"
+module.exports = "<md-table [dataSource]=\"dataSource\" mdSort>\n  <ng-container mdColumnDef=\"selected\">\n    <md-header-cell *mdHeaderCellDef>\n      <!-- TODO: bulk include/exclude -->\n      <!-- TODO: decide if this will be a feature -->\n      <md-icon>check</md-icon>\n    </md-header-cell>\n    <md-cell *mdCellDef=\"let product\">\n      <md-checkbox [checked]=\"included(product)\" (change)=\"toggleIncluded(product)\"></md-checkbox>\n    </md-cell>\n  </ng-container>\n\n  <ng-container mdColumnDef=\"name\">\n    <md-header-cell *mdHeaderCellDef md-sort-header>Product</md-header-cell>\n    <md-cell *mdCellDef=\"let product\">{{ product.name }}</md-cell>\n  </ng-container>\n\n  <ng-container mdColumnDef=\"type\">\n    <md-header-cell *mdHeaderCellDef md-sort-header>Type</md-header-cell>\n    <md-cell *mdCellDef=\"let product\">{{ product.type | type:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container mdColumnDef=\"quantity\">\n    <md-header-cell *mdHeaderCellDef md-sort-header>Quantity</md-header-cell>\n    <md-cell *mdCellDef=\"let product\">{{ product.quantity }}</md-cell>\n  </ng-container>\n\n  <md-header-row *mdHeaderRowDef=\"displayedColumns\"></md-header-row>\n  <md-row *mdRowDef=\"let product; columns: displayedColumns\"></md-row>\n</md-table>\n"
 
 /***/ }),
 
@@ -575,7 +575,7 @@ module.exports = ".con-inventory__row--excluded {\n  opacity: 0.5; }\n\n.con-inv
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ConInventoryComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_material__ = __webpack_require__("./node_modules/@angular/material/@angular/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_material__ = __webpack_require__("./node_modules/@angular/material/esm5/material.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__data_storage_service__ = __webpack_require__("./src/app/data/storage.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__data_type_pipe__ = __webpack_require__("./src/app/data/type.pipe.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__data_data_source__ = __webpack_require__("./src/app/data/data-source.ts");
@@ -612,7 +612,7 @@ let ConInventoryComponent = class ConInventoryComponent {
     ngOnInit() {
         this.dataSource = new __WEBPACK_IMPORTED_MODULE_4__data_data_source__["a" /* ConDataSource */](this._products);
         this.dataSource.filter = _ => (!_.discontinued && !this.type.transform(_.type).discontinued) || this.included(_);
-        this.sort.mdSortChange.subscribe((sort) => {
+        this.sort.sortChange.subscribe((sort) => {
             let fn;
             if (sort.direction && sort.active) {
                 const dir = sort.direction === 'asc' ? -1 : 1;
@@ -651,8 +651,8 @@ __decorate([
     __metadata("design:type", Object)
 ], ConInventoryComponent.prototype, "con", void 0);
 __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_16" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["s" /* MdSort */]),
-    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_material__["s" /* MdSort */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_material__["s" /* MdSort */]) === "function" && _a || Object)
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_16" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["x" /* MdSort */]),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_material__["x" /* MdSort */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_material__["x" /* MdSort */]) === "function" && _a || Object)
 ], ConInventoryComponent.prototype, "sort", void 0);
 ConInventoryComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
@@ -763,7 +763,7 @@ var _a, _b;
 /***/ "./src/app/conventions/con-pricing.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<md-table [dataSource]=\"dataSource\" mdSort>\n  <ng-container cdkColumnDef=\"type\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Type</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.type | type:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"product\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Product</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.product | product:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"quantity\">\n    <md-header-cell *cdkHeaderCellDef>Quantity</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.quantity }}</md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"price\">\n    <md-header-cell *cdkHeaderCellDef>Price</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">{{ row.price | currency:'USD':true }}</md-cell>\n  </ng-container>\n\n  <md-header-row *cdkHeaderRowDef=\"displayedColumns\"></md-header-row>\n  <md-row *cdkRowDef=\"let row; columns: displayedColumns\"></md-row>\n</md-table>\n"
+module.exports = "<md-table [dataSource]=\"dataSource\" mdSort>\n  <ng-container mdColumnDef=\"type\">\n    <md-header-cell *mdHeaderCellDef md-sort-header>Type</md-header-cell>\n    <md-cell *mdCellDef=\"let row\">{{ row.type | type:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container mdColumnDef=\"product\">\n    <md-header-cell *mdHeaderCellDef md-sort-header>Product</md-header-cell>\n    <md-cell *mdCellDef=\"let row\">{{ row.product | product:'name' }}</md-cell>\n  </ng-container>\n\n  <ng-container mdColumnDef=\"quantity\">\n    <md-header-cell *mdHeaderCellDef>Quantity</md-header-cell>\n    <md-cell *mdCellDef=\"let row\">{{ row.quantity }}</md-cell>\n  </ng-container>\n\n  <ng-container mdColumnDef=\"price\">\n    <md-header-cell *mdHeaderCellDef>Price</md-header-cell>\n    <md-cell *mdCellDef=\"let row\">{{ row.price | currency:'USD':true }}</md-cell>\n  </ng-container>\n\n  <md-header-row *mdHeaderRowDef=\"displayedColumns\"></md-header-row>\n  <md-row *mdRowDef=\"let row; columns: displayedColumns\"></md-row>\n</md-table>\n"
 
 /***/ }),
 
@@ -780,7 +780,7 @@ module.exports = ""
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ConPricingComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_material__ = __webpack_require__("./node_modules/@angular/material/@angular/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_material__ = __webpack_require__("./node_modules/@angular/material/esm5/material.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__data_product_pipe__ = __webpack_require__("./src/app/data/product.pipe.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__data_type_pipe__ = __webpack_require__("./src/app/data/type.pipe.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__data_data_source__ = __webpack_require__("./src/app/data/data-source.ts");
@@ -825,7 +825,7 @@ let ConPricingComponent = class ConPricingComponent {
             const conPrice = this.con.data.prices.find(_ => _.type === row.type && _.product === row.product);
             return !!conPrice || !(productDiscontinued || typeDiscontinued);
         };
-        this.sort.mdSortChange.subscribe((sort) => {
+        this.sort.sortChange.subscribe((sort) => {
             let fn;
             if (sort.direction && sort.active) {
                 const dir = sort.direction === 'asc' ? -1 : 1;
@@ -854,8 +854,8 @@ __decorate([
     __metadata("design:type", Object)
 ], ConPricingComponent.prototype, "con", void 0);
 __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_16" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["s" /* MdSort */]),
-    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_material__["s" /* MdSort */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_material__["s" /* MdSort */]) === "function" && _a || Object)
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_16" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["x" /* MdSort */]),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_material__["x" /* MdSort */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_material__["x" /* MdSort */]) === "function" && _a || Object)
 ], ConPricingComponent.prototype, "sort", void 0);
 ConPricingComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
@@ -1020,7 +1020,7 @@ ConventionsModule = __decorate([
 /***/ "./src/app/conventions/record-list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<ng-container *ngIf=\"(con|async).data.records.length; else placeholder\">\n  <md-table [dataSource]=\"dataSource\">\n    <ng-container cdkColumnDef=\"type\">\n      <md-header-cell *cdkHeaderCellDef class=\"records__column--icon\">Type</md-header-cell>\n      <md-cell *cdkCellDef=\"let record\" class=\"records__column--icon\">\n        <div class=\"records__type-icon\" [style.backgroundColor]=\"type(record).color|color\">\n          {{ type(record).name[0] }}\n        </div>\n      </md-cell>\n    </ng-container>\n\n    <ng-container cdkColumnDef=\"products\">\n      <md-header-cell *cdkHeaderCellDef>Products</md-header-cell>\n      <md-cell *cdkCellDef=\"let record\">{{ products(record) }}</md-cell>\n    </ng-container>\n\n    <ng-container cdkColumnDef=\"price\">\n      <md-header-cell *cdkHeaderCellDef>Price</md-header-cell>\n      <md-cell *cdkCellDef=\"let record\">{{ record.price | currency:'USD':true }}</md-cell>\n    </ng-container>\n\n    <ng-container cdkColumnDef=\"time\">\n      <md-header-cell *cdkHeaderCellDef>Time</md-header-cell>\n      <md-cell *cdkCellDef=\"let record\">{{ record.time | date:'shortTime' }}</md-cell>\n    </ng-container>\n\n    <md-header-row *cdkHeaderRowDef=\"displayedColumns\"></md-header-row>\n    <md-row *cdkRowDef=\"let record; columns: displayedColumns\"></md-row>\n  </md-table>\n</ng-container>\n<ng-template #placeholder>\n  <div class=\"records__placeholder\">\n    <p>You haven't sold anything yet.</p>\n  </div>\n</ng-template>\n"
+module.exports = "<ng-container *ngIf=\"(con|async).data.records.length; else placeholder\">\n  <md-table [dataSource]=\"dataSource\">\n    <ng-container mdColumnDef=\"type\">\n      <md-header-cell *mdHeaderCellDef class=\"records__column--icon\">Type</md-header-cell>\n      <md-cell *mdCellDef=\"let record\" class=\"records__column--icon\">\n        <div class=\"records__type-icon\" [style.backgroundColor]=\"type(record).color|color\">\n          {{ type(record).name[0] }}\n        </div>\n      </md-cell>\n    </ng-container>\n\n    <ng-container mdColumnDef=\"products\">\n      <md-header-cell *mdHeaderCellDef>Products</md-header-cell>\n      <md-cell *mdCellDef=\"let record\">{{ products(record) }}</md-cell>\n    </ng-container>\n\n    <ng-container mdColumnDef=\"price\">\n      <md-header-cell *mdHeaderCellDef>Price</md-header-cell>\n      <md-cell *mdCellDef=\"let record\">{{ record.price | currency:'USD':true }}</md-cell>\n    </ng-container>\n\n    <ng-container mdColumnDef=\"time\">\n      <md-header-cell *mdHeaderCellDef>Time</md-header-cell>\n      <md-cell *mdCellDef=\"let record\">{{ record.time | date:'shortTime' }}</md-cell>\n    </ng-container>\n\n    <md-header-row *mdHeaderRowDef=\"displayedColumns\"></md-header-row>\n    <md-row *mdRowDef=\"let record; columns: displayedColumns\"></md-row>\n  </md-table>\n</ng-container>\n<ng-template #placeholder>\n  <div class=\"records__placeholder\">\n    <p>You haven't sold anything yet.</p>\n  </div>\n</ng-template>\n"
 
 /***/ }),
 
@@ -1489,7 +1489,7 @@ let EditableModule = class EditableModule {
 };
 EditableModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [__WEBPACK_IMPORTED_MODULE_2__material_module__["a" /* MaterialModule */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* FormsModule */]],
+        imports: [__WEBPACK_IMPORTED_MODULE_2__material_module__["a" /* MaterialModule */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["e" /* FormsModule */]],
         declarations: [__WEBPACK_IMPORTED_MODULE_3__editable_directive__["a" /* EditableDirective */], __WEBPACK_IMPORTED_MODULE_4__editable_component__["a" /* EditableComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_3__editable_directive__["a" /* EditableDirective */], __WEBPACK_IMPORTED_MODULE_4__editable_component__["a" /* EditableComponent */]],
     })
@@ -1810,7 +1810,7 @@ let HelpComponent = class HelpComponent {
         return this._outlines.map(outline => {
             const children = this.helpFor.querySelectorAll(typeof outline.selector === 'string' ? outline.selector : outline.selector.join(','));
             if (!children.length) {
-                return;
+                return [];
             }
             const bounds = [].map.call(children, (_) => _.getBoundingClientRect())
                 .reduce((_, { top, right, bottom, left }) => {
@@ -2173,7 +2173,7 @@ let InventoryModule = class InventoryModule {
 };
 InventoryModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["d" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_3__material_module__["a" /* MaterialModule */], __WEBPACK_IMPORTED_MODULE_5__editable_editable_module__["a" /* EditableModule */], __WEBPACK_IMPORTED_MODULE_4__data_data_module__["a" /* DataModule */], __WEBPACK_IMPORTED_MODULE_6__color_picker_color_picker_module__["a" /* ColorPickerModule */], __WEBPACK_IMPORTED_MODULE_7__help_help_module__["a" /* HelpModule */]],
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["e" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_3__material_module__["a" /* MaterialModule */], __WEBPACK_IMPORTED_MODULE_5__editable_editable_module__["a" /* EditableModule */], __WEBPACK_IMPORTED_MODULE_4__data_data_module__["a" /* DataModule */], __WEBPACK_IMPORTED_MODULE_6__color_picker_color_picker_module__["a" /* ColorPickerModule */], __WEBPACK_IMPORTED_MODULE_7__help_help_module__["a" /* HelpModule */]],
         declarations: [__WEBPACK_IMPORTED_MODULE_8__inventory_component__["a" /* InventoryComponent */], __WEBPACK_IMPORTED_MODULE_9__product_list_component__["a" /* ProductListComponent */], __WEBPACK_IMPORTED_MODULE_10__prices_list_component__["a" /* PricesListComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_8__inventory_component__["a" /* InventoryComponent */]],
     })
@@ -2186,7 +2186,7 @@ InventoryModule = __decorate([
 /***/ "./src/app/modals/choose-convention.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2 md-dialog-title>Choose a Convention</h2>\n<md-dialog-content>\n  <!-- TODO: make this a data table -->\n  <div *ngIf=\"conCount; else placeholder\">\n    <md-table [dataSource]=\"dataSource\">\n      <ng-container cdkColumnDef=\"name\">\n        <md-header-cell *cdkHeaderCellDef>Name</md-header-cell>\n        <md-cell *cdkCellDef=\"let con\">\n          {{ con.title }}\n        </md-cell>\n      </ng-container>\n\n      <ng-container cdkColumnDef=\"code\">\n        <md-header-cell *cdkHeaderCellDef>Code</md-header-cell>\n        <md-cell *cdkCellDef=\"let con\">\n          {{ con.code }}\n        </md-cell>\n      </ng-container>\n\n      <ng-container cdkColumnDef=\"start\">\n        <md-header-cell *cdkHeaderCellDef>Start</md-header-cell>\n        <md-cell *cdkCellDef=\"let con\">\n          {{ con.start | date }}\n        </md-cell>\n      </ng-container>\n\n      <ng-container cdkColumnDef=\"end\">\n        <md-header-cell *cdkHeaderCellDef>End</md-header-cell>\n        <md-cell *cdkCellDef=\"let con\">\n          {{ con.end | date }}\n        </md-cell>\n      </ng-container>\n\n      <ng-container cdkColumnDef=\"choose\">\n        <md-header-cell *cdkHeaderCellDef class=\"choose-convention__column--action\">Choose</md-header-cell>\n        <md-cell *cdkCellDef=\"let con\" class=\"choose-convention__column--action\">\n          <button md-icon-button [md-dialog-close]=\"con\">\n            <md-icon>check</md-icon>\n          </button>\n        </md-cell>\n      </ng-container>\n\n      <md-header-row *cdkHeaderRowDef=\"displayedColumns\"></md-header-row>\n      <md-row *cdkRowDef=\"let con; columns: displayedColumns\"></md-row>\n    </md-table>\n    <md-paginator\n      [pageIndex]=\"page\"\n      [length]=\"conCount\"\n      [pageSize]=\"pageSize\"\n      (page)=\"page = $event.pageIndex\">\n    </md-paginator>\n  </div>\n  <ng-template #placeholder>\n    <div class=\"choose-convention__placeholder\">\n      No conventions are currently available.\n    </div>\n  </ng-template>\n</md-dialog-content>\n<md-dialog-actions>\n  <button md-button md-dialog-close>Close</button>\n</md-dialog-actions>\n"
+module.exports = "<h2 md-dialog-title>Choose a Convention</h2>\n<md-dialog-content>\n  <!-- TODO: make this a data table -->\n  <div *ngIf=\"conCount; else placeholder\">\n    <md-table [dataSource]=\"dataSource\">\n      <ng-container mdColumnDef=\"name\">\n        <md-header-cell *mdHeaderCellDef>Name</md-header-cell>\n        <md-cell *mdCellDef=\"let con\">\n          {{ con.title }}\n        </md-cell>\n      </ng-container>\n\n      <ng-container mdColumnDef=\"code\">\n        <md-header-cell *mdHeaderCellDef>Code</md-header-cell>\n        <md-cell *mdCellDef=\"let con\">\n          {{ con.code }}\n        </md-cell>\n      </ng-container>\n\n      <ng-container mdColumnDef=\"start\">\n        <md-header-cell *mdHeaderCellDef>Start</md-header-cell>\n        <md-cell *mdCellDef=\"let con\">\n          {{ con.start | date }}\n        </md-cell>\n      </ng-container>\n\n      <ng-container mdColumnDef=\"end\">\n        <md-header-cell *mdHeaderCellDef>End</md-header-cell>\n        <md-cell *mdCellDef=\"let con\">\n          {{ con.end | date }}\n        </md-cell>\n      </ng-container>\n\n      <ng-container mdColumnDef=\"choose\">\n        <md-header-cell *mdHeaderCellDef class=\"choose-convention__column--action\">Choose</md-header-cell>\n        <md-cell *mdCellDef=\"let con\" class=\"choose-convention__column--action\">\n          <button md-icon-button [md-dialog-close]=\"con\">\n            <md-icon>check</md-icon>\n          </button>\n        </md-cell>\n      </ng-container>\n\n      <md-header-row *mdHeaderRowDef=\"displayedColumns\"></md-header-row>\n      <md-row *mdRowDef=\"let con; columns: displayedColumns\"></md-row>\n    </md-table>\n    <md-paginator\n      [pageIndex]=\"page\"\n      [length]=\"conCount\"\n      [pageSize]=\"pageSize\"\n      (page)=\"page = $event.pageIndex\">\n    </md-paginator>\n  </div>\n  <ng-template #placeholder>\n    <div class=\"choose-convention__placeholder\">\n      No conventions are currently available.\n    </div>\n  </ng-template>\n</md-dialog-content>\n<md-dialog-actions>\n  <button md-button md-dialog-close>Close</button>\n</md-dialog-actions>\n"
 
 /***/ }),
 
@@ -2270,7 +2270,7 @@ var _a;
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChooseConventionService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_material__ = __webpack_require__("./node_modules/@angular/material/@angular/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_material__ = __webpack_require__("./node_modules/@angular/material/esm5/material.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__choose_convention_component__ = __webpack_require__("./src/app/modals/choose-convention.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2297,8 +2297,8 @@ let ChooseConventionService = class ChooseConventionService {
 };
 ChooseConventionService = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
-    __param(0, Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["e" /* MdDialog */])),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_material__["e" /* MdDialog */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_material__["e" /* MdDialog */]) === "function" && _a || Object])
+    __param(0, Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["v" /* MdDialog */])),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_material__["v" /* MdDialog */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_material__["v" /* MdDialog */]) === "function" && _a || Object])
 ], ChooseConventionService);
 
 var _a;
@@ -2349,7 +2349,7 @@ ModalsModule = __decorate([
 /***/ "./src/app/prices/prices.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<md-table [dataSource]=\"dataSource\" mdSort>\n  <ng-container cdkColumnDef=\"type\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Type</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">\n      <md-select [ngModel]=\"row.type\" (change)=\"setType($event, row.index)\">\n         <md-option *ngFor=\"let type of types\" [value]=\"type.id\">{{ type.name }}</md-option>\n      </md-select>\n    </md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"product\">\n    <md-header-cell *cdkHeaderCellDef md-sort-header>Product</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">\n      <md-select [ngModel]=\"row.product\" (change)=\"setProduct($event, row.index)\">\n        <md-option [value]=\"null\">None</md-option>\n        <md-option *ngFor=\"let product of products(row.type)\" [value]=\"product.id\">{{ product.name }}</md-option>\n      </md-select>\n    </md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"quantity\">\n    <md-header-cell *cdkHeaderCellDef>Quantity</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">\n      <con-editable [content]=\"row.quantity\" (contentChange)=\"setQuantity($event, row.index)\" [validator]=\"quantityIsNatural\"></con-editable>\n    </md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"price\">\n    <md-header-cell *cdkHeaderCellDef>Price</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\">\n      <con-editable [content]=\"row.price | currency:'USD':true\" (contentChange)=\"setPrice($event, row.index)\" [validator]=\"priceIsPositive\"></con-editable>\n    </md-cell>\n  </ng-container>\n\n  <ng-container cdkColumnDef=\"delete\">\n    <md-header-cell *cdkHeaderCellDef class=\"prices__column--action\">Delete</md-header-cell>\n    <md-cell *cdkCellDef=\"let row\" class=\"prices__column--action\">\n      <button md-icon-button (click)=\"removeRow(row.index)\">\n        <md-icon>remove_circle_outline</md-icon>\n      </button>\n    </md-cell>\n  </ng-container>\n\n  <md-header-row *cdkHeaderRowDef=\"displayedColumns\"></md-header-row>\n  <md-row *cdkRowDef=\"let row; columns: displayedColumns\"></md-row>\n</md-table>\n<div class=\"prices__actions\">\n  <button md-raised-button mdTooltip=\"Download\" (click)=\"exportPricesData()\">\n    <md-icon>file_download</md-icon>\n  </button>\n  <button md-raised-button mdTooltip=\"Upload\" (click)=\"importPricesData()\">\n    <md-icon>file_upload</md-icon>\n  </button>\n  <button md-raised-button (click)=\"addRow()\" mdTooltip=\"Add Row\">\n    <md-icon>add</md-icon>\n  </button>\n</div>\n"
+module.exports = "<md-table [dataSource]=\"dataSource\" mdSort>\n  <ng-container mdColumnDef=\"type\">\n    <md-header-cell *mdHeaderCellDef md-sort-header>Type</md-header-cell>\n    <md-cell *mdCellDef=\"let row\">\n      <md-select [ngModel]=\"row.type\" (change)=\"setType($event, row.index)\">\n         <md-option *ngFor=\"let type of types\" [value]=\"type.id\">{{ type.name }}</md-option>\n      </md-select>\n    </md-cell>\n  </ng-container>\n\n  <ng-container mdColumnDef=\"product\">\n    <md-header-cell *mdHeaderCellDef md-sort-header>Product</md-header-cell>\n    <md-cell *mdCellDef=\"let row\">\n      <md-select [ngModel]=\"row.product\" (change)=\"setProduct($event, row.index)\">\n        <md-option [value]=\"null\">None</md-option>\n        <md-option *ngFor=\"let product of products(row.type)\" [value]=\"product.id\">{{ product.name }}</md-option>\n      </md-select>\n    </md-cell>\n  </ng-container>\n\n  <ng-container mdColumnDef=\"quantity\">\n    <md-header-cell *mdHeaderCellDef>Quantity</md-header-cell>\n    <md-cell *mdCellDef=\"let row\">\n      <con-editable [content]=\"row.quantity\" (contentChange)=\"setQuantity($event, row.index)\" [validator]=\"quantityIsNatural\"></con-editable>\n    </md-cell>\n  </ng-container>\n\n  <ng-container mdColumnDef=\"price\">\n    <md-header-cell *mdHeaderCellDef>Price</md-header-cell>\n    <md-cell *mdCellDef=\"let row\">\n      <con-editable [content]=\"row.price | currency:'USD':true\" (contentChange)=\"setPrice($event, row.index)\" [validator]=\"priceIsPositive\"></con-editable>\n    </md-cell>\n  </ng-container>\n\n  <ng-container mdColumnDef=\"delete\">\n    <md-header-cell *mdHeaderCellDef class=\"prices__column--action\">Delete</md-header-cell>\n    <md-cell *mdCellDef=\"let row\" class=\"prices__column--action\">\n      <button md-icon-button (click)=\"removeRow(row.index)\">\n        <md-icon>remove_circle_outline</md-icon>\n      </button>\n    </md-cell>\n  </ng-container>\n\n  <md-header-row *mdHeaderRowDef=\"displayedColumns\"></md-header-row>\n  <md-row *mdRowDef=\"let row; columns: displayedColumns\"></md-row>\n</md-table>\n<div class=\"prices__actions\">\n  <button md-raised-button mdTooltip=\"Download\" (click)=\"exportPricesData()\">\n    <md-icon>file_download</md-icon>\n  </button>\n  <button md-raised-button mdTooltip=\"Upload\" (click)=\"importPricesData()\">\n    <md-icon>file_upload</md-icon>\n  </button>\n  <button md-raised-button (click)=\"addRow()\" mdTooltip=\"Add Row\">\n    <md-icon>add</md-icon>\n  </button>\n</div>\n"
 
 /***/ }),
 
@@ -2366,7 +2366,7 @@ module.exports = ".prices__column--action {\n  display: -ms-flexbox;\n  display:
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PricesComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_material__ = __webpack_require__("./node_modules/@angular/material/@angular/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_material__ = __webpack_require__("./node_modules/@angular/material/esm5/material.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/Observable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_observable_fromEvent__ = __webpack_require__("./node_modules/rxjs/add/observable/fromEvent.js");
@@ -2437,7 +2437,7 @@ let PricesComponent = class PricesComponent {
         return this._products.getValue().filter(_ => _.type === type);
     }
     ngOnInit() {
-        this.sort.mdSortChange.subscribe((sort) => {
+        this.sort.sortChange.subscribe((sort) => {
             let fn;
             if (sort.direction && sort.active) {
                 const dir = sort.direction === 'asc' ? -1 : 1;
@@ -2526,8 +2526,8 @@ let PricesComponent = class PricesComponent {
     }
 };
 __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_16" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["s" /* MdSort */]),
-    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_material__["s" /* MdSort */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_material__["s" /* MdSort */]) === "function" && _a || Object)
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_16" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__angular_material__["x" /* MdSort */]),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_material__["x" /* MdSort */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_material__["x" /* MdSort */]) === "function" && _a || Object)
 ], PricesComponent.prototype, "sort", void 0);
 PricesComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
@@ -2579,7 +2579,7 @@ let PricesModule = class PricesModule {
 };
 PricesModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["d" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_3__material_module__["a" /* MaterialModule */], __WEBPACK_IMPORTED_MODULE_5__editable_editable_module__["a" /* EditableModule */], __WEBPACK_IMPORTED_MODULE_4__data_data_module__["a" /* DataModule */], __WEBPACK_IMPORTED_MODULE_6__color_picker_color_picker_module__["a" /* ColorPickerModule */], __WEBPACK_IMPORTED_MODULE_7__help_help_module__["a" /* HelpModule */]],
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["e" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_3__material_module__["a" /* MaterialModule */], __WEBPACK_IMPORTED_MODULE_5__editable_editable_module__["a" /* EditableModule */], __WEBPACK_IMPORTED_MODULE_4__data_data_module__["a" /* DataModule */], __WEBPACK_IMPORTED_MODULE_6__color_picker_color_picker_module__["a" /* ColorPickerModule */], __WEBPACK_IMPORTED_MODULE_7__help_help_module__["a" /* HelpModule */]],
         declarations: [__WEBPACK_IMPORTED_MODULE_8__prices_component__["a" /* PricesComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_8__prices_component__["a" /* PricesComponent */]],
     })
@@ -2885,7 +2885,7 @@ let SignInModule = class SignInModule {
 };
 SignInModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [__WEBPACK_IMPORTED_MODULE_5__material_module__["a" /* MaterialModule */], __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["i" /* ReactiveFormsModule */], __WEBPACK_IMPORTED_MODULE_3__broadcast_broadcast_module__["a" /* BroadcastModule */]],
+        imports: [__WEBPACK_IMPORTED_MODULE_5__material_module__["a" /* MaterialModule */], __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["j" /* ReactiveFormsModule */], __WEBPACK_IMPORTED_MODULE_3__broadcast_broadcast_module__["a" /* BroadcastModule */]],
         declarations: [__WEBPACK_IMPORTED_MODULE_4__sign_in_component__["a" /* SignInComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_4__sign_in_component__["a" /* SignInComponent */]],
     })

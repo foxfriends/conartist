@@ -1,30 +1,30 @@
 <md-table [dataSource]="dataSource" mdSort>
-  <ng-container cdkColumnDef="selected">
-    <md-header-cell *cdkHeaderCellDef>
+  <ng-container mdColumnDef="selected">
+    <md-header-cell *mdHeaderCellDef>
       <!-- TODO: bulk include/exclude -->
       <!-- TODO: decide if this will be a feature -->
       <md-icon>check</md-icon>
     </md-header-cell>
-    <md-cell *cdkCellDef="let product">
+    <md-cell *mdCellDef="let product">
       <md-checkbox [checked]="included(product)" (change)="toggleIncluded(product)"></md-checkbox>
     </md-cell>
   </ng-container>
 
-  <ng-container cdkColumnDef="name">
-    <md-header-cell *cdkHeaderCellDef md-sort-header>Product</md-header-cell>
-    <md-cell *cdkCellDef="let product">{{ product.name }}</md-cell>
+  <ng-container mdColumnDef="name">
+    <md-header-cell *mdHeaderCellDef md-sort-header>Product</md-header-cell>
+    <md-cell *mdCellDef="let product">{{ product.name }}</md-cell>
   </ng-container>
 
-  <ng-container cdkColumnDef="type">
-    <md-header-cell *cdkHeaderCellDef md-sort-header>Type</md-header-cell>
-    <md-cell *cdkCellDef="let product">{{ product.type | type:'name' }}</md-cell>
+  <ng-container mdColumnDef="type">
+    <md-header-cell *mdHeaderCellDef md-sort-header>Type</md-header-cell>
+    <md-cell *mdCellDef="let product">{{ product.type | type:'name' }}</md-cell>
   </ng-container>
 
-  <ng-container cdkColumnDef="quantity">
-    <md-header-cell *cdkHeaderCellDef md-sort-header>Quantity</md-header-cell>
-    <md-cell *cdkCellDef="let product">{{ product.quantity }}</md-cell>
+  <ng-container mdColumnDef="quantity">
+    <md-header-cell *mdHeaderCellDef md-sort-header>Quantity</md-header-cell>
+    <md-cell *mdCellDef="let product">{{ product.quantity }}</md-cell>
   </ng-container>
 
-  <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-  <md-row *cdkRowDef="let product; columns: displayedColumns"></md-row>
+  <md-header-row *mdHeaderRowDef="displayedColumns"></md-header-row>
+  <md-row *mdRowDef="let product; columns: displayedColumns"></md-row>
 </md-table>

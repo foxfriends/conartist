@@ -3,45 +3,45 @@
   <!-- TODO: make this a data table -->
   <div *ngIf="conCount; else placeholder">
     <md-table [dataSource]="dataSource">
-      <ng-container cdkColumnDef="name">
-        <md-header-cell *cdkHeaderCellDef>Name</md-header-cell>
-        <md-cell *cdkCellDef="let con">
+      <ng-container mdColumnDef="name">
+        <md-header-cell *mdHeaderCellDef>Name</md-header-cell>
+        <md-cell *mdCellDef="let con">
           {{ con.title }}
         </md-cell>
       </ng-container>
 
-      <ng-container cdkColumnDef="code">
-        <md-header-cell *cdkHeaderCellDef>Code</md-header-cell>
-        <md-cell *cdkCellDef="let con">
+      <ng-container mdColumnDef="code">
+        <md-header-cell *mdHeaderCellDef>Code</md-header-cell>
+        <md-cell *mdCellDef="let con">
           {{ con.code }}
         </md-cell>
       </ng-container>
 
-      <ng-container cdkColumnDef="start">
-        <md-header-cell *cdkHeaderCellDef>Start</md-header-cell>
-        <md-cell *cdkCellDef="let con">
+      <ng-container mdColumnDef="start">
+        <md-header-cell *mdHeaderCellDef>Start</md-header-cell>
+        <md-cell *mdCellDef="let con">
           {{ con.start | date }}
         </md-cell>
       </ng-container>
 
-      <ng-container cdkColumnDef="end">
-        <md-header-cell *cdkHeaderCellDef>End</md-header-cell>
-        <md-cell *cdkCellDef="let con">
+      <ng-container mdColumnDef="end">
+        <md-header-cell *mdHeaderCellDef>End</md-header-cell>
+        <md-cell *mdCellDef="let con">
           {{ con.end | date }}
         </md-cell>
       </ng-container>
 
-      <ng-container cdkColumnDef="choose">
-        <md-header-cell *cdkHeaderCellDef class="choose-convention__column--action">Choose</md-header-cell>
-        <md-cell *cdkCellDef="let con" class="choose-convention__column--action">
+      <ng-container mdColumnDef="choose">
+        <md-header-cell *mdHeaderCellDef class="choose-convention__column--action">Choose</md-header-cell>
+        <md-cell *mdCellDef="let con" class="choose-convention__column--action">
           <button md-icon-button [md-dialog-close]="con">
             <md-icon>check</md-icon>
           </button>
         </md-cell>
       </ng-container>
 
-      <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-      <md-row *cdkRowDef="let con; columns: displayedColumns"></md-row>
+      <md-header-row *mdHeaderRowDef="displayedColumns"></md-header-row>
+      <md-row *mdRowDef="let con; columns: displayedColumns"></md-row>
     </md-table>
     <md-paginator
       [pageIndex]="page"

@@ -46,7 +46,7 @@ export class PricesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.sort.mdSortChange.subscribe((sort: Sort) => {
+    this.sort.sortChange.subscribe((sort: Sort) => {
       let fn: ((a: ca.SimplePrice, b: ca.SimplePrice) => number) | undefined;
       if(sort.direction && sort.active) {
         const dir = sort.direction === 'asc' ? -1 : 1;

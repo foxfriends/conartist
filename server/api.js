@@ -29,7 +29,7 @@ api.post('/account/new', (req, res) => __awaiter(this, void 0, void 0, function*
     const { usr, psw } = req.body;
     try {
         yield db.createUser(usr, psw);
-        res.send(JSON.stringify({ status: 'Success' }));
+        res.send(JSON.stringify({ status: 'Success', data: null }));
     }
     catch (error) {
         console.error(error);
@@ -126,7 +126,7 @@ api.put('/cons', assert_authorized(), (req, res) => __awaiter(this, void 0, void
         const { conventions } = req.body;
         const { usr: user_id } = req.user;
         yield db.writeUserConventions(user_id, conventions);
-        res.send(JSON.stringify({ status: 'Success' }));
+        res.send(JSON.stringify({ status: 'Success', data: null }));
     }
     catch (error) {
         console.error(error);
@@ -165,7 +165,7 @@ api.put('/con/:con_code/sales', assert_authorized(), (req, res) => __awaiter(thi
         const { usr: user_id } = req.user;
         const { records } = req.body;
         yield db.writeRecords(user_id, con_code, records);
-        res.send(JSON.stringify({ status: 'Success' }));
+        res.send(JSON.stringify({ status: 'Success', data: null }));
     }
     catch (error) {
         console.error(error);

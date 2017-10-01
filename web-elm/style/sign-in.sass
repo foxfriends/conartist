@@ -1,0 +1,23 @@
+@import card
+@import fancy
+.sign-in
+  height: 100vh
+  display: flex
+  align-items: center
+  justify-content: center
+  &__form
+    margin: 0 auto
+    width: 600px
+  &__field
+    width: 100%
+    margin: 16px 0
+  &__notification
+    display: flex
+    align-content: center
+    height: 16px
+    margin: 8px 0
+    font-size: 11pt
+    &--neutral
+      color: $color__text--secondary
+    &--error
+      color: $color--warn

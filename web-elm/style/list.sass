@@ -1,0 +1,34 @@
+@import helper
+@import fancy
+
+.list
+  display: flex
+  flex-direction: column
+  margin-bottom: 4px
+  &__title
+    display: flex
+    align-items: center
+    color: $color--placeholder
+    margin: 16px 16px 5px
+    &-text
+      flex-basis: 100px
+      flex-grow: 0
+      flex-shrink: 0
+    &::after
+      content: ""
+      flex-basis: 0
+      flex-grow: 1
+      height: 1px
+      background-image: linear-gradient(to right, $color--divider 50%, transparent 85%)
+  &__row
+    display: flex
+    height: 48px
+    padding: 0 16px
+    align-items: center
+    &--clickable
+      @extend %flat-clickable
+  &__column
+    flex-basis: 0
+    flex-grow: 1
+  &--empty
+    display: none

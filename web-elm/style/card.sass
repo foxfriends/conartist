@@ -1,0 +1,23 @@
+@import helper
+.card
+  +card(1)
+  background-color: white
+  display: flex
+  flex-direction: column
+  &__title,
+  &__actions,
+  &__content
+    padding: 0 20px
+  &__title,
+  &__actions
+    font-size: 11pt
+  &__title
+    display: flex
+    align-items: center
+    position: relative
+    overflow: visible
+    height: 54px
+  &__actions
+    display: flex
+    justify-content: flex-end
+    margin: 8px 0

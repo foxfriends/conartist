@@ -1,0 +1,109 @@
+@import helper
+
+.fancy-input
+  $font-size: 11pt
+  position: relative
+  height: 32px
+  &__placeholder
+    position: absolute
+    top: -4px
+    left: 0
+    color: $color--placeholder
+    transition: transform 0.3s, font-size 0.3s
+    transform: none
+    font-size: 7pt
+  &--invalid &__placeholder
+    color: $color--warn
+  &__field:focus ~ &__placeholder
+    color: $color--primary
+  &--empty &__field:not(:focus) ~ &__placeholder
+    transform: translateY(14px)
+    font-size: $font-size
+  &__field
+    border: none
+    background: none
+    margin: 0
+    padding: 0
+    width: 100%
+    height: 100%
+    outline: none
+    font-size: $font-size
+  &__underline
+    position: relative
+    width: 100%
+    overflow: visible
+  &__underline--primary,
+  &__underline--secondary,
+  &__underline--warn
+    position: absolute
+    width: 100%
+    transform-origin: center
+    transform: scaleX(0)
+    transition: transform 0.3s
+  &__underline--primary
+    border-bottom: 2px solid $color--primary
+  &__underline--warn
+    border-bottom: 2px solid $color--warn
+  &__underline--secondary
+    border-bottom: 1px solid $color--divider
+  &__underline &__underline--secondary,
+  &__field:focus ~ &__underline &__underline--primary,
+  &--invalid &__underline &__underline--warn
+    transform: scaleX(1)
+
+.fancy-check
+  &__label
+  &__box
+
+%round-button
+  padding: 0
+  width: 40px
+  height: 40px
+  border-radius: 100%
+
+.fancy-button
+  display: flex
+  align-items: center
+  justify-content: center
+  border: none
+  background: none
+  height: 40px
+  padding: 0 16px
+  margin: 0 8px
+  cursor: pointer
+  &--primary
+    @extend .fancy-button
+    +card(1)
+    border-radius: 20px
+    transition: box-shadow 0.1s
+    border: 1px solid darker($color--primary, 8%)
+    +natural-light(lighter($color--primary))
+    &:hover
+      +natural-light($color--primary)
+    &:active
+      +card(0)
+  &--flat
+    @extend .fancy-button
+    @extend %flat-clickable
+    border-radius: 20px
+  &--icon
+    @extend .fancy-button
+    @extend %flat-clickable
+    @extend %round-button
+  &--fab
+    @extend .fancy-button
+    @extend %round-button
+    +card(3)
+    width: 50px
+    height: 50px
+    background-color: $color--primary
+    transition: box-shadow 0.1s
+    &:disabled
+      cursor: default
+      color: #666
+      background-color: #BBB
+    &:not(:disabled)
+      &:hover
+        background-color: darker($color--primary)
+      &:active
+        +card(2)

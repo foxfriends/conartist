@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300|Quicksand:300')
+@import ~reset-css/reset.css
+// TODO: move the helpers somewhere better
+@import ../web-elm/style/helper
+
+=image-stub
+  position: relative
+  &::after
+    content: 'Insert image here'
+    position: absolute
+    left: 50%
+    top: 50%
+    transform: translate(-50%, -50%) rotate(-30deg) scale(5)
+    color: rgba(0, 0, 0, 0.12)
+
+.header, .main, .footer
+  color: rgba(0, 0, 0, 0.8)
+
+.header, .footer
+  font-family: $font--title
+.main
+  font-family: $font--body
+
+.header
+  display: flex
+  height: 100vh
+  align-items: flex-end
+  justify-content: flex-end
+  &__content
+    padding: 40px
+  &__text
+    text-align: left
+    &--subtitle
+      @extend .header__text
+      font-size: 18pt
+    &--title
+      @extend .header__text
+      font-size: 80pt
+  +image-stub
+
+.main
+  margin: 40px 0
+  padding: 40px
+
+.section
+  margin: 0 auto
+  display: flex
+  align-items: center
+  justify-content: space-around
+  overflow-y: visible
+  flex-wrap: wrap
+  &:nth-of-type(2n)
+    flex-direction: row-reverse
+  &__content
+    font-size: 18pt
+    padding: 32px
+    flex-basis: 600px
+  &__image
+    flex-shrink: 0
+    &--stub
+      @extend .section__image
+      border: 1px solid black
+      width: 700px
+      height: 500px
+      +image-stub
+
+.footer
+  height: 50vh
+  display: flex
+  align-items: center
+  justify-content: center
+  &__content
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+  &__text
+    &--headline
+      font-size: 32pt
+      margin: 16px
+  &__form
+  &__field, &__button
+    border: none
+    background: none
+    height: 40px
+    font-size: 14pt
+    margin: 16px
+  &__field
+    border-bottom: 1px dotted
+  &__button
+    +natural-light($color--conartist)
+    padding: 0 16px
+    color: transparentize(white, 0.1)
+    border-radius: 4px
+    border-top: 1px solid lighter($color--conartist, 40%, 40%)
+    box-shadow: 0 4px 0 0 darker($color--conartist, 20%, 20%), 0 4px 3px 0 darker($color--conartist, 40%, 40%)
+    transform: translateY(-2px)
+    &:active
+      transform: translateY(2px)
+      box-shadow: none

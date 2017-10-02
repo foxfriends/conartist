@@ -4,6 +4,12 @@
   $font-size: 11pt
   position: relative
   height: 32px
+  margin: 0 8px
+  display: flex
+  align-items: center
+  &__label
+    color: $color--placeholder
+    margin-right: 4px
   &__placeholder
     position: absolute
     top: -4px
@@ -30,7 +36,10 @@
     outline: none
     font-size: $font-size
   &__underline
-    position: relative
+    position: absolute
+    left: 0
+    bottom: 2px
+    right: 0
     width: 100%
     overflow: visible
   &__underline--primary,

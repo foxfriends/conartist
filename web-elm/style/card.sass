@@ -1,4 +1,5 @@
 @import helper
+
 .card
   +card(1)
   background-color: white
@@ -17,7 +18,11 @@
     position: relative
     overflow: visible
     height: 54px
+    margin-bottom: 8px
+  &__content,
+  &__actions
+    margin: 8px 0
   &__actions
     display: flex
+    align-self: flex-end
     justify-content: flex-end
-    margin: 8px 0

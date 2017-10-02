@@ -9,6 +9,7 @@ import USignIn
 import UDashboard
 import UInventory
 import Routing
+import UDialog
 
 continue : (Msg -> Model -> (Model, Cmd Msg)) -> Msg -> (Model, Cmd Msg) -> (Model, Cmd Msg)
 continue action msg (model, cmd) =
@@ -27,6 +28,7 @@ update msg model =
     _ -> (model, Cmd.none))
   |> continue Load.update msg
   |> continue Save.update msg
+  |> continue UDialog.update msg
   |> continue Routing.update msg
   |> continue USignIn.update msg
   |> continue UDashboard.update msg

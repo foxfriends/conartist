@@ -8,21 +8,20 @@ import ConRequest exposing (ConRequest(..))
 import Product
 import ProductType
 import Msg exposing (Msg(..))
+import UDialog
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case msg of
   Save -> update SaveTypes model
   SaveProducts ->
-    Model.validateRequest model
-      |> Result.map (\_ -> (model, saveProducts model))
-      |> Result.mapError (Debug.log "Error: ")
-      |> Result.withDefault (model, Cmd.none)
+    case Model.validateRequest model of
+      Ok _ -> (model, saveProducts model)
+      Err error -> UDialog.update (ShowErrorMessage (Debug.log "Error:" error)) model
   SavePrices -> (model, Cmd.none)
   SaveTypes ->
-    Model.validateRequest model
-      |> Result.map (\_ -> (model, saveTypes model))
-      |> Result.mapError (Debug.log "Error: ")
-      |> Result.withDefault (model, Cmd.none)
+    case Model.validateRequest model of
+      Ok _ -> (model, saveTypes model)
+      Err error -> UDialog.update (ShowErrorMessage (Debug.log "Error:" error)) model
   SavedProducts (Ok (Success updates)) -> (Model.cleanProducts updates model, Cmd.none)
   SavedPrices (Ok (Success updates)) -> (Model.clean updates model, Cmd.none)
   SavedTypes (Ok (Success updates)) -> update SaveProducts (Model.cleanTypes updates model)

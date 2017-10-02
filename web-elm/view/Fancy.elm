@@ -6,11 +6,19 @@ import Html.Events exposing (onClick, onCheck)
 import Icon exposing (icon)
 
 input : String -> String -> List (Html.Attribute msg) -> List (Html.Attribute msg) -> Html msg
-input placeholder val baseAttrs inputAttrs =
+input = labelledInput (text "")
+
+iconLabel : String -> Html msg
+iconLabel name =
+  icon name [ class "fancy-input__label" ]
+
+labelledInput : Html msg -> String -> String -> List (Html.Attribute msg) -> List (Html.Attribute msg) -> Html msg
+labelledInput fieldLabel placeholder val baseAttrs inputAttrs =
   let state = class <| if val == "" then "fancy-input--empty" else "" in
-  div
+  label
     ( [ class "fancy-input", state ] ++ baseAttrs )
-    [ Html.input ([ class "fancy-input__field", value val ] ++ inputAttrs) []
+    [ fieldLabel
+    , Html.input ([ class "fancy-input__field", value val ] ++ inputAttrs) []
     , span [ class "fancy-input__placeholder" ] [ text placeholder ]
     , div [ class "fancy-input__underline" ]
       [ div [ class "fancy-input__underline--secondary" ] []

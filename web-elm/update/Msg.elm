@@ -53,5 +53,8 @@ type Msg
   | DidNav Location
   | SetDate Date
   | ToggleSidenav
+  | CloseDialog
+  | EmptyDialog
+  | ShowErrorMessage String
   -- other
   | Batch (List Msg)

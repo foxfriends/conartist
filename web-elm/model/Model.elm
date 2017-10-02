@@ -7,12 +7,14 @@ import Price
 import ProductType
 import Convention
 import Page exposing (Page)
+import Dialog exposing (Dialog)
 import User exposing (User)
 
 type alias Model =
   { user: User
   , authtoken : String
   , page: Page
+  , dialog: Dialog
   , now: Date
   , show_discontinued: Bool
   , sidenav_visible: Bool }

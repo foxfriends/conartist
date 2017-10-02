@@ -59,7 +59,7 @@ inventoryFooter model currentTab =
   of
     Just t ->
       [ Fancy.button Icon (if t.discontinued then "add_circle_outline" else "remove_circle_outline") [ onClick (ProductTypeDiscontinued t.id) ]
-      , Fancy.input "" t.name [] [ onInput (ProductTypeName t.id) ]
+      , Fancy.labelledInput (Fancy.iconLabel "edit") "" t.name [] [ onInput (ProductTypeName t.id) ]
       , Fancy.button Icon "format_color_fill" [ onClick ProductTypeColor ]
       , Fancy.button Icon "add" [ onClick NewProduct ]
       , Fancy.button Icon "save" [ onClick SaveTypes, disabled (not <| Model.isDirty model) ] ]

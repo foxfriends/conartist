@@ -52,5 +52,5 @@ cleanTypes updates model =
 validateRequest : Model -> Result String Model
 validateRequest model =
   ProductType.validateRequest model.user.productTypes
-    |> Result.andThen (\_ -> Product.validateRequest model.user.products)
+    |> Result.andThen (\_ -> Product.validateRequest model.user.productTypes model.user.products)
     |> Result.map (\_ -> model)

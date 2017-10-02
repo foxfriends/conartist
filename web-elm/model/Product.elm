@@ -131,16 +131,24 @@ fillNewTypes updates originals products =
 new : Int -> Int -> Product
 new id type_id = New (NewProduct id ("Product " ++ toString id) 0 type_id)
 
-validateRequest : List Product -> Result String (List Product)
-validateRequest types =
-  let validate = (\types -> \bad ->
-    case types of
+validateRequest : List ProductType -> List Product -> Result String (List Product)
+validateRequest types products =
+  let validate = (\products -> \bad ->
+    case products of
       item :: rest ->
         let { name, type_id } = normalize item in
-          if List.member (type_id, name) bad
-          then Err <| "Product of type " ++ toString type_id ++ " with name " ++ name ++ " is duplicated"
-          else validate rest ((type_id, name) :: bad)
-            |> Result.andThen (\valids -> Ok (item :: valids))
+          if name == "" then
+            Err "You cannot leave a product's name blank!"
+          else if List.member (type_id, name) bad then
+            let typeName = types
+              |> List.map ProductType.normalize
+              |> List_.find (\x -> x.id == type_id)
+              |> Maybe.map (\x -> x.name)
+              |> Maybe.withDefault "Product"
+            in Err <| "You have two " ++ typeName ++ "s named " ++ name ++ ". Please rename one of them before you save! (Note: one of them might be discontinued)"
+          else
+            validate rest ((type_id, name) :: bad)
+              |> Result.andThen (\valids -> Ok (item :: valids))
       [] -> Ok []
   )
-  in validate types []
+  in validate products []

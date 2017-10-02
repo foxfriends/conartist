@@ -6,6 +6,7 @@ import Html.Events exposing (onClick)
 import Fancy exposing (ButtonStyle(..))
 import Msg exposing (Msg(..))
 import Dialog exposing (Dialog(..))
+import Icon exposing (icon)
 
 view : Dialog -> Html Msg
 view dialog =
@@ -25,14 +26,14 @@ innerView : Dialog -> List (Html Msg)
 innerView dialog =
   case dialog of
     Error msg ->
-      [ title [ class "dialog__title--warn" ] "Oh no"
+      [ title [ class "dialog__title--warn" ] [ icon "error" [ class "dialog__title-icon" ], text "Oh no" ]
       , content [ text msg ]
       , actions [ close ] ]
     ChooseConvention -> []
     _ -> [ text "" ]
 
-title : List (Html.Attribute msg) -> String -> Html msg
-title attrs str = div (class "dialog__title" :: attrs) [ text str ]
+title : List (Html.Attribute msg) -> List (Html msg) -> Html msg
+title attrs = div (class "dialog__title" :: attrs)
 
 content : List (Html msg) -> Html msg
 content = div [ class "dialog__content" ]

@@ -96,11 +96,14 @@ validateRequest types =
   let validate = (\types -> \bad ->
     case types of
       item :: rest ->
-        let name = (normalize item).name in
-          if List.member name bad
-          then Err <| "Type name " ++ name ++ " is duplicated"
-          else validate rest (name :: bad)
-            |> Result.andThen (\valids -> Ok (item :: valids))
+        let { name } = normalize item in
+          if name == "" then
+            Err "You cannot leave a product type's name blank!"
+          else if List.member name bad then
+            Err ("You have two product types named " ++ name ++ ". Please rename one of them before you save! (Note: one of them might be discontinued)")
+          else
+            validate rest (name :: bad)
+              |> Result.andThen (\valids -> Ok (item :: valids))
       [] -> Ok []
   )
   in validate types []

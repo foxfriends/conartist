@@ -1,4 +1,5 @@
 @import helper
+@import sidenav
 
 .ca, button, input
   font-family: $font--body
@@ -33,19 +34,3 @@ $toolbar-height: 50px
     width: 100vw
     transform: translate3d(0, 0, 0)
     overflow: auto
-  &__sidenav
-    $sidenav-width: 300px
-    position: fixed
-    right: 100%
-    top: 0
-    bottom: 0
-    width: $sidenav-width
-    z-index: 4
-    display: flex
-    flex-direction: column
-    transform: none
-    transition: transform 0.4s, box-shadow 0.4s
-    background: white
-    &--open
-      +card(4)
-      transform: translateX($sidenav-width)

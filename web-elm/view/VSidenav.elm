@@ -1,7 +1,7 @@
 module VSidenav exposing (view)
 import Html exposing (Html, div, a, text)
 import Html.Attributes exposing (class, href)
-import Html.Events exposing (onWithOptions)
+import Html.Events exposing (onWithOptions, onClick)
 import Json.Decode as Decode
 
 import Model exposing (Model)
@@ -30,7 +30,7 @@ doSignOut =
 
 view : Model -> Html Msg
 view { sidenav_visible } =
-  let visibility = class <| if sidenav_visible then "ca__sidenav--open" else "" in
+  let visibility = if sidenav_visible then "--open" else "" in
   let items =
     [ (navigateTo Routing.dashboardPath, "Dashboard")
     , (navigateTo Routing.inventoryPath, "Inventory")
@@ -38,7 +38,9 @@ view { sidenav_visible } =
     , (navigateTo Routing.conventionsPath, "Conventions")
     , (navigateTo Routing.settingsPath, "Settings")
     , (doSignOut, "Sign Out") ] in
-  div [ class "ca__sidenav", visibility ] [ list navListRow items ]
+  div [ class "sidenav"]
+    [ div [ class <| "sidenav__backdrop" ++ visibility, onClick ToggleSidenav ] []
+    , div [ class <| "sidenav__content" ++ visibility ] [ list navListRow items ] ]
 
 navListRow : (List (Html.Attribute Msg), String) -> Html Msg
 navListRow (attrs, title) =

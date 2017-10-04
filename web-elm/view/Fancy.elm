@@ -61,3 +61,11 @@ select value options nameOf onSelect =
 option : (a -> String) -> a -> Html msg
 option name opt =
   Html.div [ class "fancy-select__option" ] [ text <| name opt ]
+
+menu : List (Html.Attribute msg) -> Html msg -> Html msg -> msg -> Bool -> Html msg
+menu attrs anchor contents toClose open =
+  div
+    ( class "fancy-menu" :: attrs )
+    [ div [ class <| "fancy-menu__backdrop--" ++ if open then "open" else "closed", onClick toClose ] [ ]
+    , div [ class "fancy-menu__anchor" ] [ anchor ]
+    , div [ class <| "fancy-menu__contents--" ++ if open then "open" else "closed" ] [ contents ] ]

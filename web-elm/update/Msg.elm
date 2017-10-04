@@ -32,7 +32,10 @@ type Msg
   | NewProduct
   | ProductTypeName Int String
   | ProductTypeDiscontinued Int
-  | ProductTypeColor
+  | ProductTypeColor Int Int
+  | ColorPickerPage Int
+  | ColorPickerOpen
+  | ColorPickerClose
   | ProductName Int Int String
   | ProductQuantity Int Int String
   | ProductDiscontinued Int Int

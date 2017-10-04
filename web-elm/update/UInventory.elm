@@ -23,6 +23,14 @@ update msg model = case model.page of
           { user
           | productTypes = List_.updateAt (\t -> let u = (ProductType.normalize t) in u.id == id) (ProductType.setName name) types } }
       , Cmd.none )
+    ProductTypeColor id color ->
+      let user = model.user in
+      let types = user.productTypes in
+      ( { model
+        | user =
+          { user
+          | productTypes = List_.updateAt (\t -> let u = (ProductType.normalize t) in u.id == id) (ProductType.setColor color) types } }
+      , Cmd.none )
     ProductTypeDiscontinued id ->
       let user = model.user in
       let types = user.productTypes in
@@ -88,6 +96,33 @@ update msg model = case model.page of
         | user =
           { user
           | products = products ++ [ Product.new len type_id ] } }
+      , Cmd.none )
+    ColorPickerOpen ->
+      let color_picker = page.color_picker in
+      ( { model
+        | page = Inventory
+          { page
+          | color_picker =
+            { open = True
+            , page = 0 } } }
+      , Cmd.none )
+    ColorPickerPage shift ->
+      let color_picker = page.color_picker in
+      ( { model
+        | page = Inventory
+          { page
+          | color_picker =
+            { open = True
+            , page = (color_picker.page + 19 + shift) % 19 } } }
+      , Cmd.none )
+    ColorPickerClose ->
+      let color_picker = page.color_picker in
+      ( { model
+        | page = Inventory <|
+          { page
+          | color_picker =
+            { open = False
+            , page = 0 } } }
       , Cmd.none )
     _ -> (model, Cmd.none)
   _ -> (model, Cmd.none)

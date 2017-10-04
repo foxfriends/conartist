@@ -117,3 +117,39 @@
         background-color: darker($color--primary)
       &:active
         +card(2)
+
+.fancy-menu
+  position: relative
+  overflow: visible
+  &__backdrop
+    position: fixed
+    top: 0
+    left: 0
+    bottom: 0
+    right: 0
+    z-index: 1
+    &--open
+      @extend .fancy-menu__backdrop
+    &--closed
+      @extend .fancy-menu__backdrop
+      pointer-events: none
+  &__anchor
+  &__contents
+    position: absolute
+    left: 0
+    bottom: 0
+    z-index: 2
+    padding: 4px
+    transform-origin: left bottom
+    transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s
+    background-color: white
+    user-select: none
+    &--open
+      @extend .fancy-menu__contents
+      +card(2)
+      opacity: 1
+    &--closed
+      @extend .fancy-menu__contents
+      pointer-events: none
+      transform: scale(0.25)
+      opacity: 0

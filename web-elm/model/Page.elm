@@ -11,7 +11,10 @@ type Page
   | SignIn SignInPageState
 
 type alias InventoryPageState =
-  { current_tab: Int }
+  { current_tab: Int
+  , color_picker:
+    { open: Bool
+    , page: Int } }
 
 type alias SignInPageState =
   { email: String
@@ -26,4 +29,4 @@ signIn : Page
 signIn = SignIn <| SignInPageState "" "" "" "" False True (Success "")
 
 inventory : Page
-inventory = Inventory <| InventoryPageState 0
+inventory = Inventory <| InventoryPageState 0 { open = False, page = 0 }

@@ -85,6 +85,12 @@ setName name type_ = case type_ of
   Clean p -> Dirty { p | name = name }
   Dirty p -> Dirty { p | name = name }
 
+setColor : Int -> ProductType -> ProductType
+setColor color type_ = case type_ of
+  New p   -> New   { p | color = color }
+  Clean p -> Dirty { p | color = color }
+  Dirty p -> Dirty { p | color = color }
+
 toggleDiscontinued : ProductType -> Maybe ProductType
 toggleDiscontinued type_ = case type_ of
   New p   -> Nothing

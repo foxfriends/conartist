@@ -12,6 +12,7 @@ import VSidenav
 import VToolbar
 import VInventory
 import VDialog
+import VPricing
 
 view : Model -> Html Msg
 view model =
@@ -35,4 +36,5 @@ mainView model =
     [ case model.page of
         Dashboard       -> VDashboard.view model
         Inventory state -> VInventory.view model state
+        Pricing state   -> VPricing.view model state
         _               -> div [] [] ]

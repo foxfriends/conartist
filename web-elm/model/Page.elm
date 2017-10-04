@@ -4,7 +4,7 @@ import Status exposing (Status(..))
 type Page
   = Dashboard
   | Inventory InventoryPageState
-  | Pricing
+  | Pricing PricingPageState
   | Conventions
   | Convention String
   | Settings
@@ -15,6 +15,9 @@ type alias InventoryPageState =
   , color_picker:
     { open: Bool
     , page: Int } }
+
+type alias PricingPageState =
+  { }
 
 type alias SignInPageState =
   { email: String
@@ -30,3 +33,6 @@ signIn = SignIn <| SignInPageState "" "" "" "" False True (Success "")
 
 inventory : Page
 inventory = Inventory <| InventoryPageState 0 { open = False, page = 0 }
+
+pricing : Page
+pricing = Pricing <| PricingPageState

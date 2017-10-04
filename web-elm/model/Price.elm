@@ -1,4 +1,4 @@
-module Price exposing (Price, isDirty, decode)
+module Price exposing (..)
 import Json.Decode as Decode exposing (Decoder)
 
 type alias FullPrice =
@@ -32,3 +32,10 @@ decode = Decode.map (\a -> Clean a) <|
     (Decode.field "product" (Decode.maybe Decode.int))
     (Decode.field "price" Decode.float)
     (Decode.field "quantity" Decode.int)
+
+normalize : Price -> Maybe FullPrice
+normalize price = case price of
+  Clean p   -> Just p
+  Dirty p   -> Just p
+  New p     -> Just p
+  Deleted _ -> Nothing

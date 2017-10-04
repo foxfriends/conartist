@@ -16,7 +16,7 @@ matchers =
     , map (Page.signIn, Cmd.none) <| s "sign-in"
     , map (Dashboard, Cmd.none) <| s "dashboard"
     , map (Page.inventory, emit (inventoryTabChange 0)) <| s "inventory"
-    , map (Pricing, Cmd.none) <| s "prices"
+    , map (Page.pricing, Cmd.none) <| s "prices"
     , map (\s -> (Convention s, Cmd.none)) <| s "conventions" </> string
     , map (Settings, Cmd.none) <| s "settings"
     , map (Conventions, Cmd.none) <| s "conventions" ]

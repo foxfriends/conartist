@@ -35,6 +35,9 @@ view model page =
 priceRow : Model -> PricingPageState -> PriceWithTypeAndProduct -> List (Html Msg)
 priceRow model page { index, product_type, quantity, price, product } =
   let types = List.map ProductType.normalize model.user.productTypes in
+  let products = model.user.products
+    |> List.map Product.normalize
+    |> List.filter (\p -> Just p.type_id == (product_type |> Maybe.map (\t -> t.id))) in
   [ Fancy.select
       (SelectProductType index)
       (PricingProductType index)
@@ -52,7 +55,25 @@ priceRow model page { index, product_type, quantity, price, product } =
       ( case page.open_selector of
           TypeSelector i -> i == index
           _ -> False )
-  , text (product |> Maybe.map (\p -> p.name) |> Maybe.withDefault "")
+  , Fancy.optionalSelect
+      (SelectProduct index)
+      (PricingProduct index)
+      (\x -> case x of
+        Just x ->
+          products
+            |> List_.find (\y -> y.id == x)
+            |> Maybe.map (\x -> x.name)
+            |> Maybe.withDefault "Unknown product"
+        Nothing -> "All")
+      ( Nothing ::
+        ( products
+          |> (if model.show_discontinued then identity else List.filter (\t -> not t.discontinued))
+          |> List.map (\t -> t.id)
+          |> List.map Just ) )
+      ( product |> Maybe.map (\t -> t.id))
+      ( case page.open_selector of
+          ProductSelector i -> i == index
+          _ -> False )
   , Fancy.input "" (toString quantity) [] [ type_ "text", onInput (PricingQuantity index) ]
   , Fancy.input "" (moneyFormat price) [] [ type_ "text", onInput (PricingPrice index) ] -- TODO: formatted input fields
   , Fancy.button Icon "remove_circle_outline" [ onClick (PricingRemove index) ] ]

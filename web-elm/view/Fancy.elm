@@ -70,7 +70,7 @@ rawSelect onOpen onSelect optionHtml value display open =
   div
     (class "fancy-select" :: (if open then [] else [ onClick onOpen ]))
     [ div [ class <| "fancy-select__backdrop" ++ suffix, onClick (onSelect Nothing) ] []
-    , div [ class <| "fancy-select__value" ++ suffix ] [ text display ]
+    , div [ class <| "fancy-select__value" ++ (if value == Nothing then "--default" else "") ] [ text display ]
     , div [ class <| "fancy-select__options" ++ suffix ] optionHtml ]
 
 option : (Maybe a -> msg) -> String -> Maybe a -> Bool -> Html msg

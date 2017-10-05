@@ -136,15 +136,13 @@
     display: flex
     align-items: center
     border-bottom: 1px solid $color--divider
+    &--default
+      @extend .fancy-select__value
+      color: $color--placeholder
     &::after
       content: "arrow_drop_down"
       font-family: $font--icon
       font-size: larger
-    &--closed
-      @extend .fancy-select__value
-    &--open
-      @extend .fancy-select__value
-      display: none
   &__options
     +card(2)
     position: absolute
@@ -153,8 +151,8 @@
     right: 0
     background-color: white
     transition: opacity 0.3s, max-height 0.3s
-    // TODO: ensure this works with larger contents
     max-height: 320px
+    overflow-y: auto
     &--open
       @extend .fancy-select__options
     &--closed

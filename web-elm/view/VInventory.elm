@@ -71,7 +71,7 @@ inventoryFooter model { current_tab, color_picker } =
           ColorPickerClose
           color_picker.open
       , Fancy.button Icon "add" [ onClick NewProduct ]
-      , Fancy.button Icon "save" [ onClick SaveTypes, disabled (not <| Model.isDirty model) ] ]
+      , Fancy.button Icon "save" [ onClick Save, (disabled << not << Model.isDirty) model ] ]
     Nothing -> []
 
 colorPicker : (Int -> Msg) -> Int -> Int -> Html Msg

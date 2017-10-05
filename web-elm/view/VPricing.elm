@@ -1,6 +1,6 @@
 module VPricing exposing (view)
 import Html exposing (Html, div, text)
-import Html.Attributes exposing (class, type_)
+import Html.Attributes exposing (class, type_, disabled)
 import Html.Events exposing (onClick, onInput)
 
 import Model exposing (Model)
@@ -59,7 +59,8 @@ priceRow model page { index, product_type, quantity, price, product } =
 
 footer : Model -> List (Html Msg)
 footer model =
-  [ Fancy.button Icon "add" [ onClick PricingAdd ] ]
+  [ Fancy.button Icon "add" [ onClick PricingAdd ]
+  , Fancy.button Icon "save" [ onClick Save, (disabled << not << Model.isDirty) model ] ]
 
 moneyFormat : Float -> String
 moneyFormat value =

@@ -1,6 +1,7 @@
 module VPricing exposing (view)
 import Html exposing (Html, div, text)
-import Html.Attributes exposing (class)
+import Html.Attributes exposing (class, type_)
+import Html.Events exposing (onInput)
 
 import Model exposing (Model)
 import Page exposing (PricingPageState, Selector(..))
@@ -37,18 +38,21 @@ priceRow model page { index, product_type, quantity, price, product } =
   [ Fancy.select
       (SelectProductType index)
       (PricingProductType index)
-      (\x -> types
-        |> List_.find (\y -> y.id == x)
-        |> Maybe.map (\x -> x.name)
-        |> Maybe.withDefault "Unknown type")
-      (types
+      (\x -> case x of
+        Just x ->
+          types
+            |> List_.find (\y -> y.id == x)
+            |> Maybe.map (\x -> x.name)
+            |> Maybe.withDefault "Unknown type"
+        Nothing -> "Choose a type")
+      ( types
         |> (if model.show_discontinued then identity else List.filter (\t -> not t.discontinued))
         |> List.map (\t -> t.id) )
-      product_type.id
+      (product_type |> Maybe.map (\t -> t.id))
       ( case page.open_selector of
           TypeSelector i -> i == index
           _ -> False )
   , text (product |> Maybe.map (\p -> p.name) |> Maybe.withDefault "")
-  , text (toString quantity)
+  , Fancy.input "" (toString quantity) [] [ type_ "text", onInput (PricingQuantity index) ]
   , text ("$" ++ toString price)
   , Fancy.button Icon "remove_circle_outline" [] ]

@@ -54,19 +54,28 @@ type ButtonStyle
   | Icon
   | FAB
 
-select : msg -> (a -> msg) -> (a -> String) -> List a -> a -> Bool -> Html msg
+optionalSelect : msg -> (Maybe a -> msg) -> (Maybe a -> String) -> List (Maybe a) -> Maybe a -> Bool -> Html msg
+optionalSelect onOpen onSelect nameOf options value open =
+  let optionHtml = List.map (\o -> option onSelect (nameOf o) o (o == value)) options
+  in rawSelect onOpen onSelect optionHtml value (nameOf value) open
+
+select : msg -> (Maybe a -> msg) -> (Maybe a -> String) -> List a -> Maybe a -> Bool -> Html msg
 select onOpen onSelect nameOf options value open =
-  let optionHtml = List.map (\o -> option onSelect nameOf o (o == value)) options in
+  let optionHtml = List.map (\o -> option onSelect (nameOf (Just o)) (Just o) (Just o == value)) options
+  in rawSelect onOpen onSelect optionHtml value (nameOf value) open
+
+rawSelect : msg -> (Maybe a -> msg) -> List (Html msg) -> Maybe a -> String -> Bool -> Html msg
+rawSelect onOpen onSelect optionHtml value display open =
   let suffix = if open then "--open" else "--closed" in
-  Html.div
+  div
     (class "fancy-select" :: (if open then [] else [ onClick onOpen ]))
-    [ div [ class <| "fancy-select__backdrop" ++ suffix, onClick (onSelect value) ] []
-    , div [ class <| "fancy-select__value" ++ suffix ] [ text (nameOf value) ]
+    [ div [ class <| "fancy-select__backdrop" ++ suffix, onClick (onSelect Nothing) ] []
+    , div [ class <| "fancy-select__value" ++ suffix ] [ text display ]
     , div [ class <| "fancy-select__options" ++ suffix ] optionHtml ]
 
-option : (a -> msg) -> (a -> String) -> a -> Bool -> Html msg
+option : (Maybe a -> msg) -> String -> Maybe a -> Bool -> Html msg
 option onSelect name opt isSelected =
-  Html.div [ class "fancy-select__option", onClick (onSelect opt) ] [ text <| name opt, if isSelected then icon "check" [ class "fancy-select__selected" ] else text"" ]
+  div [ class "fancy-select__option", onClick (onSelect opt) ] [ text name, if isSelected then icon "check" [ class "fancy-select__selected" ] else text "" ]
 
 menu : List (Html.Attribute msg) -> Html msg -> Html msg -> msg -> Bool -> Html msg
 menu attrs anchor contents toClose open =

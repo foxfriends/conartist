@@ -1,7 +1,7 @@
 module Join exposing (..)
 import Product exposing (FullProduct)
 import ProductType exposing (FullType)
-import Price exposing (FullPrice)
+import Price exposing (NewPrice)
 import List_
 
 type alias ProductWithType =
@@ -13,14 +13,14 @@ type alias ProductWithType =
 
 type alias PriceWithType =
   { index: Int
-  , product_type : FullType
+  , product_type : Maybe FullType
   , product_id: Maybe Int
   , price: Float
   , quantity: Int }
 
 type alias PriceWithTypeAndProduct =
   { index: Int
-  , product_type : FullType
+  , product_type : Maybe FullType
   , product: Maybe FullProduct
   , price: Float
   , quantity: Int }
@@ -32,12 +32,10 @@ productsWithTypes types products =
 joinProductToType : FullProduct -> FullType -> ProductWithType
 joinProductToType { id, name, quantity, discontinued } typ = ProductWithType id name typ quantity discontinued
 
-pricesWithProductsAndTypes : List FullType -> List FullProduct -> List FullPrice -> List PriceWithTypeAndProduct
+pricesWithProductsAndTypes : List FullType -> List FullProduct -> List NewPrice -> List PriceWithTypeAndProduct
 pricesWithProductsAndTypes types products prices =
   prices
-    |> List.filterMap (\p ->
-        List_.find (\t -> t.id == p.type_id) types
-          |> Maybe.map (\t -> (p, t)))
+    |> List.map (\p -> (p, List_.find (\t -> Just t.id == p.type_id) types))
     |> List.map (\(p, t) -> joinTypeToPrice p t)
     |> List.filterMap
       (\p -> case p.product_id of
@@ -47,7 +45,7 @@ pricesWithProductsAndTypes types products prices =
             |> Maybe.map (\r -> (p, Just r)))
     |> List.map (\(p, r) -> joinProductToTypedPrice p r)
 
-joinTypeToPrice : FullPrice -> FullType -> PriceWithType
+joinTypeToPrice : NewPrice -> Maybe FullType -> PriceWithType
 joinTypeToPrice { index, product_id, quantity, price } product_type =
   PriceWithType index product_type product_id price quantity
 

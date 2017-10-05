@@ -41,10 +41,10 @@ type Msg
   | ProductDiscontinued Int Int
   -- pricing
   | PricingAdd
-  | PricingProductType Int Int
+  | PricingProductType Int (Maybe Int)
   | PricingProduct Int (Maybe Int)
-  | PricingQuantity Int Int
-  | PricingPrice Int Float
+  | PricingQuantity Int String
+  | PricingPrice Int String
   | PricingRemove Int
   | SelectProductType Int
   | SelectProduct Int

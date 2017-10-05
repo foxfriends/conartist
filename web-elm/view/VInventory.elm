@@ -30,7 +30,7 @@ inventoryTab : Model -> FullType -> Html Msg
 inventoryTab model pt =
   div
     [ class "inventory__tab" ]
-    [ table
+    [ table []
       [ "Name", "Quantity", "Discontinue" ]
       inventoryRow
       ( Join.productsWithTypes

@@ -124,6 +124,7 @@
   display: flex
   align-items: center
   height: 48px
+  // TODO: not a fan of this min-width here
   min-width: 200px
   &__backdrop
     @extend .fancy-menu__backdrop
@@ -151,6 +152,7 @@
     right: 0
     background-color: white
     transition: opacity 0.3s, max-height 0.3s
+    // TODO: ensure this works with larger contents
     max-height: 320px
     &--open
       @extend .fancy-select__options

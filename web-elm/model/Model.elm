@@ -26,8 +26,8 @@ isDirty { user } =
   ||  foldl (\c -> \p -> p || Price.isDirty c )       False user.prices
   ||  foldl (\c -> \p -> p || ProductType.isDirty c ) False user.productTypes
 
-clean : a -> Model -> Model
-clean updates model = model
+cleanPrices : List Price.FullPrice -> Model -> Model
+cleanPrices updates model = model
 
 cleanProducts : List Product.FullProduct -> Model -> Model
 cleanProducts updates model =

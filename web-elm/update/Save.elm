@@ -13,19 +13,41 @@ import UDialog
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case msg of
   Save -> update SaveTypes model
-  SaveProducts ->
-    case Model.validateRequest model of
-      Ok _ -> (model, saveProducts model)
-      Err error -> UDialog.update (ShowErrorMessage (Debug.log "Error:" error)) model
-  SavePrices -> (model, Cmd.none)
   SaveTypes ->
     case Model.validateRequest model of
       Ok _ -> (model, saveTypes model)
       Err error -> UDialog.update (ShowErrorMessage (Debug.log "Error:" error)) model
-  SavedProducts (Ok (Success updates)) -> (Model.cleanProducts updates model, Cmd.none)
-  SavedPrices (Ok (Success updates)) -> (Model.clean updates model, Cmd.none)
+  SaveProducts ->
+    case Model.validateRequest model of
+      Ok _ -> (model, saveProducts model)
+      Err error -> UDialog.update (ShowErrorMessage (Debug.log "Error:" error)) model
+  SavePrices ->
+    case Model.validateRequest model of
+      Ok _ -> (model, savePrices model)
+      Err error -> UDialog.update (ShowErrorMessage (Debug.log "Error:" error)) model
   SavedTypes (Ok (Success updates)) -> update SaveProducts (Model.cleanTypes updates model)
+  SavedProducts (Ok (Success updates)) -> update SavePrices (Model.cleanProducts updates model)
+  SavedPrices (Ok (Success updates)) -> (Model.cleanPrices updates model, Cmd.none)
   _ -> (model, Cmd.none)
+
+saveTypes : Model -> Cmd Msg
+saveTypes model =
+  model.user.productTypes
+    |> List.filter ProductType.isDirty
+    |> List.filterMap ProductType.requestFormat
+    |> List.map ProductType.requestJson
+    |> \types -> Json.object [ ("types", Json.list types) ]
+    |> Http.jsonBody
+    |> \body ->
+      Http.request
+        { method = "PUT"
+        , headers = [ Http.header "Authorization" ("Bearer " ++ model.authtoken) ]
+        , url = "/api/types"
+        , body = body
+        , expect = Http.expectJson (ConRequest.decode (Decode.list ProductType.decode))
+        , timeout = Nothing
+        , withCredentials = False }
+    |> Http.send SavedTypes
 
 saveProducts : Model -> Cmd Msg
 saveProducts model =
@@ -46,21 +68,5 @@ saveProducts model =
         , withCredentials = False }
     |> Http.send SavedProducts
 
-saveTypes : Model -> Cmd Msg
-saveTypes model =
-  model.user.productTypes
-    |> List.filter ProductType.isDirty
-    |> List.filterMap ProductType.requestFormat
-    |> List.map ProductType.requestJson
-    |> \types -> Json.object [ ("types", Json.list types) ]
-    |> Http.jsonBody
-    |> \body ->
-      Http.request
-        { method = "PUT"
-        , headers = [ Http.header "Authorization" ("Bearer " ++ model.authtoken) ]
-        , url = "/api/types"
-        , body = body
-        , expect = Http.expectJson (ConRequest.decode (Decode.list ProductType.decode))
-        , timeout = Nothing
-        , withCredentials = False }
-    |> Http.send SavedTypes
+savePrices : Model -> Cmd Msg
+savePrices _ = Cmd.none

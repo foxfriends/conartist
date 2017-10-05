@@ -3,7 +3,7 @@ import Html exposing (Html, div, text)
 import Html.Attributes exposing (class)
 
 import Model exposing (Model)
-import Page exposing (PricingPageState)
+import Page exposing (PricingPageState, Selector(..))
 import Msg exposing (Msg(..))
 import Table exposing (table)
 import ProductType
@@ -19,7 +19,7 @@ view model page =
     [ div [ class "pricing__table" ]
       [ table []
         [ "Type", "Product", "Quantity", "Price", "Remove" ]
-        (priceRow model)
+        (priceRow model page)
         ( Join.pricesWithProductsAndTypes
           ( model.user.productTypes
             |> List.map ProductType.normalize
@@ -31,17 +31,23 @@ view model page =
             |> List.filterMap Price.normalize) ) ]
     , div [ class "pricing__footer" ] [] ]
 
-priceRow : Model -> PriceWithTypeAndProduct -> List (Html Msg)
-priceRow model { index, product_type, quantity, price, product } =
+priceRow : Model -> PricingPageState -> PriceWithTypeAndProduct -> List (Html Msg)
+priceRow model page { index, product_type, quantity, price, product } =
   let types = List.map ProductType.normalize model.user.productTypes in
   [ Fancy.select
+      (SelectProductType index)
       (PricingProductType index)
       (\x -> types
         |> List_.find (\y -> y.id == x)
         |> Maybe.map (\x -> x.name)
         |> Maybe.withDefault "Unknown type")
-      (List.map (\t -> t.id) types)
+      (types
+        |> (if model.show_discontinued then identity else List.filter (\t -> not t.discontinued))
+        |> List.map (\t -> t.id) )
       product_type.id
+      ( case page.open_selector of
+          TypeSelector i -> i == index
+          _ -> False )
   , text (product |> Maybe.map (\p -> p.name) |> Maybe.withDefault "")
   , text (toString quantity)
   , text ("$" ++ toString price)

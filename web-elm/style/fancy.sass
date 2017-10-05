@@ -118,6 +118,50 @@
       &:active
         +card(2)
 
+.fancy-select
+  @extend %flat-clickable
+  position: relative
+  display: flex
+  align-items: center
+  height: 48px
+  min-width: 200px
+  &__backdrop
+    @extend .fancy-menu__backdrop
+    &--open
+      @extend .fancy-menu__backdrop--open
+    &--closed
+      @extend .fancy-menu__backdrop--closed
+  &__value
+    display: flex
+    align-items: center
+    &::after
+      content: "arrow_drop_down"
+      font-family: $font--icon
+      font-size: larger
+    &--closed
+      @extend .fancy-select__value
+    &--open
+      @extend .fancy-select__value
+      display: none
+  &__options
+    +card(2)
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    background-color: white
+    transition: opacity 0.3s, max-height 0.3s
+    max-height: 320px
+    &--open
+      @extend .fancy-select__options
+    &--closed
+      @extend .fancy-select__options
+      opacity: 0
+      max-height: 48px
+      pointer-events: none
+  &__option
+    @extend .list__row--clickable
+
 .fancy-menu
   position: relative
   overflow: visible

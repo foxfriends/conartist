@@ -8,6 +8,7 @@ import Save
 import USignIn
 import UDashboard
 import UInventory
+import UPricing
 import Routing
 import UDialog
 
@@ -33,3 +34,4 @@ update msg model =
   |> continue USignIn.update msg
   |> continue UDashboard.update msg
   |> continue UInventory.update msg
+  |> continue UPricing.update msg

@@ -46,6 +46,8 @@ type Msg
   | PricingQuantity Int Int
   | PricingPrice Int Float
   | PricingRemove Int
+  | SelectProductType Int
+  | SelectProduct Int
   -- loading
   | DidLoadUser (Result Http.Error (ConRequest User))
   -- saving

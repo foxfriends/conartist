@@ -54,13 +54,19 @@ type ButtonStyle
   | Icon
   | FAB
 
-select : (a -> msg) -> (a -> String) -> List a -> a -> Html msg
-select onSelect nameOf options value =
-  Html.div [ class "fancy-select"] <| List.map (option nameOf) options
+select : msg -> (a -> msg) -> (a -> String) -> List a -> a -> Bool -> Html msg
+select onOpen onSelect nameOf options value open =
+  let optionHtml = List.map (option onSelect nameOf) options in
+  let suffix = if open then "--open" else "--closed" in
+  Html.div
+    (class "fancy-select" :: (if open then [] else [ onClick onOpen ]))
+    [ div [ class <| "fancy-select__backdrop" ++ suffix, onClick (onSelect value) ] []
+    , div [ class <| "fancy-select__value" ++ suffix ] [ text (nameOf value) ]
+    , div [ class <| "fancy-select__options" ++ suffix ] optionHtml ]
 
-option : (a -> String) -> a -> Html msg
-option name opt =
-  Html.div [ class "fancy-select__option" ] [ text <| name opt ]
+option : (a -> msg) -> (a -> String) -> a -> Html msg
+option onSelect name opt =
+  Html.div [ class "fancy-select__option", onClick (onSelect opt) ] [ text <| name opt ]
 
 menu : List (Html.Attribute msg) -> Html msg -> Html msg -> msg -> Bool -> Html msg
 menu attrs anchor contents toClose open =

@@ -16,8 +16,13 @@ type alias InventoryPageState =
     { open: Bool
     , page: Int } }
 
+type Selector
+  = TypeSelector Int
+  | ProductSelector Int
+  | None
+
 type alias PricingPageState =
-  { }
+  { open_selector : Selector }
 
 type alias SignInPageState =
   { email: String
@@ -35,4 +40,4 @@ inventory : Page
 inventory = Inventory <| InventoryPageState 0 { open = False, page = 0 }
 
 pricing : Page
-pricing = Pricing <| PricingPageState
+pricing = Pricing <| PricingPageState None

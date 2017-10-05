@@ -119,13 +119,13 @@
         +card(2)
 
 .fancy-select
-  @extend %flat-clickable
   position: relative
   display: flex
   align-items: center
   height: 48px
   // TODO: not a fan of this min-width here
   min-width: 200px
+  cursor: pointer
   &__backdrop
     @extend .fancy-menu__backdrop
     &--open
@@ -135,6 +135,7 @@
   &__value
     display: flex
     align-items: center
+    border-bottom: 1px solid $color--divider
     &::after
       content: "arrow_drop_down"
       font-family: $font--icon

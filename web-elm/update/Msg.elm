@@ -4,9 +4,9 @@ import Date exposing (Date)
 import Navigation exposing (Location)
 
 import ConRequest exposing (ConRequest)
-import Product
-import ProductType
-import Price exposing (Price)
+import Product exposing (FullProduct)
+import ProductType exposing (FullType)
+import Price exposing (FullPrice)
 import User exposing (User)
 
 type Msg
@@ -28,17 +28,24 @@ type Msg
   | OpenConSignUp
   -- inventory
   | ChangeInventoryTab Int
-  | NewProductType
-  | NewProduct
-  | ProductTypeName Int String
-  | ProductTypeDiscontinued Int
-  | ProductTypeColor Int Int
   | ColorPickerPage Int
   | ColorPickerOpen
   | ColorPickerClose
+  | NewProductType
+  | ProductTypeName Int String
+  | ProductTypeColor Int Int
+  | ProductTypeDiscontinued Int
+  | NewProduct
   | ProductName Int Int String
   | ProductQuantity Int Int String
   | ProductDiscontinued Int Int
+  -- pricing
+  | PricingAdd
+  | PricingProductType Int Int
+  | PricingProduct Int (Maybe Int)
+  | PricingQuantity Int Int
+  | PricingPrice Int Float
+  | PricingRemove Int
   -- loading
   | DidLoadUser (Result Http.Error (ConRequest User))
   -- saving
@@ -46,9 +53,9 @@ type Msg
   | SavePrices
   | SaveTypes
   | Save
-  | SavedProducts (Result Http.Error (ConRequest (List Product.FullProduct)))
-  | SavedPrices (Result Http.Error (ConRequest (List Price)))
-  | SavedTypes (Result Http.Error (ConRequest (List ProductType.FullType)))
+  | SavedProducts (Result Http.Error (ConRequest (List FullProduct)))
+  | SavedPrices (Result Http.Error (ConRequest (List FullPrice)))
+  | SavedTypes (Result Http.Error (ConRequest (List FullType)))
   -- localStorage
   | LSRetrive (String, Maybe String)
   -- navigation

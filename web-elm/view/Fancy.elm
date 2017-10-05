@@ -54,8 +54,8 @@ type ButtonStyle
   | Icon
   | FAB
 
-select : a -> List a -> (a -> String) -> (a -> msg) -> Html msg
-select value options nameOf onSelect =
+select : (a -> msg) -> (a -> String) -> List a -> a -> Html msg
+select onSelect nameOf options value =
   Html.div [ class "fancy-select"] <| List.map (option nameOf) options
 
 option : (a -> String) -> a -> Html msg

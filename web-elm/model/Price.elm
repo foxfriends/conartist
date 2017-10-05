@@ -92,14 +92,13 @@ removeRow row prices = case prices of
 
 index : Price -> Int
 index price = case price of
-  New p -> p.index
-  Clean p -> p.index
-  Dirty p -> p.index
+  Clean p   -> p.index
+  Dirty p   -> p.index
+  New p     -> p.index
   Deleted p -> p.index
 
 new : Int -> Price
-new index =
-  New (NewPrice index Nothing Nothing 0 0)
+new index = New (NewPrice index Nothing Nothing 0 0)
 
 parseMoney : String -> Result String Float
 parseMoney money =

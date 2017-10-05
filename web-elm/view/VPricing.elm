@@ -1,7 +1,7 @@
 module VPricing exposing (view)
 import Html exposing (Html, div, text)
 import Html.Attributes exposing (class, type_)
-import Html.Events exposing (onInput)
+import Html.Events exposing (onClick, onInput)
 
 import Model exposing (Model)
 import Page exposing (PricingPageState, Selector(..))
@@ -30,7 +30,7 @@ view model page =
             |> List.filter (\p -> not p.discontinued) )
           ( model.user.prices
             |> List.filterMap Price.normalize) ) ]
-    , div [ class "pricing__footer" ] [] ]
+    , div [ class "pricing__footer" ] (footer model) ]
 
 priceRow : Model -> PricingPageState -> PriceWithTypeAndProduct -> List (Html Msg)
 priceRow model page { index, product_type, quantity, price, product } =
@@ -54,5 +54,14 @@ priceRow model page { index, product_type, quantity, price, product } =
           _ -> False )
   , text (product |> Maybe.map (\p -> p.name) |> Maybe.withDefault "")
   , Fancy.input "" (toString quantity) [] [ type_ "text", onInput (PricingQuantity index) ]
-  , text ("$" ++ toString price)
-  , Fancy.button Icon "remove_circle_outline" [] ]
+  , Fancy.input "" (moneyFormat price) [] [ type_ "text", onInput (PricingPrice index) ] -- TODO: formatted input fields
+  , Fancy.button Icon "remove_circle_outline" [ onClick (PricingRemove index) ] ]
+
+footer : Model -> List (Html Msg)
+footer model =
+  [ Fancy.button Icon "add" [ onClick PricingAdd ] ]
+
+moneyFormat : Float -> String
+moneyFormat value =
+  let decimal = if toFloat (floor value) == value then ".00" else ""
+  in (String.cons '$' (toString value)) ++ decimal

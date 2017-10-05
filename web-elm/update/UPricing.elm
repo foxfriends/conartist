@@ -43,8 +43,7 @@ update msg model = case model.page of
       let user = model.user in
       let prices = user.prices in
         ( { model
-          | page = Pricing { page | open_selector = None }
-          , user = { user
+          | user = { user
             | prices = List_.updateAt
                 (\p -> Price.index p == index)
                 (Price.setPrice price)
@@ -54,8 +53,7 @@ update msg model = case model.page of
       let user = model.user in
       let prices = user.prices in
         ( { model
-          | page = Pricing { page | open_selector = None }
-          , user = { user
+          | user = { user
             | prices = List_.updateAt
                 (\p -> Price.index p == index)
                 (Price.setQuantity quantity)

@@ -7,6 +7,7 @@ import Model exposing (Model)
 import ConRequest exposing (ConRequest(..))
 import Product
 import ProductType
+import Price
 import Msg exposing (Msg(..))
 import UDialog
 
@@ -69,4 +70,19 @@ saveProducts model =
     |> Http.send SavedProducts
 
 savePrices : Model -> Cmd Msg
-savePrices _ = Cmd.none
+savePrices model =
+  model.user.prices
+    |> List.foldl Price.requestFormat []
+    |> List.map Price.requestJson
+    |> \prices -> Json.object [ ("prices", Json.list prices) ]
+    |> Http.jsonBody
+    |> \body ->
+      Http.request
+        { method = "PUT"
+        , headers = [ Http.header "Authorization" ("Bearer " ++ model.authtoken) ]
+        , url = "/api/prices"
+        , body = body
+        , expect = Http.expectJson (ConRequest.decode (Decode.list Price.decode))
+        , timeout = Nothing
+        , withCredentials = False }
+    |> Http.send SavedPrices

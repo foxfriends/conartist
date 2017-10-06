@@ -27,30 +27,41 @@ isDirty { user } =
   ||  foldl (\c -> \p -> p || ProductType.isDirty c ) False user.productTypes
 
 cleanPrices : List Price.FullPrice -> Model -> Model
-cleanPrices updates model = model
+cleanPrices updates model =
+  let user = model.user in
+  let prices = user.prices in
+    { model
+    | user =
+      { user
+      | prices = Price.clean updates prices } }
 
 cleanProducts : List Product.FullProduct -> Model -> Model
 cleanProducts updates model =
   let user = model.user in
   let products = user.products in
+  let prices = user.prices in
     { model
     | user =
       { user
-      | products = Product.clean updates products } }
+      | products = Product.clean updates products
+      , prices = Price.fillNewProducts updates products prices } }
 
 cleanTypes : List ProductType.FullType -> Model -> Model
 cleanTypes updates model =
   let user = model.user in
   let types = user.productTypes in
   let products = user.products in
+  let prices = user.prices in
     { model
     | user =
       { user
       | productTypes = ProductType.clean updates types
-      , products = Product.fillNewTypes updates types products } }
+      , products = Product.fillNewTypes updates types products
+      , prices = Price.fillNewTypes updates types prices } }
 
 validateRequest : Model -> Result String Model
 validateRequest model =
   ProductType.validateRequest model.user.productTypes
     |> Result.andThen (\_ -> Product.validateRequest model.user.productTypes model.user.products)
+    |> Result.andThen (\_ -> Price.validateRequest model.user.prices model.user.productTypes model.user.products)
     |> Result.map (\_ -> model)

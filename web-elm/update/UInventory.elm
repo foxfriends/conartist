@@ -79,7 +79,7 @@ update msg model = case model.page of
         { model
         | user =
           { user
-          | productTypes = productTypes ++ [ ProductType.new len ] } }
+          | productTypes = productTypes ++ [ ProductType.new (len + 1) ] } }
     NewProduct ->
       let user = model.user in
       let products = user.products in
@@ -95,7 +95,7 @@ update msg model = case model.page of
       ( { model
         | user =
           { user
-          | products = products ++ [ Product.new len type_id ] } }
+          | products = products ++ [ Product.new (len + 1) type_id ] } }
       , Cmd.none )
     ColorPickerOpen ->
       let color_picker = page.color_picker in

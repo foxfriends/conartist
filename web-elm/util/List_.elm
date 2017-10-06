@@ -23,3 +23,8 @@ filterUpdateAt pred fn list = case list of
       Nothing -> rest
     else first :: filterUpdateAt pred fn rest
   [] -> []
+
+updateAtOrInsert : a -> (a -> Bool) -> (a -> a) -> List a -> List a
+updateAtOrInsert default pred fn list = case list of
+  first :: rest -> if pred first then (fn first) :: rest else first :: updateAtOrInsert default pred fn rest
+  [] -> [ default ]

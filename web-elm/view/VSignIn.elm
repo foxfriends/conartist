@@ -4,15 +4,14 @@ import Html.Attributes exposing (type_, placeholder, class, disabled)
 import Html.Events exposing (onInput, onClick)
 import Html.Keyed as K
 
-import Model exposing (Model)
 import Msg exposing (Msg(..))
 import Page exposing (SignInPageState)
 import Status exposing (Status)
 import Card exposing (card)
 import Fancy exposing (ButtonStyle(..))
 
-view : Model -> SignInPageState -> Html Msg
-view model page =
+view : a -> SignInPageState -> Html Msg
+view _ page =
   div [ class "sign-in" ]
    [ card "Sign in" [ class "sign-in__form"]
       [ K.node "div" [ class "sign-in__fields"] <| signInForm page
@@ -48,7 +47,7 @@ signInButtons sign_in status =
       else "Actually, I already have an account")
     [ class "sign-in__link" , onClick ToggleSignIn ] ]
 
-signInInfo : Bool -> Status -> List (Html Msg)
+signInInfo : Bool -> Status -> List (Html msg)
 signInInfo sign_in status =
   [ case status of
       Status.Success str -> div [ class "sign-in__notification sign-in__notification--neutral" ] [text str]

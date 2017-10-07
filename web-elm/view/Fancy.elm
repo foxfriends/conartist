@@ -5,6 +5,9 @@ import Html.Attributes exposing (class, type_, value)
 import Html.Events exposing (onClick, onCheck)
 import Icon exposing (icon)
 
+flush : Html.Attribute msg
+flush = class "fancy-input--flush"
+
 input : String -> String -> List (Html.Attribute msg) -> List (Html.Attribute msg) -> Html msg
 input = labelledInput (text "")
 

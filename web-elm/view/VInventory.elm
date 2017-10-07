@@ -32,7 +32,7 @@ inventoryTab model pt =
   div
     [ class "inventory__tab" ]
     [ tableWithSpacing "1fr 1fr 150px" [] []
-      [ text "Name", text "Quantity", centered <| text "Discontinue" ]
+      [ text "Name", text "Quantity", (centered << text) "Discontinue" ]
       inventoryRow
       ( Join.productsWithTypes
         (model.user.productTypes
@@ -45,8 +45,8 @@ inventoryTab model pt =
 
 inventoryRow : ProductWithType -> List (Html Msg)
 inventoryRow { id, name, quantity, product_type, discontinued } =
-  [ Fancy.input "" name [] [ type_ "text", onInput (ProductName product_type.id id) ]
-  , Fancy.input "" (toString quantity) [] [ type_ "text", onInput (ProductQuantity product_type.id id) ]
+  [ Fancy.input "" name [ Fancy.flush ] [ type_ "text", onInput (ProductName product_type.id id) ]
+  , Fancy.input "" (toString quantity) [ Fancy.flush ] [ type_ "text", onInput (ProductQuantity product_type.id id) ]
   , centered <| Fancy.button Icon (if discontinued then "add_circle_outline" else "remove_circle_outline") [ onClick (ProductDiscontinued product_type.id id) ] ]
 
 newTabButton : TabItem Msg

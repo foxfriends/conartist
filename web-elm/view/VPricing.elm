@@ -6,20 +6,21 @@ import Html.Events exposing (onClick, onInput)
 import Model exposing (Model)
 import Page exposing (PricingPageState, Selector(..))
 import Msg exposing (Msg(..))
-import Table exposing (table)
+import Table exposing (tableWithSpacing)
 import ProductType
 import Product
 import Price
 import Join exposing (PriceWithTypeAndProduct)
 import Fancy exposing (ButtonStyle(..))
+import Align exposing (centered)
 import List_
 
 view : Model -> PricingPageState -> Html Msg
 view model page =
   div [ class "pricing" ]
     [ div [ class "pricing__table" ]
-      [ table []
-        [ "Type", "Product", "Quantity", "Price", "Remove" ]
+      [ tableWithSpacing "1fr 1fr 1fr 1fr 100px" [] []
+        [ text "Type", text "Product", text "Quantity", text "Price", (centered << text) "Remove" ]
         (priceRow model page)
         ( Join.pricesWithProductsAndTypes
           ( model.user.productTypes
@@ -37,7 +38,7 @@ priceRow model page { index, product_type, quantity, price, product } =
   let types = List.map ProductType.normalize model.user.productTypes in
   let products = model.user.products
     |> List.map Product.normalize
-    |> List.filter (\p -> Just p.type_id == (product_type |> Maybe.map (\t -> t.id))) in
+    |> List.filter (\p -> Just p.type_id == Maybe.map (\t -> t.id) product_type) in
   [ Fancy.select
       (SelectProductType index)
       (PricingProductType index)
@@ -74,9 +75,9 @@ priceRow model page { index, product_type, quantity, price, product } =
       ( case page.open_selector of
           ProductSelector i -> i == index
           _ -> False )
-  , Fancy.input "" (toString quantity) [] [ type_ "text", onInput (PricingQuantity index) ]
-  , Fancy.input "" (moneyFormat price) [] [ type_ "text", onInput (PricingPrice index) ] -- TODO: formatted input fields
-  , Fancy.button Icon "remove_circle_outline" [ onClick (PricingRemove index) ] ]
+  , Fancy.input "" (toString quantity) [ Fancy.flush ] [ type_ "text", onInput (PricingQuantity index) ]
+  , Fancy.input "" (moneyFormat price) [ Fancy.flush ] [ type_ "text", onInput (PricingPrice index) ] -- TODO: formatted input fields
+  , centered <| Fancy.button Icon "remove_circle_outline" [ onClick (PricingRemove index) ] ]
 
 footer : Model -> List (Html Msg)
 footer model =

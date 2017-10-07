@@ -7,10 +7,12 @@ import Json.Decode as Decode
 import DOM exposing (target, offsetLeft, offsetWidth)
 
 import Icon exposing (icon)
+import Fancy
 
 type TabItem msg
-  = Tab(String, Html msg)
-  | Button(String, msg)
+  = Tab String (Html msg)
+  | Button String msg
+  | IconButton String msg
 
 type alias TabStatus =
   { current: Int
@@ -30,15 +32,18 @@ tabsWithFooter footerContents onSwitch attrs contents { current, width } =
       [ K.node "div" [ class "tabs__titles" ]
         ( ( List.indexedMap
             (\i -> \c -> case c of
-              Tab(t, _) ->
+              Tab t _ ->
                 ( toString i
                 , div
-                  [ class <| "tabs__title tabs__title--" ++ (position i)
+                  [ class "tabs__title"
                   , on "click" (Decode.map onSwitch <| Decode.map (TabStatus i) (target offsetWidth)) ]
                   [ text t ] )
-              Button(t, msg) ->
+              Button t msg ->
                 ( toString i
-                , div [ class <| "tabs__title tabs__title--" ++ (position i), onClick msg ] [ icon t [] ] ) )
+                , div [ class "tabs__title", onClick msg ] [ text t ] )
+              IconButton t msg ->
+                ( toString i
+                , div [ class "tabs__title", onClick msg ] [ icon t [] ] ) )
             contents )
         ++ [( "__indicator__"
             , div
@@ -49,9 +54,9 @@ tabsWithFooter footerContents onSwitch attrs contents { current, width } =
       , K.node "div" [ class "tabs__contents" ]
         ( List.indexedMap
           (\i -> \c -> case c of
-              Tab(_, c) ->
+              Tab _ c ->
                 ( toString i
                 , div [ class <| "tabs__content tabs__content--" ++ (position i) ] [ c ] )
-              Button(_) -> (toString i, div [ class <| "tabs__content tabs__content--false tabs__content--" ++ (position i) ] []) )
+              _ -> (toString i, div [ class <| "tabs__content tabs__content--false tabs__content--" ++ (position i) ] []) )
           contents )
       , div [ class "tabs__footer" ] footerContents ]

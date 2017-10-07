@@ -60,6 +60,8 @@
     border-bottom: 2px solid $color--warn
   &__underline--secondary
     border-bottom: 1px solid $color--divider
+  &__field:hover ~ &__underline &__underline--secondary,
+    border-bottom-color: $color--placeholder
   &__underline &__underline--secondary,
   &__field:focus ~ &__underline &__underline--primary,
   &--invalid &__underline &__underline--warn
@@ -146,15 +148,20 @@
       @extend .fancy-menu__backdrop--open
     &--closed
       @extend .fancy-menu__backdrop--closed
+  &:hover &__value
+    border-color: $color--placeholder
   &__value
     display: flex
     align-items: center
-    border-bottom: 1px solid $color--divider
+    width: 100%
+    border-bottom: 1px solid
+    border-color: $color--divider
     &--default
       @extend .fancy-select__value
       color: $color--placeholder
     &::after
       content: "arrow_drop_down"
+      margin-left: auto
       font-family: $font--icon
       font-size: larger
   &__options
@@ -216,3 +223,35 @@
       pointer-events: none
       transform: scale(0.25)
       opacity: 0
+
+.fancy-tooltip
+  position: relative
+  overflow: visible
+  &__text
+    position: absolute
+    left: 50%
+    top: 50%
+    z-index: 5
+    padding: 4px
+    display: flex
+    white-space: nowrap
+    align-items: center
+    justify-content: center
+    border-radius: 2px
+    font-size: small
+    background: $color__background--dark
+    color: $color__text--invert
+    transition: transform 0.2s
+    pointer-events: none
+    transform: translate(-50%, -50%) scale(0)
+    &--right, &--left, &--center, &--below
+      @extend .fancy-tooltip__text
+  &__element:hover + &__text
+    &--right
+      transform: translate(0, -200%) scale(1)
+    &--left
+      transform: translate(-100%, -200%) scale(1)
+    &--center
+      transform: translate(-50%, -200%) scale(1)
+    &--below
+      transform: translate(-50%, 100%) scale(1)

@@ -13,7 +13,7 @@ import Table exposing (tableWithSpacing)
 import Icon exposing (icon)
 import Join exposing (ProductWithType)
 import Page exposing (InventoryPageState)
-import Fancy exposing (ButtonStyle(..))
+import Fancy exposing (ButtonStyle(..), TooltipAlignment(..))
 import Align exposing (centered)
 
 view : Model -> InventoryPageState -> Html Msg
@@ -22,8 +22,7 @@ view model page =
     model.user.productTypes
       |> List.map ProductType.normalize
       |> List.filter (\p -> not p.discontinued)
-      |> List.map (\t -> (t.name, inventoryTab model t))
-      |> List.map Tab
+      |> List.map (\t -> Tab t.name (inventoryTab model t))
   in
     tabsWithFooter (inventoryFooter model page) ChangeInventoryTab [ class "inventory" ] (tabList ++ [ newTabButton ]) page.current_tab
 
@@ -50,7 +49,7 @@ inventoryRow { id, name, quantity, product_type, discontinued } =
   , centered <| Fancy.button Icon (if discontinued then "add_circle_outline" else "remove_circle_outline") [ onClick (ProductDiscontinued product_type.id id) ] ]
 
 newTabButton : TabItem Msg
-newTabButton = Button ("add", NewProductType)
+newTabButton = IconButton "add" NewProductType
 
 inventoryFooter : Model -> InventoryPageState -> List (Html Msg)
 inventoryFooter model { current_tab, color_picker } =
@@ -61,17 +60,17 @@ inventoryFooter model { current_tab, color_picker } =
     |> List.head
   of
     Just t ->
-      [ Fancy.button Icon (if t.discontinued then "add_circle_outline" else "remove_circle_outline") [ onClick (ProductTypeDiscontinued t.id) ]
+      [ Fancy.alignedTooltip Right "Discontinue type" <| Fancy.button Icon (if t.discontinued then "add_circle_outline" else "remove_circle_outline") [ onClick (ProductTypeDiscontinued t.id) ]
       , Fancy.labelledInput (Fancy.iconLabel "edit") "" t.name [] [ onInput (ProductTypeName t.id) ]
       , Fancy.menu []
-          ( Fancy.button
+          ( Fancy.tooltip "Set color" <| Fancy.button
             Icon "format_color_fill"
             [ style [ ( "background-color", "#" ++ Hex.toString t.color ) ]
             , onClick ColorPickerOpen ] )
           ( colorPicker (ProductTypeColor t.id) color_picker.page t.color )
           ColorPickerClose
           color_picker.open
-      , Fancy.button Icon "add" [ onClick NewProduct ]
+      , Fancy.tooltip "New product" <| Fancy.button Icon "add" [ onClick NewProduct ]
       , Fancy.button Icon "save" [ onClick Save, (disabled << not << Model.isDirty) model ] ]
     Nothing -> []
 
@@ -81,7 +80,6 @@ colorPicker onSelect page selected =
     [ div [ class "color-picker__nav", onClick (ColorPickerPage -1) ] [ icon "keyboard_arrow_left" [] ]
     , div [ class "color-picker__items" ] <| colorPickerContents onSelect page selected
     , div [ class "color-picker__nav", onClick (ColorPickerPage 1) ] [ icon "keyboard_arrow_right" [] ] ]
-
 
 -- NOTE: first/last 2 are duplicates for simplified looping
 colors : List (List Int)

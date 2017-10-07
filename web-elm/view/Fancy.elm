@@ -8,6 +8,28 @@ import Icon exposing (icon)
 flush : Html.Attribute msg
 flush = class "fancy-input--flush"
 
+type TooltipAlignment
+  = Left
+  | Center
+  | Right
+  | Below
+
+alignedTooltip : TooltipAlignment -> String -> Html msg -> Html msg
+alignedTooltip alignment content element =
+  let alignmentStyle = case alignment of
+    Left    -> "left"
+    Right   -> "right"
+    Center  -> "center"
+    Below   -> "below"
+  in
+    div [ class "fancy-tooltip" ]
+      [ div [ class "fancy-tooltip__element" ] [ element ]
+      , div [ class <| "fancy-tooltip__text--" ++ alignmentStyle ] [ text content ] ]
+
+tooltip : String -> Html msg -> Html msg
+tooltip = alignedTooltip Center
+
+-- TODO: formatted input
 input : String -> String -> List (Html.Attribute msg) -> List (Html.Attribute msg) -> Html msg
 input = labelledInput (text "")
 
@@ -51,6 +73,7 @@ buttonWithContent bstyle content attrs =
     FAB     -> "fancy-button--fab"
   in Html.button ([ class style ] ++ attrs) content
 
+-- TODO: multi-state buttons
 type ButtonStyle
   = Primary
   | Flat

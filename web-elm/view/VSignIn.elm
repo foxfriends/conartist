@@ -51,7 +51,7 @@ signInButtons sign_in status =
 signInInfo : Bool -> Status -> List (Html Msg)
 signInInfo sign_in status =
   [ case status of
-      Status.Success str -> div [ class "sign-in__notification sign-in__notification--neutral"] [text str]
+      Status.Success str -> div [ class "sign-in__notification sign-in__notification--neutral" ] [text str]
       Status.Progress _ -> div [ class "sign-in__notification sign-in__notification--neutral" ]
         [ text <| if sign_in then "Signing in..." else "Creating account..." ]
       Status.Failure error -> div [ class "sign-in__notification sign-in__notification--error" ] [text error] ]

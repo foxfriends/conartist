@@ -7,7 +7,6 @@ import Msg exposing (Msg(..))
 import Page exposing (Page(..))
 import Load
 import LocalStorage
-import Emit exposing (..)
 
 matchers : Parser ((Page, Cmd Msg) -> a) a
 matchers =
@@ -15,11 +14,11 @@ matchers =
     [ map (Page.signIn, Cmd.none) top
     , map (Page.signIn, Cmd.none) <| s "sign-in"
     , map (Dashboard, Cmd.none) <| s "dashboard"
-    , map (Page.inventory, emit (inventoryTabChange 0)) <| s "inventory"
+    , map (Page.inventory, Cmd.none) <| s "inventory"
     , map (Page.pricing, Cmd.none) <| s "prices"
-    , map (\s -> (Convention s, Cmd.none)) <| s "conventions" </> string
-    , map (Settings, Cmd.none) <| s "settings"
-    , map (Conventions, Cmd.none) <| s "conventions" ]
+    , map (\code -> (Convention code, Cmd.none)) (s "conventions" </> string)
+    , map (Conventions, Cmd.none) <| s "conventions"
+    , map (Settings, Cmd.none) <| s "settings" ]
 
 parseLocation : Location -> (Page, Cmd Msg)
 parseLocation location = case parsePath matchers location of

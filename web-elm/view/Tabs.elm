@@ -49,7 +49,8 @@ tabsWithFooter footerContents onSwitch attrs contents { current, width } =
               [ class "tabs__indicator"
               , style
                 [ ( "transform"
-                  , "translateX(" ++ toString (width * toFloat current + width / 2) ++ "px) scaleX(" ++ toString width ++ ")" ) ] ] []) ])
+                  -- so idk why there's a -1 but it is off by 1
+                  , "translateX(" ++ toString (width * toFloat current + width / 2 - 1) ++ "px) scaleX(" ++ toString width ++ ")" ) ] ] []) ])
       , K.node "div" [ class "tabs__contents" ]
         ( List.indexedMap
           (\i -> \c -> case c of

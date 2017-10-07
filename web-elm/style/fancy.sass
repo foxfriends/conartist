@@ -71,6 +71,21 @@
   &__label
   &__box
 
+=focus-circle($size: 18px)
+  &:focus::before
+    content: ""
+    position: absolute
+    left: calc(50% - #{$size / 2})
+    top: calc(50% - #{$size / 2})
+    box-sizing: border-box
+    background: transparent
+    border-radius: 100%
+    border: 2px solid $color--divider
+    width: $size
+    height: $size
+    transform-origin: center center
+    animation: pulsate 1s ease-in-out infinite alternate
+
 %round-button
   padding: 0
   width: 40px
@@ -78,6 +93,7 @@
   border-radius: 100%
 
 .fancy-button
+  position: relative
   display: flex
   align-items: center
   justify-content: center
@@ -87,20 +103,11 @@
   padding: 0 16px
   margin: 0 8px
   cursor: pointer
-  &:focus::after
-    content: ""
-    position: absolute
-    background: transparent
-    z-index: -1
-    border-radius: 100%
-    border: 3px solid $color--divider
-    width: 16px
-    height: 16px
-    animation: pulsate 1s ease-in-out infinite alternate
+  border-radius: 20px
+  +focus-circle
   &--primary
     @extend .fancy-button
     +card(1)
-    border-radius: 20px
     transition: box-shadow 0.1s
     border: 1px solid darker($color--primary, 8%)
     +natural-light(lighter($color--primary))
@@ -111,11 +118,11 @@
   &--flat
     @extend .fancy-button
     @extend %flat-clickable
-    border-radius: 20px
   &--icon
     @extend .fancy-button
     @extend %flat-clickable
     @extend %round-button
+    +focus-circle(24px)
   &--fab
     @extend .fancy-button
     @extend %round-button

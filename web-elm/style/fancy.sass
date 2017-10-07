@@ -1,4 +1,5 @@
 @import helper
+@import animations
 
 .fancy-input
   $font-size: 11pt
@@ -84,6 +85,16 @@
   padding: 0 16px
   margin: 0 8px
   cursor: pointer
+  &:focus::after
+    content: ""
+    position: absolute
+    background: transparent
+    z-index: -1
+    border-radius: 100%
+    border: 3px solid $color--divider
+    width: 16px
+    height: 16px
+    animation: pulsate 1s ease-in-out infinite alternate
   &--primary
     @extend .fancy-button
     +card(1)

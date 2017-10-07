@@ -6,7 +6,7 @@ import { emissions } from '../elm';
 
 const PADDING = 16;
 const MAX_WIDTH = 150;
-
+// TODO: this can probably be done using the elm DOM package
 const alignTabIndicator = selectedTab =>
   [...document.querySelectorAll('.tabs')].forEach(tab => {
     const el = tab.querySelectorAll('.tabs__title')[selectedTab];

@@ -10,6 +10,7 @@ import Convention exposing (Convention)
 type alias User =
   { email: String
   , keys: Int
+  -- TODO: these could be made faster using binary trees sorted by id/index
   , products: List Product
   , productTypes: List ProductType
   , prices: List Price
@@ -18,12 +19,12 @@ type alias User =
 decode : Decoder User
 decode =
   Decode.map6 User
-    (Decode.field "email" Decode.string )
-    (Decode.field "keys" Decode.int )
+    (Decode.field "email" Decode.string)
+    (Decode.field "keys" Decode.int)
     (Decode.field "products" (Decode.map (List.map Product.Clean) (Decode.list Product.decode)))
     (Decode.field "types" (Decode.map (List.map ProductType.Clean) (Decode.list ProductType.decode)))
     (Decode.field "prices" (Decode.map (List.map Price.Clean) (Decode.list Price.decode)))
-    (Decode.field "conventions" (Decode.list Convention.decode) )
+    (Decode.field "conventions" (Decode.list Convention.decode))
 
 new : User
 new = User "" 0 [] [] [] []

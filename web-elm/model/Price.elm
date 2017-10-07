@@ -191,17 +191,17 @@ clean _ prices =
 
 validateRequest : List Price -> List ProductType -> List Product -> Result String (List Price)
 validateRequest prices types products =
-  let productName = \id -> products
+  let productName id = products
     |> List.map Product.normalize
-    |>  List_.find (\p -> Just p.id == id)
+    |> List_.find (\p -> Just p.id == id)
     |> Maybe.map (\p -> p.name)
     |> Maybe.withDefault "" in
-  let typeName = \id -> types
+  let typeName id = types
     |> List.map ProductType.normalize
     |> List_.find (\p -> Just p.id == id)
     |> Maybe.map (\p -> p.name)
     |> Maybe.withDefault "" in
-  let validate = \prices -> \bad -> case prices of
+  let validate prices bad = case prices of
     head :: rest ->
       case normalize head of
         Just { type_id, product_id, quantity, price } ->
@@ -222,7 +222,7 @@ validateRequest prices types products =
 
 fillNewTypes : List ProductType.FullType -> List ProductType -> List Price -> List Price
 fillNewTypes updates types prices =
-  let replacement = \i -> types
+  let replacement i = types
     |> List.map ProductType.normalize
     |> List_.find (\t -> t.id == i)
     |> Maybe.andThen (\t -> List_.find (\u -> t.name == u.name) updates)
@@ -239,7 +239,7 @@ fillNewTypes updates types prices =
 
 fillNewProducts : List Product.FullProduct -> List Product -> List Price -> List Price
 fillNewProducts updates products prices =
-  let replacement = \i -> products
+  let replacement i = products
     |> List.map Product.normalize
     |> List_.find (\t -> t.id == i)
     |> Maybe.andThen (\t -> List_.find (\u -> t.name == u.name) updates)

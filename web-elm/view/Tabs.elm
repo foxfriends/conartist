@@ -7,7 +7,6 @@ import Json.Decode as Decode
 import DOM exposing (target, offsetLeft, offsetWidth)
 
 import Icon exposing (icon)
-import Fancy
 
 type TabItem msg
   = Tab String (Html msg)
@@ -23,7 +22,7 @@ tabs = tabsWithFooter []
 
 tabsWithFooter : List (Html msg) -> (TabStatus -> msg) -> List (Html.Attribute msg) -> List (TabItem msg) -> TabStatus -> Html msg
 tabsWithFooter footerContents onSwitch attrs contents { current, width } =
-  let position = \i ->
+  let position i =
     if i < current then "positive"
     else if i > current then "negative"
     else "current"

@@ -91,7 +91,7 @@ requestJson request = Json.object
 
 individualClean : List FullProduct -> Product -> Product
 individualClean updates product =
-  let replaceNew = \p ->
+  let replaceNew p =
     updates
       |> List_.find (\x -> x.name == p.name)
       |> Maybe.map Clean

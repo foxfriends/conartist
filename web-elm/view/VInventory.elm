@@ -9,11 +9,12 @@ import Msg exposing (Msg(..))
 import Tabs exposing (tabsWithFooter, TabItem(..))
 import ProductType exposing (ProductType, FullType)
 import Product exposing (FullProduct)
-import Table exposing (table)
+import Table exposing (tableWithSpacing)
 import Icon exposing (icon)
 import Join exposing (ProductWithType)
 import Page exposing (InventoryPageState)
 import Fancy exposing (ButtonStyle(..))
+import Align exposing (centered)
 
 view : Model -> InventoryPageState -> Html Msg
 view model page =
@@ -30,8 +31,8 @@ inventoryTab : Model -> FullType -> Html Msg
 inventoryTab model pt =
   div
     [ class "inventory__tab" ]
-    [ table []
-      [ "Name", "Quantity", "Discontinue" ]
+    [ tableWithSpacing "1fr 1fr 150px" [] []
+      [ text "Name", text "Quantity", centered <| text "Discontinue" ]
       inventoryRow
       ( Join.productsWithTypes
         (model.user.productTypes
@@ -46,7 +47,7 @@ inventoryRow : ProductWithType -> List (Html Msg)
 inventoryRow { id, name, quantity, product_type, discontinued } =
   [ Fancy.input "" name [] [ type_ "text", onInput (ProductName product_type.id id) ]
   , Fancy.input "" (toString quantity) [] [ type_ "text", onInput (ProductQuantity product_type.id id) ]
-  , Fancy.button Icon (if discontinued then "add_circle_outline" else "remove_circle_outline") [ onClick (ProductDiscontinued product_type.id id) ] ]
+  , centered <| Fancy.button Icon (if discontinued then "add_circle_outline" else "remove_circle_outline") [ onClick (ProductDiscontinued product_type.id id) ] ]
 
 newTabButton : TabItem Msg
 newTabButton = Button ("add", NewProductType)

@@ -1,5 +1,7 @@
 module Tree exposing (..)
 
+-- TODO: use a balanced tree of some sort (that one with the rotating probably)
+
 type Tree a = Root (a -> a -> Order) (InnerTree a)
 
 type InnerTree a

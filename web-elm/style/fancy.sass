@@ -71,21 +71,6 @@
   &__label
   &__box
 
-=focus-circle($size: 18px)
-  &:focus::before
-    content: ""
-    position: absolute
-    left: calc(50% - #{$size / 2})
-    top: calc(50% - #{$size / 2})
-    box-sizing: border-box
-    background: transparent
-    border-radius: 100%
-    border: 2px solid $color--divider
-    width: $size
-    height: $size
-    transform-origin: center center
-    animation: pulsate 1s ease-in-out infinite alternate
-
 %round-button
   padding: 0
   width: 40px

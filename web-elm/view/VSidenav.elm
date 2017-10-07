@@ -6,7 +6,7 @@ import Json.Decode as Decode
 
 import Model exposing (Model)
 import Msg exposing (Msg(..))
-import Lists exposing (list)
+import Lists exposing (list, row, clickable)
 import Routing
 
 navigateTo : String -> List (Html.Attribute Msg)
@@ -44,4 +44,4 @@ view { sidenav_visible } =
 
 navListRow : (List (Html.Attribute Msg), String) -> Html Msg
 navListRow (attrs, title) =
-  a ([ class "ca__nav-link list__row list__row--clickable"] ++ attrs) [text title]
+  a ([ class "ca__nav-link", row] ++ clickable ++ attrs) [text title]

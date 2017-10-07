@@ -22,8 +22,8 @@ view model =
       _         ->
         [ VToolbar.view model
         , div [ class "ca__container" ]
-          [ mainView model
-          , VSidenav.view model ]
+          [ VSidenav.view model
+          , mainView model ]
         , VDialog.view model.dialog
         , VDialog.backdrop model.dialog ]
   in

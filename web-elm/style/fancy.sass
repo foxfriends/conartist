@@ -134,6 +134,7 @@
       &:active
         +card(2)
 
+// TODO: may extend beyond the bottom of the page
 .fancy-select
   position: relative
   display: flex
@@ -188,6 +189,7 @@
     margin-left: auto
     font-size: 105%
 
+// TODO: may extend above the top of the page
 .fancy-menu
   position: relative
   overflow: visible
@@ -224,6 +226,9 @@
       transform: scale(0.25)
       opacity: 0
 
+// NOTE: often has issues with overflow and layering
+         probably unavoidable cleanly
+         menu probably has the same issues
 .fancy-tooltip
   position: relative
   overflow: visible

@@ -1,7 +1,7 @@
 module Fancy exposing (..)
 
 import Html exposing (Html, div, span, label, text)
-import Html.Attributes exposing (class, type_, value)
+import Html.Attributes exposing (class, type_, value, tabindex)
 import Html.Events exposing (onClick, onCheck)
 import Icon exposing (icon)
 
@@ -50,6 +50,7 @@ labelledInput fieldLabel placeholder val baseAttrs inputAttrs =
       , div [ class "fancy-input__underline--primary" ] []
       , div [ class "fancy-input__underline--warn" ] [] ] ]
 
+-- TODO: make this look cool
 checkbox : (Bool -> msg) -> String -> Html msg
 checkbox msg labelText =
   label [ class "fancy-check"]
@@ -90,11 +91,12 @@ select onOpen onSelect nameOf options value open =
   let optionHtml = List.map (\o -> option onSelect (nameOf (Just o)) (Just o) (Just o == value)) options
   in rawSelect onOpen onSelect optionHtml value (nameOf value) open
 
+-- TODO: keyboard controls for select (hover state, select on <Enter>)
 rawSelect : msg -> (Maybe a -> msg) -> List (Html msg) -> Maybe a -> String -> Bool -> Html msg
 rawSelect onOpen onSelect optionHtml value display open =
   let suffix = if open then "--open" else "--closed" in
   div
-    (class "fancy-select" :: (if open then [] else [ onClick onOpen ]))
+    ( class "fancy-select" :: (if open then [] else [ onClick onOpen, tabindex 0 ]) )
     [ div [ class <| "fancy-select__backdrop" ++ suffix, onClick (onSelect Nothing) ] []
     , div [ class <| "fancy-select__value" ++ (if value == Nothing then "--default" else "") ] [ text display ]
     , div [ class <| "fancy-select__options" ++ suffix ] optionHtml ]
@@ -103,6 +105,7 @@ option : (Maybe a -> msg) -> String -> Maybe a -> Bool -> Html msg
 option onSelect name opt isSelected =
   div [ class "fancy-select__option", onClick (onSelect opt) ] [ text name, if isSelected then icon "check" [ class "fancy-select__selected" ] else text "" ]
 
+-- TODO: keyboard controls for menu (hover state, select on <Enter>)
 menu : List (Html.Attribute msg) -> Html msg -> Html msg -> msg -> Bool -> Html msg
 menu attrs anchor contents toClose open =
   div

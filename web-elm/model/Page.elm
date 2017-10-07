@@ -1,5 +1,6 @@
 module Page exposing (..)
 import Status exposing (Status(..))
+import Tabs exposing (TabStatus)
 
 type Page
   = Dashboard
@@ -11,7 +12,7 @@ type Page
   | SignIn SignInPageState
 
 type alias InventoryPageState =
-  { current_tab: Int
+  { current_tab: TabStatus
   , color_picker:
     { open: Bool
     , page: Int } }
@@ -36,8 +37,9 @@ type alias SignInPageState =
 signIn : Page
 signIn = SignIn <| SignInPageState "" "" "" "" False True (Success "")
 
+-- TODO: TabStatus default dimensions should be revisited...
 inventory : Page
-inventory = Inventory <| InventoryPageState 0 { open = False, page = 0 }
+inventory = Inventory <| InventoryPageState (TabStatus 0 150) { open = False, page = 0 }
 
 pricing : Page
 pricing = Pricing <| PricingPageState None

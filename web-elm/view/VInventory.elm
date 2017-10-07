@@ -57,7 +57,7 @@ inventoryFooter model { current_tab, color_picker } =
   case model.user.productTypes
     |> List.map ProductType.normalize
     |> (if model.show_discontinued then identity else List.filter (\t -> not t.discontinued))
-    |> List.drop current_tab
+    |> List.drop current_tab.current
     |> List.head
   of
     Just t ->

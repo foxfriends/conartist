@@ -2,19 +2,17 @@ module UInventory exposing (update)
 import Model exposing (Model)
 import Page exposing (Page(..))
 import Msg exposing (Msg(..))
-import Emit exposing (emit, inventoryTabChange)
 import Product
 import ProductType
 import List_
+import Tabs exposing (TabStatus)
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case model.page of
   Inventory page -> case msg of
     ChangeInventoryTab tab ->
-      ( { model | page = Inventory { page | current_tab = tab } }
-      , emit (inventoryTabChange tab) )
-    DidLoadUser _ ->
-      ( model, emit (inventoryTabChange page.current_tab) )
+      ( { model | page = Inventory { page | current_tab = tab } }, Cmd.none )
+    DidLoadUser _ -> ( model, Cmd.none )
     ProductTypeName id name ->
       let user = model.user in
       let types = user.productTypes in
@@ -39,7 +37,7 @@ update msg model = case model.page of
         | user =
           { user
           | productTypes = List_.filterUpdateAt (\t -> let u = (ProductType.normalize t) in u.id == id) ProductType.toggleDiscontinued types } }
-      in if model.show_discontinued then result ! [] else update (ChangeInventoryTab (page.current_tab - 1)) result
+      in if model.show_discontinued then result ! [] else update (ChangeInventoryTab (TabStatus (page.current_tab.current - 1) page.current_tab.width)) result
     ProductName type_ id name ->
       let user = model.user in
       let products = user.products in
@@ -75,7 +73,7 @@ update msg model = case model.page of
             |> List.filter (\t -> not t.discontinued)
             |> List.length
       in
-      update (ChangeInventoryTab tabIndex) <|
+      update (ChangeInventoryTab <| TabStatus tabIndex page.current_tab.width) <|
         { model
         | user =
           { user
@@ -86,7 +84,7 @@ update msg model = case model.page of
       let type_id = user.productTypes
           |> List.map ProductType.normalize
           |> (if model.show_discontinued then identity else List.filter (\t -> not t.discontinued))
-          |> List.drop page.current_tab
+          |> List.drop page.current_tab.current
           |> List.head
           |> Maybe.map (\t -> t.id)
           |> Maybe.withDefault 0

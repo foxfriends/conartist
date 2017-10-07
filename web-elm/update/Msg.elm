@@ -8,6 +8,7 @@ import Product exposing (FullProduct)
 import ProductType exposing (FullType)
 import Price exposing (FullPrice)
 import User exposing (User)
+import Tabs exposing (TabStatus)
 
 type Msg
   -- sign in
@@ -27,7 +28,7 @@ type Msg
   | OpenKeyPurchase
   | OpenConSignUp
   -- inventory
-  | ChangeInventoryTab Int
+  | ChangeInventoryTab TabStatus
   | ColorPickerPage Int
   | ColorPickerOpen
   | ColorPickerClose

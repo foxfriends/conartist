@@ -1,6 +1,6 @@
 module VDialog exposing (view, backdrop)
 import Html exposing (Html, div, button, text, span)
-import Html.Attributes exposing (class)
+import Html.Attributes exposing (class, id)
 import Html.Events exposing (onClick)
 
 import Fancy exposing (ButtonStyle(..))
@@ -42,4 +42,4 @@ actions : List (Html msg) -> Html msg
 actions = div [ class "dialog__actions" ]
 
 close : Html Msg
-close = Fancy.button Flat "Ok" [ onClick CloseDialog ]
+close = Fancy.button Flat "Ok" [ onClick CloseDialog, id "dialog-focus-target" ]

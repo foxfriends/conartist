@@ -206,12 +206,12 @@ validateRequest prices types products =
       case normalize head of
         Just { type_id, product_id, quantity, price } ->
           let item = (type_id, product_id, quantity) in
-            if quantity == 0 then
+            if type_id == Nothing then
+              Err <| "One of your prices does not have a type set for it! All prices require at least a type to be set."
+            else if quantity == 0 then
               Err <| "There is no quantity set for " ++ productName product_id ++ " " ++ typeName type_id
             else if price < 0 then
               Err <| "The price you have set for " ++ productName product_id ++ " " ++ typeName type_id ++ " is less than $0.00."
-            else if type_id == Nothing then
-              Err <| "One of your prices does not have a type set for it! All prices require at least a type."
             else if List.member item bad then
               Err <| "Two prices set for buying " ++ toString quantity ++ " " ++ productName product_id ++ " " ++ typeName type_id ++ "(s)"
             else

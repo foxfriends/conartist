@@ -70,3 +70,4 @@ type Msg
   | ShowErrorMessage String
   -- other
   | Batch (List Msg)
+  | Ignore

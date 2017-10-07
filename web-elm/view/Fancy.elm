@@ -46,9 +46,9 @@ buttonWithContent : ButtonStyle -> List (Html msg) -> List (Html.Attribute msg) 
 buttonWithContent bstyle content attrs =
   let style = case bstyle of
     Primary -> "fancy-button--primary"
-    Flat -> "fancy-button--flat"
-    Icon -> "fancy-button--icon"
-    FAB -> "fancy-button--fab"
+    Flat    -> "fancy-button--flat"
+    Icon    -> "fancy-button--icon"
+    FAB     -> "fancy-button--fab"
   in Html.button ([ class style ] ++ attrs) content
 
 type ButtonStyle

@@ -22,9 +22,12 @@ update msg model = case model.page of
             ( { model
               | page = Pricing { page | open_selector = None }
               , user = { user
-                | prices = List_.updateAt
+                | prices = List_.flatUpdateAt
                     (\p -> Price.index p == index)
-                    (Price.setTypeId type_id >> Price.setProduct Nothing)
+                    (\p ->
+                      List.filterMap identity
+                        [ Just <| Price.setTypeId type_id <| Price.setProduct Nothing p
+                        , Price.delete (Price.setIndex (List.length prices + 1) p) ] )
                     prices } }
             , Cmd.none )
         Nothing -> ( { model | page = Pricing { page | open_selector = None } }, Cmd.none)
@@ -34,9 +37,12 @@ update msg model = case model.page of
         ( { model
           | page = Pricing { page | open_selector = None }
           , user = { user
-            | prices = List_.updateAt
+            | prices = List_.flatUpdateAt
                 (\p -> Price.index p == index)
-                (Price.setProduct product)
+                (\p ->
+                  List.filterMap identity
+                    [ Just <| Price.setProduct product p
+                    , Price.delete (Price.setIndex (List.length prices + 1) p) ] )
                 prices } }
         , Cmd.none )
     PricingPrice index price ->

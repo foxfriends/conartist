@@ -24,6 +24,14 @@ filterUpdateAt pred fn list = case list of
     else first :: filterUpdateAt pred fn rest
   [] -> []
 
+flatUpdateAt : (a -> Bool) -> (a -> List a) -> List a -> List a
+flatUpdateAt pred fn list = case list of
+  first :: rest -> if pred first then
+      fn first ++ rest
+    else
+      first :: flatUpdateAt pred fn rest
+  [] -> []
+
 updateAtOrInsert : a -> (a -> Bool) -> (a -> a) -> List a -> List a
 updateAtOrInsert default pred fn list = case list of
   first :: rest -> if pred first then (fn first) :: rest else first :: updateAtOrInsert default pred fn rest

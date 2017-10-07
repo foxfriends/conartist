@@ -251,3 +251,10 @@ fillNewProducts updates products prices =
       Clean p -> Clean p
       Dirty p -> Dirty { p | product_id = Maybe.map (\i -> if i > 0 then i else replacement i) p.product_id }
       Deleted p -> Deleted { p | product_id = Maybe.map (\i -> if i > 0 then i else replacement i) p.product_id } )
+
+delete : Price -> Maybe Price
+delete price = case price of
+  New _ -> Nothing
+  Clean p -> Just <| Deleted <| DeletedPrice p.index p.type_id p.product_id
+  Dirty p -> Nothing
+  Deleted _ -> Just price

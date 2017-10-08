@@ -8,3 +8,16 @@ npm-debug.log
 
 .DS_Store
 Thumbs.db
+
+*.cmd
+server/mime
+server/mkdirp
+server/node-pre-gyp
+server/nopt
+server/rc
+server/rimraf
+server/semver
+server/sshpk-conv
+server/sshpk-sign
+server/sshpk-verify
+server/uuid

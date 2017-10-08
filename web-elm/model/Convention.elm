@@ -34,8 +34,8 @@ isDirty con = case con of
     || (foldl (\c -> \p -> p || Price.isDirty c) False con.prices)
     || (foldl (\c -> \p -> p || Product.isDirty c) False con.products)
 
-decode : Decoder Convention
-decode = Decode.map (\a -> Meta a) <|
+decode : Decoder MetaConvention
+decode =
   Decode.map4 MetaConvention
     (Decode.field "title" Decode.string)
     (Decode.field "code" Decode.string)

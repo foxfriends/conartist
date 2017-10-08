@@ -464,6 +464,11 @@ function getConventions(page, limit) {
         try {
             const { rows: raw_cons } = yield query(sql_template_strings_1.default `SELECT code, title, start_date, end_date FROM Conventions WHERE start_date > ${new Date()}`
                 .append(limit ? sql_template_strings_1.default `LIMIT ${limit} OFFSET ${page * limit}` : sql_template_strings_1.default ``));
+            let pages = 1;
+            if (limit) {
+                const { rows: [{ count }] } = yield query(sql_template_strings_1.default `SELECT count(*) / ${limit} as count FROM Conventions WHERE start_date > ${new Date()}`);
+                pages = count;
+            }
             const cons = raw_cons.map((_) => ({
                 type: 'meta',
                 title: _.title,
@@ -471,7 +476,11 @@ function getConventions(page, limit) {
                 start: new Date(_.start_date),
                 end: new Date(_.end_date),
             }));
-            return cons;
+            return {
+                data: cons,
+                page,
+                pages: +pages,
+            };
         }
         catch (error) {
             throw error;

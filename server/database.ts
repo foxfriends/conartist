@@ -493,13 +493,20 @@ async function getUser(user_id: number): Promise<Pick<db.User, 'email' | 'keys'>
   return { ...user, keys: user.keys - rowCount };
 }
 
-async function getConventions(page: number, limit: number): Promise<ca.MetaConvention[]> {
+async function getConventions(page: number, limit: number): Promise<ca.Pagination<ca.MetaConvention>> {
   const client = await connect();
   try {
     const { rows: raw_cons } = await query<Pick<db.Convention, 'code' | 'title' | 'start_date' | 'end_date'>>(
       SQL`SELECT code, title, start_date, end_date FROM Conventions WHERE start_date > ${new Date()}`
         .append(limit ? SQL`LIMIT ${limit} OFFSET ${page * limit}` : SQL``)
     );
+    let pages = 1;
+    if(limit) {
+      const { rows: [ { count } ] } = await query<{ count: number }>(
+        SQL`SELECT count(*) / ${limit} as count FROM Conventions WHERE start_date > ${new Date()}`
+      );
+      pages = count;
+    }
     const cons = raw_cons.map((_): ca.MetaConvention => ({
       type: 'meta',
       title: _.title,
@@ -507,7 +514,11 @@ async function getConventions(page: number, limit: number): Promise<ca.MetaConve
       start: new Date(_.start_date),
       end: new Date(_.end_date),
     }));
-    return cons;
+    return {
+      data: cons,
+      page,
+      pages: +pages,
+    };
   } catch(error) {
     throw error;
   } finally {

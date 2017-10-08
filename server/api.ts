@@ -13,10 +13,10 @@ type JWT = string;
 
 type Params = {
   con_code: string;
-  extend?: boolean;
+  extend?: string;
   usr: string;
-  page?: number;
-  limit?: number;
+  page?: string;
+  limit?: string;
 };
 
 type User = {
@@ -138,8 +138,8 @@ api.get('/cons/:page?/:limit?', assert_authorized(), async (req, res) => {
   res.set('Expires', '0');
   try {
     const { page, limit } = req.params as Pick<Params, 'page' | 'limit'>;
-    const data = await db.getConventions(page || 0, limit || 0);
-    res.send(JSON.stringify({ status: 'Success', data } as ca.APISuccessResult<ca.MetaConvention[]>));
+    const data = await db.getConventions(page ? +page : 0, limit ? +limit : 0);
+    res.send(JSON.stringify({ status: 'Success', data } as ca.APISuccessResult<ca.Pagination<ca.MetaConvention>>));
   } catch(error) {
     console.error(error);
     res.send(JSON.stringify({ status: 'Error', error: error.message } as ca.APIErrorResult));
@@ -171,7 +171,7 @@ api.get('/con/:con_code/:extend?', assert_authorized(), async (req, res) => {
     const { con_code, extend } = req.params as Pick<Params, 'con_code' | 'extend'>;
     const { usr: user_id } = req.user as User;
     let data = await db.getConInfo(user_id, con_code);
-    if(extend) {
+    if(extend === 'true') {
       const products = await db.getUserProducts(user_id, true);
       const prices = await db.getUserPrices(user_id);
       const types = await db.getUserTypes(user_id, true);

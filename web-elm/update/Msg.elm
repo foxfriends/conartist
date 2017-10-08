@@ -3,10 +3,11 @@ import Http
 import Date exposing (Date)
 import Navigation exposing (Location)
 
-import ConRequest exposing (ConRequest)
+import ConRequest exposing (ConRequest, Pagination)
 import Product exposing (FullProduct)
 import ProductType exposing (FullType)
 import Price exposing (FullPrice)
+import Convention exposing (MetaConvention)
 import User exposing (User)
 import Tabs exposing (TabStatus)
 
@@ -26,7 +27,7 @@ type Msg
   | DidCheckExistingEmail (Result Http.Error (ConRequest Bool))
   -- dashboard
   | OpenKeyPurchase
-  | OpenConSignUp
+  | OpenChooseConvention
   -- inventory
   | ChangeInventoryTab TabStatus
   | ColorPickerPage Int
@@ -51,6 +52,7 @@ type Msg
   | SelectProduct Int
   -- loading
   | DidLoadUser (Result Http.Error (ConRequest User))
+  | DidLoadChooseConvention (Result Http.Error (ConRequest (Pagination MetaConvention)))
   -- saving
   | SaveProducts
   | SavePrices
@@ -66,8 +68,10 @@ type Msg
   | DidNav Location
   | SetDate Date
   | ToggleSidenav
+  -- dialog
   | CloseDialog
   | EmptyDialog
+  | DialogPage Int
   | ShowErrorMessage String
   -- other
   | Batch (List Msg)

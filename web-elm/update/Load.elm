@@ -5,10 +5,16 @@ import Model exposing (Model)
 import Msg exposing (Msg(..))
 import ConRequest exposing (ConRequest(..))
 import User
+import Dialog exposing (Dialog(..))
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case msg of
   DidLoadUser (Ok (Success user)) -> ({ model | user = user }, Cmd.none)
+  DidLoadChooseConvention (Ok (Success { data, page, pages })) ->
+    case model.dialog of
+      Loading (ChooseConvention _ _ _) -> ({ model | dialog = Debug.log "cc" <| ChooseConvention data pages page }, Cmd.none)
+      ChooseConvention _ _ _ -> ({ model | dialog = Debug.log "cc" <| ChooseConvention data pages page }, Cmd.none)
+      _ -> (model, Cmd.none)
   _ -> (model, Cmd.none)
 
 user : Model -> Cmd Msg

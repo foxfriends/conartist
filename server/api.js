@@ -109,7 +109,7 @@ api.get('/cons/:page?/:limit?', assert_authorized(), (req, res) => __awaiter(thi
     res.set('Expires', '0');
     try {
         const { page, limit } = req.params;
-        const data = yield db.getConventions(page || 0, limit || 0);
+        const data = yield db.getConventions(page ? +page : 0, limit ? +limit : 0);
         res.send(JSON.stringify({ status: 'Success', data }));
     }
     catch (error) {
@@ -142,7 +142,7 @@ api.get('/con/:con_code/:extend?', assert_authorized(), (req, res) => __awaiter(
         const { con_code, extend } = req.params;
         const { usr: user_id } = req.user;
         let data = yield db.getConInfo(user_id, con_code);
-        if (extend) {
+        if (extend === 'true') {
             const products = yield db.getUserProducts(user_id, true);
             const prices = yield db.getUserPrices(user_id);
             const types = yield db.getUserTypes(user_id, true);

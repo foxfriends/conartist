@@ -1,4 +1,4 @@
-module Card exposing (card, cardWithHeader)
+module Card exposing (card, cardWithHeader, placeholder)
 import Html exposing (Html, div, button, text, span)
 import Html.Attributes exposing (class)
 
@@ -11,3 +11,6 @@ cardWithHeader header attrs contents actions =
     [ div [ class "card__title" ] header
     , div [ class "card__content" ] contents
     , div [ class "card__actions" ] actions ]
+
+placeholder : Html.Attribute msg
+placeholder = class "card__placeholder"

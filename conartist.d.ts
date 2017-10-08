@@ -172,4 +172,10 @@ declare namespace ca {
     types: ProductTypes;
     conventions: Conventions;
   };
+
+  export type Pagination<T> = {
+    data: T[];
+    page: number;
+    pages: number;
+  };
 }

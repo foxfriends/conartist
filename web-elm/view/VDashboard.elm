@@ -23,11 +23,16 @@ view model =
     div
       [ class "dashboard" ]
       [ cardWithHeader cardHeader [ class "dashboard__card" ]
-        [ titledList "Current" conListRow sorted.current
-        , titledList "Upcoming" conListRow sorted.upcoming
-        , titledList "Previous" conListRow sorted.previous ]
+        ( if isEmpty model.user.conventions then
+            [ div
+              [ Card.placeholder ]
+              [ text "You haven't signed up for any conventions yet!" ] ]
+          else
+            [ titledList "Current" conListRow sorted.current
+            , titledList "Upcoming" conListRow sorted.upcoming
+            , titledList "Previous" conListRow sorted.previous ] )
         [ Fancy.button Primary "Buy a key" [ onClick OpenKeyPurchase ]
-        , Fancy.button Primary "Add a convention" [ onClick OpenConSignUp ] ] ]
+        , Fancy.button Primary "Add a convention" [ onClick OpenChooseConvention ] ] ]
 
 conListRow : MetaConvention -> Html Msg
 conListRow con = let { code, name, start, end } = con in

@@ -40,8 +40,8 @@ view { sidenav_visible } =
     , (doSignOut, "Sign Out") ] in
   div [ class "sidenav"]
     [ div [ class <| "sidenav__backdrop" ++ visibility, onClick ToggleSidenav ] []
-    , div [ class <| "sidenav__content" ++ visibility ] [ list navListRow items ] ]
+    , div [ class <| "sidenav__content" ++ visibility ] [ list (uncurry navListRow) items ] ]
 
-navListRow : (List (Html.Attribute Msg), String) -> Html Msg
-navListRow (attrs, title) =
+navListRow : List (Html.Attribute Msg) -> String -> Html Msg
+navListRow attrs title =
   a ([ class "ca__nav-link", row] ++ clickable ++ attrs) [text title]

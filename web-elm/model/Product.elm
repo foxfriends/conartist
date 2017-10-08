@@ -93,7 +93,7 @@ individualClean : List FullProduct -> Product -> Product
 individualClean updates product =
   let replaceNew p =
     updates
-      |> List_.find (\x -> x.name == p.name)
+      |> List_.find (\x -> x.name == p.name && x.type_id == p.type_id)
       |> Maybe.map Clean
       |> Maybe.withDefault (New p)
   in

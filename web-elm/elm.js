@@ -1,5 +1,4 @@
 import { Main } from './Main.elm';
-import { Subject } from 'rxjs/Subject';
 
 const app = Main.fullscreen();
 

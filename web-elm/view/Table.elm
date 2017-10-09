@@ -1,4 +1,4 @@
-module Table exposing (table, tableWithFooter, tableWithSpacing)
+module Table exposing (table, tableWithFooter, tableWithSpacing, tableHeader, tableRow)
 import Html exposing (Html, div, text)
 import Html.Attributes exposing (class, style)
 
@@ -25,3 +25,18 @@ tableWithSpacing spacing footerContents attrs columnHeaders columns data =
         ( (List.map headerColumn columnHeaders) ++ List.map column (List.concatMap columns data) )
       ]
     ++ if List.isEmpty footerContents then [] else [ div [ class "table__footer" ] footerContents ] )
+
+tableHeader : List String -> Html msg
+tableHeader titles =
+  let spacing = (String.repeat (List.length titles) "1fr ") in
+  div
+    [ class "table", style [ ("grid-template-columns", spacing ) ] ]
+    (List.map (headerColumn << text) titles)
+
+tableRow : (a -> List (Html msg)) -> a -> Html msg
+tableRow fn data =
+  let result = List.map column <| fn data in
+  let spacing = (String.repeat (List.length result) "1fr ") in
+    div
+      [ class "table", style [ ("grid-template-columns", spacing ) ] ]
+      result

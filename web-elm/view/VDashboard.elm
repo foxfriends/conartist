@@ -37,9 +37,9 @@ view model =
         , Fancy.button Primary "Add a convention" [ onClick OpenChooseConvention ] ] ]
 
 conListRow : MetaConvention -> Html Msg
-conListRow con = let { code, name, start, end } = con in
+conListRow { code, name, start, end } =
   div
-    [ class "list__row list__row--clickable", onClick (DoNav (conventionPath code)) ]
+    ([ Lists.row, onClick (DoNav (conventionPath code)) ] ++ Lists.clickable)
     [ span [ class "list__column" ] [ text name ]
     , span [ class "list__column" ] [ text code ]
     , span [ class "list__column" ] [ text <| (Convention.formatDate start) ++ "–" ++ (Convention.formatDate end) ] ]

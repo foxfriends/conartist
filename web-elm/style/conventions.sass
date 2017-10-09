@@ -1,1 +1,11 @@
 .conventions
+  @extend .pricing
+  &__placeholder
+    color: $color--placeholder
+  &__list
+    @extend .pricing__table
+  &__footer
+    @extend .tabs__footer
+  &__row
+    &--clickable
+      @extend %flat-clickable

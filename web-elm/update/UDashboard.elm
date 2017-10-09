@@ -13,9 +13,11 @@ update msg model =
   case msg of
     AddConvention con ->
       let user = model.user in
-      { model | user =  { user
-                        | conventions = Meta con :: user.conventions
-                        , keys = user.keys - 1 } } ! [ purchaseConvention model con.code ]
+      if user.keys > 0 then
+        { model | user =  { user
+                          | conventions = Meta con :: user.conventions
+                          , keys = user.keys - 1 } } ! [ purchaseConvention model con.code ]
+      else model ! [] -- silent fail because the button should be disabled
     _ -> model ! []
 
 purchaseConvention : Model -> String -> Cmd Msg

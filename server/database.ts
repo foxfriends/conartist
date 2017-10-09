@@ -493,11 +493,15 @@ async function getUser(user_id: number): Promise<Pick<db.User, 'email' | 'keys'>
   return { ...user, keys: user.keys - rowCount };
 }
 
-async function getConventions(page: number, limit: number): Promise<ca.Pagination<ca.MetaConvention>> {
+async function getConventions(user_id: number, page: number, limit: number): Promise<ca.Pagination<ca.MetaConvention>> {
   const client = await connect();
   try {
     const { rows: raw_cons } = await query<Pick<db.Convention, 'code' | 'title' | 'start_date' | 'end_date'>>(
-      SQL`SELECT code, title, start_date, end_date FROM Conventions WHERE start_date > ${new Date()}`
+      SQL`
+        SELECT code, title, start_date, end_date
+        FROM Conventions c
+        WHERE start_date > ${new Date()}
+        AND NOT EXISTS (SELECT 1 FROM User_Conventions u WHERE u.user_id = ${user_id} AND u.con_id = c.con_id)`
         .append(limit ? SQL`LIMIT ${limit} OFFSET ${page * limit}` : SQL``)
     );
     let pages = 1;

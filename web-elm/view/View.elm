@@ -24,7 +24,7 @@ view model =
         , div [ class "ca__container" ]
           [ VSidenav.view model
           , mainView model ]
-        , VDialog.view model.dialog
+        , VDialog.view model model.dialog
         , VDialog.backdrop model.dialog ]
   in
     div [ class "ca" ] content

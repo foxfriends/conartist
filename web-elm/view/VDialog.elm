@@ -10,18 +10,19 @@ import Icon exposing (icon)
 import Table exposing (tableWithSpacing)
 import Convention exposing (MetaConvention)
 import Align exposing (centered)
+import Model exposing (Model)
 
-view : Dialog -> Html Msg
-view dialog =
+view : Model -> Dialog -> Html Msg
+view model dialog =
   -- TODO: this getting ugly
   case dialog of
-    Closed (ChooseConvention data) -> div [ class "dialog--wide dialog--closed" ] (innerView (ChooseConvention data))
-    Closed inner -> div [ class "dialog--closed" ] (innerView inner)
-    Loading (ChooseConvention data) -> div [ class "dialog--wide dialog--loading" ] (innerView (ChooseConvention data))
-    Loading inner -> div [ class "dialog--loading" ] (innerView inner)
+    Closed (ChooseConvention data) -> div [ class "dialog--wide dialog--closed" ] (innerView model (ChooseConvention data))
+    Closed inner -> div [ class "dialog--closed" ] (innerView model inner)
+    Loading (ChooseConvention data) -> div [ class "dialog--wide dialog--loading" ] (innerView model (ChooseConvention data))
+    Loading inner -> div [ class "dialog--loading" ] (innerView model inner)
+    ChooseConvention _ -> div [ class "dialog--wide" ] (innerView model dialog)
     None -> div [ class "dialog--empty" ] []
-    ChooseConvention _ -> div [ class "dialog--wide" ] (innerView dialog)
-    _ -> div [ class "dialog" ] (innerView dialog)
+    _ -> div [ class "dialog" ] (innerView model dialog)
 
 backdrop : Dialog -> Html msg
 backdrop dialog =
@@ -30,8 +31,8 @@ backdrop dialog =
     None -> div [ class "dialog__backdrop" ] []
     _ -> div [ class "dialog__backdrop--open" ] []
 
-innerView : Dialog -> List (Html Msg)
-innerView dialog =
+innerView : Model -> Dialog -> List (Html Msg)
+innerView model dialog =
   case dialog of
     Error msg ->
       [ title [ class "dialog__title--warn" ] [ icon "error" [ class "dialog__title-icon" ], text "Oh no" ]
@@ -39,7 +40,7 @@ innerView dialog =
       , actions [ cancel ] ]
     ChooseConvention data ->
       [ title [ class "dialog__title" ] [ text "Choose a convention" ]
-      , content [ chooseConventionList data ] -- TODO
+      , content [ chooseConventionList model.user.keys data ] -- TODO
       , actions <| [ cancel ] ]
     _ -> [ text "" ]
 
@@ -66,14 +67,20 @@ chooseConventionControls pages page =
     , text <| toString (page + 1) ++ " of " ++ toString (pages + 1)
     , next (page == pages) ]
 
-chooseConventionList : ChooseConvention_ -> Html Msg
-chooseConventionList { cons, pages, page } =
-  tableWithSpacing "1fr 1fr 1fr 70px" (chooseConventionControls pages page) [] [ text "Name", text "Code", text "Date", text "" ] conventionRow cons
+chooseConventionList : Int -> ChooseConvention_ -> Html Msg
+chooseConventionList keys { cons, pages, page } =
+  tableWithSpacing "1fr 1fr 1fr 70px" (chooseConventionControls pages page) [] [ text "Name", text "Code", text "Date", text "" ] (conventionRow keys) cons
 
-conventionRow : MetaConvention -> List (Html Msg)
-conventionRow con =
+conventionRow : Int -> MetaConvention -> List (Html Msg)
+conventionRow keys con =
   let { name, code, start, end } = con in
     [ text name
     , span [ class "choose-convention__placeholder" ] [ text code ]
     , span [ class "choose-convention__date" ] [ text <| (Convention.formatDate start) ++ "–" ++ (Convention.formatDate end) ]
-    , centered <| Fancy.button Icon "check" [ onClick <| Batch [AddConvention con, CloseDialog] ] ]
+    , centered <|
+        -- TODO: transition button to close on hover?
+        let button = Fancy.button Icon "check" [ disabled (keys <= 0) , onClick <| Batch [AddConvention con, CloseDialog] ]
+        in if keys <= 0 then
+          Fancy.tooltip "Buy more keys first!" button
+        else
+          button ]

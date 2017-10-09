@@ -109,7 +109,8 @@ api.get('/cons/:page?/:limit?', assert_authorized(), (req, res) => __awaiter(thi
     res.set('Expires', '0');
     try {
         const { page, limit } = req.params;
-        const data = yield db.getConventions(page ? +page : 0, limit ? +limit : 0);
+        const { usr } = req.user;
+        const data = yield db.getConventions(usr, page ? +page : 0, limit ? +limit : 0);
         res.send(JSON.stringify({ status: 'Success', data }));
     }
     catch (error) {

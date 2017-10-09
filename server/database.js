@@ -458,11 +458,15 @@ function getUser(user_id) {
     });
 }
 exports.getUser = getUser;
-function getConventions(page, limit) {
+function getConventions(user_id, page, limit) {
     return __awaiter(this, void 0, void 0, function* () {
         const client = yield connect();
         try {
-            const { rows: raw_cons } = yield query(sql_template_strings_1.default `SELECT code, title, start_date, end_date FROM Conventions WHERE start_date > ${new Date()}`
+            const { rows: raw_cons } = yield query(sql_template_strings_1.default `
+        SELECT code, title, start_date, end_date
+        FROM Conventions c
+        WHERE start_date > ${new Date()}
+        AND NOT EXISTS (SELECT 1 FROM User_Conventions u WHERE u.user_id = ${user_id} AND u.con_id = c.con_id)`
                 .append(limit ? sql_template_strings_1.default `LIMIT ${limit} OFFSET ${page * limit}` : sql_template_strings_1.default ``));
             let pages = 1;
             if (limit) {

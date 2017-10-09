@@ -1,5 +1,5 @@
 module VDashboard exposing (view)
-import Html exposing (Html, div, button, text, span)
+import Html exposing (Html, div, text, span)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
 import Date exposing (Date)

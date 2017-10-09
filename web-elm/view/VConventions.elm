@@ -1,6 +1,6 @@
 module VConventions exposing (view)
-import Html exposing (Html, div, button, text, span)
-import Html.Attributes exposing (class)
+import Html exposing (Html, div, text, span)
+import Html.Attributes exposing (class, tabindex)
 import Html.Events exposing (onClick)
 
 import Model exposing (Model)
@@ -23,7 +23,7 @@ view model =
 conListRow : MetaConvention -> Html Msg
 conListRow con =
   div
-    [ onClick (DoNav (conventionPath con.code)), class "conventions__row--clickable" ]
+    [ onClick (DoNav (conventionPath con.code)), class "conventions__row--clickable", tabindex 0 ]
     [ tableRow conTableRow con ]
 
 conTableRow : MetaConvention -> List (Html msg)

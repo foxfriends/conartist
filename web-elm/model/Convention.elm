@@ -2,6 +2,7 @@ module Convention exposing (..)
 import Json.Decode as Decode exposing (Decoder)
 import List exposing (foldl)
 import Date exposing (Date)
+import Date.Extra as Date exposing (toFormattedString)
 
 import Product exposing (Product)
 import Price exposing (Price)
@@ -29,10 +30,7 @@ type Convention
 isDirty : Convention -> Bool
 isDirty con = case con of
   Meta _ -> False
-  Full con ->
-       (foldl (\c -> \p -> p || ProductType.isDirty c) False con.productTypes)
-    || (foldl (\c -> \p -> p || Price.isDirty c) False con.prices)
-    || (foldl (\c -> \p -> p || Product.isDirty c) False con.products)
+  Full _ -> False
 
 decode : Decoder MetaConvention
 decode =
@@ -49,3 +47,6 @@ asMeta : Convention -> MetaConvention
 asMeta con = case con of
   Meta con -> con
   Full con -> MetaConvention con.name con.code con.start con.end
+
+formatDate : Date -> String
+formatDate = toFormattedString "MMM d, y"

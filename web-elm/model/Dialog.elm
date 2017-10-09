@@ -3,7 +3,12 @@ import Convention exposing (MetaConvention)
 
 type Dialog
   = Error String
-  | ChooseConvention (List MetaConvention) Int Int
+  | ChooseConvention ChooseConvention_
   | Loading Dialog
   | Closed Dialog
   | None
+
+type alias ChooseConvention_ =
+  { cons: (List MetaConvention)
+  , pages: Int
+  , page: Int }

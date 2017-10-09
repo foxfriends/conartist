@@ -16,12 +16,12 @@ update msg model = case msg of
   CloseDialog -> ({ model | dialog = Closed model.dialog }, after 300 millisecond EmptyDialog)
   EmptyDialog -> ({ model | dialog = None }, Cmd.none)
   ShowErrorMessage err -> ({ model | dialog = Error err }, focusClose)
-  OpenChooseConvention -> ({ model | dialog = Loading (ChooseConvention [] 0 0) }, Cmd.batch [ focusClose, loadConventions model 0 ])
+  OpenChooseConvention -> ({ model | dialog = Loading (ChooseConvention { cons = [], pages = 0, page = 0 }) }, Cmd.batch [ focusClose, loadConventions model 0 ])
   DialogPage offset ->
     case model.dialog of
-      ChooseConvention cons pages page ->
+      ChooseConvention { cons, pages, page } ->
         ( { model
-          | dialog = ChooseConvention cons pages (page + offset) }, loadConventions model (page + offset))
+          | dialog = ChooseConvention { cons = cons, pages = pages, page = (page + offset) } }, loadConventions model (page + offset))
       _ -> model ! []
   _ -> model ! []
 

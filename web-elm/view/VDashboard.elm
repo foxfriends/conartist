@@ -3,7 +3,7 @@ import Html exposing (Html, div, button, text, span)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
 import Date exposing (Date)
-import Date.Extra as Date exposing (isBetween, toFormattedString)
+import Date.Extra as Date
 import List exposing (map, filter, isEmpty, foldl)
 
 import Model exposing (Model)
@@ -18,8 +18,10 @@ import Lists exposing (titledList)
 view : Model -> Html Msg
 view model =
   let sorted = splitByDate model.now (map Convention.asMeta model.user.conventions) in
-  let cardHeader = [ text "Conventions"
-                   , span [ class "dashboard__keys" ] [ Fancy.buttonWithContent Flat [ icon "vpn_key" [], text << toString <| model.user.keys ] [] ] ] in
+  let cardHeader =
+    [ text "Conventions"
+    , span [ class "dashboard__keys" ] [ Fancy.buttonWithContent Flat [ icon "vpn_key" [], text << toString <| model.user.keys ] [] ] ]
+  in
     div
       [ class "dashboard" ]
       [ cardWithHeader cardHeader [ class "dashboard__card" ]
@@ -40,10 +42,7 @@ conListRow con = let { code, name, start, end } = con in
     [ class "list__row list__row--clickable", onClick (DoNav (conventionPath code)) ]
     [ span [ class "list__column" ] [ text name ]
     , span [ class "list__column" ] [ text code ]
-    , span [ class "list__column" ] [ text <| (formatConDate start) ++ "–" ++ (formatConDate end) ] ]
-
-formatConDate : Date -> String
-formatConDate = toFormattedString "MMM d, y"
+    , span [ class "list__column" ] [ text <| (Convention.formatDate start) ++ "–" ++ (Convention.formatDate end) ] ]
 
 type alias SortedConventions =
   { previous: List MetaConvention

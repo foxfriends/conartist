@@ -13,9 +13,11 @@
   opacity: 1
   transform: translate(-50%, -50%) rotateX(0)
   transition: transform 0.3s, opacity 0.3s
+  &--wide
+    @extend .dialog
+    width: 800px
   &--loading
     @extend .dialog
-
   &--closed
     @extend .dialog
     opacity: 0
@@ -42,3 +44,8 @@
     &--open
       @extend .sidenav__backdrop--open
       cursor: auto
+
+.choose-convention
+  &__placeholder
+    color: $color--placeholder
+  &__date

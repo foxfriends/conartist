@@ -4,8 +4,10 @@ import Http
 import Model exposing (Model)
 import Msg exposing (Msg(..))
 import ConRequest exposing (ConRequest(..))
-import User
 import Dialog exposing (Dialog(..))
+import Convention exposing (asMeta, Convention(Full))
+import User
+import List_
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case msg of
@@ -14,6 +16,10 @@ update msg model = case msg of
     case model.dialog of
       ChooseConvention _ -> ({ model | dialog = ChooseConvention { cons = data, pages = pages, page = page } }, Cmd.none)
       _ -> (model, Cmd.none)
+  DidLoadConvention (Ok (Success con)) ->
+    let user = model.user in
+    let conventions = List_.updateAt (\c -> (asMeta c).code == con.code) (always (Full con)) user.conventions in
+      ({ model | user = { user | conventions = conventions } }, Cmd.none)
   _ -> (model, Cmd.none)
 
 user : Model -> Cmd Msg

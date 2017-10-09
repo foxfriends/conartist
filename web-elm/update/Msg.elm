@@ -7,7 +7,7 @@ import ConRequest exposing (ConRequest, Pagination)
 import Product exposing (FullProduct)
 import ProductType exposing (FullType)
 import Price exposing (FullPrice)
-import Convention exposing (MetaConvention)
+import Convention exposing (MetaConvention, FullConvention)
 import User exposing (User)
 import Tabs exposing (TabStatus)
 
@@ -52,9 +52,11 @@ type Msg
   | PricingRemove Int
   | SelectProductType Int
   | SelectProduct Int
+  -- conventions
   -- loading
   | DidLoadUser (Result Http.Error (ConRequest User))
   | DidLoadChooseConvention (Result Http.Error (ConRequest (Pagination MetaConvention)))
+  | DidLoadConvention (Result Http.Error (ConRequest FullConvention))
   -- saving
   | SaveProducts
   | SavePrices

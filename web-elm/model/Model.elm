@@ -1,6 +1,7 @@
 module Model exposing (..)
 import List exposing (foldl)
 import Date exposing (Date)
+import Navigation exposing (Location)
 
 import Product
 import Price
@@ -17,7 +18,8 @@ type alias Model =
   , dialog: Dialog
   , now: Date
   , show_discontinued: Bool
-  , sidenav_visible: Bool }
+  , sidenav_visible: Bool
+  , location: Maybe Location }
 
 isDirty : Model -> Bool
 isDirty { user } =

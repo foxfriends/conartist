@@ -18,8 +18,6 @@ view model dialog =
   case dialog of
     Closed (ChooseConvention data) -> div [ class "dialog--wide dialog--closed" ] (innerView model (ChooseConvention data))
     Closed inner -> div [ class "dialog--closed" ] (innerView model inner)
-    Loading (ChooseConvention data) -> div [ class "dialog--wide dialog--loading" ] (innerView model (ChooseConvention data))
-    Loading inner -> div [ class "dialog--loading" ] (innerView model inner)
     ChooseConvention _ -> div [ class "dialog--wide" ] (innerView model dialog)
     None -> div [ class "dialog--empty" ] []
     _ -> div [ class "dialog" ] (innerView model dialog)

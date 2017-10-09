@@ -8,6 +8,7 @@ import Convention exposing (Convention, MetaConvention)
 import Msg exposing (Msg(..))
 import Routing exposing (conventionPath)
 import Table exposing (tableHeader, tableRow)
+import Fancy exposing (ButtonStyle(..), TooltipAlignment(..))
 
 view : Model -> Html Msg
 view model =
@@ -31,5 +32,5 @@ conTableRow { name, code, start, end } =
   , span [ class "conventions__placeholder" ] [ text code ]
   , text <| (Convention.formatDate start) ++ "–" ++ (Convention.formatDate end) ]
 
-footer : Model -> List (Html msg)
-footer _ = []
+footer : Model -> List (Html Msg)
+footer _ = [ Fancy.alignedTooltip Right "Add a convention" <| Fancy.button Icon "add" [ onClick OpenChooseConvention ] ]

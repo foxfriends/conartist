@@ -6,7 +6,6 @@ import Msg exposing (Msg(..))
 import Load
 import Save
 import USignIn
-import UDashboard
 import UInventory
 import UPricing
 import Routing
@@ -32,6 +31,5 @@ update msg model =
   |> continue UDialog.update msg
   |> continue Routing.update msg
   |> continue USignIn.update msg
-  |> continue UDashboard.update msg
   |> continue UInventory.update msg
   |> continue UPricing.update msg

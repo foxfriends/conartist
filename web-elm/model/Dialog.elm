@@ -4,7 +4,6 @@ import Convention exposing (MetaConvention)
 type Dialog
   = Error String
   | ChooseConvention ChooseConvention_
-  | Loading Dialog
   | Closed Dialog
   | None
 

@@ -12,7 +12,6 @@ update msg model = case msg of
   DidLoadUser (Ok (Success user)) -> ({ model | user = user }, Cmd.none)
   DidLoadChooseConvention (Ok (Success { data, page, pages })) ->
     case model.dialog of
-      Loading (ChooseConvention _) -> ({ model | dialog = ChooseConvention { cons = data, pages = pages, page = page } }, Cmd.none)
       ChooseConvention _ -> ({ model | dialog = ChooseConvention { cons = data, pages = pages, page = page } }, Cmd.none)
       _ -> (model, Cmd.none)
   _ -> (model, Cmd.none)

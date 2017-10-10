@@ -3,7 +3,8 @@ import Status exposing (Status(..))
 import Tabs exposing (TabStatus)
 
 type Page
-  = Dashboard
+  = Loading
+  | Dashboard
   | Inventory InventoryPageState
   | Pricing PricingPageState
   | Conventions

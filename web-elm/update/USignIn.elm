@@ -2,6 +2,7 @@ module USignIn exposing (update)
 import Http
 import Json.Decode as Decode
 import Json.Encode as Json
+import Navigation exposing (newUrl)
 
 import Model exposing (Model)
 import Msg exposing (Msg(..))
@@ -10,6 +11,7 @@ import Status exposing (Status(..))
 import Load
 import ConRequest
 import LocalStorage
+import Routing exposing (dashboardPath)
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case model.page of
@@ -46,7 +48,8 @@ update msg model = case model.page of
         in
           (newmodel
           , Cmd.batch
-            [ Load.user newmodel
+            [ newUrl dashboardPath
+            , Load.user newmodel
             , LocalStorage.set ("authtoken", authtoken) ] )
       DidSignIn (Ok (ConRequest.Failure error)) ->
         ( { model | page = SignIn { page | status = Failure error } }

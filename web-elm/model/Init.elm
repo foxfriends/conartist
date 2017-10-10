@@ -10,22 +10,11 @@ import User
 import Page
 import Dialog exposing (Dialog(..))
 
-stub : Model
-stub =
-  { user = User.new
-  , authtoken = ""
-  , page = Page.signIn
-  , dialog = None
-  , now = Date.fromTime 0
-  , show_discontinued = False
-  , sidenav_visible = False
-  , location = Nothing}
-
 init : Location -> (Model, Cmd Msg)
 init loc =
   { user = User.new
   , authtoken = ""
-  , page = Page.signIn
+  , page = Page.Loading
   , dialog = None
   , now = Date.fromTime 0
   , show_discontinued = False

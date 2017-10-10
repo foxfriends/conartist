@@ -9,6 +9,7 @@ import Msg exposing (Msg(..))
 import Routing exposing (conventionPath)
 import Table exposing (tableHeader, tableRow)
 import Fancy exposing (ButtonStyle(..), TooltipAlignment(..))
+import Attributes exposing (onInteract)
 
 view : Model -> Html Msg
 view model =
@@ -23,7 +24,7 @@ view model =
 conListRow : MetaConvention -> Html Msg
 conListRow con =
   div
-    [ onClick (DoNav (conventionPath con.code)), class "conventions__row--clickable", tabindex 0 ]
+    ([ class "conventions__row--clickable", tabindex 0 ] ++ onInteract (DoNav (conventionPath con.code)) Ignore)
     [ tableRow conTableRow con ]
 
 conTableRow : MetaConvention -> List (Html msg)

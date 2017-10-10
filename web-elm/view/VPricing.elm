@@ -76,15 +76,10 @@ priceRow model page { index, product_type, quantity, price, product } =
           ProductSelector i -> i == index
           _ -> False )
   , Fancy.input "" (toString quantity) [ Fancy.flush ] [ type_ "text", onInput (PricingQuantity index) ]
-  , Fancy.input "" (moneyFormat price) [ Fancy.flush ] [ type_ "text", onInput (PricingPrice index) ] -- TODO: formatted input fields
+  , Fancy.input "" (Price.priceStr price) [ Fancy.flush ] [ type_ "text", onInput (PricingPrice index) ] -- TODO: formatted input fields
   , centered <| Fancy.button Icon "remove_circle_outline" [ onClick (PricingRemove index) ] ]
 
 footer : Model -> List (Html Msg)
 footer model =
   [ Fancy.tooltip "Add row" <| Fancy.button Icon "add" [ onClick PricingAdd ]
   , Fancy.button Icon "save" [ onClick Save, (disabled << not << Model.isDirty) model ] ]
-
-moneyFormat : Float -> String
-moneyFormat value =
-  let decimal = if toFloat (floor value) == value then ".00" else ""
-  in (String.cons '$' (toString value)) ++ decimal

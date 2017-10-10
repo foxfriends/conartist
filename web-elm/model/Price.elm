@@ -1,6 +1,7 @@
 module Price exposing (..)
 import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Json
+import Either exposing (Either(..))
 
 import List_
 import Util
@@ -11,14 +12,14 @@ type alias FullPrice =
   { index: Int
   , type_id: Int
   , product_id: Maybe Int
-  , price: Float
+  , price: Either String Float
   , quantity: Int }
 
 type alias NewPrice =
   { index: Int
   , type_id: Maybe Int
   , product_id: Maybe Int
-  , price: Float
+  , price: Either String Float
   , quantity: Int }
 
 type alias DeletedPrice =
@@ -50,7 +51,7 @@ decode =
     (Decode.field "index" Decode.int)
     (Decode.field "type" Decode.int)
     (Decode.field "product" (Decode.maybe Decode.int))
-    (Decode.field "price" Decode.float)
+    (Decode.field "price" <| Decode.map Right Decode.float)
     (Decode.field "quantity" Decode.int)
 
 normalize : Price -> Maybe NewPrice
@@ -59,6 +60,12 @@ normalize price = case price of
   Dirty p   -> Just <| NewPrice p.index (Just p.type_id) p.product_id p.price p.quantity
   New p     -> Just p
   Deleted _ -> Nothing
+
+priceStr : Either String Float -> String
+priceStr = Either.mapRight moneyFormat >> Either.unpack identity identity
+
+priceFloat : Either String Float -> Float
+priceFloat = Either.mapLeft parseMoney >> Either.unpack (Result.withDefault 0) identity
 
 setTypeId : Int -> Price -> Price
 setTypeId id price = case price of
@@ -84,12 +91,11 @@ setQuantity quantityStr price =
     Deleted _ -> price
 
 setPrice : String -> Price -> Price
-setPrice moneyStr price =
-  let value = parseMoney moneyStr |> Result.withDefault 0
-  in case price of
-    Clean p   -> Dirty  { p | price = value }
-    Dirty p   -> Dirty  { p | price = value }
-    New p     -> New    { p | price = value }
+setPrice value price =
+  case price of
+    Clean p   -> Dirty  { p | price = Left value }
+    Dirty p   -> Dirty  { p | price = Left value }
+    New p     -> New    { p | price = Left value }
     Deleted _ -> price
 
 setIndex : Int -> Price -> Price
@@ -130,7 +136,7 @@ productId price = case price of
   Deleted p -> p.product_id
 
 new : Int -> Price
-new index = New (NewPrice index Nothing Nothing 0 0)
+new index = New (NewPrice index Nothing Nothing (Right 0) 0)
 
 parseMoney : String -> Result String Float
 parseMoney money =
@@ -139,25 +145,30 @@ parseMoney money =
     _ -> String.toFloat money
       |> Result.map (\x -> toFloat (floor (x * 100)) / 100)
 
+moneyFormat : Float -> String
+moneyFormat value =
+  let decimal = if toFloat (floor value) == value then ".00" else ""
+  in (String.cons '$' (toString value)) ++ decimal
+
 requestFormat : Price -> List RequestPrice -> List RequestPrice
 requestFormat price collected =
   case price of
     Clean { type_id, product_id, price, quantity } ->
-      List_.updateAtOrInsert (RequestPrice type_id product_id [(quantity, price)])
+      List_.updateAtOrInsert (RequestPrice type_id product_id [(quantity, priceFloat price)])
         (\r -> r.type_id == type_id && r.product_id == product_id)
-        (\r -> { r | price = (quantity, price) :: r.price })
+        (\r -> { r | price = (quantity, priceFloat price) :: r.price })
         collected
     Dirty { type_id, product_id, price, quantity } ->
-      List_.updateAtOrInsert (RequestPrice type_id product_id [(quantity, price)])
+      List_.updateAtOrInsert (RequestPrice type_id product_id [(quantity, priceFloat price)])
         (\r -> r.type_id == type_id && r.product_id == product_id)
-        (\r -> { r | price = (quantity, price) :: r.price })
+        (\r -> { r | price = (quantity, priceFloat price) :: r.price })
         collected
     New { type_id, product_id, price, quantity } ->
       case type_id of
         Just t ->
-          List_.updateAtOrInsert (RequestPrice t product_id [(quantity, price)])
+          List_.updateAtOrInsert (RequestPrice t product_id [(quantity, priceFloat price)])
             (\r -> r.type_id == t && r.product_id == product_id)
-            (\r -> { r | price = (quantity, price) :: r.price })
+            (\r -> { r | price = (quantity, priceFloat price) :: r.price })
             collected
         Nothing -> collected
     Deleted { index, type_id, product_id } ->
@@ -210,7 +221,7 @@ validateRequest prices types products =
               Err <| "One of your prices does not have a type set for it! All prices require at least a type to be set."
             else if quantity == 0 then
               Err <| "There is no quantity set for " ++ productName product_id ++ " " ++ typeName type_id
-            else if price < 0 then
+            else if priceFloat price < 0 then
               Err <| "The price you have set for " ++ productName product_id ++ " " ++ typeName type_id ++ " is less than $0.00."
             else if List.member item bad then
               Err <| "Two prices set for buying " ++ toString quantity ++ " " ++ productName product_id ++ " " ++ typeName type_id ++ "(s)"

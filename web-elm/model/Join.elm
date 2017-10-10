@@ -1,4 +1,6 @@
 module Join exposing (..)
+import Either exposing (Either)
+
 import Product exposing (FullProduct)
 import ProductType exposing (FullType)
 import Price exposing (NewPrice)
@@ -15,14 +17,14 @@ type alias PriceWithType =
   { index: Int
   , product_type : Maybe FullType
   , product_id: Maybe Int
-  , price: Float
+  , price: Either String Float
   , quantity: Int }
 
 type alias PriceWithTypeAndProduct =
   { index: Int
   , product_type : Maybe FullType
   , product: Maybe FullProduct
-  , price: Float
+  , price: Either String Float
   , quantity: Int }
 
 productsWithTypes : List FullType -> List FullProduct -> List ProductWithType

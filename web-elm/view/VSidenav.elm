@@ -29,7 +29,6 @@ doSignOut =
      , href url ]
 
 -- TODO: the items are tab focusable even when the sidenav is hidden
---       might be as simple as adding pointer-events: none to the closed menu
 view : Model -> Html Msg
 view { sidenav_visible } =
   let visibility = if sidenav_visible then "--open" else "" in

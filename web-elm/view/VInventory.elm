@@ -27,7 +27,6 @@ view model page =
     tabsWithFooter (inventoryFooter model page) ChangeInventoryTab [ class "inventory" ] (tabList ++ [ newTabButton ]) page.current_tab
 
 -- TODO: tab index allows selecting the input fields from tabs that are not the current tab
---       might be as simple as putting pointer-events: none on the other tabs
 inventoryTab : Model -> FullType -> Html Msg
 inventoryTab model pt =
   div

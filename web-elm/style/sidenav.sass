@@ -20,9 +20,11 @@
     transform: none
     transition: transform 0.3s, box-shadow 0.3s
     background: white
+    pointer-events: none
     &--open
       @extend .sidenav__content
       +card(4)
+      pointer-events: auto
       transform: translateX($sidenav-width)
   &__backdrop
     position: fixed

@@ -1,4 +1,4 @@
-module Msg exposing (Msg(..))
+module Msg exposing (Msg(..), TabStatus)
 import Http
 import Date exposing (Date)
 import Navigation exposing (Location)
@@ -9,7 +9,10 @@ import ProductType exposing (FullType)
 import Price exposing (FullPrice)
 import Convention exposing (MetaConvention, FullConvention)
 import User exposing (User)
-import Tabs exposing (TabStatus)
+
+type alias TabStatus =
+  { current: Int
+  , width: Float }
 
 type Msg
   -- sign in

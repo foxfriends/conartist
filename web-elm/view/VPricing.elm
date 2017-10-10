@@ -76,7 +76,7 @@ priceRow model page { index, product_type, quantity, price, product } =
           ProductSelector i -> i == index
           _ -> False )
   , Fancy.input "" (toString quantity) [ Fancy.flush ] [ type_ "text", onInput (PricingQuantity index) ]
-  , Fancy.input "" (Price.priceStr price) [ Fancy.flush ] [ type_ "text", onInput (PricingPrice index) ] -- TODO: formatted input fields
+  , Fancy.input "" (Price.priceStr price) [ Fancy.flush ] [ type_ "text", onInput (PricingPrice index) ] -- TODO: formatted/validated input fields
   , centered <| Fancy.button Icon "remove_circle_outline" [ onClick (PricingRemove index) ] ]
 
 footer : Model -> List (Html Msg)

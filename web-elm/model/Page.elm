@@ -1,6 +1,6 @@
 module Page exposing (..)
 import Status exposing (Status(..))
-import Tabs exposing (TabStatus)
+import Msg exposing (TabStatus)
 
 type Page
   = Loading

@@ -1,11 +1,10 @@
 module UInventory exposing (update)
 import Model exposing (Model)
 import Page exposing (Page(..))
-import Msg exposing (Msg(..))
+import Msg exposing (Msg(..), TabStatus)
 import Product
 import ProductType
 import List_
-import Tabs exposing (TabStatus)
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case model.page of

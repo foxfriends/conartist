@@ -14,6 +14,7 @@ import VInventory
 import VDialog
 import VPricing
 import VConventions
+import VConvention
 
 view : Model -> Html Msg
 view model =
@@ -39,4 +40,5 @@ mainView model =
         Inventory state -> VInventory.view model state
         Pricing state   -> VPricing.view model state
         Conventions     -> VConventions.view model
+        Convention con  -> VConvention.view model con
         _               -> div [] [] ]

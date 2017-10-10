@@ -1,6 +1,7 @@
 module Page exposing (..)
 import Status exposing (Status(..))
 import Msg exposing (TabStatus)
+import Convention
 
 type Page
   = Loading
@@ -8,7 +9,7 @@ type Page
   | Inventory InventoryPageState
   | Pricing PricingPageState
   | Conventions
-  | Convention String
+  | Convention ConventionPageState
   | Settings
   | SignIn SignInPageState
 
@@ -17,6 +18,10 @@ type alias InventoryPageState =
   , color_picker:
     { open: Bool
     , page: Int } }
+
+type alias ConventionPageState =
+  { current_tab: TabStatus
+  , convention: Maybe Convention.Convention }
 
 type Selector
   = TypeSelector Int
@@ -44,3 +49,6 @@ inventory = Inventory <| InventoryPageState (TabStatus 0 150) { open = False, pa
 
 pricing : Page
 pricing = Pricing <| PricingPageState None
+
+convention : Maybe Convention.Convention -> Page
+convention con = Convention (ConventionPageState (TabStatus 0 150) con)

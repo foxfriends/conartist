@@ -56,6 +56,7 @@ type Msg
   | SelectProductType Int
   | SelectProduct Int
   -- conventions
+  | ChangeConventionTab TabStatus
   -- loading
   | DidLoadUser (Result Http.Error (ConRequest User))
   | DidLoadChooseConvention (Result Http.Error (ConRequest (Pagination MetaConvention)))

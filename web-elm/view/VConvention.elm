@@ -31,6 +31,8 @@ summary : Model -> Convention -> Html msg
 summary _ convention =
   div [ class "convention__summary" ]
     [ conInfo (asMeta convention) ]
+    -- TODO: best sellers
+    -- TODO: revenue summary
 
 conInfo : MetaConvention -> Html msg
 conInfo { name, code, start, end }=

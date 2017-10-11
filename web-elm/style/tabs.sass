@@ -37,8 +37,7 @@
     min-height: 0
     overflow: hidden
   &__content
-    max-height: 100%
-    min-height: 0
+    height: 100%
     overflow-y: auto
     position: absolute
     top: 0
@@ -48,12 +47,15 @@
     z-index: 0
     background: white
     &--current
+      @extend .tabs__content
       transform: none
       z-index: 1
     &--negative
+      @extend .tabs__content
       pointer-events: none
       transform: translateX(100%)
     &--positive
+      @extend .tabs__content
       pointer-events: none
       transform: translateX(-100%)
   &__footer

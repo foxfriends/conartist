@@ -1,4 +1,4 @@
-module VConventions exposing (view)
+module VConventions exposing (view, conListRow)
 import Html exposing (Html, div, text, span)
 import Html.Attributes exposing (class, tabindex)
 import Html.Events exposing (onClick)
@@ -10,6 +10,7 @@ import Routing exposing (conventionPath)
 import Table exposing (tableHeader, tableRow)
 import Fancy exposing (ButtonStyle(..), TooltipAlignment(..))
 import Attributes exposing (onInteract)
+import VConvention exposing (dateRange)
 
 view : Model -> Html Msg
 view model =
@@ -30,8 +31,8 @@ conListRow con =
 conTableRow : MetaConvention -> List (Html msg)
 conTableRow { name, code, start, end } =
   [ text name
-  , span [ class "conventions__placeholder" ] [ text code ]
-  , text <| (Convention.formatDate start) ++ "–" ++ (Convention.formatDate end) ]
+  , span [ class "text__placeholder" ] [ text code ]
+  , text <| dateRange start end ]
 
 footer : Model -> List (Html Msg)
 footer _ = [ Fancy.alignedTooltip Right "Add a convention" <| Fancy.button Icon "add" [ onClick OpenChooseConvention ] ]

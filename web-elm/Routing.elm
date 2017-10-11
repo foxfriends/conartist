@@ -20,7 +20,7 @@ matchers model =
     , map (Dashboard, Cmd.none) <| s "dashboard"
     , map (Page.inventory, Cmd.none) <| s "inventory"
     , map (Page.pricing, Cmd.none) <| s "prices"
-    , map (\code -> (Page.convention <| List_.find (\c -> (Convention.asMeta c).code == code) model.user.conventions, fillConvention model code)) (s "conventions" </> string)
+    , map (\code -> (Page.convention code, fillConvention model code)) (s "conventions" </> string)
     , map (Conventions, Cmd.none) <| s "conventions"
     , map (Settings, Cmd.none) <| s "settings" ]
 

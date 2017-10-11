@@ -21,7 +21,7 @@ type alias InventoryPageState =
 
 type alias ConventionPageState =
   { current_tab: TabStatus
-  , convention: Maybe Convention.Convention }
+  , convention: String }
 
 type Selector
   = TypeSelector Int
@@ -50,5 +50,5 @@ inventory = Inventory <| InventoryPageState (TabStatus 0 150) { open = False, pa
 pricing : Page
 pricing = Pricing <| PricingPageState None
 
-convention : Maybe Convention.Convention -> Page
+convention : String -> Page
 convention con = Convention (ConventionPageState (TabStatus 0 150) con)

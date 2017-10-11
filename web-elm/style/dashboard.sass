@@ -2,6 +2,8 @@
 
 .dashboard
   display: flex
+  background: white
+  height: 100%
   &__card
     flex-basis: 800px
     flex-shrink: 1
@@ -12,3 +14,5 @@
     margin-left: auto
     .icon
       margin-right: 8px
+  .table__cell
+    @extend .table__cell--borderless

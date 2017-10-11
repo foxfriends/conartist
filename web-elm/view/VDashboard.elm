@@ -12,8 +12,8 @@ import Msg exposing (Msg(..))
 import Card exposing (card, cardWithHeader)
 import Fancy exposing (ButtonStyle(..))
 import Icon exposing (icon)
-import Routing exposing (conventionPath)
 import Lists exposing (titledList)
+import VConventions exposing (conListRow)
 
 view : Model -> Html Msg
 view model =
@@ -35,14 +35,6 @@ view model =
             , titledList "Previous" conListRow sorted.previous ] )
         [ Fancy.button Primary "Buy a key" [ onClick OpenKeyPurchase ]
         , Fancy.button Primary "Add a convention" [ onClick OpenChooseConvention ] ] ]
-
-conListRow : MetaConvention -> Html Msg
-conListRow { code, name, start, end } =
-  div
-    ([ Lists.row, onClick (DoNav (conventionPath code)) ] ++ Lists.clickable)
-    [ span [ class "list__column" ] [ text name ]
-    , span [ class "list__column" ] [ text code ]
-    , span [ class "list__column" ] [ text <| (Convention.formatDate start) ++ "–" ++ (Convention.formatDate end) ] ]
 
 type alias SortedConventions =
   { previous: List MetaConvention

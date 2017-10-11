@@ -57,7 +57,7 @@ tabsWithFooter footerContents onSwitch attrs contents { current, width } =
           (\i -> \c -> case c of
               Tab _ c ->
                 ( toString i
-                , div [ class <| "tabs__content tabs__content--" ++ (position i) ] [ c ] )
-              _ -> (toString i, div [ class <| "tabs__content tabs__content--false tabs__content--" ++ (position i) ] []) )
+                , div [ class <| "tabs__content--" ++ (position i) ] [ c ] )
+              _ -> (toString i, div [ class <| "tabs__content--false tabs__content--" ++ (position i) ] []) )
           contents )
       , div [ class "tabs__footer" ] footerContents ]

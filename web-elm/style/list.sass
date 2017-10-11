@@ -34,3 +34,12 @@
     flex-grow: 1
   &--empty
     display: none
+
+.deflist
+  display: grid
+  grid-template-columns: 150px 1fr
+  &__term
+    color: $color--placeholder
+    justify-content: flex-end
+  &__definition, &__term
+    @extend .list__row

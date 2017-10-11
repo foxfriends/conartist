@@ -77,6 +77,11 @@
   height: 40px
   border-radius: 100%
 
+%square-button
+  height: 40px
+  padding: 0 16px
+  border-radius: 4px
+
 .fancy-button
   position: relative
   display: flex
@@ -84,14 +89,12 @@
   justify-content: center
   border: none
   background: none
-  height: 40px
-  padding: 0 16px
   margin: 0 8px
   cursor: pointer
-  border-radius: 4px
   +focus-circle
   &--primary
     @extend .fancy-button
+    @extend %square-button
     +card(1)
     transition: box-shadow 0.1s
     border: 1px solid darker($color--primary, 8%)
@@ -103,6 +106,7 @@
   &--flat
     @extend .fancy-button
     @extend %flat-clickable
+    @extend %square-button
   &--icon
     @extend .fancy-button
     @extend %flat-clickable

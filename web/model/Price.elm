@@ -148,8 +148,7 @@ parseMoney money =
       |> Result.map (\x -> toFloat (floor (x * 100)) / 100)
 
 moneyFormat : Float -> String
-moneyFormat value =
-  String.cons '$' (format usLocale value)
+moneyFormat = String.cons '$' << format usLocale
 
 requestFormat : Price -> List RequestPrice -> List RequestPrice
 requestFormat price collected =

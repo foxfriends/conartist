@@ -67,13 +67,13 @@ conInfo { name, code, start, end } =
 products : Model -> Convention -> Html msg
 products model con =
   case asFull con of
-    Nothing -> div [] []
+    Nothing -> errorPage
     Just fc ->
       table [] [ "Type", "Name", "Quantity" ]
-        productRow
-        <| Join.productsWithTypes
-            (List.map ProductType.normalize (model.user.productTypes))
-            (List.map Product.normalize (if List.isEmpty fc.products then model.user.products else fc.products))
+        productRow <|
+        Join.productsWithTypes
+          (List.map ProductType.normalize (model.user.productTypes))
+          (List.map Product.normalize (if List.isEmpty fc.products then model.user.products else fc.products))
 
 
 productRow : ProductWithType -> List (Html msg)
@@ -94,15 +94,15 @@ productCircle color name = Fancy.letterCircle (String.cons '#' <| String.padLeft
 prices : Model -> Convention -> Html msg
 prices model con =
   case asFull con of
-    Nothing -> div [] []
+    Nothing -> errorPage
     Just fc ->
       table [] [ "Type", "Product", "Quantity", "Price" ]
-        priceRow
-        ( List.filterMap (\p -> Maybe.map (always p) p.product_type) <|
+        priceRow <|
+          List.filterMap (\p -> Maybe.map (always p) p.product_type) <|
             Join.pricesWithProductsAndTypes
               (List.map ProductType.normalize (model.user.productTypes))
               (List.map Product.normalize (if List.isEmpty fc.products then model.user.products else fc.products))
-              (List.filterMap Price.normalize (if List.isEmpty fc.prices then model.user.prices else fc.prices)) )
+              (List.filterMap Price.normalize (if List.isEmpty fc.prices then model.user.prices else fc.prices))
 
 priceRow : PriceWithTypeAndProduct -> List (Html msg)
 priceRow { product, product_type, quantity, price } =
@@ -114,14 +114,17 @@ priceRow { product, product_type, quantity, price } =
 sales : Model -> Convention -> Html msg
 sales model con =
   case asFull con of
-    Nothing -> div [] []
+    Nothing -> errorPage
     Just fc ->
-      table [] [ "Type", "Products", "Quantity", "Price", "Time" ]
-        recordRow <|
-        Join.recordsWithTypedProducts
-          (List.map ProductType.normalize (model.user.productTypes))
-          (List.map Product.normalize (if List.isEmpty fc.products then model.user.products else fc.products))
-          fc.records
+      case fc.records of
+        [] -> placeholder "You haven't sold anything yet!"
+        _  ->
+          table [] [ "Type", "Products", "Quantity", "Price", "Time" ]
+            recordRow <|
+            Join.recordsWithTypedProducts
+              (List.map ProductType.normalize (model.user.productTypes))
+              (List.map Product.normalize (if List.isEmpty fc.products then model.user.products else fc.products))
+              fc.records
 
 recordRow : RecordWithTypedProduct -> List (Html msg)
 recordRow record =
@@ -154,7 +157,13 @@ productString products =
     |> String.dropRight 2
 
 stats : Model -> Convention -> Html msg
-stats _ _ = div [] []
+stats _ _ = placeholder "This page has not yet been created!"
 
 dateRange : Date -> Date -> String
 dateRange start end = (Convention.formatDate start) ++ "–" ++ (Convention.formatDate end)
+
+errorPage : Html msg
+errorPage = placeholder "It seems something has gone wrong. Maybe you should reload."
+
+placeholder : String -> Html msg
+placeholder str = div [ class "convention__placeholder" ] [ text str ]

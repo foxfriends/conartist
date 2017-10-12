@@ -7,7 +7,7 @@ import Fancy exposing (ButtonStyle(..))
 import Msg exposing (Msg(..))
 import Dialog exposing (Dialog(..), ChooseConvention_)
 import Icon exposing (icon)
-import Table exposing (tableWithSpacing)
+import Table exposing (tableWithSpacing, TableHeader(..))
 import Convention exposing (MetaConvention)
 import Align exposing (centered)
 import Model exposing (Model)
@@ -67,7 +67,13 @@ chooseConventionControls pages page =
 
 chooseConventionList : Int -> ChooseConvention_ -> Html Msg
 chooseConventionList keys { cons, pages, page } =
-  tableWithSpacing "1fr 1fr 1fr 70px" (chooseConventionControls pages page) [] [ text "Name", text "Code", text "Date", text "" ] (conventionRow keys) cons
+  tableWithSpacing
+    "1fr 1fr 1fr 70px"
+    (chooseConventionControls pages page)
+    []
+    [ Standard "Name", Standard "Code", Standard "Date", Standard "" ]
+    (conventionRow keys)
+    cons
 
 conventionRow : Int -> MetaConvention -> List (Html Msg)
 conventionRow keys con =

@@ -6,7 +6,7 @@ import Html.Events exposing (onClick, onInput)
 import Model exposing (Model)
 import Page exposing (PricingPageState, Selector(..))
 import Msg exposing (Msg(..))
-import Table exposing (tableWithSpacing)
+import Table exposing (tableWithSpacing, TableHeader(..))
 import ProductType
 import Product
 import Price
@@ -20,7 +20,7 @@ view model page =
   div [ class "pricing" ]
     [ div [ class "pricing__table" ]
       [ tableWithSpacing "1fr 1fr 1fr 1fr 100px" [] []
-        [ text "Type", text "Product", text "Quantity", text "Price", (centered << text) "Remove" ]
+        [ Standard "Type", Standard "Product", Standard "Quantity", Standard "Price", (Html << centered << text) "Remove" ]
         (priceRow model page)
         ( Join.pricesWithProductsAndTypes
           ( model.user.productTypes

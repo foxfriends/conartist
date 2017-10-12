@@ -9,7 +9,7 @@ import Msg exposing (Msg(..))
 import Tabs exposing (tabsWithFooter, TabItem(..))
 import ProductType exposing (ProductType, FullType)
 import Product exposing (FullProduct)
-import Table exposing (tableWithSpacing)
+import Table exposing (tableWithSpacing, TableHeader(..))
 import Icon exposing (icon)
 import Join exposing (ProductWithType)
 import Page exposing (InventoryPageState)
@@ -32,7 +32,7 @@ inventoryTab model pt =
   div
     [ class "inventory__tab" ]
     [ tableWithSpacing "1fr 1fr 150px" [] []
-      [ text "Name", text "Quantity", (centered << text) "Discontinue" ]
+      [ Standard "Name", Standard "Quantity", (Html << centered << text) "Discontinue" ]
       inventoryRow
       ( Join.productsWithTypes
         (model.user.productTypes

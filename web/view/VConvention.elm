@@ -74,7 +74,6 @@ products model con =
           (List.map ProductType.normalize (model.user.productTypes))
           (List.map Product.normalize (if List.isEmpty fc.products then model.user.products else fc.products))
 
-
 productRow : ProductWithType -> List (Html msg)
 productRow product =
   [ productTypeLabel product.product_type

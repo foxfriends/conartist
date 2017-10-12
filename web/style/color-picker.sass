@@ -1,0 +1,33 @@
+@import helper
+
+.color-picker
+  display: flex
+  width: 32px * 5 + 4px * 4
+  height: 32px * 3 + 4px * 2
+  &__nav
+    @extend %flat-clickable
+    width: 32px
+    height: 100%
+    display: flex
+    align-items: center
+    justify-content: center
+  &__items
+    width: 96px + 4px * 4
+    height: 100%
+    display: grid
+    grid-template-columns: 1fr 1fr 1fr
+    grid-template-rows: 1fr 1fr 1fr
+    grid-column-gap: 4px
+    grid-row-gap: 4px
+    padding: 0 4px
+  &__item
+    border-radius: 100%
+    display: flex
+    align-items: center
+    justify-content: center
+    cursor: pointer
+    transition: opacity 0.1s
+    &:hover
+      opacity: 0.8
+  &__selected
+    color: white

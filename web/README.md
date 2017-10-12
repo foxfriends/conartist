@@ -1,1 +1,1 @@
-# ConArtist - Web dashboard
+# ConArtist - Web dashboard, in Elm

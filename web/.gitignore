@@ -1,8 +1,2 @@
-/tmp
-/out-tsc
-
-/node_modules
-npm-debug.log
-
-.DS_Store
-Thumbs.db
+elm-stuff
+node_modules

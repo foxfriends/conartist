@@ -1,0 +1,46 @@
+@import helper
+@import card
+@import sidenav
+@import dialog
+@import align
+
+.ca, button, input
+  font-family: $font--body
+  color: $color__text--body
+a:link, a:visited
+  text-decoration: none
+  color: darker($color--primary, 40%, 20%)
+a:hover, a:active
+  color: darker($color--primary, 10%)
+
+$toolbar-height: 50px
+
+.ca
+  font-size: 12pt
+  background-image: url('images/asanoha-400px.png')
+  width: 100vw
+  height: 100vh
+  perspective: 2000px
+  line-height: 1.4
+  &__title
+    font-family: $font--title
+  &__toolbar
+    +card(1)
+    +natural-light($color--primary)
+    display: flex
+    align-items: center
+    padding: 0 20px
+    height: $toolbar-height
+  &__container
+    z-index: 0
+    position: absolute
+    top: $toolbar-height
+    bottom: 0
+    width: 100vw
+    transform: translate3d(0, 0, 0)
+    overflow: auto
+  &__content
+    height: 100%
+
+.text__placeholder
+  color: $color--placeholder

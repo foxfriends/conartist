@@ -15,11 +15,5 @@ app.listen(process.env.PORT || 8080, () => {
 app.use(bodyParser.json());
 app.use('/api', api);
 
-if(process.argv[2] === 'elm') {
-  app.use('/', express.static(path.resolve(__dirname, '../web-elm')));
-  app.use('/', (_, res) => res.sendFile(path.resolve(__dirname, '../web-elm/index.html')));
-} else {
-  app.use('/test/', (_, res) => res.sendFile(path.resolve(__dirname, '../web/dist/test.html')));
-  app.use('/', express.static(path.resolve(__dirname, '../web/dist')));
-  app.use('/', (_, res) => res.sendFile(path.resolve(__dirname, '../web/dist/index.html')));
-}
+app.use('/', express.static(path.resolve(__dirname, '../web')));
+app.use('/', (_, res) => res.sendFile(path.resolve(__dirname, '../web/index.html')));

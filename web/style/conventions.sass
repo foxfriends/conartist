@@ -1,0 +1,10 @@
+.conventions
+  @extend .pricing
+  &__list
+    @extend .pricing__table
+  &__footer
+    @extend .tabs__footer
+  &__row
+    &--clickable
+      @extend %flat-clickable
+      +focus-circle($align: right)

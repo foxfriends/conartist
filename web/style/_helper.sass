@@ -1,0 +1,102 @@
+@import hsv
+@import animations
+
+$color--primary: rgb(110, 171, 244)
+$color--accent: rgb(128, 194, 138)
+$color--warn: rgb(185, 36, 21)
+$color--placeholder: transparentize(black, 0.64)
+$color--divider: transparentize(black, 0.88)
+$color__text--body: transparentize(black, 0.13)
+$color__text--secondary: transparentize(black, 0.46)
+$color__text--heading: $color__text--secondary
+$color__text--invert: transparentize(white, 0.13)
+$color__background--dark: $color__text--secondary
+$color__background--light: white
+$color--conartist: #DA4800
+
+$font--title: 'Quicksand'
+$font--body: 'Open Sans'
+$font--icon: 'Material Icons'
+
+@function top-shadow($depth)
+  $primary-offset: nth(1.5 3 10 14 19, $depth) * 1px
+  $blur: nth(1.5 3 10 14 19, $depth) * 4px
+  $color: rgba(black, nth(.12 .16 .19 .25 .30, $depth))
+
+  @return 0 $primary-offset $blur $color
+
+@function bottom-shadow($depth)
+  $primary-offset: nth(1.5 3 6 10 15, $depth) * 1px
+  $blur: nth(1 3 3 5 6, $depth) * 4px
+  $color: rgba(black, nth(.24 .23 .23 .22 .22, $depth))
+
+  @return 0 $primary-offset $blur $color
+
+@function darker($colorv, $sat: 5%, $val: 5%)
+  $hsv: color_to_hsv($colorv)
+
+  $h: nth($hsv, 1)
+  $s: nth($hsv, 2) / 100%
+  $v: nth($hsv, 3) / 100%
+
+  $s: min($s + $sat / 100%, 1)
+  $v: max($v - $val / 100%, 0)
+
+  @return hsv_to_color($h, $s, $v)
+
+@function lighter($colorv, $sat: 5%, $val: 5%)
+  $hsv: color_to_hsv($colorv)
+
+  $h: nth($hsv, 1)
+  $s: nth($hsv, 2) / 100%
+  $v: nth($hsv, 3) / 100%
+
+  $s: max($s - $sat / 100%, 0)
+  $v: min($v + $val / 100%, 1)
+
+  @return hsv_to_color($h, $s, $v)
+
+%flat-clickable
+  cursor: pointer
+  &:disabled
+    cursor: default
+    color: $color--placeholder
+  &:not(:disabled)
+    &:hover
+      background-color: transparentize(darker($color--primary, 30%, 30%), 0.9)
+    &:active
+      background-color: transparentize(darker($color--primary, 50%, 50%), 0.85)
+
+=card($depth)
+  z-index: $depth
+  @if $depth < 1
+    box-shadow: none
+  @else if $depth > 5
+    @warn "Invalid $depth `#{$depth}` for mixin `card`."
+  @else
+    box-shadow: bottom-shadow($depth), top-shadow($depth)
+
+=natural-light($color: white)
+  @if $color == white
+    background-image: linear-gradient(to bottom, white, darken(white, 3))
+  @else
+    background-image: linear-gradient(to bottom, $color, darker($color, 2%, 2%))
+
+=focus-circle($size: 18px, $align: center)
+  position: relative
+  &:focus::before
+    content: ""
+    position: absolute
+    top: calc(50% - #{$size / 2})
+    @if $align == center
+      left: calc(50% - #{$size / 2})
+    @else if $align == right
+      right: $size / 2
+    box-sizing: border-box
+    background: transparent
+    border-radius: 100%
+    border: 2px solid $color--divider
+    width: $size
+    height: $size
+    transform-origin: center center
+    animation: pulsate 1s ease-in-out infinite alternate

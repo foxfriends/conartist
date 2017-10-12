@@ -265,7 +265,7 @@ fillNewProducts updates products prices =
 
 delete : Price -> Maybe Price
 delete price = case price of
-  New _ -> Nothing
-  Clean p -> Just <| Deleted <| DeletedPrice p.index p.type_id p.product_id
-  Dirty p -> Nothing
+  New _     -> Nothing
+  Clean p   -> Just <| Deleted <| DeletedPrice p.index p.type_id p.product_id
+  Dirty p   -> Nothing
   Deleted _ -> Just price

@@ -4,6 +4,9 @@ import Html.Attributes exposing (class, style)
 import Date exposing (Date)
 import Date.Extra as Date
 import Hex
+import Either exposing (Either(Right))
+import Dict
+import Set
 
 import Model exposing (Model)
 import Msg exposing (Msg(..))
@@ -18,7 +21,7 @@ import List_
 import ProductType exposing (FullType)
 import Product
 import Price
-import Join exposing (ProductWithType, PriceWithTypeAndProduct)
+import Join exposing (ProductWithType, PriceWithTypeAndProduct, RecordWithTypedProduct)
 
 view : Model -> ConventionPageState -> Html Msg
 view model page =
@@ -82,8 +85,11 @@ productRow product =
 productTypeLabel : FullType -> Html msg
 productTypeLabel { color, name } =
   div [ class "convention__product-type"]
-    [ Fancy.letterCircle (String.cons '#' <| String.padLeft 6 '0' <| Hex.toString color) (String.left 1 name)
+    [ productCircle color name
     , text name ]
+
+productCircle : Int -> String -> Html msg
+productCircle color name = Fancy.letterCircle (String.cons '#' <| String.padLeft 6 '0' <| Hex.toString color) (String.left 1 name)
 
 prices : Model -> Convention -> Html msg
 prices model con =
@@ -111,11 +117,41 @@ sales model con =
     Nothing -> div [] []
     Just fc ->
       table [] [ "Type", "Products", "Quantity", "Price", "Time" ]
-        recordRow
-        []  -- TODO: Join.recordsWithTypeProducts
+        recordRow <|
+        Join.recordsWithTypedProducts
+          (List.map ProductType.normalize (model.user.productTypes))
+          (List.map Product.normalize (if List.isEmpty fc.products then model.user.products else fc.products))
+          fc.records
 
-recordRow : a -> List (Html msg)
-recordRow _ = [ div [] [] ]
+recordRow : RecordWithTypedProduct -> List (Html msg)
+recordRow record =
+  [ div [ class "convention__product-type" ] <| typeSet record.products
+  , text <| productString record.products
+  , text <| toString <| List.length record.products
+  , text <| Price.priceStr <| Right record.price
+  , text <| Date.toFormattedString "EEE, h:mm a" record.time ]
+
+typeSet : List ProductWithType -> List (Html msg)
+typeSet =
+  List.map (\p -> (p.product_type.color, p.product_type.name))
+    >> Set.fromList
+    >> Set.foldl (\c -> \p -> (uncurry productCircle) c :: p) []
+
+productString : List ProductWithType -> String
+productString products =
+  let reducer c p =
+    Dict.update c.name (\v -> case v of
+        Nothing -> Just 1
+        Just o -> Just (o + 1)) p in
+  let expander k v p =
+    p ++ case v of
+      1 -> k ++ ", "
+      _ -> k ++ " (" ++ toString v ++ "), "
+    in
+  products
+    |> List.foldl reducer Dict.empty
+    |> Dict.foldl expander ""
+    |> String.dropRight 2
 
 stats : Model -> Convention -> Html msg
 stats _ _ = div [] []

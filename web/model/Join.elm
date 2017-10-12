@@ -1,9 +1,11 @@
 module Join exposing (..)
 import Either exposing (Either)
+import Date exposing (Date)
 
 import Product exposing (FullProduct)
 import ProductType exposing (FullType)
 import Price exposing (NewPrice)
+import Record exposing (Record)
 import List_
 
 type alias ProductWithType =
@@ -26,6 +28,11 @@ type alias PriceWithTypeAndProduct =
   , product: Maybe FullProduct
   , price: Either String Float
   , quantity: Int }
+
+type alias RecordWithTypedProduct =
+  { products: List ProductWithType
+  , price: Float
+  , time: Date }
 
 productsWithTypes : List FullType -> List FullProduct -> List ProductWithType
 productsWithTypes types products =
@@ -54,3 +61,13 @@ joinTypeToPrice { index, product_id, quantity, price } product_type =
 joinProductToTypedPrice : PriceWithType -> Maybe FullProduct -> PriceWithTypeAndProduct
 joinProductToTypedPrice { index, product_type, quantity, price } product =
   PriceWithTypeAndProduct index product_type product price quantity
+
+recordsWithTypedProducts : List FullType -> List FullProduct -> List Record -> List RecordWithTypedProduct
+recordsWithTypedProducts types products records =
+  let typedProducts = productsWithTypes types products in
+  List.map (joinProductsToRecord typedProducts) records
+
+joinProductsToRecord : List ProductWithType -> Record -> RecordWithTypedProduct
+joinProductsToRecord products record =
+  { record
+  | products = List.filterMap (\i -> List_.find (\p -> p.id == i) products) record.products }

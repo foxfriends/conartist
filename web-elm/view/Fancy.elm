@@ -1,7 +1,7 @@
 module Fancy exposing (..)
 
 import Html exposing (Html, div, span, label, text)
-import Html.Attributes exposing (class, type_, value, tabindex)
+import Html.Attributes exposing (class, type_, value, tabindex, style)
 import Html.Events exposing (onClick, onCheck)
 import Icon exposing (icon)
 
@@ -113,3 +113,6 @@ menu attrs anchor contents toClose open =
     [ div [ class <| "fancy-menu__backdrop--" ++ if open then "open" else "closed", onClick toClose ] [ ]
     , div [ class "fancy-menu__anchor" ] [ anchor ]
     , div [ class <| "fancy-menu__contents--" ++ if open then "open" else "closed" ] [ contents ] ]
+
+letterCircle : String -> String -> Html msg
+letterCircle color char = span [ class "fancy-letter--circle", style [( "background-color", color )] ] [ text char ]

@@ -6,5 +6,5 @@ import 'rxjs/add/observable/bindCallback';
 
 const daily = Observable.bindCallback(scheduleJob.bind(null, '0 0 0 * * *'));
 export function start() {
-    daily().subscribe(db.startConventions);
+  daily().subscribe(db.startConventions);
 }

@@ -1,19 +1,21 @@
 module VConvention exposing (view, dateRange)
 import Html exposing (Html, div, text, span)
-import Html.Attributes exposing (class)
+import Html.Attributes exposing (class, style)
 import Date exposing (Date)
 import Date.Extra as Date
+import Hex
 
 import Model exposing (Model)
 import Msg exposing (Msg(..))
 import Page exposing (ConventionPageState)
+import Fancy
 import Convention exposing (Convention, MetaConvention, asMeta, asFull)
 import Tabs exposing (tabs, TabItem(Tab))
 import Table exposing (table)
 import Card exposing (card)
 import Lists exposing (defList)
 import List_
-import ProductType
+import ProductType exposing (FullType)
 import Product
 import Price
 import Join exposing (ProductWithType)
@@ -66,14 +68,22 @@ products model con =
     Just fc ->
       table [] [ "Type", "Name", "Quantity" ]
         productRow
-        <| Join.productsWithTypes (List.map ProductType.normalize fc.productTypes) (List.map Product.normalize fc.products)
+        <| Join.productsWithTypes
+            (List.map ProductType.normalize (model.user.productTypes))
+            (List.map Product.normalize (if List.isEmpty fc.products then model.user.products else fc.products))
 
 
 productRow : ProductWithType -> List (Html msg)
 productRow product =
-  [ text product.product_type.name
+  [ productTypeLabel product.product_type
   , text product.name
   , text (toString product.quantity) ]
+
+productTypeLabel : FullType -> Html msg
+productTypeLabel { color, name } =
+  div [ class "convention__product-type"]
+    [ Fancy.letterCircle (String.cons '#' <| String.padLeft 6 '0' <| Hex.toString color) (String.left 1 name)
+    , text name ]
 
 prices : Model -> Convention -> Html msg
 prices _ _ = div [] []

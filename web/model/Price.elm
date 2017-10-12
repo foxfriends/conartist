@@ -2,6 +2,8 @@ module Price exposing (..)
 import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Json
 import Either exposing (Either(..))
+import FormatNumber exposing (format)
+import FormatNumber.Locales exposing (usLocale)
 
 import List_
 import Util
@@ -147,8 +149,7 @@ parseMoney money =
 
 moneyFormat : Float -> String
 moneyFormat value =
-  let decimal = if toFloat (floor value) == value then ".00" else ""
-  in (String.cons '$' (toString value)) ++ decimal
+  String.cons '$' (format usLocale value)
 
 requestFormat : Price -> List RequestPrice -> List RequestPrice
 requestFormat price collected =

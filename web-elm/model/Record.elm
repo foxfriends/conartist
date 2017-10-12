@@ -12,4 +12,4 @@ decode =
   Decode.map3 Record
     (Decode.field "products" (Decode.list Decode.int))
     (Decode.field "price" Decode.float)
-    (Decode.field "time" (Decode.map (Date.fromTime << toFloat) Decode.int))
+    (Decode.field "time" (Decode.map (Date.fromString >> Result.withDefault (Date.fromTime 0)) Decode.string))

@@ -35,8 +35,7 @@ view model page =
           , Tab "Stats" <| stats model con ]
         page.current_tab
       Nothing ->
-        -- TODO: make this not bad
-        div [] [ text "Loading" ]
+        placeholder "Convention loading..."
 
 summary : Model -> Convention -> Html msg
 summary _ convention =

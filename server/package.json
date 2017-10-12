@@ -9,8 +9,6 @@
   "author": "Cameron Eldridge",
   "license": "ISC",
   "dependencies": {
-    "@types/node-schedule": "^1.2.0",
-    "@types/pg": "^6.1.45",
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "express": "^4.16.1",
@@ -27,6 +25,8 @@
     "@types/body-parser": "^1.16.5",
     "@types/express": "^4.0.37",
     "@types/express-jwt": "0.0.35",
-    "@types/jsonwebtoken": "^7.2.3"
+    "@types/jsonwebtoken": "^7.2.3",
+    "@types/node-schedule": "^1.2.0",
+    "@types/pg": "^6.1.45"
   }
 }

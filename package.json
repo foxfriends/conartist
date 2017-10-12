@@ -1,5 +1,5 @@
 {
-  "name": "conartist",
+  "name": "conartist-root",
   "version": "1.0.0",
   "description": "The all in one solution to tracking inventory and sales records at conventions!",
   "main": "index.js",
@@ -18,6 +18,9 @@
     "url": "https://github.com/OinkIguana/conartist/issues"
   },
   "homepage": "https://github.com/OinkIguana/conartist#readme",
-  "devDependencies": {},
+  "devDependencies": {
+    "node-gyp": "^3.6.2",
+    "node-pre-gyp": "^0.6.38"
+  },
   "dependencies": {}
 }

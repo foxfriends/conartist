@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "start": "node server/server.js",
-    "elm": "node server/server.js elm",
     "postinstall": "npm install --prefix ./server"
   },
   "repository": {

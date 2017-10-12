@@ -1,1 +1,1 @@
-web: node server/server.js elm
+web: node server/server.js

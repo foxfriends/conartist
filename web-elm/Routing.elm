@@ -32,17 +32,17 @@ parseLocation model location = case parsePath (matchers model) location of
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case msg of
   LSRetrive ("authtoken", Just authtoken) ->
-    let (page, task, url) = case model.location of
-      Just loc -> case parseLocation model loc of
+    let authModel = { model | authtoken = authtoken } in
+    let (page, task, url) = case authModel.location of
+      Just loc -> case parseLocation authModel loc of
         (SignIn _, t) -> (Dashboard, t, Just dashboardPath)
         (p, t) -> (p, t, Nothing)
       Nothing -> (Dashboard, Cmd.none, Just dashboardPath) in
-    let authModel =
-      { model
+    let pageModel =
+      { authModel
       | page = page
-      , authtoken = authtoken
       , location = Nothing } in
-    authModel ! [ Load.user authModel, task, url |> Maybe.map Navigation.newUrl |> Maybe.withDefault Cmd.none ]
+    pageModel ! [ Load.userAndThen task pageModel, url |> Maybe.map Navigation.newUrl |> Maybe.withDefault Cmd.none ]
   LSRetrive ("authtoken", Nothing) ->
     ( { model
       | page = Page.signIn

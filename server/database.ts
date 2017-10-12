@@ -44,8 +44,8 @@ const config: pg.PoolConfig = process.env.DATABASE_URL ? {
   password: process.env.CONARTISTPASSWORD || 'temporary-password',
   host: 'localhost',
   min: 1,
-  max: process.env.CONARTISTDBPOOL || 10,
-  idleTimeoutMillis: process.env.CONARTISTDBTIMEOUT || 1000 * 60,
+  max: +(process.env.CONARTISTDBPOOL || 0) || 10,
+  idleTimeoutMillis: +(process.env.CONARTISTDBTIMEOUT || 0) || 1000 * 60,
 };
 
 const pool: Pool = new pg.Pool(config);
@@ -530,6 +530,14 @@ async function getConventions(user_id: number, page: number, limit: number): Pro
   }
 }
 
+async function startConventions() {
+  // TODO: Implement
+  // 1. Find all conventions starting today
+  // 2. For all users signed up for the convention:
+  //    a. duplicate prices, now linked to user_con_id
+  //    b. duplicate products, now linked to user_con_id
+}
+
 export {
   getConInfo, writeRecords,
   getUserProducts, writeProducts,
@@ -537,4 +545,5 @@ export {
   getUserTypes, writeTypes,
   getConventions, getUserMetaConventions, writeUserConventions,
   userExists, logInUser, createUser, getUser,
+  startConventions,
 };

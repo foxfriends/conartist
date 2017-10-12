@@ -9,13 +9,16 @@
   "author": "Cameron Eldridge",
   "license": "ISC",
   "dependencies": {
+    "@types/node-schedule": "^1.2.0",
     "@types/pg": "^6.1.45",
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "express": "^4.16.1",
     "express-jwt": "^5.3.0",
     "jsonwebtoken": "^7.4.3",
+    "node-schedule": "^1.2.5",
     "pg": "^7.3.0",
+    "rxjs": "^5.4.3",
     "sql-template-strings": "^2.2.2"
   },
   "private": true,

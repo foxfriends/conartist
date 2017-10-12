@@ -19,8 +19,8 @@ const config = process.env.DATABASE_URL ? {
     password: process.env.CONARTISTPASSWORD || 'temporary-password',
     host: 'localhost',
     min: 1,
-    max: process.env.CONARTISTDBPOOL || 10,
-    idleTimeoutMillis: process.env.CONARTISTDBTIMEOUT || 1000 * 60,
+    max: +(process.env.CONARTISTDBPOOL || 0) || 10,
+    idleTimeoutMillis: +(process.env.CONARTISTDBTIMEOUT || 0) || 1000 * 60,
 };
 const pool = new pg.Pool(config);
 class DBError extends Error {
@@ -495,3 +495,8 @@ function getConventions(user_id, page, limit) {
     });
 }
 exports.getConventions = getConventions;
+function startConventions() {
+    return __awaiter(this, void 0, void 0, function* () {
+    });
+}
+exports.startConventions = startConventions;

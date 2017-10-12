@@ -59,6 +59,7 @@ type Msg
   | ChangeConventionTab TabStatus
   -- loading
   | DidLoadUser (Result Http.Error (ConRequest User))
+  | DidLoadUserThen (Cmd Msg) (Result Http.Error (ConRequest User))
   | DidLoadChooseConvention (Result Http.Error (ConRequest (Pagination MetaConvention)))
   | DidLoadConvention (Result Http.Error (ConRequest FullConvention))
   -- saving

@@ -3,10 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
+const tasks = require("./tasks");
 const api_1 = require("./api");
 const app = express();
 app.listen(process.env.PORT || 8080, () => {
     console.log('Server is listening on port 8080');
+    tasks.start();
 });
 app.use(bodyParser.json());
 app.use('/api', api_1.default);

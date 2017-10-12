@@ -18,7 +18,7 @@ import List_
 import ProductType exposing (FullType)
 import Product
 import Price
-import Join exposing (ProductWithType)
+import Join exposing (ProductWithType, PriceWithTypeAndProduct)
 
 view : Model -> ConventionPageState -> Html Msg
 view model page =
@@ -86,7 +86,24 @@ productTypeLabel { color, name } =
     , text name ]
 
 prices : Model -> Convention -> Html msg
-prices _ _ = div [] []
+prices model con =
+  case asFull con of
+    Nothing -> div [] []
+    Just fc ->
+      table [] [ "Type", "Product", "Quantity", "Price" ]
+        priceRow
+        ( List.filterMap (\p -> Maybe.map (always p) p.product_type) <|
+            Join.pricesWithProductsAndTypes
+              (List.map ProductType.normalize (model.user.productTypes))
+              (List.map Product.normalize (if List.isEmpty fc.products then model.user.products else fc.products))
+              (List.filterMap Price.normalize (if List.isEmpty fc.prices then model.user.prices else fc.prices)) )
+
+priceRow : PriceWithTypeAndProduct -> List (Html msg)
+priceRow { product, product_type, quantity, price } =
+  [ product_type |> Maybe.map productTypeLabel |> Maybe.withDefault (text "")
+  , text <| (product |> Maybe.map (\p -> p.name) |> Maybe.withDefault "")
+  , text (toString quantity)
+  , text (Price.priceStr price) ]
 
 sales : Model -> Convention -> Html msg
 sales _ _ = div [] []

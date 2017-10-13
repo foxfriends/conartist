@@ -83,7 +83,8 @@ inventoryFooter model { current_tab, color_picker } =
           ColorPickerClose
           color_picker.open
       , Fancy.tooltip "New product" <| Fancy.button Icon "add" [ onClick NewProduct ]
-      , Fancy.button Icon "save" [ onClick Save, (disabled << not << Model.isDirty) model ] ]
+      , Fancy.button Icon "save" [ onClick Save, (disabled << not << Model.isDirty) model ]
+      , Fancy.button Icon "file_upload" [ onClick ReadInventoryCSV ] ]
     Nothing -> []
 
 colorPicker : (Int -> Msg) -> Int -> Int -> Html Msg

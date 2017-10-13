@@ -48,6 +48,7 @@ type Msg
   | ProductQuantity Int Int String
   | ProductDiscontinued Int Int
   | SortInventoryTable Int
+  | ReadInventoryCSV
   -- pricing
   | PricingAdd
   | PricingProductType Int (Maybe Int)
@@ -78,6 +79,9 @@ type Msg
   | SavedTypes (Result Http.Error (ConRequest (List FullType)))
   -- localStorage
   | LSRetrive (String, Maybe String)
+  -- files
+  | DidFileRead (String, Maybe String)
+  | DidFileWrite (String, Maybe String)
   -- navigation
   | DoNav String
   | DidNav Location

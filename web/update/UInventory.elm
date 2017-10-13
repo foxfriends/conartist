@@ -6,6 +6,7 @@ import Product
 import ProductType
 import List_
 import Table exposing (updateSort)
+import Files
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case model.page of
@@ -127,5 +128,7 @@ update msg model = case model.page of
         | page = Inventory
           { page
           | table_sort = updateSort col page.table_sort } }, Cmd.none )
+    ReadInventoryCSV -> model ! [ Files.read "inventory" ]
+    DidFileRead ("inventory", Just file) -> let _ = Debug.log "file" file in model ! []
     _ -> (model, Cmd.none)
   _ -> (model, Cmd.none)

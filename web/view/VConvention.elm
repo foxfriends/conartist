@@ -128,8 +128,8 @@ sales model page con =
             [ Standard "Type"
             , Standard "Products"
             , Sortable "Quantity" rquantitysort SortConRecordsTable
-            , Sortable "Price" rpricesort SortConPricesTable
-            , Sortable "Time" timesort SortConPricesTable ]
+            , Sortable "Price" rpricesort SortConRecordsTable
+            , Sortable "Time" timesort SortConRecordsTable ]
             recordRow <|
             Join.recordsWithTypedProducts
               (List.map ProductType.normalize (model.user.productTypes))

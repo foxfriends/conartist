@@ -29,10 +29,10 @@ view model page =
         ( Join.pricesWithProductsAndTypes
           ( model.user.productTypes
             |> List.map ProductType.normalize
-            |> List.filter (\p -> not p.discontinued) )
+            |> List.filter (not << .discontinued) )
           ( model.user.products
             |> List.map Product.normalize
-            |> List.filter (\p -> not p.discontinued) )
+            |> List.filter (not << .discontinued) )
           ( model.user.prices
             |> List.filterMap Price.normalize) ) ]
     , div [ class "pricing__footer" ] (footer model) ]
@@ -42,21 +42,21 @@ priceRow model page { index, product_type, quantity, price, product } =
   let types = List.map ProductType.normalize model.user.productTypes in
   let products = model.user.products
     |> List.map Product.normalize
-    |> List.filter (\p -> Just p.type_id == Maybe.map (\t -> t.id) product_type) in
+    |> List.filter (.type_id >> Just >> (==) (Maybe.map .id product_type)) in
   [ Fancy.select
       (SelectProductType index)
       (PricingProductType index)
       (\x -> case x of
         Just x ->
           types
-            |> List_.find (\y -> y.id == x)
-            |> Maybe.map (\x -> x.name)
+            |> List_.find (.id >> (==) x)
+            |> Maybe.map .name
             |> Maybe.withDefault "Unknown type"
         Nothing -> "Choose a type")
       ( types
         |> (if model.show_discontinued then identity else List.filter (\t -> not t.discontinued))
-        |> List.map (\t -> t.id) )
-      (product_type |> Maybe.map (\t -> t.id))
+        |> List.map .id )
+      (product_type |> Maybe.map .id)
       ( case page.open_selector of
           TypeSelector i -> i == index
           _ -> False )
@@ -66,16 +66,16 @@ priceRow model page { index, product_type, quantity, price, product } =
       (\x -> case x of
         Just x ->
           products
-            |> List_.find (\y -> y.id == x)
-            |> Maybe.map (\x -> x.name)
+            |> List_.find (.id >> (==) x)
+            |> Maybe.map .name
             |> Maybe.withDefault "Unknown product"
         Nothing -> "All")
       ( Nothing ::
         ( products
-          |> (if model.show_discontinued then identity else List.filter (\t -> not t.discontinued))
-          |> List.map (\t -> t.id)
+          |> (if model.show_discontinued then identity else List.filter (not << .discontinued))
+          |> List.map .id
           |> List.map Just ) )
-      ( product |> Maybe.map (\t -> t.id))
+      (Maybe.map .id product)
       ( case page.open_selector of
           ProductSelector i -> i == index
           _ -> False )
@@ -90,13 +90,13 @@ footer model =
 
 typenamesort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
 typenamesort a b = compare
-  (a.product_type |> Maybe.map (\p -> p.name) |> Maybe.withDefault "")
-  (b.product_type |> Maybe.map (\p -> p.name) |> Maybe.withDefault "")
+  (a.product_type |> Maybe.map .name |> Maybe.withDefault "")
+  (b.product_type |> Maybe.map .name |> Maybe.withDefault "")
 
 productnamesort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
 productnamesort a b = compare
-  (a.product |> Maybe.map (\p -> p.name) |> Maybe.withDefault "")
-  (b.product |> Maybe.map (\p -> p.name) |> Maybe.withDefault "")
+  (a.product |> Maybe.map .name |> Maybe.withDefault "")
+  (b.product |> Maybe.map .name |> Maybe.withDefault "")
 
 quantitysort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
 quantitysort a b = compare a.quantity b.quantity

@@ -35,4 +35,5 @@ conTableRow { name, code, start, end } =
   , text <| dateRange start end ]
 
 footer : Model -> List (Html Msg)
-footer _ = [ Fancy.alignedTooltip Right "Add a convention" <| Fancy.button Icon "add" [ onClick OpenChooseConvention ] ]
+footer _ = List.singleton <|
+  Fancy.alignedTooltip Right "Add a convention" <| Fancy.button Icon "add" [ onClick OpenChooseConvention ]

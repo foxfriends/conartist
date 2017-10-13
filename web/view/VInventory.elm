@@ -39,11 +39,11 @@ inventoryTab model page pt =
       ( Join.productsWithTypes
         (model.user.productTypes
           |> List.map ProductType.normalize
-          |> List.filter (\p -> not p.discontinued))
+          |> List.filter (not << .discontinued))
         (model.user.products
           |> List.map Product.normalize
-          |> List.filter (\p -> p.type_id == pt.id)
-          |> List.filter (\p -> not p.discontinued) ) ) ]
+          |> List.filter (.type_id >> (==) pt.id)
+          |> List.filter (not << .discontinued) ) ) ]
 
 namesort : ProductWithType -> ProductWithType -> Order
 namesort a b = compare a.name b.name
@@ -67,7 +67,7 @@ inventoryFooter : Model -> InventoryPageState -> List (Html Msg)
 inventoryFooter model { current_tab, color_picker } =
   case model.user.productTypes
     |> List.map ProductType.normalize
-    |> (if model.show_discontinued then identity else List.filter (\t -> not t.discontinued))
+    |> (if model.show_discontinued then identity else List.filter (not << .discontinued))
     |> List.drop current_tab.current
     |> List.head
   of
@@ -84,7 +84,8 @@ inventoryFooter model { current_tab, color_picker } =
           color_picker.open
       , Fancy.tooltip "New product" <| Fancy.button Icon "add" [ onClick NewProduct ]
       , Fancy.button Icon "save" [ onClick Save, (disabled << not << Model.isDirty) model ]
-      , Fancy.button Icon "file_upload" [ onClick ReadInventoryCSV ] ]
+      , Fancy.tooltip "Import (CSV)" <| Fancy.button Icon "file_upload" [ onClick ReadInventoryCSV ]
+      , Fancy.tooltip "Export (CSV)" <| Fancy.button Icon "file_download" [ onClick WriteInventoryCSV ] ]
     Nothing -> []
 
 colorPicker : (Int -> Msg) -> Int -> Int -> Html Msg

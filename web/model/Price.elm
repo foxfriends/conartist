@@ -145,7 +145,7 @@ parseMoney money =
   case String.uncons money of
     Just ('$', rest) -> parseMoney rest
     _ -> String.toFloat money
-      |> Result.map (\x -> toFloat (floor (x * 100)) / 100)
+      |> Result.map ((*) 100 >> floor >> toFloat >> flip (/) 100)
 
 moneyFormat : Float -> String
 moneyFormat = String.cons '$' << format usLocale
@@ -204,13 +204,13 @@ validateRequest : List Price -> List ProductType -> List Product -> Result Strin
 validateRequest prices types products =
   let productName id = products
     |> List.map Product.normalize
-    |> List_.find (\p -> Just p.id == id)
-    |> Maybe.map (\p -> p.name)
+    |> List_.find (.id >> Just >> (==) id)
+    |> Maybe.map .name
     |> Maybe.withDefault "" in
   let typeName id = types
     |> List.map ProductType.normalize
-    |> List_.find (\p -> Just p.id == id)
-    |> Maybe.map (\p -> p.name)
+    |> List_.find (.id >> Just >> (==) id)
+    |> Maybe.map .name
     |> Maybe.withDefault "" in
   let validate prices bad = case prices of
     head :: rest ->
@@ -226,8 +226,8 @@ validateRequest prices types products =
             else if List.member item bad then
               Err <| "Two prices set for buying " ++ toString quantity ++ " " ++ productName product_id ++ " " ++ typeName type_id ++ "(s)"
             else
-              validate rest (item :: bad) |> Result.map (\v -> head :: v)
-        Nothing -> validate rest bad |> Result.map (\v -> head :: v)
+              validate rest (item :: bad) |> Result.map ((::) head)
+        Nothing -> validate rest bad |> Result.map ((::) head)
     [] -> Ok [] in
   validate prices []
 
@@ -235,9 +235,9 @@ fillNewTypes : List ProductType.FullType -> List ProductType -> List Price -> Li
 fillNewTypes updates types prices =
   let replacement i = types
     |> List.map ProductType.normalize
-    |> List_.find (\t -> t.id == i)
-    |> Maybe.andThen (\t -> List_.find (\u -> t.name == u.name) updates)
-    |> Maybe.map (\t -> t.id)
+    |> List_.find (.id >> (==) i)
+    |> Maybe.andThen (\t -> List_.find (.name >> (==) t.name) updates)
+    |> Maybe.map .id
     |> Maybe.withDefault i in
   prices
     |> List.map (\price -> case price of
@@ -250,18 +250,21 @@ fillNewTypes updates types prices =
 
 fillNewProducts : List Product.FullProduct -> List Product -> List Price -> List Price
 fillNewProducts updates products prices =
-  let replacement i = products
-    |> List.map Product.normalize
-    |> List_.find (\t -> t.id == i)
-    |> Maybe.andThen (\t -> List_.find (\u -> t.name == u.name) updates)
-    |> Maybe.map (\t -> t.id)
-    |> Maybe.withDefault i in
+  let replacement i =
+    if i > 0
+    then i
+    else products
+      |> List.map Product.normalize
+      |> List_.find (.id >> (==) i)
+      |> Maybe.andThen (\t -> List_.find (.name >> (==) t.name) updates)
+      |> Maybe.map .id
+      |> Maybe.withDefault i in
   prices
     |> List.map (\price -> case price of
-      New p -> New  { p | product_id = Maybe.map (\i -> if i > 0 then i else replacement i) p.product_id }
+      New p -> New  { p | product_id = Maybe.map replacement p.product_id }
       Clean p -> Clean p
-      Dirty p -> Dirty { p | product_id = Maybe.map (\i -> if i > 0 then i else replacement i) p.product_id }
-      Deleted p -> Deleted { p | product_id = Maybe.map (\i -> if i > 0 then i else replacement i) p.product_id } )
+      Dirty p -> Dirty { p | product_id = Maybe.map replacement p.product_id }
+      Deleted p -> Deleted { p | product_id = Maybe.map replacement p.product_id } )
 
 delete : Price -> Maybe Price
 delete price = case price of

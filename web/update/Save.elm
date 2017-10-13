@@ -16,20 +16,20 @@ update msg model = case msg of
   Save -> update SaveTypes model
   SaveTypes ->
     case Model.validateRequest model of
-      Ok _ -> (model, saveTypes model)
+      Ok _ -> model ! [ saveTypes model ]
       Err error -> UDialog.update (ShowErrorMessage (Debug.log "Error:" error)) model
   SaveProducts ->
     case Model.validateRequest model of
-      Ok _ -> (model, saveProducts model)
+      Ok _ -> model ! [ saveProducts model ]
       Err error -> UDialog.update (ShowErrorMessage (Debug.log "Error:" error)) model
   SavePrices ->
     case Model.validateRequest model of
-      Ok _ -> (model, savePrices model)
+      Ok _ -> model ! [ savePrices model ]
       Err error -> UDialog.update (ShowErrorMessage (Debug.log "Error:" error)) model
   SavedTypes (Ok (Success updates)) -> update SaveProducts (Model.cleanTypes updates model)
   SavedProducts (Ok (Success updates)) -> update SavePrices (Model.cleanProducts updates model)
-  SavedPrices (Ok (Success updates)) -> (Model.cleanPrices updates model, Cmd.none)
-  _ -> (model, Cmd.none)
+  SavedPrices (Ok (Success updates)) -> Model.cleanPrices updates model ! []
+  _ -> model ! []
 
 saveTypes : Model -> Cmd Msg
 saveTypes model =
@@ -37,7 +37,7 @@ saveTypes model =
     |> List.filter ProductType.isDirty
     |> List.filterMap ProductType.requestFormat
     |> List.map ProductType.requestJson
-    |> \types -> Json.object [ ("types", Json.list types) ]
+    |> Json.object << List.singleton << (,) "types" << Json.list
     |> Http.jsonBody
     |> \body ->
       Http.request
@@ -56,7 +56,7 @@ saveProducts model =
     |> List.filter Product.isDirty
     |> List.filterMap Product.requestFormat
     |> List.map Product.requestJson
-    |> \products -> Json.object [ ("products", Json.list products) ]
+    |> Json.object << List.singleton << (,) "products" << Json.list
     |> Http.jsonBody
     |> \body ->
       Http.request
@@ -74,7 +74,7 @@ savePrices model =
   model.user.prices
     |> List.foldl Price.requestFormat []
     |> List.map Price.requestJson
-    |> \prices -> Json.object [ ("prices", Json.list prices) ]
+    |> Json.object << List.singleton << (,) "prices" << Json.list
     |> Http.jsonBody
     |> \body ->
       Http.request

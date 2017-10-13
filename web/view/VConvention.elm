@@ -25,7 +25,7 @@ import Join exposing (ProductWithType, PriceWithTypeAndProduct, RecordWithTypedP
 
 view : Model -> ConventionPageState -> Html Msg
 view model page =
-  case List_.find (\c -> (asMeta c).code == page.convention) model.user.conventions of
+  case List_.find (asMeta >> .code >> (==) page.convention) model.user.conventions of
       Just con ->
         tabs ChangeConventionTab []
           [ Tab "Summary" <| summary model con
@@ -90,7 +90,10 @@ productTypeLabel { color, name } =
     , text name ]
 
 productCircle : Int -> String -> Html msg
-productCircle color name = Fancy.letterCircle (String.cons '#' <| String.padLeft 6 '0' <| Hex.toString color) (String.left 1 name)
+productCircle color name =
+  Fancy.letterCircle
+    (String.cons '#' <| String.padLeft 6 '0' <| Hex.toString color)
+    (String.left 1 name)
 
 prices : Model -> ConventionPageState -> Convention -> Html Msg
 prices model page con =
@@ -140,15 +143,15 @@ recordRow : RecordWithTypedProduct -> List (Html msg)
 recordRow record =
   [ div [ class "convention__product-type" ] <| typeSet record.products
   , text <| productString record.products
-  , text <| toString <| List.length record.products
-  , text <| Price.priceStr <| Right record.price
+  , text <| toString (List.length record.products)
+  , text <| Price.priceStr (Right record.price)
   , text <| Date.toFormattedString "EEE, h:mm a" record.time ]
 
 typeSet : List ProductWithType -> List (Html msg)
 typeSet =
   List.map (\p -> (p.product_type.color, p.product_type.name))
     >> Set.fromList
-    >> Set.foldl (\c -> \p -> (uncurry productCircle) c :: p) []
+    >> Set.foldl (uncurry productCircle >> (::)) []
 
 productString : List ProductWithType -> String
 productString products =
@@ -190,13 +193,13 @@ namesort a b = compare a.name b.name
 
 maybetypesort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
 maybetypesort a b = compare
-  (a.product_type |> Maybe.map (\p -> p.name) |> Maybe.withDefault "")
-  (b.product_type |> Maybe.map (\p -> p.name) |> Maybe.withDefault "")
+  (a.product_type |> Maybe.map .name |> Maybe.withDefault "")
+  (b.product_type |> Maybe.map .name |> Maybe.withDefault "")
 
 maybeproductsort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
 maybeproductsort a b = compare
-  (a.product |> Maybe.map (\p -> p.name) |> Maybe.withDefault "")
-  (b.product |> Maybe.map (\p -> p.name) |> Maybe.withDefault "")
+  (a.product |> Maybe.map .name |> Maybe.withDefault "")
+  (b.product |> Maybe.map .name |> Maybe.withDefault "")
 
 quantitysort : ProductWithType -> ProductWithType -> Order
 quantitysort a b = compare a.quantity b.quantity

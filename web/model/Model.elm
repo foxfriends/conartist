@@ -23,10 +23,10 @@ type alias Model =
 
 isDirty : Model -> Bool
 isDirty { user } =
-      foldl (\c -> \p -> p || Convention.isDirty c )  False user.conventions
-  ||  foldl (\c -> \p -> p || Product.isDirty c )     False user.products
-  ||  foldl (\c -> \p -> p || Price.isDirty c )       False user.prices
-  ||  foldl (\c -> \p -> p || ProductType.isDirty c ) False user.productTypes
+      foldl (Convention.isDirty >> (||))  False user.conventions
+  ||  foldl (Product.isDirty >> (||))     False user.products
+  ||  foldl (Price.isDirty >> (||))       False user.prices
+  ||  foldl (ProductType.isDirty >> (||)) False user.productTypes
 
 cleanPrices : List Price.FullPrice -> Model -> Model
 cleanPrices updates model =
@@ -64,6 +64,6 @@ cleanTypes updates model =
 validateRequest : Model -> Result String Model
 validateRequest model =
   ProductType.validateRequest model.user.productTypes
-    |> Result.andThen (\_ -> Product.validateRequest model.user.productTypes model.user.products)
-    |> Result.andThen (\_ -> Price.validateRequest model.user.prices model.user.productTypes model.user.products)
-    |> Result.map (\_ -> model)
+    |> Result.andThen (always <| Product.validateRequest model.user.productTypes model.user.products)
+    |> Result.andThen (always <| Price.validateRequest model.user.prices model.user.productTypes model.user.products)
+    |> Result.map (always <| model)

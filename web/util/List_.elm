@@ -38,6 +38,4 @@ updateAtOrInsert default pred fn list = case list of
   [] -> [ default ]
 
 zip : List a -> List b -> List (a, b)
-zip a b = case (a, b) of
-  (ahead :: arest, bhead :: brest) -> (ahead, bhead) :: zip arest brest
-  _ -> []
+zip = List.map2 (,)

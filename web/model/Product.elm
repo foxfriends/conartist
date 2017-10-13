@@ -111,7 +111,12 @@ fillNewTypes updates originals products =
     ProductType.New p -> Just p
     _                 -> Nothing) originals
   in
-  let typeMapping = Dict.fromList (updates |> List.filterMap (\u -> List_.find (\o -> o.name == u.name) oldNews |> Maybe.map (\f -> (f.localId, u.id))))
+  let typeMapping =
+      Dict.fromList
+        (updates
+          |> List.filterMap
+            (\u -> List_.find (.name >> (==) u.name) oldNews
+              |> Maybe.map (.localId >> flip (,) u.id)))
   in products
     |> List.map (\p -> case p of
       New prod -> New { prod | type_id = Dict.get (-prod.type_id) (Debug.log "type mapping" typeMapping) |> Maybe.withDefault prod.type_id }
@@ -122,22 +127,23 @@ new id type_id = New (NewProduct id ("Product " ++ toString id) 0 type_id)
 
 validateRequest : List ProductType -> List Product -> Result String (List Product)
 validateRequest types products =
-  let validate = (\products -> \bad ->
+  let validate products bad =
     case products of
       item :: rest ->
-        let { name, type_id } = normalize item in
+        let { name, type_id, quantity } = normalize item in
           if name == "" then
             Err "You cannot leave a product's name blank!"
+          else if quantity < 0 then
+            Err <| "You cannot have less than 0 " ++ name ++ "s"
           else if List.member (type_id, name) bad then
             let typeName = types
               |> List.map ProductType.normalize
-              |> List_.find (\x -> x.id == type_id)
-              |> Maybe.map (\x -> x.name)
+              |> List_.find (.id >> (==) type_id)
+              |> Maybe.map .name
               |> Maybe.withDefault "Product"
             in Err <| "You have two " ++ typeName ++ "s named " ++ name ++ ". Please rename one of them before you save! (Note: one of them might be discontinued)"
           else
             validate rest ((type_id, name) :: bad)
-              |> Result.andThen (\valids -> Ok (item :: valids))
+              |> Result.andThen ((::) item >> Ok)
       [] -> Ok []
-  )
   in validate products []

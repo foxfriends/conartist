@@ -15,22 +15,27 @@ import ConRequest
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case msg of
-  CloseDialog -> ({ model | dialog = Closed model.dialog }, after 300 millisecond EmptyDialog)
-  EmptyDialog -> ({ model | dialog = None }, Cmd.none)
-  ShowErrorMessage err -> ({ model | dialog = Error err }, focusClose)
-  OpenChooseConvention -> ({ model | dialog = ChooseConvention { cons = [], pages = 0, page = 0 } }, Cmd.batch [ focusClose, loadConventions model 0 ])
+  CloseDialog -> { model | dialog = Closed model.dialog } ! [ after 300 millisecond EmptyDialog ]
+  EmptyDialog -> { model | dialog = None } ! []
+  ShowErrorMessage err -> { model | dialog = Error err } ! [ focusClose ]
+  OpenChooseConvention -> { model | dialog = ChooseConvention { cons = [], pages = 0, page = 0 } } ![ focusClose, loadConventions model 0 ]
   DialogPage offset ->
     case model.dialog of
       ChooseConvention { cons, pages, page } ->
-        ( { model
-          | dialog = ChooseConvention { cons = cons, pages = pages, page = (page + offset) } }, loadConventions model (page + offset))
+        { model
+        | dialog = ChooseConvention { cons = cons, pages = pages, page = (page + offset) }
+        } ! [ loadConventions model (page + offset) ]
       _ -> model ! []
   AddConvention con ->
     let user = model.user in
     if user.keys > 0 then
-      { model | user =  { user
-                        | conventions = Meta con :: user.conventions
-                        , keys = user.keys - 1 } } ! [ purchaseConvention model con.code ]
+      { model
+      | user =
+        { user
+        | conventions = Meta con :: user.conventions
+        , keys = user.keys - 1
+        }
+      } ! [ purchaseConvention model con.code ]
     else model ! [] -- silent fail because the button should be disabled
   _ -> model ! []
 

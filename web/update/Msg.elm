@@ -49,6 +49,7 @@ type Msg
   | ProductDiscontinued Int Int
   | SortInventoryTable Int
   | ReadInventoryCSV
+  | WriteInventoryCSV
   -- pricing
   | PricingAdd
   | PricingProductType Int (Maybe Int)

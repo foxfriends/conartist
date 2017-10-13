@@ -64,7 +64,7 @@ individualClean : List FullType -> ProductType -> ProductType
 individualClean updates ptype =
   let replaceNew p =
     updates
-      |> List_.find (\x -> x.name == p.name)
+      |> List_.find (.name >> (==) p.name)
       |> Maybe.map Clean
       |> Maybe.withDefault (New p)
   in
@@ -74,7 +74,7 @@ individualClean updates ptype =
       New   p -> replaceNew p
 
 clean : List FullType -> List ProductType -> List ProductType
-clean updates = List.map (individualClean updates)
+clean = List.map << individualClean
 
 new : Int -> ProductType
 new id = New (NewType id ("New Type " ++ toString id) 0xFFFFFF)
@@ -99,7 +99,7 @@ toggleDiscontinued type_ = case type_ of
 
 validateRequest : List ProductType -> Result String (List ProductType)
 validateRequest types =
-  let validate = (\types -> \bad ->
+  let validate types bad =
     case types of
       item :: rest ->
         let { name } = normalize item in
@@ -109,7 +109,6 @@ validateRequest types =
             Err ("You have two product types named " ++ name ++ ". Please rename one of them before you save! (Note: one of them might be discontinued)")
           else
             validate rest (name :: bad)
-              |> Result.andThen (\valids -> Ok (item :: valids))
+              |> Result.andThen ((::) item >> Ok)
       [] -> Ok []
-  )
   in validate types []

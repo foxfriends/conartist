@@ -11,17 +11,17 @@ import List_
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case msg of
-  DidLoadUser (Ok (Success user)) -> ({ model | user = user }, Cmd.none)
-  DidLoadUserThen after (Ok (Success user)) -> ({ model | user = user }, after)
+  DidLoadUser (Ok (Success user)) -> { model | user = user } ! []
+  DidLoadUserThen after (Ok (Success user)) -> { model | user = user } ! []
   DidLoadChooseConvention (Ok (Success { data, page, pages })) ->
     case model.dialog of
-      ChooseConvention _ -> ({ model | dialog = ChooseConvention { cons = data, pages = pages, page = page } }, Cmd.none)
-      _ -> (model, Cmd.none)
+      ChooseConvention _ -> { model | dialog = ChooseConvention { cons = data, pages = pages, page = page } } ! []
+      _ -> model ! []
   DidLoadConvention (Ok (Success con)) ->
     let user = model.user in
-    let conventions = List_.updateAt (\c -> (asMeta c).code == con.code) (always (Full con)) user.conventions in
-      ({ model | user = { user | conventions = conventions } }, Cmd.none)
-  _ -> (model, Cmd.none)
+    let conventions = List_.updateAt (asMeta >> .code >> (==) con.code) (always <| Full con) user.conventions in
+      { model | user = { user | conventions = conventions } } ! []
+  _ -> model ! []
 
 user : Model -> Cmd Msg
 user = Http.send DidLoadUser << userReq

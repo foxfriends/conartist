@@ -20,7 +20,7 @@ update msg model = case model.page of
       ( { model
         | user =
           { user
-          | productTypes = List_.updateAt (\t -> let u = (ProductType.normalize t) in u.id == id) (ProductType.setName name) types } }
+          | productTypes = List_.updateAt (ProductType.normalize >> .id >> (==) id) (ProductType.setName name) types } }
       , Cmd.none )
     ProductTypeColor id color ->
       let user = model.user in
@@ -28,7 +28,7 @@ update msg model = case model.page of
       ( { model
         | user =
           { user
-          | productTypes = List_.updateAt (\t -> let u = (ProductType.normalize t) in u.id == id) (ProductType.setColor color) types } }
+          | productTypes = List_.updateAt (ProductType.normalize >> .id >> (==) id) (ProductType.setColor color) types } }
       , Cmd.none )
     ProductTypeDiscontinued id ->
       let user = model.user in
@@ -37,7 +37,7 @@ update msg model = case model.page of
         { model
         | user =
           { user
-          | productTypes = List_.filterUpdateAt (\t -> let u = (ProductType.normalize t) in u.id == id) ProductType.toggleDiscontinued types } }
+          | productTypes = List_.filterUpdateAt (ProductType.normalize >> .id >> (==) id) ProductType.toggleDiscontinued types } }
       in if model.show_discontinued then result ! [] else update (ChangeInventoryTab (TabStatus (page.current_tab.current - 1) page.current_tab.width)) result
     ProductName type_ id name ->
       let user = model.user in
@@ -71,7 +71,7 @@ update msg model = case model.page of
           then len
           else productTypes
             |> List.map ProductType.normalize
-            |> List.filter (\t -> not t.discontinued)
+            |> List.filter (not << .discontinued)
             |> List.length
       in
       update (ChangeInventoryTab <| TabStatus tabIndex page.current_tab.width) <|
@@ -84,13 +84,15 @@ update msg model = case model.page of
       let products = user.products in
       let type_id = user.productTypes
           |> List.map ProductType.normalize
-          |> (if model.show_discontinued then identity else List.filter (\t -> not t.discontinued))
+          |> (if model.show_discontinued then identity else List.filter (not << .discontinued))
           |> List.drop page.current_tab.current
           |> List.head
-          |> Maybe.map (\t -> t.id)
+          |> Maybe.map .id
           |> Maybe.withDefault 0
       in
-      let len = products |> List.filter (\x -> (Product.normalize x).type_id == type_id) |> List.length in
+      let len = products
+        |> List.filter (Product.normalize >> .type_id >> (==) type_id)
+        |> List.length in
       ( { model
         | user =
           { user
@@ -129,6 +131,10 @@ update msg model = case model.page of
           { page
           | table_sort = updateSort col page.table_sort } }, Cmd.none )
     ReadInventoryCSV -> model ! [ Files.read "inventory" ]
-    DidFileRead ("inventory", Just file) -> let _ = Debug.log "file" file in model ! []
+    DidFileRead ("inventory", Just file) ->
+      String.split "\n" file
+        |> List.map (List.map String.trim << String.split ",")
+        |> List.map (always 0)
+        |> always (model ! []) -- lol wut
     _ -> (model, Cmd.none)
   _ -> (model, Cmd.none)

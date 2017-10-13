@@ -36,7 +36,11 @@ type alias RecordWithTypedProduct =
 
 productsWithTypes : List FullType -> List FullProduct -> List ProductWithType
 productsWithTypes types products =
-  List.filterMap (\p -> Maybe.map (joinProductToType p) <| List_.find (\t -> p.type_id == t.id) types) products
+  List.filterMap
+    (\p ->
+      List_.find (.id >> (==) p.type_id) types
+        |> Maybe.map (joinProductToType p))
+    products
 
 joinProductToType : FullProduct -> FullType -> ProductWithType
 joinProductToType { id, name, quantity, discontinued } typ = ProductWithType id name typ quantity discontinued
@@ -44,15 +48,13 @@ joinProductToType { id, name, quantity, discontinued } typ = ProductWithType id 
 pricesWithProductsAndTypes : List FullType -> List FullProduct -> List NewPrice -> List PriceWithTypeAndProduct
 pricesWithProductsAndTypes types products prices =
   prices
-    |> List.map (\p -> (p, List_.find (\t -> Just t.id == p.type_id) types))
-    |> List.map (\(p, t) -> joinTypeToPrice p t)
+    |> List.map (\p -> (p, List_.find (.id >> Just >> (==) p.type_id) types))
+    |> List.map (uncurry joinTypeToPrice)
     |> List.filterMap
       (\p -> case p.product_id of
         Nothing -> Just (p, Nothing)
-        Just i ->
-          List_.find (\r -> r.id == i) products
-            |> Maybe.map (\r -> (p, Just r)))
-    |> List.map (\(p, r) -> joinProductToTypedPrice p r)
+        Just i -> List_.find (.id >> (==) i) products |> Maybe.map (Just >> (,) p))
+    |> List.map (uncurry joinProductToTypedPrice)
 
 joinTypeToPrice : NewPrice -> Maybe FullType -> PriceWithType
 joinTypeToPrice { index, product_id, quantity, price } product_type =
@@ -70,4 +72,4 @@ recordsWithTypedProducts types products records =
 joinProductsToRecord : List ProductWithType -> Record -> RecordWithTypedProduct
 joinProductsToRecord products record =
   { record
-  | products = List.filterMap (\i -> List_.find (\p -> p.id == i) products) record.products }
+  | products = List.filterMap (\i -> List_.find (.id >> (==) i) products) record.products }

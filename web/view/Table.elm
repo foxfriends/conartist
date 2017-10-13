@@ -132,9 +132,9 @@ adjustSort order sort =
 sortFn : List Order -> List (TableHeader a msg) -> (a -> a -> Order)
 sortFn orders headers =
   zip orders headers
-    |> List.filter (\(o, _) -> not (o == EQ))
+    |> List.filter (Tuple.first >> (==) EQ >> not)
     |> List.head
-    |> Maybe.map (\(o, s) -> (o, sortFor s))
+    |> Maybe.map (Tuple.mapSecond sortFor)
     |> Maybe.map (uncurry adjustSort)
     |> Maybe.withDefault (always <| always EQ)
 

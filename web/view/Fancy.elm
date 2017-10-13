@@ -103,7 +103,12 @@ rawSelect onOpen onSelect optionHtml value display open =
 
 option : (Maybe a -> msg) -> String -> Maybe a -> Bool -> Html msg
 option onSelect name opt isSelected =
-  div [ class "fancy-select__option", onClick (onSelect opt) ] [ text name, if isSelected then icon "check" [ class "fancy-select__selected" ] else text "" ]
+  div
+    [ class "fancy-select__option", onClick (onSelect opt) ]
+    [ text name
+    , if isSelected
+        then icon "check" [ class "fancy-select__selected" ]
+        else text "" ]
 
 -- TODO: keyboard controls for menu (hover state, select on <Enter>)
 menu : List (Html.Attribute msg) -> Html msg -> Html msg -> msg -> Bool -> Html msg

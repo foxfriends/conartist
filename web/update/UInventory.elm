@@ -130,8 +130,8 @@ update msg model = case model.page of
             0 -> (case head of
               EQ -> LT
               LT -> GT
-              GT -> EQ) :: tail
-            n -> rec (col - 1) tail
+              GT -> EQ) :: List.map (always EQ) tail
+            n -> EQ :: rec (col - 1) tail
       in
         ( { model
           | page = Inventory

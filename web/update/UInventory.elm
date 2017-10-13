@@ -121,5 +121,21 @@ update msg model = case model.page of
             { open = False
             , page = 0 } } }
       , Cmd.none )
+    SortInventoryTable col ->
+      -- TODO: generalize this method for when making the next sortable table
+      let rec col list = case list of
+        [] -> []
+        head :: tail ->
+          case col of
+            0 -> (case head of
+              EQ -> LT
+              LT -> GT
+              GT -> EQ) :: tail
+            n -> rec (col - 1) tail
+      in
+        ( { model
+          | page = Inventory
+            { page
+            | table_sort = rec col page.table_sort } }, Cmd.none )
     _ -> (model, Cmd.none)
   _ -> (model, Cmd.none)

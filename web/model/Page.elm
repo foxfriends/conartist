@@ -1,7 +1,6 @@
 module Page exposing (..)
 import Status exposing (Status(..))
 import Msg exposing (TabStatus)
-import Convention
 
 type Page
   = Loading
@@ -17,7 +16,8 @@ type alias InventoryPageState =
   { current_tab: TabStatus
   , color_picker:
     { open: Bool
-    , page: Int } }
+    , page: Int }
+  , table_sort: List Order }
 
 type alias ConventionPageState =
   { current_tab: TabStatus
@@ -45,7 +45,7 @@ signIn = SignIn <| SignInPageState "" "" "" "" False True (Success "")
 
 -- TODO: TabStatus default dimensions should be revisited...
 inventory : Page
-inventory = Inventory <| InventoryPageState (TabStatus 0 150) { open = False, page = 0 }
+inventory = Inventory <| InventoryPageState (TabStatus 0 150) { open = False, page = 0 } [EQ, EQ, EQ]
 
 pricing : Page
 pricing = Pricing <| PricingPageState None

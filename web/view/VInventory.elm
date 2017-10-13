@@ -9,7 +9,7 @@ import Msg exposing (Msg(..))
 import Tabs exposing (tabsWithFooter, TabItem(..))
 import ProductType exposing (ProductType, FullType)
 import Product exposing (FullProduct)
-import Table exposing (tableWithSpacing, TableHeader(..))
+import Table exposing (sortableTable, TableHeader(..))
 import Icon exposing (icon)
 import Join exposing (ProductWithType)
 import Page exposing (InventoryPageState)
@@ -22,17 +22,19 @@ view model page =
     model.user.productTypes
       |> List.map ProductType.normalize
       |> List.filter (\p -> not p.discontinued)
-      |> List.map (\t -> Tab t.name (inventoryTab model t))
+      |> List.map (\t -> Tab t.name (inventoryTab model page t))
   in
     tabsWithFooter (inventoryFooter model page) ChangeInventoryTab [ class "inventory" ] (tabList ++ [ newTabButton ]) page.current_tab
 
--- TODO: tab index allows selecting the input fields from tabs that are not the current tab
-inventoryTab : Model -> FullType -> Html Msg
-inventoryTab model pt =
+-- TODO: tabindex allows selecting the input fields from tabs that are not the current tab
+inventoryTab : Model -> InventoryPageState -> FullType -> Html Msg
+inventoryTab model page pt =
   div
     [ class "inventory__tab" ]
-    [ tableWithSpacing "1fr 1fr 150px" [] []
-      [ Standard "Name", Standard "Quantity", (Html << centered << text) "Discontinue" ]
+    [ sortableTable page.table_sort "1fr 1fr 150px" [] []
+      [ Sortable "Name" namesort SortInventoryTable
+      , Sortable "Quantity" qtysort SortInventoryTable
+      , (Html << centered << text) "Discontinue" ]
       inventoryRow
       ( Join.productsWithTypes
         (model.user.productTypes
@@ -43,11 +45,20 @@ inventoryTab model pt =
           |> List.filter (\p -> p.type_id == pt.id)
           |> List.filter (\p -> not p.discontinued) ) ) ]
 
+namesort : ProductWithType -> ProductWithType -> Order
+namesort a b = compare a.name b.name
+
+qtysort : ProductWithType -> ProductWithType -> Order
+qtysort a b = compare a.quantity b.quantity
+
 inventoryRow : ProductWithType -> List (Html Msg)
 inventoryRow { id, name, quantity, product_type, discontinued } =
   [ Fancy.input "" name [ Fancy.flush ] [ type_ "text", onInput (ProductName product_type.id id) ]
   , Fancy.input "" (toString quantity) [ Fancy.flush ] [ type_ "text", onInput (ProductQuantity product_type.id id) ]
-  , centered <| Fancy.button Icon (if discontinued then "add_circle_outline" else "remove_circle_outline") [ onClick (ProductDiscontinued product_type.id id) ] ]
+  , centered <|
+      Fancy.button Icon
+        (if discontinued then "add_circle_outline" else "remove_circle_outline")
+        [ onClick (ProductDiscontinued product_type.id id) ] ]
 
 newTabButton : TabItem Msg
 newTabButton = IconButton "add" NewProductType

@@ -36,3 +36,8 @@ updateAtOrInsert : a -> (a -> Bool) -> (a -> a) -> List a -> List a
 updateAtOrInsert default pred fn list = case list of
   first :: rest -> if pred first then (fn first) :: rest else first :: updateAtOrInsert default pred fn rest
   [] -> [ default ]
+
+zip : List a -> List b -> List (a, b)
+zip a b = case (a, b) of
+  (ahead :: arest, bhead :: brest) -> (ahead, bhead) :: zip arest brest
+  _ -> []

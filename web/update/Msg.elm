@@ -9,6 +9,7 @@ import ProductType exposing (FullType)
 import Price exposing (FullPrice)
 import Convention exposing (MetaConvention, FullConvention)
 import User exposing (User)
+import Join exposing (ProductWithType)
 
 type alias TabStatus =
   { current: Int
@@ -46,6 +47,7 @@ type Msg
   | ProductName Int Int String
   | ProductQuantity Int Int String
   | ProductDiscontinued Int Int
+  | SortInventoryTable Int
   -- pricing
   | PricingAdd
   | PricingProductType Int (Maybe Int)

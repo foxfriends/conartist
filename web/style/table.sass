@@ -25,3 +25,16 @@
       font-size: 10pt
     &--borderless
       border: none
+    &--sortable
+      @extend .table__cell--header
+      cursor: pointer
+  &__sort
+    cursor: pointer
+    &::after
+      font-family: $font--icon
+    &--asc, &--desc
+      @extend .table__sort
+    &--asc::after
+      content: 'arrow_drop_up'
+    &--desc::after
+      content: 'arrow_drop_down'

@@ -1,38 +1,35 @@
-module Table exposing (table, tableWithFooter, tableWithSpacing, tableHeader, tableRow, TableHeader(..))
+module Table exposing (table, tableWithFooter, tableWithSpacing, tableHeader, tableRow, sortableTable, TableHeader(..))
 import Html exposing (Html, div, text)
+import Html.Events exposing (onClick)
 import Html.Attributes exposing (class, style)
+import List_ exposing (zip)
 
 type TableHeader a msg
-  = Sortable String (a -> a -> Order)
+  = Sortable String (a -> a -> Order) (Int -> msg)
   | Standard String
   | Html (Html msg)
 
-table : List (Html.Attribute msg) -> List String -> (a -> List (Html msg)) -> List a -> Html msg
-table = tableWithFooter []
-
-headerColumn : TableHeader a msg -> Html msg
-headerColumn title = div [ class "table__cell--header" ]
+headerColumn : Order -> Int -> TableHeader a msg -> Html msg
+headerColumn sort index title = div [ class "table__cell--header" ]
   [ case title of
       Standard title -> text title
-      Sortable title sort -> text title
+      Sortable title _ onSort ->
+        let dir = case sort of
+          EQ -> ""
+          LT -> "--asc"
+          GT -> "--desc"
+        in div [ class <| "table__sort" ++ dir, onClick (onSort index) ] [ text title ]
       Html html -> html ]
 
 column : Html msg -> Html msg
 column data = div [ class "table__cell" ] [ data ]
-
-tableWithFooter : List (Html msg) -> List (Html.Attribute msg) -> List String -> (a -> List (Html msg)) -> List a -> Html msg
-tableWithFooter footer attrs titles =
-  tableWithSpacing (String.repeat (List.length titles) "1fr ") footer attrs (List.map Standard titles)
-
-tableWithSpacing : String -> List (Html msg) -> List (Html.Attribute msg) -> List (TableHeader a msg) -> (a -> List (Html msg)) -> List a -> Html msg
-tableWithSpacing = customTable
 
 tableHeader : List String -> Html msg
 tableHeader titles =
   let spacing = (String.repeat (List.length titles) "1fr ") in
   div
     [ class "table", style [ ("grid-template-columns", spacing ) ] ]
-    (List.map (headerColumn << Standard) titles)
+    (List.map (headerColumn EQ 0 << Standard) titles)
 
 tableRow : (a -> List (Html msg)) -> a -> Html msg
 tableRow fn data =
@@ -42,13 +39,49 @@ tableRow fn data =
       [ class "table", style [ ("grid-template-columns", spacing ) ] ]
       result
 
-customTable : String -> List (Html msg) -> List (Html.Attribute msg) -> List (TableHeader a msg) -> (a -> List (Html msg)) -> List a -> Html msg
-customTable spacing footerContents attrs columnHeaders columns data =
+table : List (Html.Attribute msg) -> List String -> (a -> List (Html msg)) -> List a -> Html msg
+table = tableWithFooter []
+
+tableWithFooter : List (Html msg) -> List (Html.Attribute msg) -> List String -> (a -> List (Html msg)) -> List a -> Html msg
+tableWithFooter footer attrs titles =
+  tableWithSpacing (String.repeat (List.length titles) "1fr ") footer attrs (List.map Standard titles)
+
+tableWithSpacing : String -> List (Html msg) -> List (Html.Attribute msg) -> List (TableHeader a msg) -> (a -> List (Html msg)) -> List a -> Html msg
+tableWithSpacing spacing footer attrs headers = customTable (List.map (always EQ) headers) spacing footer attrs headers
+
+sortableTable : List Order -> String -> List (Html msg) -> List (Html.Attribute msg) -> List (TableHeader a msg) -> (a -> List (Html msg)) -> List a -> Html msg
+sortableTable = customTable
+
+customTable : List Order -> String -> List (Html msg) -> List (Html.Attribute msg) -> List (TableHeader a msg) -> (a -> List (Html msg)) -> List a -> Html msg
+customTable sortStatus spacing footerContents attrs columnHeaders columns data =
   div
     ([ class "table__container" ] ++ attrs)
-    ( [ div
-        [ class "table"
-        , style [ ("grid-template-columns", spacing ) ] ]
-        ( (List.map headerColumn columnHeaders) ++ List.map column (List.concatMap columns data) )
-      ]
-    ++ if List.isEmpty footerContents then [] else [ div [ class "table__footer" ] footerContents ] )
+    <|  [ div
+          [ class "table"
+          , style [ ("grid-template-columns", spacing ) ] ]
+          ( (List.indexedMap (\i -> \(o, h) -> headerColumn o i h) (zip sortStatus columnHeaders)) ++ List.map column (List.concatMap columns (List.sortWith (sortFn sortStatus columnHeaders) data)) ) ]
+        ++ if List.isEmpty footerContents then [] else [ div [ class "table__footer" ] footerContents ]
+
+sortFor : TableHeader a msg -> (a -> a -> Order)
+sortFor header = case header of
+  Sortable _ sort _ -> sort
+  _ -> always <| always EQ
+
+adjustSort : Order -> (a -> a -> Order) -> (a -> a -> Order)
+adjustSort order sort =
+  case order of
+    LT -> sort
+    EQ -> always <| always EQ
+    GT -> (\x -> \y -> case sort x y of
+      LT -> GT
+      GT -> LT
+      EQ -> EQ)
+
+sortFn : List Order -> List (TableHeader a msg) -> (a -> a -> Order)
+sortFn orders headers =
+  zip orders headers
+    |> List.filter (\(o, _) -> not (o == EQ))
+    |> List.head
+    |> Maybe.map (\(o, s) -> (o, sortFor s))
+    |> Maybe.map (uncurry adjustSort)
+    |> Maybe.withDefault (always <| always EQ)

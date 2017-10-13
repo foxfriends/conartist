@@ -4,6 +4,7 @@ import Page exposing (Page(..), Selector(..))
 import Msg exposing (Msg(..))
 import List_
 import Price
+import Table exposing (updateSort)
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case model.page of
@@ -79,5 +80,9 @@ update msg model = case model.page of
           | page = Pricing { page | open_selector = None }
           , user = { user | prices = Price.removeRow index prices } }
         , Cmd.none )
+    SortPricingTable col ->
+      ( { model
+        | page = Pricing { page | table_sort = updateSort col page.table_sort } }
+      , Cmd.none )
     _ -> (model, Cmd.none)
   _ -> (model, Cmd.none)

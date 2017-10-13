@@ -5,6 +5,7 @@ import Msg exposing (Msg(..), TabStatus)
 import Product
 import ProductType
 import List_
+import Table exposing (updateSort)
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case model.page of
@@ -122,20 +123,9 @@ update msg model = case model.page of
             , page = 0 } } }
       , Cmd.none )
     SortInventoryTable col ->
-      -- TODO: generalize this method for when making the next sortable table
-      let rec col list = case list of
-        [] -> []
-        head :: tail ->
-          case col of
-            0 -> (case head of
-              EQ -> LT
-              LT -> GT
-              GT -> EQ) :: List.map (always EQ) tail
-            n -> EQ :: rec (col - 1) tail
-      in
-        ( { model
-          | page = Inventory
-            { page
-            | table_sort = rec col page.table_sort } }, Cmd.none )
+      ( { model
+        | page = Inventory
+          { page
+          | table_sort = updateSort col page.table_sort } }, Cmd.none )
     _ -> (model, Cmd.none)
   _ -> (model, Cmd.none)

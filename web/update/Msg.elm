@@ -57,6 +57,7 @@ type Msg
   | PricingRemove Int
   | SelectProductType Int
   | SelectProduct Int
+  | SortPricingTable Int
   -- conventions
   | ChangeConventionTab TabStatus
   -- loading

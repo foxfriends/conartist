@@ -29,7 +29,8 @@ type Selector
   | None
 
 type alias PricingPageState =
-  { open_selector : Selector }
+  { open_selector : Selector
+  , table_sort: List Order }
 
 type alias SignInPageState =
   { email: String
@@ -48,7 +49,7 @@ inventory : Page
 inventory = Inventory <| InventoryPageState (TabStatus 0 150) { open = False, page = 0 } [EQ, EQ, EQ]
 
 pricing : Page
-pricing = Pricing <| PricingPageState None
+pricing = Pricing <| PricingPageState None [EQ, EQ, EQ, EQ, EQ]
 
 convention : String -> Page
 convention con = Convention (ConventionPageState (TabStatus 0 150) con)

@@ -1,4 +1,4 @@
-module Table exposing (table, tableWithFooter, tableWithSpacing, tableHeader, tableRow, sortableTable, TableHeader(..))
+module Table exposing (table, tableWithFooter, tableWithSpacing, tableHeader, tableRow, sortableTable, updateSort, TableHeader(..))
 import Html exposing (Html, div, text)
 import Html.Events exposing (onClick)
 import Html.Attributes exposing (class, style)
@@ -85,3 +85,14 @@ sortFn orders headers =
     |> Maybe.map (\(o, s) -> (o, sortFor s))
     |> Maybe.map (uncurry adjustSort)
     |> Maybe.withDefault (always <| always EQ)
+
+updateSort : Int -> List Order -> List Order
+updateSort col list = case list of
+  [] -> []
+  head :: tail ->
+    case col of
+      0 -> (case head of
+        EQ -> LT
+        LT -> GT
+        GT -> EQ) :: List.map (always EQ) tail
+      n -> EQ :: updateSort (col - 1) tail

@@ -6,7 +6,7 @@ import Html.Events exposing (onClick, onInput)
 import Model exposing (Model)
 import Page exposing (PricingPageState, Selector(..))
 import Msg exposing (Msg(..))
-import Table exposing (tableWithSpacing, TableHeader(..))
+import Table exposing (sortableTable, TableHeader(..))
 import ProductType
 import Product
 import Price
@@ -19,8 +19,12 @@ view : Model -> PricingPageState -> Html Msg
 view model page =
   div [ class "pricing" ]
     [ div [ class "pricing__table" ]
-      [ tableWithSpacing "1fr 1fr 1fr 1fr 100px" [] []
-        [ Standard "Type", Standard "Product", Standard "Quantity", Standard "Price", (Html << centered << text) "Remove" ]
+      [ sortableTable page.table_sort "1fr 1fr 1fr 1fr 100px" [] []
+        [ Sortable "Type" typenamesort SortPricingTable
+        , Sortable "Product" productnamesort SortPricingTable
+        , Sortable "Quantity" quantitysort SortPricingTable
+        , Sortable "Price" pricesort SortPricingTable
+        , (Html << centered << text) "Remove" ]
         (priceRow model page)
         ( Join.pricesWithProductsAndTypes
           ( model.user.productTypes
@@ -83,3 +87,19 @@ footer : Model -> List (Html Msg)
 footer model =
   [ Fancy.tooltip "Add row" <| Fancy.button Icon "add" [ onClick PricingAdd ]
   , Fancy.button Icon "save" [ onClick Save, (disabled << not << Model.isDirty) model ] ]
+
+typenamesort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
+typenamesort a b = compare
+  (a.product_type |> Maybe.map (\p -> p.name) |> Maybe.withDefault "")
+  (b.product_type |> Maybe.map (\p -> p.name) |> Maybe.withDefault "")
+
+productnamesort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
+productnamesort a b = compare
+  (a.product |> Maybe.map (\p -> p.name) |> Maybe.withDefault "")
+  (b.product |> Maybe.map (\p -> p.name) |> Maybe.withDefault "")
+
+quantitysort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
+quantitysort a b = compare a.quantity b.quantity
+
+pricesort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
+pricesort a b = compare (Price.priceFloat a.price) (Price.priceFloat b.price)

@@ -103,3 +103,13 @@ CREATE TABLE Records (
   sale_time   TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP)
 );
 CREATE INDEX index_Records ON Records (user_con_id);
+
+CREATE TABLE Expenses (
+  expense_id  SERIAL PRIMARY KEY,
+  user_con_id INT NOT NULL REFERENCES User_Conventions (user_con_id) ON DELETE CASCADE,
+  price       MONEY NOT NULL,
+  category    VARCHAR(32),
+  description VARCHAR(512),
+  spend_time  TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP)
+);
+CREATE INDEX index_Expenses ON Expenses (user_con_id);

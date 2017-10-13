@@ -1,7 +1,8 @@
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
 import { Main } from './Main.elm';
 
 const app = Main.fullscreen();

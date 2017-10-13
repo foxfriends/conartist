@@ -2,11 +2,12 @@ module UInventory exposing (update)
 import Model exposing (Model)
 import Page exposing (Page(..))
 import Msg exposing (Msg(..), TabStatus)
-import Product
+import Product exposing (Product(..))
+import Table exposing (updateSort)
 import ProductType
 import List_
-import Table exposing (updateSort)
 import Files
+import Util
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case model.page of
@@ -81,22 +82,15 @@ update msg model = case model.page of
           | productTypes = productTypes ++ [ ProductType.new (len + 1) ] } }
     NewProduct ->
       let user = model.user in
-      let products = user.products in
-      let type_id = user.productTypes
-          |> List.map ProductType.normalize
-          |> (if model.show_discontinued then identity else List.filter (not << .discontinued))
-          |> List.drop page.current_tab.current
-          |> List.head
-          |> Maybe.map .id
-          |> Maybe.withDefault 0
+      let type_id = currentTypeId model page.current_tab.current
       in
-      let len = products
+      let len = user.products
         |> List.filter (Product.normalize >> .type_id >> (==) type_id)
         |> List.length in
       ( { model
         | user =
           { user
-          | products = products ++ [ Product.new (len + 1) type_id ] } }
+          | products = user.products ++ [ Product.new (len + 1) type_id ] } }
       , Cmd.none )
     ColorPickerOpen ->
       let color_picker = page.color_picker in
@@ -132,9 +126,47 @@ update msg model = case model.page of
           | table_sort = updateSort col page.table_sort } }, Cmd.none )
     ReadInventoryCSV -> model ! [ Files.read "inventory" ]
     DidFileRead ("inventory", Just file) ->
-      String.split "\n" file
+      let t = currentTypeId model page.current_tab.current in
+      let user = model.user in
+      let o = List.length user.products in
+      let products = String.split "\n" file
         |> List.map (List.map String.trim << String.split ",")
-        |> List.map (always 0)
-        |> always (model ! []) -- lol wut
+        |> List.filterMap (\row -> case row of
+          [ id, name, quantity ] ->
+              Result.map2
+                (\i -> \q -> (i, name, q))
+                (Util.toInt id)
+                (Util.toInt quantity)
+              |> Result.toMaybe
+          [ name, quantity ] -> Result.map (\q -> (-1, name, q)) (Util.toInt quantity) |> Result.toMaybe
+          _ -> Nothing)
+        |> List.indexedMap (\x -> \(i, n, q) ->
+          ( if i > 0 then
+            model.user.products
+              |> List.map Product.normalize
+              |> List_.find (.id >> (==) i)
+            else
+              model.user.products
+                |> List.map Product.normalize
+                |> List_.find (\p -> p.name == n && p.type_id == t))
+          |> Maybe.map (\p -> Dirty { p | quantity = q })
+          |> Maybe.withDefault (New <| Product.NewProduct (o + x) n q t))
+        |> Debug.log "imported"
+        |> List.foldl (\p -> List_.updateAtOrInsert p (Product.normalize >> .id >> (==) (Product.normalize p).id) (always p)) user.products
+      in
+        { model
+        | user =
+          { user
+          | products = products } } ! []
     _ -> (model, Cmd.none)
   _ -> (model, Cmd.none)
+
+currentTypeId : Model -> Int -> Int
+currentTypeId model current =
+  model.user.productTypes
+    |> List.map ProductType.normalize
+    |> (if model.show_discontinued then identity else List.filter (not << .discontinued))
+    |> List.drop current
+    |> List.head
+    |> Maybe.map .id
+    |> Maybe.withDefault 0

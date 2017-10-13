@@ -13,24 +13,26 @@ update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case model.page of
   Inventory page -> case msg of
     ChangeInventoryTab tab ->
-      ( { model | page = Inventory { page | current_tab = tab } }, Cmd.none )
+      { model | page = Inventory { page | current_tab = tab } } ! []
     DidLoadUser _ -> ( model, Cmd.none )
     ProductTypeName id name ->
       let user = model.user in
       let types = user.productTypes in
-      ( { model
-        | user =
-          { user
-          | productTypes = List_.updateAt (ProductType.normalize >> .id >> (==) id) (ProductType.setName name) types } }
-      , Cmd.none )
+      { model
+      | user =
+        { user
+        | productTypes = List_.updateAt (ProductType.normalize >> .id >> (==) id) (ProductType.setName name) types
+        }
+      } ! []
     ProductTypeColor id color ->
       let user = model.user in
       let types = user.productTypes in
-      ( { model
-        | user =
-          { user
-          | productTypes = List_.updateAt (ProductType.normalize >> .id >> (==) id) (ProductType.setColor color) types } }
-      , Cmd.none )
+      { model
+      | user =
+        { user
+        | productTypes = List_.updateAt (ProductType.normalize >> .id >> (==) id) (ProductType.setColor color) types
+        }
+      } ! []
     ProductTypeDiscontinued id ->
       let user = model.user in
       let types = user.productTypes in
@@ -39,31 +41,44 @@ update msg model = case model.page of
         | user =
           { user
           | productTypes = List_.filterUpdateAt (ProductType.normalize >> .id >> (==) id) ProductType.toggleDiscontinued types } }
-      in if model.show_discontinued then result ! [] else update (ChangeInventoryTab (TabStatus (page.current_tab.current - 1) page.current_tab.width)) result
+      in
+      if model.show_discontinued
+        then result ! []
+        else update (ChangeInventoryTab (TabStatus (page.current_tab.current - 1) page.current_tab.width)) result
     ProductName type_ id name ->
       let user = model.user in
       let products = user.products in
-      ( { model
-        | user =
-          { user
-          | products = List_.updateAt (\p -> let q = (Product.normalize p) in q.id == id && q.type_id == type_) (Product.setName name) products } }
-      , Cmd.none )
+      { model
+      | user =
+        { user
+        | products = List_.updateAt (\p -> let q = (Product.normalize p) in q.id == id && q.type_id == type_) (Product.setName name) products
+        }
+      } ! []
     ProductQuantity type_ id quantity ->
       let user = model.user in
       let products = user.products in
-      ( { model
-        | user =
-          { user
-          | products = List_.updateAt (\p -> let q = (Product.normalize p) in q.id == id && q.type_id == type_) (Product.setQuantity quantity) products } }
-      , Cmd.none )
+      { model
+      | user =
+        { user
+        | products = List_.updateAt
+            (\p -> let q = (Product.normalize p) in q.id == id && q.type_id == type_)
+            (Product.setQuantity quantity)
+            products
+        }
+      } ! []
+
     ProductDiscontinued type_ id ->
       let user = model.user in
       let products = user.products in
-      ( { model
-        | user =
-          { user
-          | products = List_.filterUpdateAt (\p -> let q = (Product.normalize p) in q.id == id && q.type_id == type_) Product.toggleDiscontinued products } }
-      , Cmd.none )
+      { model
+      | user =
+        { user
+        | products = List_.filterUpdateAt
+            (\p -> let q = (Product.normalize p) in q.id == id && q.type_id == type_)
+            Product.toggleDiscontinued
+            products
+        }
+      } ! []
     NewProductType ->
       let user = model.user in
       let productTypes = user.productTypes in
@@ -87,43 +102,53 @@ update msg model = case model.page of
       let len = user.products
         |> List.filter (Product.normalize >> .type_id >> (==) type_id)
         |> List.length in
-      ( { model
-        | user =
-          { user
-          | products = user.products ++ [ Product.new (len + 1) type_id ] } }
-      , Cmd.none )
+      { model
+      | user =
+        { user
+        | products = user.products ++ [ Product.new (len + 1) type_id ]
+        }
+      } ! []
     ColorPickerOpen ->
       let color_picker = page.color_picker in
-      ( { model
-        | page = Inventory
-          { page
-          | color_picker =
-            { open = True
-            , page = 0 } } }
-      , Cmd.none )
+      { model
+      | page = Inventory
+        { page
+        | color_picker =
+          { open = True
+          , page = 0
+          }
+        }
+      } ! []
     ColorPickerPage shift ->
       let color_picker = page.color_picker in
-      ( { model
-        | page = Inventory
-          { page
-          | color_picker =
-            { open = True
-            , page = (color_picker.page + 19 + shift) % 19 } } }
-      , Cmd.none )
+      { model
+      | page = Inventory
+        { page
+        | color_picker =
+          { open = True
+          , page = (color_picker.page + 19 + shift) % 19
+          }
+        }
+      } ! []
     ColorPickerClose ->
       let color_picker = page.color_picker in
-      ( { model
-        | page = Inventory <|
-          { page
-          | color_picker =
-            { open = False
-            , page = 0 } } }
-      , Cmd.none )
+      { model
+      | page = Inventory <|
+        { page
+        | color_picker =
+          { open = False
+          , page = 0
+          }
+        }
+      } ! []
+
     SortInventoryTable col ->
-      ( { model
-        | page = Inventory
-          { page
-          | table_sort = updateSort col page.table_sort } }, Cmd.none )
+      { model
+      | page = Inventory
+        { page
+        | table_sort = updateSort col page.table_sort
+        }
+      } ! []
     ReadInventoryCSV -> model ! [ Files.read "inventory" ]
     DidFileRead ("inventory", Just file) ->
       let t = currentTypeId model page.current_tab.current in
@@ -153,13 +178,9 @@ update msg model = case model.page of
           |> Maybe.withDefault (New <| Product.NewProduct (o + x) n q t))
         |> Debug.log "imported"
         |> List.foldl (\p -> List_.updateAtOrInsert p (Product.normalize >> .id >> (==) (Product.normalize p).id) (always p)) user.products
-      in
-        { model
-        | user =
-          { user
-          | products = products } } ! []
-    _ -> (model, Cmd.none)
-  _ -> (model, Cmd.none)
+      in { model | user = { user | products = products } } ! []
+    _ -> model ! []
+  _ -> model ! []
 
 currentTypeId : Model -> Int -> Int
 currentTypeId model current =

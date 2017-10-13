@@ -14,7 +14,7 @@ import Page exposing (ConventionPageState)
 import Fancy
 import Convention exposing (Convention, MetaConvention, asMeta, asFull)
 import Tabs exposing (tabs, TabItem(Tab))
-import Table exposing (table)
+import Table exposing (basicSortableTable, TableHeader(..))
 import Card exposing (card)
 import Lists exposing (defList)
 import List_
@@ -29,9 +29,9 @@ view model page =
       Just con ->
         tabs ChangeConventionTab []
           [ Tab "Summary" <| summary model con
-          , Tab "Products" <| products model con
-          , Tab "Prices" <| prices model con
-          , Tab "Sales" <| sales model con
+          , Tab "Products" <| products model page con
+          , Tab "Prices" <| prices model page con
+          , Tab "Sales" <| sales model page con
           , Tab "Stats" <| stats model con ]
         page.current_tab
       Nothing ->
@@ -63,12 +63,15 @@ conInfo { name, code, start, end } =
       ]
       []
 
-products : Model -> Convention -> Html msg
-products model con =
+products : Model -> ConventionPageState -> Convention -> Html Msg
+products model page con =
   case asFull con of
     Nothing -> errorPage
     Just fc ->
-      table [] [ "Type", "Name", "Quantity" ]
+      basicSortableTable page.product_sort []
+        [ Sortable "Type" typesort SortConProductsTable
+        , Sortable "Name" namesort SortConProductsTable
+        , Sortable "Quantity" quantitysort SortConProductsTable ]
         productRow <|
         Join.productsWithTypes
           (List.map ProductType.normalize (model.user.productTypes))
@@ -89,12 +92,16 @@ productTypeLabel { color, name } =
 productCircle : Int -> String -> Html msg
 productCircle color name = Fancy.letterCircle (String.cons '#' <| String.padLeft 6 '0' <| Hex.toString color) (String.left 1 name)
 
-prices : Model -> Convention -> Html msg
-prices model con =
+prices : Model -> ConventionPageState -> Convention -> Html Msg
+prices model page con =
   case asFull con of
     Nothing -> errorPage
     Just fc ->
-      table [] [ "Type", "Product", "Quantity", "Price" ]
+      basicSortableTable page.price_sort []
+        [ Sortable "Type" maybetypesort SortConPricesTable
+        , Sortable "Product" maybeproductsort SortConPricesTable
+        , Sortable "Quantity" pquantitysort SortConPricesTable
+        , Sortable "Price" pricesort SortConPricesTable ]
         priceRow <|
           List.filterMap (\p -> Maybe.map (always p) p.product_type) <|
             Join.pricesWithProductsAndTypes
@@ -109,15 +116,20 @@ priceRow { product, product_type, quantity, price } =
   , text (toString quantity)
   , text (Price.priceStr price) ]
 
-sales : Model -> Convention -> Html msg
-sales model con =
+sales : Model -> ConventionPageState -> Convention -> Html Msg
+sales model page con =
   case asFull con of
     Nothing -> errorPage
     Just fc ->
       case fc.records of
         [] -> placeholder "You haven't sold anything yet!"
         _  ->
-          table [] [ "Type", "Products", "Quantity", "Price", "Time" ]
+          basicSortableTable page.record_sort []
+            [ Standard "Type"
+            , Standard "Products"
+            , Sortable "Quantity" rquantitysort SortConRecordsTable
+            , Sortable "Price" rpricesort SortConPricesTable
+            , Sortable "Time" timesort SortConPricesTable ]
             recordRow <|
             Join.recordsWithTypedProducts
               (List.map ProductType.normalize (model.user.productTypes))
@@ -165,3 +177,41 @@ errorPage = placeholder "It seems something has gone wrong. Maybe you should rel
 
 placeholder : String -> Html msg
 placeholder str = div [ class "convention__placeholder" ] [ text str ]
+
+-- Lots of dumb sort functions
+-- Many are repeated in the other view files
+-- TODO: make these standardized somewhere, or improve the syntax of sort tables
+
+typesort : ProductWithType -> ProductWithType -> Order
+typesort a b = compare a.product_type.name b.product_type.name
+
+namesort : ProductWithType -> ProductWithType -> Order
+namesort a b = compare a.name b.name
+
+maybetypesort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
+maybetypesort a b = compare
+  (a.product_type |> Maybe.map (\p -> p.name) |> Maybe.withDefault "")
+  (b.product_type |> Maybe.map (\p -> p.name) |> Maybe.withDefault "")
+
+maybeproductsort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
+maybeproductsort a b = compare
+  (a.product |> Maybe.map (\p -> p.name) |> Maybe.withDefault "")
+  (b.product |> Maybe.map (\p -> p.name) |> Maybe.withDefault "")
+
+quantitysort : ProductWithType -> ProductWithType -> Order
+quantitysort a b = compare a.quantity b.quantity
+
+pquantitysort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
+pquantitysort a b = compare a.quantity b.quantity
+
+rquantitysort : RecordWithTypedProduct -> RecordWithTypedProduct -> Order
+rquantitysort a b = compare (List.length a.products) (List.length b.products)
+
+pricesort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
+pricesort a b = compare (Price.priceFloat a.price) (Price.priceFloat b.price)
+
+rpricesort : RecordWithTypedProduct -> RecordWithTypedProduct -> Order
+rpricesort a b = compare (Price.priceFloat (Right a.price)) (Price.priceFloat (Right b.price))
+
+timesort : RecordWithTypedProduct -> RecordWithTypedProduct -> Order
+timesort a b = Date.compare a.time b.time

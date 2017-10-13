@@ -60,6 +60,9 @@ type Msg
   | SortPricingTable Int
   -- conventions
   | ChangeConventionTab TabStatus
+  | SortConProductsTable Int
+  | SortConPricesTable Int
+  | SortConRecordsTable Int
   -- loading
   | DidLoadUser (Result Http.Error (ConRequest User))
   | DidLoadUserThen (Cmd Msg) (Result Http.Error (ConRequest User))

@@ -1,4 +1,14 @@
-module Table exposing (table, tableWithFooter, tableWithSpacing, tableHeader, tableRow, sortableTable, updateSort, TableHeader(..))
+module Table exposing
+  ( table
+  , tableHeader
+  , tableRow
+  , tableWithFooter
+  , tableWithSpacing
+  , basicSortableTable
+  , sortableTable
+  , updateSort
+  , TableHeader(..)
+  )
 import Html exposing (Html, div, text)
 import Html.Events exposing (onClick)
 import Html.Attributes exposing (class, style)
@@ -39,6 +49,9 @@ tableRow fn data =
       [ class "table", style [ ("grid-template-columns", spacing ) ] ]
       result
 
+defaultSpacing : Int -> String
+defaultSpacing = flip String.repeat "1fr "
+
 table : List (Html.Attribute msg) -> List String -> (a -> List (Html msg)) -> List a -> Html msg
 table = tableWithFooter []
 
@@ -50,7 +63,7 @@ tableWithFooter
     -> List a
     -> Html msg
 tableWithFooter footer attrs titles =
-  tableWithSpacing (String.repeat (List.length titles) "1fr ") footer attrs (List.map Standard titles)
+  tableWithSpacing (defaultSpacing (List.length titles)) footer attrs (List.map Standard titles)
 
 tableWithSpacing
     : String
@@ -61,6 +74,15 @@ tableWithSpacing
     -> List a
     -> Html msg
 tableWithSpacing spacing footer attrs headers = customTable (List.map (always EQ) headers) spacing footer attrs headers
+
+basicSortableTable
+    : List Order
+    -> List (Html.Attribute msg)
+    -> List (TableHeader a msg)
+    -> (a -> List (Html msg))
+    -> List a
+    -> Html msg
+basicSortableTable sort attrs headers = sortableTable sort (defaultSpacing (List.length headers)) [] attrs headers
 
 sortableTable
     : List Order

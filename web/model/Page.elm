@@ -1,6 +1,7 @@
 module Page exposing (..)
 import Status exposing (Status(..))
 import Msg exposing (TabStatus)
+import List exposing (repeat)
 
 type Page
   = Loading
@@ -21,7 +22,10 @@ type alias InventoryPageState =
 
 type alias ConventionPageState =
   { current_tab: TabStatus
-  , convention: String }
+  , convention: String
+  , product_sort: List Order
+  , price_sort: List Order
+  , record_sort: List Order }
 
 type Selector
   = TypeSelector Int
@@ -44,12 +48,15 @@ type alias SignInPageState =
 signIn : Page
 signIn = SignIn <| SignInPageState "" "" "" "" False True (Success "")
 
+sort : Int -> List Order
+sort = flip repeat EQ
+
 -- TODO: TabStatus default dimensions should be revisited...
 inventory : Page
-inventory = Inventory <| InventoryPageState (TabStatus 0 150) { open = False, page = 0 } [EQ, EQ, EQ]
+inventory = Inventory <| InventoryPageState (TabStatus 0 150) { open = False, page = 0 } (sort 3)
 
 pricing : Page
-pricing = Pricing <| PricingPageState None [EQ, EQ, EQ, EQ, EQ]
+pricing = Pricing <| PricingPageState None (sort 5)
 
 convention : String -> Page
-convention con = Convention (ConventionPageState (TabStatus 0 150) con)
+convention con = Convention <| ConventionPageState (TabStatus 0 150) con (sort 3) (sort 4) (sort 5)

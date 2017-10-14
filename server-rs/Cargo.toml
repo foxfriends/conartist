@@ -1,0 +1,15 @@
+[package]
+name = "server-rs"
+version = "0.1.0"
+authors = ["Cameron Eldridge <cameldridge+git@gmail.com>"]
+
+[dependencies]
+postgres = "*"
+juniper = { git = "https://github.com/graphql-rust/juniper" }
+juniper_iron = { git = "https://github.com/graphql-rust/juniper_iron" }
+iron = "*"
+mount = "*"
+router = "*"
+serde = "*"
+serde_json = "*"
+staticfile = "*"

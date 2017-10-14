@@ -69,4 +69,14 @@ declare namespace db {
     sale_time: number;
   };
   export type Records = Record[];
+
+  export type Expense = {
+    expense_id: number;
+    user_con_id: number;
+    price: number;
+    category: string;
+    description: string;
+    spend_time: number;
+  };
+  export type Expenses = Expense[];
 }

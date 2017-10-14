@@ -1,16 +1,24 @@
-// #[macro_use] extern crate juniper;
-// extern crate juniper_iron;
+#[macro_use] extern crate serde_derive;
+#[macro_use] extern crate serde_json as json;
+extern crate serde;
+#[macro_use] extern crate juniper;
+extern crate juniper_iron;
 // extern crate postgres;
-extern crate iron;
+#[macro_use] extern crate iron;
 extern crate mount;
+extern crate router;
+extern crate params;
 extern crate staticfile;
+extern crate jsonwebtoken as jwt;
+extern crate bcrypt;
 
 mod web;
 mod rest;
 mod middleware;
-// mod graphql;
+mod graphql;
+mod database;
+mod cr;
 
-// use juniper_iron::GraphQLHandler;
 use mount::Mount;
 use iron::prelude::*;
 

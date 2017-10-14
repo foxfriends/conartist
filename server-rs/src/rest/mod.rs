@@ -3,13 +3,12 @@
 use iron::prelude::*;
 use iron::{Handler,status};
 
-pub struct Rest;
-impl Handler for Rest {
-    fn handle(&self, req: &mut Request) -> IronResult<Response> {
-        Ok(
-            Response::with((status::Ok, "Hello world"))
-        )
-    }
-}
+use mount::Mount;
 
-pub fn new() -> Rest { Rest }
+mod auth;
+
+pub fn new() -> Mount {
+    let mut mount = Mount::new();
+    mount.mount("/auth", auth::new());
+    mount
+}

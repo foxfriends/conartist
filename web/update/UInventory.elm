@@ -158,7 +158,7 @@ update msg model = case model.page of
         |> List.map (\p -> toString p.id ++ "," ++ p.name ++ "," ++ toString p.quantity ++ "\n")
         |> List.foldl (++) ""
         in
-      model ! [ (curry Files.write) (typename ++ ".csv") contents ]
+      model ! [ curry Files.write (typename ++ ".csv") contents ]
     DidFileRead ("inventory", Just file) ->
       let t = currentType model page.current_tab.current |> Maybe.map .id |> Maybe.withDefault 0 in
       let user = model.user in

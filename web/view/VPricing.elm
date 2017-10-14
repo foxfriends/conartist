@@ -85,8 +85,11 @@ priceRow model page { index, product_type, quantity, price, product } =
 
 footer : Model -> List (Html Msg)
 footer model =
+  let dirty = Model.isDirty model in
   [ Fancy.tooltip "Add row" <| Fancy.button Icon "add" [ onClick PricingAdd ]
-  , Fancy.button Icon "save" [ onClick Save, (disabled << not << Model.isDirty) model ] ]
+  , Fancy.button Icon "save" [ onClick Save, disabled <| not dirty ]
+  , Fancy.tooltip (if dirty then "Save changes first!" else "Import (CSV)") <| Fancy.button Icon "file_upload" [ onClick ReadPricingCSV, disabled dirty ]
+  , Fancy.tooltip (if dirty then "Save changes first!" else "Export (CSV)") <| Fancy.button Icon "file_download" [ onClick WritePricingCSV, disabled dirty ] ]
 
 typenamesort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
 typenamesort a b = compare

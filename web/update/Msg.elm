@@ -60,6 +60,8 @@ type Msg
   | SelectProductType Int
   | SelectProduct Int
   | SortPricingTable Int
+  | ReadPricingCSV
+  | WritePricingCSV
   -- conventions
   | ChangeConventionTab TabStatus
   | SortConProductsTable Int

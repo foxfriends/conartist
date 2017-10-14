@@ -97,8 +97,7 @@ update msg model = case model.page of
           | productTypes = productTypes ++ [ ProductType.new (len + 1) ] } }
     NewProduct ->
       let user = model.user in
-      let type_id = currentTypeId model page.current_tab.current
-      in
+      let type_id = currentType model page.current_tab.current |> Maybe.map .id |> Maybe.withDefault 0 in
       let len = user.products
         |> List.filter (Product.normalize >> .type_id >> (==) type_id)
         |> List.length in
@@ -141,7 +140,6 @@ update msg model = case model.page of
           }
         }
       } ! []
-
     SortInventoryTable col ->
       { model
       | page = Inventory
@@ -150,8 +148,19 @@ update msg model = case model.page of
         }
       } ! []
     ReadInventoryCSV -> model ! [ Files.read "inventory" ]
+    WriteInventoryCSV ->
+      let type_ = currentType model page.current_tab.current in
+      let typeid = type_ |> Maybe.map .id |> Maybe.withDefault 0 in
+      let typename = type_ |> Maybe.map .name |> Maybe.withDefault "inventory" in
+      let contents = model.user.products
+        |> List.map Product.normalize
+        |> List.filter (.type_id >> (==) typeid)
+        |> List.map (\p -> toString p.id ++ "," ++ p.name ++ "," ++ toString p.quantity ++ "\n")
+        |> List.foldl (++) ""
+        in
+      model ! [ (curry Files.write) (typename ++ ".csv") contents ]
     DidFileRead ("inventory", Just file) ->
-      let t = currentTypeId model page.current_tab.current in
+      let t = currentType model page.current_tab.current |> Maybe.map .id |> Maybe.withDefault 0 in
       let user = model.user in
       let o = List.length user.products in
       let products = String.split "\n" file
@@ -182,12 +191,10 @@ update msg model = case model.page of
     _ -> model ! []
   _ -> model ! []
 
-currentTypeId : Model -> Int -> Int
-currentTypeId model current =
+currentType : Model -> Int -> Maybe ProductType.FullType
+currentType model current =
   model.user.productTypes
     |> List.map ProductType.normalize
     |> (if model.show_discontinued then identity else List.filter (not << .discontinued))
     |> List.drop current
     |> List.head
-    |> Maybe.map .id
-    |> Maybe.withDefault 0

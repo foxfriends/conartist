@@ -65,6 +65,7 @@ newTabButton = IconButton "add" NewProductType
 
 inventoryFooter : Model -> InventoryPageState -> List (Html Msg)
 inventoryFooter model { current_tab, color_picker } =
+  let dirty = Model.isDirty model in
   case model.user.productTypes
     |> List.map ProductType.normalize
     |> (if model.show_discontinued then identity else List.filter (not << .discontinued))
@@ -83,9 +84,9 @@ inventoryFooter model { current_tab, color_picker } =
           ColorPickerClose
           color_picker.open
       , Fancy.tooltip "New product" <| Fancy.button Icon "add" [ onClick NewProduct ]
-      , Fancy.button Icon "save" [ onClick Save, (disabled << not << Model.isDirty) model ]
-      , Fancy.tooltip "Import (CSV)" <| Fancy.button Icon "file_upload" [ onClick ReadInventoryCSV ]
-      , Fancy.tooltip "Export (CSV)" <| Fancy.button Icon "file_download" [ onClick WriteInventoryCSV ] ]
+      , Fancy.button Icon "save" [ onClick Save, disabled (not dirty) ]
+      , Fancy.tooltip (if dirty then "Save changes first!" else "Import (CSV)") <| Fancy.button Icon "file_upload" [ onClick ReadInventoryCSV, disabled dirty ]
+      , Fancy.tooltip (if dirty then "Save changes first!" else "Export (CSV)") <| Fancy.button Icon "file_download" [ onClick WriteInventoryCSV, disabled dirty ] ]
     Nothing -> []
 
 colorPicker : (Int -> Msg) -> Int -> Int -> Html Msg

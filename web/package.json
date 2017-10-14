@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "reset-css": "^2.2.1",
-    "rxjs": "^5.4.3"
+    "rxjs": "^5.4.3",
+    "save-as": "^0.1.8"
   }
 }

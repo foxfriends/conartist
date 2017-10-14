@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs/Observable';
+import saveAs from 'save-as';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
@@ -22,4 +23,10 @@ app.ports.read.subscribe(key => {
     .subscribe( () => app.ports.didRead.send([key, fr.result])
               , () => app.ports.didRead.send([key, null]));
   fi.click();
+});
+
+app.ports.write.subscribe(([filename, contents]) => {
+  saveAs(new Blob([contents], { type: 'text/plain;charset=utf-8' }), filename);
+  // so this doesn't ever actually fail, so I guess never send back an error?
+  app.ports.didWrite.send([filename, null]);
 });

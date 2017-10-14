@@ -12,7 +12,7 @@ import List_
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case msg of
   DidLoadUser (Ok (Success user)) -> { model | user = user } ! []
-  DidLoadUserThen after (Ok (Success user)) -> { model | user = user } ! []
+  DidLoadUserThen after (Ok (Success user)) -> { model | user = user } ! [ after ]
   DidLoadChooseConvention (Ok (Success { data, page, pages })) ->
     case model.dialog of
       ChooseConvention _ -> { model | dialog = ChooseConvention { cons = data, pages = pages, page = page } } ! []

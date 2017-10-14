@@ -21,18 +21,19 @@ mod cr;
 
 use mount::Mount;
 use iron::prelude::*;
+use juniper_iron::GraphQLHandler;
 
 fn main() {
     let mut mount = Mount::new();
 
-    // let graphql = GraphQLHandler::new(
-    //     |_| (),
-    //     (),
-    //     (),
-    // );
+    let graphql = GraphQLHandler::new(
+        database::Database::new,
+        graphql::Query,
+        juniper::EmptyMutation::new(),
+    );
 
     mount
-        // .mount("/api/v2", graphql)
+        .mount("/api/v2", graphql)
         .mount("/api", rest::new())
         .mount("/", web::new());
 

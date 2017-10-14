@@ -1,3 +1,6 @@
+//! Handles authentication and re-authentication of users using JWT authentication.
+//! This is the only part of the API that is exposed to unauthenticated users.
+
 use iron::prelude::*;
 use iron::status;
 use router::Router;

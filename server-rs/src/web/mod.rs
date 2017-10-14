@@ -1,5 +1,5 @@
-//! Serves the user facing web client, providing the static JS/CSS files, and the index.html file
-//! for all other URLs to support the single page application.
+//! Serves the user facing web client, providing the static files when request, and the index.html
+//! file for any un-found URLs to support the single page application architecture.
 
 use iron::Chain;
 use std::path::Path;

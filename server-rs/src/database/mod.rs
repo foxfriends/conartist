@@ -1,22 +1,17 @@
-//! Abstraction layer around database access
+//! Abstraction layer around database access.
 
 mod schema;
 pub mod get;
 
-use std::collections::HashMap;
+use iron::Request;
 use juniper::Context;
 
 pub use self::schema::*;
 
-pub struct Database {
-    users: HashMap<usize, User>,
-    conventions: HashMap<usize, Convention>,
-    user_conventions: HashMap<usize, UserConvention>,
-    products: HashMap<usize, Product>,
-    product_types: HashMap<usize, ProductType>,
-    inventory: HashMap<usize, InventoryItem>,
-    prices: HashMap<usize, Price>,
-    record: HashMap<usize, Record>,
+pub struct Database;
+
+impl Database {
+    pub fn new(_: &mut Request) -> Self { Self{} }
 }
 
 impl Context for Database {}

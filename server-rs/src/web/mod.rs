@@ -8,7 +8,8 @@ use staticfile::Static;
 use super::middleware::DefaultTo;
 
 pub fn new() -> Chain {
-    let mut chain = Chain::new(Static::new(Path::new("../web/")));
-    chain.link_around(DefaultTo::new("../web/index.html"));
-    chain
+    chain! [
+        [ DefaultTo::new("../web/index.html") ]
+        Static::new(Path::new("../web/"))
+    ]
 }

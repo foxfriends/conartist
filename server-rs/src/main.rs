@@ -44,13 +44,13 @@ fn main() {
     let privileged = database.create_privileged();
     let mut mount = Mount::new();
 
-    let mut graphql = Chain::new(
+    let mut graphql = chain! [
         GraphQLHandler::new(
             move |r| database.create(r),
             graphql::Query,
             juniper::EmptyMutation::new(),
         )
-    );
+    ];
 
     if env::args().all(|a| a != "open") {
         graphql.link_before(middleware::VerifyJWT::new());

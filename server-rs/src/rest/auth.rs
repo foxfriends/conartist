@@ -49,11 +49,9 @@ impl Handler for Auth {
 pub fn new(db: Database) -> Router {
     let mut router = Router::new();
 
-    let mut chain = Chain::new(ReAuth{ database: db.clone() });
-    chain.link_before(VerifyJWT::new());
-
     router
-        .get("/", chain, "reauth")
+        .get("/", chain![ VerifyJWT::new(); ReAuth{ database: db.clone() } ], "reauth")
         .post("/", Auth{ database: db.clone() }, "auth");
+
     router
 }

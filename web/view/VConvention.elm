@@ -46,8 +46,9 @@ summary _ convention =
 
 conInfo : MetaConvention -> Html msg
 conInfo { name, code, start, end } =
-  let dayCount = 1 + Date.diff Date.Day start end in
-  let plural = dayCount > 1 in
+  let dayCount = 1 + Date.diff Date.Day start end
+      plural = dayCount > 1
+  in
     card name
       [ class "convention__card" ]
       [ defList text
@@ -155,16 +156,16 @@ typeSet =
 
 productString : List ProductWithType -> String
 productString products =
-  let reducer c p =
-    Dict.update c.name (\v -> case v of
-        Nothing -> Just 1
-        Just o -> Just (o + 1)) p in
-  let expander k v p =
-    p ++ case v of
-      1 -> k ++ ", "
-      _ -> k ++ " (" ++ toString v ++ "), "
-    in
-  products
+  let
+    reducer c p =
+      Dict.update c.name (\v -> case v of
+          Nothing -> Just 1
+          Just o -> Just (o + 1)) p
+    expander k v p =
+      p ++ case v of
+        1 -> k ++ ", "
+        _ -> k ++ " (" ++ toString v ++ "), "
+  in products
     |> List.foldl reducer Dict.empty
     |> Dict.foldl expander ""
     |> String.dropRight 2

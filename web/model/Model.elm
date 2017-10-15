@@ -30,8 +30,10 @@ isDirty { user } =
 
 cleanPrices : List Price.FullPrice -> Model -> Model
 cleanPrices updates model =
-  let user = model.user in
-  let prices = user.prices in
+  let
+    user = model.user
+    prices = user.prices
+  in
     { model
     | user =
       { user
@@ -39,9 +41,11 @@ cleanPrices updates model =
 
 cleanProducts : List Product.FullProduct -> Model -> Model
 cleanProducts updates model =
-  let user = model.user in
-  let products = user.products in
-  let prices = user.prices in
+  let
+    user = model.user
+    products = user.products
+    prices = user.prices
+  in
     { model
     | user =
       { user
@@ -50,10 +54,12 @@ cleanProducts updates model =
 
 cleanTypes : List ProductType.FullType -> Model -> Model
 cleanTypes updates model =
-  let user = model.user in
-  let types = user.productTypes in
-  let products = user.products in
-  let prices = user.prices in
+  let
+    user = model.user
+    types = user.productTypes
+    products = user.products
+    prices = user.prices
+  in
     { model
     | user =
       { user

@@ -59,8 +59,10 @@ cancel = Fancy.button Flat "Cancel" [ onClick CloseDialog, id "dialog-focus-targ
 
 chooseConventionControls : Int -> Int -> List (Html Msg)
 chooseConventionControls pages page =
-  let prev no = Fancy.button Icon "navigate_before" [ onClick (DialogPage -1), disabled no ] in
-  let next no = Fancy.button Icon "navigate_next" [ onClick (DialogPage 1), disabled no ] in
+  let
+    prev no = Fancy.button Icon "navigate_before" [ onClick (DialogPage -1), disabled no ]
+    next no = Fancy.button Icon "navigate_next" [ onClick (DialogPage 1), disabled no ]
+  in
     [ prev (page == 0)
     , text <| toString (page + 1) ++ " of " ++ toString (pages + 1)
     , next (page == pages) ]

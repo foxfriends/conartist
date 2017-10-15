@@ -43,8 +43,8 @@ tableHeader titles =
 
 tableRow : (a -> List (Html msg)) -> a -> Html msg
 tableRow fn data =
-  let result = List.map column <| fn data in
-  let spacing = (String.repeat (List.length result) "1fr ") in
+  let result = List.map column <| fn data
+      spacing = (String.repeat (List.length result) "1fr ") in
     div
       [ class "table", style [ ("grid-template-columns", spacing ) ] ]
       result

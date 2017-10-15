@@ -91,11 +91,12 @@ requestJson request = Json.object
 
 individualClean : List FullProduct -> Product -> Product
 individualClean updates product =
-  let replaceNew p =
-    updates
-      |> List_.find (\x -> x.name == p.name && x.type_id == p.type_id)
-      |> Maybe.map Clean
-      |> Maybe.withDefault (New p)
+  let
+    replaceNew p =
+      updates
+        |> List_.find (\x -> x.name == p.name && x.type_id == p.type_id)
+        |> Maybe.map Clean
+        |> Maybe.withDefault (New p)
   in
     case product of
       Clean _ -> product
@@ -107,11 +108,11 @@ clean updates = List.map (individualClean updates)
 
 fillNewTypes : List ProductType.FullType -> List ProductType -> List Product -> List Product
 fillNewTypes updates originals products =
-  let oldNews = List.filterMap (\o -> case o of
-    ProductType.New p -> Just p
-    _                 -> Nothing) originals
-  in
-  let typeMapping =
+  let
+    oldNews = List.filterMap (\o -> case o of
+      ProductType.New p -> Just p
+      _                 -> Nothing) originals
+    typeMapping =
       Dict.fromList
         (updates
           |> List.filterMap

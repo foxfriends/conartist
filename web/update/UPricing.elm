@@ -21,8 +21,10 @@ update msg model = case model.page of
     PricingProductType index type_id ->
       case type_id of
         Just type_id ->
-          let user = model.user in
-          let prices = user.prices in
+          let
+            user = model.user
+            prices = user.prices
+          in
             { model
             | page = Pricing { page | open_selector = None }
             , user =
@@ -38,8 +40,10 @@ update msg model = case model.page of
             } ! []
         Nothing -> { model | page = Pricing { page | open_selector = None } } ! []
     PricingProduct index product ->
-      let user = model.user in
-      let prices = user.prices in
+      let
+        user = model.user
+        prices = user.prices
+      in
         { model
         | page = Pricing { page | open_selector = None }
         , user =
@@ -54,8 +58,10 @@ update msg model = case model.page of
           }
         } ! []
     PricingPrice index price ->
-      let user = model.user in
-      let prices = user.prices in
+      let
+        user = model.user
+        prices = user.prices
+      in
         { model
         | user =
           { user
@@ -66,8 +72,10 @@ update msg model = case model.page of
           }
         } ! []
     PricingQuantity index quantity ->
-      let user = model.user in
-      let prices = user.prices in
+      let
+        user = model.user
+        prices = user.prices
+      in
         { model
         | user =
           { user
@@ -78,15 +86,19 @@ update msg model = case model.page of
           }
         } ! []
     PricingAdd ->
-      let user = model.user in
-      let prices = user.prices in
+      let
+        user = model.user
+        prices = user.prices
+      in
         { model
         | page = Pricing { page | open_selector = None }
         , user = { user | prices = prices ++ [ Price.new (List.length prices) ] }
         } ! []
     PricingRemove index ->
-      let user = model.user in
-      let prices = user.prices in
+      let
+        user = model.user
+        prices = user.prices
+      in
         { model
         | page = Pricing { page | open_selector = None }
         , user = { user | prices = Price.removeRow index prices }
@@ -117,7 +129,7 @@ update msg model = case model.page of
             ++ (toString <| Price.priceFloat p.price)
             ++ "\n"
           )
-        |> List.foldl (++) "" in
-      model ! [ curry Files.write "pricing.csv" contents ]
+        |> List.foldl (++) ""
+      in model ! [ curry Files.write "pricing.csv" contents ]
     _ -> model ! []
   _ -> model ! []

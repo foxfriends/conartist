@@ -21,9 +21,10 @@ update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   (case msg of
     Batch (first :: rest) ->
-      let (newmodel, cmd) = update first model in
-        let (finalmodel, morecmd) = update (Batch rest) newmodel in
-          finalmodel ! [ morecmd, cmd ]
+      let
+        (newmodel, cmd) = update first model
+        (finalmodel, morecmd) = update (Batch rest) newmodel
+      in finalmodel ! [ morecmd, cmd ]
     SetDate now -> { model | now = now } ! []
     ToggleSidenav -> { model | sidenav_visible = not model.sidenav_visible } ! []
     _ -> model ! [] )

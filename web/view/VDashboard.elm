@@ -17,10 +17,11 @@ import VConventions exposing (conListRow)
 
 view : Model -> Html Msg
 view model =
-  let sorted = splitByDate model.now (map Convention.asMeta model.user.conventions) in
-  let cardHeader =
-    [ text "Conventions"
-    , span [ class "dashboard__keys" ] [ Fancy.buttonWithContent Flat [ icon "vpn_key" [], text << toString <| model.user.keys ] [] ] ]
+  let
+    sorted = splitByDate model.now (map Convention.asMeta model.user.conventions)
+    cardHeader =
+      [ text "Conventions"
+      , span [ class "dashboard__keys" ] [ Fancy.buttonWithContent Flat [ icon "vpn_key" [], text << toString <| model.user.keys ] [] ] ]
   in
     div
       [ class "dashboard" ]

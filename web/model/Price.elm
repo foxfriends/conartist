@@ -202,34 +202,35 @@ clean _ prices =
 
 validateRequest : List Price -> List ProductType -> List Product -> Result String (List Price)
 validateRequest prices types products =
-  let productName id = products
-    |> List.map Product.normalize
-    |> List_.find (.id >> Just >> (==) id)
-    |> Maybe.map .name
-    |> Maybe.withDefault "" in
-  let typeName id = types
-    |> List.map ProductType.normalize
-    |> List_.find (.id >> Just >> (==) id)
-    |> Maybe.map .name
-    |> Maybe.withDefault "" in
-  let validate prices bad = case prices of
-    head :: rest ->
-      case normalize head of
-        Just { type_id, product_id, quantity, price } ->
-          let item = (type_id, product_id, quantity) in
-            if type_id == Nothing then
-              Err <| "One of your prices does not have a type set for it! All prices require at least a type to be set."
-            else if quantity == 0 then
-              Err <| "There is no quantity set for " ++ productName product_id ++ " " ++ typeName type_id
-            else if priceFloat price < 0 then
-              Err <| "The price you have set for " ++ productName product_id ++ " " ++ typeName type_id ++ " is less than $0.00."
-            else if List.member item bad then
-              Err <| "Two prices set for buying " ++ toString quantity ++ " " ++ productName product_id ++ " " ++ typeName type_id ++ "(s)"
-            else
-              validate rest (item :: bad) |> Result.map ((::) head)
-        Nothing -> validate rest bad |> Result.map ((::) head)
-    [] -> Ok [] in
-  validate prices []
+  let
+    productName id = products
+      |> List.map Product.normalize
+      |> List_.find (.id >> Just >> (==) id)
+      |> Maybe.map .name
+      |> Maybe.withDefault ""
+    typeName id = types
+      |> List.map ProductType.normalize
+      |> List_.find (.id >> Just >> (==) id)
+      |> Maybe.map .name
+      |> Maybe.withDefault ""
+    validate prices bad = case prices of
+      head :: rest ->
+        case normalize head of
+          Just { type_id, product_id, quantity, price } ->
+            let item = (type_id, product_id, quantity) in
+              if type_id == Nothing then
+                Err <| "One of your prices does not have a type set for it! All prices require at least a type to be set."
+              else if quantity == 0 then
+                Err <| "There is no quantity set for " ++ productName product_id ++ " " ++ typeName type_id
+              else if priceFloat price < 0 then
+                Err <| "The price you have set for " ++ productName product_id ++ " " ++ typeName type_id ++ " is less than $0.00."
+              else if List.member item bad then
+                Err <| "Two prices set for buying " ++ toString quantity ++ " " ++ productName product_id ++ " " ++ typeName type_id ++ "(s)"
+              else
+                validate rest (item :: bad) |> Result.map ((::) head)
+          Nothing -> validate rest bad |> Result.map ((::) head)
+      [] -> Ok []
+  in validate prices []
 
 fillNewTypes : List ProductType.FullType -> List ProductType -> List Price -> List Price
 fillNewTypes updates types prices =
@@ -238,8 +239,8 @@ fillNewTypes updates types prices =
     |> List_.find (.id >> (==) i)
     |> Maybe.andThen (\t -> List_.find (.name >> (==) t.name) updates)
     |> Maybe.map .id
-    |> Maybe.withDefault i in
-  prices
+    |> Maybe.withDefault i
+  in prices
     |> List.map (\price -> case price of
       New p -> New <| case p.type_id of
         Just t -> if t > 0 then p else { p | type_id = Just (replacement t) }
@@ -258,8 +259,8 @@ fillNewProducts updates products prices =
       |> List_.find (.id >> (==) i)
       |> Maybe.andThen (\t -> List_.find (.name >> (==) t.name) updates)
       |> Maybe.map .id
-      |> Maybe.withDefault i in
-  prices
+      |> Maybe.withDefault i
+  in prices
     |> List.map (\price -> case price of
       New p -> New  { p | product_id = Maybe.map replacement p.product_id }
       Clean p -> Clean p

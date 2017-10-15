@@ -40,11 +40,12 @@ update msg model = case model.page of
       DoSignIn ->
         { model | page = SignIn { page | status = Progress 0 } } ! [ doSignIn page.email page.password ]
       DidSignIn (Ok (ConRequest.Success authtoken)) ->
-        let newmodel =
-          { model
-          | user = { email = page.email, keys = 0, products = [], productTypes = [], prices = [], conventions = [] }
-          , authtoken = authtoken
-          , page = Dashboard }
+        let
+          newmodel =
+            { model
+            | user = { email = page.email, keys = 0, products = [], productTypes = [], prices = [], conventions = [] }
+            , authtoken = authtoken
+            , page = Dashboard }
         in
           newmodel
           ! [ newUrl dashboardPath

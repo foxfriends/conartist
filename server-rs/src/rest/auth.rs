@@ -23,10 +23,12 @@ impl Key for Claims { type Value = Claims; }
 struct ReAuth { database: Database }
 impl Handler for ReAuth {
     fn handle(&self, req: &mut Request) -> IronResult<Response> {
-        let authtoken = "";
-        cr::ok("ok!")
+        let claims = req.extensions.get::<Claims>();
+        let authtoken = itry! { encode(&Header::default(), &claims, JWT_SECRET.as_ref()) };
+        return cr::ok(authtoken);
     }
 }
+
 struct Auth { database: Database }
 impl Handler for Auth {
     fn handle(&self, req: &mut Request) -> IronResult<Response> {

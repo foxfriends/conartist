@@ -2,13 +2,14 @@ module Routing exposing (..)
 import UrlParser exposing (..)
 import Navigation exposing (Location)
 import Http
+import Json.Decode as Decode
 
 import Model exposing (Model)
 import Msg exposing (Msg(..))
 import Page exposing (Page(..))
 import Load
 import LocalStorage
-import ConRequest
+import ConRequest exposing (ConRequest(Success))
 import Convention exposing (Convention(..))
 import List_
 
@@ -31,6 +32,8 @@ parseLocation model location = case parsePath (matchers model) location of
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case msg of
+  Reauthorized (Ok (Success authtoken)) ->
+    { model | authtoken = authtoken } ! [ LocalStorage.set ("authtoken", authtoken) ]
   LSRetrive ("authtoken", Just authtoken) ->
     let authModel = { model | authtoken = authtoken } in
     let (page, task, url) = case authModel.location of
@@ -42,7 +45,7 @@ update msg model = case msg of
       { authModel
       | page = page
       , location = Nothing } in
-    pageModel ! [ Load.userAndThen task pageModel, url |> Maybe.map Navigation.newUrl |> Maybe.withDefault Cmd.none ]
+    pageModel ! [ reauthorize pageModel, Load.userAndThen task pageModel, url |> Maybe.map Navigation.newUrl |> Maybe.withDefault Cmd.none ]
   LSRetrive ("authtoken", Nothing) ->
     ( { model
       | page = Page.signIn
@@ -91,3 +94,15 @@ fillConvention model code =
           , timeout = Nothing
           , withCredentials = False }
     Just _ -> Cmd.none
+
+reauthorize : Model -> Cmd Msg
+reauthorize model =
+  Http.send Reauthorized <|
+    Http.request
+      { method = "Get"
+      , headers = [ Http.header "Authorization" ("Bearer " ++ model.authtoken) ]
+      , url = "/api/auth/"
+      , body = Http.emptyBody
+      , expect = Http.expectJson (ConRequest.decode Decode.string)
+      , timeout = Nothing
+      , withCredentials = False }

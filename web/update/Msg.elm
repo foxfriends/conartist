@@ -90,6 +90,7 @@ type Msg
   | DidNav Location
   | SetDate Date
   | ToggleSidenav
+  | Reauthorized (Result Http.Error (ConRequest String))
   -- dialog
   | CloseDialog
   | EmptyDialog

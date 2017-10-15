@@ -9,7 +9,9 @@ pub struct Query;
 graphql_object!(Query: Database |&self| {
     description: "Entry-point of the GraphQL API"
 
-    field user(&executor, id: i32) -> user::User {
-        user::User::new(id)
+    field user(&executor, id: i32) -> Option<user::User> {
+        executor
+            .context()
+            .get_user_by_id(id)
     }
 });

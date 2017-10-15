@@ -1,73 +1,89 @@
 //! Type definitions for all tables in the database
+use std::panic::catch_unwind;
+use postgres::rows::Row;
+use chrono::NaiveDateTime;
 
 pub struct User {
-    user_id: usize,
-    email: String,
-    password: String,
-    join_date: usize,
-    keys: usize,
+    pub user_id: i32,
+    pub email: String,
+    pub password: (), // NOTE: password exists, but is excluded for security reasons
+    pub keys: i32,
+    pub join_date: NaiveDateTime,
+}
+impl User {
+    pub fn from(row: Row) -> Option<Self> {
+        catch_unwind(|| {
+            User {
+                user_id: row.get(0),
+                email: row.get(1),
+                password: (),
+                keys: row.get(3),
+                join_date: row.get(4),
+            }
+        }).ok()
+    }
 }
 
 pub struct Convention {
-    con_id: usize,
+    con_id: i32,
     code: String,
     title: String,
-    start_date: usize,
-    end_date: usize,
+    start_date: i32,
+    end_date: i32,
 }
 
 pub struct UserConvention {
-    user_con_id: usize,
-    user_id: usize,
-    con_id: usize,
+    user_con_id: i32,
+    user_id: i32,
+    con_id: i32,
 }
 
 pub struct Product {
-    product_id: usize,
-    user_id: usize,
-    type_id: usize,
+    product_id: i32,
+    user_id: i32,
+    type_id: i32,
     name: String,
     discontinued: bool,
 }
 
 pub struct ProductType {
-    type_id: usize,
-    user_id: usize,
+    type_id: i32,
+    user_id: i32,
     name: String,
     color: u32,
     discontinued: bool,
 }
 
 pub struct InventoryItem {
-    inv_id: usize,
-    user_id: Option<usize>,
-    user_con_id: Option<usize>,
-    product_id: usize,
-    quantity: usize,
+    inv_id: i32,
+    user_id: Option<i32>,
+    user_con_id: Option<i32>,
+    product_id: i32,
+    quantity: i32,
 }
 
 pub struct Price {
-    price_id: usize,
-    user_id: Option<usize>,
-    user_con_id: Option<usize>,
-    type_id: usize,
-    product_id: Option<usize>,
-    prices: Vec<(usize, f64)>,
+    price_id: i32,
+    user_id: Option<i32>,
+    user_con_id: Option<i32>,
+    type_id: i32,
+    product_id: Option<i32>,
+    prices: Vec<(i32, f64)>,
 }
 
 pub struct Record {
-    record_id: usize,
-    user_con_id: usize,
+    record_id: i32,
+    user_con_id: i32,
     price: f64,
-    products: Vec<usize>,
-    sale_time: usize,
+    products: Vec<i32>,
+    sale_time: i32,
 }
 
 pub struct Expense {
-    expense_id: usize,
-    user_con_id: usize,
+    expense_id: i32,
+    user_con_id: i32,
     price: f64,
     category: String,
     description: String,
-    spend_time: usize,
+    spend_time: i32,
 }

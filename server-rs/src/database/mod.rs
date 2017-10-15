@@ -18,7 +18,23 @@ pub struct Database {
 impl Database {
     fn new(pool: Pool<PostgresConnectionManager>) -> Self { Self{ pool } }
 
-    pub fn get_id_for_email(&self, email: String) -> i32 { 0 }
+    pub fn get_id_for_email(&self, email: String) -> Option<i32> {
+        // TODO: make this somehow typesafe/error safe instead of runtime checked?
+        //       Maybe Diesel?? Is that too much boilerplate and high DB integration?
+        let conn = self.pool.get().unwrap();
+        for row in &query!(conn, "SELECT user_id FROM Users WHERE email = $1", email) {
+            return Some(row.get(0))
+        }
+        return None
+    }
+
+    pub fn get_user_by_id(&self, user_id: i32) -> Option<User> {
+        let conn = self.pool.get().unwrap();
+        for row in &query!(conn, "SELECT * FROM Users WHERE user_id = $1", user_id) {
+            return User::from(row);
+        }
+        return None
+    }
 }
 
 impl Context for Database {}

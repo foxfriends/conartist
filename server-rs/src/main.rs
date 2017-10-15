@@ -13,7 +13,9 @@ extern crate params;
 extern crate staticfile;
 extern crate jsonwebtoken as jwt;
 extern crate bcrypt;
+extern crate chrono;
 
+#[macro_use] mod macros;
 mod web;
 mod rest;
 mod middleware;

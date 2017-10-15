@@ -2,10 +2,9 @@
 use chrono::NaiveDateTime;
 use juniper::FieldResult;
 use database::Database;
-pub use database::{User, ProductType};
+pub use database::{User, ProductType, Product};
 
 // TODO: un-stub these
-type Product = bool;
 type Price = bool;
 type Convention = bool;
 
@@ -24,7 +23,13 @@ graphql_object!(User: Database |&self| {
                 .get_product_types_for_user(self.user_id)
         }
     }
-    field products() -> Vec<Product> { vec![] }
+    field products(&executor) -> FieldResult<Vec<Product>> {
+        dbtry! {
+            executor
+                .context()
+                .get_products_for_user(self.user_id)
+        }
+    }
     field prices() -> Vec<Price> { vec![] }
     field conventions() -> Vec<Convention> { vec![] }
 });

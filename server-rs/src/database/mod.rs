@@ -45,14 +45,24 @@ impl Database {
 
     pub fn get_product_types_for_user(&self, user_id: i32) -> Result<Vec<ProductType>, String> {
         assert_authorized!(self, user_id);
-        let conn =self.pool.get().unwrap();
-        pipe! {
+        let conn = self.pool.get().unwrap();
+        Ok (
             query!(conn, "SELECT * FROM ProductTypes WHERE user_id = $1", user_id)
                 .iter()
                 .filter_map(|row| ProductType::from(row).ok())
                 .collect()
-                => Ok(_)
-        }
+        )
+    }
+
+    pub fn get_products_for_user(&self, user_id: i32) -> Result<Vec<Product>, String> {
+        assert_authorized!(self, user_id);
+        let conn = self.pool.get().unwrap();
+        Ok (
+            query!(conn, "SELECT * FROM Products WHERE user_id = $1", user_id)
+                .iter()
+                .filter_map(|row| Product::from(row).ok())
+                .collect()
+        )
     }
 }
 

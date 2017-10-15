@@ -46,6 +46,19 @@ pub struct Product {
     pub name: String,
     pub discontinued: bool,
 }
+impl Product {
+    pub fn from(row: Row) -> Result<Self, String> {
+        catch_unwind(|| {
+            Self {
+                product_id: row.get(0),
+                user_id: row.get(1),
+                type_id: row.get(2),
+                name: row.get(3),
+                discontinued: row.get(4),
+            }
+        }).map_err(|_| "Tried to create a Product from a non-Product row".to_string())
+    }
+}
 
 pub struct ProductType {
     pub type_id: i32,

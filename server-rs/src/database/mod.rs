@@ -2,16 +2,23 @@
 
 mod schema;
 pub mod get;
+pub mod factory;
 
-use iron::Request;
 use juniper::Context;
+use r2d2::Pool;
+use r2d2_postgres::PostgresConnectionManager;
 
 pub use self::schema::*;
+pub use self::factory::*;
 
-pub struct Database;
+pub struct Database {
+    pool: Pool<PostgresConnectionManager>,
+}
 
 impl Database {
-    pub fn new(_: &mut Request) -> Self { Self{} }
+    fn new(pool: Pool<PostgresConnectionManager>) -> Self { Self{ pool } }
+
+    pub fn get_id_for_email(&self, email: String) -> i32 { 0 }
 }
 
 impl Context for Database {}

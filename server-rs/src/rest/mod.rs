@@ -1,11 +1,8 @@
 //! Exposes the v1 (REST) API.
 
-use iron::prelude::*;
-use iron::{Handler,status};
+mod auth;
 
 use mount::Mount;
-
-mod auth;
 
 pub fn new() -> Mount {
     let mut mount = Mount::new();

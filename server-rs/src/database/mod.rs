@@ -1,7 +1,6 @@
 //! Abstraction layer around database access.
 
 mod schema;
-pub mod get;
 pub mod factory;
 
 use juniper::Context;
@@ -11,19 +10,24 @@ use r2d2_postgres::PostgresConnectionManager;
 pub use self::schema::*;
 pub use self::factory::*;
 
+#[derive(Clone)]
 pub struct Database {
     pool: Pool<PostgresConnectionManager>,
+    user_id: Option<i32>,
+    privileged: bool,
 }
 
 impl Database {
-    fn new(pool: Pool<PostgresConnectionManager>) -> Self { Self{ pool } }
+    fn new(pool: Pool<PostgresConnectionManager>, id: i32) -> Self { Self{ pool, user_id: Some(id), privileged: false } }
 
-    pub fn get_id_for_email(&self, email: String) -> Option<i32> {
+    fn privileged(pool: Pool<PostgresConnectionManager>) -> Self { Self{ pool, user_id: None, privileged: true } }
+
+    pub fn get_user_for_email(&self, email: &str) -> Option<User> {
         // TODO: make this somehow typesafe/error safe instead of runtime checked?
         //       Maybe Diesel?? Is that too much boilerplate and high DB integration?
         let conn = self.pool.get().unwrap();
-        for row in &query!(conn, "SELECT user_id FROM Users WHERE email = $1", email) {
-            return Some(row.get(0))
+        for row in &query!(conn, "SELECT * FROM Users WHERE email = $1", email) {
+            return User::from(row);
         }
         return None
     }

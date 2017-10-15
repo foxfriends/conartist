@@ -2,51 +2,58 @@
 //! This is the only part of the API that is exposed to unauthenticated users.
 
 use iron::prelude::*;
-use iron::status;
+use iron::{status, Handler, Chain};
 use iron::typemap::Key;
 use router::Router;
 use params::{Params, Value};
 use jwt::{encode, decode, Header};
 use bcrypt;
-
-use database;
+use database::Database;
+use middleware::VerifyJWT;
 use cr;
 
 pub const JWT_SECRET: &'static str = "FAKE_SECRET_KEY";
 
 #[derive(Serialize, Deserialize)]
 pub struct Claims {
-    usr: usize,
+    pub usr: i32,
 }
 impl Key for Claims { type Value = Claims; }
 
-fn reauth(req: &mut Request) -> IronResult<Response> {
-    let authtoken = "";
-    cr::ok("ok!")
-}
-
-fn auth(req: &mut Request) -> IronResult<Response> {
-    let params = itry!{ req.get_ref::<Params>(), status::BadRequest };
-    let usr = iexpect!{ params.get("usr") };
-    let psw = iexpect!{ params.get("psw") };
-
-    if let (&Value::String(ref username), &Value::String(ref password)) = (usr, psw) {
-        // TODO: GraphQL internally? And only GraphQL does database access?
-        let hash = database::get::hashed_password_for(username);
-        let usr = database::get::id_for(username);
-        if itry! { bcrypt::verify(password, hash.as_str()) } {
-            // TODO: get a real secret key
-            let authtoken = itry! { encode(&Header::default(), &Claims{ usr }, JWT_SECRET.as_ref()) };
-            return cr::ok(authtoken)
-        }
+struct ReAuth { database: Database }
+impl Handler for ReAuth {
+    fn handle(&self, req: &mut Request) -> IronResult<Response> {
+        let authtoken = "";
+        cr::ok("ok!")
     }
-    cr::fail("Invalid credentials")
+}
+struct Auth { database: Database }
+impl Handler for Auth {
+    fn handle(&self, req: &mut Request) -> IronResult<Response> {
+        let params = itry!{ req.get_ref::<Params>(), status::BadRequest };
+        let usr = iexpect!{ params.get("usr") };
+        let psw = iexpect!{ params.get("psw") };
+
+        if let (&Value::String(ref email), &Value::String(ref password)) = (usr, psw) {
+            let usr = iexpect!{ self.database.get_user_for_email(email), status::Unauthorized };
+            if itry! { bcrypt::verify(password, usr.password.as_str()) } {
+                // TODO: get a real secret key
+                let authtoken = itry! { encode(&Header::default(), &Claims{ usr: usr.user_id }, JWT_SECRET.as_ref()) };
+                return cr::ok(authtoken)
+            }
+        }
+        cr::fail("Invalid credentials")
+    }
 }
 
-pub fn new() -> Router {
+pub fn new(db: Database) -> Router {
     let mut router = Router::new();
+
+    let mut chain = Chain::new(ReAuth{ database: db.clone() });
+    chain.link_before(VerifyJWT::new());
+
     router
-        .get("/", reauth, "reauth")
-        .post("/", auth, "auth");
+        .get("/", chain, "reauth")
+        .post("/", Auth{ database: db.clone() }, "auth");
     router
 }

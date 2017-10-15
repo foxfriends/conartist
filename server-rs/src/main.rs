@@ -40,8 +40,8 @@ fn main() {
     let config = r2d2::Config::default();
     let manager = PostgresConnectionManager::new(conn_str, TlsMode::None).unwrap();
     let pool = r2d2::Pool::new(config, manager).unwrap();
-    let database = database::DatabaseFactory::new(pool);
-
+    let database = database::DatabaseFactory::new(pool.clone());
+    let privileged = database.create_privileged();
     let mut mount = Mount::new();
 
     let mut graphql = Chain::new(
@@ -53,12 +53,12 @@ fn main() {
     );
 
     if env::args().all(|a| a != "open") {
-        graphql.link_before(middleware::VerifyJWT);
+        graphql.link_before(middleware::VerifyJWT::new());
     }
 
     mount
         .mount("/api/v2", graphql)
-        .mount("/api", rest::new())
+        .mount("/api", rest::new(privileged))
         .mount("/", web::new());
 
     println!("Starting ConArtist server at localhost:8080");

@@ -6,7 +6,7 @@ use chrono::NaiveDateTime;
 pub struct User {
     pub user_id: i32,
     pub email: String,
-    pub password: (), // NOTE: password exists, but is excluded for security reasons
+    pub password: String,
     pub keys: i32,
     pub join_date: NaiveDateTime,
 }
@@ -16,7 +16,7 @@ impl User {
             User {
                 user_id: row.get(0),
                 email: row.get(1),
-                password: (),
+                password: row.get(2),
                 keys: row.get(3),
                 join_date: row.get(4),
             }

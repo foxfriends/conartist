@@ -2,10 +2,11 @@
 
 pub mod auth;
 
+use database::Database;
 use mount::Mount;
 
-pub fn new() -> Mount {
+pub fn new(db: Database) -> Mount {
     let mut mount = Mount::new();
-    mount.mount("/auth", auth::new());
+    mount.mount("/auth", auth::new(db));
     mount
 }

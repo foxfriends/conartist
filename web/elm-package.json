@@ -23,6 +23,7 @@
         "elm-lang/lazy": "2.0.0 <= v < 3.0.0",
         "elm-lang/navigation": "2.1.0 <= v < 3.0.0",
         "evancz/url-parser": "2.0.1 <= v < 3.0.0",
+        "jamesmacaulay/elm-graphql": "1.5.0 <= v < 2.0.0",
         "justinmimbs/elm-date-extra": "2.0.3 <= v < 3.0.0",
         "rtfeldman/hex": "1.0.0 <= v < 2.0.0",
         "toastal/either": "3.2.0 <= v < 4.0.0"

@@ -9,7 +9,7 @@ use super::middleware::DefaultTo;
 
 pub fn new() -> Chain {
     chain! [
-        [ DefaultTo::new("../web/index.html") ]
+        #[ DefaultTo::new("../web/index.html") ]
         Static::new(Path::new("../web/"))
     ]
 }

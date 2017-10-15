@@ -1,7 +1,8 @@
 //! Type definitions for all tables in the database
+#![allow(dead_code)]
+
 use std::panic::catch_unwind;
 use postgres::rows::Row;
-use juniper::ResultExt;
 use chrono::NaiveDateTime;
 
 pub struct User {

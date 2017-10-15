@@ -3,19 +3,22 @@
 
 use iron::prelude::*;
 use iron::status;
+use iron::typemap::Key;
 use router::Router;
 use params::{Params, Value};
 use jwt::{encode, decode, Header};
 use bcrypt;
-use json;
 
 use database;
 use cr;
 
+pub const JWT_SECRET: &'static str = "FAKE_SECRET_KEY";
+
 #[derive(Serialize, Deserialize)]
-struct Claims {
+pub struct Claims {
     usr: usize,
 }
+impl Key for Claims { type Value = Claims; }
 
 fn reauth(req: &mut Request) -> IronResult<Response> {
     let authtoken = "";
@@ -33,7 +36,7 @@ fn auth(req: &mut Request) -> IronResult<Response> {
         let usr = database::get::id_for(username);
         if itry! { bcrypt::verify(password, hash.as_str()) } {
             // TODO: get a real secret key
-            let authtoken = itry! { encode(&Header::default(), &Claims{ usr }, "FAKE_SECRET_KEY".as_ref()) };
+            let authtoken = itry! { encode(&Header::default(), &Claims{ usr }, JWT_SECRET.as_ref()) };
             return cr::ok(authtoken)
         }
     }

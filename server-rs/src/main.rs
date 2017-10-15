@@ -20,6 +20,7 @@ mod middleware;
 mod graphql;
 mod database;
 mod cr;
+mod error;
 
 use std::env;
 use mount::Mount;
@@ -41,11 +42,17 @@ fn main() {
 
     let mut mount = Mount::new();
 
-    let graphql = GraphQLHandler::new(
-        move |r| database.create(r),
-        graphql::Query,
-        juniper::EmptyMutation::new(),
+    let mut graphql = Chain::new(
+        GraphQLHandler::new(
+            move |r| database.create(r),
+            graphql::Query,
+            juniper::EmptyMutation::new(),
+        )
     );
+
+    if env::args().all(|a| a != "open") {
+        graphql.link_before(middleware::VerifyJWT);
+    }
 
     mount
         .mount("/api/v2", graphql)

@@ -1,2 +1,5 @@
 mod fallback;
-pub use fallback::*;
+mod auth;
+
+pub use self::fallback::*;
+pub use self::auth::*;

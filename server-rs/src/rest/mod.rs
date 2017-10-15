@@ -1,6 +1,6 @@
 //! Exposes the v1 (REST) API.
 
-mod auth;
+pub mod auth;
 
 use mount::Mount;
 

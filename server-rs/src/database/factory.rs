@@ -11,7 +11,7 @@ impl DatabaseFactory {
         Self{ pool }
     }
 
-    pub fn create(&self, _: &Request) -> super::Database {
+    pub fn create(&self, request: &Request) -> super::Database {
         super::Database::new(self.pool.clone())
     }
 }

@@ -10,9 +10,12 @@ use database::Database;
 pub struct Query;
 
 graphql_object!(Query: Database |&self| {
-    description: "Entry-point of the GraphQL API"
+    description: "Entry-point of the ConArtist GraphQL API"
 
-    field user(&executor, id: i32) -> FieldResult<user::User> {
+    field user(
+        &executor,
+        id: i32 as "The ID of the user to retrieve",
+    ) -> FieldResult<user::User> {
         executor
             .context()
             .get_user_by_id(id)

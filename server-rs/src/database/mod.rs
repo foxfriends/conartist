@@ -17,6 +17,8 @@ pub struct Database {
     privileged: bool,
 }
 
+// TODO: do some caching here for efficiency
+// TODO: break up the module/impl when it gets big
 impl Database {
     fn new(pool: Pool<PostgresConnectionManager>, id: i32) -> Self { Self{ pool, user_id: Some(id), privileged: false } }
 
@@ -33,14 +35,24 @@ impl Database {
     }
 
     pub fn get_user_by_id(&self, user_id: i32) -> Result<User, String> {
-        if !self.privileged && user_id != self.user_id.unwrap_or(0) {
-            return Err(format!("Not authorized to view user {}", user_id))
-        }
+        assert_authorized!(self, user_id);
         let conn = self.pool.get().unwrap();
         for row in &query!(conn, "SELECT * FROM Users WHERE user_id = $1", user_id) {
             return User::from(row);
         }
         return Err(format!("No user {} exists", user_id))
+    }
+
+    pub fn get_product_types_for_user(&self, user_id: i32) -> Result<Vec<ProductType>, String> {
+        assert_authorized!(self, user_id);
+        let conn =self.pool.get().unwrap();
+        pipe! {
+            query!(conn, "SELECT * FROM ProductTypes WHERE user_id = $1", user_id)
+                .iter()
+                .filter_map(|row| ProductType::from(row).ok())
+                .collect()
+                => Ok(_)
+        }
     }
 }
 

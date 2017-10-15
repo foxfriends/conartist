@@ -1,10 +1,10 @@
 //! Contains information about a User
 use chrono::NaiveDateTime;
+use juniper::FieldResult;
 use database::Database;
-pub use database::User;
+pub use database::{User, ProductType};
 
 // TODO: un-stub these
-type ProductType = bool;
 type Product = bool;
 type Price = bool;
 type Convention = bool;
@@ -17,7 +17,13 @@ graphql_object!(User: Database |&self| {
     field keys() -> i32 { self.keys }
     field join_date() -> NaiveDateTime { self.join_date }
 
-    field product_types() -> Vec<ProductType> { vec![] }
+    field product_types(&executor) -> FieldResult<Vec<ProductType>> {
+        dbtry! {
+            executor
+                .context()
+                .get_product_types_for_user(self.user_id)
+        }
+    }
     field products() -> Vec<Product> { vec![] }
     field prices() -> Vec<Price> { vec![] }
     field conventions() -> Vec<Convention> { vec![] }

@@ -14,7 +14,7 @@ pub struct User {
 impl User {
     pub fn from(row: Row) -> Result<Self, String> {
         catch_unwind(|| {
-            User {
+            Self {
                 user_id: row.get(0),
                 email: row.get(1),
                 password: row.get(2),
@@ -26,65 +26,78 @@ impl User {
 }
 
 pub struct Convention {
-    con_id: i32,
-    code: String,
-    title: String,
-    start_date: i32,
-    end_date: i32,
+    pub con_id: i32,
+    pub code: String,
+    pub title: String,
+    pub start_date: i32,
+    pub end_date: i32,
 }
 
 pub struct UserConvention {
-    user_con_id: i32,
-    user_id: i32,
-    con_id: i32,
+    pub user_con_id: i32,
+    pub user_id: i32,
+    pub con_id: i32,
 }
 
 pub struct Product {
-    product_id: i32,
-    user_id: i32,
-    type_id: i32,
-    name: String,
-    discontinued: bool,
+    pub product_id: i32,
+    pub user_id: i32,
+    pub type_id: i32,
+    pub name: String,
+    pub discontinued: bool,
 }
 
 pub struct ProductType {
-    type_id: i32,
-    user_id: i32,
-    name: String,
-    color: u32,
-    discontinued: bool,
+    pub type_id: i32,
+    pub user_id: i32,
+    pub name: String,
+    pub color: i32,
+    pub discontinued: bool,
+}
+impl ProductType {
+    pub fn from(row: Row) -> Result<Self, String> {
+        catch_unwind(|| {
+            Self {
+                type_id: row.get(0),
+                user_id: row.get(1),
+                name: row.get(2),
+                color: row.get(3),
+                discontinued: row.get(4),
+            }
+        }).map_err(|_| "Tried to create a ProductType from a non-ProductType row".to_string())
+    }
 }
 
 pub struct InventoryItem {
-    inv_id: i32,
-    user_id: Option<i32>,
-    user_con_id: Option<i32>,
-    product_id: i32,
-    quantity: i32,
+    pub inv_id: i32,
+    pub user_id: Option<i32>,
+    pub user_con_id: Option<i32>,
+    pub product_id: i32,
+    pub quantity: i32,
 }
 
 pub struct Price {
-    price_id: i32,
-    user_id: Option<i32>,
-    user_con_id: Option<i32>,
-    type_id: i32,
-    product_id: Option<i32>,
-    prices: Vec<(i32, f64)>,
+    pub price_id: i32,
+    pub user_id: Option<i32>,
+    pub user_con_id: Option<i32>,
+    pub type_id: i32,
+    pub product_id: Option<i32>,
+    pub prices: Vec<(i32, f64)>,
 }
 
 pub struct Record {
-    record_id: i32,
-    user_con_id: i32,
-    price: f64,
-    products: Vec<i32>,
-    sale_time: i32,
+    pub record_id: i32,
+    pub user_con_id: i32,
+    pub price: f64,
+    pub products: Vec<i32>,
+    pub sale_time: i32,
 }
 
 pub struct Expense {
-    expense_id: i32,
-    user_con_id: i32,
-    price: f64,
-    category: String,
-    description: String,
-    spend_time: i32,
+    pub expense_id: i32,
+    pub user_con_id: i32,
+    pub price: f64,
+    pub category: String,
+    pub description: String,
+    pub spend_time: i32,
 }

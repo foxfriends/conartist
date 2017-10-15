@@ -1,5 +1,6 @@
 //! Provides the schema of the GraphQL API. Uses the Database as the context.
 
+mod product_type;
 mod user;
 
 use juniper::{FieldResult, FieldError, Value};

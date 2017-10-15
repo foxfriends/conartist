@@ -2,6 +2,7 @@
 
 mod user;
 
+use juniper::{FieldResult, FieldError, Value};
 use database::Database;
 
 pub struct Query;
@@ -9,9 +10,10 @@ pub struct Query;
 graphql_object!(Query: Database |&self| {
     description: "Entry-point of the GraphQL API"
 
-    field user(&executor, id: i32) -> Option<user::User> {
+    field user(&executor, id: i32) -> FieldResult<user::User> {
         executor
             .context()
             .get_user_by_id(id)
+            .map_err(|s| FieldError::new(s, Value::null()))
     }
 });

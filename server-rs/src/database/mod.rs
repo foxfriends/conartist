@@ -22,22 +22,25 @@ impl Database {
 
     fn privileged(pool: Pool<PostgresConnectionManager>) -> Self { Self{ pool, user_id: None, privileged: true } }
 
-    pub fn get_user_for_email(&self, email: &str) -> Option<User> {
+    pub fn get_user_for_email(&self, email: &str) -> Result<User, String> {
         // TODO: make this somehow typesafe/error safe instead of runtime checked?
         //       Maybe Diesel?? Is that too much boilerplate and high DB integration?
         let conn = self.pool.get().unwrap();
         for row in &query!(conn, "SELECT * FROM Users WHERE email = $1", email) {
             return User::from(row);
         }
-        return None
+        return Err(format!("No user with email {} exists", email))
     }
 
-    pub fn get_user_by_id(&self, user_id: i32) -> Option<User> {
+    pub fn get_user_by_id(&self, user_id: i32) -> Result<User, String> {
+        if !self.privileged && user_id != self.user_id.unwrap_or(0) {
+            return Err(format!("Not authorized to view user {}", user_id))
+        }
         let conn = self.pool.get().unwrap();
         for row in &query!(conn, "SELECT * FROM Users WHERE user_id = $1", user_id) {
             return User::from(row);
         }
-        return None
+        return Err(format!("No user {} exists", user_id))
     }
 }
 

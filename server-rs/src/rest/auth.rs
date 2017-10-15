@@ -12,6 +12,7 @@ use database::Database;
 use middleware::VerifyJWT;
 use cr;
 
+// TODO: get a real secret key
 pub const JWT_SECRET: &'static str = "FAKE_SECRET_KEY";
 
 #[derive(Serialize, Deserialize)]
@@ -37,11 +38,11 @@ impl Handler for Auth {
         let psw = iexpect!{ params.get("psw") };
 
         if let (&Value::String(ref email), &Value::String(ref password)) = (usr, psw) {
-            let usr = iexpect!{ self.database.get_user_for_email(email), status::Unauthorized };
-            if itry! { bcrypt::verify(password, usr.password.as_str()) } {
-                // TODO: get a real secret key
-                let authtoken = itry! { encode(&Header::default(), &Claims{ usr: usr.user_id }, JWT_SECRET.as_ref()) };
-                return cr::ok(authtoken)
+            if let Ok(usr) = self.database.get_user_for_email(email) {
+                if itry! { bcrypt::verify(password, usr.password.as_str()) } {
+                    let authtoken = itry! { encode(&Header::default(), &Claims{ usr: usr.user_id }, JWT_SECRET.as_ref()) };
+                    return cr::ok(authtoken)
+                }
             }
         }
         cr::fail("Invalid credentials")

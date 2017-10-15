@@ -44,17 +44,25 @@ fn main() {
     let privileged = database.create_privileged();
     let mut mount = Mount::new();
 
-    let mut graphql = chain! [
-        GraphQLHandler::new(
-            move |r| database.create(r),
-            graphql::Query,
-            juniper::EmptyMutation::new(),
-        )
-    ];
-
-    if env::args().all(|a| a != "open") {
-        graphql.link_before(middleware::VerifyJWT::new());
-    }
+    let graphql =
+        if env::args().all(|a| a != "open") {
+            chain! [
+                middleware::VerifyJWT::new();
+                GraphQLHandler::new(
+                    move |r| database.create(r),
+                    graphql::Query,
+                    juniper::EmptyMutation::new(),
+                )
+            ]
+        } else {
+            chain! [
+                GraphQLHandler::new(
+                    move |_| database.create_privileged(),
+                    graphql::Query,
+                    juniper::EmptyMutation::new(),
+                )
+            ]
+        };
 
     mount
         .mount("/api/v2", graphql)

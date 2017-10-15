@@ -1,6 +1,7 @@
 //! Type definitions for all tables in the database
 use std::panic::catch_unwind;
 use postgres::rows::Row;
+use juniper::ResultExt;
 use chrono::NaiveDateTime;
 
 pub struct User {
@@ -11,7 +12,7 @@ pub struct User {
     pub join_date: NaiveDateTime,
 }
 impl User {
-    pub fn from(row: Row) -> Option<Self> {
+    pub fn from(row: Row) -> Result<Self, String> {
         catch_unwind(|| {
             User {
                 user_id: row.get(0),
@@ -20,7 +21,7 @@ impl User {
                 keys: row.get(3),
                 join_date: row.get(4),
             }
-        }).ok()
+        }).map_err(|_| "Tried to create a User from a non-User row".to_string())
     }
 }
 

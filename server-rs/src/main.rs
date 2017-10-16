@@ -14,6 +14,7 @@ extern crate staticfile;
 extern crate jsonwebtoken as jwt;
 extern crate bcrypt;
 extern crate chrono;
+extern crate colored;
 
 #[macro_use] mod macros;
 mod web;
@@ -29,14 +30,16 @@ use mount::Mount;
 use iron::prelude::*;
 use juniper_iron::GraphQLHandler;
 use r2d2_postgres::{TlsMode, PostgresConnectionManager};
+use colored::*;
+
+const DATABASE_URL: &'static str = "postgresql://conartist_app:temporary-password@localhost/conartist";
 
 fn main() {
-    let conn_str =
-        if let Ok(cstr) = env::var("DATABASE_URL") {
-            cstr
-        } else {
-            String::from("postgresql://conartist_app:temporary-password@localhost/conartist")
-        };
+    println!();
+    println!("Starting ConArtist server...");
+
+    let conn_str = env::var("DATABASE_URL")
+        .unwrap_or(DATABASE_URL.to_string());
     let config = r2d2::Config::default();
     let manager = PostgresConnectionManager::new(conn_str, TlsMode::None).unwrap();
     let pool = r2d2::Pool::new(config, manager).unwrap();
@@ -55,6 +58,10 @@ fn main() {
                 )
             ]
         } else {
+            println!();
+            println!("{}", "WARNING: Running in test mode. No authorization required.".yellow());
+            println!("{}", "         Do not run with `open` flag in production!".yellow());
+            println!();
             chain! [
                 GraphQLHandler::new(
                     move |_| database.create_privileged(),
@@ -69,7 +76,7 @@ fn main() {
         .mount("/api", rest::new(privileged))
         .mount("/", web::new());
 
-    println!("Starting ConArtist server at localhost:8080");
-
-    Iron::new(mount).http("localhost:8080").unwrap();
+    let port = env::var("PORT").unwrap_or("8080".to_string());
+    println!("ConArtist server listening at localhost:{}", port);
+    Iron::new(mount).http(format!("localhost:{}", port)).unwrap();
 }

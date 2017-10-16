@@ -6,8 +6,9 @@ const path = require("path");
 const tasks = require("./tasks");
 const api_1 = require("./api");
 const app = express();
-app.listen(process.env.PORT || 8080, () => {
-    console.log('Server is listening on port 8080');
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+    console.log(`Server is listening on port ${PORT}`);
     tasks.start();
 });
 app.use(bodyParser.json());

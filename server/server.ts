@@ -7,9 +7,10 @@ import * as tasks from './tasks';
 import api from './api';
 
 const app = express();
-app.listen(process.env.PORT || 8080, () => {
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
   // tslint:disable-next-line
-  console.log('Server is listening on port 8080');
+  console.log(`Server is listening on port ${PORT}`);
   tasks.start();
 });
 app.use(bodyParser.json());

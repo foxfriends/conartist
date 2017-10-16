@@ -54,13 +54,19 @@ impl Database {
         )
     }
 
-    pub fn get_products_for_user(&self, user_id: i32) -> Result<Vec<Product>, String> {
+    pub fn get_products_for_user(&self, user_id: i32) -> Result<Vec<ProductInInventory>, String> {
         assert_authorized!(self, user_id);
         let conn = self.pool.get().unwrap();
         Ok (
             query!(conn, "SELECT * FROM Products WHERE user_id = $1", user_id)
-                .iter()
+                .into_iter()
                 .filter_map(|row| Product::from(row).ok())
+                .flat_map(|product|
+                    query!(conn, "SELECT * FROM Inventory WHERE product_id = $1", product.product_id)
+                        .into_iter()
+                        // TODO: bad use of unwrap, though probably harmless in the end
+                        .map(move |row| product.clone().in_inventory(InventoryItem::from(row).unwrap()))
+                        .collect::<Vec<_>>())
                 .collect()
         )
     }
@@ -83,6 +89,34 @@ impl Database {
             query!(conn, "SELECT * FROM User_Conventions WHERE user_id = $1", user_id)
                 .iter()
                 .filter_map(|row| UserConvention::from(row).ok())
+                .collect()
+        )
+    }
+
+    pub fn get_products_for_user_con(&self, user_id: i32, user_con_id: i32) -> Result<Vec<ProductInInventory>, String> {
+        assert_authorized!(self, user_id);
+        let conn = self.pool.get().unwrap();
+        Ok (
+            query!(conn, "SELECT * FROM Inventory WHERE user_con_id = $1", user_con_id)
+                .into_iter()
+                .filter_map(|row| InventoryItem::from(row).ok())
+                .flat_map(|inv|
+                    query!(conn, "SELECT * FROM Products WHERE product_id = $1", inv.product_id)
+                        .into_iter()
+                        // TODO: bad use of unwrap, though probably harmless in the end
+                        .map(move |row| Product::from(row).unwrap().in_inventory(inv.clone()))
+                        .collect::<Vec<_>>())
+                .collect()
+        )
+    }
+
+    pub fn get_prices_for_user_con(&self, user_id: i32, user_con_id: i32) -> Result<Vec<Price>, String> {
+        assert_authorized!(self, user_id);
+        let conn = self.pool.get().unwrap();
+        Ok (
+            query!(conn, "SELECT * FROM Prices WHERE user_con_id = $1", user_con_id)
+                .iter()
+                .filter_map(|row| Price::from(row).ok())
                 .collect()
         )
     }

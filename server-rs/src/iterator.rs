@@ -1,4 +1,4 @@
-pub struct PairedIter<I> {
+pub struct PairedIter<I> where I: Iterator {
     iter: I,
 }
 
@@ -15,7 +15,7 @@ impl<I> Iterator for PairedIter<I> where I: Iterator {
     }
 }
 
-pub trait Paired: Sized {
+pub trait Paired: Sized + Iterator {
     fn paired(self) -> PairedIter<Self> { PairedIter{ iter: self } }
 }
 impl <I: Iterator> Paired for I {}

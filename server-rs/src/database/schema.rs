@@ -7,6 +7,7 @@ use postgres_array::Array;
 use chrono::NaiveDateTime;
 use iterator::*;
 
+#[derive(Clone)]
 pub struct User {
     pub user_id: i32,
     pub email: String,
@@ -28,6 +29,7 @@ impl User {
     }
 }
 
+#[derive(Clone)]
 pub struct Convention {
     pub con_id: i32,
     pub code: String,
@@ -36,6 +38,7 @@ pub struct Convention {
     pub end_date: i32,
 }
 
+#[derive(Clone, Copy)]
 pub struct UserConvention {
     pub user_con_id: i32,
     pub user_id: i32,
@@ -53,6 +56,12 @@ impl UserConvention {
     }
 }
 
+#[derive(Clone)]
+pub struct ProductInInventory {
+    pub product: Product,
+    pub inventory: InventoryItem,
+}
+#[derive(Clone)]
 pub struct Product {
     pub product_id: i32,
     pub user_id: i32,
@@ -72,8 +81,16 @@ impl Product {
             }
         }).map_err(|_| "Tried to create a Product from a non-Product row".to_string())
     }
+
+    pub fn in_inventory(self, inventory: InventoryItem) -> ProductInInventory {
+        ProductInInventory {
+            product: self,
+            inventory
+        }
+    }
 }
 
+#[derive(Clone)]
 pub struct ProductType {
     pub type_id: i32,
     pub user_id: i32,
@@ -95,6 +112,7 @@ impl ProductType {
     }
 }
 
+#[derive(Clone, Copy)]
 pub struct InventoryItem {
     pub inv_id: i32,
     pub user_id: Option<i32>,
@@ -102,7 +120,21 @@ pub struct InventoryItem {
     pub product_id: i32,
     pub quantity: i32,
 }
+impl InventoryItem {
+    pub fn from(row: Row) -> Result<Self, String> {
+        catch_unwind(|| {
+            Self {
+                inv_id: row.get(0),
+                user_id: row.get(1),
+                user_con_id: row.get(2),
+                product_id: row.get(3),
+                quantity: row.get(4),
+            }
+        }).map_err(|_| "Tried to create an InventoryItem from a non-Inventory row".to_string())
+    }
+}
 
+#[derive(Clone, Copy)]
 pub struct PriceRow {
     pub index: i32,
     pub user_id: Option<i32>,
@@ -113,6 +145,7 @@ pub struct PriceRow {
     pub price: f64,
 }
 
+#[derive(Clone)]
 pub struct Price {
     pub price_id: i32,
     pub user_id: Option<i32>,
@@ -153,6 +186,7 @@ impl Price {
     }
 }
 
+#[derive(Clone)]
 pub struct Record {
     pub record_id: i32,
     pub user_con_id: i32,
@@ -161,6 +195,7 @@ pub struct Record {
     pub sale_time: i32,
 }
 
+#[derive(Clone)]
 pub struct Expense {
     pub expense_id: i32,
     pub user_con_id: i32,

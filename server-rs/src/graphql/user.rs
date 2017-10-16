@@ -2,7 +2,7 @@
 use chrono::NaiveDateTime;
 use juniper::FieldResult;
 use database::Database;
-pub use database::{User, ProductType, Product, PriceRow, UserConvention};
+pub use database::{User, ProductType, ProductInInventory, PriceRow, UserConvention};
 
 graphql_object!(User: Database |&self| {
     description: "Holds information about a user and their products, prices, and conventions"
@@ -19,13 +19,15 @@ graphql_object!(User: Database |&self| {
                 .get_product_types_for_user(self.user_id)
         }
     }
-    field products(&executor) -> FieldResult<Vec<Product>> {
+
+    field products(&executor) -> FieldResult<Vec<ProductInInventory>> {
         dbtry! {
             executor
                 .context()
                 .get_products_for_user(self.user_id)
         }
     }
+
     field prices(&executor) -> FieldResult<Vec<PriceRow>> {
         dbtry! {
             executor

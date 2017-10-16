@@ -2,6 +2,7 @@ extern crate serde;
 #[macro_use] extern crate serde_derive;
 #[macro_use] extern crate serde_json as json;
 extern crate postgres;
+extern crate postgres_array;
 extern crate r2d2;
 extern crate r2d2_postgres;
 #[macro_use] extern crate juniper;
@@ -23,6 +24,7 @@ mod middleware;
 mod graphql;
 mod database;
 mod cr;
+mod iterator;
 mod error;
 
 use std::env;
@@ -33,13 +35,13 @@ use r2d2_postgres::{TlsMode, PostgresConnectionManager};
 use colored::*;
 
 const DATABASE_URL: &'static str = "postgresql://conartist_app:temporary-password@localhost/conartist";
+const DEFAULT_PORT: &'static str = "8080";
 
 fn main() {
     println!();
     println!("Starting ConArtist server...");
 
-    let conn_str = env::var("DATABASE_URL")
-        .unwrap_or(DATABASE_URL.to_string());
+    let conn_str = env::var("DATABASE_URL").unwrap_or(DATABASE_URL.to_string());
     let config = r2d2::Config::default();
     let manager = PostgresConnectionManager::new(conn_str, TlsMode::None).unwrap();
     let pool = r2d2::Pool::new(config, manager).unwrap();
@@ -76,7 +78,7 @@ fn main() {
         .mount("/api", rest::new(privileged))
         .mount("/", web::new());
 
-    let port = env::var("PORT").unwrap_or("8080".to_string());
+    let port = env::var("PORT").unwrap_or(DEFAULT_PORT.to_string());
     println!("ConArtist server listening at localhost:{}", port);
     Iron::new(mount).http(format!("localhost:{}", port)).unwrap();
 }

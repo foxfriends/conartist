@@ -85,7 +85,7 @@ CREATE TABLE Prices (
   user_con_id INT          REFERENCES User_Conventions  (user_con_id) ON DELETE CASCADE,
   type_id     INT NOT NULL REFERENCES ProductTypes      (type_id)     ON DELETE CASCADE,
   product_id  INT          REFERENCES Products          (product_id)  ON DELETE CASCADE,
-  prices      DECIMAL[2][] NOT NULL,
+  prices      DOUBLE PRECISION[2][] NOT NULL,
   CONSTRAINT user_or_con CHECK (
     (user_id IS NOT NULL AND user_con_id IS NULL) OR
     (user_id IS NULL AND user_con_id IS NOT NULL)

@@ -2,6 +2,7 @@
 
 mod product_type;
 mod product;
+mod price;
 mod user;
 
 use juniper::{FieldResult, FieldError, Value};

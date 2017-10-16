@@ -3,7 +3,9 @@
 
 use std::panic::catch_unwind;
 use postgres::rows::Row;
+use postgres_array::Array;
 use chrono::NaiveDateTime;
+use iterator::*;
 
 pub struct User {
     pub user_id: i32,
@@ -90,6 +92,16 @@ pub struct InventoryItem {
     pub quantity: i32,
 }
 
+pub struct PriceRow {
+    pub index: i32,
+    pub user_id: Option<i32>,
+    pub user_con_id: Option<i32>,
+    pub type_id: i32,
+    pub product_id: Option<i32>,
+    pub quantity: i32,
+    pub price: f64,
+}
+
 pub struct Price {
     pub price_id: i32,
     pub user_id: Option<i32>,
@@ -97,6 +109,37 @@ pub struct Price {
     pub type_id: i32,
     pub product_id: Option<i32>,
     pub prices: Vec<(i32, f64)>,
+}
+impl Price {
+    pub fn from(row: Row) -> Result<Self, String> {
+        let prices: Array<f64> = row.get(5);
+        catch_unwind(|| {
+            Self {
+                price_id: row.get(0),
+                user_id: row.get(1),
+                user_con_id: row.get(2),
+                type_id: row.get(3),
+                product_id: row.get(4),
+                prices: prices.into_iter().paired().map(|r| (r.0 as i32, r.1)).collect(),
+            }
+        }).map_err(|_| "Tried to create a Price from a non-Price row".to_string())
+    }
+
+    pub fn spread(self, index: i32) -> Vec<PriceRow> {
+        self.prices
+            .iter()
+            .enumerate()
+            .map(|(i, &(quantity, price))| PriceRow {
+                index: index + i as i32,
+                user_id: self.user_id,
+                user_con_id: self.user_con_id,
+                type_id: self.type_id,
+                product_id: self.product_id,
+                quantity,
+                price,
+            } )
+            .collect()
+    }
 }
 
 pub struct Record {

@@ -1,4 +1,4 @@
-//! Contains information about a ProductType
+//! Holds information about a product type
 use database::Database;
 pub use database::ProductType;
 

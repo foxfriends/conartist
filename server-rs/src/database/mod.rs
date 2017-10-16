@@ -64,6 +64,17 @@ impl Database {
                 .collect()
         )
     }
+
+    pub fn get_prices_for_user(&self, user_id: i32) -> Result<Vec<Price>, String> {
+        assert_authorized!(self, user_id);
+        let conn = self.pool.get().unwrap();
+        Ok (
+            query!(conn, "SELECT * FROM Prices WHERE user_id = $1", user_id)
+                .iter()
+                .filter_map(|row| Price::from(row).ok())
+                .collect()
+        )
+    }
 }
 
 impl Context for Database {}

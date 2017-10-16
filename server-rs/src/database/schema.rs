@@ -41,6 +41,17 @@ pub struct UserConvention {
     pub user_id: i32,
     pub con_id: i32,
 }
+impl UserConvention {
+    pub fn from(row: Row) -> Result<Self, String> {
+        catch_unwind(|| {
+            Self {
+                user_con_id: row.get(0),
+                user_id: row.get(1),
+                con_id: row.get(2),
+            }
+        }).map_err(|_| "Tried to create a UserConvention from a non-UserConvention row".to_string())
+    }
+}
 
 pub struct Product {
     pub product_id: i32,

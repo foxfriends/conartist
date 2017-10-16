@@ -12,7 +12,6 @@ graphql_object!(PricePair: Database |&self| {
 graphql_object!(Price: Database |&self| {
     description: "Holds information about the price of a product or product type"
 
-    field id() -> i32 { self.price_id }
     field type_id() -> i32 { self.type_id }
     field product_id() -> Option<i32> { self.product_id }
     field prices() -> Vec<PricePair> { self.prices.iter().map(|&(q, p)| PricePair(q, p)).collect() }

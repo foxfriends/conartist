@@ -71,26 +71,3 @@ macro_rules! dbtry {
         $res.map_err(|s| ::juniper::FieldError::new(s, ::juniper::Value::null()))
     };
 }
-
-macro_rules! insert {
-    ($exp:expr, _ $($rest:tt)*) => {
-        $exp $($rest)*
-    };
-    ($exp:expr, $first:tt $($rest:tt)*) => {
-        $first insert!($exp, $($rest)*)
-    };
-    ($exp:expr) => {};
-}
-
-macro_rules! pipe {
-    ($exp:expr) => { $exp };
-    ($exp:expr => $fn:ident ( $($into:tt)* ) ) => {
-        $fn(insert!($exp, $($into)*))
-    };
-    ($exp:expr => $fn:ident ( $($into:tt)* ) $(=> $rest:pat)*) => {
-        pipe! {
-            $fn(insert!($exp, $($into)*))
-            $(=> $rest)*
-        }
-    };
-}

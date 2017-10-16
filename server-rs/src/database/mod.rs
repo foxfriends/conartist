@@ -75,6 +75,17 @@ impl Database {
                 .collect()
         )
     }
+
+    pub fn get_conventions_for_user(&self, user_id: i32) -> Result<Vec<UserConvention>, String> {
+        assert_authorized!(self, user_id);
+        let conn = self.pool.get().unwrap();
+        Ok (
+            query!(conn, "SELECT * FROM User_Conventions WHERE user_id = $1", user_id)
+                .iter()
+                .filter_map(|row| UserConvention::from(row).ok())
+                .collect()
+        )
+    }
 }
 
 impl Context for Database {}

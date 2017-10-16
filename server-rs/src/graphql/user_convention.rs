@@ -1,15 +1,15 @@
-//! Holds information about a user convention
+//! Holds information about a convention and a user's products, prices, and records during that convention
 use database::Database;
 use juniper::FieldResult;
 pub use database::{ProductType, ProductInInventory, PriceRow, UserConvention};
 
 graphql_object!(UserConvention: Database |&self| {
-    description: "Holds information about a user convention"
+    description: "Holds information about a convention and a user's products, prices, and records during that convention"
 
     field id() -> i32 { self.con_id }
     field user_id() -> i32 { self.user_id }
 
-    field product_types(&executor) -> FieldResult<Vec<ProductType>> {
+    field product_type(&executor) -> FieldResult<Vec<ProductType>> {
         dbtry! {
             executor
                 .context()
@@ -17,7 +17,7 @@ graphql_object!(UserConvention: Database |&self| {
         }
     }
 
-    field products(&executor) -> FieldResult<Vec<ProductInInventory>> {
+    field product(&executor) -> FieldResult<Vec<ProductInInventory>> {
         dbtry! {
             executor
                 .context()
@@ -25,7 +25,7 @@ graphql_object!(UserConvention: Database |&self| {
         }
     }
 
-    field prices(&executor) -> FieldResult<Vec<PriceRow>> {
+    field price(&executor) -> FieldResult<Vec<PriceRow>> {
         dbtry! {
             executor
                 .context()

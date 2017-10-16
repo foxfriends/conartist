@@ -4,6 +4,7 @@ mod schema;
 pub mod factory;
 
 use juniper::Context;
+use chrono::NaiveDate;
 use r2d2::Pool;
 use r2d2_postgres::PostgresConnectionManager;
 
@@ -117,6 +118,17 @@ impl Database {
             query!(conn, "SELECT * FROM Prices WHERE user_con_id = $1", user_con_id)
                 .iter()
                 .filter_map(|row| Price::from(row).ok())
+                .collect()
+        )
+    }
+
+    pub fn get_conventions_after(&self, date: NaiveDate) -> Result<Vec<Convention>, String> {
+        let conn = self.pool.get().unwrap();
+        println!("{}", date);
+        Ok (
+            query!(conn, "SELECT * FROM Conventions WHERE start_date > $1", date)
+                .iter()
+                .filter_map(|row| Convention::from(row).ok())
                 .collect()
         )
     }

@@ -4,7 +4,7 @@
 use std::panic::catch_unwind;
 use postgres::rows::Row;
 use postgres_array::Array;
-use chrono::NaiveDateTime;
+use chrono::{NaiveDateTime, NaiveDate};
 use iterator::*;
 
 #[derive(Clone)]
@@ -34,8 +34,21 @@ pub struct Convention {
     pub con_id: i32,
     pub code: String,
     pub title: String,
-    pub start_date: i32,
-    pub end_date: i32,
+    pub start_date: NaiveDate,
+    pub end_date: NaiveDate,
+}
+impl Convention {
+    pub fn from(row: Row) -> Result<Self, String> {
+        catch_unwind(|| {
+            Self {
+                con_id: row.get(0),
+                code: row.get(1),
+                title: row.get(2),
+                start_date: row.get(3),
+                end_date: row.get(4),
+            }
+        }).map_err(|_| "Tried to create a Convention from a non-Convention row".to_string())
+    }
 }
 
 #[derive(Clone, Copy)]

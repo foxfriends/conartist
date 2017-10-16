@@ -83,13 +83,19 @@ impl Database {
         )
     }
 
-    pub fn get_conventions_for_user(&self, user_id: i32) -> Result<Vec<UserConvention>, String> {
+    pub fn get_conventions_for_user(&self, user_id: i32) -> Result<Vec<FullUserConvention>, String> {
         assert_authorized!(self, user_id);
         let conn = self.pool.get().unwrap();
         Ok (
             query!(conn, "SELECT * FROM User_Conventions WHERE user_id = $1", user_id)
                 .iter()
                 .filter_map(|row| UserConvention::from(row).ok())
+                .flat_map(|uc|
+                    query!(conn, "SELECT * FROM Conventions WHERE con_id = $1", uc.con_id)
+                        .into_iter()
+                        // TODO: bad use of unwrap, though probably harmless in the end
+                        .map(move | row| uc.clone().filled_with(Convention::from(row).unwrap()))
+                        .collect::<Vec<_>>())
                 .collect()
         )
     }
@@ -124,7 +130,6 @@ impl Database {
 
     pub fn get_conventions_after(&self, date: NaiveDate) -> Result<Vec<Convention>, String> {
         let conn = self.pool.get().unwrap();
-        println!("{}", date);
         Ok (
             query!(conn, "SELECT * FROM Conventions WHERE start_date > $1", date)
                 .iter()

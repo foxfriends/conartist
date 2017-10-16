@@ -51,6 +51,17 @@ impl Convention {
     }
 }
 
+#[derive(Clone)]
+pub struct FullUserConvention {
+    pub user_con_id: i32,
+    pub user_id: i32,
+    pub con_id: i32,
+    pub code: String,
+    pub title: String,
+    pub start_date: NaiveDate,
+    pub end_date: NaiveDate,
+}
+
 #[derive(Clone, Copy)]
 pub struct UserConvention {
     pub user_con_id: i32,
@@ -66,6 +77,18 @@ impl UserConvention {
                 con_id: row.get(2),
             }
         }).map_err(|_| "Tried to create a UserConvention from a non-UserConvention row".to_string())
+    }
+
+    pub fn filled_with(self, con: Convention) -> FullUserConvention {
+        FullUserConvention {
+            user_con_id: self.user_con_id,
+            user_id: self.user_id,
+            con_id: self.con_id,
+            code: con.code,
+            title: con.title,
+            start_date: con.start_date,
+            end_date: con.end_date,
+        }
     }
 }
 

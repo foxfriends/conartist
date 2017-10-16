@@ -2,7 +2,7 @@
 use chrono::NaiveDateTime;
 use juniper::FieldResult;
 use database::Database;
-pub use database::{User, ProductType, ProductInInventory, PriceRow, UserConvention};
+pub use database::{User, ProductType, ProductInInventory, PriceRow, FullUserConvention};
 
 graphql_object!(User: Database |&self| {
     description: "Holds information about a user and their products, prices, and conventions"
@@ -12,7 +12,7 @@ graphql_object!(User: Database |&self| {
     field keys() -> i32 { self.keys }
     field join_date() -> NaiveDateTime { self.join_date }
 
-    field product_types(&executor) -> FieldResult<Vec<ProductType>> {
+    field product_type(&executor) -> FieldResult<Vec<ProductType>> {
         dbtry! {
             executor
                 .context()
@@ -20,7 +20,7 @@ graphql_object!(User: Database |&self| {
         }
     }
 
-    field products(&executor) -> FieldResult<Vec<ProductInInventory>> {
+    field product(&executor) -> FieldResult<Vec<ProductInInventory>> {
         dbtry! {
             executor
                 .context()
@@ -28,7 +28,7 @@ graphql_object!(User: Database |&self| {
         }
     }
 
-    field prices(&executor) -> FieldResult<Vec<PriceRow>> {
+    field price(&executor) -> FieldResult<Vec<PriceRow>> {
         dbtry! {
             executor
                 .context()
@@ -43,7 +43,7 @@ graphql_object!(User: Database |&self| {
         }
     }
 
-    field conventions(&executor) -> FieldResult<Vec<UserConvention>> {
+    field convention(&executor) -> FieldResult<Vec<FullUserConvention>> {
         dbtry! {
             executor
                 .context()

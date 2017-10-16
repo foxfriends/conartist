@@ -1,7 +1,7 @@
 //! Holds information about a convention and a user's products, prices, and records during that convention
 use database::Database;
 use juniper::FieldResult;
-pub use database::{ProductType, ProductInInventory, PriceRow, FullUserConvention};
+pub use database::{ProductType, ProductInInventory, PriceRow, FullUserConvention, Record, Expense};
 
 graphql_object!(FullUserConvention: Database |&self| {
     description: "Holds information about a convention and a user's products, prices, and records during that convention"
@@ -42,6 +42,22 @@ graphql_object!(FullUserConvention: Database |&self| {
                         prev.into_iter().chain(price.spread(len)).collect()
                     })
                 )
+        }
+    }
+
+    field record(&executor) -> FieldResult<Vec<Record>> {
+        dbtry! {
+            executor
+                .context()
+                .get_records_for_user_con(self.user_id, self.user_con_id)
+        }
+    }
+
+    field expense(&executor) -> FieldResult<Vec<Expense>> {
+        dbtry! {
+            executor
+                .context()
+                .get_expenses_for_user_con(self.user_id, self.user_con_id)
         }
     }
 });

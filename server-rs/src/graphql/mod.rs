@@ -4,6 +4,8 @@ mod convention;
 mod product_type;
 mod product;
 mod price;
+mod record;
+mod expense;
 mod user_convention;
 mod user;
 

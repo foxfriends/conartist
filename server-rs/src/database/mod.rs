@@ -128,6 +128,28 @@ impl Database {
         )
     }
 
+    pub fn get_records_for_user_con(&self, user_id: i32, user_con_id: i32) -> Result<Vec<Record>, String> {
+        assert_authorized!(self, user_id);
+        let conn = self.pool.get().unwrap();
+        Ok (
+            query!(conn, "SELECT * FROM Records WHERE user_con_id = $1", user_con_id)
+                .iter()
+                .filter_map(|row| Record::from(row).ok())
+                .collect()
+        )
+    }
+
+    pub fn get_expenses_for_user_con(&self, user_id: i32, user_con_id: i32) -> Result<Vec<Expense>, String> {
+        assert_authorized!(self, user_id);
+        let conn = self.pool.get().unwrap();
+        Ok (
+            query!(conn, "SELECT * FROM Expenses WHERE user_con_id = $1", user_con_id)
+                .iter()
+                .filter_map(|row| Expense::from(row).ok())
+                .collect()
+        )
+    }
+
     pub fn get_conventions_after(&self, date: NaiveDate) -> Result<Vec<Convention>, String> {
         let conn = self.pool.get().unwrap();
         Ok (

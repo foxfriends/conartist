@@ -228,7 +228,20 @@ pub struct Record {
     pub user_con_id: i32,
     pub price: f64,
     pub products: Vec<i32>,
-    pub sale_time: i32,
+    pub sale_time: NaiveDateTime,
+}
+impl Record {
+    pub fn from(row: Row) -> Result<Self, String> {
+        catch_unwind(|| {
+            Self {
+                record_id: row.get(0),
+                user_con_id: row.get(1),
+                price: row.get(2),
+                products: row.get(3),
+                sale_time: row.get(4),
+            }
+        }).map_err(|_| "Tried to create a Record from a non-Record row".to_string())
+    }
 }
 
 #[derive(Clone)]
@@ -238,5 +251,19 @@ pub struct Expense {
     pub price: f64,
     pub category: String,
     pub description: String,
-    pub spend_time: i32,
+    pub spend_time: NaiveDateTime,
+}
+impl Expense {
+    pub fn from(row: Row) -> Result<Self, String> {
+        catch_unwind(|| {
+            Self {
+                expense_id: row.get(0),
+                user_con_id: row.get(1),
+                price: row.get(2),
+                category: row.get(3),
+                description: row.get(4),
+                spend_time: row.get(5),
+            }
+        }).map_err(|_| "Tried to create an Expense from a non-Expense row".to_string())
+    }
 }

@@ -20,6 +20,7 @@ pub struct Database {
 
 // TODO: do some caching here for efficiency
 // TODO: break up the module/impl when it gets big
+// TODO: could totally use INNER JOIN in a lot of these places
 impl Database {
     fn new(pool: Pool<PostgresConnectionManager>, id: i32) -> Self { Self{ pool, user_id: Some(id), privileged: false } }
 
@@ -58,12 +59,13 @@ impl Database {
     pub fn get_products_for_user(&self, user_id: i32) -> Result<Vec<ProductInInventory>, String> {
         assert_authorized!(self, user_id);
         let conn = self.pool.get().unwrap();
+        let get_inventory = conn.prepare("SELECT * FROM Inventory WHERE product_id = $1").unwrap();
         Ok (
             query!(conn, "SELECT * FROM Products WHERE user_id = $1", user_id)
                 .into_iter()
                 .filter_map(|row| Product::from(row).ok())
                 .flat_map(|product|
-                    query!(conn, "SELECT * FROM Inventory WHERE product_id = $1", product.product_id)
+                    get_inventory.query(&[&product.product_id]).unwrap()
                         .into_iter()
                         // TODO: bad use of unwrap, though probably harmless in the end
                         .map(move |row| product.clone().in_inventory(InventoryItem::from(row).unwrap()))
@@ -86,12 +88,13 @@ impl Database {
     pub fn get_conventions_for_user(&self, user_id: i32) -> Result<Vec<FullUserConvention>, String> {
         assert_authorized!(self, user_id);
         let conn = self.pool.get().unwrap();
+        let get_convention = conn.prepare("SELECT * FROM Conventions WHERE con_id = $1").unwrap();
         Ok (
             query!(conn, "SELECT * FROM User_Conventions WHERE user_id = $1", user_id)
                 .iter()
                 .filter_map(|row| UserConvention::from(row).ok())
                 .flat_map(|uc|
-                    query!(conn, "SELECT * FROM Conventions WHERE con_id = $1", uc.con_id)
+                    get_convention.query(&[&uc.con_id]).unwrap()
                         .into_iter()
                         // TODO: bad use of unwrap, though probably harmless in the end
                         .map(move | row| uc.clone().filled_with(Convention::from(row).unwrap()))
@@ -103,12 +106,13 @@ impl Database {
     pub fn get_products_for_user_con(&self, user_id: i32, user_con_id: i32) -> Result<Vec<ProductInInventory>, String> {
         assert_authorized!(self, user_id);
         let conn = self.pool.get().unwrap();
+        let get_product = conn.prepare("SELECT * FROM Products WHERE product_id = $1").unwrap();
         Ok (
             query!(conn, "SELECT * FROM Inventory WHERE user_con_id = $1", user_con_id)
                 .into_iter()
                 .filter_map(|row| InventoryItem::from(row).ok())
                 .flat_map(|inv|
-                    query!(conn, "SELECT * FROM Products WHERE product_id = $1", inv.product_id)
+                    get_product.query(&[&inv.product_id]).unwrap()
                         .into_iter()
                         // TODO: bad use of unwrap, though probably harmless in the end
                         .map(move |row| Product::from(row).unwrap().in_inventory(inv.clone()))

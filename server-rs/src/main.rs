@@ -50,7 +50,7 @@ fn main() {
     let mut mount = Mount::new();
 
     let graphql =
-        if env::args().all(|a| a != "open") {
+        if env::args().all(|a| a != "--open") {
             chain! [
                 middleware::VerifyJWT::new();
                 GraphQLHandler::new(
@@ -62,7 +62,7 @@ fn main() {
         } else {
             println!();
             println!("{}", "WARNING: Running in test mode. No authorization required.".yellow());
-            println!("{}", "         Do not run with `open` flag in production!".yellow());
+            println!("{}", "         Do not run with `--open` flag in production!".yellow());
             println!();
             chain! [
                 GraphQLHandler::new(

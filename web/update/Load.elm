@@ -28,4 +28,4 @@ user : Model -> Cmd Msg
 user = query DidLoadUser getUser
 
 userAndThen : Cmd Msg -> Model -> Cmd Msg
-userAndThen after = query (DidLoadUserThen after) getUser
+userAndThen = DidLoadUserThen >> flip query getUser

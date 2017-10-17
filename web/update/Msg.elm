@@ -71,7 +71,7 @@ type Msg
   | DidLoadUser (Result Error User)
   | DidLoadUserThen (Cmd Msg) (Result Error User)
   | DidLoadChooseConvention (Result Http.Error (ConRequest (Pagination MetaConvention)))
-  | DidLoadConvention (Result Http.Error (ConRequest FullConvention))
+  | DidLoadConvention (Result Error FullConvention)
   -- saving
   | SaveProducts
   | SavePrices

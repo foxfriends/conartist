@@ -1,4 +1,4 @@
-module GraphQL exposing (query, mutation, getUser)
+module GraphQL exposing (query, mutation, getUser, getFullConvention)
 import Task
 import Http
 import Json.Decode as Decode
@@ -16,6 +16,7 @@ import ProductType exposing (FullType, ProductType(..))
 import Product exposing (FullProduct, Product(..))
 import Price exposing (FullPrice, Price(..))
 import Convention exposing (MetaConvention, FullConvention, Convention(..))
+import Record exposing (Record)
 
 type DateType = DateType
 
@@ -28,6 +29,12 @@ date =
             Just date -> Decode.succeed date
             Nothing -> Decode.fail "Date format is incorrect"
         )
+    |> customScalar DateType
+
+time : ValueSpec NonNull DateType Date vars
+time =
+  Decode.float
+    |> Decode.map Date.fromTime
     |> customScalar DateType
 
 productType : ValueSpec NonNull ObjectType FullType vars
@@ -60,6 +67,23 @@ metaConvention = object MetaConvention
   |> with (field "start" [] date)
   |> with (field "end" [] date)
 
+fullConvention : ValueSpec NonNull ObjectType FullConvention vars
+fullConvention = object FullConvention
+  |> with (field "name" [] string)
+  |> with (field "code" [] string)
+  |> with (field "start" [] date)
+  |> with (field "end" [] date)
+  |> with (field "product" [] (map (List.map Product.Clean) <| map (List.sortBy .id) (list product)))
+  |> with (field "productType" [] (map (List.map ProductType.Clean) <| map (List.sortBy .id) (list productType)))
+  |> with (field "price" [] (list <| map Price.Clean priceRow))
+  |> with (field "record" [] (list record))
+
+record : ValueSpec NonNull ObjectType Record vars
+record = object Record
+  |> with (field "products" [] (list int))
+  |> with (field "price" [] float)
+  |> with (field "time" [] time)
+
 user : ValueSpec NonNull ObjectType User vars
 user = object User
   |> with (field "email" [] string)
@@ -73,6 +97,14 @@ getUser : Request Query User
 getUser =
   request { id = Nothing } <| queryDocument <| extract <|
     field "user" [ ("id", Arg.variable (Var.required "id" .id (Var.nullable Var.int))) ] user
+
+getFullConvention : String -> Request Query FullConvention
+getFullConvention code =
+  request { code = code, id = Nothing } <| queryDocument <| extract <|
+    field "userConvention"
+      [ ("id", Arg.variable (Var.required "id" .id (Var.nullable Var.int)))
+      , ("code", Arg.variable (Var.required "code" .code Var.string)) ]
+      fullConvention
 
 authorized : String -> String -> RequestOptions
 authorized method authtoken =

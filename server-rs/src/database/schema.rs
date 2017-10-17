@@ -61,6 +61,22 @@ pub struct FullUserConvention {
     pub start_date: NaiveDate,
     pub end_date: NaiveDate,
 }
+impl FullUserConvention {
+    pub fn from(row: Row) -> Result<Self, String> {
+        catch_unwind(|| {
+            FullUserConvention {
+                user_con_id: row.get(0),
+                user_id: row.get(1),
+                con_id: row.get(2),
+                code: row.get(4),
+                title: row.get(5),
+                start_date: row.get(6),
+                end_date: row.get(7),
+            }
+        }).map_err(|_| "Tried to create a FullUserConvention from a non-FullUserConvention row".to_string())
+
+    }
+}
 
 #[derive(Clone, Copy)]
 pub struct UserConvention {

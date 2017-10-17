@@ -11,7 +11,7 @@ mod user;
 
 use chrono::NaiveDate;
 use juniper::{FieldResult, FieldError, Value};
-use database::{Database, User, Convention};
+use database::{Database, User, Convention, FullUserConvention};
 
 pub struct Query;
 
@@ -25,6 +25,17 @@ graphql_object!(Query: Database |&self| {
         executor
             .context()
             .get_user_by_id_or_self(id)
+            .map_err(|s| FieldError::new(s, Value::null()))
+    }
+
+    field user_convention(
+        &executor,
+        id: Option<i32> as "The ID of the user to retrieve. Leave out to request self",
+        code: String as "The con-code of the convention to retrieve",
+    ) -> FieldResult<FullUserConvention> as "Retrieves the full information of one user's convention" {
+        executor
+            .context()
+            .get_convention_for_user(id, &code)
             .map_err(|s| FieldError::new(s, Value::null()))
     }
 

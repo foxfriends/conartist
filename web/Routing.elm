@@ -4,6 +4,7 @@ import Navigation exposing (Location)
 import Http
 import Json.Decode as Decode
 
+import GraphQL exposing (query, getFullConvention)
 import Model exposing (Model)
 import Msg exposing (Msg(..))
 import Page exposing (Page(..))
@@ -81,19 +82,7 @@ signInPath : String
 signInPath = "/sign-in"
 
 fillConvention : Model -> String -> Cmd Msg
-fillConvention model code =
-  case List_.find (\c -> c.code == code) (List.filterMap Convention.asFull model.user.conventions) of
-    Nothing ->
-      Http.send DidLoadConvention <|
-        Http.request
-          { method = "Get"
-          , headers = [ Http.header "Authorization" ("Bearer " ++ model.authtoken) ]
-          , url = "/api/con/" ++ code
-          , body = Http.emptyBody
-          , expect = Http.expectJson (ConRequest.decode Convention.fullDecode)
-          , timeout = Nothing
-          , withCredentials = False }
-    Just _ -> Cmd.none
+fillConvention = flip (getFullConvention >> query DidLoadConvention )
 
 reauthorize : Model -> Cmd Msg
 reauthorize model =

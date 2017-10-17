@@ -16,7 +16,7 @@ update msg model = case msg of
     case model.dialog of
       ChooseConvention _ -> { model | dialog = ChooseConvention { cons = data, pages = pages, page = page } } ! []
       _ -> model ! []
-  DidLoadConvention (Ok (Success con)) ->
+  DidLoadConvention (Ok con) ->
     let
       user = model.user
       conventions = List_.updateAt (asMeta >> .code >> (==) con.code) (always <| Full con) user.conventions

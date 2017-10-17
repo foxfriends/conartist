@@ -109,6 +109,17 @@ impl Database {
         )
     }
 
+    pub fn get_convention_for_user(&self, maybe_user_id: Option<i32>, con_code: &str) -> Result<FullUserConvention, String> {
+        let user_id = maybe_user_id.unwrap_or(self.user_id.expect("Cannot get user id for self in privileged mode!"));
+        assert_authorized!(self, user_id);
+        let conn = self.pool.get().unwrap();
+        query!(conn, "SELECT * FROM User_Conventions u INNER JOIN Conventions c ON u.con_id = c.con_id WHERE user_id = $1 AND code = $2", user_id, con_code)
+            .iter()
+            .filter_map(|row| FullUserConvention::from(row).ok())
+            .nth(0)
+            .ok_or(format!("User {} is not signed up for convention {}", user_id, con_code))
+    }
+
     pub fn get_products_for_user_con(&self, user_id: i32, user_con_id: i32) -> Result<Vec<ProductInInventory>, String> {
         assert_authorized!(self, user_id);
         let conn = self.pool.get().unwrap();

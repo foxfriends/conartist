@@ -20,11 +20,11 @@ graphql_object!(Query: Database |&self| {
 
     field user(
         &executor,
-        id: i32 as "The ID of the user to retrieve",
+        id: Option<i32> as "The ID of the user to retrieve. Leave out to request self",
     ) -> FieldResult<User> as "Retrieves one user, corresponding to the provided ID" {
         executor
             .context()
-            .get_user_by_id(id)
+            .get_user_by_id_or_self(id)
             .map_err(|s| FieldError::new(s, Value::null()))
     }
 

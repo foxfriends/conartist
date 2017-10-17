@@ -1,5 +1,6 @@
 module Msg exposing (Msg(..), TabStatus)
 import Http
+import GraphQL.Client.Http exposing (Error)
 import Date exposing (Date)
 import Navigation exposing (Location)
 
@@ -9,7 +10,6 @@ import ProductType exposing (FullType)
 import Price exposing (FullPrice)
 import Convention exposing (MetaConvention, FullConvention)
 import User exposing (User)
-import Join exposing (ProductWithType)
 
 type alias TabStatus =
   { current: Int
@@ -68,8 +68,8 @@ type Msg
   | SortConPricesTable Int
   | SortConRecordsTable Int
   -- loading
-  | DidLoadUser (Result Http.Error (ConRequest User))
-  | DidLoadUserThen (Cmd Msg) (Result Http.Error (ConRequest User))
+  | DidLoadUser (Result Error User)
+  | DidLoadUserThen (Cmd Msg) (Result Error User)
   | DidLoadChooseConvention (Result Http.Error (ConRequest (Pagination MetaConvention)))
   | DidLoadConvention (Result Http.Error (ConRequest FullConvention))
   -- saving

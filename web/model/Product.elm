@@ -120,7 +120,7 @@ fillNewTypes updates originals products =
               |> Maybe.map (.localId >> flip (,) u.id)))
   in products
     |> List.map (\p -> case p of
-      New prod -> New { prod | type_id = Dict.get (-prod.type_id) (Debug.log "type mapping" typeMapping) |> Maybe.withDefault prod.type_id }
+      New prod -> New { prod | type_id = Dict.get (-prod.type_id) typeMapping |> Maybe.withDefault prod.type_id }
       _ -> p)
 
 new : Int -> Int -> Product

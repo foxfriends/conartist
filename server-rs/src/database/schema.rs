@@ -110,8 +110,8 @@ impl Product {
         catch_unwind(|| {
             Self {
                 product_id: row.get(0),
-                user_id: row.get(1),
-                type_id: row.get(2),
+                type_id: row.get(1),
+                user_id: row.get(2),
                 name: row.get(3),
                 discontinued: row.get(4),
             }

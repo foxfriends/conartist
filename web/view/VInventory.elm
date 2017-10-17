@@ -40,7 +40,7 @@ inventoryTab model page pt =
         (model.user.productTypes
           |> List.map ProductType.normalize
           |> List.filter (not << .discontinued))
-        (model.user.products
+        <| Debug.log "products" (model.user.products
           |> List.map Product.normalize
           |> List.filter (.type_id >> (==) pt.id)
           |> List.filter (not << .discontinued) ) ) ]

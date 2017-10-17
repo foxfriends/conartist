@@ -13,6 +13,7 @@ extern crate mount;
 extern crate router;
 extern crate params;
 extern crate staticfile;
+extern crate bodyparser;
 extern crate jsonwebtoken as jwt;
 extern crate bcrypt;
 extern crate chrono;

@@ -14,6 +14,15 @@ macro_rules! query {
     };
 }
 
+macro_rules! execute {
+    ($conn:expr, $query:expr) => {
+        $conn.execute($query, &[])
+    };
+    ($conn:expr, $query:expr, $($var:expr),* ) => {
+        $conn.execute($query, &[$(&$var, )*])
+    };
+}
+
 macro_rules! chain {
     ($($before:expr),+ ; #[ $($around:expr),* ] $handler:expr ; $($after:expr),+) => {{
         let mut chain = ::iron::Chain::new($handler);

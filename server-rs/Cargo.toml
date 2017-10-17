@@ -15,6 +15,7 @@ mount = "*"
 router = "*"
 params = "*"
 staticfile = "*"
+bodyparser = { git = "https://github.com/iron/body-parser.git" }
 serde = "*"
 serde_json = "*"
 serde_derive = "*"

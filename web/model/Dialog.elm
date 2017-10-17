@@ -1,13 +1,9 @@
 module Dialog exposing (..)
 import Convention exposing (MetaConvention)
+import Pagination exposing (Pagination)
 
 type Dialog
   = Error String
-  | ChooseConvention ChooseConvention_
+  | ChooseConvention (Pagination MetaConvention)
   | Closed Dialog
   | None
-
-type alias ChooseConvention_ =
-  { cons: (List MetaConvention)
-  , pages: Int
-  , page: Int }

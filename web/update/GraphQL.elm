@@ -1,4 +1,4 @@
-module GraphQL exposing (query, mutation, getUser, getFullConvention)
+module GraphQL exposing (query, mutation, getUser, getFullConvention, getConventionPage)
 import Task
 import Http
 import Json.Decode as Decode
@@ -17,6 +17,7 @@ import Product exposing (FullProduct, Product(..))
 import Price exposing (FullPrice, Price(..))
 import Convention exposing (MetaConvention, FullConvention, Convention(..))
 import Record exposing (Record)
+import Pagination exposing (Pagination)
 
 type DateType = DateType
 
@@ -105,6 +106,21 @@ getFullConvention code =
       [ ("id", Arg.variable (Var.required "id" .id (Var.nullable Var.int)))
       , ("code", Arg.variable (Var.required "code" .code Var.string)) ]
       fullConvention
+
+pagination : ValueSpec NonNull ObjectType a vars -> ValueSpec NonNull ObjectType (Pagination a) vars
+pagination a = object Pagination
+  |> with (field "data" [] (list a))
+  |> with (field "page" [] int)
+  |> with (field "pages" [] int)
+
+getConventionPage : Int -> Int -> Request Query (Pagination MetaConvention)
+getConventionPage page limit =
+  request { page = Just page, limit = Just limit, excludeMine = Just True } <| queryDocument <| extract <|
+    field "convention"
+      [ ("page", Arg.variable (Var.required "page" .page (Var.nullable Var.int)))
+      , ("limit", Arg.variable (Var.required "limit" .limit (Var.nullable Var.int)))
+      , ("excludeMine", Arg.variable (Var.required "excludeMine" .excludeMine (Var.nullable Var.bool))) ]
+      (pagination metaConvention)
 
 authorized : String -> String -> RequestOptions
 authorized method authtoken =

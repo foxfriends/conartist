@@ -5,7 +5,8 @@ import Html.Events exposing (onClick)
 
 import Fancy exposing (ButtonStyle(..))
 import Msg exposing (Msg(..))
-import Dialog exposing (Dialog(..), ChooseConvention_)
+import Dialog exposing (Dialog(..))
+import Pagination exposing (Pagination)
 import Icon exposing (icon)
 import Table exposing (tableWithSpacing, TableHeader(..))
 import Convention exposing (MetaConvention)
@@ -14,7 +15,6 @@ import Model exposing (Model)
 
 view : Model -> Dialog -> Html Msg
 view model dialog =
-  -- TODO: this getting ugly
   case dialog of
     Closed (ChooseConvention data) -> div [ class "dialog--wide dialog--closed" ] (innerView model (ChooseConvention data))
     Closed inner -> div [ class "dialog--closed" ] (innerView model inner)
@@ -67,15 +67,15 @@ chooseConventionControls pages page =
     , text <| toString (page + 1) ++ " of " ++ toString (pages + 1)
     , next (page == pages) ]
 
-chooseConventionList : Int -> ChooseConvention_ -> Html Msg
-chooseConventionList keys { cons, pages, page } =
+chooseConventionList : Int -> (Pagination MetaConvention) -> Html Msg
+chooseConventionList keys { data, pages, page } =
   tableWithSpacing
     "1fr 1fr 1fr 70px"
     (chooseConventionControls pages page)
     []
     [ Standard "Name", Standard "Code", Standard "Date", Standard "" ]
     (conventionRow keys)
-    cons
+    data
 
 conventionRow : Int -> MetaConvention -> List (Html Msg)
 conventionRow keys con =

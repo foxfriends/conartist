@@ -7,6 +7,7 @@ import Http
 import Json.Encode as Json
 import Json.Decode as Decode
 
+import GraphQL exposing (query, getConventionPage)
 import Model exposing (Model)
 import Msg exposing (Msg(..))
 import Dialog exposing (Dialog(..))
@@ -18,12 +19,12 @@ update msg model = case msg of
   CloseDialog -> { model | dialog = Closed model.dialog } ! [ after 300 millisecond EmptyDialog ]
   EmptyDialog -> { model | dialog = None } ! []
   ShowErrorMessage err -> { model | dialog = Error err } ! [ focusClose ]
-  OpenChooseConvention -> { model | dialog = ChooseConvention { cons = [], pages = 0, page = 0 } } ![ focusClose, loadConventions model 0 ]
+  OpenChooseConvention -> { model | dialog = ChooseConvention { data = [], pages = 0, page = 0 } } ![ focusClose, loadConventions model 0 ]
   DialogPage offset ->
     case model.dialog of
-      ChooseConvention { cons, pages, page } ->
+      ChooseConvention { data, pages, page } ->
         { model
-        | dialog = ChooseConvention { cons = cons, pages = pages, page = (page + offset) }
+        | dialog = ChooseConvention { data = data, pages = pages, page = (page + offset) }
         } ! [ loadConventions model (page + offset) ]
       _ -> model ! []
   AddConvention con ->
@@ -43,15 +44,7 @@ focusClose : Cmd Msg
 focusClose = focus "dialog-focus-target" |> Task.attempt (always Ignore)
 
 loadConventions : Model -> Int -> Cmd Msg
-loadConventions model page =
-  Http.send DidLoadChooseConvention <| Http.request
-    { method = "Get"
-    , headers = [ Http.header "Authorization" ("Bearer " ++ model.authtoken) ]
-    , url = "/api/cons/" ++ toString page ++ "/5"
-    , body = Http.emptyBody
-    , expect = Http.expectJson (ConRequest.decode (ConRequest.decodePagination Convention.decode))
-    , timeout = Nothing
-    , withCredentials = False }
+loadConventions = flip (query DidLoadChooseConvention << (flip getConventionPage 5))
 
 purchaseConvention : Model -> String -> Cmd Msg
 purchaseConvention model code =

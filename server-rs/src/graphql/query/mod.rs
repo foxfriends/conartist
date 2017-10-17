@@ -8,10 +8,12 @@ mod record;
 mod expense;
 mod user_convention;
 mod user;
+mod pagination;
 
-use chrono::NaiveDate;
+use chrono::{NaiveDate, Utc};
 use juniper::{FieldResult, FieldError, Value};
 use database::{Database, User, Convention, FullUserConvention};
+use self::pagination::Pagination;
 
 pub struct Query;
 
@@ -41,18 +43,22 @@ graphql_object!(Query: Database |&self| {
 
     field convention(
         &executor,
-        date: NaiveDate as "The earliest day for which to retrieve conventions",
+        date: Option<NaiveDate> as "The earliest day for which to retrieve conventions. Defaults to the current time",
         limit = 5: i32 as "The limit on how many conventions to retrieve",
         page = 0: i32 as "Which page to retrieve from",
-    ) -> Vec<Convention> as "Retrieves one page of conventions which start after a given date" {
+        exclude_mine = false: bool as "Set to true to not get conventions the current user is already signed up for",
+    ) -> Pagination<Convention> as "Retrieves one page of conventions which start after a given date" {
         executor
             .context()
-            .get_conventions_after(date)
-            .map(|cons| cons
-                .into_iter()
-                .skip((page * limit) as usize)
-                .take(limit as usize)
-                .collect())
-            .unwrap_or(vec![])
+            .get_conventions_after(date.unwrap_or(Utc::today().naive_utc()), exclude_mine)
+            .map(|cons| (
+                cons.len(),
+                cons.into_iter()
+                    .skip((page * limit) as usize)
+                    .take(limit as usize)
+                    .collect(),
+            ))
+            .map(|(total, cons)| Pagination::new(cons, page, total, limit))
+            .unwrap_or(Pagination::new(vec![], 0, 0, 1))
     }
 });

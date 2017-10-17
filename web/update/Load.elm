@@ -3,7 +3,6 @@ module Load exposing (update, user, userAndThen)
 import GraphQL exposing (query, getUser)
 import Model exposing (Model)
 import Msg exposing (Msg(..))
-import ConRequest exposing (ConRequest(..))
 import Dialog exposing (Dialog(..))
 import Convention exposing (asMeta, Convention(Full))
 import List_
@@ -12,9 +11,9 @@ update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case msg of
   DidLoadUser (Ok user) -> { model | user = user } ! []
   DidLoadUserThen after (Ok user) -> { model | user = user } ! [ after ]
-  DidLoadChooseConvention (Ok (Success { data, page, pages })) ->
+  DidLoadChooseConvention (Ok { data, page, pages }) ->
     case model.dialog of
-      ChooseConvention _ -> { model | dialog = ChooseConvention { cons = data, pages = pages, page = page } } ! []
+      ChooseConvention _ -> { model | dialog = ChooseConvention { data = data, pages = pages, page = page } } ! []
       _ -> model ! []
   DidLoadConvention (Ok con) ->
     let

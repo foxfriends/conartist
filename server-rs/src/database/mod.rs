@@ -171,13 +171,26 @@ impl Database {
         )
     }
 
-    pub fn get_conventions_after(&self, date: NaiveDate) -> Result<Vec<Convention>, String> {
+    pub fn get_conventions_after(&self, date: NaiveDate, exclude_mine: bool) -> Result<Vec<Convention>, String> {
         let conn = self.pool.get().unwrap();
         Ok (
-            query!(conn, "SELECT * FROM Conventions WHERE start_date > $1", date)
-                .iter()
-                .filter_map(|row| Convention::from(row).ok())
-                .collect()
+            if exclude_mine {
+                query!(conn, "
+                    SELECT * FROM Conventions c
+                    WHERE start_date > $1
+                      AND NOT EXISTS (
+                        SELECT 1
+                        FROM User_Conventions u
+                        WHERE u.user_id = $2
+                          AND u.con_id = c.con_id
+                      )
+                ", date, self.user_id.expect("Cannot get user id for self in privileged mode!"))
+            } else {
+                query!(conn, "SELECT * FROM Conventions WHERE start_date > $1", date)
+            }
+            .iter()
+            .filter_map(|row| Convention::from(row).ok())
+            .collect()
         )
     }
 }

@@ -56,7 +56,7 @@ fn main() {
                 GraphQLHandler::new(
                     move |r| database.create(r),
                     graphql::Query,
-                    juniper::EmptyMutation::new(),
+                    graphql::Mutation,
                 )
             ]
         } else {
@@ -68,7 +68,7 @@ fn main() {
                 GraphQLHandler::new(
                     move |_| database.create_privileged(),
                     graphql::Query,
-                    juniper::EmptyMutation::new(),
+                    graphql::Mutation,
                 )
             ]
         };

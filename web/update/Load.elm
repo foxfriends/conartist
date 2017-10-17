@@ -1,6 +1,6 @@
 module Load exposing (update, user, userAndThen)
 
-import Graphql exposing (query, getUser)
+import GraphQL exposing (query, getUser)
 import Model exposing (Model)
 import Msg exposing (Msg(..))
 import ConRequest exposing (ConRequest(..))

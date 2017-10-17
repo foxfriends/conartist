@@ -1,4 +1,4 @@
-module Graphql exposing (query, mutation, getUser)
+module GraphQL exposing (query, mutation, getUser)
 import Task
 import Http
 import Json.Decode as Decode

@@ -1,7 +1,7 @@
 //! Holds information about a convention and a user's products, prices, and records during that convention
 use database::Database;
 use juniper::FieldResult;
-pub use database::{ProductType, ProductInInventory, PriceRow, FullUserConvention, Record, Expense};
+use database::{ProductType, ProductInInventory, PriceRow, FullUserConvention, Record, Expense};
 
 graphql_object!(FullUserConvention: Database |&self| {
     description: "Holds information about a convention and a user's products, prices, and records during that convention"

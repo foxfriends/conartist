@@ -1,7 +1,7 @@
 //! Holds information about a sale record
 use database::Database;
 use chrono::NaiveDateTime;
-pub use database::Record;
+use database::Record;
 
 graphql_object!(Record: Database |&self| {
     description: "Holds information about a sale record"

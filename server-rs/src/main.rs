@@ -6,6 +6,7 @@ extern crate postgres_array;
 extern crate r2d2;
 extern crate r2d2_postgres;
 #[macro_use] extern crate juniper;
+#[macro_use] extern crate juniper_codegen;
 extern crate juniper_iron;
 #[macro_use] extern crate iron;
 extern crate mount;

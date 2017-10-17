@@ -1,8 +1,7 @@
 //! Holds information about a user and their products, prices, and conventions
 use chrono::NaiveDateTime;
 use juniper::FieldResult;
-use database::Database;
-pub use database::{User, ProductType, ProductInInventory, PriceRow, FullUserConvention};
+use database::{Database, User, ProductType, ProductInInventory, PriceRow, FullUserConvention};
 
 graphql_object!(User: Database |&self| {
     description: "Holds information about a user and their products, prices, and conventions"

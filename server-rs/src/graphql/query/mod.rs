@@ -1,5 +1,14 @@
 //! The entry point of a GraphQL query
 
+mod convention;
+mod product_type;
+mod product;
+mod price;
+mod record;
+mod expense;
+mod user_convention;
+mod user;
+
 use chrono::NaiveDate;
 use juniper::{FieldResult, FieldError, Value};
 use database::{Database, User, Convention};

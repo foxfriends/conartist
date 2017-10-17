@@ -8,6 +8,7 @@ dependencies = [
  "iron 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "jsonwebtoken 3.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "juniper 0.8.1 (git+https://github.com/graphql-rust/juniper)",
+ "juniper_codegen 0.8.1 (git+https://github.com/graphql-rust/juniper)",
  "juniper_iron 0.1.0 (git+https://github.com/graphql-rust/juniper_iron)",
  "mount 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "params 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -352,6 +353,15 @@ dependencies = [
  "serde_derive 1.0.15 (registry+https://github.com/rust-lang/crates.io-index)",
  "url 1.5.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "uuid 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "juniper_codegen"
+version = "0.8.1"
+source = "git+https://github.com/graphql-rust/juniper#88f0fdce6f361de6c66fc110d2e2be34de8e3dfc"
+dependencies = [
+ "quote 0.3.15 (registry+https://github.com/rust-lang/crates.io-index)",
+ "syn 0.11.11 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -1085,6 +1095,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 "checksum itoa 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)" = "8324a32baf01e2ae060e9de58ed0bc2320c9a2833491ee36cd3b4c414de4db8c"
 "checksum jsonwebtoken 3.0.0 (registry+https://github.com/rust-lang/crates.io-index)" = "c15d2aa968b4fce74e5e14b8cf4f399fbcd6966cdabe7198a066b3963f719327"
 "checksum juniper 0.8.1 (git+https://github.com/graphql-rust/juniper)" = "<none>"
+"checksum juniper_codegen 0.8.1 (git+https://github.com/graphql-rust/juniper)" = "<none>"
 "checksum juniper_iron 0.1.0 (git+https://github.com/graphql-rust/juniper_iron)" = "<none>"
 "checksum kernel32-sys 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "7507624b29483431c0ba2d82aece8ca6cdba9382bff4ddd0f7490560c056098d"
 "checksum language-tags 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "a91d884b6667cd606bb5a69aa0c99ba811a115fc68915e7056ec08a46e93199a"

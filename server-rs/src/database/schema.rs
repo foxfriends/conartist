@@ -11,6 +11,7 @@ use iterator::*;
 pub struct User {
     pub user_id: i32,
     pub email: String,
+    pub name: String,
     pub password: String,
     pub keys: i32,
     pub join_date: NaiveDateTime,
@@ -21,9 +22,10 @@ impl User {
             Self {
                 user_id: row.get(0),
                 email: row.get(1),
-                password: row.get(2),
-                keys: row.get(3),
-                join_date: row.get(4),
+                name: row.get(2),
+                password: row.get(3),
+                keys: row.get(4),
+                join_date: row.get(5),
             }
         }).map_err(|_| "Tried to create a User from a non-User row".to_string())
     }

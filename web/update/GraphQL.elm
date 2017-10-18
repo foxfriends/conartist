@@ -92,6 +92,7 @@ record = object Record
 user : ValueSpec NonNull ObjectType User vars
 user = object User
   |> with (field "email" [] string)
+  |> with (field "name" [] string)
   |> with (field "keys" [] int)
   |> with (field "product" [] (map (List.map Product.Clean) <| map (List.sortBy .id) (list product)))
   |> with (field "productType" [] (map (List.map ProductType.Clean) <| map (List.sortBy .id) (list productType)))

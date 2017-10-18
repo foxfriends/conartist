@@ -32,10 +32,10 @@ impl Database {
         unreachable!()
     }
 
-    pub fn create_user(&self, email: String, password: String) -> Result<(), String> {
+    pub fn create_user(&self, email: String, name: String, password: String) -> Result<(), String> {
         let conn = self.pool.get().unwrap();
         let trans = conn.transaction().unwrap();
-        match execute!(trans, "INSERT INTO Users (email, password) VALUES ($1, $2)", email, password) {
+        match execute!(trans, "INSERT INTO Users (email, name, password) VALUES ($1, $2, $3)", email, name, password) {
             Ok(1) => (),
             Ok(0) => return Err("Failed to create user.".to_string()),
             Ok(_) => return Err("Something very strange happened?".to_string()),

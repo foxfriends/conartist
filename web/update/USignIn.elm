@@ -27,6 +27,7 @@ update msg model = case model.page of
       CEmail new    -> { model | page = SignIn <| validateForm { page | c_email = new } } ! []
       Password new  -> { model | page = SignIn <| validateForm { page | password = new } } ! []
       CPassword new -> { model | page = SignIn <| validateForm { page | c_password = new } } ! []
+      Name new      -> { model | page = SignIn <| validateForm { page | name = new } } ! []
       Terms terms   -> { model | page = SignIn <| validateForm { page | terms_accepted = terms } } ! []
       ToggleSignIn  ->
         { model
@@ -43,7 +44,7 @@ update msg model = case model.page of
         let
           newmodel =
             { model
-            | user = { email = page.email, keys = 0, products = [], productTypes = [], prices = [], conventions = [] }
+            | user = { email = page.email, name = "", keys = 0, products = [], productTypes = [], prices = [], conventions = [] }
             , authtoken = authtoken
             , page = Dashboard }
         in
@@ -58,7 +59,7 @@ update msg model = case model.page of
           case valid of
             SignIn { status } -> case status of
               Success _ ->
-                { model | page = SignIn { page | status = Progress 0 } } ! [ createAccount page.email page.password ]
+                { model | page = SignIn { page | status = Progress 0 } } ! [ createAccount page.email page.name page.password ]
               _ -> { model | page = valid } ! []
             _ -> { model | page = valid } ! []
       DidCreateAccount (Ok (ConRequest.Success _)) ->
@@ -106,10 +107,11 @@ doSignIn email password =
         , ("psw", Json.string password) ] )
       (ConRequest.decode Decode.string)
 
-createAccount : String -> String -> Cmd Msg
-createAccount email password =
+createAccount : String -> String -> String -> Cmd Msg
+createAccount email name password =
   Http.send DidCreateAccount <| Http.post "/api/account/new"
       (Http.jsonBody <| Json.object
-        [ ("usr", Json.string email)
-        , ("psw", Json.string password) ] )
+        [ ("email", Json.string email)
+        , ("name", Json.string name)
+        , ("password", Json.string password) ] )
       (ConRequest.decode <| Decode.succeed ())

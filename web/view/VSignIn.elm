@@ -28,6 +28,7 @@ signInForm page = if page.is_sign_in
     , ("confirm_email", Fancy.input "Confirm email" page.c_email [ class "sign-in__field" ] [type_ "text", onInput CEmail])
     , ("password", Fancy.input "Password" page.password [ class "sign-in__field" ] [type_ "password", onInput Password])
     , ("confirm_password", Fancy.input "Confirm password" page.c_password [ class "sign-in__field" ] [type_ "password", onInput CPassword])
+    , ("name", Fancy.input "Name" page.name [ class "sign-in__field" ] [type_ "text", onInput Name])
     , ("terms", Fancy.checkbox Terms "I accept the terms and conditions") ]
 
 signInButtons : Bool -> Status -> List (Html Msg)

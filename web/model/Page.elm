@@ -41,12 +41,13 @@ type alias SignInPageState =
   , password: String
   , c_email: String
   , c_password: String
+  , name: String
   , terms_accepted: Bool
   , is_sign_in: Bool
   , status: Status }
 
 signIn : Page
-signIn = SignIn <| SignInPageState "" "" "" "" False True (Success "")
+signIn = SignIn <| SignInPageState "" "" "" "" "" False True (Success "")
 
 sort : Int -> List Order
 sort = flip repeat EQ

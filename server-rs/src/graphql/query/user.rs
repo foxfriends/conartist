@@ -7,6 +7,7 @@ graphql_object!(User: Database |&self| {
     description: "Holds information about a user and their products, prices, and conventions"
 
     field id() -> i32 { self.user_id }
+    field name() -> &String { &self.name }
     field email() -> &String { &self.email }
     field keys() -> i32 { self.keys }
     field join_date() -> NaiveDateTime { self.join_date }

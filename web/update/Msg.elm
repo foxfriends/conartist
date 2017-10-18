@@ -17,10 +17,12 @@ type alias TabStatus =
 
 type Msg
   -- sign in
+    -- TODO: user better names for the sign in form messages
   = Email String
   | CEmail String
   | Password String
   | CPassword String
+  | Name String
   | Terms Bool
   | ToggleSignIn
   | DoSignIn

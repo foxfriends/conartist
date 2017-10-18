@@ -2,6 +2,7 @@ declare namespace db {
   export type User = {
     user_id: number;
     email: string;
+    name: string;
     password: string;
     join_date: number;
     keys: number;

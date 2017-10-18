@@ -1,8 +1,9 @@
 \c conartist;
 SET ROLE conartist_admin;
 
-INSERT INTO Users (email, password) VALUES
-  ('cameldridge@gmail.com', '$2a$10$BOyxdknHm/74c/uUFkZAqOQ4USaXSypbYBooQDFQ8AlaqDQE0SzOO');
+INSERT INTO Users (email, name, password) VALUES
+  ('kittyalyst@gmail.com', 'Kittyalyst', '$2a$10$BOyxdknHm/74c/uUFkZAqOQ4USaXSypbYBooQDFQ8AlaqDQE0SzOO'),
+  ('cameldridge@gmail.com', 'OinkIguana', '$2a$10$BOyxdknHm/74c/uUFkZAqOQ4USaXSypbYBooQDFQ8AlaqDQE0SzOO');
 
 INSERT INTO Conventions (code, title, start_date, end_date) VALUES
   ('KEINX', 'Anime North', DATE '2017-05-26', DATE '2017-05-28'),

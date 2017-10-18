@@ -20,14 +20,16 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public
 GRANT USAGE ON ALL SEQUENCES IN SCHEMA public TO conartist_app;
 
 CREATE TABLE Users (
-  user_id   SERIAL PRIMARY KEY,
-  email     VARCHAR(512) UNIQUE NOT NULL,
-  password  VARCHAR(512) NOT NULL,
-  keys      INT NOT NULL DEFAULT 1,
-  join_date TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP)
+  user_id     SERIAL PRIMARY KEY,
+  email       VARCHAR(512) UNIQUE NOT NULL,
+  name        VARCHAR(512) NOT NULL,
+  password    VARCHAR(512) NOT NULL,
+  keys        INT NOT NULL DEFAULT 1,
+  join_date   TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP)
 );
 CREATE INDEX index_Users ON Users (email);
 COMMENT ON TABLE Users IS 'A user of the ConArtist app';
+-- TODO: add column comments
 
 CREATE TABLE Conventions (
   con_id      SERIAL PRIMARY KEY,

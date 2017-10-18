@@ -170,8 +170,11 @@ updateProductType type_ =
       productType
 updateProductTypes : List InternalType -> Request Mutation (List (String, FullType))
 updateProductTypes types =
-  request {} <| mutationDocument <| keyValuePairs
-    (List.map updateProductType types)
+  request {}
+    <| mutationDocument
+    <| map (List.map <| Tuple.mapFirst (String.dropLeft 1))
+    <| keyValuePairs
+    <| List.map updateProductType types
 
 -- Requests
 

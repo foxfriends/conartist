@@ -21,6 +21,8 @@ import Pagination exposing (Pagination)
 
 type DateType = DateType
 
+-- Types
+
 date : ValueSpec NonNull DateType Date vars
 date =
   Decode.string
@@ -37,6 +39,8 @@ time =
   Decode.float
     |> Decode.map Date.fromTime
     |> customScalar DateType
+
+-- Decoders
 
 productType : ValueSpec NonNull ObjectType FullType vars
 productType = object FullType
@@ -94,6 +98,14 @@ user = object User
   |> with (field "price" [] (list <| map Price.Clean priceRow))
   |> with (field "convention" [] (list <| map Convention.Meta metaConvention))
 
+pagination : ValueSpec NonNull ObjectType a vars -> ValueSpec NonNull ObjectType (Pagination a) vars
+pagination a = object Pagination
+  |> with (field "data" [] (list a))
+  |> with (field "pages" [] int)
+  |> with (field "page" [] int)
+
+-- Queries
+
 getUser : Request Query User
 getUser =
   request { id = Nothing } <| queryDocument <| extract <|
@@ -107,12 +119,6 @@ getFullConvention code =
       , ("code", Arg.variable (Var.required "code" .code Var.string)) ]
       fullConvention
 
-pagination : ValueSpec NonNull ObjectType a vars -> ValueSpec NonNull ObjectType (Pagination a) vars
-pagination a = object Pagination
-  |> with (field "data" [] (list a))
-  |> with (field "page" [] int)
-  |> with (field "pages" [] int)
-
 getConventionPage : Int -> Int -> Request Query (Pagination MetaConvention)
 getConventionPage page limit =
   request { page = Just page, limit = Just limit, excludeMine = Just True } <| queryDocument <| extract <|
@@ -121,6 +127,10 @@ getConventionPage page limit =
       , ("limit", Arg.variable (Var.required "limit" .limit (Var.nullable Var.int)))
       , ("excludeMine", Arg.variable (Var.required "excludeMine" .excludeMine (Var.nullable Var.bool))) ]
       (pagination metaConvention)
+
+-- Mutations
+
+-- Requests
 
 authorized : String -> String -> RequestOptions
 authorized method authtoken =

@@ -64,8 +64,8 @@ chooseConventionControls pages page =
     next no = Fancy.button Icon "navigate_next" [ onClick (DialogPage 1), disabled no ]
   in
     [ prev (page == 0)
-    , text <| toString (page + 1) ++ " of " ++ toString (pages + 1)
-    , next (page == pages) ]
+    , text <| toString (page + 1) ++ " of " ++ toString pages
+    , next (page == pages - 1) ]
 
 chooseConventionList : Int -> (Pagination MetaConvention) -> Html Msg
 chooseConventionList keys { data, pages, page } =

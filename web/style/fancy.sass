@@ -19,14 +19,14 @@
     top: -4px
     left: 0
     color: $color--placeholder
-    transition: transform 0.3s, font-size 0.3s
-    transform: none
-    font-size: 7pt
+    transition: transform 0.3s, font-size 0.3s, color 0.3s
+    transform: translateY(-2px)
+    font-size: 8pt
     pointer-events: none
+  &:not(&--invalid) &__field:focus ~ &__placeholder
+    color: $color--primary
   &--invalid &__placeholder
     color: $color--warn
-  &__field:focus ~ &__placeholder
-    color: $color--primary
   &--empty &__field:not(:focus) ~ &__placeholder
     transform: translateY(14px)
     font-size: $font-size

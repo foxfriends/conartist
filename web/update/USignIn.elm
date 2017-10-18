@@ -6,12 +6,13 @@ import Navigation exposing (newUrl)
 
 import Model exposing (Model)
 import Msg exposing (Msg(..))
-import Page exposing (Page(..), SignInPageState)
+import Page exposing (Page(..), SignInPageState, validateSignInForm)
 import Status exposing (Status(..))
 import Load
 import ConRequest
 import LocalStorage
 import Routing exposing (dashboardPath)
+import Validation exposing (Validation(..), valueOf, validate, invalidate, empty, errorFor, toResult)
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case model.page of
@@ -20,31 +21,38 @@ update msg model = case model.page of
       -- TODO: make form validation more user friendly
       Email new ->
         { model
-        | page = SignIn <| validateForm { page | email = new }
+        | page = SignIn <| validateSignInForm { page | email = Valid new }
         } ! [ if page.is_sign_in then Cmd.none else checkExistingEmail new ]
-      DidCheckExistingEmail (Ok (ConRequest.Success False)) ->  model ! []
-      DidCheckExistingEmail (Ok _) ->  { model | page = SignIn { page | status = Failure "That email is already in use" }} ! []
-      CEmail new    -> { model | page = SignIn <| validateForm { page | c_email = new } } ! []
-      Password new  -> { model | page = SignIn <| validateForm { page | password = new } } ! []
-      CPassword new -> { model | page = SignIn <| validateForm { page | c_password = new } } ! []
-      Name new      -> { model | page = SignIn <| validateForm { page | name = new } } ! []
-      Terms terms   -> { model | page = SignIn <| validateForm { page | terms_accepted = terms } } ! []
+      DidCheckExistingEmail (Ok (ConRequest.Success False)) ->
+        { model | page = SignIn { page | email = validate page.email }} ! []
+      DidCheckExistingEmail (Ok _) -> { model | page = SignIn { page | email = invalidate page.email "That email is already in use" }} ! []
+      CEmail new    -> { model | page = SignIn <| validateSignInForm { page | c_email = Valid new } } ! []
+      Password new  -> { model | page = SignIn <| validateSignInForm { page | password = Valid new } } ! []
+      CPassword new -> { model | page = SignIn <| validateSignInForm { page | c_password = Valid new } } ! []
+      Name new      -> { model | page = SignIn <| validateSignInForm { page | name = Valid new } } ! []
+      Terms terms   -> { model | page = SignIn <| validateSignInForm { page | terms_accepted = Valid terms } } ! []
       ToggleSignIn  ->
         { model
-        | page = SignIn { page
-                        | is_sign_in = not page.is_sign_in
-                        , c_email = ""
-                        , c_password = ""
-                        , terms_accepted = False
-                        , status = Success "" }
+        | page = SignIn <| validateSignInForm
+          { page
+          | is_sign_in = not page.is_sign_in
+          , c_email = Valid ""
+          , c_password = Valid ""
+          , terms_accepted = Valid False
+          , status = Success "" }
         } ! []
       DoSignIn ->
-        { model | page = SignIn { page | status = Progress 0 } } ! [ doSignIn page.email page.password ]
+        case page.status of
+          Progress _ -> model ! []
+          _ ->
+            case isValid page of
+              Ok () -> { model | page = SignIn { page | status = Progress 0 } } ! [ doSignIn (valueOf page.email) (valueOf page.password) ]
+              Err reason -> { model | page = SignIn { page | status = Failure reason }} ! []
       DidSignIn (Ok (ConRequest.Success authtoken)) ->
         let
           newmodel =
             { model
-            | user = { email = page.email, name = "", keys = 0, products = [], productTypes = [], prices = [], conventions = [] }
+            | user = { email = valueOf page.email, name = "", keys = 0, products = [], productTypes = [], prices = [], conventions = [] }
             , authtoken = authtoken
             , page = Dashboard }
         in
@@ -55,13 +63,18 @@ update msg model = case model.page of
       DidSignIn (Ok (ConRequest.Failure error)) ->
         { model | page = SignIn { page | status = Failure error } } ! []
       DoCreateAccount ->
-        let valid = SignIn (validateForm page) in
-          case valid of
-            SignIn { status } -> case status of
-              Success _ ->
-                { model | page = SignIn { page | status = Progress 0 } } ! [ createAccount page.email page.name page.password ]
-              _ -> { model | page = valid } ! []
-            _ -> { model | page = valid } ! []
+        case page.status of
+          Progress _ -> model ! []
+          _ ->
+            case isValid page of
+              Ok () ->
+                { model
+                | page = SignIn
+                  { page
+                  | status = Progress 0
+                  }
+                } ! [ createAccount (valueOf page.email) (valueOf page.name) (valueOf page.password) ]
+              Err reason -> { model | page = SignIn { page | status = Failure reason } } ! []
       DidCreateAccount (Ok (ConRequest.Success _)) ->
         { model | page = SignIn
           { page
@@ -79,18 +92,18 @@ update msg model = case model.page of
       _ -> model ! []
   _ -> model ! []
 
-validateForm : SignInPageState -> SignInPageState
-validateForm page =
-  let { email, c_email, password, c_password, name, terms_accepted, is_sign_in } = page in
-    if is_sign_in then page
+isValid : SignInPageState -> Result String ()
+isValid page =
+  let fields =
+    if page.is_sign_in then
+      [ page.email, page.password ]
     else
-      if      email == ""                   then { page | status = Failure "Email cannot be blank" }
-      else if not <| c_email == email       then { page | status = Failure "Emails do not match" }
-      else if password == ""                then { page | status = Failure "Password cannot be blank" }
-      else if not <| c_password == password then { page | status = Failure "Passwords do not match" }
-      else if name == ""                    then { page | status = Failure "Please give a name. Using your artist handle is recommended" }
-      else if not <| terms_accepted         then { page | status = Failure "Please accept the terms and conditions" }
-      else                                       { page | status = Success "" }
+      [ page.email, page.c_email, page.password, page.c_password, page.name, page.terms_accepted |> Validation.map (always "") ]
+  in
+    fields
+      |> List.map toResult
+      |> List.map (Result.map (always ()))
+      |> List.foldl (Result.andThen << always) (Ok ())
 
 checkExistingEmail : String -> Cmd Msg
 checkExistingEmail email =

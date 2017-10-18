@@ -2,6 +2,7 @@ module Page exposing (..)
 import Status exposing (Status(..))
 import Msg exposing (TabStatus)
 import List exposing (repeat)
+import Validation exposing (Validation(..), valueOf, invalidate, empty, isValid)
 
 type Page
   = Loading
@@ -37,17 +38,63 @@ type alias PricingPageState =
   , table_sort: List Order }
 
 type alias SignInPageState =
-  { email: String
-  , password: String
-  , c_email: String
-  , c_password: String
-  , name: String
-  , terms_accepted: Bool
+  { email: Validation String
+  , password: Validation String
+  , c_email: Validation String
+  , c_password: Validation String
+  , name: Validation String
+  , terms_accepted: Validation Bool
   , is_sign_in: Bool
   , status: Status }
 
 signIn : Page
-signIn = SignIn <| SignInPageState "" "" "" "" "" False True (Success "")
+signIn = SignIn <| validateSignInForm <| SignInPageState (Valid "") (Valid "") (Valid "") (Valid "") (Valid "") (Valid False) True (Success "")
+
+validateSignInForm : SignInPageState -> SignInPageState
+validateSignInForm page =
+  let { email, c_email, password, c_password, name, terms_accepted, is_sign_in } = page in
+    if is_sign_in then
+      { page
+      | email =
+          if valueOf email == "" then
+            empty email "Your email or password is incorrect"
+          else email
+      , password =
+          if valueOf password == "" then
+            empty password "Your email or password is incorrect"
+          else password
+      }
+    else
+      { page
+      | email =
+          if valueOf email == "" then
+            empty email "Email must not be blank"
+          else email
+      , c_email =
+          if not <| valueOf c_email == valueOf email then
+            invalidate c_email "Emails do not match"
+          else if valueOf c_email == "" then
+            empty c_email ""
+          else c_email
+      , password =
+          if valueOf password == "" then
+            empty password "Password must not be blank"
+          else password
+      , c_password =
+          if not <| valueOf c_password == valueOf password then
+            invalidate c_password "Passwords do not match"
+          else if valueOf c_password == "" then
+            empty c_password ""
+          else c_password
+      , name =
+          if valueOf name == "" then
+            empty name "Please provide a name. Your artist handle is recommended"
+          else name
+      , terms_accepted =
+          if not <| valueOf terms_accepted then
+            empty terms_accepted "Please accept the terms and conditions!"
+          else terms_accepted
+      }
 
 sort : Int -> List Order
 sort = flip repeat EQ

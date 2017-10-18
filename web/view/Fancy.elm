@@ -4,6 +4,7 @@ import Html exposing (Html, div, span, label, text)
 import Html.Attributes exposing (class, type_, value, tabindex, style)
 import Html.Events exposing (onClick, onCheck)
 import Icon exposing (icon)
+import Validation exposing (Validation(..), isEmpty, isValid, isInvalid, valueOf, errorFor)
 
 flush : Html.Attribute msg
 flush = class "fancy-input--flush"
@@ -30,25 +31,57 @@ tooltip : String -> Html msg -> Html msg
 tooltip = alignedTooltip Center
 
 -- TODO: formatted input
-input : String -> String -> List (Html.Attribute msg) -> List (Html.Attribute msg) -> Html msg
-input = labelledInput (text "")
+input
+    : String
+    -> String
+    -> List (Html.Attribute msg)
+    -> List (Html.Attribute msg)
+    -> Html msg
+input placeholder val = validatedInput placeholder (Valid val)
+
+validatedInput
+    : String
+    -> Validation String
+    -> List (Html.Attribute msg)
+    -> List (Html.Attribute msg)
+    -> Html msg
+validatedInput = labelledInput (text "")
 
 iconLabel : String -> Html msg
 iconLabel name =
   icon name [ class "fancy-input__label" ]
 
-labelledInput : Html msg -> String -> String -> List (Html.Attribute msg) -> List (Html.Attribute msg) -> Html msg
+labelledInput
+    : Html msg
+    -> String
+    -> Validation String
+    -> List (Html.Attribute msg)
+    -> List (Html.Attribute msg)
+    -> Html msg
 labelledInput fieldLabel placeholder val baseAttrs inputAttrs =
-  let state = class <| if val == "" then "fancy-input--empty" else "" in
-  label
-    ( [ class "fancy-input", state ] ++ baseAttrs )
-    [ fieldLabel
-    , Html.input ([ class "fancy-input__field", value val ] ++ inputAttrs) []
-    , span [ class "fancy-input__placeholder" ] [ text placeholder ]
-    , div [ class "fancy-input__underline" ]
-      [ div [ class "fancy-input__underline--secondary" ] []
-      , div [ class "fancy-input__underline--primary" ] []
-      , div [ class "fancy-input__underline--warn" ] [] ] ]
+  let
+    error =
+      if isInvalid val then
+        errorFor val
+          |> Maybe.map (String.cons '(' << flip (++) ")")
+          |> Maybe.withDefault ""
+      else ""
+    fieldClass =
+      if isEmpty val || valueOf val == "" then
+        "fancy-input--empty"
+      else if isInvalid val then
+        "fancy-input--invalid"
+      else ""
+  in
+    label
+      ( [ class "fancy-input", class fieldClass ] ++ baseAttrs )
+      [ fieldLabel
+      , Html.input ([ class "fancy-input__field", value (valueOf val) ] ++ inputAttrs) []
+      , span [ class "fancy-input__placeholder" ] [ text (placeholder ++ " " ++ error) ]
+      , div [ class "fancy-input__underline" ]
+        [ div [ class "fancy-input__underline--secondary" ] []
+        , div [ class "fancy-input__underline--primary" ] []
+        , div [ class "fancy-input__underline--warn" ] [] ] ]
 
 -- TODO: make this look cool
 checkbox : (Bool -> msg) -> String -> Html msg

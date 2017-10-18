@@ -3,6 +3,7 @@ import Html exposing (Html, div, text)
 import Html.Attributes exposing (class, type_, disabled, style)
 import Html.Events exposing (onInput, onClick)
 import Hex
+import Validation exposing (Validation(..))
 
 import Model exposing (Model)
 import Msg exposing (Msg(..))
@@ -74,7 +75,7 @@ inventoryFooter model { current_tab, color_picker } =
   of
     Just t ->
       [ Fancy.alignedTooltip Right "Discontinue type" <| Fancy.button Icon (if t.discontinued then "add_circle_outline" else "remove_circle_outline") [ onClick (ProductTypeDiscontinued t.id) ]
-      , Fancy.labelledInput (Fancy.iconLabel "edit") "" t.name [] [ onInput (ProductTypeName t.id) ]
+      , Fancy.labelledInput (Fancy.iconLabel "edit") "" (Valid t.name) [] [ onInput (ProductTypeName t.id) ]
       , Fancy.menu []
           ( Fancy.tooltip "Set color" <| Fancy.button
             Icon "format_color_fill"

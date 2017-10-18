@@ -56,9 +56,9 @@ productType = object FullType
 product : ValueSpec NonNull ObjectType FullProduct vars
 product = object FullProduct
   |> with (field "id" [] int)
+  |> with (field "typeId" [] int)
   |> with (field "name" [] string)
   |> with (field "quantity" [] int)
-  |> with (field "typeId" [] int)
   |> with (field "discontinued" [] bool)
 
 priceRow : ValueSpec NonNull ObjectType FullPrice vars

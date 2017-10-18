@@ -3,23 +3,32 @@ import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Json
 import ProductType exposing (ProductType)
 import Dict
-import Validation exposing (valueOf)
+import Either exposing (Either(..))
 
-import List_
 import Util
+import List_
+import Either_ exposing (both)
+import Validation exposing (Validation(..), valueOf)
 
 type alias NewProduct =
   { localId: Int
+  , type_id: Int
   , name: String
-  , quantity: Int
-  , type_id: Int }
+  , quantity: Validation (Either Int String) }
 
 type alias FullProduct =
   { id: Int
+  , type_id: Int
   , name: String
   , quantity: Int
-  , type_id: Int
   , discontinued: Bool }
+
+type alias InternalProduct =
+  { id: Int
+  , type_id: Int
+  , name: Either String (Validation String)
+  , quantity: Either Int (Validation String)
+  , discontinued: Either Bool Bool }
 
 type alias RequestProduct =
   { kind: String
@@ -31,7 +40,7 @@ type alias RequestProduct =
 
 type Product
   = Clean FullProduct
-  | Dirty FullProduct
+  | Dirty InternalProduct
   | New NewProduct
 
 isDirty : Product -> Bool
@@ -44,42 +53,69 @@ decode : Decoder FullProduct
 decode =
   Decode.map5 FullProduct
     (Decode.field "id" Decode.int)
+    (Decode.field "type" Decode.int)
     (Decode.field "name" Decode.string)
     (Decode.field "quantity" Decode.int)
-    (Decode.field "type" Decode.int)
     (Decode.field "discontinued" Decode.bool)
 
 normalize : Product -> FullProduct
 normalize prod = case prod of
   Clean p -> p
-  Dirty p -> p
-  New   p -> FullProduct -p.localId p.name p.quantity p.type_id False
+  Dirty p -> FullProduct
+    p.id
+    p.type_id
+    (Either.unpack identity valueOf p.name)
+    (Either.unpack identity (valueOf >> toInt) p.quantity)
+    (both p.discontinued)
+  New   p -> FullProduct
+    -p.localId
+    p.type_id
+    p.name
+    (Either.unpack identity (Util.toInt >> Result.withDefault 0) (valueOf p.quantity))
+    False
 
 setName : String -> Product -> Product
 setName name product = case product of
   New p   -> New   { p | name = name }
-  Clean p -> Dirty { p | name = name }
-  Dirty p -> Dirty { p | name = name }
+  Clean p -> Dirty
+    { p
+    | name = Right (Valid name)
+    , quantity = Left p.quantity
+    , discontinued = Left p.discontinued }
+  Dirty p -> Dirty { p | name = Right (Valid name) }
 
 setQuantity : String -> Product -> Product
 setQuantity quantityStr product =
-  let quantity = Util.toInt quantityStr |> Result.withDefault 0
-  in case product of
-    New p   -> New { p | quantity = quantity }
-    Clean p -> Dirty { p | quantity = quantity }
-    Dirty p -> Dirty { p | quantity = quantity }
+  case product of
+    New p   -> New { p | quantity = Valid (Right quantityStr) }
+    Clean p -> Dirty
+      { p
+      | quantity = Right (Valid quantityStr)
+      , discontinued = Left p.discontinued
+      , name = Left p.name }
+    Dirty p -> Dirty { p | quantity = Right (Valid quantityStr) }
 
 toggleDiscontinued : Product -> Maybe Product
 toggleDiscontinued product = case product of
   New p   -> Nothing
-  Clean p -> Just <| Dirty { p | discontinued = not p.discontinued }
-  Dirty p -> Just <| Dirty { p | discontinued = not p.discontinued }
+  Clean p -> Just <| Dirty
+    { p
+    | discontinued = Right <| not p.discontinued
+    , name = Left p.name
+    , quantity = Left p.quantity }
+  Dirty p -> Just <| Dirty { p | discontinued = Right <| not (both p.discontinued) }
 
 requestFormat : Product -> Maybe RequestProduct
 requestFormat product = case product of
-  New p   -> Just <| RequestProduct "create" Nothing p.type_id p.name p.quantity False
+  New p   -> Just <| RequestProduct "create" Nothing p.type_id p.name (Either.unpack identity toInt (valueOf p.quantity)) False
   Clean p -> Nothing
-  Dirty p -> Just <| RequestProduct "modify" (Just p.id) p.type_id p.name p.quantity p.discontinued
+  Dirty p -> Just <| RequestProduct
+    "modify"
+    (Just p.id)
+    p.type_id
+    (Either.unpack identity valueOf p.name)
+    (Either.unpack identity (valueOf >> toInt) p.quantity)
+    (both p.discontinued)
 
 requestJson : RequestProduct -> Json.Value
 requestJson request = Json.object
@@ -101,7 +137,7 @@ individualClean updates product =
   in
     case product of
       Clean _ -> product
-      Dirty p -> Clean p
+      Dirty p -> Clean (normalize product)
       New   p -> replaceNew p
 
 clean : List FullProduct -> List Product -> List Product
@@ -125,7 +161,7 @@ fillNewTypes updates originals products =
       _ -> p)
 
 new : Int -> Int -> Product
-new id type_id = New (NewProduct id ("Product " ++ toString id) 0 type_id)
+new id type_id = New (NewProduct id type_id ("Product " ++ toString id) (Valid <| Left 0))
 
 validateRequest : List ProductType -> List Product -> Result String (List Product)
 validateRequest types products =
@@ -149,3 +185,6 @@ validateRequest types products =
               |> Result.andThen ((::) item >> Ok)
       [] -> Ok []
   in validate products []
+
+toInt : String -> Int
+toInt = Util.toInt >> Result.withDefault 0

@@ -1,9 +1,12 @@
 module UInventory exposing (update)
+import Either exposing (Either(..))
+
 import Model exposing (Model)
 import Page exposing (Page(..))
 import Msg exposing (Msg(..), TabStatus)
 import Product exposing (Product(..))
 import Table exposing (updateSort)
+import Validation exposing (Validation(..))
 import ProductType
 import List_
 import Files
@@ -182,24 +185,20 @@ update msg model = case model.page of
           |> List.map (List.map String.trim << String.split ",")
           |> List.filterMap (\row -> case row of
             [ id, name, quantity ] ->
-                Result.map2
-                  (\i -> \q -> (i, name, q))
-                  (Util.toInt id)
-                  (Util.toInt quantity)
+              (Util.toInt id)
+                |> Result.map (\i -> (i, name, quantity))
                 |> Result.toMaybe
-            [ name, quantity ] -> Result.map (\q -> (-1, name, q)) (Util.toInt quantity) |> Result.toMaybe
+            [ name, quantity ] -> Just (-1, name, quantity)
             _ -> Nothing)
           |> List.indexedMap (\x -> \(i, n, q) ->
             ( if i > 0 then
-              model.user.products
-                |> List.map Product.normalize
-                |> List_.find (.id >> (==) i)
+                model.user.products
+                  |> List_.find (Product.normalize >> .id >> (==) i)
               else
                 model.user.products
-                  |> List.map Product.normalize
-                  |> List_.find (\p -> p.name == n && p.type_id == t))
-            |> Maybe.map (\p -> Dirty { p | quantity = q })
-            |> Maybe.withDefault (New <| Product.NewProduct (o + x) n q t))
+                  |> List_.find (\p -> let q = Product.normalize p in q.name == n && q.type_id == t))
+            |> Maybe.map (Product.setQuantity q)
+            |> Maybe.withDefault (New <| Product.NewProduct (o + x) t n (Valid (Right q))))
           |> List.foldl (\p -> List_.updateAtOrInsert p (Product.normalize >> .id >> (==) (Product.normalize p).id) (always p)) user.products
       in
         { model | user = { user | products = products } } ! []

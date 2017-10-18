@@ -3,6 +3,7 @@ import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Json
 import ProductType exposing (ProductType)
 import Dict
+import Validation exposing (valueOf)
 
 import List_
 import Util
@@ -116,7 +117,7 @@ fillNewTypes updates originals products =
       Dict.fromList
         (updates
           |> List.filterMap
-            (\u -> List_.find (.name >> (==) u.name) oldNews
+            (\u -> List_.find (.name >> valueOf >> (==) u.name) oldNews
               |> Maybe.map (.localId >> flip (,) u.id)))
   in products
     |> List.map (\p -> case p of

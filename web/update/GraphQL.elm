@@ -7,7 +7,7 @@ import Http
 import Json.Decode as Decode
 import Date exposing (Date)
 import Date.Extra as Date
-import Either exposing (Either(Right))
+import Either exposing (Either(..))
 import GraphQL.Client.Http exposing (..)
 import GraphQL.Request.Builder exposing (..)
 import GraphQL.Request.Builder.Arg as Arg
@@ -15,12 +15,13 @@ import GraphQL.Request.Builder.Variable as Var
 
 import Model exposing (Model)
 import User exposing (User)
-import ProductType exposing (FullType, NewType, ProductType(..))
+import ProductType exposing (FullType, InternalType, NewType, ProductType(..))
 import Product exposing (FullProduct, Product(..))
 import Price exposing (FullPrice, Price(..))
 import Convention exposing (MetaConvention, FullConvention, Convention(..))
 import Record exposing (Record)
 import Pagination exposing (Pagination)
+import Validation exposing (valueOf)
 
 type DateType = DateType
 
@@ -137,11 +138,11 @@ getConventionPage page limit =
 productTypeAdd : NewType -> Arg.Value vars
 productTypeAdd type_ =
   Arg.object
-    [ ("name", Arg.string type_.name)
+    [ ("name", Arg.string (valueOf type_.name))
     , ("color", Arg.int type_.color) ]
 createProductType : NewType -> SelectionSpec Field ProductType vars
 createProductType type_ =
-  aliasAs type_.name <|
+  aliasAs (valueOf type_.name) <|
     field "addUserProductType"
       [ ("productType", productTypeAdd type_) ]
       (map ProductType.Clean productType)
@@ -150,22 +151,20 @@ createProductTypes types =
   request {} <| mutationDocument <| keyValuePairs
     (List.map createProductType types)
 
--- TODO: only list the actual dirty fields
---       will require a model update with higher specificity of dirtiness
-productTypeMod : FullType -> Arg.Value vars
+productTypeMod : InternalType -> Arg.Value vars
 productTypeMod type_ =
   Arg.object
     [ ("type_id", Arg.int type_.id)
-    , ("name", Arg.string type_.name)
-    , ("color", Arg.int type_.color)
-    , ("discontinued", Arg.bool type_.discontinued) ]
-updateProductType : FullType -> SelectionSpec Field ProductType vars
+    , ("name", argIfRight Arg.string (Either.mapRight valueOf type_.name))
+    , ("color", argIfRight Arg.int type_.color)
+    , ("discontinued", argIfRight Arg.bool type_.discontinued) ]
+updateProductType : InternalType -> SelectionSpec Field ProductType vars
 updateProductType type_ =
-  aliasAs type_.name <|
+  aliasAs (Either.unpack identity valueOf type_.name) <|
     field "modUserProductType"
       [ ("productType", productTypeMod type_) ]
       (map ProductType.Clean productType)
-updateProductTypes : List FullType -> Request Mutation (List (String, ProductType))
+updateProductTypes : List InternalType -> Request Mutation (List (String, ProductType))
 updateProductTypes types =
   request {} <| mutationDocument <| keyValuePairs
     (List.map updateProductType types)
@@ -185,3 +184,10 @@ query msg query model = Task.attempt msg <| customSendQuery (authorized "GET" mo
 
 mutation : (Result Error result -> msg) -> Request Mutation result -> Model -> Cmd msg
 mutation msg query model = Task.attempt msg <| customSendMutation (authorized "POST" model.authtoken) query
+
+-- Helpers
+argIfRight : (a -> Arg.Value vars) ->  Either x a -> Arg.Value vars
+argIfRight fn val =
+  case val of
+    Left _ -> Arg.null
+    Right v -> fn v

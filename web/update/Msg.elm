@@ -81,7 +81,8 @@ type Msg
   | Save
   | SavedProducts (Result Http.Error (ConRequest (List FullProduct)))
   | SavedPrices (Result Http.Error (ConRequest (List FullPrice)))
-  | SavedTypes (Result Http.Error (ConRequest (List FullType)))
+  | UpdatedTypes (Result Error (List (String, FullType)))
+  | CreatedTypes (Result Error (List (String, FullType)))
   -- localStorage
   | LSRetrive (String, Maybe String)
   -- files

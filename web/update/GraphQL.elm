@@ -9,9 +9,10 @@ import Date exposing (Date)
 import Date.Extra as Date
 import Either exposing (Either(..))
 import GraphQL.Client.Http exposing (..)
-import GraphQL.Request.Builder exposing (..)
+import GraphQL.Request.Builder as GraphQL exposing (..)
 import GraphQL.Request.Builder.Arg as Arg
 import GraphQL.Request.Builder.Variable as Var
+import MD5
 
 import Model exposing (Model)
 import User exposing (User)
@@ -140,16 +141,19 @@ productTypeAdd type_ =
   Arg.object
     [ ("name", Arg.string (valueOf type_.name))
     , ("color", Arg.int type_.color) ]
-createProductType : NewType -> SelectionSpec Field ProductType vars
+createProductType : NewType -> SelectionSpec Field FullType vars
 createProductType type_ =
   aliasAs (valueOf type_.name) <|
     field "addUserProductType"
       [ ("productType", productTypeAdd type_) ]
-      (map ProductType.Clean productType)
-createProductTypes : List NewType -> Request Mutation (List (String, ProductType))
+      productType
+createProductTypes : List NewType -> Request Mutation (List (String, FullType))
 createProductTypes types =
-  request {} <| mutationDocument <| keyValuePairs
-    (List.map createProductType types)
+  request {}
+    <| mutationDocument
+    <| map (List.map <| Tuple.mapFirst (String.dropLeft 1))
+    <| keyValuePairs
+    <| List.map createProductType types
 
 productTypeMod : InternalType -> Arg.Value vars
 productTypeMod type_ =
@@ -158,13 +162,13 @@ productTypeMod type_ =
     , ("name", argIfRight Arg.string (Either.mapRight valueOf type_.name))
     , ("color", argIfRight Arg.int type_.color)
     , ("discontinued", argIfRight Arg.bool type_.discontinued) ]
-updateProductType : InternalType -> SelectionSpec Field ProductType vars
+updateProductType : InternalType -> SelectionSpec Field FullType vars
 updateProductType type_ =
   aliasAs (Either.unpack identity valueOf type_.name) <|
     field "modUserProductType"
       [ ("productType", productTypeMod type_) ]
-      (map ProductType.Clean productType)
-updateProductTypes : List InternalType -> Request Mutation (List (String, ProductType))
+      productType
+updateProductTypes : List InternalType -> Request Mutation (List (String, FullType))
 updateProductTypes types =
   request {} <| mutationDocument <| keyValuePairs
     (List.map updateProductType types)
@@ -191,3 +195,6 @@ argIfRight fn val =
   case val of
     Left _ -> Arg.null
     Right v -> fn v
+
+aliasAs : String -> SelectionSpec Field result vars -> SelectionSpec Field result vars
+aliasAs = GraphQL.aliasAs << String.cons '_' << MD5.hex

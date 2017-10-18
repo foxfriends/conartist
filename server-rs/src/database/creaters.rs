@@ -18,7 +18,7 @@ impl Database {
 
         let conn = self.pool.get().unwrap();
         let trans = conn.transaction().unwrap();
-        for row in &query!(trans, "INSERT INTO ProductTypes (user_id, name, color) VALUES ($1, $2, $3)", user_id, name, color) {
+        for row in &query!(trans, "INSERT INTO ProductTypes (user_id, name, color) VALUES ($1, $2, $3) RETURNING *", user_id, name, color) {
             trans.set_commit();
             return ProductType::from(row)
         }

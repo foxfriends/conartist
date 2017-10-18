@@ -52,7 +52,7 @@ cleanProducts updates model =
       | products = Product.clean updates products
       , prices = Price.fillNewProducts updates products prices } }
 
-cleanTypes : List ProductType.FullType -> Model -> Model
+cleanTypes : List (String, ProductType.FullType) -> Model -> Model
 cleanTypes updates model =
   let
     user = model.user
@@ -64,12 +64,11 @@ cleanTypes updates model =
     | user =
       { user
       | productTypes = ProductType.clean updates types
-      , products = Product.fillNewTypes updates types products
-      , prices = Price.fillNewTypes updates types prices } }
+      , products = Product.fillNewTypes (List.map Tuple.second updates) types products
+      , prices = Price.fillNewTypes (List.map Tuple.second updates) types prices } }
 
 validateRequest : Model -> Result String Model
 validateRequest model =
-  ProductType.validateRequest model.user.productTypes
-    |> Result.andThen (always <| Product.validateRequest model.user.productTypes model.user.products)
+  Product.validateRequest model.user.productTypes model.user.products
     |> Result.andThen (always <| Price.validateRequest model.user.prices model.user.productTypes model.user.products)
     |> Result.map (always <| model)

@@ -5,6 +5,7 @@ import Validation exposing (Validation(..), valueOf, invalidate, validate, empty
 import Either exposing (Either(..))
 import List_
 import Either_ exposing (both)
+import MD5 exposing (hex)
 
 type alias NewType =
   { localId: Int
@@ -49,40 +50,40 @@ decode =
     (Decode.field "color" Decode.int)
     (Decode.field "discontinued" Decode.bool)
 
+newData : ProductType -> Maybe NewType
+newData p = case p of
+  New d -> Just d
+  _ -> Nothing
+
+dirtyData : ProductType -> Maybe InternalType
+dirtyData p = case p of
+  Dirty d -> Just d
+  _ -> Nothing
+
 normalize : ProductType -> FullType
 normalize t = case t of
   Clean t -> t
   Dirty t -> FullType t.id (Either.unpack identity valueOf t.name) (both t.color) (both t.discontinued)
   New   t -> FullType -t.localId (valueOf t.name) t.color False
 
-requestFormat : ProductType -> Maybe RequestProductType
-requestFormat ptype = case ptype of
-  New t   -> Just <| RequestProductType "create" Nothing t.color (valueOf t.name) False
-  Clean t -> Nothing
-  Dirty t -> Just <| RequestProductType "modify" (Just t.id) (both t.color) (Either.unpack identity valueOf t.name) (both t.discontinued)
-
-requestJson : RequestProductType -> Json.Value
-requestJson request = Json.object
-  [ ("kind", Json.string request.kind)
-  , ("id", request.id |> Maybe.map Json.int |> Maybe.withDefault Json.null )
-  , ("name", Json.string request.name)
-  , ("color", Json.int request.color)
-  , ("discontinued", Json.bool request.discontinued) ]
-
-individualClean : List FullType -> ProductType -> ProductType
+individualClean : List (String, FullType) -> ProductType -> ProductType
 individualClean updates ptype =
-  let replaceNew p =
-    updates
-      |> List_.find (.name >> (==) (valueOf p.name))
-      |> Maybe.map Clean
+  let
+    replaceNew p = updates
+      |> List_.find (Tuple.first >> (==) (hex <| valueOf p.name))
+      |> Maybe.map (Clean << Tuple.second)
       |> Maybe.withDefault (New p)
+    replaceDirty p = updates
+      |> List_.find (Tuple.first >> (==) (hex <| Either.unpack identity valueOf p.name))
+      |> Maybe.map (Clean << Tuple.second)
+      |> Maybe.withDefault (Dirty p)
   in
     case ptype of
       Clean _ -> ptype
-      Dirty p -> Clean (normalize <| Dirty p)
+      Dirty p -> replaceDirty p
       New   p -> replaceNew p
 
-clean : List FullType -> List ProductType -> List ProductType
+clean : List (String, FullType) -> List ProductType -> List ProductType
 clean = List.map << individualClean
 
 new : Int -> ProductType
@@ -118,22 +119,6 @@ toggleDiscontinued type_ = case type_ of
     , color = Left p.color}
   Dirty p -> Just <| Dirty { p | discontinued = Either.mapRight not p.discontinued }
 
-validateRequest : List ProductType -> Result String (List ProductType)
-validateRequest types =
-  let validate types bad =
-    case types of
-      item :: rest ->
-        let { name } = normalize item in
-          if name == "" then
-            Err "You cannot leave a product type's name blank!"
-          else if List.member name bad then
-            Err ("You have two product types named " ++ name ++ ". Please rename one of them before you save! (Note: one of them might be discontinued)")
-          else
-            validate rest (name :: bad)
-              |> Result.andThen ((::) item >> Ok)
-      [] -> Ok []
-  in validate types []
-
 validateAll : List ProductType -> List ProductType
 validateAll types =
   let
@@ -164,3 +149,12 @@ validateAll types =
                     item) :: validate rest
         [] -> []
   in validate types
+
+allValid : List ProductType -> Bool
+allValid types =
+  let isValid type_ =
+    case type_ of
+      New t   -> Validation.isValid t.name
+      Clean _ -> True
+      Dirty t -> (Either.unpack (always True) Validation.isValid t.name)
+  in List.all isValid types

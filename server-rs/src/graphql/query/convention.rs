@@ -3,7 +3,7 @@ use database::Database;
 pub use database::Convention;
 
 graphql_object!(Convention: Database |&self| {
-    description: "Holds information about a user convention"
+    description: "Holds information about a convention"
 
     field id() -> i32 { self.con_id }
     field code() -> &String { &self.code }

@@ -158,7 +158,7 @@ createProductTypes types =
 productTypeMod : InternalType -> Arg.Value vars
 productTypeMod type_ =
   Arg.object
-    [ ("type_id", Arg.int type_.id)
+    [ ("typeId", Arg.int type_.id)
     , ("name", argIfRight Arg.string (Either.mapRight valueOf type_.name))
     , ("color", argIfRight Arg.int type_.color)
     , ("discontinued", argIfRight Arg.bool type_.discontinued) ]

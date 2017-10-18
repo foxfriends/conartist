@@ -37,8 +37,24 @@ graphql_object!(Mutation: Database |&self| {
                 .set_user_password(user_id, orig_password, password)
         }
     }
-    field change_user_name(&executor, user_id: i32, name: String) -> FieldResult<User> { Err(FieldError::new("Unimplemented", Value::null())) }
-    field add_user_keys(&executor, user_id: i32, quantity: i32) -> FieldResult<User> { Err(FieldError::new("Unimplemented", Value::null())) }
+    field change_user_name(&executor, user_id: i32, name: String) -> FieldResult<User> {
+        ensure!(name != "");
+
+        dbtry! {
+            executor
+                .context()
+                .set_user_name(user_id, name)
+        }
+    }
+    field add_user_keys(&executor, user_id: i32, quantity: i32) -> FieldResult<User> {
+        ensure!(quantity > 0);
+
+        dbtry! {
+            executor
+                .context()
+                .add_user_keys(user_id, quantity)
+        }
+    }
 
     field add_user_product_type(&executor, user_id: i32, product_type: ProductTypeAdd) -> FieldResult<ProductType> { Err(FieldError::new("Unimplemented", Value::null())) }
     field mod_user_product_type(&executor, user_id: i32, product_type: ProductTypeMod) -> FieldResult<ProductType> { Err(FieldError::new("Unimplemented", Value::null())) }

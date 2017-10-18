@@ -4,9 +4,7 @@ use bcrypt;
 impl Database {
     pub fn set_user_email(&self, user_id: i32, email: String) -> Result<User, String> {
         let conn = self.pool.get().unwrap();
-        let trans = conn.transaction().unwrap();
-        for row in &query!(trans, "UPDATE Users SET email = $1 WHERE user_id = $2 RETURNING *", email, user_id) {
-            trans.set_commit();
+        for row in &query!(conn, "UPDATE Users SET email = $1 WHERE user_id = $2 RETURNING *", email, user_id) {
             return User::from(row);
         }
         return Err(format!("No user {} exists", user_id))
@@ -32,15 +30,19 @@ impl Database {
         unreachable!()
     }
 
-    pub fn create_user(&self, email: String, name: String, password: String) -> Result<(), String> {
+    pub fn set_user_name(&self, user_id: i32, name: String) -> Result<User, String> {
         let conn = self.pool.get().unwrap();
-        let trans = conn.transaction().unwrap();
-        match execute!(trans, "INSERT INTO Users (email, name, password) VALUES ($1, $2, $3)", email, name, password) {
-            Ok(1) => (),
-            Ok(0) => return Err("Failed to create user.".to_string()),
-            Ok(_) => return Err("Something very strange happened?".to_string()),
-            Err(reason) => return Err(format!("Failed to create user. Reason: {}", reason)),
-        };
-        trans.commit().map_err(|e| format!("{}", e))
+        for row in &query!(conn, "UPDATE Users SET name = $1 WHERE user_id = $2 RETURNING *", name, user_id) {
+            return User::from(row);
+        }
+        return Err(format!("No user {} exists", user_id))
+    }
+
+    pub fn add_user_keys(&self, user_id: i32, quantity: i32) -> Result<User, String> {
+        let conn = self.pool.get().unwrap();
+        for row in &query!(conn, "UPDATE Users SET keys = keys + $1 WHERE user_id = $2 RETURNING *", quantity, user_id) {
+            return User::from(row);
+        }
+        return Err(format!("No user {} exists", user_id))
     }
 }

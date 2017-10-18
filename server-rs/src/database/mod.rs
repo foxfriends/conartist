@@ -4,6 +4,7 @@ mod schema;
 pub mod factory;
 mod getters;
 mod setters;
+mod creaters;
 
 use juniper::Context;
 use chrono::NaiveDate;

@@ -1,7 +1,7 @@
 module ProductType exposing (..)
 import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Json
-import Validation exposing (Validation(..), valueOf)
+import Validation exposing (Validation(..), valueOf, invalidate, validate, empty)
 import Either exposing (Either(..))
 import List_
 import Either_ exposing (both)
@@ -133,3 +133,34 @@ validateRequest types =
               |> Result.andThen ((::) item >> Ok)
       [] -> Ok []
   in validate types []
+
+validateAll : List ProductType -> List ProductType
+validateAll types =
+  let
+    names = List.map (normalize >> .name) types
+    isBad name = List.filter ((==) name) names |> List.length |> (<) 1
+    validate types =
+      case types of
+        item :: rest ->
+          case item of
+            Clean i -> Clean i :: validate rest
+            New i ->
+              let name = valueOf i.name in
+                (if name == "" then
+                  New { i | name = invalidate i.name "Name is empty" }
+                else if isBad name then
+                  New { i | name = invalidate i.name "Name is duplicated" }
+                else
+                  item) :: validate rest
+            Dirty i ->
+              case i.name of
+                Left name -> Dirty i :: validate rest
+                Right name -> let nameValue = valueOf name in
+                  (if nameValue == "" then
+                    Dirty { i | name = Right <| invalidate name "Name is empty" }
+                  else if isBad nameValue then
+                    Dirty { i | name = Right <| invalidate name "Name is duplicated" }
+                  else
+                    item) :: validate rest
+        [] -> []
+  in validate types

@@ -17,7 +17,6 @@ update msg model = case model.page of
   Inventory page -> case msg of
     ChangeInventoryTab tab ->
       { model | page = Inventory { page | current_tab = tab } } ! []
-    DidLoadUser _ -> ( model, Cmd.none )
     ProductTypeName id name ->
       let
         user = model.user
@@ -26,7 +25,7 @@ update msg model = case model.page of
         { model
         | user =
           { user
-          | productTypes = List_.updateAt (ProductType.normalize >> .id >> (==) id) (ProductType.setName name) types
+          | productTypes = ProductType.validateAll <| List_.updateAt (ProductType.normalize >> .id >> (==) id) (ProductType.setName name) types
           }
         } ! []
     ProductTypeColor id color ->

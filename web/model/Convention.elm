@@ -1,6 +1,5 @@
 module Convention exposing (..)
 import Json.Decode as Decode exposing (Decoder)
-import List exposing (foldl)
 import Date exposing (Date)
 import Date.Extra as Date exposing (toFormattedString)
 

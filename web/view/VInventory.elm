@@ -3,7 +3,7 @@ import Html exposing (Html, div, text)
 import Html.Attributes exposing (class, type_, disabled, style)
 import Html.Events exposing (onInput, onClick)
 import Hex
-import Validation exposing (Validation(..))
+import Either
 
 import Model exposing (Model)
 import Msg exposing (Msg(..))
@@ -16,6 +16,7 @@ import Join exposing (ProductWithType)
 import Page exposing (InventoryPageState)
 import Fancy exposing (ButtonStyle(..), TooltipAlignment(..))
 import Align exposing (centered)
+import Validation exposing (Validation(..))
 
 view : Model -> InventoryPageState -> Html Msg
 view model page =
@@ -68,26 +69,32 @@ inventoryFooter : Model -> InventoryPageState -> List (Html Msg)
 inventoryFooter model { current_tab, color_picker } =
   let dirty = Model.isDirty model in
   case model.user.productTypes
-    |> List.map ProductType.normalize
-    |> (if model.show_discontinued then identity else List.filter (not << .discontinued))
+    |> (if model.show_discontinued then identity else List.filter (not << .discontinued << ProductType.normalize))
     |> List.drop current_tab.current
     |> List.head
   of
-    Just t ->
-      [ Fancy.alignedTooltip Right "Discontinue type" <| Fancy.button Icon (if t.discontinued then "add_circle_outline" else "remove_circle_outline") [ onClick (ProductTypeDiscontinued t.id) ]
-      , Fancy.labelledInput (Fancy.iconLabel "edit") "" (Valid t.name) [] [ onInput (ProductTypeName t.id) ]
-      , Fancy.menu []
-          ( Fancy.tooltip "Set color" <| Fancy.button
-            Icon "format_color_fill"
-            [ style [ ( "background-color", "#" ++ Hex.toString t.color ) ]
-            , onClick ColorPickerOpen ] )
-          ( colorPicker (ProductTypeColor t.id) color_picker.page t.color )
-          ColorPickerClose
-          color_picker.open
-      , Fancy.tooltip "New product" <| Fancy.button Icon "add" [ onClick NewProduct ]
-      , Fancy.button Icon "save" [ onClick Save, disabled (not dirty) ]
-      , Fancy.tooltip (if dirty then "Save changes first!" else "Import (CSV)") <| Fancy.button Icon "file_upload" [ onClick ReadInventoryCSV, disabled dirty ]
-      , Fancy.tooltip (if dirty then "Save changes first!" else "Export (CSV)") <| Fancy.button Icon "file_download" [ onClick WriteInventoryCSV, disabled dirty ] ]
+    Just pt ->
+      let
+        t = ProductType.normalize pt
+        name = case pt of
+          ProductType.New { name } -> name
+          ProductType.Clean { name } -> Valid name
+          ProductType.Dirty { name } -> Either.unpack Valid identity name
+      in
+        [ Fancy.alignedTooltip Right "Discontinue type" <| Fancy.button Icon (if t.discontinued then "add_circle_outline" else "remove_circle_outline") [ onClick (ProductTypeDiscontinued t.id) ]
+        , Fancy.labelledInput (Fancy.iconLabel "edit") "" name [] [ onInput (ProductTypeName t.id) ]
+        , Fancy.menu []
+            ( Fancy.tooltip "Set color" <| Fancy.button
+              Icon "format_color_fill"
+              [ style [ ( "background-color", "#" ++ Hex.toString t.color ) ]
+              , onClick ColorPickerOpen ] )
+            ( colorPicker (ProductTypeColor t.id) color_picker.page t.color )
+            ColorPickerClose
+            color_picker.open
+        , Fancy.tooltip "New product" <| Fancy.button Icon "add" [ onClick NewProduct ]
+        , Fancy.button Icon "save" [ onClick Save, disabled (not dirty) ]
+        , Fancy.tooltip (if dirty then "Save changes first!" else "Import (CSV)") <| Fancy.button Icon "file_upload" [ onClick ReadInventoryCSV, disabled dirty ]
+        , Fancy.tooltip (if dirty then "Save changes first!" else "Export (CSV)") <| Fancy.button Icon "file_download" [ onClick WriteInventoryCSV, disabled dirty ] ]
     Nothing -> []
 
 colorPicker : (Int -> Msg) -> Int -> Int -> Html Msg

@@ -1,4 +1,7 @@
-module GraphQL exposing (query, mutation, getUser, getFullConvention, getConventionPage)
+module GraphQL exposing
+  ( query, mutation
+  , getUser, getFullConvention, getConventionPage
+  , createProductTypes, updateProductTypes)
 import Task
 import Http
 import Json.Decode as Decode
@@ -12,7 +15,7 @@ import GraphQL.Request.Builder.Variable as Var
 
 import Model exposing (Model)
 import User exposing (User)
-import ProductType exposing (FullType, ProductType(..))
+import ProductType exposing (FullType, NewType, ProductType(..))
 import Product exposing (FullProduct, Product(..))
 import Price exposing (FullPrice, Price(..))
 import Convention exposing (MetaConvention, FullConvention, Convention(..))
@@ -130,6 +133,42 @@ getConventionPage page limit =
       (pagination metaConvention)
 
 -- Mutations
+
+productTypeAdd : NewType -> Arg.Value vars
+productTypeAdd type_ =
+  Arg.object
+    [ ("name", Arg.string type_.name)
+    , ("color", Arg.int type_.color) ]
+createProductType : NewType -> SelectionSpec Field ProductType vars
+createProductType type_ =
+  aliasAs type_.name <|
+    field "addUserProductType"
+      [ ("productType", productTypeAdd type_) ]
+      (map ProductType.Clean productType)
+createProductTypes : List NewType -> Request Mutation (List (String, ProductType))
+createProductTypes types =
+  request {} <| mutationDocument <| keyValuePairs
+    (List.map createProductType types)
+
+-- TODO: only list the actual dirty fields
+--       will require a model update with higher specificity of dirtiness
+productTypeMod : FullType -> Arg.Value vars
+productTypeMod type_ =
+  Arg.object
+    [ ("type_id", Arg.int type_.id)
+    , ("name", Arg.string type_.name)
+    , ("color", Arg.int type_.color)
+    , ("discontinued", Arg.bool type_.discontinued) ]
+updateProductType : FullType -> SelectionSpec Field ProductType vars
+updateProductType type_ =
+  aliasAs type_.name <|
+    field "modUserProductType"
+      [ ("productType", productTypeMod type_) ]
+      (map ProductType.Clean productType)
+updateProductTypes : List FullType -> Request Mutation (List (String, ProductType))
+updateProductTypes types =
+  request {} <| mutationDocument <| keyValuePairs
+    (List.map updateProductType types)
 
 -- Requests
 

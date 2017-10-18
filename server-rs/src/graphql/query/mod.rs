@@ -26,7 +26,7 @@ graphql_object!(Query: Database |&self| {
     ) -> FieldResult<User> as "Retrieves one user, corresponding to the provided ID" {
         executor
             .context()
-            .get_user_by_id_or_self(id)
+            .get_user_by_id(id)
             .map_err(|s| FieldError::new(s, Value::null()))
     }
 

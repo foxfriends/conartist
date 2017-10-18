@@ -15,14 +15,8 @@ impl Database {
         return Err(format!("No user with email {} exists", email))
     }
 
-    pub fn get_user_by_id_or_self(&self, user_id: Option<i32>) -> Result<User, String> {
-        user_id
-            .map(|id| self.get_user_by_id(id))
-            .unwrap_or(self.get_user_by_id(self.user_id.expect("Cannot get user id for self in privileged mode!")))
-    }
-
-    pub fn get_user_by_id(&self, user_id: i32) -> Result<User, String> {
-        assert_authorized!(self, user_id);
+    pub fn get_user_by_id(&self, maybe_user_id: Option<i32>) -> Result<User, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         for row in &query!(conn, "SELECT * FROM Users WHERE user_id = $1", user_id) {
             return User::from(row);

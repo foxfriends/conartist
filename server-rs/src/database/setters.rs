@@ -2,7 +2,9 @@ use super::*;
 use bcrypt;
 
 impl Database {
-    pub fn set_user_email(&self, user_id: i32, email: String) -> Result<User, String> {
+    pub fn set_user_email(&self, maybe_user_id: Option<i32>, email: String) -> Result<User, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+
         let conn = self.pool.get().unwrap();
         for row in &query!(conn, "UPDATE Users SET email = $1 WHERE user_id = $2 RETURNING *", email, user_id) {
             return User::from(row);
@@ -10,7 +12,9 @@ impl Database {
         return Err(format!("No user {} exists", user_id))
     }
 
-    pub fn set_user_password(&self, user_id: i32, orig_password: String, new_password: String) -> Result<User, String> {
+    pub fn set_user_password(&self, maybe_user_id: Option<i32>, orig_password: String, new_password: String) -> Result<User, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+
         let conn = self.pool.get().unwrap();
         let trans = conn.transaction().unwrap();
         let original: String =
@@ -30,7 +34,9 @@ impl Database {
         unreachable!()
     }
 
-    pub fn set_user_name(&self, user_id: i32, name: String) -> Result<User, String> {
+    pub fn set_user_name(&self, maybe_user_id: Option<i32>, name: String) -> Result<User, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+
         let conn = self.pool.get().unwrap();
         for row in &query!(conn, "UPDATE Users SET name = $1 WHERE user_id = $2 RETURNING *", name, user_id) {
             return User::from(row);
@@ -38,7 +44,9 @@ impl Database {
         return Err(format!("No user {} exists", user_id))
     }
 
-    pub fn add_user_keys(&self, user_id: i32, quantity: i32) -> Result<User, String> {
+    pub fn add_user_keys(&self, maybe_user_id: Option<i32>, quantity: i32) -> Result<User, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+
         let conn = self.pool.get().unwrap();
         for row in &query!(conn, "UPDATE Users SET keys = keys + $1 WHERE user_id = $2 RETURNING *", quantity, user_id) {
             return User::from(row);

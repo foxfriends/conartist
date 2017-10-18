@@ -4,24 +4,24 @@ use chrono::NaiveDateTime;
 #[derive(Clone, GraphQLInputObject)]
 #[graphql(description="Information required to create a convention expense")]
 pub struct ExpenseAdd {
-    con_id: i32,
-    price: f64,
-    category: String,
-    description: String,
-    time: NaiveDateTime,
+    pub con_id: i32,
+    pub price: f64,
+    pub category: String,
+    pub description: String,
+    pub time: NaiveDateTime,
 }
 
 #[derive(Clone, GraphQLInputObject)]
 #[graphql(description="Information required to modify a convention expense")]
 pub struct ExpenseMod {
-    expense_id: i32,
-    price: Option<f64>,
-    category: Option<String>,
-    description: Option<String>,
+    pub expense_id: i32,
+    pub price: Option<f64>,
+    pub category: Option<String>,
+    pub description: Option<String>,
 }
 
 #[derive(Clone, GraphQLInputObject)]
 #[graphql(description="Information required to delete a convention expense")]
 pub struct ExpenseDel {
-    expense_id: i32,
+    pub expense_id: i32,
 }

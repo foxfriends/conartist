@@ -3,16 +3,16 @@
 #[derive(Clone, GraphQLInputObject)]
 #[graphql(description="Information required to create a new product")]
 pub struct ProductAdd {
-    type_id: i32,
-    name: String,
-    quantity: i32,
+    pub type_id: i32,
+    pub name: String,
+    pub quantity: i32,
 }
 
 #[derive(Clone, GraphQLInputObject)]
 #[graphql(description="Information required to modify an existing product")]
 pub struct ProductMod {
-    product_id: i32,
-    name: Option<String>,
-    quantity: Option<i32>,
-    discontinued: Option<bool>,
+    pub product_id: i32,
+    pub name: Option<String>,
+    pub quantity: Option<i32>,
+    pub discontinued: Option<bool>,
 }

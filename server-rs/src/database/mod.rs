@@ -5,6 +5,7 @@ pub mod factory;
 mod getters;
 mod setters;
 mod creaters;
+mod updaters;
 
 use juniper::Context;
 use chrono::NaiveDate;
@@ -25,6 +26,12 @@ impl Database {
     fn new(pool: Pool<PostgresConnectionManager>, id: i32) -> Self { Self{ pool, user_id: Some(id), privileged: false } }
 
     fn privileged(pool: Pool<PostgresConnectionManager>) -> Self { Self{ pool, user_id: None, privileged: true } }
+
+    fn resolve_user_id(&self, maybe_user_id: Option<i32>) -> Result<i32, String> {
+        let user_id = maybe_user_id.unwrap_or_else(|| self.user_id.expect("Cannot get user id for self when in privileged mode!"));
+        assert_authorized!(self, user_id);
+        Ok(user_id)
+    }
 }
 
 impl Context for Database {}

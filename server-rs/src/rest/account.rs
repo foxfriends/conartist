@@ -21,6 +21,10 @@ impl Handler for Create {
     fn handle(&self, req: &mut Request) -> IronResult<Response> {
         let rbody = itry!{ req.get::<bodyparser::Struct<CreateAccountData>>(), status::BadRequest };
         let body = iexpect!{ rbody };
+        if body.email == "" || body.name == "" || body.password == "" {
+            // TODO: this could return status::BadRequest somehow
+            return cr::fail("Invalid request");
+        }
         let hashed = itry!{ bcrypt::hash(&body.password, bcrypt::DEFAULT_COST) };
         self.database.create_user(body.email, body.name, hashed)
             .map(|_| cr::ok(()))

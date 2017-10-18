@@ -20,6 +20,8 @@ graphql_object!(Mutation: Database |&self| {
     description: "Entry-point for ConArtist GraphQL mutations"
 
     field change_user_email(&executor, user_id: i32, email: String) -> FieldResult<User> {
+        ensure!(email != "");
+
         dbtry! {
             executor
                 .context()
@@ -27,6 +29,8 @@ graphql_object!(Mutation: Database |&self| {
         }
     }
     field change_user_password(&executor, user_id: i32, orig_password: String, password: String) -> FieldResult<User> {
+        ensure!(password != "");
+
         dbtry! {
             executor
                 .context()

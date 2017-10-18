@@ -75,6 +75,19 @@ macro_rules! assert_authorized {
     };
 }
 
+macro_rules! ensure {
+    ($pred:expr, $reason:expr) => {
+        if !($pred) {
+            return Err(::juniper::FieldError::new(format!("Requirement breached: {}", $reason), ::juniper::Value::null()))
+        }
+    };
+    ($pred:expr) => {
+        if !($pred) {
+            return Err(::juniper::FieldError::new(format!("Requirement breached: {}", stringify!($pred)), ::juniper::Value::null()))
+        }
+    };
+}
+
 macro_rules! dbtry {
     ($res:expr) => {
         $res.map_err(|s| ::juniper::FieldError::new(s, ::juniper::Value::null()))

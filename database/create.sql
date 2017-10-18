@@ -25,7 +25,9 @@ CREATE TABLE Users (
   name        VARCHAR(512) NOT NULL,
   password    VARCHAR(512) NOT NULL,
   keys        INT NOT NULL DEFAULT 1,
-  join_date   TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP)
+  join_date   TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP),
+  CONSTRAINT user_nonempty_email CHECK (char_length(email) > 0),
+  CONSTRAINT user_nonempty_name CHECK (char_length(name) > 0)
 );
 CREATE INDEX index_Users ON Users (email);
 COMMENT ON TABLE Users IS 'A user of the ConArtist app';
@@ -44,7 +46,8 @@ COMMENT ON TABLE Conventions IS 'The many conventions that are taking place arou
 CREATE TABLE User_Conventions (
   user_con_id SERIAL PRIMARY KEY,
   user_id     INT NOT NULL REFERENCES Users       (user_id) ON DELETE CASCADE,
-  con_id      INT NOT NULL REFERENCES Conventions (con_id)  ON DELETE CASCADE
+  con_id      INT NOT NULL REFERENCES Conventions (con_id)  ON DELETE CASCADE,
+  CONSTRAINT unique_user_convention UNIQUE (user_id, con_id)
 );
 CREATE INDEX index_User_Conventions ON User_Conventions (user_id);
 COMMENT ON TABLE User_Conventions IS 'Links users to conventions, indicating that they plan to be selling there';
@@ -66,7 +69,8 @@ CREATE TABLE Products (
   user_id       INT NOT NULL REFERENCES Users         (user_id)   ON DELETE CASCADE,
   name          VARCHAR(512) NOT NULL,
   discontinued  BOOLEAN NOT NULL DEFAULT (FALSE),
-  CONSTRAINT unique_product_per_person UNIQUE (user_id, type_id, name)
+  CONSTRAINT unique_product_per_person UNIQUE (user_id, type_id, name),
+  CONSTRAINT product_nonempty_name CHECK (char_length(name) > 0)
 );
 CREATE INDEX index_Products ON Products (user_id, type_id);
 COMMENT ON TABLE Products IS 'The specific products that a user produces';
@@ -81,7 +85,8 @@ CREATE TABLE Inventory (
     (user_id IS NOT NULL AND user_con_id IS NULL) OR
     (user_id IS NULL AND user_con_id IS NOT NULL)
   ),
-  CONSTRAINT unique_inventory UNIQUE (product_id, user_con_id)
+  CONSTRAINT unique_inventory UNIQUE (product_id, user_con_id),
+  CONSTRAINT inventory_positive_quantity CHECK (quantity >= 0)
 );
 CREATE INDEX index_Inventory_con ON Inventory (user_con_id);
 CREATE INDEX index_Inventory_user ON Inventory (user_id);
@@ -99,6 +104,7 @@ CREATE TABLE Prices (
     (user_id IS NULL AND user_con_id IS NOT NULL)
   ),
   CONSTRAINT unique_prices UNIQUE (product_id, type_id, user_con_id)
+  -- TODO: would be nice to check that all quantities and prices >= 0
 );
 CREATE INDEX index_Prices_con ON Prices (user_con_id);
 CREATE INDEX index_Prices_user ON Prices (user_id);

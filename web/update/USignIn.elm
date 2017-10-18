@@ -81,13 +81,14 @@ update msg model = case model.page of
 
 validateForm : SignInPageState -> SignInPageState
 validateForm page =
-  let { email, c_email, password, c_password, terms_accepted, is_sign_in } = page in
+  let { email, c_email, password, c_password, name, terms_accepted, is_sign_in } = page in
     if is_sign_in then page
     else
       if      email == ""                   then { page | status = Failure "Email cannot be blank" }
       else if not <| c_email == email       then { page | status = Failure "Emails do not match" }
       else if password == ""                then { page | status = Failure "Password cannot be blank" }
       else if not <| c_password == password then { page | status = Failure "Passwords do not match" }
+      else if name == ""                    then { page | status = Failure "Please give a name. Using your artist handle is recommended" }
       else if not <| terms_accepted         then { page | status = Failure "Please accept the terms and conditions" }
       else                                       { page | status = Success "" }
 

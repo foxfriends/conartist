@@ -27,6 +27,7 @@ CREATE TABLE Users (
   join_date TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP)
 );
 CREATE INDEX index_Users ON Users (email);
+COMMENT ON TABLE Users IS 'A user of the ConArtist app';
 
 CREATE TABLE Conventions (
   con_id      SERIAL PRIMARY KEY,
@@ -36,6 +37,7 @@ CREATE TABLE Conventions (
   end_date    DATE NOT NULL
 );
 CREATE INDEX index_Conventions on Conventions (code);
+COMMENT ON TABLE Conventions IS 'The many conventions that are taking place around the world';
 
 CREATE TABLE User_Conventions (
   user_con_id SERIAL PRIMARY KEY,
@@ -43,6 +45,7 @@ CREATE TABLE User_Conventions (
   con_id      INT NOT NULL REFERENCES Conventions (con_id)  ON DELETE CASCADE
 );
 CREATE INDEX index_User_Conventions ON User_Conventions (user_id);
+COMMENT ON TABLE User_Conventions IS 'Links users to conventions, indicating that they plan to be selling there';
 
 CREATE TABLE ProductTypes (
   type_id       SERIAL PRIMARY KEY,
@@ -53,6 +56,7 @@ CREATE TABLE ProductTypes (
   CONSTRAINT unique_type_per_person UNIQUE (user_id, name)
 );
 CREATE INDEX index_ProductTypes ON ProductTypes (user_id);
+COMMENT ON TABLE ProductTypes IS 'The types of products that a user produces';
 
 CREATE TABLE Products (
   product_id    SERIAL PRIMARY KEY,
@@ -63,6 +67,7 @@ CREATE TABLE Products (
   CONSTRAINT unique_product_per_person UNIQUE (user_id, type_id, name)
 );
 CREATE INDEX index_Products ON Products (user_id, type_id);
+COMMENT ON TABLE Products IS 'The specific products that a user produces';
 
 CREATE TABLE Inventory (
   inv_id      SERIAL PRIMARY KEY,
@@ -78,6 +83,7 @@ CREATE TABLE Inventory (
 );
 CREATE INDEX index_Inventory_con ON Inventory (user_con_id);
 CREATE INDEX index_Inventory_user ON Inventory (user_id);
+COMMENT ON TABLE Inventory IS 'Keeps track of how many of each item a user has, or how many were in existence during a specific convention';
 
 CREATE TABLE Prices (
   price_id    SERIAL PRIMARY KEY,
@@ -94,6 +100,7 @@ CREATE TABLE Prices (
 );
 CREATE INDEX index_Prices_con ON Prices (user_con_id);
 CREATE INDEX index_Prices_user ON Prices (user_id);
+COMMENT ON TABLE Prices IS 'Records how much each product or product type should cost, for a user or for a specific convention';
 
 CREATE TABLE Records (
   record_id   SERIAL PRIMARY KEY,
@@ -103,6 +110,7 @@ CREATE TABLE Records (
   sale_time   TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP)
 );
 CREATE INDEX index_Records ON Records (user_con_id);
+COMMENT ON TABLE Records IS 'Represents a sale of one or more products to one customer';
 
 CREATE TABLE Expenses (
   expense_id  SERIAL PRIMARY KEY,
@@ -113,3 +121,4 @@ CREATE TABLE Expenses (
   spend_time  TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP)
 );
 CREATE INDEX index_Expenses ON Expenses (user_con_id);
+COMMENT ON TABLE Records IS 'Represents something that was purchased by a user to facilitate their attendence at a convention';

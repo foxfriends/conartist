@@ -6,6 +6,7 @@ impl Database {
         let conn = self.pool.get().unwrap();
         let trans = conn.transaction().unwrap();
         for row in &query!(trans, "UPDATE Users SET email = $1 WHERE user_id = $2 RETURNING *", email, user_id) {
+            trans.set_commit();
             return User::from(row);
         }
         return Err(format!("No user {} exists", user_id))
@@ -25,6 +26,7 @@ impl Database {
         }
         let hashed = bcrypt::hash(&new_password, bcrypt::DEFAULT_COST).map_err(|_| "Couldn't hash password??")?;
         for row in &query!(trans, "UPDATE Users SET password = $1 WHERE user_id = $2 RETURNING *", hashed, user_id) {
+            trans.set_commit();
             return User::from(row);
         }
         unreachable!()
@@ -34,10 +36,11 @@ impl Database {
         let conn = self.pool.get().unwrap();
         let trans = conn.transaction().unwrap();
         match execute!(trans, "INSERT INTO Users (email, password) VALUES ($1, $2)", email, password) {
-            Ok(1) => Ok(()),
-            Ok(0) => Err("Failed to create user.".to_string()),
-            Ok(_) => unreachable!(),
-            Err(reason) => Err(format!("Failed to create user. Reason: {}", reason)),
-        }
+            Ok(1) => (),
+            Ok(0) => return Err("Failed to create user.".to_string()),
+            Ok(_) => return Err("Something very strange happened?".to_string()),
+            Err(reason) => return Err(format!("Failed to create user. Reason: {}", reason)),
+        };
+        trans.commit().map_err(|e| format!("{}", e))
     }
 }

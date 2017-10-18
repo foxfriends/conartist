@@ -11,18 +11,28 @@ use cr;
 
 #[derive(Clone, Deserialize)]
 struct CreateAccountData {
-    email: String,
-    password: String,
+    usr: String,
+    psw: String,
 }
 
 struct Create { database: Database }
 impl Handler for Create {
     fn handle(&self, req: &mut Request) -> IronResult<Response> {
-        let body = iexpect!{ itry!{ req.get::<bodyparser::Struct<CreateAccountData>>(), status::BadRequest }, status::BadRequest };
-        let hashed = itry!{ bcrypt::hash(&body.password, bcrypt::DEFAULT_COST) };
-        self.database.create_user(body.email, hashed)
+        let rbody = itry!{ req.get::<bodyparser::Struct<CreateAccountData>>(), status::BadRequest };
+        let body = iexpect!{ rbody };
+        let hashed = itry!{ bcrypt::hash(&body.psw, bcrypt::DEFAULT_COST) };
+        self.database.create_user(body.usr, hashed)
             .map(|_| cr::ok(()))
-            .unwrap_or_else(|s| cr::fail(&format!("Could not create account: {}", s)))
+            .unwrap_or_else(|s| cr::fail(&s))
+    }
+}
+
+struct Exists { database: Database }
+impl Handler for Exists {
+    fn handle(&self, req: &mut Request) -> IronResult<Response> {
+        let params = iexpect!{ req.extensions.get::<Router>() };
+        let email = iexpect!{ params.find("email") };
+        cr::ok(self.database.get_user_for_email(email).map(|_| true).unwrap_or(false))
     }
 }
 
@@ -30,8 +40,8 @@ pub fn new(db: Database) -> Router {
     let mut router = Router::new();
 
     router
-        .post("/", Create{ database: db.clone() }, "auth");
-        // .get("/", Exists{ database: db }, "auth");
+        .post("/new", Create{ database: db.clone() }, "account_new")
+        .get("/exists/:email", Exists{ database: db }, "account_exists");
 
     router
 }

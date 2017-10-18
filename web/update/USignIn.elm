@@ -92,9 +92,11 @@ validateForm page =
 
 checkExistingEmail : String -> Cmd Msg
 checkExistingEmail email =
-  Http.send DidCheckExistingEmail <| Http.get
-    ("/api/account/exists/" ++ email)
-    (ConRequest.decode Decode.bool)
+  if not <| email == "" then
+    Http.send DidCheckExistingEmail <| Http.get
+      ("/api/account/exists/" ++ email)
+      (ConRequest.decode Decode.bool)
+  else Cmd.none
 
 doSignIn : String -> String -> Cmd Msg
 doSignIn email password =

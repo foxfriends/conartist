@@ -9,14 +9,6 @@ pub struct PriceAdd {
     prices: Vec<PriceRow>,
 }
 
-#[derive(Clone, GraphQLInputObject)]
-#[graphql(description="Information required to modify an existing price")]
-pub struct PriceMod {
-    type_id: i32,
-    product_id: Option<i32>,
-    prices: Vec<PriceRow>,
-}
-
 #[derive(Clone, Copy, GraphQLInputObject)]
 #[graphql(description="Information required to delete an existing price")]
 pub struct PriceDel {

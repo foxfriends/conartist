@@ -8,6 +8,7 @@ import Json.Decode as Decode
 import Date exposing (Date)
 import Date.Extra as Date
 import Either exposing (Either(..))
+import Util
 import GraphQL.Client.Http exposing (..)
 import GraphQL.Request.Builder as GraphQL exposing (..)
 import GraphQL.Request.Builder.Arg as Arg
@@ -17,7 +18,7 @@ import MD5
 import Model exposing (Model)
 import User exposing (User)
 import ProductType exposing (FullType, InternalType, NewType, ProductType(..))
-import Product exposing (FullProduct, Product(..))
+import Product exposing (FullProduct, InternalProduct, NewProduct, Product(..))
 import Price exposing (FullPrice, Price(..))
 import Convention exposing (MetaConvention, FullConvention, Convention(..))
 import Record exposing (Record)
@@ -175,6 +176,46 @@ updateProductTypes types =
     <| map (List.map <| Tuple.mapFirst (String.dropLeft 1))
     <| keyValuePairs
     <| List.map updateProductType types
+
+productAdd : NewProduct -> Arg.Value vars
+productAdd product =
+  Arg.object
+    [ ("type_id", Arg.int product.type_id)
+    , ("name", Arg.string (valueOf product.name))
+    , ("quantity", Arg.int <| (Either.unpack identity (Util.toInt >> Result.withDefault 0) (valueOf product.quantity))) ]
+createProduct : NewProduct -> SelectionSpec Field FullProduct vars
+createProduct pr =
+  aliasAs (valueOf pr.name) <|
+    field "modUserProduct"
+      [ ("product", productAdd pr) ]
+      product
+createProducts : List NewProduct -> Request Mutation (List (String, FullProduct))
+createProducts products =
+  request {}
+    <| mutationDocument
+    <| map (List.map <| Tuple.mapFirst (String.dropLeft 1))
+    <| keyValuePairs
+    <| List.map createProduct products
+
+productMod : InternalProduct -> Arg.Value vars
+productMod product =
+  Arg.object
+    [ ("type_id", Arg.int product.type_id)
+    , ("name", Arg.string (Either.unpack identity valueOf product.name))
+    , ("quantity", Arg.int <| (Either.unpack identity (valueOf >> Util.toInt >> Result.withDefault 0) product.quantity)) ]
+modifyProduct : InternalProduct -> SelectionSpec Field FullProduct vars
+modifyProduct pr =
+  aliasAs (Either.unpack identity valueOf pr.name) <|
+    field "modUserProduct"
+      [ ("product", productMod pr) ]
+      product
+modifyProducts : List InternalProduct -> Request Mutation (List (String, FullProduct))
+modifyProducts products =
+  request {}
+    <| mutationDocument
+    <| map (List.map <| Tuple.mapFirst (String.dropLeft 1))
+    <| keyValuePairs
+    <| List.map modifyProduct products
 
 -- Requests
 

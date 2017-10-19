@@ -13,7 +13,7 @@ import Validation exposing (Validation(..), valueOf)
 type alias NewProduct =
   { localId: Int
   , type_id: Int
-  , name: String
+  , name: Validation String
   , quantity: Validation (Either Int String) }
 
 type alias FullProduct =
@@ -70,13 +70,13 @@ normalize prod = case prod of
   New   p -> FullProduct
     -p.localId
     p.type_id
-    p.name
+    (valueOf p.name)
     (Either.unpack identity (Util.toInt >> Result.withDefault 0) (valueOf p.quantity))
     False
 
 setName : String -> Product -> Product
 setName name product = case product of
-  New p   -> New   { p | name = name }
+  New p   -> New   { p | name = Valid name }
   Clean p -> Dirty
     { p
     | name = Right (Valid name)
@@ -107,7 +107,7 @@ toggleDiscontinued product = case product of
 
 requestFormat : Product -> Maybe RequestProduct
 requestFormat product = case product of
-  New p   -> Just <| RequestProduct "create" Nothing p.type_id p.name (Either.unpack identity toInt (valueOf p.quantity)) False
+  New p   -> Just <| RequestProduct "create" Nothing p.type_id (valueOf p.name) (Either.unpack identity toInt (valueOf p.quantity)) False
   Clean p -> Nothing
   Dirty p -> Just <| RequestProduct
     "modify"
@@ -131,7 +131,7 @@ individualClean updates product =
   let
     replaceNew p =
       updates
-        |> List_.find (\x -> x.name == p.name && x.type_id == p.type_id)
+        |> List_.find (\x -> x.name == (valueOf p.name) && x.type_id == p.type_id)
         |> Maybe.map Clean
         |> Maybe.withDefault (New p)
   in
@@ -161,7 +161,7 @@ fillNewTypes updates originals products =
       _ -> p)
 
 new : Int -> Int -> Product
-new id type_id = New (NewProduct id type_id ("Product " ++ toString id) (Valid <| Left 0))
+new id type_id = New (NewProduct id type_id (Valid ("Product " ++ toString id)) (Valid <| Left 0))
 
 validateRequest : List ProductType -> List Product -> Result String (List Product)
 validateRequest types products =

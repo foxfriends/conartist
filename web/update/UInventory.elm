@@ -197,7 +197,7 @@ update msg model = case model.page of
                 model.user.products
                   |> List_.find (\p -> let q = Product.normalize p in q.name == n && q.type_id == t))
             |> Maybe.map (Product.setQuantity q)
-            |> Maybe.withDefault (New <| Product.NewProduct (o + x) t n (Valid (Right q))))
+            |> Maybe.withDefault (New <| Product.NewProduct (o + x) t (Valid n) (Valid (Right q))))
           |> List.foldl (\p -> List_.updateAtOrInsert p (Product.normalize >> .id >> (==) (Product.normalize p).id) (always p)) user.products
       in
         { model | user = { user | products = products } } ! []

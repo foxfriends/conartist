@@ -29,13 +29,6 @@ type ProductType
   | Dirty InternalType
   | New NewType
 
-type alias RequestProductType =
-  { kind: String
-  , id: Maybe Int
-  , color: Int
-  , name: String
-  , discontinued: Bool }
-
 isDirty : ProductType -> Bool
 isDirty pt = case pt of
   Clean _ -> False

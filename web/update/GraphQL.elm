@@ -180,13 +180,13 @@ updateProductTypes types =
 productAdd : NewProduct -> Arg.Value vars
 productAdd product =
   Arg.object
-    [ ("type_id", Arg.int product.type_id)
+    [ ("typeId", Arg.int product.type_id)
     , ("name", Arg.string (valueOf product.name))
     , ("quantity", Arg.int <| (Either.unpack identity (Util.toInt >> Result.withDefault 0) (valueOf product.quantity))) ]
 createProduct : NewProduct -> SelectionSpec Field FullProduct vars
 createProduct pr =
   aliasAs (Product.hash (Product.New pr)) <|
-    field "modUserProduct"
+    field "addUserProduct"
       [ ("product", productAdd pr) ]
       product
 createProducts : List NewProduct -> Request Mutation (List (String, FullProduct))
@@ -200,7 +200,7 @@ createProducts products =
 productMod : InternalProduct -> Arg.Value vars
 productMod product =
   Arg.object
-    [ ("type_id", Arg.int product.type_id)
+    [ ("productId", Arg.int product.id)
     , ("name", Arg.string (Either.unpack identity valueOf product.name))
     , ("quantity", Arg.int <| (Either.unpack identity (valueOf >> Util.toInt >> Result.withDefault 0) product.quantity)) ]
 updateProduct : InternalProduct -> SelectionSpec Field FullProduct vars

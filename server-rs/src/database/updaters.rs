@@ -59,12 +59,12 @@ impl Database {
         query!(conn, "
             SELECT *
             FROM Products p INNER JOIN Inventory i ON p.product_id = i.product_id
-            WHERE user_id = $1
-              AND product_id = $2
+            WHERE p.user_id = $1
+              AND p.product_id = $2
             ", user_id, product_id)
             .into_iter()
-            .map(|r| ProductInInventory::from(r))
             .nth(0)
-            .unwrap_or(Err("Could not retrieve updated product".to_string()))
+            .ok_or("Could not retrieve updated product".to_string())
+            .and_then(|r| ProductInInventory::from(r))
     }
 }

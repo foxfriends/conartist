@@ -17,8 +17,8 @@ update msg model = case msg of
   Save -> update SaveTypes model
   SaveTypes -> model ! saveTypes model
   SaveProducts -> model ! saveProducts model
+  CreatedTypes (Ok updates) -> update SaveProducts <| Model.cleanTypes updates model
   UpdatedTypes (Ok updates) -> Model.cleanTypes updates model ! []
-  CreatedTypes (Ok updates) -> Model.cleanTypes updates model ! []
   CreatedProducts (Ok updates) -> Model.cleanProducts updates model ! []
   UpdatedProducts (Ok updates) -> Model.cleanProducts updates model ! []
   SavePrices ->
@@ -36,8 +36,8 @@ saveTypes model =
       news = List.filterMap ProductType.newData model.user.productTypes
     in
       [ if List.length mods > 0 then mutation UpdatedTypes (updateProductTypes mods) model else Cmd.none
-      , if List.length news > 0 then mutation CreatedTypes (createProductTypes news) model else Cmd.none ]
-  else []
+      , if List.length news > 0 then mutation CreatedTypes (createProductTypes news) model else Cmd.batch <| saveProducts model ]
+  else saveProducts <| model
 
 saveProducts : Model -> List (Cmd Msg)
 saveProducts model =

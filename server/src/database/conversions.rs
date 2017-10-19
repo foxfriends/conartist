@@ -25,9 +25,7 @@ impl Into<f64> for Money {
 
 impl FromSql for Money {
     fn from_sql(_: &Type, raw: &[u8]) -> Result<Money, Box<Error + Sync + Send>> {
-        let mut padded = [0; 8];
-        padded[7..].copy_from_slice(raw);
-        Ok(Money(<f64 as FromSql>::from_sql(&FLOAT8, &padded)?))
+        <f64 as FromSql>::from_sql(&FLOAT8, raw).map(|r| Money(r))
     }
 
     accepts!(MONEY);
@@ -35,10 +33,7 @@ impl FromSql for Money {
 
 impl ToSql for Money {
     fn to_sql(&self, _: &Type, out: &mut Vec<u8>) -> Result<IsNull, Box<Error + 'static + Sync + Send>> {
-        let mut new = vec![];
-        self.0.to_sql(&FLOAT8, &mut new)?;
-        out.extend(new.into_iter().skip(7));
-        Ok(IsNull::No)
+        self.0.to_sql(&FLOAT8, out)
     }
 
     accepts!(MONEY);

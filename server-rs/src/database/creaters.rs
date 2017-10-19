@@ -4,12 +4,11 @@ impl Database {
     pub fn create_user(&self, email: String, name: String, password: String) -> Result<(), String> {
         let conn = self.pool.get().unwrap();
         let trans = conn.transaction().unwrap();
-        match execute!(trans, "INSERT INTO Users (email, name, password) VALUES ($1, $2, $3)", email, name, password) {
-            Ok(1) => trans.set_commit(),
-            Ok(0) => return Err("Failed to create user.".to_string()),
-            Ok(_) => return Err("Something very strange happened?".to_string()),
-            Err(reason) => return Err(format!("Failed to create user. Reason: {}", reason)),
-        };
+        execute!(trans, "INSERT INTO Users (email, name, password) VALUES ($1, $2, $3)", email, name, password)
+            .map_err(|r| r.to_string())
+            .and_then(|r| if r == 1 { Ok(()) } else { Err("unknown".to_string()) })
+            .map_err(|r| format!("Failed to create user. Reason: {}", r))?;
+        trans.commit().unwrap();
         Ok(())
     }
 
@@ -47,5 +46,27 @@ impl Database {
             return InventoryItem::from(row).map(|inv| product.in_inventory(inv));
         }
         Err(format!("Failed to create product {}", name))
+    }
+
+    pub fn create_user_convention(&self, maybe_user_id: Option<i32>, con_code: String) -> Result<Convention, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+
+        let conn = self.pool.get().unwrap();
+        let trans = conn.transaction().unwrap();
+        execute!(trans, "UPDATE Users SET keys = keys -1 WHERE user_id = $1 AND keys > 0", user_id)
+            .map_err(|r| r.to_string())
+            .and_then(|r| if r == 1 { Ok(()) } else { Err("".to_string()) })
+            .map_err(|_| format!("User {} does not have enough keys to sign up for a convention", user_id))?;
+        let convention = query!(trans, "SELECT * FROM Conventions WHERE code = $1 AND start_time > NOW()::TIMESTAMP", con_code)
+            .into_iter()
+            .nth(0)
+            .ok_or(format!("No upcoming convention exists with code {}", con_code))
+            .and_then(|r| Convention::from(r))?;
+        execute!(trans, "INSERT INTO User_Conventions (user_id, con_id) VALUES ($1, $2) RETURNING *", user_id, convention.con_id)
+            .map_err(|r| r.to_string())
+            .and_then(|r| if r == 1 { Ok(()) } else { Err("unknown".to_string()) })
+            .map_err(|r| format!("Failed to sign user {} up for convention {}. Reason: {}", user_id, con_code, r))?;
+        trans.commit().unwrap();
+        Ok(convention)
     }
 }

@@ -81,6 +81,7 @@ fn main() {
         .mount("/", web::new());
 
     let port = env::var("PORT").unwrap_or(DEFAULT_PORT.to_string());
-    println!("ConArtist server listening at localhost:{}", port);
-    Iron::new(mount).http(format!("localhost:{}", port)).unwrap();
+    let host = "0.0.0.0";
+    println!("ConArtist server listening at {}:{}", host, port);
+    Iron::new(mount).http(format!("{}:{}", host, port)).unwrap();
 }

@@ -11,6 +11,7 @@ and no more math, because it's all done automatically!
 
 *   A simple mobile app for on-site record keeping
 *   Keeps track of how many of each item you have sold, and updates your inventory automatically
+*   Record convention related expenses alongside the records to see exactly where your money goes
 *   Flexible automatic price calculation
     (but you can override it yourself for *special deals*)
 *   Offline mode, for all those concrete convention centres

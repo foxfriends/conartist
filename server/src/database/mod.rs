@@ -2,10 +2,11 @@
 
 mod schema;
 pub mod factory;
-mod getters;
-mod setters;
 mod creaters;
 mod updaters;
+mod getters;
+mod setters;
+mod deleters;
 mod conversions;
 
 use juniper::Context;

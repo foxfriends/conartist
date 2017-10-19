@@ -6,13 +6,15 @@ mod price;
 mod record;
 mod expense;
 
+use juniper::{FieldResult, FieldError, Value};
+use postgres_array::Array;
 use database::{Database, User, ProductType, ProductInInventory, Price, Convention, Record, Expense};
 use self::product::*;
 use self::product_type::*;
 use self::price::*;
 use self::record::*;
 use self::expense::*;
-use juniper::{FieldResult, FieldError, Value};
+use super::common::PriceRow;
 
 pub struct Mutation;
 
@@ -104,8 +106,27 @@ graphql_object!(Mutation: Database |&self| {
         }
     }
 
-    field add_user_price(&executor, user_id: Option<i32>, price: PriceAdd) -> FieldResult<Price> { Err(FieldError::new("Unimplemented", Value::null())) }
-    field del_user_price(&executor, user_id: Option<i32>, price: PriceDel) -> FieldResult<()> { Err(FieldError::new("Unimplemented", Value::null())) }
+    field add_user_price(&executor, user_id: Option<i32>, price: PriceAdd) -> FieldResult<Price> {
+        ensure!(price.prices.iter().all(|p| p.quantity >= 0 && p.price >= 0f64));
+        let prices =
+            price.prices
+                .into_iter()
+                .map(|PriceRow{ quantity, price }| Array::from_vec(vec![quantity as f64, price], 0))
+                .fold(Array::from_vec(vec![], 0), |mut a, v| {a.push(v); a});
+
+        dbtry! {
+            executor
+                .context()
+                .create_or_update_price(user_id, price.type_id, price.product_id, prices)
+        }
+    }
+    field del_user_price(&executor, user_id: Option<i32>, price: PriceDel) -> FieldResult<()> {
+        dbtry! {
+            executor
+                .context()
+                .delete_price(user_id, price.type_id, price.product_id)
+        }
+    }
 
     field add_user_convention(&executor, user_id: Option<i32>, con_code: String) -> FieldResult<Convention> {
         ensure!(con_code.len() == 5);

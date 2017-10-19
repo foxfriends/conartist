@@ -1,4 +1,5 @@
 use super::*;
+use postgres_array::Array;
 
 impl Database {
     pub fn create_user(&self, email: String, name: String, password: String) -> Result<(), String> {
@@ -32,7 +33,7 @@ impl Database {
         let product = query!(trans, "INSERT INTO Products (user_id, type_id, name) VALUES ($1, $2, $3) RETURNING *", user_id, type_id, name)
             .into_iter()
             .nth(0)
-            .ok_or(format!("Failed to create product {}", name))
+            .ok_or_else(|| format!("Failed to create product {}", name))
             .and_then(|r| Product::from(r))?;
         for row in &query!(trans, "
                 INSERT INTO Inventory
@@ -48,6 +49,28 @@ impl Database {
         Err(format!("Failed to create product {}", name))
     }
 
+    pub fn create_or_update_price(&self, maybe_user_id: Option<i32>, type_id: i32, product_id: Option<i32>, prices: Array<f64>) -> Result<Price, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+
+        let pid = product_id.map(|r| format!("{}", r)).unwrap_or("NULL".to_string());
+
+        let conn = self.pool.get().unwrap();
+        query!(conn, "
+            INSERT INTO Prices
+                (user_id, type_id, product_id, prices)
+            VALUES
+                ($1, $2, $3, $4)
+            ON CONFLICT DO UPDATE SET
+                prices = EXCLUDED.prices
+            RETURNING *
+        ", user_id, type_id, product_id, prices)
+            .into_iter()
+            .nth(0)
+            .ok_or("".to_string())
+            .and_then(|r| Price::from(r))
+            .map_err(|r| format!("Failed to create or update price for type {}, product {}. Reason: {}", type_id, pid, r))
+    }
+
     pub fn create_user_convention(&self, maybe_user_id: Option<i32>, con_code: String) -> Result<Convention, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
 
@@ -60,7 +83,7 @@ impl Database {
         let convention = query!(trans, "SELECT * FROM Conventions WHERE code = $1 AND start_date > NOW()::TIMESTAMP", con_code)
             .into_iter()
             .nth(0)
-            .ok_or(format!("No upcoming convention exists with code {}", con_code))
+            .ok_or_else(|| format!("No upcoming convention exists with code {}", con_code))
             .and_then(|r| Convention::from(r))?;
         execute!(trans, "INSERT INTO User_Conventions (user_id, con_id) VALUES ($1, $2) RETURNING *", user_id, convention.con_id)
             .map_err(|r| r.to_string())

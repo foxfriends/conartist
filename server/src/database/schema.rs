@@ -20,12 +20,12 @@ impl User {
     pub fn from(row: Row) -> Result<Self, String> {
         catch_unwind(|| {
             Self {
-                user_id: row.get(0),
-                email: row.get(1),
-                name: row.get(2),
-                password: row.get(3),
-                keys: row.get(4),
-                join_date: row.get(5),
+                user_id: row.get("user_id"),
+                email: row.get("email"),
+                name: row.get("name"),
+                password: row.get("password"),
+                keys: row.get("keys"),
+                join_date: row.get("join_date"),
             }
         }).map_err(|_| "Tried to create a User from a non-User row".to_string())
     }
@@ -43,11 +43,11 @@ impl Convention {
     pub fn from(row: Row) -> Result<Self, String> {
         catch_unwind(|| {
             Self {
-                con_id: row.get(0),
-                code: row.get(1),
-                title: row.get(2),
-                start_date: row.get(3),
-                end_date: row.get(4),
+                con_id: row.get("con_id"),
+                code: row.get("code"),
+                title: row.get("title"),
+                start_date: row.get("start_date"),
+                end_date: row.get("end_date"),
             }
         }).map_err(|_| "Tried to create a Convention from a non-Convention row".to_string())
     }
@@ -67,13 +67,13 @@ impl FullUserConvention {
     pub fn from(row: Row) -> Result<Self, String> {
         catch_unwind(|| {
             FullUserConvention {
-                user_con_id: row.get(0),
-                user_id: row.get(1),
-                con_id: row.get(2),
-                code: row.get(4),
-                title: row.get(5),
-                start_date: row.get(6),
-                end_date: row.get(7),
+                user_con_id: row.get("user_con_id"),
+                user_id: row.get("user_id"),
+                con_id: row.get("con_id"),
+                code: row.get("code"),
+                title: row.get("title"),
+                start_date: row.get("start_date"),
+                end_date: row.get("end_date"),
             }
         }).map_err(|_| "Tried to create a FullUserConvention from a non-FullUserConvention row".to_string())
 
@@ -90,9 +90,9 @@ impl UserConvention {
     pub fn from(row: Row) -> Result<Self, String> {
         catch_unwind(|| {
             Self {
-                user_con_id: row.get(0),
-                user_id: row.get(1),
-                con_id: row.get(2),
+                user_con_id: row.get("user_con_id"),
+                user_id: row.get("user_id"),
+                con_id: row.get("con_id"),
             }
         }).map_err(|_| "Tried to create a UserConvention from a non-UserConvention row".to_string())
     }
@@ -120,18 +120,18 @@ impl ProductInInventory {
         catch_unwind(|| {
             Self {
                 product: Product {
-                    product_id: row.get(0),
-                    type_id: row.get(1),
-                    user_id: row.get(2),
-                    name: row.get(3),
-                    discontinued: row.get(4),
+                    product_id: row.get("product_id"),
+                    type_id: row.get("type_id"),
+                    user_id: row.get("user_id"),
+                    name: row.get("name"),
+                    discontinued: row.get("discontinued"),
                 },
                 inventory: InventoryItem {
-                    inv_id: row.get(5),
-                    user_id: row.get(6),
-                    user_con_id: row.get(7),
-                    product_id: row.get(8),
-                    quantity: row.get(9),
+                    inv_id: row.get("inv_id"),
+                    user_id: row.get("user_id"),
+                    user_con_id: row.get("user_con_id"),
+                    product_id: row.get("product_id"),
+                    quantity: row.get("quantity"),
                 }
             }
         }).map_err(|_| "Tried to create a ProductInInventory from a non-ProductInInventory row".to_string())
@@ -150,11 +150,11 @@ impl Product {
     pub fn from(row: Row) -> Result<Self, String> {
         catch_unwind(|| {
             Self {
-                product_id: row.get(0),
-                type_id: row.get(1),
-                user_id: row.get(2),
-                name: row.get(3),
-                discontinued: row.get(4),
+                product_id: row.get("product_id"),
+                type_id: row.get("type_id"),
+                user_id: row.get("user_id"),
+                name: row.get("name"),
+                discontinued: row.get("discontinued"),
             }
         }).map_err(|_| "Tried to create a Product from a non-Product row".to_string())
     }
@@ -179,11 +179,11 @@ impl ProductType {
     pub fn from(row: Row) -> Result<Self, String> {
         catch_unwind(|| {
             Self {
-                type_id: row.get(0),
-                user_id: row.get(1),
-                name: row.get(2),
-                color: row.get(3),
-                discontinued: row.get(4),
+                type_id: row.get("type_id"),
+                user_id: row.get("user_id"),
+                name: row.get("name"),
+                color: row.get("color"),
+                discontinued: row.get("discontinued"),
             }
         }).map_err(|_| "Tried to create a ProductType from a non-ProductType row".to_string())
     }
@@ -201,11 +201,11 @@ impl InventoryItem {
     pub fn from(row: Row) -> Result<Self, String> {
         catch_unwind(|| {
             Self {
-                inv_id: row.get(0),
-                user_id: row.get(1),
-                user_con_id: row.get(2),
-                product_id: row.get(3),
-                quantity: row.get(4),
+                inv_id: row.get("inv_id"),
+                user_id: row.get("user_id"),
+                user_con_id: row.get("user_con_id"),
+                product_id: row.get("product_id"),
+                quantity: row.get("quantity"),
             }
         }).map_err(|_| "Tried to create an InventoryItem from a non-Inventory row".to_string())
     }
@@ -233,14 +233,14 @@ pub struct Price {
 }
 impl Price {
     pub fn from(row: Row) -> Result<Self, String> {
-        let prices: Array<f64> = row.get(5);
+        let prices: Array<f64> = row.get("prices");
         catch_unwind(|| {
             Self {
-                price_id: row.get(0),
-                user_id: row.get(1),
-                user_con_id: row.get(2),
-                type_id: row.get(3),
-                product_id: row.get(4),
+                price_id: row.get("price_id"),
+                user_id: row.get("user_id"),
+                user_con_id: row.get("user_con_id"),
+                type_id: row.get("type_id"),
+                product_id: row.get("product_id"),
                 prices: prices.into_iter().paired().map(|r| (r.0 as i32, r.1)).collect(),
             }
         }).map_err(|_| "Tried to create a Price from a non-Price row".to_string())
@@ -275,11 +275,11 @@ impl Record {
     pub fn from(row: Row) -> Result<Self, String> {
         catch_unwind(|| {
             Self {
-                record_id: row.get(0),
-                user_con_id: row.get(1),
-                price: row.get(2),
-                products: row.get(3),
-                sale_time: row.get(4),
+                record_id: row.get("record_id"),
+                user_con_id: row.get("user_con_id"),
+                price: row.get("price"),
+                products: row.get("products"),
+                sale_time: row.get("sale_time"),
             }
         }).map_err(|_| "Tried to create a Record from a non-Record row".to_string())
     }
@@ -298,12 +298,12 @@ impl Expense {
     pub fn from(row: Row) -> Result<Self, String> {
         catch_unwind(|| {
             Self {
-                expense_id: row.get(0),
-                user_con_id: row.get(1),
-                price: row.get(2),
-                category: row.get(3),
-                description: row.get(4),
-                spend_time: row.get(5),
+                expense_id: row.get("expense_id"),
+                user_con_id: row.get("user_con_id"),
+                price: row.get("price"),
+                category: row.get("category"),
+                description: row.get("description"),
+                spend_time: row.get("spend_time"),
             }
         }).map_err(|_| "Tried to create an Expense from a non-Expense row".to_string())
     }

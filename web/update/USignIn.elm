@@ -25,7 +25,7 @@ update msg model = case model.page of
         } ! [ if page.is_sign_in then Cmd.none else checkExistingEmail new ]
       DidCheckExistingEmail (Ok (ConRequest.Success False)) ->
         { model | page = SignIn { page | email = validate page.email }} ! []
-      DidCheckExistingEmail (Ok _) -> { model | page = SignIn { page | email = invalidate page.email "That email is already in use" }} ! []
+      DidCheckExistingEmail (Ok _) -> { model | page = SignIn { page | email = invalidate "That email is already in use" page.email }} ! []
       CEmail new    -> { model | page = SignIn <| validateSignInForm { page | c_email = Valid new } } ! []
       Password new  -> { model | page = SignIn <| validateSignInForm { page | password = Valid new } } ! []
       CPassword new -> { model | page = SignIn <| validateSignInForm { page | c_password = Valid new } } ! []

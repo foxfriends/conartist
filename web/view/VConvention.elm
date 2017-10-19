@@ -74,15 +74,18 @@ products model page con =
         , Sortable "Name" namesort SortConProductsTable
         , Sortable "Quantity" quantitysort SortConProductsTable ]
         productRow <|
-        Join.productsWithTypes
-          (List.map ProductType.normalize (model.user.productTypes))
-          (List.map Product.normalize (if List.isEmpty fc.products then model.user.products else fc.products))
+        Join.productsWithTypes model.user.productTypes
+          (if List.isEmpty fc.products then model.user.products else fc.products)
 
 productRow : ProductWithType -> List (Html msg)
-productRow product =
-  [ productTypeLabel product.product_type
-  , text product.name
-  , text (toString product.quantity) ]
+productRow p =
+  let
+    product = Product.normalize p.product
+    productType = ProductType.normalize p.productType
+  in
+    [ productTypeLabel productType
+    , text product.name
+    , text (toString product.quantity) ]
 
 productTypeLabel : FullType -> Html msg
 productTypeLabel { color, name } =
@@ -136,8 +139,8 @@ sales model page con =
             , Sortable "Time" timesort SortConRecordsTable ]
             recordRow <|
             Join.recordsWithTypedProducts
-              (List.map ProductType.normalize (model.user.productTypes))
-              (List.map Product.normalize (if List.isEmpty fc.products then model.user.products else fc.products))
+              model.user.productTypes
+              (if List.isEmpty fc.products then model.user.products else fc.products)
               fc.records
 
 recordRow : RecordWithTypedProduct -> List (Html msg)
@@ -150,7 +153,7 @@ recordRow record =
 
 typeSet : List ProductWithType -> List (Html msg)
 typeSet =
-  List.map (\p -> (p.product_type.color, p.product_type.name))
+  List.map (.productType >> ProductType.normalize >> (\p -> (p.color, p.name)))
     >> Set.fromList
     >> Set.foldl (uncurry productCircle >> (::)) []
 
@@ -166,6 +169,7 @@ productString products =
         1 -> k ++ ", "
         _ -> k ++ " (" ++ toString v ++ "), "
   in products
+    |> List.map (.product >> Product.normalize)
     |> List.foldl reducer Dict.empty
     |> Dict.foldl expander ""
     |> String.dropRight 2
@@ -187,10 +191,10 @@ placeholder str = div [ class "convention__placeholder" ] [ text str ]
 -- TODO: make these standardized somewhere, or improve the syntax of sort tables
 
 typesort : ProductWithType -> ProductWithType -> Order
-typesort a b = compare a.product_type.name b.product_type.name
+typesort a b = compare (ProductType.normalize a.productType).name (ProductType.normalize b.productType).name
 
 namesort : ProductWithType -> ProductWithType -> Order
-namesort a b = compare a.name b.name
+namesort a b = compare (Product.normalize a.product).name (Product.normalize a.product).name
 
 maybetypesort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
 maybetypesort a b = compare
@@ -203,7 +207,7 @@ maybeproductsort a b = compare
   (b.product |> Maybe.map .name |> Maybe.withDefault "")
 
 quantitysort : ProductWithType -> ProductWithType -> Order
-quantitysort a b = compare a.quantity b.quantity
+quantitysort a b = compare (Product.normalize a.product).quantity (Product.normalize a.product).quantity
 
 pquantitysort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
 pquantitysort a b = compare a.quantity b.quantity

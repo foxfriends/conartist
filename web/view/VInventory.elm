@@ -5,6 +5,7 @@ import Html.Events exposing (onInput, onClick)
 import Hex
 import Either
 
+import Either_ exposing (both)
 import Model exposing (Model)
 import Msg exposing (Msg(..))
 import Tabs exposing (tabsWithFooter, TabItem(..))
@@ -40,27 +41,32 @@ inventoryTab model page pt =
       inventoryRow
       ( Join.productsWithTypes
         (model.user.productTypes
-          |> List.map ProductType.normalize
-          |> List.filter (not << .discontinued))
+          |> List.filter (not << .discontinued << ProductType.normalize))
         (model.user.products
-          |> List.map Product.normalize
-          |> List.filter (.type_id >> (==) pt.id)
-          |> List.filter (not << .discontinued) ) ) ]
+          |> List.filter (Product.normalize >> .type_id >> (==) pt.id)
+          |> List.filter (not << .discontinued << Product.normalize) ) ) ]
 
 namesort : ProductWithType -> ProductWithType -> Order
-namesort a b = compare a.name b.name
+namesort a b = compare (Product.normalize a.product).name (Product.normalize b.product).name
 
 qtysort : ProductWithType -> ProductWithType -> Order
-qtysort a b = compare a.quantity b.quantity
+qtysort a b = compare (Product.normalize a.product).quantity (Product.normalize b.product).quantity
 
 inventoryRow : ProductWithType -> List (Html Msg)
-inventoryRow { id, name, quantity, product_type, discontinued } =
-  [ Fancy.input "" name [ Fancy.flush ] [ type_ "text", onInput (ProductName product_type.id id) ]
-  , Fancy.input "" (toString quantity) [ Fancy.flush ] [ type_ "text", onInput (ProductQuantity product_type.id id) ]
-  , centered <|
-      Fancy.button Icon
-        (if discontinued then "add_circle_outline" else "remove_circle_outline")
-        [ onClick (ProductDiscontinued product_type.id id) ] ]
+inventoryRow { product, productType } =
+  let
+    pt = ProductType.normalize productType
+    (name, quantity, id, discontinued) = case product of
+      Product.New { name, quantity, localId } -> (name, Validation.map (Either.unpack toString identity) quantity, -localId, False)
+      Product.Clean { name, quantity, id, discontinued } -> (Valid name, Valid (toString quantity), id, discontinued)
+      Product.Dirty { name, quantity, id, discontinued } -> (Either.unpack Valid identity name, Either.unpack (Valid << toString) identity quantity, id, both discontinued)
+  in
+    [ Fancy.validatedInput "" name [ Fancy.flush ] [ type_ "text", onInput (ProductName pt.id id) ]
+    , Fancy.validatedInput "" quantity [ Fancy.flush ] [ type_ "text", onInput (ProductQuantity pt.id id) ]
+    , centered <|
+        Fancy.button Icon
+          (if discontinued then "add_circle_outline" else "remove_circle_outline")
+          [ onClick (ProductDiscontinued pt.id id) ] ]
 
 newTabButton : TabItem Msg
 newTabButton = IconButton "add" NewProductType

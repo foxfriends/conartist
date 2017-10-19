@@ -2,18 +2,15 @@ module Join exposing (..)
 import Either exposing (Either)
 import Date exposing (Date)
 
-import Product exposing (FullProduct)
-import ProductType exposing (FullType)
+import Product exposing (Product, FullProduct)
+import ProductType exposing (ProductType, FullType)
 import Price exposing (NewPrice)
 import Record exposing (Record)
 import List_
 
 type alias ProductWithType =
-  { id: Int
-  , name: String
-  , product_type: FullType
-  , quantity: Int
-  , discontinued: Bool }
+  { product: Product
+  , productType: ProductType }
 
 type alias PriceWithType =
   { index: Int
@@ -34,16 +31,16 @@ type alias RecordWithTypedProduct =
   , price: Float
   , time: Date }
 
-productsWithTypes : List FullType -> List FullProduct -> List ProductWithType
+productsWithTypes : List ProductType -> List Product -> List ProductWithType
 productsWithTypes types products =
   List.filterMap
     (\p ->
-      List_.find (.id >> (==) p.type_id) types
+      List_.find (ProductType.normalize >> .id >> (==) (Product.normalize p).type_id) types
         |> Maybe.map (joinProductToType p))
     products
 
-joinProductToType : FullProduct -> FullType -> ProductWithType
-joinProductToType { id, name, quantity, discontinued } typ = ProductWithType id name typ quantity discontinued
+joinProductToType : Product -> ProductType -> ProductWithType
+joinProductToType prod typ = ProductWithType prod typ
 
 pricesWithProductsAndTypes : List FullType -> List FullProduct -> List NewPrice -> List PriceWithTypeAndProduct
 pricesWithProductsAndTypes types products prices =
@@ -64,7 +61,7 @@ joinProductToTypedPrice : PriceWithType -> Maybe FullProduct -> PriceWithTypeAnd
 joinProductToTypedPrice { index, product_type, quantity, price } product =
   PriceWithTypeAndProduct index product_type product price quantity
 
-recordsWithTypedProducts : List FullType -> List FullProduct -> List Record -> List RecordWithTypedProduct
+recordsWithTypedProducts : List ProductType -> List Product -> List Record -> List RecordWithTypedProduct
 recordsWithTypedProducts types products records =
   let typedProducts = productsWithTypes types products in
   List.map (joinProductsToRecord typedProducts) records
@@ -72,4 +69,4 @@ recordsWithTypedProducts types products records =
 joinProductsToRecord : List ProductWithType -> Record -> RecordWithTypedProduct
 joinProductsToRecord products record =
   { record
-  | products = List.filterMap (\i -> List_.find (.id >> (==) i) products) record.products }
+  | products = List.filterMap (\i -> List_.find (.product >> Product.normalize >> .id >> (==) i) products) record.products }

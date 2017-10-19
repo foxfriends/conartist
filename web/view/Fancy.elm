@@ -67,10 +67,10 @@ labelledInput fieldLabel placeholder val baseAttrs inputAttrs =
           |> Maybe.withDefault ""
       else ""
     fieldClass =
-      if isEmpty val || valueOf val == "" then
-        "fancy-input--empty"
-      else if isInvalid val then
+      if isInvalid val then
         "fancy-input--invalid"
+      else if isEmpty val || valueOf val == "" then
+        "fancy-input--empty"
       else ""
   in
     label

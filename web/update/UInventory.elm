@@ -60,7 +60,10 @@ update msg model = case model.page of
         { model
         | user =
           { user
-          | products = List_.updateAt (\p -> let q = (Product.normalize p) in q.id == id && q.type_id == type_) (Product.setName name) products
+          | products = Product.validateAll <| List_.updateAt
+              (Product.normalize >> (\q -> q.id == id && q.type_id == type_))
+              (Product.setName name)
+              products
           }
         } ! []
     ProductQuantity type_ id quantity ->
@@ -71,8 +74,8 @@ update msg model = case model.page of
         { model
         | user =
           { user
-          | products = List_.updateAt
-              (\p -> let q = (Product.normalize p) in q.id == id && q.type_id == type_)
+          | products = Product.validateAll <| List_.updateAt
+              (Product.normalize >> (\q -> q.id == id && q.type_id == type_))
               (Product.setQuantity quantity)
               products
           }
@@ -86,7 +89,7 @@ update msg model = case model.page of
         | user =
           { user
           | products = List_.filterUpdateAt
-              (\p -> let q = (Product.normalize p) in q.id == id && q.type_id == type_)
+              (Product.normalize >> (\q -> q.id == id && q.type_id == type_))
               Product.toggleDiscontinued
               products
           }

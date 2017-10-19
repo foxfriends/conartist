@@ -57,42 +57,42 @@ validateSignInForm page =
       { page
       | email =
           if valueOf email == "" then
-            empty email "Your email or password is incorrect"
+            empty "Your email or password is incorrect" email
           else email
       , password =
           if valueOf password == "" then
-            empty password "Your email or password is incorrect"
+            empty "Your email or password is incorrect" password
           else password
       }
     else
       { page
       | email =
           if valueOf email == "" then
-            empty email "Email must not be blank"
+            empty "Email must not be blank" email
           else email
       , c_email =
           if not <| valueOf c_email == valueOf email then
-            invalidate c_email "Emails do not match"
+            invalidate "Emails do not match" c_email
           else if valueOf c_email == "" then
-            empty c_email ""
+            empty "" c_email
           else c_email
       , password =
           if valueOf password == "" then
-            empty password "Password must not be blank"
+            empty "Password must not be blank" password
           else password
       , c_password =
           if not <| valueOf c_password == valueOf password then
-            invalidate c_password "Passwords do not match"
+            invalidate "Passwords do not match" c_password
           else if valueOf c_password == "" then
-            empty c_password ""
+            empty "" c_password
           else c_password
       , name =
           if valueOf name == "" then
-            empty name "Please provide a name. Your artist handle is recommended"
+            empty "Please provide a name. Your artist handle is recommended" name
           else name
       , terms_accepted =
           if not <| valueOf terms_accepted then
-            empty terms_accepted "Please accept the terms and conditions!"
+            empty "Please accept the terms and conditions!" terms_accepted
           else terms_accepted
       }
 

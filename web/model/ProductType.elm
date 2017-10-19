@@ -122,24 +122,25 @@ validateAll types =
         item :: rest ->
           case item of
             Clean i -> Clean i :: rec rest
-            New i ->
-              let name = valueOf i.name in
-                (if name == "" then
-                  New { i | name = invalidate i.name "Name is empty" }
-                else if isBad name then
-                  New { i | name = invalidate i.name "Name is duplicated" }
-                else
-                  New { i | name = validate i.name }) :: rec rest
-            Dirty i ->
-              case i.name of
-                Left name -> Dirty i :: rec rest
-                Right name -> let nameValue = valueOf name in
-                  (if nameValue == "" then
-                    Dirty { i | name = Right <| invalidate name "Name is empty" }
-                  else if isBad nameValue then
-                    Dirty { i | name = Right <| invalidate name "Name is duplicated" }
+            New i -> New
+              { i
+              | name = let v = valueOf i.name in
+                 if v == "" then
+                   invalidate "Name is empty" i.name
+                 else if isBad v then
+                   invalidate "Name is duplicated" i.name
+                 else
+                   validate i.name
+              } :: rec rest
+            Dirty i -> Dirty
+              { i
+              | name = let v = Either.unpack identity valueOf i.name in
+                  if v == "" then
+                    Either.mapRight (invalidate "Name is empty") i.name
+                  else if isBad v then
+                    Either.mapRight (invalidate "Name is duplicated") i.name
                   else
-                    Dirty { i | name = Right <| validate name }) :: rec rest
+                    Either.mapRight validate i.name } :: rec rest
         [] -> []
   in rec types
 

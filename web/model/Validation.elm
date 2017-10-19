@@ -50,14 +50,14 @@ validate v = case v of
   Invalid a _ -> Valid a
   Empty a _ -> Valid a
 
-invalidate : Validation a -> String -> Validation a
-invalidate v = case v of
-  Valid a -> Invalid a
-  Invalid a _ -> Invalid a
-  Empty a e -> Invalid a
+invalidate : String -> Validation a -> Validation a
+invalidate s v = case v of
+  Valid a -> Invalid a s
+  Invalid a _ -> Invalid a s
+  Empty a e -> Invalid a s
 
-empty : Validation a -> String -> Validation a
-empty v = case v of
-  Valid a -> Empty a
-  Invalid a _ -> Empty a
-  Empty a e -> Empty a
+empty : String -> Validation a -> Validation a
+empty s v = case v of
+  Valid a -> Empty a s
+  Invalid a _ -> Empty a s
+  Empty a e -> Empty a s

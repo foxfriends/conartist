@@ -40,7 +40,7 @@ impl Database {
             query!(conn, "
                 SELECT *
                 FROM Products p INNER JOIN Inventory i ON p.product_id = i.product_id
-                WHERE p.user_id = $1
+                WHERE i.user_id = $1
             ", user_id)
                 .into_iter()
                 .filter_map(|row| ProductInInventory::from(row).ok())

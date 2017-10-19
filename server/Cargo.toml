@@ -1,5 +1,5 @@
 [package]
-name = "server-rs"
+name = "server"
 version = "0.1.0"
 authors = ["Cameron Eldridge <cameldridge+git@gmail.com>"]
 
@@ -15,7 +15,7 @@ mount = "*"
 router = "*"
 params = "*"
 staticfile = "*"
-bodyparser = { git = "https://github.com/iron/body-parser.git" }
+bodyparser = "*"
 serde = "*"
 serde_json = "*"
 serde_derive = "*"

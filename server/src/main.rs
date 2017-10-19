@@ -1,6 +1,6 @@
 extern crate serde;
 #[macro_use] extern crate serde_derive;
-#[macro_use] extern crate serde_json as json;
+#[macro_use] extern crate serde_json;
 extern crate postgres;
 extern crate postgres_array;
 extern crate r2d2;

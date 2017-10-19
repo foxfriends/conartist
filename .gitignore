@@ -1,9 +1,3 @@
-/web/src/**.js
-*.js.map
-
-node_modules
-npm-debug.log
-
 /web-x
 
 .DS_Store

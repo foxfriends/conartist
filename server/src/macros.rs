@@ -1,9 +1,6 @@
 //! Provides a number of useful macros for assorted purposes
-#![allow(unused_macros)]
 // TODO: should these be placed in meaningful locations? Or is just "around" ok because they are
 //       macros
-
-#[macro_export]
 
 macro_rules! query {
     ($conn:expr, $query:expr) => {

@@ -1,13 +1,11 @@
 use super::*;
 
 // TODO: do some caching here for efficiency
-// TODO: could totally use INNER JOIN in a lot of these places
 // TODO: handle errors more properly, returning Result<_, Error> instead of String
 //       also update the dbtry! macro to resolve that problem correctly
+// TODO: make this somehow typesafe/error safe instead of runtime checked. Use Diesel
 impl Database {
     pub fn get_user_for_email(&self, email: &str) -> Result<User, String> {
-        // TODO: make this somehow typesafe/error safe instead of runtime checked?
-        //       Maybe Diesel?? Is that too much boilerplate and high DB integration?
         let conn = self.pool.get().unwrap();
         for row in &query!(conn, "SELECT * FROM Users WHERE email = $1", email) {
             return User::from(row);
@@ -38,17 +36,14 @@ impl Database {
     pub fn get_products_for_user(&self, user_id: i32) -> Result<Vec<ProductInInventory>, String> {
         assert_authorized!(self, user_id);
         let conn = self.pool.get().unwrap();
-        let get_inventory = conn.prepare("SELECT * FROM Inventory WHERE product_id = $1").unwrap();
         Ok (
-            query!(conn, "SELECT * FROM Products WHERE user_id = $1", user_id)
+            query!(conn, "
+                SELECT *
+                FROM Products p INNER JOIN Inventory i ON p.product_id = i.product_id
+                WHERE p.user_id = $1
+            ", user_id)
                 .into_iter()
-                .filter_map(|row| Product::from(row).ok())
-                .flat_map(|product|
-                    get_inventory.query(&[&product.product_id]).unwrap()
-                        .into_iter()
-                        // TODO: bad use of unwrap, though probably harmless in the end
-                        .map(move |row| product.clone().in_inventory(InventoryItem::from(row).unwrap()))
-                        .collect::<Vec<_>>())
+                .filter_map(|row| ProductInInventory::from(row).ok())
                 .collect()
         )
     }
@@ -67,17 +62,14 @@ impl Database {
     pub fn get_conventions_for_user(&self, user_id: i32) -> Result<Vec<FullUserConvention>, String> {
         assert_authorized!(self, user_id);
         let conn = self.pool.get().unwrap();
-        let get_convention = conn.prepare("SELECT * FROM Conventions WHERE con_id = $1").unwrap();
         Ok (
-            query!(conn, "SELECT * FROM User_Conventions WHERE user_id = $1", user_id)
+            query!(conn, "
+                SELECT *
+                FROM User_Conventions u INNER JOIN Conventions c ON u.con_id = c.con_id
+                WHERE user_id = $1
+            ", user_id)
                 .iter()
-                .filter_map(|row| UserConvention::from(row).ok())
-                .flat_map(|uc|
-                    get_convention.query(&[&uc.con_id]).unwrap()
-                        .into_iter()
-                        // TODO: bad use of unwrap, though probably harmless in the end
-                        .map(move | row| uc.clone().filled_with(Convention::from(row).unwrap()))
-                        .collect::<Vec<_>>())
+                .filter_map(|row| FullUserConvention::from(row).ok())
                 .collect()
         )
     }
@@ -85,7 +77,12 @@ impl Database {
     pub fn get_convention_for_user(&self, maybe_user_id: Option<i32>, con_code: &str) -> Result<FullUserConvention, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
-        query!(conn, "SELECT * FROM User_Conventions u INNER JOIN Conventions c ON u.con_id = c.con_id WHERE user_id = $1 AND code = $2", user_id, con_code)
+        query!(conn, "
+            SELECT *
+            FROM User_Conventions u INNER JOIN Conventions c ON u.con_id = c.con_id
+            WHERE user_id = $1
+              AND code = $2
+        ", user_id, con_code)
             .iter()
             .filter_map(|row| FullUserConvention::from(row).ok())
             .nth(0)
@@ -95,17 +92,14 @@ impl Database {
     pub fn get_products_for_user_con(&self, user_id: i32, user_con_id: i32) -> Result<Vec<ProductInInventory>, String> {
         assert_authorized!(self, user_id);
         let conn = self.pool.get().unwrap();
-        let get_product = conn.prepare("SELECT * FROM Products WHERE product_id = $1").unwrap();
         Ok (
-            query!(conn, "SELECT * FROM Inventory WHERE user_con_id = $1", user_con_id)
+            query!(conn, "
+                SELECT *
+                FROM Products p INNER JOIN Inventory i ON p.product_id = i.product_id
+                WHERE user_con_id = $1
+            ", user_con_id)
                 .into_iter()
-                .filter_map(|row| InventoryItem::from(row).ok())
-                .flat_map(|inv|
-                    get_product.query(&[&inv.product_id]).unwrap()
-                        .into_iter()
-                        // TODO: bad use of unwrap, though probably harmless in the end
-                        .map(move |row| Product::from(row).unwrap().in_inventory(inv.clone()))
-                        .collect::<Vec<_>>())
+                .filter_map(|row| ProductInInventory::from(row).ok())
                 .collect()
         )
     }

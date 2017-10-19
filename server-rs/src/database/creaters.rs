@@ -57,7 +57,7 @@ impl Database {
             .map_err(|r| r.to_string())
             .and_then(|r| if r == 1 { Ok(()) } else { Err("".to_string()) })
             .map_err(|_| format!("User {} does not have enough keys to sign up for a convention", user_id))?;
-        let convention = query!(trans, "SELECT * FROM Conventions WHERE code = $1 AND start_time > NOW()::TIMESTAMP", con_code)
+        let convention = query!(trans, "SELECT * FROM Conventions WHERE code = $1 AND start_date > NOW()::TIMESTAMP", con_code)
             .into_iter()
             .nth(0)
             .ok_or(format!("No upcoming convention exists with code {}", con_code))

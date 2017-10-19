@@ -2,7 +2,8 @@ module GraphQL exposing
   ( query, mutation
   , getUser, getFullConvention, getConventionPage
   , createProductTypes, updateProductTypes
-  , createProducts, updateProducts )
+  , createProducts, updateProducts
+  , addConvention )
 import Task
 import Http
 import Json.Decode as Decode
@@ -216,6 +217,15 @@ updateProducts products =
     <| map (List.map <| Tuple.mapFirst (String.dropLeft 1))
     <| keyValuePairs
     <| List.map updateProduct products
+
+addConvention : String -> Request Mutation MetaConvention
+addConvention code =
+  request { conCode = code }
+    <| mutationDocument
+    <| extract
+    <| field "addUserConvention"
+        [ ("conCode", Arg.variable (Var.required "conCode" .conCode Var.string)) ]
+        metaConvention
 
 -- Requests
 

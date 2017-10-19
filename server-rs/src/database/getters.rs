@@ -83,8 +83,7 @@ impl Database {
     }
 
     pub fn get_convention_for_user(&self, maybe_user_id: Option<i32>, con_code: &str) -> Result<FullUserConvention, String> {
-        let user_id = maybe_user_id.unwrap_or(self.user_id.expect("Cannot get user id for self in privileged mode!"));
-        assert_authorized!(self, user_id);
+        let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         query!(conn, "SELECT * FROM User_Conventions u INNER JOIN Conventions c ON u.con_id = c.con_id WHERE user_id = $1 AND code = $2", user_id, con_code)
             .iter()
@@ -157,7 +156,7 @@ impl Database {
                         WHERE u.user_id = $2
                           AND u.con_id = c.con_id
                       )
-                ", date, self.user_id.expect("Cannot get user id for self in privileged mode!"))
+                ", date, self.resolve_user_id(None)?)
             } else {
                 query!(conn, "SELECT * FROM Conventions WHERE start_date > $1", date)
             }

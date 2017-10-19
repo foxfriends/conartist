@@ -22,6 +22,30 @@ impl Database {
             trans.set_commit();
             return ProductType::from(row)
         }
-        Err("Failed to create product type".to_string())
+        Err(format!("Failed to create product type {}", name))
+    }
+
+    pub fn create_product(&self, maybe_user_id: Option<i32>, type_id: i32, name: String, quantity: i32) -> Result<ProductInInventory, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+
+        let conn = self.pool.get().unwrap();
+        let trans = conn.transaction().unwrap();
+        let product = query!(trans, "INSERT INTO Products (user_id, type_id, name) VALUES ($1, $2, $3) RETURNING *", user_id, type_id, name)
+            .into_iter()
+            .nth(0)
+            .ok_or(format!("Failed to create product {}", name))
+            .and_then(|r| Product::from(r))?;
+        for row in &query!(trans, "
+                INSERT INTO Inventory
+                    (user_id, product_id, quantity)
+                VALUES
+                    ($1, $2, $3)
+                RETURNING *
+            ", user_id, product.product_id, quantity) {
+            trans.set_commit();
+            // Bad time for unwrap, but should be ok
+            return InventoryItem::from(row).map(|inv| product.in_inventory(inv));
+        }
+        Err(format!("Failed to create product {}", name))
     }
 }

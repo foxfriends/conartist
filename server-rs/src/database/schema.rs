@@ -115,6 +115,29 @@ pub struct ProductInInventory {
     pub product: Product,
     pub inventory: InventoryItem,
 }
+impl ProductInInventory {
+    pub fn from(row: Row) -> Result<Self, String> {
+        catch_unwind(|| {
+            Self {
+                product: Product {
+                    product_id: row.get(0),
+                    type_id: row.get(1),
+                    user_id: row.get(2),
+                    name: row.get(3),
+                    discontinued: row.get(4),
+                },
+                inventory: InventoryItem {
+                    inv_id: row.get(5),
+                    user_id: row.get(6),
+                    user_con_id: row.get(7),
+                    product_id: row.get(8),
+                    quantity: row.get(9),
+                }
+            }
+        }).map_err(|_| "Tried to create a ProductInInventory from a non-ProductInInventory row".to_string())
+    }
+}
+
 #[derive(Clone)]
 pub struct Product {
     pub product_id: i32,

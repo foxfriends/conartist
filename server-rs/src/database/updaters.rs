@@ -3,7 +3,8 @@ use super::*;
 impl Database {
     pub fn update_product_type(&self,
         maybe_user_id: Option<i32>,
-        type_id: i32, name: Option<String>,
+        type_id: i32,
+        name: Option<String>,
         color: Option<i32>,
         discontinued: Option<bool>,
     ) -> Result<ProductType, String> {
@@ -28,6 +29,42 @@ impl Database {
             .into_iter()
             .map(|r| ProductType::from(r))
             .nth(0)
-            .unwrap()
+            .unwrap_or(Err("Could not retrieve updated product type".to_string()))
+    }
+
+    pub fn update_product(&self,
+        maybe_user_id: Option<i32>,
+        product_id: i32,
+        name: Option<String>,
+        quantity: Option<i32>,
+        discontinued: Option<bool>,
+    ) -> Result<ProductInInventory, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+
+        let conn = self.pool.get().unwrap();
+        let trans = conn.transaction().unwrap();
+        if let Some(name) = name {
+            execute!(trans, "UPDATE Products SET name = $1 WHERE product_id = $2", name, product_id)
+                .or(Err(format!("Could not set name of product {} to {}", product_id, name)))?;
+        }
+        if let Some(quantity) = quantity {
+            execute!(trans, "UPDATE Inventory SET quantity = $1 WHERE user_id = $2 AND product_id = $3", quantity, user_id, product_id)
+                .or(Err(format!("Could not set quantity of product {} to {}", product_id, quantity)))?;
+        }
+        if let Some(discontinued) = discontinued {
+            execute!(trans, "UPDATE Products SET discontinued = $1 WHERE product_id = $2", discontinued, product_id)
+                .or(Err(format!("Could not set discontinued of product {} to {}", product_id, discontinued)))?;
+        }
+        trans.commit().unwrap();
+        query!(conn, "
+            SELECT *
+            FROM Products p INNER JOIN Inventory i ON p.product_id = i.product_id
+            WHERE user_id = $1
+              AND product_id = $2
+            ", user_id, product_id)
+            .into_iter()
+            .map(|r| ProductInInventory::from(r))
+            .nth(0)
+            .unwrap_or(Err("Could not retrieve updated product".to_string()))
     }
 }

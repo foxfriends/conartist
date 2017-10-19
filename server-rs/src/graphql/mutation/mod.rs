@@ -69,7 +69,8 @@ graphql_object!(Mutation: Database |&self| {
         }
     }
     field mod_user_product_type(&executor, user_id: Option<i32>, product_type: ProductTypeMod) -> FieldResult<ProductType> {
-        ensure!(product_type.name.as_ref().map(|s| s.len()).unwrap_or(0) > 0);
+        ensure!(product_type.type_id > 0);
+        ensure!(product_type.name.as_ref().map(|s| s.len()).unwrap_or(1) > 0);
         ensure!(product_type.color.unwrap_or(0) >= 0);
 
         dbtry! {
@@ -79,8 +80,29 @@ graphql_object!(Mutation: Database |&self| {
         }
     }
 
-    field add_user_product(&executor, user_id: Option<i32>, product: ProductAdd) -> FieldResult<ProductInInventory> { Err(FieldError::new("Unimplemented", Value::null())) }
-    field mod_user_product(&executor, user_id: Option<i32>, product: ProductMod) -> FieldResult<ProductInInventory> { Err(FieldError::new("Unimplemented", Value::null())) }
+    // Products
+    field add_user_product(&executor, user_id: Option<i32>, product: ProductAdd) -> FieldResult<ProductInInventory> {
+        ensure!(product.name.len() > 0);
+        ensure!(product.type_id > 0);
+        ensure!(product.quantity >= 0);
+
+        dbtry! {
+            executor
+                .context()
+                .create_product(user_id, product.type_id, product.name, product.quantity)
+        }
+    }
+    field mod_user_product(&executor, user_id: Option<i32>, product: ProductMod) -> FieldResult<ProductInInventory> {
+        ensure!(product.product_id > 0);
+        ensure!(product.name.as_ref().map(|s| s.len()).unwrap_or(1) > 0);
+        ensure!(product.quantity.unwrap_or(0) >= 0);
+
+        dbtry! {
+            executor
+                .context()
+                .update_product(user_id, product.product_id, product.name, product.quantity, product.discontinued)
+        }
+    }
 
     field add_user_price(&executor, user_id: Option<i32>, price: PriceAdd) -> FieldResult<Price> { Err(FieldError::new("Unimplemented", Value::null())) }
     field del_user_price(&executor, user_id: Option<i32>, price: PriceDel) -> FieldResult<()> { Err(FieldError::new("Unimplemented", Value::null())) }

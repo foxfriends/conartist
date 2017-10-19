@@ -1,6 +1,4 @@
 module ProductType exposing (..)
--- TODO: remove decoder
-import Json.Decode as Decode exposing (Decoder)
 import Validation exposing (Validation(..), valueOf, invalidate, validate, empty)
 import Either exposing (Either(..))
 import List_
@@ -34,14 +32,6 @@ isDirty pt = case pt of
   Clean _ -> False
   Dirty _ -> True
   New   _ -> True
-
-decode : Decoder FullType
-decode =
-  Decode.map4 FullType
-    (Decode.field "id" Decode.int)
-    (Decode.field "name" Decode.string)
-    (Decode.field "color" Decode.int)
-    (Decode.field "discontinued" Decode.bool)
 
 newData : ProductType -> Maybe NewType
 newData p = case p of
@@ -152,3 +142,9 @@ allValid types =
       Clean _ -> True
       Dirty t -> (Either.unpack (always True) Validation.isValid t.name)
   in List.all isValid types
+
+hash : ProductType -> String
+hash pt = case pt of
+  New p -> MD5.hex (valueOf p.name)
+  Dirty p -> MD5.hex <| (Either.unpack identity valueOf p.name)
+  Clean p -> ""

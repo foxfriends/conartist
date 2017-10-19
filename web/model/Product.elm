@@ -1,9 +1,8 @@
 module Product exposing (..)
-import Json.Decode as Decode exposing (Decoder)
-import Json.Encode as Json
 import ProductType exposing (ProductType)
 import Dict
 import Either exposing (Either(..))
+import MD5
 
 import Util
 import List_
@@ -49,15 +48,6 @@ isDirty prod = case prod of
   Dirty _ -> True
   New   _ -> True
 
-decode : Decoder FullProduct
-decode =
-  Decode.map5 FullProduct
-    (Decode.field "id" Decode.int)
-    (Decode.field "type" Decode.int)
-    (Decode.field "name" Decode.string)
-    (Decode.field "quantity" Decode.int)
-    (Decode.field "discontinued" Decode.bool)
-
 normalize : Product -> FullProduct
 normalize prod = case prod of
   Clean p -> p
@@ -71,8 +61,18 @@ normalize prod = case prod of
     -p.localId
     p.type_id
     (valueOf p.name)
-    (Either.unpack identity (Util.toInt >> Result.withDefault 0) (valueOf p.quantity))
+    (Either.unpack identity toInt (valueOf p.quantity))
     False
+
+newData : Product -> Maybe NewProduct
+newData p = case p of
+  New v -> Just v
+  _ -> Nothing
+
+dirtyData : Product -> Maybe InternalProduct
+dirtyData p = case p of
+  Dirty v -> Just v
+  _ -> Nothing
 
 setName : String -> Product -> Product
 setName name product = case product of
@@ -105,43 +105,27 @@ toggleDiscontinued product = case product of
     , quantity = Left p.quantity }
   Dirty p -> Just <| Dirty { p | discontinued = Right <| not (both p.discontinued) }
 
-requestFormat : Product -> Maybe RequestProduct
-requestFormat product = case product of
-  New p   -> Just <| RequestProduct "create" Nothing p.type_id (valueOf p.name) (Either.unpack identity toInt (valueOf p.quantity)) False
-  Clean p -> Nothing
-  Dirty p -> Just <| RequestProduct
-    "modify"
-    (Just p.id)
-    p.type_id
-    (Either.unpack identity valueOf p.name)
-    (Either.unpack identity (valueOf >> toInt) p.quantity)
-    (both p.discontinued)
-
-requestJson : RequestProduct -> Json.Value
-requestJson request = Json.object
-  [ ("kind", Json.string request.kind)
-  , ("id", request.id |> Maybe.map Json.int |> Maybe.withDefault Json.null )
-  , ("type", Json.int request.type_id)
-  , ("name", Json.string request.name)
-  , ("quantity", Json.int request.quantity)
-  , ("discontinued", Json.bool request.discontinued) ]
-
-individualClean : List FullProduct -> Product -> Product
+individualClean : List (String, FullProduct) -> Product -> Product
 individualClean updates product =
   let
     replaceNew p =
       updates
-        |> List_.find (\x -> x.name == (valueOf p.name) && x.type_id == p.type_id)
-        |> Maybe.map Clean
+        |> List_.find (Tuple.first >> (==) (hash (New p)))
+        |> Maybe.map (Tuple.second >> Clean)
         |> Maybe.withDefault (New p)
+    replaceDirty p =
+      updates
+        |> List_.find (Tuple.first >> (==) (hash (Dirty p)))
+        |> Maybe.map (Clean << Tuple.second)
+        |> Maybe.withDefault (Dirty p)
   in
     case product of
       Clean _ -> product
-      Dirty p -> Clean (normalize product)
+      Dirty p -> replaceDirty p
       New   p -> replaceNew p
 
-clean : List FullProduct -> List Product -> List Product
-clean updates = List.map (individualClean updates)
+clean : List (String, FullProduct) -> List Product -> List Product
+clean = List.map << individualClean
 
 fillNewTypes : List ProductType.FullType -> List ProductType -> List Product -> List Product
 fillNewTypes updates originals products =
@@ -162,29 +146,6 @@ fillNewTypes updates originals products =
 
 new : Int -> Int -> Product
 new id type_id = New (NewProduct id type_id (Valid ("Product " ++ toString id)) (Valid <| Left 0))
-
-validateRequest : List ProductType -> List Product -> Result String (List Product)
-validateRequest types products =
-  let validate products bad =
-    case products of
-      item :: rest ->
-        let { name, type_id, quantity } = normalize item in
-          if name == "" then
-            Err "You cannot leave a product's name blank!"
-          else if quantity < 0 then
-            Err <| "You cannot have less than 0 " ++ name ++ "s"
-          else if List.member (type_id, name) bad then
-            let typeName = types
-              |> List.map ProductType.normalize
-              |> List_.find (.id >> (==) type_id)
-              |> Maybe.map .name
-              |> Maybe.withDefault "Product"
-            in Err <| "You have two " ++ typeName ++ "s named " ++ name ++ ". Please rename one of them before you save! (Note: one of them might be discontinued)"
-          else
-            validate rest ((type_id, name) :: bad)
-              |> Result.andThen ((::) item >> Ok)
-      [] -> Ok []
-  in validate products []
 
 validateAll : List Product -> List Product
 validateAll products =
@@ -230,6 +191,18 @@ validateAll products =
         [] -> []
   in rec products
 
+
+allValid : List Product -> Bool
+allValid products =
+  let isValid product =
+    case product of
+      New t   -> Validation.isValid t.name && Validation.isValid t.quantity
+      Clean _ -> True
+      Dirty t ->
+        (Either.unpack (always True) Validation.isValid t.name)
+        && (Either.unpack (always True) Validation.isValid t.quantity)
+  in List.all isValid products
+
 isErr : Result a b -> Bool
 isErr v = case v of
   Ok _ -> False
@@ -237,3 +210,9 @@ isErr v = case v of
 
 toInt : String -> Int
 toInt = Util.toInt >> Result.withDefault 0
+
+hash : Product -> String
+hash pr = case pr of
+  New p -> MD5.hex (valueOf p.name) ++ "_" ++ toString p.type_id
+  Dirty p -> MD5.hex <| (Either.unpack identity valueOf p.name ++ "_" ++ toString p.type_id)
+  Clean p -> ""

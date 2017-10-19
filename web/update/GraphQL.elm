@@ -1,7 +1,8 @@
 module GraphQL exposing
   ( query, mutation
   , getUser, getFullConvention, getConventionPage
-  , createProductTypes, updateProductTypes)
+  , createProductTypes, updateProductTypes
+  , createProducts, updateProducts )
 import Task
 import Http
 import Json.Decode as Decode
@@ -13,7 +14,6 @@ import GraphQL.Client.Http exposing (..)
 import GraphQL.Request.Builder as GraphQL exposing (..)
 import GraphQL.Request.Builder.Arg as Arg
 import GraphQL.Request.Builder.Variable as Var
-import MD5
 
 import Model exposing (Model)
 import User exposing (User)
@@ -144,7 +144,7 @@ productTypeAdd type_ =
     , ("color", Arg.int type_.color) ]
 createProductType : NewType -> SelectionSpec Field FullType vars
 createProductType type_ =
-  aliasAs (valueOf type_.name) <|
+  aliasAs (ProductType.hash (ProductType.New type_)) <|
     field "addUserProductType"
       [ ("productType", productTypeAdd type_) ]
       productType
@@ -165,7 +165,7 @@ productTypeMod type_ =
     , ("discontinued", argIfRight Arg.bool type_.discontinued) ]
 updateProductType : InternalType -> SelectionSpec Field FullType vars
 updateProductType type_ =
-  aliasAs (Either.unpack identity valueOf type_.name) <|
+  aliasAs (ProductType.hash (ProductType.Dirty type_)) <|
     field "modUserProductType"
       [ ("productType", productTypeMod type_) ]
       productType
@@ -185,7 +185,7 @@ productAdd product =
     , ("quantity", Arg.int <| (Either.unpack identity (Util.toInt >> Result.withDefault 0) (valueOf product.quantity))) ]
 createProduct : NewProduct -> SelectionSpec Field FullProduct vars
 createProduct pr =
-  aliasAs (valueOf pr.name) <|
+  aliasAs (Product.hash (Product.New pr)) <|
     field "modUserProduct"
       [ ("product", productAdd pr) ]
       product
@@ -203,19 +203,19 @@ productMod product =
     [ ("type_id", Arg.int product.type_id)
     , ("name", Arg.string (Either.unpack identity valueOf product.name))
     , ("quantity", Arg.int <| (Either.unpack identity (valueOf >> Util.toInt >> Result.withDefault 0) product.quantity)) ]
-modifyProduct : InternalProduct -> SelectionSpec Field FullProduct vars
-modifyProduct pr =
-  aliasAs (Either.unpack identity valueOf pr.name) <|
+updateProduct : InternalProduct -> SelectionSpec Field FullProduct vars
+updateProduct pr =
+  aliasAs (Product.hash (Product.Dirty pr)) <|
     field "modUserProduct"
       [ ("product", productMod pr) ]
       product
-modifyProducts : List InternalProduct -> Request Mutation (List (String, FullProduct))
-modifyProducts products =
+updateProducts : List InternalProduct -> Request Mutation (List (String, FullProduct))
+updateProducts products =
   request {}
     <| mutationDocument
     <| map (List.map <| Tuple.mapFirst (String.dropLeft 1))
     <| keyValuePairs
-    <| List.map modifyProduct products
+    <| List.map updateProduct products
 
 -- Requests
 
@@ -241,4 +241,4 @@ argIfRight fn val =
     Right v -> fn v
 
 aliasAs : String -> SelectionSpec Field result vars -> SelectionSpec Field result vars
-aliasAs = GraphQL.aliasAs << String.cons '_' << MD5.hex
+aliasAs = GraphQL.aliasAs << String.cons '_'

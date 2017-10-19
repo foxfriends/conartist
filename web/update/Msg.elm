@@ -75,14 +75,15 @@ type Msg
   | DidLoadChooseConvention (Result Error (Pagination MetaConvention))
   | DidLoadConvention (Result Error FullConvention)
   -- saving
+  | Save
+  | SaveTypes
   | SaveProducts
   | SavePrices
-  | SaveTypes
-  | Save
-  | SavedProducts (Result Http.Error (ConRequest (List FullProduct)))
   | SavedPrices (Result Http.Error (ConRequest (List FullPrice)))
   | UpdatedTypes (Result Error (List (String, FullType)))
   | CreatedTypes (Result Error (List (String, FullType)))
+  | UpdatedProducts (Result Error (List (String, FullProduct)))
+  | CreatedProducts (Result Error (List (String, FullProduct)))
   -- localStorage
   | LSRetrive (String, Maybe String)
   -- files

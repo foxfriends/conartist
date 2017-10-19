@@ -110,7 +110,7 @@ update msg model = case model.page of
           { model
           | user =
             { user
-            | productTypes = productTypes ++ [ ProductType.new (len + 1) ] } }
+            | productTypes = ProductType.validateAll <| productTypes ++ [ ProductType.new (len + 1) ] } }
     NewProduct ->
       let
         user = model.user
@@ -122,7 +122,7 @@ update msg model = case model.page of
         { model
         | user =
           { user
-          | products = user.products ++ [ Product.new (len + 1) type_id ]
+          | products = Product.validateAll <| user.products ++ [ Product.new (len + 1) type_id ]
           }
         } ! []
     ColorPickerOpen ->

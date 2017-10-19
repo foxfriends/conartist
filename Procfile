@@ -1,1 +1,1 @@
-web: ./server/target/release/hello
+web: ./Server

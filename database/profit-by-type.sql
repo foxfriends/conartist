@@ -1,8 +1,8 @@
 SELECT
-  sum(price),
-  ProductTypes.name
+  SUM(price),
+  t.name
 FROM
-  (SELECT price, products[1] AS product_id FROM records) AS r
-  INNER JOIN products ON Products.product_id = r.product_id
-  INNER JOIN producttypes ON Products.type_id = ProductTypes.type_id
-GROUP BY ProductTypes.name;
+  (SELECT price, products[1] AS product_id FROM Records) AS r
+  INNER JOIN Products p ON p.product_id = r.product_id
+  INNER JOIN ProductTypes t ON p.type_id = t.type_id
+GROUP BY t.name;

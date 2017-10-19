@@ -1,4 +1,4 @@
-use postgres::types::{FromSql, ToSql, MONEY, FLOAT8, Type, IsNull};
+use postgres::types::{FromSql, ToSql, MONEY, INT8, Type, IsNull};
 use juniper::{Value};
 use std::error::Error;
 
@@ -25,7 +25,8 @@ impl Into<f64> for Money {
 
 impl FromSql for Money {
     fn from_sql(_: &Type, raw: &[u8]) -> Result<Money, Box<Error + Sync + Send>> {
-        <f64 as FromSql>::from_sql(&FLOAT8, raw).map(|r| Money(r))
+        // TODO: support other currencies that aren't in dollar/cent
+        <i64 as FromSql>::from_sql(&INT8, raw).map(|r| Money(r as f64 / 100f64))
     }
 
     accepts!(MONEY);
@@ -33,7 +34,7 @@ impl FromSql for Money {
 
 impl ToSql for Money {
     fn to_sql(&self, _: &Type, out: &mut Vec<u8>) -> Result<IsNull, Box<Error + 'static + Sync + Send>> {
-        self.0.to_sql(&FLOAT8, out)
+        ((self.0 * 100f64) as i64).to_sql(&INT8, out)
     }
 
     accepts!(MONEY);

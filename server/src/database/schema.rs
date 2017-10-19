@@ -6,6 +6,7 @@ use postgres::rows::Row;
 use postgres_array::Array;
 use chrono::{NaiveDateTime, NaiveDate};
 use iterator::*;
+use super::conversions::Money;
 
 #[derive(Clone)]
 pub struct User {
@@ -267,7 +268,7 @@ impl Price {
 pub struct Record {
     pub record_id: i32,
     pub user_con_id: i32,
-    pub price: f64,
+    pub price: Money,
     pub products: Vec<i32>,
     pub sale_time: NaiveDateTime,
 }
@@ -289,7 +290,7 @@ impl Record {
 pub struct Expense {
     pub expense_id: i32,
     pub user_con_id: i32,
-    pub price: f64,
+    pub price: Money,
     pub category: String,
     pub description: String,
     pub spend_time: NaiveDateTime,

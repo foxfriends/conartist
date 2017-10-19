@@ -6,6 +6,7 @@ mod getters;
 mod setters;
 mod creaters;
 mod updaters;
+mod conversions;
 
 use juniper::Context;
 use chrono::NaiveDate;
@@ -14,6 +15,7 @@ use r2d2_postgres::PostgresConnectionManager;
 
 pub use self::schema::*;
 pub use self::factory::*;
+pub use self::conversions::*;
 
 #[derive(Clone)]
 pub struct Database {

@@ -1,10 +1,9 @@
 module Join exposing (..)
-import Either exposing (Either)
 import Date exposing (Date)
 
 import Product exposing (Product, FullProduct)
 import ProductType exposing (ProductType, FullType)
-import Price exposing (NewPrice)
+import Price exposing (Price)
 import Record exposing (Record)
 import List_
 
@@ -13,18 +12,13 @@ type alias ProductWithType =
   , productType: ProductType }
 
 type alias PriceWithType =
-  { index: Int
-  , product_type : Maybe FullType
-  , product_id: Maybe Int
-  , price: Either String Float
-  , quantity: Int }
+  { price: Price
+  , productType: Maybe ProductType}
 
 type alias PriceWithTypeAndProduct =
-  { index: Int
-  , product_type : Maybe FullType
-  , product: Maybe FullProduct
-  , price: Either String Float
-  , quantity: Int }
+  { price: Price
+  , product: Maybe Product
+  , productType: Maybe ProductType }
 
 type alias RecordWithTypedProduct =
   { products: List ProductWithType
@@ -42,24 +36,24 @@ productsWithTypes types products =
 joinProductToType : Product -> ProductType -> ProductWithType
 joinProductToType prod typ = ProductWithType prod typ
 
-pricesWithProductsAndTypes : List FullType -> List FullProduct -> List NewPrice -> List PriceWithTypeAndProduct
+pricesWithProductsAndTypes : List ProductType -> List Product -> List Price -> List PriceWithTypeAndProduct
 pricesWithProductsAndTypes types products prices =
   prices
-    |> List.map (\p -> (p, List_.find (.id >> Just >> (==) p.type_id) types))
+    |> List.map (\p -> (p, List_.find (ProductType.normalize >> .id >> (==) (Price.typeId p)) types))
     |> List.map (uncurry joinTypeToPrice)
     |> List.filterMap
-      (\p -> case p.product_id of
+      (\p -> case Price.productId p.price of
         Nothing -> Just (p, Nothing)
-        Just i -> List_.find (.id >> (==) i) products |> Maybe.map (Just >> (,) p))
+        Just i -> List_.find (Product.normalize >> .id >> (==) i) products |> Maybe.map (Just >> (,) p))
     |> List.map (uncurry joinProductToTypedPrice)
 
-joinTypeToPrice : NewPrice -> Maybe FullType -> PriceWithType
-joinTypeToPrice { index, product_id, quantity, price } product_type =
-  PriceWithType index product_type product_id price quantity
+joinTypeToPrice : Price -> Maybe ProductType -> PriceWithType
+joinTypeToPrice price productType =
+  PriceWithType price productType
 
-joinProductToTypedPrice : PriceWithType -> Maybe FullProduct -> PriceWithTypeAndProduct
-joinProductToTypedPrice { index, product_type, quantity, price } product =
-  PriceWithTypeAndProduct index product_type product price quantity
+joinProductToTypedPrice : PriceWithType -> Maybe Product -> PriceWithTypeAndProduct
+joinProductToTypedPrice price product =
+  PriceWithTypeAndProduct price.price product price.productType
 
 recordsWithTypedProducts : List ProductType -> List Product -> List Record -> List RecordWithTypedProduct
 recordsWithTypedProducts types products records =

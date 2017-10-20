@@ -1,42 +1,44 @@
 module Price exposing (..)
-import Json.Decode as Decode exposing (Decoder)
-import Json.Encode as Json
 import Either exposing (Either(..))
 import FormatNumber exposing (format)
 import FormatNumber.Locales exposing (usLocale)
 
 import List_
+import Either_
 import Util
 import ProductType exposing (ProductType)
 import Product exposing (Product)
+import Validation exposing (Validation(..), valueOf)
 
 type alias FullPrice =
   { index: Int
   , type_id: Int
   , product_id: Maybe Int
-  , price: Either String Float
+  , price: Float
   , quantity: Int }
+
+type alias InternalPrice =
+  { index: Int
+  , type_id: Either Int Int
+  , product_id: Either (Maybe Int) (Maybe Int)
+  , price: Either Float (Validation String)
+  , quantity: Either Int (Validation String) }
 
 type alias NewPrice =
   { index: Int
   , type_id: Maybe Int
   , product_id: Maybe Int
-  , price: Either String Float
-  , quantity: Int }
+  , price: Validation String
+  , quantity: Validation String }
 
 type alias DeletedPrice =
   { index: Int
   , type_id: Int
   , product_id: Maybe Int }
 
-type alias RequestPrice =
-  { type_id: Int
-  , product_id: Maybe Int
-  , price: List (Int, Float) }
-
 type Price
   = Clean FullPrice
-  | Dirty FullPrice
+  | Dirty InternalPrice
   | New NewPrice
   | Deleted DeletedPrice
 
@@ -47,57 +49,81 @@ isDirty price = case price of
   New _ -> True
   Deleted _ -> True
 
-decode : Decoder FullPrice
-decode =
-  Decode.map5 FullPrice
-    (Decode.field "index" Decode.int)
-    (Decode.field "type" Decode.int)
-    (Decode.field "product" (Decode.maybe Decode.int))
-    (Decode.field "price" <| Decode.map Right Decode.float)
-    (Decode.field "quantity" Decode.int)
-
-normalize : Price -> Maybe NewPrice
+normalize : Price -> Maybe FullPrice
 normalize price = case price of
-  Clean p   -> Just <| NewPrice p.index (Just p.type_id) p.product_id p.price p.quantity
-  Dirty p   -> Just <| NewPrice p.index (Just p.type_id) p.product_id p.price p.quantity
-  New p     -> Just p
+  Clean p   -> Just p
+  Dirty p   -> Just <| FullPrice
+    p.index
+    (Either_.both p.type_id)
+    (Either_.both p.product_id)
+    (priceFloat <| Either.mapRight valueOf p.price)
+    (Either.unpack identity (valueOf >> Util.toInt >> Result.withDefault 0) p.quantity)
+  New p     -> Just <| FullPrice
+    p.index
+    (Maybe.withDefault 0 p.type_id)
+    p.product_id
+    (priceFloat <| Right <| valueOf p.price)
+    (Result.withDefault 0 <| Util.toInt <| valueOf p.price)
   Deleted _ -> Nothing
 
-priceStr : Either String Float -> String
-priceStr = Either.mapRight moneyFormat >> Either.unpack identity identity
+priceStr : Either Float String -> String
+priceStr = Either.mapLeft moneyFormat >> Either_.both
 
-priceFloat : Either String Float -> Float
-priceFloat = Either.mapLeft parseMoney >> Either.unpack (Result.withDefault 0) identity
+priceFloat : Either Float String -> Float
+priceFloat = Either.mapRight parseMoney >> Either.unpack identity (Result.withDefault 0)
 
 setTypeId : Int -> Price -> Price
 setTypeId id price = case price of
-  Clean p   -> Dirty  { p | type_id = id }
-  Dirty p   -> Dirty  { p | type_id = id }
-  New p     -> New    { p | type_id = Just id }
+  Clean p   -> Dirty
+    { p
+    | type_id = Right id
+    , product_id = Left p.product_id
+    , price = Left p.price
+    , quantity = Left p.quantity }
+  Dirty p   -> Dirty
+    { p | type_id = Right id }
+  New p     -> New
+    { p | type_id = Just id }
   Deleted _ -> price
 
 setProduct : Maybe Int -> Price -> Price
 setProduct id price = case price of
-  Clean p   -> Dirty  { p | product_id = id }
-  Dirty p   -> Dirty  { p | product_id = id }
-  New p     -> New    { p | product_id = id }
+  Clean p   -> Dirty
+    { p
+    | product_id = Right id
+    , type_id = Left p.type_id
+    , price = Left p.price
+    , quantity = Left p.quantity }
+  Dirty p   -> Dirty
+    { p | product_id = Right id }
+  New p     -> New
+    { p | product_id = id }
   Deleted _ -> price
 
 setQuantity : String -> Price -> Price
-setQuantity quantityStr price =
-  let quantity = Util.toInt quantityStr |> Result.withDefault 0
-  in case price of
-    Clean p   -> Dirty  { p | quantity = quantity }
-    Dirty p   -> Dirty  { p | quantity = quantity }
-    New p     -> New    { p | quantity = quantity }
+setQuantity quantity price =
+  case price of
+    Clean p   -> Dirty
+      { p
+      | quantity = Right (Valid quantity)
+      , type_id = Left p.type_id
+      , product_id = Left p.product_id
+      , price = Left p.price }
+    Dirty p   -> Dirty  { p | quantity = Right (Valid quantity) }
+    New p     -> New    { p | quantity = Valid quantity }
     Deleted _ -> price
 
 setPrice : String -> Price -> Price
 setPrice value price =
   case price of
-    Clean p   -> Dirty  { p | price = Left value }
-    Dirty p   -> Dirty  { p | price = Left value }
-    New p     -> New    { p | price = Left value }
+    Clean p   -> Dirty
+      { p
+      | price = Right (Valid value)
+      , type_id = Left p.type_id
+      , product_id = Left p.product_id
+      , quantity = Left p.quantity }
+    Dirty p   -> Dirty  { p | price = Right (Valid value) }
+    New p     -> New    { p | price = Valid value }
     Deleted _ -> price
 
 setIndex : Int -> Price -> Price
@@ -126,19 +152,19 @@ index price = case price of
 typeId : Price -> Int
 typeId price = case price of
   Clean p   -> p.type_id
-  Dirty p   -> p.type_id
+  Dirty p   -> Either_.both p.type_id
   New p     -> p.type_id |> Maybe.withDefault 0
   Deleted p -> p.type_id
 
 productId : Price -> Maybe Int
 productId price = case price of
   Clean p   -> p.product_id
-  Dirty p   -> p.product_id
+  Dirty p   -> Either_.both p.product_id
   New p     -> p.product_id
   Deleted p -> p.product_id
 
 new : Int -> Price
-new index = New (NewPrice index Nothing Nothing (Right 0) 0)
+new index = New (NewPrice index Nothing Nothing (Valid "$0.00") (Valid "0"))
 
 parseMoney : String -> Result String Float
 parseMoney money =
@@ -150,43 +176,6 @@ parseMoney money =
 moneyFormat : Float -> String
 moneyFormat = String.cons '$' << format usLocale
 
-requestFormat : Price -> List RequestPrice -> List RequestPrice
-requestFormat price collected =
-  case price of
-    Clean { type_id, product_id, price, quantity } ->
-      List_.updateAtOrInsert (RequestPrice type_id product_id [(quantity, priceFloat price)])
-        (\r -> r.type_id == type_id && r.product_id == product_id)
-        (\r -> { r | price = (quantity, priceFloat price) :: r.price })
-        collected
-    Dirty { type_id, product_id, price, quantity } ->
-      List_.updateAtOrInsert (RequestPrice type_id product_id [(quantity, priceFloat price)])
-        (\r -> r.type_id == type_id && r.product_id == product_id)
-        (\r -> { r | price = (quantity, priceFloat price) :: r.price })
-        collected
-    New { type_id, product_id, price, quantity } ->
-      case type_id of
-        Just t ->
-          List_.updateAtOrInsert (RequestPrice t product_id [(quantity, priceFloat price)])
-            (\r -> r.type_id == t && r.product_id == product_id)
-            (\r -> { r | price = (quantity, priceFloat price) :: r.price })
-            collected
-        Nothing -> collected
-    Deleted { index, type_id, product_id } ->
-      List_.updateAtOrInsert (RequestPrice type_id product_id [])
-        (\r -> r.type_id == type_id && r.product_id == product_id)
-        identity
-        collected
-
-requestJson : RequestPrice -> Json.Value
-requestJson request =
-  Json.object
-    [ ("type_id", Json.int request.type_id)
-    , ("product_id", request.product_id |> Maybe.map Json.int |> Maybe.withDefault Json.null)
-    , ("price", Json.list (List.map priceItem request.price)) ]
-
-priceItem : (Int, Float) -> Json.Value
-priceItem (q, p) = (Json.list [ Json.int q, Json.float p ])
-
 -- NOTE: just assumes that saving worked... maybe not the best policy here but
 --       there's no reliable way to link up the returned prices with the existing
 --       ones
@@ -194,43 +183,49 @@ clean : List FullPrice -> List Price -> List Price
 clean _ prices =
   prices
     |> List.filterMap (\price -> case price of
-      New p   -> p.type_id |> Maybe.map (\t -> Clean (FullPrice p.index t p.product_id p.price p.quantity))
-      Dirty p -> Just (Clean p)
-      Clean p -> Just (Clean p)
+      New p -> p.type_id |> Maybe.map
+        (\t -> Clean <| FullPrice
+          p.index
+          t
+          p.product_id
+          ((valueOf >> Right >> priceFloat) p.price)
+          ((valueOf >> Util.toInt >> Result.withDefault 0) p.quantity))
+      Dirty p -> Maybe.map Clean <| normalize (Dirty p)
+      Clean p -> Just price
       Deleted _ -> Nothing)
     |> List.indexedMap setIndex
 
-validateRequest : List Price -> List ProductType -> List Product -> Result String (List Price)
-validateRequest prices types products =
-  let
-    productName id = products
-      |> List.map Product.normalize
-      |> List_.find (.id >> Just >> (==) id)
-      |> Maybe.map .name
-      |> Maybe.withDefault ""
-    typeName id = types
-      |> List.map ProductType.normalize
-      |> List_.find (.id >> Just >> (==) id)
-      |> Maybe.map .name
-      |> Maybe.withDefault ""
-    validate prices bad = case prices of
-      head :: rest ->
-        case normalize head of
-          Just { type_id, product_id, quantity, price } ->
-            let item = (type_id, product_id, quantity) in
-              if type_id == Nothing then
-                Err <| "One of your prices does not have a type set for it! All prices require at least a type to be set."
-              else if quantity == 0 then
-                Err <| "There is no quantity set for " ++ productName product_id ++ " " ++ typeName type_id
-              else if priceFloat price < 0 then
-                Err <| "The price you have set for " ++ productName product_id ++ " " ++ typeName type_id ++ " is less than $0.00."
-              else if List.member item bad then
-                Err <| "Two prices set for buying " ++ toString quantity ++ " " ++ productName product_id ++ " " ++ typeName type_id ++ "(s)"
-              else
-                validate rest (item :: bad) |> Result.map ((::) head)
-          Nothing -> validate rest bad |> Result.map ((::) head)
-      [] -> Ok []
-  in validate prices []
+-- validateRequest : List Price -> List ProductType -> List Product -> Result String (List Price)
+-- validateRequest prices types products =
+--   let
+--     productName id = products
+--       |> List.map Product.normalize
+--       |> List_.find (.id >> Just >> (==) id)
+--       |> Maybe.map .name
+--       |> Maybe.withDefault ""
+--     typeName id = types
+--       |> List.map ProductType.normalize
+--       |> List_.find (.id >> Just >> (==) id)
+--       |> Maybe.map .name
+--       |> Maybe.withDefault ""
+--     validate prices bad = case prices of
+--       head :: rest ->
+--         case normalize head of
+--           Just { type_id, product_id, quantity, price } ->
+--             let item = (type_id, product_id, quantity) in
+--               if type_id == Nothing then
+--                 Err <| "One of your prices does not have a type set for it! All prices require at least a type to be set."
+--               else if quantity == 0 then
+--                 Err <| "There is no quantity set for " ++ productName product_id ++ " " ++ typeName type_id
+--               else if priceFloat price < 0 then
+--                 Err <| "The price you have set for " ++ productName product_id ++ " " ++ typeName type_id ++ " is less than $0.00."
+--               else if List.member item bad then
+--                 Err <| "Two prices set for buying " ++ toString quantity ++ " " ++ productName product_id ++ " " ++ typeName type_id ++ "(s)"
+--               else
+--                 validate rest (item :: bad) |> Result.map ((::) head)
+--           Nothing -> validate rest bad |> Result.map ((::) head)
+--       [] -> Ok []
+--   in validate prices []
 
 fillNewTypes : List ProductType.FullType -> List ProductType -> List Price -> List Price
 fillNewTypes updates types prices =
@@ -246,7 +241,7 @@ fillNewTypes updates types prices =
         Just t -> if t > 0 then p else { p | type_id = Just (replacement t) }
         Nothing -> p
       Clean p -> Clean p
-      Dirty p -> Dirty <| if p.type_id > 0 then p else { p | type_id = replacement p.type_id }
+      Dirty p -> Dirty <| if (Either_.both p.type_id) > 0 then p else { p | type_id = Right <| replacement (Either_.both p.type_id) }
       Deleted p -> Deleted <| if p.type_id > 0 then p else { p | type_id = replacement p.type_id })
 
 fillNewProducts : List Product.FullProduct -> List Product -> List Price -> List Price
@@ -264,7 +259,7 @@ fillNewProducts updates products prices =
     |> List.map (\price -> case price of
       New p -> New  { p | product_id = Maybe.map replacement p.product_id }
       Clean p -> Clean p
-      Dirty p -> Dirty { p | product_id = Maybe.map replacement p.product_id }
+      Dirty p -> Dirty { p | product_id = Right <| Maybe.map replacement (Either_.both p.product_id) }
       Deleted p -> Deleted { p | product_id = Maybe.map replacement p.product_id } )
 
 delete : Price -> Maybe Price

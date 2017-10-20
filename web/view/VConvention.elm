@@ -4,7 +4,7 @@ import Html.Attributes exposing (class, style)
 import Date exposing (Date)
 import Date.Extra as Date
 import Hex
-import Either exposing (Either(Right))
+import Either exposing (Either(..))
 import Dict
 import Set
 
@@ -18,7 +18,7 @@ import Table exposing (basicSortableTable, TableHeader(..))
 import Card exposing (card)
 import Lists exposing (defList)
 import List_
-import ProductType exposing (FullType)
+import ProductType exposing (ProductType, FullType)
 import Product
 import Price
 import Join exposing (ProductWithType, PriceWithTypeAndProduct, RecordWithTypedProduct)
@@ -110,18 +110,18 @@ prices model page con =
         , Sortable "Quantity" pquantitysort SortConPricesTable
         , Sortable "Price" pricesort SortConPricesTable ]
         priceRow <|
-          List.filterMap (\p -> Maybe.map (always p) p.product_type) <|
+          List.filterMap (\p -> Maybe.map (always p) p.productType) <|
             Join.pricesWithProductsAndTypes
-              (List.map ProductType.normalize (model.user.productTypes))
-              (List.map Product.normalize (if List.isEmpty fc.products then model.user.products else fc.products))
-              (List.filterMap Price.normalize (if List.isEmpty fc.prices then model.user.prices else fc.prices))
+              model.user.productTypes
+              (if List.isEmpty fc.products then model.user.products else fc.products)
+              (if List.isEmpty fc.prices then model.user.prices else fc.prices)
 
 priceRow : PriceWithTypeAndProduct -> List (Html msg)
-priceRow { product, product_type, quantity, price } =
-  [ product_type |> Maybe.map productTypeLabel |> Maybe.withDefault (text "")
-  , text <| (product |> Maybe.map (\p -> p.name) |> Maybe.withDefault "")
-  , text (toString quantity)
-  , text (Price.priceStr price) ]
+priceRow { product, productType, price } =
+  [ productType |> Maybe.map (ProductType.normalize >> productTypeLabel) |> Maybe.withDefault (text "")
+  , text <| (product |> Maybe.map (Product.normalize >> .name) |> Maybe.withDefault "")
+  , text (price |> Price.normalize >> Maybe.map .quantity |> Maybe.withDefault 0 >> toString)
+  , text (Price.priceStr (Left (Maybe.map .price (Price.normalize price) |> Maybe.withDefault 0))) ]
 
 sales : Model -> ConventionPageState -> Convention -> Html Msg
 sales model page con =
@@ -148,7 +148,7 @@ recordRow record =
   [ div [ class "convention__product-type" ] <| typeSet record.products
   , text <| productString record.products
   , text <| toString (List.length record.products)
-  , text <| Price.priceStr (Right record.price)
+  , text <| Price.priceStr (Left record.price)
   , text <| Date.toFormattedString "EEE, h:mm a" record.time ]
 
 typeSet : List ProductWithType -> List (Html msg)
@@ -197,29 +197,37 @@ namesort : ProductWithType -> ProductWithType -> Order
 namesort a b = compare (Product.normalize a.product).name (Product.normalize a.product).name
 
 maybetypesort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
-maybetypesort a b = compare
-  (a.product_type |> Maybe.map .name |> Maybe.withDefault "")
-  (b.product_type |> Maybe.map .name |> Maybe.withDefault "")
+maybetypesort a b =
+  let extract = Maybe.map (ProductType.normalize >> .name) >> Maybe.withDefault "" in
+    compare
+      (extract a.productType)
+      (extract b.productType)
 
 maybeproductsort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
-maybeproductsort a b = compare
-  (a.product |> Maybe.map .name |> Maybe.withDefault "")
-  (b.product |> Maybe.map .name |> Maybe.withDefault "")
+maybeproductsort a b =
+  let extract = Maybe.map (Product.normalize >> .name) >> Maybe.withDefault "" in
+    compare
+      (extract a.product)
+      (extract b.product)
 
 quantitysort : ProductWithType -> ProductWithType -> Order
 quantitysort a b = compare (Product.normalize a.product).quantity (Product.normalize a.product).quantity
 
 pquantitysort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
-pquantitysort a b = compare a.quantity b.quantity
+pquantitysort a b =
+  let extract = Price.normalize >> Maybe.map .quantity >> Maybe.withDefault 0 in
+    compare (extract a.price) (extract b.price)
 
 rquantitysort : RecordWithTypedProduct -> RecordWithTypedProduct -> Order
 rquantitysort a b = compare (List.length a.products) (List.length b.products)
 
 pricesort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
-pricesort a b = compare (Price.priceFloat a.price) (Price.priceFloat b.price)
+pricesort a b =
+  let extract = Price.normalize >> Maybe.map .price >> Maybe.withDefault 0 in
+    compare (extract a.price) (extract b.price)
 
 rpricesort : RecordWithTypedProduct -> RecordWithTypedProduct -> Order
-rpricesort a b = compare (Price.priceFloat (Right a.price)) (Price.priceFloat (Right b.price))
+rpricesort a b = compare (Price.priceFloat (Left a.price)) (Price.priceFloat (Left b.price))
 
 timesort : RecordWithTypedProduct -> RecordWithTypedProduct -> Order
 timesort a b = Date.compare a.time b.time

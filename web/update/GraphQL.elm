@@ -69,7 +69,7 @@ priceRow = object FullPrice
   |> with (field "index" [] int)
   |> with (field "typeId" [] int)
   |> with (field "productId" [] (nullable int))
-  |> with (field "price" [] (map Right float))
+  |> with (field "price" [] float)
   |> with (field "quantity" [] int)
 
 metaConvention : ValueSpec NonNull ObjectType MetaConvention vars

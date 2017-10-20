@@ -110,23 +110,28 @@ update msg model = case model.page of
     ReadPricingCSV -> model ! [ Files.read "pricing" ]
     WritePricingCSV ->
       let contents = model.user.prices
-        |> List.filterMap Price.normalize
-        |> List.sortWith (\a -> \b -> case compare (Maybe.withDefault 0 a.type_id) (Maybe.withDefault 0 b.type_id) of
-          EQ -> case compare (Maybe.withDefault 0 a.product_id) (Maybe.withDefault 0 b.product_id) of
-            EQ -> compare a.quantity b.quantity
-            x -> x
-          x -> x)
+        |> List.filter (Price.normalize >> Maybe.map (always True) >> Maybe.withDefault False)
+        |> List.sortWith (\wa -> \wb ->
+          let
+            a = Price.normalize wa
+            b = Price.normalize wb
+          in
+            case compare (Maybe.withDefault 0 <| Maybe.map .type_id a) (Maybe.withDefault 0 <| Maybe.map .type_id b) of
+              EQ -> case compare (Maybe.withDefault 0 <| Maybe.andThen .product_id a) (Maybe.withDefault 0 <| Maybe.andThen .product_id b) of
+                EQ -> compare (Maybe.withDefault 0 <| Maybe.map .quantity a) (Maybe.withDefault 0 <| Maybe.map .quantity b)
+                x -> x
+              x -> x)
         |> Join.pricesWithProductsAndTypes
-            (List.map ProductType.normalize model.user.productTypes)
-            (List.map Product.normalize model.user.products)
+            model.user.productTypes
+            model.user.products
         |> List.map (\p ->
-               (p.product_type |> Maybe.map .name |> Maybe.withDefault "")
+               (p.productType |> Maybe.map (ProductType.normalize >> .name) |> Maybe.withDefault "")
             ++ ","
-            ++ (p.product |> Maybe.map .name |> Maybe.withDefault "None")
+            ++ (p.product |> Maybe.map (Product.normalize >> .name) |> Maybe.withDefault "None")
             ++ ","
-            ++ toString p.quantity
+            ++ (p.price |> Price.normalize |> Maybe.map .quantity |> Maybe.withDefault 0 |> toString)
             ++ ","
-            ++ (toString <| Price.priceFloat p.price)
+            ++ (p.price |> Price.normalize |> Maybe.map .price |> Maybe.withDefault 0 |> toString)
             ++ "\n"
           )
         |> List.foldl (++) ""

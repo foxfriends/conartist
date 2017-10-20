@@ -1,30 +1,23 @@
 module Save exposing (update)
-import Http
-import Json.Encode as Json
-import Json.Decode as Decode
 
 import GraphQL exposing (..)
 import Model exposing (Model)
 import ConRequest exposing (ConRequest(..))
 import Product
 import ProductType
-import Price
 import Msg exposing (Msg(..))
-import UDialog
 
+-- TODO: messages for errors
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case msg of
   Save -> update SaveTypes model
   SaveTypes -> model ! saveTypes model
   SaveProducts -> model ! saveProducts model
+  SavePrices -> model ! savePrices model
   CreatedTypes (Ok updates) -> update SaveProducts <| Model.cleanTypes updates model
   UpdatedTypes (Ok updates) -> Model.cleanTypes updates model ! []
   CreatedProducts (Ok updates) -> Model.cleanProducts updates model ! []
   UpdatedProducts (Ok updates) -> Model.cleanProducts updates model ! []
-  SavePrices ->
-    case Model.validateRequest model of
-      Ok _ -> model ! [ savePrices model ]
-      Err error -> UDialog.update (ShowErrorMessage (Debug.log "Error:" error)) model
   SavedPrices (Ok (Success updates)) -> Model.cleanPrices updates model ! []
   _ -> model ! []
 
@@ -50,20 +43,5 @@ saveProducts model =
       , if List.length news > 0 then mutation CreatedProducts (createProducts news) model else Cmd.none ]
   else []
 
-savePrices : Model -> Cmd Msg
-savePrices model =
-  model.user.prices
-    |> List.foldl Price.requestFormat []
-    |> List.map Price.requestJson
-    |> Json.object << List.singleton << (,) "prices" << Json.list
-    |> Http.jsonBody
-    |> \body ->
-      Http.request
-        { method = "PUT"
-        , headers = [ Http.header "Authorization" ("Bearer " ++ model.authtoken) ]
-        , url = "/api/prices"
-        , body = body
-        , expect = Http.expectJson (ConRequest.decode (Decode.list Price.decode))
-        , timeout = Nothing
-        , withCredentials = False }
-    |> Http.send SavedPrices
+savePrices : Model -> List (Cmd Msg)
+savePrices model = []

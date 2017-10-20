@@ -7,7 +7,7 @@ import Navigation exposing (Location)
 import ConRequest exposing (ConRequest, Pagination)
 import Product exposing (FullProduct)
 import ProductType exposing (FullType)
-import Price exposing (FullPrice)
+import Price exposing (CondensedPrice)
 import Convention exposing (MetaConvention, FullConvention)
 import User exposing (User)
 
@@ -79,7 +79,8 @@ type Msg
   | SaveTypes
   | SaveProducts
   | SavePrices
-  | SavedPrices (Result Http.Error (ConRequest (List FullPrice)))
+  | CreatedPrices (Result Error (List (String, CondensedPrice)))
+  | DeletedPrices (Result Error (List (String, Bool)))
   | UpdatedTypes (Result Error (List (String, FullType)))
   | CreatedTypes (Result Error (List (String, FullType)))
   | UpdatedProducts (Result Error (List (String, FullProduct)))

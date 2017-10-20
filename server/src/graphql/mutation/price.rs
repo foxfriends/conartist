@@ -1,12 +1,12 @@
 //! Input objects needed to modify prices
-use super::super::common::PriceRow;
+use super::super::common::PricePairIn;
 
 #[derive(Clone, GraphQLInputObject)]
 #[graphql(description="Information required to create a new price")]
 pub struct PriceAdd {
     pub type_id: i32,
     pub product_id: Option<i32>,
-    pub prices: Vec<PriceRow>,
+    pub prices: Vec<PricePairIn>,
 }
 
 #[derive(Clone, Copy, GraphQLInputObject)]

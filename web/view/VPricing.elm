@@ -91,9 +91,9 @@ priceRow model page { productType, product, price } =
         Fancy.validatedInput "" quantity [ Fancy.flush ] [ type_ "text", onInput (PricingQuantity index) ]
     , let value = case price of
         New p -> p.price
-        Clean p -> Valid <| toString p.price
+        Clean p -> Valid <| Price.priceStr (Left p.price)
         Dirty p -> Either.unpack (Valid << Price.priceStr << Left) identity p.price
-        Deleted _ -> Valid "0"
+        Deleted _ -> Valid "$0.00"
       in
         Fancy.validatedInput "" value [ Fancy.flush ] [ type_ "text", onInput (PricingPrice index) ]
     , centered <| Fancy.button Icon "remove_circle_outline" [ onClick (PricingRemove index) ] ]

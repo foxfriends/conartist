@@ -55,20 +55,38 @@ impl Database {
         let pid = product_id.map(|r| format!("{}", r)).unwrap_or("NULL".to_string());
 
         let conn = self.pool.get().unwrap();
-        query!(conn, "
-            INSERT INTO Prices
-                (user_id, type_id, product_id, prices)
-            VALUES
-                ($1, $2, $3, $4)
-            ON CONFLICT DO UPDATE SET
-                prices = EXCLUDED.prices
-            RETURNING *
-        ", user_id, type_id, product_id, prices)
-            .into_iter()
-            .nth(0)
-            .ok_or("".to_string())
-            .and_then(|r| Price::from(r))
-            .map_err(|r| format!("Failed to create or update price for type {}, product {}. Reason: {}", type_id, pid, r))
+        if let Some(price_id) =
+            query!(conn, "
+                SELECT price_id
+                FROM Prices
+                WHERE user_id = $1
+                  AND type_id = $2
+                  AND product_id IS NOT DISTINCT FROM $3
+            ", user_id, type_id, product_id)
+                .into_iter()
+                .nth(0)
+                .map(|r| r.get::<usize, i32>(0))
+        {
+            query!(conn, "UPDATE Prices SET prices = $1 WHERE price_id = $2 RETURNING *", prices, price_id)
+                .into_iter()
+                .nth(0)
+                .ok_or("".to_string())
+                .and_then(|r| Price::from(r))
+                .map_err(|r| format!("Failed to update price for type {}, product {}. Reason: {}", type_id, pid, r))
+        } else {
+            query!(conn, "
+                INSERT INTO Prices
+                    (user_id, type_id, product_id, prices)
+                VALUES
+                    ($1, $2, $3, $4)
+                RETURNING *
+            ", user_id, type_id, product_id, prices)
+                .into_iter()
+                .nth(0)
+                .ok_or("".to_string())
+                .and_then(|r| Price::from(r))
+                .map_err(|r| format!("Failed to create price for type {}, product {}. Reason: {}", type_id, pid, r))
+        }
     }
 
     pub fn create_user_convention(&self, maybe_user_id: Option<i32>, con_code: String) -> Result<Convention, String> {

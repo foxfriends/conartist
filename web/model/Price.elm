@@ -143,7 +143,10 @@ removeRow row prices = case prices of
   [] -> []
   head :: rest ->
     if row == 0 then
-      Deleted (DeletedPrice (index head) (typeId head) (productId head)) :: rest
+      if typeId head == 0 then
+        rest
+      else
+        Deleted (DeletedPrice (index head) (typeId head) (productId head)) :: rest
     else
       head :: removeRow (row - 1) rest
 
@@ -181,23 +184,12 @@ parseMoney money =
 moneyFormat : Float -> String
 moneyFormat = String.cons '$' << format usLocale
 
--- NOTE: just assumes that saving worked... maybe not the best policy here but
---       there's no reliable way to link up the returned prices with the existing
---       ones
-clean : List FullPrice -> List Price -> List Price
-clean _ prices =
-  prices
-    |> List.filterMap (\price -> case price of
-      New p -> Just <| Clean <| FullPrice
-        p.index
-        (valueOf p.type_id)
-        p.product_id
-        ((valueOf >> Right >> priceFloat) p.price)
-        ((valueOf >> Util.toInt >> Result.withDefault 0) p.quantity)
-      Dirty p -> Maybe.map Clean <| normalize (Dirty p)
-      Clean p -> Just price
-      Deleted _ -> Nothing)
-    |> List.indexedMap setIndex
+-- NOTE: just assumes that saving worked... maybe can check that later
+clean : List (String, CondensedPrice) -> List Price -> List Price
+clean _ = List.filterMap (Maybe.map Clean << normalize)
+
+reindex : List Price -> List Price
+reindex = List.indexedMap setIndex
 
 validateAll : List Price -> List Price
 validateAll prices =
@@ -310,4 +302,17 @@ deletedData price = case price of
   _ -> Nothing
 
 hash : (Int, Maybe Int) -> String
-hash (t, p) = toString t ++ "_" ++ toString p
+hash (t, p) = toString t ++ "_" ++ toString (Maybe.withDefault 0 p)
+
+collectPrices : Price -> List CondensedPrice -> List CondensedPrice
+collectPrices price prices =
+  case normalize price of
+    Nothing -> prices
+    Just { type_id, product_id, price, quantity } ->
+      List_.updateAtOrInsert
+        (CondensedPrice type_id product_id [(quantity, price)])
+        (\p -> p.type_id == type_id && p.product_id == product_id)
+        (\p ->
+          { p
+          | prices = (quantity, price) :: p.prices })
+        prices

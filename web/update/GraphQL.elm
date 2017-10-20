@@ -3,6 +3,7 @@ module GraphQL exposing
   , getUser, getFullConvention, getConventionPage
   , createProductTypes, updateProductTypes
   , createProducts, updateProducts
+  , createPrices, deletePrices
   , addConvention )
 import Task
 import Http
@@ -14,10 +15,8 @@ import GraphQL.Client.Http exposing (..)
 import GraphQL.Request.Builder as GraphQL exposing (..)
 import GraphQL.Request.Builder.Arg as Arg
 import GraphQL.Request.Builder.Variable as Var
-import Set
 
 import Util
-import List_
 import Model exposing (Model)
 import User exposing (User)
 import ProductType exposing (FullType, InternalType, NewType, ProductType(..))
@@ -28,10 +27,11 @@ import Record exposing (Record)
 import Pagination exposing (Pagination)
 import Validation exposing (valueOf)
 
-type DateType = DateType
+-- TODO: make user of fragments to reduce request size
 
 -- Types
 
+type DateType = DateType
 date : ValueSpec NonNull DateType Date vars
 date =
   Decode.string
@@ -215,8 +215,9 @@ productMod : InternalProduct -> Arg.Value vars
 productMod product =
   Arg.object
     [ ("productId", Arg.int product.id)
-    , ("name", Arg.string (Either.unpack identity valueOf product.name))
-    , ("quantity", Arg.int <| (Either.unpack identity (valueOf >> Util.toInt >> Result.withDefault 0) product.quantity)) ]
+    , ("name", argIfRight Arg.string (Either.mapRight valueOf product.name))
+    , ("quantity", argIfRight Arg.int (Either.mapRight (valueOf >> Util.toInt >> Result.withDefault 0) product.quantity))
+    , ("discontinued", argIfRight Arg.bool product.discontinued) ]
 updateProduct : InternalProduct -> SelectionSpec Field FullProduct vars
 updateProduct pr =
   aliasAs (Product.hash (Product.Dirty pr)) <|
@@ -248,38 +249,32 @@ createPrice pr =
     field "addUserPrice"
       [ ("price", priceAdd pr) ]
       price
-createPrices : List Price -> Request Mutation (List (String, CondensedPrice))
+createPrices : List CondensedPrice -> Request Mutation (List (String, CondensedPrice))
 createPrices prices =
   request {}
     <| mutationDocument
     <| map (List.map <| Tuple.mapFirst (String.dropLeft 1))
     <| keyValuePairs
-    <| List.map createPrice
-    <| List.foldl collectPrices []
-    <| prices
+    <| List.map createPrice prices
 
 priceDel : (Int, Maybe Int) -> Arg.Value vars
 priceDel (t, p) =
   Arg.object
     [ ("typeId", Arg.int t)
     , ("productId", (argNullable Arg.int) p) ]
-deletePrice : (Int, Maybe Int) -> SelectionSpec Field () vars
+deletePrice : (Int, Maybe Int) -> SelectionSpec Field Bool vars
 deletePrice pr =
   aliasAs (Price.hash pr) <|
     field "delUserPrice"
       [ ("price", priceDel pr) ]
-      ( map (always ()) (nullable int) )
-deletePrices : List Price -> Request Mutation (List (String, ()))
+      bool
+deletePrices : List (Int, Maybe Int) -> Request Mutation (List (String, Bool))
 deletePrices prices =
-  let
-    keep = Set.fromList <| List.filterMap (Price.normalize >> Maybe.map (\p -> (p.type_id, p.product_id |> Maybe.withDefault 0))) prices
-    remove = List.filter (not << flip Set.member keep << Tuple.mapSecond (Maybe.withDefault 0)) <| List.filterMap Price.deletedData prices
-  in
-    request {}
-      <| mutationDocument
-      <| map (List.map <| Tuple.mapFirst (String.dropLeft 1)) -- TODO don't need
-      <| keyValuePairs
-      <| List.map deletePrice remove
+  request {}
+    <| mutationDocument
+    <| map (List.map <| Tuple.mapFirst (String.dropLeft 1)) -- TODO don't need
+    <| keyValuePairs
+    <| List.map deletePrice prices
 
 addConvention : String -> Request Mutation MetaConvention
 addConvention code =
@@ -318,16 +313,3 @@ argIfRight fn val =
 
 aliasAs : String -> SelectionSpec Field result vars -> SelectionSpec Field result vars
 aliasAs = GraphQL.aliasAs << String.cons '_'
-
-collectPrices : Price -> List CondensedPrice -> List CondensedPrice
-collectPrices price prices =
-  case Price.normalize price of
-    Nothing -> prices
-    Just { type_id, product_id, price, quantity } ->
-      List_.updateAtOrInsert
-        (CondensedPrice type_id product_id [(quantity, price)])
-        (\p -> p.type_id == type_id && p.product_id == product_id)
-        (\p ->
-          { p
-          | prices = (quantity, price) :: p.prices })
-        prices

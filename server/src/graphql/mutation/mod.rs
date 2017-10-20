@@ -7,14 +7,14 @@ mod record;
 mod expense;
 
 use juniper::{FieldResult, FieldError, Value};
-use postgres_array::Array;
+use postgres_array::{Array, Dimension};
 use database::{Database, User, ProductType, ProductInInventory, Price, Convention, Record, Expense};
 use self::product::*;
 use self::product_type::*;
 use self::price::*;
 use self::record::*;
 use self::expense::*;
-use super::common::PriceRow;
+use super::common::PricePairIn;
 
 pub struct Mutation;
 
@@ -111,8 +111,8 @@ graphql_object!(Mutation: Database |&self| {
         let prices =
             price.prices
                 .into_iter()
-                .map(|PriceRow{ quantity, price }| Array::from_vec(vec![quantity as f64, price], 0))
-                .fold(Array::from_vec(vec![], 0), |mut a, v| {a.push(v); a});
+                .map(|PricePairIn{ quantity, price }| Array::from_vec(vec![quantity as f64, price], 0))
+                .fold(Array::from_parts(vec![], vec![Dimension{ len: 0, lower_bound: 0 }, Dimension{ len: 2, lower_bound: 0 }]), |mut a, v| {a.push(v); a});
 
         dbtry! {
             executor
@@ -120,7 +120,7 @@ graphql_object!(Mutation: Database |&self| {
                 .create_or_update_price(user_id, price.type_id, price.product_id, prices)
         }
     }
-    field del_user_price(&executor, user_id: Option<i32>, price: PriceDel) -> FieldResult<()> {
+    field del_user_price(&executor, user_id: Option<i32>, price: PriceDel) -> FieldResult<bool> {
         dbtry! {
             executor
                 .context()

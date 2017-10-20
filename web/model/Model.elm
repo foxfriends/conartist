@@ -28,7 +28,7 @@ isDirty { user } =
   ||  foldl (Price.isDirty >> (||))       False user.prices
   ||  foldl (ProductType.isDirty >> (||)) False user.productTypes
 
-cleanPrices : List Price.FullPrice -> Model -> Model
+cleanPrices : List (String, Price.CondensedPrice) -> Model -> Model
 cleanPrices updates model =
   let
     user = model.user
@@ -37,7 +37,18 @@ cleanPrices updates model =
     { model
     | user =
       { user
-      | prices = Price.clean updates prices } }
+      | prices = Price.reindex <| Price.clean updates prices } }
+
+removeDeletedPrices : Model -> Model
+removeDeletedPrices model =
+  let
+    user = model.user
+    prices = user.prices
+  in
+    { model
+    | user =
+      { user
+      | prices = Price.reindex <| List.filter (not << Price.deleted) prices } }
 
 cleanProducts : List (String, Product.FullProduct) -> Model -> Model
 cleanProducts updates model =

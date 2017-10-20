@@ -102,8 +102,7 @@ CREATE TABLE Prices (
   CONSTRAINT user_or_con CHECK (
     (user_id IS NOT NULL AND user_con_id IS NULL) OR
     (user_id IS NULL AND user_con_id IS NOT NULL)
-  ),
-  CONSTRAINT unique_prices UNIQUE (product_id, type_id, user_con_id)
+  )
   -- TODO: would be nice to check that all quantities and prices >= 0
 );
 CREATE INDEX index_Prices_con ON Prices (user_con_id);

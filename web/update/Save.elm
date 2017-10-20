@@ -2,9 +2,10 @@ module Save exposing (update)
 
 import GraphQL exposing (..)
 import Model exposing (Model)
-import ConRequest exposing (ConRequest(..))
+import Price
 import Product
 import ProductType
+import Set
 import Msg exposing (Msg(..))
 
 -- TODO: messages for errors
@@ -16,9 +17,10 @@ update msg model = case msg of
   SavePrices -> model ! savePrices model
   CreatedTypes (Ok updates) -> update SaveProducts <| Model.cleanTypes updates model
   UpdatedTypes (Ok updates) -> Model.cleanTypes updates model ! []
-  CreatedProducts (Ok updates) -> Model.cleanProducts updates model ! []
+  CreatedProducts (Ok updates) -> update SavePrices <| Model.cleanProducts updates model
   UpdatedProducts (Ok updates) -> Model.cleanProducts updates model ! []
-  SavedPrices (Ok (Success updates)) -> Model.cleanPrices updates model ! []
+  CreatedPrices (Ok updates) -> Model.cleanPrices updates model ! []
+  DeletedPrices (Ok updates) -> Model.removeDeletedPrices model ! []
   _ -> model ! []
 
 saveTypes : Model -> List (Cmd Msg)
@@ -30,7 +32,7 @@ saveTypes model =
     in
       [ if List.length mods > 0 then mutation UpdatedTypes (updateProductTypes mods) model else Cmd.none
       , if List.length news > 0 then mutation CreatedTypes (createProductTypes news) model else Cmd.batch <| saveProducts model ]
-  else saveProducts <| model
+  else []
 
 saveProducts : Model -> List (Cmd Msg)
 saveProducts model =
@@ -40,8 +42,21 @@ saveProducts model =
       news = List.filterMap Product.newData model.user.products
     in
       [ if List.length mods > 0 then mutation UpdatedProducts (updateProducts mods) model else Cmd.none
-      , if List.length news > 0 then mutation CreatedProducts (createProducts news) model else Cmd.none ]
+      , if List.length news > 0 then mutation CreatedProducts (createProducts news) model else Cmd.batch <| savePrices model ]
   else []
 
 savePrices : Model -> List (Cmd Msg)
-savePrices model = []
+savePrices model =
+  let
+    news =  List.foldl Price.collectPrices [] model.user.prices
+    keep = Set.fromList <| List.filterMap (Price.normalize >> Maybe.map (\p -> (p.type_id, p.product_id |> Maybe.withDefault 0))) model.user.prices
+    delSet = Set.fromList
+      <| List.filter (not << flip Set.member keep)
+      <| List.map (Tuple.mapSecond (Maybe.withDefault 0))
+      <| List.filterMap Price.deletedData model.user.prices
+    dels = List.map (Tuple.mapSecond (\p -> if p == 0 then Nothing else Just p)) <| Set.toList delSet
+  in
+  if Price.allValid model.user.prices then
+    [ if List.length news > 0 then mutation CreatedPrices (createPrices news) model else Cmd.none
+    , if List.length dels > 0 then mutation DeletedPrices (deletePrices dels) model else Cmd.none ]
+  else []

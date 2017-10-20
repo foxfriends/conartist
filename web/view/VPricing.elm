@@ -34,7 +34,7 @@ view model page =
             |> List.filter (not << .discontinued << ProductType.normalize) )
           ( model.user.products
             |> List.filter (not << .discontinued << Product.normalize) )
-          model.user.prices ) ]
+          ( List.filter (not << Price.deleted) model.user.prices) ) ]
     , div [ class "pricing__footer" ] (footer model) ]
 
 priceRow : Model -> PricingPageState -> PriceWithTypeAndProduct -> List (Html Msg)

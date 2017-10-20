@@ -107,32 +107,30 @@ validateAll types =
   let
     names = List.map (normalize >> .name) types
     isBad name = List.filter ((==) name) names |> List.length |> (<) 1
-    rec types =
-      case types of
-        item :: rest ->
-          case item of
-            Clean i -> Clean i :: rec rest
-            New i -> New
-              { i
-              | name = let v = valueOf i.name in
-                 if v == "" then
-                   invalidate "Name is empty" i.name
-                 else if isBad v then
-                   invalidate "Name is duplicated" i.name
-                 else
-                   validate i.name
-              } :: rec rest
-            Dirty i -> Dirty
-              { i
-              | name = let v = Either.unpack identity valueOf i.name in
-                  if v == "" then
-                    Either.mapRight (invalidate "Name is empty") i.name
-                  else if isBad v then
-                    Either.mapRight (invalidate "Name is duplicated") i.name
-                  else
-                    Either.mapRight validate i.name } :: rec rest
-        [] -> []
-  in rec types
+    check type_ =
+      case type_ of
+        Clean i -> Clean i
+        New i -> New
+          { i
+          | name = let v = valueOf i.name in
+             if v == "" then
+               invalidate "Name is empty" i.name
+             else if isBad v then
+               invalidate "Name is duplicated" i.name
+             else
+               validate i.name
+          }
+        Dirty i -> Dirty
+          { i
+          | name = let v = Either.unpack identity valueOf i.name in
+              if v == "" then
+                Either.mapRight (invalidate "Name is empty") i.name
+              else if isBad v then
+                Either.mapRight (invalidate "Name is duplicated") i.name
+              else
+                Either.mapRight validate i.name
+          }
+  in List.map check types
 
 allValid : List ProductType -> Bool
 allValid types =

@@ -29,7 +29,7 @@ update msg model = case model.page of
             | page = Pricing { page | open_selector = None }
             , user =
               { user
-              | prices = List_.flatUpdateAt
+              | prices = Price.validateAll <| List_.flatUpdateAt
                   (Price.index >> (==) index)
                   (\p ->
                     List.filterMap identity
@@ -48,7 +48,7 @@ update msg model = case model.page of
         | page = Pricing { page | open_selector = None }
         , user =
           { user
-          | prices = List_.flatUpdateAt
+          | prices = Price.validateAll <| List_.flatUpdateAt
               (Price.index >> (==) index)
               (\p ->
                 List.filterMap identity
@@ -65,7 +65,7 @@ update msg model = case model.page of
         { model
         | user =
           { user
-          | prices = List_.updateAt
+          | prices = Price.validateAll <| List_.updateAt
               (Price.index >> (==) index)
               (Price.setPrice price)
               prices
@@ -79,7 +79,7 @@ update msg model = case model.page of
         { model
         | user =
           { user
-          | prices = List_.updateAt
+          | prices = Price.validateAll <| List_.updateAt
               (Price.index >> (==) index)
               (Price.setQuantity quantity)
               prices
@@ -92,7 +92,7 @@ update msg model = case model.page of
       in
         { model
         | page = Pricing { page | open_selector = None }
-        , user = { user | prices = prices ++ [ Price.new (List.length prices) ] }
+        , user = { user | prices = Price.validateAll <| prices ++ [ Price.new (List.length prices) ] }
         } ! []
     PricingRemove index ->
       let
@@ -101,13 +101,13 @@ update msg model = case model.page of
       in
         { model
         | page = Pricing { page | open_selector = None }
-        , user = { user | prices = Price.removeRow index prices }
+        , user = { user | prices = Price.validateAll <| Price.removeRow index prices }
         } ! []
     SortPricingTable col ->
       { model
       | page = Pricing { page | table_sort = updateSort col page.table_sort }
       } ! []
-    ReadPricingCSV -> model ! [ Files.read "pricing" ]
+    ReadPricingCSV -> model ! [ Files.read "pricing" ] -- TODO: implement
     WritePricingCSV ->
       let contents = model.user.prices
         |> List.filter (Price.normalize >> Maybe.map (always True) >> Maybe.withDefault False)

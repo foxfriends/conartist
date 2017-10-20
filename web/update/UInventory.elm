@@ -167,6 +167,8 @@ update msg model = case model.page of
       } ! []
     ReadInventoryCSV -> model ! [ Files.read "inventory" ]
     WriteInventoryCSV ->
+      -- [https://github.com/OinkIguana/conartist/projects/1#card-5134511]
+      -- TODO: option to export all products in one file
       let
         type_ = currentType model page.current_tab.current
         typeid = type_ |> Maybe.map .id |> Maybe.withDefault 0
@@ -179,6 +181,8 @@ update msg model = case model.page of
       in
         model ! [ curry Files.write (typename ++ ".csv") contents ]
     DidFileRead ("inventory", Just file) ->
+      -- [https://github.com/OinkIguana/conartist/projects/1#card-5134511]
+      -- TODO: support multiple types in one file (one more column or type_id)
       let
         t = currentType model page.current_tab.current |> Maybe.map .id |> Maybe.withDefault 0
         user = model.user
@@ -203,7 +207,7 @@ update msg model = case model.page of
             |> Maybe.withDefault (New <| Product.NewProduct (o + x) t (Valid n) (Valid (Right q))))
           |> List.foldl (\p -> List_.updateAtOrInsert p (Product.normalize >> .id >> (==) (Product.normalize p).id) (always p)) user.products
       in
-        { model | user = { user | products = products } } ! []
+        { model | user = { user | products = Product.validateAll products } } ! []
     _ -> model ! []
   _ -> model ! []
 

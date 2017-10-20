@@ -152,45 +152,42 @@ validateAll products =
   let
     names = List.map (normalize >> (\p -> (p.type_id, p.name))) products
     isBad name = List.filter ((==) name) names |> List.length |> (<) 1
-    rec products =
-      case products of
-        item :: rest ->
-          case item of
-            Clean i -> Clean i :: rec rest
-            New i -> New
-              { i
-              | name = let v = valueOf i.name in
-                  if v == "" then
-                    invalidate "Name is empty" i.name
-                  else if isBad (i.type_id, v) then
-                    invalidate "Name is duplicated" i.name
-                  else validate i.name
-              , quantity = let v = Either.unpack Ok Util.toInt (valueOf i.quantity) in
-                  if isErr v then
-                    invalidate "Quantity is not a number" i.quantity
-                  else if Result.withDefault 0 v < 0 then
-                    invalidate "Quantity is less than 0" i.quantity
-                  else
-                    validate i.quantity
-              } :: rec rest
-            Dirty i -> Dirty
-              { i
-              | name = let v = Either.unpack identity valueOf i.name in
-                  if v == "" then
-                    Either.mapRight (invalidate "Name is empty") i.name
-                  else if isBad (i.type_id, v) then
-                    Either.mapRight (invalidate "Name is duplicated") i.name
-                  else Either.mapRight validate i.name
-              , quantity = let v = Either.unpack Ok (valueOf >> Util.toInt) i.quantity in
-                  if isErr v then
-                    Either.mapRight (invalidate "Quantity is not a number") i.quantity
-                  else if Result.withDefault 0 v < 0 then
-                    Either.mapRight (invalidate "Quantity is less than 0") i.quantity
-                  else
-                    Either.mapRight validate i.quantity } :: rec rest
-        [] -> []
-  in rec products
-
+    check product =
+      case product of
+        Clean i -> Clean i
+        New i -> New
+          { i
+          | name = let v = valueOf i.name in
+              if v == "" then
+                invalidate "Name is empty" i.name
+              else if isBad (i.type_id, v) then
+                invalidate "Name is duplicated" i.name
+              else validate i.name
+          , quantity = let v = Either.unpack Ok Util.toInt (valueOf i.quantity) in
+              if isErr v then
+                invalidate "Quantity is not a number" i.quantity
+              else if Result.withDefault 0 v < 0 then
+                invalidate "Quantity is less than 0" i.quantity
+              else
+                validate i.quantity
+          }
+        Dirty i -> Dirty
+          { i
+          | name = let v = Either.unpack identity valueOf i.name in
+              if v == "" then
+                Either.mapRight (invalidate "Name is empty") i.name
+              else if isBad (i.type_id, v) then
+                Either.mapRight (invalidate "Name is duplicated") i.name
+              else Either.mapRight validate i.name
+          , quantity = let v = Either.unpack Ok (valueOf >> Util.toInt) i.quantity in
+              if isErr v then
+                Either.mapRight (invalidate "Quantity is not a number") i.quantity
+              else if Result.withDefault 0 v < 0 then
+                Either.mapRight (invalidate "Quantity is less than 0") i.quantity
+              else
+                Either.mapRight validate i.quantity
+          }
+  in List.map check products
 
 allValid : List Product -> Bool
 allValid products =

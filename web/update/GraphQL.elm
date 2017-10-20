@@ -10,17 +10,19 @@ import Json.Decode as Decode
 import Date exposing (Date)
 import Date.Extra as Date
 import Either exposing (Either(..))
-import Util
 import GraphQL.Client.Http exposing (..)
 import GraphQL.Request.Builder as GraphQL exposing (..)
 import GraphQL.Request.Builder.Arg as Arg
 import GraphQL.Request.Builder.Variable as Var
+import Set
 
+import Util
+import List_
 import Model exposing (Model)
 import User exposing (User)
 import ProductType exposing (FullType, InternalType, NewType, ProductType(..))
 import Product exposing (FullProduct, InternalProduct, NewProduct, Product(..))
-import Price exposing (FullPrice, Price(..))
+import Price exposing (FullPrice, CondensedPrice, Price(..))
 import Convention exposing (MetaConvention, FullConvention, Convention(..))
 import Record exposing (Record)
 import Pagination exposing (Pagination)
@@ -63,6 +65,17 @@ product = object FullProduct
   |> with (field "name" [] string)
   |> with (field "quantity" [] int)
   |> with (field "discontinued" [] bool)
+
+pricePair : ValueSpec NonNull ObjectType (Int, Float) vars
+pricePair = object (,)
+  |> with (field "quantity" [] int)
+  |> with (field "price" [] float)
+
+price : ValueSpec NonNull ObjectType CondensedPrice vars
+price = object CondensedPrice
+  |> with (field "typeId" [] int)
+  |> with (field "productId" [] (nullable int))
+  |> with (field "prices" [] (list pricePair))
 
 priceRow : ValueSpec NonNull ObjectType FullPrice vars
 priceRow = object FullPrice
@@ -218,6 +231,56 @@ updateProducts products =
     <| keyValuePairs
     <| List.map updateProduct products
 
+pricePairArg : (Int, Float) -> Arg.Value vars
+pricePairArg (q, p) =
+  Arg.object
+    [ ("quantity", Arg.int q)
+    , ("price", Arg.float p) ]
+priceAdd : CondensedPrice -> Arg.Value vars
+priceAdd pr =
+  Arg.object
+    [ ("typeId", Arg.int pr.type_id)
+    , ("productId", (argNullable Arg.int) pr.product_id)
+    , ("prices", (Arg.list << List.map pricePairArg) pr.prices) ]
+createPrice : CondensedPrice -> SelectionSpec Field CondensedPrice vars
+createPrice pr =
+  aliasAs (Price.hash (pr.type_id, pr.product_id)) <|
+    field "addUserPrice"
+      [ ("price", priceAdd pr) ]
+      price
+createPrices : List Price -> Request Mutation (List (String, CondensedPrice))
+createPrices prices =
+  request {}
+    <| mutationDocument
+    <| map (List.map <| Tuple.mapFirst (String.dropLeft 1))
+    <| keyValuePairs
+    <| List.map createPrice
+    <| List.foldl collectPrices []
+    <| prices
+
+priceDel : (Int, Maybe Int) -> Arg.Value vars
+priceDel (t, p) =
+  Arg.object
+    [ ("typeId", Arg.int t)
+    , ("productId", (argNullable Arg.int) p) ]
+deletePrice : (Int, Maybe Int) -> SelectionSpec Field () vars
+deletePrice pr =
+  aliasAs (Price.hash pr) <|
+    field "delUserPrice"
+      [ ("price", priceDel pr) ]
+      ( map (always ()) (nullable int) )
+deletePrices : List Price -> Request Mutation (List (String, ()))
+deletePrices prices =
+  let
+    keep = Set.fromList <| List.filterMap (Price.normalize >> Maybe.map (\p -> (p.type_id, p.product_id |> Maybe.withDefault 0))) prices
+    remove = List.filter (not << flip Set.member keep << Tuple.mapSecond (Maybe.withDefault 0)) <| List.filterMap Price.deletedData prices
+  in
+    request {}
+      <| mutationDocument
+      <| map (List.map <| Tuple.mapFirst (String.dropLeft 1)) -- TODO don't need
+      <| keyValuePairs
+      <| List.map deletePrice remove
+
 addConvention : String -> Request Mutation MetaConvention
 addConvention code =
   request { conCode = code }
@@ -244,6 +307,9 @@ mutation : (Result Error result -> msg) -> Request Mutation result -> Model -> C
 mutation msg query model = Task.attempt msg <| customSendMutation (authorized "POST" model.authtoken) query
 
 -- Helpers
+argNullable : (a -> Arg.Value vars) -> Maybe a -> Arg.Value vars
+argNullable fn = Maybe.map fn >> Maybe.withDefault Arg.null
+
 argIfRight : (a -> Arg.Value vars) ->  Either x a -> Arg.Value vars
 argIfRight fn val =
   case val of
@@ -252,3 +318,16 @@ argIfRight fn val =
 
 aliasAs : String -> SelectionSpec Field result vars -> SelectionSpec Field result vars
 aliasAs = GraphQL.aliasAs << String.cons '_'
+
+collectPrices : Price -> List CondensedPrice -> List CondensedPrice
+collectPrices price prices =
+  case Price.normalize price of
+    Nothing -> prices
+    Just { type_id, product_id, price, quantity } ->
+      List_.updateAtOrInsert
+        (CondensedPrice type_id product_id [(quantity, price)])
+        (\p -> p.type_id == type_id && p.product_id == product_id)
+        (\p ->
+          { p
+          | prices = (quantity, price) :: p.prices })
+        prices

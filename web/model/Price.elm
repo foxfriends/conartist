@@ -36,6 +36,11 @@ type alias DeletedPrice =
   , type_id: Int
   , product_id: Maybe Int }
 
+type alias CondensedPrice =
+  { type_id: Int
+  , product_id: Maybe Int
+  , prices: List (Int, Float) }
+
 type Price
   = Clean FullPrice
   | Dirty InternalPrice
@@ -298,3 +303,11 @@ deleted : Price -> Bool
 deleted price = case price of
   Deleted _ -> True
   _ -> False
+
+deletedData : Price -> Maybe (Int, Maybe Int)
+deletedData price = case price of
+  Deleted d -> Just (d.type_id, d.product_id)
+  _ -> Nothing
+
+hash : (Int, Maybe Int) -> String
+hash (t, p) = toString t ++ "_" ++ toString p

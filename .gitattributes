@@ -1,2 +1,6 @@
+# exclude the minified source files from linguist results
 *.min.js linguist-generated=true
 *.min.css linguist-generated=true
+
+# not actually generated but hey its not really code either
+*.config.js linguist-generated=true

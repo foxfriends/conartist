@@ -101,11 +101,11 @@ fullConvention = object FullConvention
   |> with (field "code" [] string)
   |> with (field "start" [] date)
   |> with (field "end" [] date)
-  |> with (field "product" [] (map (List.map Product.Clean) <| map (List.sortBy .id) (list product)))
-  |> with (field "productType" [] (map (List.map ProductType.Clean) <| map (List.sortBy .id) (list productType)))
-  |> with (field "price" [] (list <| map Price.Clean priceRow))
-  |> with (field "record" [] (list record))
-  |> with (field "expense" [] (list expense))
+  |> with (field "products" [] (map (List.map Product.Clean) <| map (List.sortBy .id) (list product)))
+  |> with (field "productTypes" [] (map (List.map ProductType.Clean) <| map (List.sortBy .id) (list productType)))
+  |> with (field "prices" [] (list <| map Price.Clean priceRow))
+  |> with (field "records" [] (list record))
+  |> with (field "expenses" [] (list expense))
 
 record : ValueSpec NonNull ObjectType Record vars
 record = object Record
@@ -125,10 +125,10 @@ user = object User
   |> with (field "email" [] string)
   |> with (field "name" [] string)
   |> with (field "keys" [] int)
-  |> with (field "product" [] (map (List.map Product.Clean) <| map (List.sortBy .id) (list product)))
-  |> with (field "productType" [] (map (List.map ProductType.Clean) <| map (List.sortBy .id) (list productType)))
-  |> with (field "price" [] (list <| map Price.Clean priceRow))
-  |> with (field "convention" [] (list <| map Convention.Meta metaConvention))
+  |> with (field "products" [] (map (List.map Product.Clean) <| map (List.sortBy .id) (list product)))
+  |> with (field "productTypes" [] (map (List.map ProductType.Clean) <| map (List.sortBy .id) (list productType)))
+  |> with (field "prices" [] (list <| map Price.Clean priceRow))
+  |> with (field "conventions" [] (list <| map Convention.Meta metaConvention))
 
 pagination : ValueSpec NonNull ObjectType a vars -> ValueSpec NonNull ObjectType (Pagination a) vars
 pagination a = object Pagination

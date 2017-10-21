@@ -106,6 +106,7 @@ graphql_object!(Mutation: Database |&self| {
         }
     }
 
+    // Prices
     field add_user_price(&executor, user_id: Option<i32>, price: PriceAdd) -> FieldResult<Price> {
         ensure!(price.prices.iter().all(|p| p.quantity >= 0 && p.price >= 0f64));
         let prices =
@@ -128,6 +129,7 @@ graphql_object!(Mutation: Database |&self| {
         }
     }
 
+    // Conventions
     field add_user_convention(&executor, user_id: Option<i32>, con_code: String) -> FieldResult<Convention> {
         ensure!(con_code.len() == 5);
 
@@ -137,7 +139,7 @@ graphql_object!(Mutation: Database |&self| {
                 .create_user_convention(user_id, con_code)
         }
     }
-    field del_user_convention(&executor, user_id: Option<i32>, con_code: String) -> FieldResult<Convention> { Err(FieldError::new("Unimplemented", Value::null())) }
+    field del_user_convention(&executor, user_id: Option<i32>, con_code: String) -> FieldResult<bool> { Err(FieldError::new("Unimplemented", Value::null())) }
 
     field add_user_record(&executor, user_id: Option<i32>, record: RecordAdd) -> FieldResult<Record> { Err(FieldError::new("Unimplemented", Value::null())) }
     field mod_user_record(&executor, user_id: Option<i32>, record: RecordMod) -> FieldResult<Record> { Err(FieldError::new("Unimplemented", Value::null())) }

@@ -1,7 +1,10 @@
+scalar Date
+scalar Time
+
 type Query {
-  user: User!
-  userConvention: FullUserConvention!
-  convention: ConventionPage!
+  user(id: Int): User!
+  userConvention(id: Int, code: String!): FullUserConvention!
+  convention(date: Date, page: Int, limit: Int): ConventionPage!
 }
 
 type User {
@@ -9,10 +12,11 @@ type User {
   name: String!
   email: String!
   keys: Int!
-  productType: [ProductType]!
-  product: [ProductInInventory]!
-  price: [PriceRow]!
-  convention: [FullUserConvention]!
+  joinDate: Time!
+  productTypes: [ProductType]!
+  products: [ProductInInventory]!
+  prices: [PriceRow]!
+  conventions: [FullUserConvention]!
 }
 
 type ProductType {
@@ -29,6 +33,16 @@ type ProductInInventory {
   discontinued: Boolean!
 }
 
+type PricePairOut {
+  quantity: Int!
+  price: Float!
+}
+type Price {
+  typeId: Int!
+  productId: Int
+  prices: [PricePairOut]!
+}
+
 type PriceRow {
   index: Int!
   typeId: Int!
@@ -38,37 +52,39 @@ type PriceRow {
 }
 
 type Record {
+  id: Int!
   products: [Int]!
   price: Float!
-  time: Int!
+  time: Time!
 }
 
 type Expense {
+  id: Int!
   price: Float!
   category: String!
   description: String!
-  spendTime: Int!
+  spendTime: Time!
 }
 
 type FullUserConvention {
   id: Int!
   code: String!
   name: String!
-  start: String!
-  end: String!
-  productType: [ProductType]!
-  product: [ProductInInventory]!
-  price: [PriceRow]!
-  record: [Record]!
-  expense: [Expense]!
+  start: Date!
+  end: Date!
+  productTypes: [ProductType]!
+  products: [ProductInInventory]!
+  prices: [PriceRow]!
+  records: [Record]!
+  expenses: [Expense]!
 }
 
 type Convention {
   id: Int!
   code: String!
   name: String!
-  start: String!
-  end: String!
+  start: Date!
+  end: Date!
 }
 
 type ConventionPage {
@@ -77,22 +93,118 @@ type ConventionPage {
   data: [Convention]!
 }
 
+type Mutation {
+  changeUserEmail(userId: Int, email: String!): User!
+  changeUserPassword(userId: Int, password: String!): User!
+  changeUserName(userId: Int, name: String!): User!
+  addUserKeys(userId: Int, quantity: Int!): User!
+
+  addUserProductType(userId: Int, productType: ProductTypeAdd!): ProductType!
+  modUserProductType(userId: Int, productType: ProductTypeMod!): ProductType!
+
+  addUserProduct(userId: Int, product: ProductAdd!): ProductInInventory!
+  modUserProduct(userId: Int, product: ProductMod!): ProductInInventory!
+
+  addUserPrice(userId: Int, price: PriceAdd!): Price!
+  delUserPrice(userId: Int, price: PriceDel!): Boolean!
+
+  addUserConvention(userId: Int, conCode: String!): Convention!
+  delUserConvention(userId: Int, conCode: String!): Boolean!
+
+  addUserRecord(userId: Int, record: RecordAdd!): Record!
+  modUserRecord(userId: Int, record: RecordMod!): Record!
+  delUserRecord(userId: Int, record: RecordDel!): Record!
+
+  addUserExpense(userId: Int, expense: ExpenseAdd!): Expense!
+  modUserExpense(userId: Int, expense: ExpenseMod!): Expense!
+  delUserExpense(userId: Int, expense: ExpenseDel!): Expense!
+}
+
+input ProductTypeAdd {
+  name: String!
+  color: Int!
+}
+input ProductTypeMod {
+  typeId: Int!
+  name: String
+  color: Int
+  discontinued: Boolean
+}
+
+input ProductAdd {
+  typeId: Int!
+  name: String!
+  quantity: Int!
+}
+input ProductMod {
+  productId: Int!
+  name: String
+  quantity: Int
+  discontinued: Boolean
+}
+
+input PricePairIn {
+  quantity: Int!
+  price: Float!
+}
+input PriceAdd {
+  typeId: Int!
+  productId: Int
+  prices: [PricePairIn]!
+}
+input PriceDel {
+  typeId: Int!
+  productId: Int
+}
+
+input RecordAdd {
+  conId: Int!
+  products: [Int]!
+  price: Float!
+  time: Time!
+}
+input RecordMod {
+  recordId: Int!
+  products: [Int]
+  price: Float
+}
+input RecordDel {
+  recordId: Int!
+}
+
+input ExpenseAdd {
+  conId: Int!
+  price: Float!
+  category: String!
+  description: String!
+  time: Time!
+}
+input ExpenseMod {
+  expenseId: Int!
+  price: Float
+  category: String
+  description: String
+}
+input ExpenseDel {
+  expenseId: Int!
+}
+
 query User($id: Int) {
   user(id: $id) {
     id
     name
     email
     keys
-    productType {
+    productTypes {
       ...ProductTypeFragment
     }
-    product {
+    products {
       ...ProductFragment
     }
-    price {
+    prices {
       ...PriceRowFragment
     }
-    convention {
+    conventions {
       ...MetaConventionFragment
     }
   }
@@ -104,7 +216,7 @@ query FullConvention($id: Int, $code: String!) {
   }
 }
 
-query ConventionPage($date: String, $limit: Int, $page: int) {
+query ConventionPage($date: Date, $limit: Int, $page: int) {
   convention(date: $date, limit: $limit, page: $page) {
     page
     pages
@@ -150,9 +262,9 @@ fragment MetaConventionFragment on FullUserConvention {
 
 fragment FullConventionFragment on FullUserConvention {
   ...MetaConventionFragment
-  product { ...ProductFragment }
-  productType { ...ProductTypeFragment }
-  price { ...PriceRowFragment }
-  record { ...RecordFragment }
-  expense { ...ExpenseFragment }
+  products { ...ProductFragment }
+  productTypes { ...ProductTypeFragment }
+  prices { ...PriceRowFragment }
+  records { ...RecordFragment }
+  expenses { ...ExpenseFragment }
 }

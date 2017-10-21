@@ -14,7 +14,7 @@ graphql_object!(FullUserConvention: Database |&self| {
     field start() -> String { self.start_date.to_string() }
     field end() -> String { self.end_date.to_string() }
 
-    field product_type(&executor) -> FieldResult<Vec<ProductType>> {
+    field product_types(&executor) -> FieldResult<Vec<ProductType>> {
         dbtry! {
             executor
                 .context()
@@ -22,7 +22,7 @@ graphql_object!(FullUserConvention: Database |&self| {
         }
     }
 
-    field product(&executor) -> FieldResult<Vec<ProductInInventory>> {
+    field products(&executor) -> FieldResult<Vec<ProductInInventory>> {
         dbtry! {
             executor
                 .context()
@@ -30,7 +30,7 @@ graphql_object!(FullUserConvention: Database |&self| {
         }
     }
 
-    field price(&executor) -> FieldResult<Vec<PriceRow>> {
+    field prices(&executor) -> FieldResult<Vec<PriceRow>> {
         dbtry! {
             executor
                 .context()
@@ -45,7 +45,7 @@ graphql_object!(FullUserConvention: Database |&self| {
         }
     }
 
-    field record(&executor) -> FieldResult<Vec<Record>> {
+    field records(&executor) -> FieldResult<Vec<Record>> {
         dbtry! {
             executor
                 .context()
@@ -53,7 +53,7 @@ graphql_object!(FullUserConvention: Database |&self| {
         }
     }
 
-    field expense(&executor) -> FieldResult<Vec<Expense>> {
+    field expenses(&executor) -> FieldResult<Vec<Expense>> {
         dbtry! {
             executor
                 .context()

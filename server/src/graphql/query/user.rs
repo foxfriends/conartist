@@ -12,7 +12,7 @@ graphql_object!(User: Database |&self| {
     field keys() -> i32 { self.keys }
     field join_date() -> NaiveDateTime { self.join_date }
 
-    field product_type(&executor) -> FieldResult<Vec<ProductType>> {
+    field product_types(&executor) -> FieldResult<Vec<ProductType>> {
         dbtry! {
             executor
                 .context()
@@ -20,7 +20,7 @@ graphql_object!(User: Database |&self| {
         }
     }
 
-    field product(&executor) -> FieldResult<Vec<ProductInInventory>> {
+    field products(&executor) -> FieldResult<Vec<ProductInInventory>> {
         dbtry! {
             executor
                 .context()
@@ -28,7 +28,7 @@ graphql_object!(User: Database |&self| {
         }
     }
 
-    field price(&executor) -> FieldResult<Vec<PriceRow>> {
+    field prices(&executor) -> FieldResult<Vec<PriceRow>> {
         dbtry! {
             executor
                 .context()
@@ -43,7 +43,7 @@ graphql_object!(User: Database |&self| {
         }
     }
 
-    field convention(&executor) -> FieldResult<Vec<FullUserConvention>> {
+    field conventions(&executor) -> FieldResult<Vec<FullUserConvention>> {
         dbtry! {
             executor
                 .context()

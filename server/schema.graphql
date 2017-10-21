@@ -1,0 +1,81 @@
+query User($id: Int) {
+  user(id: $id) {
+    id
+    name
+    email
+    keys
+    productType {
+      ...ProductTypeFragment
+    }
+    product {
+      ...ProductFragment
+    }
+    price {
+      ...PriceRowFragment
+    }
+    convention {
+      ...MetaConventionFragment
+    }
+  }
+}
+
+query FullConvention($id: Int, $code: String!) {
+  userConvention(id: $id, code: $code) {
+    ...FullConventionFragment
+  }
+}
+
+query ConventionPage($date: String, $limit: Int, $page: int) {
+  convention(date: $date, limit: $limit, page: $page) {
+    page
+    pages
+    data {
+      id
+      name
+      code
+      start
+      end
+    }
+  }
+}
+
+# TODO: Add mutations to this
+
+fragment ProductTypeFragment on ProductType {
+  id
+  name
+  color
+  discontinued
+}
+
+fragment ProductTypeFragment on ProductInInventory {
+  id
+  name
+  quantity
+  discontinued
+}
+
+fragment PriceRowFragment on PriceRow {
+  index
+  typeId
+  productId
+  quantity
+  price
+}
+
+fragment MetaConventionFragment on FullUserConvention {
+  id
+  code
+  name
+  start
+  end
+}
+
+fragment FullConventionFragment on FullUserConvention {
+  ...MetaConventionFragment
+  product { ...ProductFragment }
+  productType { ...ProductTypeFragment }
+  price { ...PriceRowFragment }
+  record { ...RecordFragment }
+  expense { ...ExpenseFragment }
+}

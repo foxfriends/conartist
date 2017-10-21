@@ -2,25 +2,66 @@ package com.cameldridge.conartist
 
 import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.view.View
+import android.widget.ArrayAdapter
+import com.cameldridge.conartist.api.GraphQLQuery
 import com.cameldridge.conartist.schema.Convention
+import com.cameldridge.conartist.schema.User
+import kotlinx.android.synthetic.main.activity_app_root.*
 import kotlin.properties.Delegates
 
 class AppRootActivity : AppCompatActivity() {
-    private var conventions: ArrayList<Convention> by Delegates.notNull()
+    private var conList: ArrayAdapter<Convention> by Delegates.notNull()
+
+    private var user: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // TODO: Send load convention request
         setContentView(R.layout.activity_app_root)
+
+        conList = ConventionRowListAdapter(this)
+        retryButton.setOnClickListener { loadUser() }
+        conventionList.adapter = conList
+        conventionList.setOnItemClickListener { parent, _, position, _ ->
+            val con = parent.getItemAtPosition(position) as Convention
+            startActivity(ConventionModeActivity.newIntent(this, con.meta().code))
+        }
+
+        loadUser()
+    }
+
+    private fun loadUser() {
+        setUIState(UIState.LOAD)
+        GraphQLQuery.user {
+            when(it) {
+                null -> setUIState(UIState.FAIL)
+                else -> {
+                    user = it
+                    conList.clear()
+                    user?.conventions?.let(conList::addAll)
+                    setUIState(UIState.LIST)
+                }
+            }
+        }.execute()
+    }
+
+    private fun setUIState(state: UIState) {
+        loadUserProgress.visibility = View.GONE
+        loadUserError.visibility    = View.GONE
+        conventionList.visibility   = View.GONE
+        when(state) {
+            UIState.LOAD -> loadUserProgress.visibility = View.VISIBLE
+            UIState.FAIL -> loadUserError.visibility    = View.VISIBLE
+            UIState.LIST -> conventionList.visibility   = View.VISIBLE
+        }
     }
 
     companion object {
-        fun newIntent(ctx: Context, authToken: String): Intent {
-            val intent = Intent(ctx, AppRootActivity::class.java)
-            intent.putExtra("authToken", authToken)
-            return intent
+        internal enum class UIState { LOAD, FAIL, LIST }
+        fun newIntent(ctx: Context): Intent {
+            return Intent(ctx, AppRootActivity::class.java)
         }
     }
 }

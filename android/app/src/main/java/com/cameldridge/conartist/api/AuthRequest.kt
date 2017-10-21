@@ -2,10 +2,12 @@ package com.cameldridge.conartist.api
 
 import android.os.AsyncTask
 import com.beust.klaxon.JsonObject
+import com.beust.klaxon.Parser
+import com.beust.klaxon.string
 import com.github.kittinunf.fuel.core.ResponseDeserializable
 import com.github.kittinunf.fuel.httpPost
-import com.github.kittinunf.result.*
-import com.beust.klaxon.*
+import com.github.kittinunf.result.getOrElse
+import com.github.kittinunf.result.map
 
 object JsonDeserializer : ResponseDeserializable<JsonObject> {
     override fun deserialize(content: String): JsonObject = Parser().parse(StringBuilder(content)) as JsonObject
@@ -20,14 +22,10 @@ class UserLoginTask(
     private val onFinish: (String?) -> Unit
 ) : AsyncTask<Void, Void, String?>() {
     override fun doInBackground(vararg params: Void): String? {
-        println("Request sent with $email, $password")
-
         val result = "/auth"
             .httpPost(listOf( "usr" to email, "psw" to password ))
             .responseObject(JsonDeserializer)
             .third
-
-        println("Response received $result")
 
         val authToken = result
             .map {

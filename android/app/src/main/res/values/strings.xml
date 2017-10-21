@@ -12,4 +12,14 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">Contacts permissions are needed for providing email completions.</string>
+    <string name="need_an_account">Need an account? Visit the website!</string>
+
+    <!-- Error messages -->
+    <string name="load_user_failed">Failed to retrieve your information&#8230;\nCheck your network connection</string>
+    <string name="retry_load_user">Try again</string>
+
+    <!--  -->
+    <string name="date_range">%s&#8211;%s</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

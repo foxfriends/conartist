@@ -1,8 +1,9 @@
 package com.cameldridge.conartist
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import com.cameldridge.conartist.api.Authorization
 import com.github.kittinunf.fuel.core.FuelManager
 
 class MainActivity : AppCompatActivity() {
@@ -19,12 +20,15 @@ class MainActivity : AppCompatActivity() {
         when(requestCode) {
             SIGN_IN -> {
                 when(resultCode) {
-                    LoginActivity.SUCCESS -> startActivityForResult(AppRootActivity.newIntent(this, intent.getStringExtra("authToken")), APP)
+                    LoginActivity.SUCCESS -> {
+                        Authorization.set(intent.getStringExtra(LoginActivity.AUTH_TOKEN))
+                        startActivityForResult(AppRootActivity.newIntent(this), APP)
+                    }
                     LoginActivity.FAILURE -> startActivityForResult(LoginActivity.newIntent(this), SIGN_IN)
                 }
             }
             APP -> {
-                // nothing left to do
+                Authorization.remove()
             }
         }
     }

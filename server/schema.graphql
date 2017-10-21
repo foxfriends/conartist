@@ -1,3 +1,82 @@
+type Query {
+  user: User!
+  userConvention: FullUserConvention!
+  convention: ConventionPage!
+}
+
+type User {
+  id: Int!
+  name: String!
+  email: String!
+  keys: Int!
+  productType: [ProductType]!
+  product: [ProductInInventory]!
+  price: [PriceRow]!
+  convention: [FullUserConvention]!
+}
+
+type ProductType {
+  id: Int!
+  name: String!
+  color: Int!
+  discontinued: Boolean!
+}
+
+type ProductInInventory {
+  id: Int!
+  name: String!
+  quantity: Int!
+  discontinued: Boolean!
+}
+
+type PriceRow {
+  index: Int!
+  typeId: Int!
+  productId: Int
+  quantity: Int!
+  price: Float!
+}
+
+type Record {
+  products: [Int]!
+  price: Float!
+  time: Int!
+}
+
+type Expense {
+  price: Float!
+  category: String!
+  description: String!
+  spendTime: Int!
+}
+
+type FullUserConvention {
+  id: Int!
+  code: String!
+  name: String!
+  start: String!
+  end: String!
+  productType: [ProductType]!
+  product: [ProductInInventory]!
+  price: [PriceRow]!
+  record: [Record]!
+  expense: [Expense]!
+}
+
+type Convention {
+  id: Int!
+  code: String!
+  name: String!
+  start: String!
+  end: String!
+}
+
+type ConventionPage {
+  pages: Int!
+  page: Int!
+  data: [Convention]!
+}
+
 query User($id: Int) {
   user(id: $id) {
     id
@@ -38,8 +117,6 @@ query ConventionPage($date: String, $limit: Int, $page: int) {
     }
   }
 }
-
-# TODO: Add mutations to this
 
 fragment ProductTypeFragment on ProductType {
   id

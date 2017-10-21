@@ -115,7 +115,6 @@ record = object Record
 
 expense : ValueSpec NonNull ObjectType Expense vars
 expense = object Expense
-  |> with (field "id" [] int)
   |> with (field "price" [] float)
   |> with (field "category" [] string)
   |> with (field "description" [] string)

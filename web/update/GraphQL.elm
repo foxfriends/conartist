@@ -24,6 +24,7 @@ import Product exposing (FullProduct, InternalProduct, NewProduct, Product(..))
 import Price exposing (FullPrice, CondensedPrice, Price(..))
 import Convention exposing (MetaConvention, FullConvention, Convention(..))
 import Record exposing (Record)
+import Expense exposing (Expense)
 import Pagination exposing (Pagination)
 import Validation exposing (valueOf)
 
@@ -87,6 +88,7 @@ priceRow = object FullPrice
 
 metaConvention : ValueSpec NonNull ObjectType MetaConvention vars
 metaConvention = object MetaConvention
+  |> with (field "id" [] int)
   |> with (field "name" [] string)
   |> with (field "code" [] string)
   |> with (field "start" [] date)
@@ -94,6 +96,7 @@ metaConvention = object MetaConvention
 
 fullConvention : ValueSpec NonNull ObjectType FullConvention vars
 fullConvention = object FullConvention
+  |> with (field "id" [] int)
   |> with (field "name" [] string)
   |> with (field "code" [] string)
   |> with (field "start" [] date)
@@ -102,12 +105,21 @@ fullConvention = object FullConvention
   |> with (field "productType" [] (map (List.map ProductType.Clean) <| map (List.sortBy .id) (list productType)))
   |> with (field "price" [] (list <| map Price.Clean priceRow))
   |> with (field "record" [] (list record))
+  |> with (field "expense" [] (list expense))
 
 record : ValueSpec NonNull ObjectType Record vars
 record = object Record
   |> with (field "products" [] (list int))
   |> with (field "price" [] float)
   |> with (field "time" [] time)
+
+expense : ValueSpec NonNull ObjectType Expense vars
+expense = object Expense
+  |> with (field "id" [] int)
+  |> with (field "price" [] float)
+  |> with (field "category" [] string)
+  |> with (field "description" [] string)
+  |> with (field "spendTime" [] time)
 
 user : ValueSpec NonNull ObjectType User vars
 user = object User

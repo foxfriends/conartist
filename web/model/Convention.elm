@@ -6,22 +6,26 @@ import Product exposing (Product)
 import Price exposing (Price)
 import ProductType exposing (ProductType)
 import Record exposing (Record)
+import Expense exposing (Expense)
 
 type alias MetaConvention =
-  { name: String
+  { id: Int
+  , name: String
   , code: String
   , start: Date
   , end: Date }
 
 type alias FullConvention =
-  { name: String
+  { id: Int
+  , name: String
   , code: String
   , start: Date
   , end: Date
   , products: List Product
   , productTypes: List ProductType
   , prices: List Price
-  , records: List Record }
+  , records: List Record
+  , expenses: List Expense }
 
 type Convention
   = Full FullConvention
@@ -38,7 +42,7 @@ stringToDate = Date.fromString >> Result.toMaybe >> (Maybe.withDefault <| Date.f
 asMeta : Convention -> MetaConvention
 asMeta con = case con of
   Meta con -> con
-  Full con -> MetaConvention con.name con.code con.start con.end
+  Full con -> MetaConvention con.id con.name con.code con.start con.end
 
 asFull : Convention -> Maybe FullConvention
 asFull con = case con of

@@ -20,7 +20,7 @@ data class Record(
         override fun deserialize(json: JsonObject): Record? {
             val products = json.array<Int>("products")?.let { ArrayList(it) } ?: return null
             val price = json.double("price") ?: return null
-            val time = json.long("saleTime")?.let(::Date) ?: return null
+            val time = json.long("time")?.let(::Date) ?: return null
 
             return Record(products, price, time)
         }

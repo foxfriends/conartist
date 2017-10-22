@@ -13,8 +13,10 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import com.cameldridge.conartist.schema.FullConvention
 import com.cameldridge.conartist.schema.ProductType
+import com.cameldridge.conartist.schema.Record
 import kotlinx.android.synthetic.main.activity_convention_mode.*
 import kotlinx.android.synthetic.main.fragment_product_type_page.view.*
+import kotlinx.android.synthetic.main.fragment_records_page.view.*
 import kotlin.properties.Delegates
 
 class ConventionModeActivity : AppCompatActivity() {
@@ -94,18 +96,23 @@ class ConventionModeActivity : AppCompatActivity() {
 
     class RecordsPage: Fragment() {
         private var con: FullConvention by Delegates.notNull()
+        private var records: ArrayAdapter<Record> by Delegates.notNull()
 
         override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
         ): View {
-            return inflater.inflate(R.layout.fragment_records_page, container, false)
+            val view = inflater.inflate(R.layout.fragment_records_page, container, false)
+            view.recordsList.adapter = records
+            return view
         }
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             con = arguments.getParcelable(CON)
+            records = RecordRowListAdapter(activity, con.products, con.productTypes)
+            records.addAll(con.records)
         }
 
         companion object {

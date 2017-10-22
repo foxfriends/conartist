@@ -13,11 +13,11 @@ import kotlinx.android.synthetic.main.product_type_list_row.view.*
 class ProductTypeRowListAdapter(private val ctx: Context): ArrayAdapter<ProductType>(ctx, R.layout.product_type_list_row) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
         val pt = getItem(position) ?: return null
-        val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.convention_list_row, parent, false)
+        val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.product_type_list_row, parent, false)
 
-        view.typeIdentifier.text = pt.name.substring(0..1)
+        view.typeIdentifier.text = pt.name.substring(0..0)
         view.typeIdentifier.background = ctx.getDrawable(R.drawable.circle)
-        view.typeIdentifier.background.colorFilter = PorterDuffColorFilter(pt.color, PorterDuff.Mode.SRC_IN)
+        view.typeIdentifier.background.colorFilter = PorterDuffColorFilter((0xFF000000 or pt.color.toLong()).toInt(), PorterDuff.Mode.MULTIPLY)
         view.typeName.text = pt.name
 
         return view

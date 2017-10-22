@@ -79,6 +79,7 @@ class ConventionModeActivity : AppCompatActivity() {
             super.onCreate(savedInstanceState)
             con = arguments.getParcelable(CON)
             productTypes = ProductTypeRowListAdapter(activity)
+            productTypes.addAll(con.productTypes)
         }
 
         companion object {

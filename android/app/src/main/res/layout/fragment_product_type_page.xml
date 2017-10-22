@@ -8,5 +8,5 @@
         android:id="@+id/productTypeList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/product_type_list_row"/>
+        tools:listitem="@layout/product_type_list_row" />
 </android.support.constraint.ConstraintLayout>

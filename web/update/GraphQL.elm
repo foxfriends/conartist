@@ -118,7 +118,7 @@ expense = object Expense
   |> with (field "price" [] float)
   |> with (field "category" [] string)
   |> with (field "description" [] string)
-  |> with (field "spendTime" [] time)
+  |> with (field "time" [] time)
 
 user : ValueSpec NonNull ObjectType User vars
 user = object User

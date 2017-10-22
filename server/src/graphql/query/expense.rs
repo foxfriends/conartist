@@ -10,5 +10,5 @@ graphql_object!(Expense: Database |&self| {
     field price() -> Money { self.price }
     field category() -> &String { &self.category }
     field description() -> &String { &self.description }
-    field spend_time() -> NaiveDateTime { self.spend_time }
+    field time() -> NaiveDateTime { self.spend_time }
 });

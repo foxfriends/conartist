@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import com.cameldridge.conartist.schema.Convention
-import com.cameldridge.conartist.schema.formatDate
+import com.cameldridge.conartist.schema.formatDatePretty
 import kotlinx.android.synthetic.main.convention_list_row.view.*
 
 class ConventionRowListAdapter(val ctx: Context): ArrayAdapter<Convention>(ctx, R.layout.convention_list_row) {
@@ -16,7 +16,7 @@ class ConventionRowListAdapter(val ctx: Context): ArrayAdapter<Convention>(ctx, 
 
         view.rowName.text = con.name
         view.rowCode.text = con.code
-        view.rowDate.text = String.format(ctx.getString(R.string.date_range), formatDate(con.start), formatDate(con.end))
+        view.rowDate.text = String.format(ctx.getString(R.string.date_range), formatDatePretty(con.start), formatDatePretty(con.end))
 
         return view
     }

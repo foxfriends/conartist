@@ -2,29 +2,30 @@ package com.cameldridge.conartist
 
 import android.content.Context
 import android.content.Intent
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.ViewPager
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import com.cameldridge.conartist.schema.FullConvention
+import com.cameldridge.conartist.schema.ProductType
 
 import kotlinx.android.synthetic.main.activity_convention_mode.*
-import kotlinx.android.synthetic.main.fragment_convention_mode.view.*
+import kotlin.properties.Delegates
 
 class ConventionModeActivity : AppCompatActivity() {
     private var sectionsPagerAdapter: SectionsPagerAdapter? = null
+    private var convention: FullConvention by Delegates.notNull()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_convention_mode)
+
+        convention = intent.getParcelableExtra(CON)
 
         setSupportActionBar(toolbar)
         sectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
@@ -34,57 +35,50 @@ class ConventionModeActivity : AppCompatActivity() {
 
     inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         override fun getItem(position: Int): Fragment =
-            when(position) {
-                0 -> PlaceholderFragment.newInstance(position + 1)
-                1 -> PlaceholderFragment.newInstance(position + 1)
-                2 -> PlaceholderFragment.newInstance(position + 1)
-                else -> PlaceholderFragment.newInstance(position + 1)
-            }
+            ProductTypesPage.create(convention.productTypes)
 
         override fun getCount() = 3
     }
 
     companion object {
-        private val CON_CODE = "code"
+        private val CON = "con"
 
-        fun newIntent(ctx: Context, code: String): Intent {
+        fun newIntent(ctx: Context, con: FullConvention): Intent {
             val intent = Intent(ctx, ConventionModeActivity::class.java)
-            intent.putExtra(CON_CODE, code)
+            intent.putExtra(CON, con)
             return intent
         }
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    class PlaceholderFragment : Fragment() {
+    class ProductTypesPage: Fragment() {
+        private var productTypes: ArrayList<ProductType> by Delegates.notNull()
+
         override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
         ): View? {
-            val rootView = inflater.inflate(R.layout.fragment_convention_mode, container, false)
-            rootView.section_label.text = getString(R.string.section_format, arguments.getInt(ARG_SECTION_NUMBER))
-            return rootView
+            return inflater.inflate(R.layout.fragment_product_type_list, container, false)
+        }
+
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            if(arguments.containsKey(PRODUCT_TYPES)) {
+                productTypes = arguments.getParcelableArrayList(PRODUCT_TYPES)
+            }
         }
 
         companion object {
-            /**
-             * The fragment argument representing the section number for this
-             * fragment.
-             */
-            private val ARG_SECTION_NUMBER = "section_number"
+            private val PRODUCT_TYPES = "productTypes"
 
-            /**
-             * Returns a new instance of this fragment for the given section
-             * number.
-             */
-            fun newInstance(sectionNumber: Int): PlaceholderFragment {
-                val fragment = PlaceholderFragment()
+            fun create(productTypes: ArrayList<ProductType>?): ProductTypesPage {
+                val page = ProductTypesPage()
                 val args = Bundle()
-                args.putInt(ARG_SECTION_NUMBER, sectionNumber)
-                fragment.arguments = args
-                return fragment
+                if(productTypes != null) {
+                    args.putParcelableArrayList(PRODUCT_TYPES, productTypes)
+                }
+                page.arguments = args
+                return page
             }
         }
     }

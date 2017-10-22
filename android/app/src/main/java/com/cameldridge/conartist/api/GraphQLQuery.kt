@@ -3,6 +3,7 @@ package com.cameldridge.conartist.api
 import android.os.AsyncTask
 import com.beust.klaxon.obj
 import com.cameldridge.conartist.result.unwrap
+import com.cameldridge.conartist.schema.FullConvention
 import com.cameldridge.conartist.schema.GraphQLDeserializer
 import com.cameldridge.conartist.schema.User
 import com.github.kittinunf.fuel.httpGet
@@ -17,14 +18,12 @@ class GraphQLQuery<T>(
         private val onFinish: (T?) -> Unit
 ) : AsyncTask<Void, Void, T>() {
     override fun doInBackground(vararg params: Void): T? {
-        val (req, res, result) = "/v2"
+        return "/v2"
             .httpGet(listOf("query" to query.toGraphQueryString()))
             .header(Authorization.header())
             .responseObject(JsonDeserializer)
-
-        println("$result")
-
-        return result.unwrap()
+            .third
+            .unwrap()
             ?.obj("data")
             ?.obj(deserializer.first)
             ?.let(deserializer.second::deserialize)
@@ -57,6 +56,53 @@ class GraphQLQuery<T>(
                     }
                 },
                 "user" to User.Companion,
+                handler
+            )
+
+        fun con(code: String, handler: (FullConvention?) -> Unit) =
+            GraphQLQuery(
+                Kraph {
+                    query {
+                        fieldObject("userConvention", mapOf("code" to code)) {
+                            field("id")
+                            field("name")
+                            field("code")
+                            field("start")
+                            field("end")
+                            fieldObject("productTypes") {
+                                field("id")
+                                field("name")
+                                field("color")
+                            }
+                            fieldObject("products") {
+                                field("id")
+                                field("typeId")
+                                field("name")
+                                field("quantity")
+                            }
+                            fieldObject("condensedPrices") {
+                                field("typeId")
+                                field("productId")
+                                fieldObject("prices") {
+                                    field("quantity")
+                                    field("price")
+                                }
+                            }
+                            fieldObject("records") {
+                                field("products")
+                                field("price")
+                                field("time")
+                            }
+                            fieldObject("expenses") {
+                                field("price")
+                                field("category")
+                                field("description")
+                                field("time")
+                            }
+                        }
+                    }
+                },
+                "userConvention" to FullConvention.Companion,
                 handler
             )
     }

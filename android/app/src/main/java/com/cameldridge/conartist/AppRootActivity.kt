@@ -26,7 +26,17 @@ class AppRootActivity : AppCompatActivity() {
         conventionList.adapter = conList
         conventionList.setOnItemClickListener { parent, _, position, _ ->
             val con = parent.getItemAtPosition(position) as Convention
-            startActivity(ConventionModeActivity.newIntent(this, con.meta().code))
+            GraphQLQuery.con(con.meta().code) { filled ->
+                if(filled == null) {
+                    // TODO: show an error
+                } else {
+                    user?.let {
+                        val i = it.conventions.indexOfFirst { it.meta().code == filled.meta().code }
+                        it.conventions[i] = filled
+                    }
+                    startActivity(ConventionModeActivity.newIntent(this, filled))
+                }
+            } .execute()
         }
 
         loadUser()

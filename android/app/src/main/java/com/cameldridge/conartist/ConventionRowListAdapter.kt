@@ -9,7 +9,7 @@ import com.cameldridge.conartist.schema.Convention
 import com.cameldridge.conartist.schema.formatDatePretty
 import kotlinx.android.synthetic.main.convention_list_row.view.*
 
-class ConventionRowListAdapter(val ctx: Context): ArrayAdapter<Convention>(ctx, R.layout.convention_list_row) {
+class ConventionRowListAdapter(private val ctx: Context): ArrayAdapter<Convention>(ctx, R.layout.convention_list_row) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
         val con = getItem(position)?.meta() ?: return null
         val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.convention_list_row, parent, false)

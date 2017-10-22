@@ -6,6 +6,7 @@
 
     <solid
         android:id="@+id/circle"
+        android:color="@android:color/white"
         tools:color="#9FE554" />
 
     <size

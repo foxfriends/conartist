@@ -2,40 +2,51 @@ package com.cameldridge.conartist
 
 import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
-
+import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import com.cameldridge.conartist.schema.FullConvention
 import com.cameldridge.conartist.schema.ProductType
-
 import kotlinx.android.synthetic.main.activity_convention_mode.*
+import kotlinx.android.synthetic.main.fragment_product_type_page.view.*
 import kotlin.properties.Delegates
 
 class ConventionModeActivity : AppCompatActivity() {
-    private var sectionsPagerAdapter: SectionsPagerAdapter? = null
-    private var convention: FullConvention by Delegates.notNull()
+    private var con: FullConvention by Delegates.notNull()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_convention_mode)
 
-        convention = intent.getParcelableExtra(CON)
+        con = intent.getParcelableExtra(CON)
 
-        setSupportActionBar(toolbar)
-        sectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
-
-        container.adapter = sectionsPagerAdapter
+        supportActionBar?.title = con.name
+        viewPager.adapter = SectionsPagerAdapter(supportFragmentManager)
+        tabBar.setupWithViewPager(viewPager)
     }
 
     inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
-        override fun getItem(position: Int): Fragment =
-            ProductTypesPage.create(convention.productTypes)
+        override fun getItem(position: Int): Fragment? =
+            when(position) {
+                0 -> ProductTypesPage.create(con)
+                1 -> RecordsPage.create(con)
+                2 -> ChatPage.create(con)
+                else -> null
+            }
+
+        override fun getPageTitle(position: Int) : CharSequence? =
+            when(position) {
+                0 -> "Sell"
+                1 -> "Records"
+                2 -> "Chat"
+                else -> null
+            }
 
         override fun getCount() = 3
     }
@@ -51,33 +62,82 @@ class ConventionModeActivity : AppCompatActivity() {
     }
 
     class ProductTypesPage: Fragment() {
-        private var productTypes: ArrayList<ProductType> by Delegates.notNull()
+        private var con: FullConvention by Delegates.notNull()
+        private var productTypes: ArrayAdapter<ProductType> by Delegates.notNull()
 
         override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-        ): View? {
-            return inflater.inflate(R.layout.fragment_product_type_list, container, false)
+        ): View {
+            val view = inflater.inflate(R.layout.fragment_product_type_page, container, false)
+            view.productTypeList.adapter = productTypes
+            return view
         }
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
-            if(arguments.containsKey(PRODUCT_TYPES)) {
-                productTypes = arguments.getParcelableArrayList(PRODUCT_TYPES)
-            }
+            con = arguments.getParcelable(CON)
+            productTypes = ProductTypeRowListAdapter(activity)
         }
 
         companion object {
-            private val PRODUCT_TYPES = "productTypes"
-
-            fun create(productTypes: ArrayList<ProductType>?): ProductTypesPage {
+            fun create(con: FullConvention): ProductTypesPage {
                 val page = ProductTypesPage()
-                val args = Bundle()
-                if(productTypes != null) {
-                    args.putParcelableArrayList(PRODUCT_TYPES, productTypes)
-                }
-                page.arguments = args
+                page.arguments = Bundle()
+                page.arguments.putParcelable(CON, con)
+                return page
+            }
+        }
+    }
+
+    class RecordsPage: Fragment() {
+        private var con: FullConvention by Delegates.notNull()
+
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View {
+            return inflater.inflate(R.layout.fragment_records_page, container, false)
+        }
+
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            con = arguments.getParcelable(CON)
+        }
+
+        companion object {
+            fun create(con: FullConvention): RecordsPage {
+                val page = RecordsPage()
+                page.arguments = Bundle()
+                page.arguments.putParcelable(CON, con)
+                return page
+            }
+        }
+    }
+
+    class ChatPage: Fragment() {
+        private var con: FullConvention by Delegates.notNull()
+
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View {
+            return inflater.inflate(R.layout.fragment_chat_page, container, false)
+        }
+
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            con = arguments.getParcelable(CON)
+        }
+
+        companion object {
+            fun create(con: FullConvention): ChatPage {
+                val page = ChatPage()
+                page.arguments = Bundle()
+                page.arguments.putParcelable(CON, con)
                 return page
             }
         }

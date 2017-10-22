@@ -22,8 +22,8 @@ class AppRootActivity : AppCompatActivity() {
         setContentView(R.layout.activity_app_root)
 
         conList = ConventionRowListAdapter(this)
-        retryButton.setOnClickListener { loadUser() }
         conventionList.adapter = conList
+        retryButton.setOnClickListener { loadUser() }
         conventionList.setOnItemClickListener { parent, _, position, _ ->
             val con = parent.getItemAtPosition(position) as Convention
             GraphQLQuery.con(con.meta().code) { filled ->

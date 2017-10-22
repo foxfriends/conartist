@@ -1,7 +1,7 @@
 //! Holds information about a convention and a user's products, prices, and records during that convention
 use database::Database;
 use juniper::FieldResult;
-use database::{ProductType, ProductInInventory, PriceRow, FullUserConvention, Record, Expense};
+use database::{ProductType, ProductInInventory, Price, PriceRow, FullUserConvention, Record, Expense};
 
 graphql_object!(FullUserConvention: Database |&self| {
     description: "Holds information about a convention and a user's products, prices, and records during that convention"
@@ -27,6 +27,14 @@ graphql_object!(FullUserConvention: Database |&self| {
             executor
                 .context()
                 .get_products_for_user_con(self.user_id, self.user_con_id)
+        }
+    }
+
+    field condensedPrices(&executor) ->  FieldResult<Vec<Price>> {
+        dbtry! {
+            executor
+                .context()
+                .get_prices_for_user_con(self.user_id, self.user_con_id)
         }
     }
 

@@ -78,6 +78,7 @@ type FullUserConvention {
   end: Date!
   productTypes: [ProductType]!
   products: [ProductInInventory]!
+  condensedPrices: [Price]!
   prices: [PriceRow]!
   records: [Record]!
   expenses: [Expense]!

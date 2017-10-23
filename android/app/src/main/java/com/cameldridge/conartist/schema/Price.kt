@@ -10,8 +10,7 @@ import com.beust.klaxon.int
 data class PricePair(val quantity: Int, val price: Double): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
-        parcel.readDouble()) {
-    }
+        parcel.readDouble())
 
     companion object: GraphQLDeserializer<PricePair> {
         override fun deserialize(json: JsonObject): PricePair? {

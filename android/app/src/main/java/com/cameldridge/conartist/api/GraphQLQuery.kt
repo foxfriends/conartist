@@ -17,8 +17,8 @@ class GraphQLQuery<T>(
         private val deserializer: Pair<String, GraphQLDeserializer<T>>,
         private val onFinish: (T?) -> Unit
 ) : AsyncTask<Void, Void, T>() {
-    override fun doInBackground(vararg params: Void): T? {
-        return "/v2"
+    override fun doInBackground(vararg params: Void): T? =
+        "/v2"
             .httpGet(listOf("query" to query.toGraphQueryString()))
             .header(Authorization.header())
             .responseObject(JsonDeserializer)
@@ -27,7 +27,6 @@ class GraphQLQuery<T>(
             ?.obj("data")
             ?.obj(deserializer.first)
             ?.let(deserializer.second::deserialize)
-    }
 
     override fun onPostExecute(result: T?) {
         onFinish(result)

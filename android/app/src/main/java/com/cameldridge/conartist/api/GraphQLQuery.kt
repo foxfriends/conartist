@@ -37,6 +37,8 @@ class GraphQLQuery<T>(
     }
 
     companion object {
+        // TODO: make some PRs to the Kraph package so this doesn't get so big and unmaintainable
+        //       also maybe just change to use Apollo or something, along with all the other apps
         fun user(handler: (User?) -> Unit) =
             GraphQLQuery(
                 Kraph {

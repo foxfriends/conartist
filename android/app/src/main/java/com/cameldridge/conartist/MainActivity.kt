@@ -6,6 +6,10 @@ import android.support.v7.app.AppCompatActivity
 import com.cameldridge.conartist.api.Authorization
 import com.github.kittinunf.fuel.core.FuelManager
 
+/**
+ * This is the entry point of the app. I guess spashscreen like thing
+ * Directs the user straight to the login page. When navigated back to the app will just close.
+ */
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,21 +20,25 @@ class MainActivity : AppCompatActivity() {
         startActivityForResult(LoginActivity.newIntent(this), SIGN_IN)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         when(requestCode) {
             SIGN_IN -> {
                 when(resultCode) {
                     LoginActivity.SUCCESS -> {
-                        Authorization.set(intent.getStringExtra(LoginActivity.AUTH_TOKEN))
+                        if(intent != null) {
+                            Authorization.set(intent.getStringExtra(LoginActivity.AUTH_TOKEN))
+                        }
                         startActivityForResult(AppRootActivity.newIntent(this), APP)
                     }
-                    LoginActivity.FAILURE -> startActivityForResult(LoginActivity.newIntent(this), SIGN_IN)
+                    LoginActivity.FAILURE -> finish()
                 }
             }
-            APP -> {
-                Authorization.remove()
-            }
+            APP -> finish()
         }
+    }
+
+    override fun onBackPressed() {
+        finish()
     }
 
     companion object {

@@ -22,15 +22,25 @@ import kotlin.properties.Delegates
 class ConventionModeActivity : AppCompatActivity() {
     private var con: FullConvention by Delegates.notNull()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreate(prevState: Bundle?) {
+        super.onCreate(prevState)
         setContentView(R.layout.activity_convention_mode)
 
-        con = intent.getParcelableExtra(CON)
+        con =
+            if(prevState != null) {
+                prevState.getParcelable(CON)
+            } else {
+                intent.getParcelableExtra(CON)
+            }
 
         supportActionBar?.title = con.name
         viewPager.adapter = SectionsPagerAdapter(supportFragmentManager)
         tabBar.setupWithViewPager(viewPager)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable(CON, con)
     }
 
     inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
@@ -55,6 +65,7 @@ class ConventionModeActivity : AppCompatActivity() {
 
     companion object {
         private val CON = "con"
+        private val CREATE_RECORD = 0
 
         fun newIntent(ctx: Context, con: FullConvention): Intent {
             val intent = Intent(ctx, ConventionModeActivity::class.java)
@@ -74,13 +85,24 @@ class ConventionModeActivity : AppCompatActivity() {
         ): View {
             val view = inflater.inflate(R.layout.fragment_product_type_page, container, false)
             view.productTypeList.adapter = productTypes
+            view.productTypeList.setOnItemClickListener { parent, _, position, _ ->
+                val pt = parent.getItemAtPosition(position) as ProductType
+                CreateRecordActivity
+                    .newIntent(
+                        context,
+                        pt,
+                        con.products.filter { it.typeId == pt.id }.toCollection(ArrayList()),
+                        con.prices.filter { it.typeId == pt.id }.toCollection(ArrayList())
+                    )
+                    .let { startActivityForResult(it, CREATE_RECORD) }
+            }
             return view
         }
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             con = arguments.getParcelable(CON)
-            productTypes = ProductTypeRowListAdapter(activity)
+            productTypes = ProductTypeRowListAdapter(activity, con.prices)
             productTypes.addAll(con.productTypes)
         }
 

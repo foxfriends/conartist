@@ -242,6 +242,12 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         val IS_PRIMARY = 1
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        setResult(FAILURE)
+        finish()
+    }
+
     companion object {
 
         /**

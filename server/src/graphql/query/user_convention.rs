@@ -14,6 +14,8 @@ graphql_object!(FullUserConvention: Database |&self| {
     field start() -> String { self.start_date.to_string() }
     field end() -> String { self.end_date.to_string() }
 
+    // TODO: Option to retrieve all non-discontinued products instead of just products attached to
+    //       this convention
     field product_types(&executor) -> FieldResult<Vec<ProductType>> {
         dbtry! {
             executor

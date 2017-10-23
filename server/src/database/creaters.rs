@@ -1,5 +1,6 @@
 use super::*;
 use postgres_array::Array;
+use chrono::NaiveDateTime;
 
 impl Database {
     pub fn create_user(&self, email: String, name: String, password: String) -> Result<(), String> {
@@ -109,5 +110,39 @@ impl Database {
             .map_err(|r| format!("Failed to sign user {} up for convention {}. Reason: {}", user_id, con_code, r))?;
         trans.commit().unwrap();
         Ok(convention)
+    }
+
+    pub fn create_user_record(
+        &self,
+        maybe_user_id: Option<i32>,
+        con_id: i32,
+        products: Vec<i32>,
+        price: Money,
+        time: NaiveDateTime,
+    ) -> Result<Record, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+
+        let conn = self.pool.get().unwrap();
+        let trans = conn.transaction().unwrap();
+
+        let user_con_id = query!(trans, "SELECT user_con_id FROM User_Conventions WHERE user_id = $1 AND con_id = $2", user_id, con_id)
+            .into_iter()
+            .nth(0)
+            .ok_or_else(|| format!("User {} is not signed up for convention {}", user_id, con_id))?
+            .get::<usize, i32>(0);
+
+        let record = query!(trans, "
+            INSERT INTO Records
+                (user_con_id, products, price, sale_time)
+            VALUES
+                ($1, $2, $3, $4)
+            RETURNING *"
+        , user_con_id, products, price, time)
+            .into_iter()
+            .nth(0)
+            .ok_or_else(|| format!("Failed to create new record for usercon {}", user_con_id))
+            .and_then(|r| Record::from(r))?;
+        trans.commit().unwrap();
+        Ok(record)
     }
 }

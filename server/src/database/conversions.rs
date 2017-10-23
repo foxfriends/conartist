@@ -2,7 +2,7 @@ use postgres::types::{FromSql, ToSql, MONEY, INT8, Type, IsNull};
 use juniper::{Value};
 use std::error::Error;
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 pub struct Money(pub f64);
 
 graphql_scalar!(Money {

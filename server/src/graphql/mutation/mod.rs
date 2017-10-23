@@ -8,7 +8,7 @@ mod expense;
 
 use juniper::{FieldResult, FieldError, Value};
 use postgres_array::{Array, Dimension};
-use database::{Database, User, ProductType, ProductInInventory, Price, Convention, Record, Expense};
+use database::{Database, User, ProductType, ProductInInventory, Price, Convention, Record, Expense, Money};
 use self::product::*;
 use self::product_type::*;
 use self::price::*;
@@ -108,11 +108,12 @@ graphql_object!(Mutation: Database |&self| {
 
     // Prices
     field add_user_price(&executor, user_id: Option<i32>, price: PriceAdd) -> FieldResult<Price> {
-        ensure!(price.prices.iter().all(|p| p.quantity >= 0 && p.price >= 0f64));
+        ensure!(price.prices.iter().all(|p| p.quantity >= 0 && p.price >= Money(0f64)));
+
         let prices =
             price.prices
                 .into_iter()
-                .map(|PricePairIn{ quantity, price }| Array::from_vec(vec![quantity as f64, price], 0))
+                .map(|PricePairIn{ quantity, price }| Array::from_vec(vec![quantity as f64, price.into()], 0))
                 .fold(Array::from_parts(vec![], vec![Dimension{ len: 0, lower_bound: 0 }, Dimension{ len: 2, lower_bound: 0 }]), |mut a, v| {a.push(v); a});
 
         dbtry! {
@@ -141,7 +142,17 @@ graphql_object!(Mutation: Database |&self| {
     }
     field del_user_convention(&executor, user_id: Option<i32>, con_code: String) -> FieldResult<bool> { Err(FieldError::new("Unimplemented", Value::null())) }
 
-    field add_user_record(&executor, user_id: Option<i32>, record: RecordAdd) -> FieldResult<Record> { Err(FieldError::new("Unimplemented", Value::null())) }
+    field add_user_record(&executor, user_id: Option<i32>, record: RecordAdd) -> FieldResult<Record> {
+        ensure!(record.products.len() != 0);
+        ensure!(record.con_id > 0);
+        ensure!(record.price > Money(0f64));
+
+        dbtry! {
+            executor
+                .context()
+                .create_user_record(user_id, record.con_id, record.products, record.price, record.time)
+        }
+    }
     field mod_user_record(&executor, user_id: Option<i32>, record: RecordMod) -> FieldResult<Record> { Err(FieldError::new("Unimplemented", Value::null())) }
     field del_user_record(&executor, user_id: Option<i32>, record: RecordDel) -> FieldResult<()> { Err(FieldError::new("Unimplemented", Value::null())) }
 

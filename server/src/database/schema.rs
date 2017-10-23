@@ -6,7 +6,7 @@ use postgres::rows::Row;
 use postgres_array::Array;
 use chrono::{NaiveDateTime, NaiveDate};
 use iterator::*;
-use super::conversions::Money;
+use super::Money;
 
 #[derive(Clone)]
 pub struct User {
@@ -220,7 +220,7 @@ pub struct PriceRow {
     pub type_id: i32,
     pub product_id: Option<i32>,
     pub quantity: i32,
-    pub price: f64,
+    pub price: Money,
 }
 
 #[derive(Clone)]
@@ -230,7 +230,7 @@ pub struct Price {
     pub user_con_id: Option<i32>,
     pub type_id: i32,
     pub product_id: Option<i32>,
-    pub prices: Vec<(i32, f64)>,
+    pub prices: Vec<(i32, Money)>,
 }
 impl Price {
     pub fn from(row: Row) -> Result<Self, String> {
@@ -242,7 +242,7 @@ impl Price {
                 user_con_id: row.get("user_con_id"),
                 type_id: row.get("type_id"),
                 product_id: row.get("product_id"),
-                prices: prices.into_iter().paired().map(|r| (r.0 as i32, r.1)).collect(),
+                prices: prices.into_iter().paired().map(|r| (r.0 as i32, Money(r.1))).collect(),
             }
         }).map_err(|_| "Tried to create a Price from a non-Price row".to_string())
     }

@@ -1,5 +1,5 @@
 //! Holds information about the price of a product or product type
-use database::Database;
+use database::{Database, Money};
 use super::super::common::PricePairOut;
 use database::{Price, PriceRow};
 
@@ -16,5 +16,5 @@ graphql_object!(PriceRow: Database |&self| {
     field type_id() -> i32 { self.type_id }
     field product_id() -> Option<i32> { self.product_id }
     field quantity() -> i32 { self.quantity }
-    field price() -> f64 { self.price }
+    field price() -> Money { self.price }
 });

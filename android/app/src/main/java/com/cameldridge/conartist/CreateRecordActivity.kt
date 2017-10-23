@@ -26,6 +26,12 @@ class CreateRecordActivity : AppCompatActivity() {
         products = intent.getParcelableArrayListExtra(PRODUCTS)
         prices = intent.getParcelableArrayListExtra(PRICES)
 
+        supportActionBar?.title = productType.name
+        val adapter = ProductRowListAdapter(this)
+        adapter.addAll(products)
+        productsList.adapter = adapter
+        productsList.setOnItemClickListener { parent, _, position, _ -> println((parent.getItemAtPosition(position) as Product).name) }
+
         // TODO: make this a save button that sends the GraphQL mutation or saves locally
         //       and sends it when there is internet connection
         fab.setOnClickListener { view -> finish() }

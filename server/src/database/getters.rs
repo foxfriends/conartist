@@ -97,7 +97,7 @@ impl Database {
                 query!(conn, "
                     SELECT *
                     FROM Products p INNER JOIN Inventory i ON p.product_id = i.product_id
-                    WHERE user_id = $1
+                    WHERE i.user_id = $1
                 ", user_id)
             } else {
                 query!(conn, "

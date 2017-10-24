@@ -116,9 +116,9 @@ impl Database {
         let conn = self.pool.get().unwrap();
         Ok (
             if include_all {
-                query!(conn, "SELECT * FROM Prices WHERE user_con_id = $1", user_con_id)
-            } else {
                 query!(conn, "SELECT * FROM Prices WHERE user_id = $1", user_id)
+            } else {
+                query!(conn, "SELECT * FROM Prices WHERE user_con_id = $1", user_con_id)
             }   .iter()
                 .filter_map(|row| Price::from(row).ok())
                 .collect()

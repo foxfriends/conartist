@@ -19,7 +19,6 @@ class GraphQLQuery<T>(
 ) : AsyncTask<Void, Void, T>() {
     override fun doInBackground(vararg params: Void): T? =
         "/v2"
-            .let { println(query.toGraphQueryString()); it }
             .httpGet(listOf("query" to query.toGraphQueryString()))
             .header(Authorization.header())
             .responseObject(JsonDeserializer)
@@ -27,6 +26,7 @@ class GraphQLQuery<T>(
             .unwrap()
             ?.obj("data")
             ?.obj(deserializer.first)
+            ?.let{ println(it); it }
             ?.let(deserializer.second::deserialize)
 
     override fun onPostExecute(result: T?) {

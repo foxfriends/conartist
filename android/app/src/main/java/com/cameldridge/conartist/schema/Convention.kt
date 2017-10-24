@@ -100,7 +100,7 @@ data class FullConvention(
                 ?: return null
             val prices = json.array<JsonObject>("condensedPrices")
                 ?.mapNotNull(Price.Companion::deserialize)
-                ?.let { println(it); ArrayList(it) }
+                ?.let { ArrayList(it) }
                 ?: return null
             val records = json.array<JsonObject>("records")
                 ?.mapNotNull(Record.Companion::deserialize)

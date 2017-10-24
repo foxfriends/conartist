@@ -89,27 +89,37 @@ impl Database {
             .ok_or(format!("User {} is not signed up for convention {}", user_id, con_code))
     }
 
-    pub fn get_products_for_user_con(&self, user_id: i32, user_con_id: i32) -> Result<Vec<ProductInInventory>, String> {
+    pub fn get_products_for_user_con(&self, user_id: i32, user_con_id: i32, include_all: bool) -> Result<Vec<ProductInInventory>, String> {
         assert_authorized!(self, user_id);
         let conn = self.pool.get().unwrap();
-        Ok (
-            query!(conn, "
-                SELECT *
-                FROM Products p INNER JOIN Inventory i ON p.product_id = i.product_id
-                WHERE user_con_id = $1
-            ", user_con_id)
-                .into_iter()
+        Ok(
+            if include_all {
+                query!(conn, "
+                    SELECT *
+                    FROM Products p INNER JOIN Inventory i ON p.product_id = i.product_id
+                    WHERE user_id = $1
+                ", user_id)
+            } else {
+                query!(conn, "
+                    SELECT *
+                    FROM Products p INNER JOIN Inventory i ON p.product_id = i.product_id
+                    WHERE user_con_id = $1
+                ", user_con_id)
+            }   .into_iter()
                 .filter_map(|row| ProductInInventory::from(row).ok())
                 .collect()
         )
     }
 
-    pub fn get_prices_for_user_con(&self, user_id: i32, user_con_id: i32) -> Result<Vec<Price>, String> {
+    pub fn get_prices_for_user_con(&self, user_id: i32, user_con_id: i32, include_all: bool) -> Result<Vec<Price>, String> {
         assert_authorized!(self, user_id);
         let conn = self.pool.get().unwrap();
         Ok (
-            query!(conn, "SELECT * FROM Prices WHERE user_con_id = $1", user_con_id)
-                .iter()
+            if include_all {
+                query!(conn, "SELECT * FROM Prices WHERE user_con_id = $1", user_con_id)
+            } else {
+                query!(conn, "SELECT * FROM Prices WHERE user_id = $1", user_id)
+            }   .iter()
                 .filter_map(|row| Price::from(row).ok())
                 .collect()
         )

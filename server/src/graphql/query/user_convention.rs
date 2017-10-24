@@ -8,6 +8,7 @@ graphql_object!(FullUserConvention: Database |&self| {
 
     field id() -> i32 { self.con_id }
     field user_id() -> i32 { self.user_id }
+    field con_id() -> i32 { self.con_id }
     field code() -> &String { &self.code }
     field name() -> &String { &self.title }
     // TODO: Having trouble returning a NaiveDate here
@@ -24,27 +25,27 @@ graphql_object!(FullUserConvention: Database |&self| {
         }
     }
 
-    field products(&executor) -> FieldResult<Vec<ProductInInventory>> {
+    field products(&executor, include_all = false: bool) -> FieldResult<Vec<ProductInInventory>> {
         dbtry! {
             executor
                 .context()
-                .get_products_for_user_con(self.user_id, self.user_con_id)
+                .get_products_for_user_con(self.user_id, self.user_con_id, include_all)
         }
     }
 
-    field condensedPrices(&executor) ->  FieldResult<Vec<Price>> {
+    field condensedPrices(&executor, include_all = false: bool) ->  FieldResult<Vec<Price>> {
         dbtry! {
             executor
                 .context()
-                .get_prices_for_user_con(self.user_id, self.user_con_id)
+                .get_prices_for_user_con(self.user_id, self.user_con_id, include_all)
         }
     }
 
-    field prices(&executor) -> FieldResult<Vec<PriceRow>> {
+    field prices(&executor, include_all = false: bool) -> FieldResult<Vec<PriceRow>> {
         dbtry! {
             executor
                 .context()
-                .get_prices_for_user_con(self.user_id, self.user_con_id)
+                .get_prices_for_user_con(self.user_id, self.user_con_id, include_all)
                 .map(|prices| prices
                     .into_iter()
                     .fold(vec![], |prev, price| {

@@ -75,13 +75,13 @@ class GraphQLQuery<T>(
                                 field("name")
                                 field("color")
                             }
-                            fieldObject("products") {
+                            fieldObject("products", mapOf("includeAll" to true)) {
                                 field("id")
                                 field("typeId")
                                 field("name")
                                 field("quantity")
                             }
-                            fieldObject("condensedPrices") {
+                            fieldObject("condensedPrices", mapOf("includeAll" to true)) {
                                 field("typeId")
                                 field("productId")
                                 fieldObject("prices") {

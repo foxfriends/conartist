@@ -29,6 +29,7 @@ android {
 
 repositories {
     jcenter()
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -43,5 +44,5 @@ dependencies {
     compile 'com.github.kittinunf.result:result:1.2.0'
     compile 'com.github.kittinunf.fuel:fuel-android:1.11.0'
     compile 'com.beust:klaxon:0.30'
-    compile "me.lazmaid.kraph:kraph:0.5.1"
+    compile "com.github.OinkIguana:kraph:develop-SNAPSHOT"
 }

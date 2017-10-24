@@ -19,6 +19,7 @@ class GraphQLQuery<T>(
 ) : AsyncTask<Void, Void, T>() {
     override fun doInBackground(vararg params: Void): T? =
         "/v2"
+            .let { println(query.toGraphQueryString()); it }
             .httpGet(listOf("query" to query.toGraphQueryString()))
             .header(Authorization.header())
             .responseObject(JsonDeserializer)
@@ -43,15 +44,11 @@ class GraphQLQuery<T>(
             GraphQLQuery(
                 Kraph {
                     query {
-                        fieldObject("user") {
+                        field("user") {
                             field("name")
                             field("email")
-                            fieldObject("conventions") {
-                                field("id")
-                                field("code")
-                                field("name")
-                                field("start")
-                                field("end")
+                            field("conventions") {
+                                fragment("MetaConvention")
                             }
                         }
                     }
@@ -64,24 +61,20 @@ class GraphQLQuery<T>(
             GraphQLQuery(
                 Kraph {
                     query {
-                        fieldObject("userConvention", mapOf("code" to code)) {
-                            field("id")
-                            field("name")
-                            field("code")
-                            field("start")
-                            field("end")
-                            fieldObject("productTypes") {
+                        field("userConvention", mapOf("code" to code)) {
+                            fragment("MetaConvention")
+                            field("productTypes") {
                                 field("id")
                                 field("name")
                                 field("color")
                             }
-                            fieldObject("products", mapOf("includeAll" to true)) {
+                            field("products", mapOf("includeAll" to true)) {
                                 field("id")
                                 field("typeId")
                                 field("name")
                                 field("quantity")
                             }
-                            fieldObject("condensedPrices", mapOf("includeAll" to true)) {
+                            field("condensedPrices", mapOf("includeAll" to true)) {
                                 field("typeId")
                                 field("productId")
                                 fieldObject("prices") {
@@ -89,12 +82,10 @@ class GraphQLQuery<T>(
                                     field("price")
                                 }
                             }
-                            fieldObject("records") {
-                                field("products")
-                                field("price")
-                                field("time")
+                            field("records") {
+                                fragment("Record")
                             }
-                            fieldObject("expenses") {
+                            field("expenses") {
                                 field("price")
                                 field("category")
                                 field("description")

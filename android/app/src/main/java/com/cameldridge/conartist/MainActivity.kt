@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.cameldridge.conartist.api.Authorization
 import com.github.kittinunf.fuel.core.FuelManager
+import me.lazmaid.kraph.Kraph
 
 /**
  * This is the entry point of the app. I guess spashscreen like thing
@@ -15,6 +16,20 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FuelManager.instance.basePath = "https://con--artist.herokuapp.com/api"
+
+        Kraph.fragment("MetaConvention") {
+            field("id")
+            field("code")
+            field("name")
+            field("start")
+            field("end  ")
+        }
+        Kraph.fragment("Record") {
+            field("products")
+            field("price")
+            field("time")
+        }
+
         setContentView(R.layout.activity_main)
 
         startActivityForResult(LoginActivity.newIntent(this), SIGN_IN)

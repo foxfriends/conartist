@@ -49,9 +49,7 @@ class GraphQLMutation<T>(
                                 "time" to record.time
                             )
                         )) {
-                            field("products")
-                            field("price")
-                            field("time")
+                            fragment("Record")
                         }
                     }
                 },

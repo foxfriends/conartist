@@ -1,14 +1,14 @@
 {
   "name": "conartist",
   "version": "1.0.0",
-  "description": "Conartist web dashboard",
-  "main": "webpack.config.js",
+  "description": "ConArtist web dashboard",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "elm package install -y && webpack"
   },
   "author": "Cameron Eldridge",
   "license": "MIT",
-  "devDependencies": {
+  "dependencies": {
     "autoprefixer": "^7.1.4",
     "css-loader": "^0.28.7",
     "elm": "^0.18.0",
@@ -18,13 +18,11 @@
     "img-loader": "^2.0.0",
     "node-sass": "^4.5.3",
     "postcss-loader": "^2.0.6",
+    "reset-css": "^2.2.1",
+    "rxjs": "^5.4.3",
+    "save-as": "^0.1.8",
     "uglifyjs-webpack-plugin": "^1.0.0-beta.2",
     "url-loader": "^0.5.9",
     "webpack": "^3.6.0"
-  },
-  "dependencies": {
-    "reset-css": "^2.2.1",
-    "rxjs": "^5.4.3",
-    "save-as": "^0.1.8"
   }
 }

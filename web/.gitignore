@@ -1,3 +1,5 @@
 elm-stuff
 node_modules
 *.js.map
+*.min.js
+*.min.css

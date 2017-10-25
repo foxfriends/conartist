@@ -6,17 +6,16 @@ import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.MenuItem
-import com.cameldridge.conartist.schema.Price
-import com.cameldridge.conartist.schema.PricePair
-import com.cameldridge.conartist.schema.Product
-import com.cameldridge.conartist.schema.ProductType
+import com.cameldridge.conartist.schema.*
 
 import kotlinx.android.synthetic.main.activity_create_record.*
 import kotlinx.android.synthetic.main.product_chip.view.*
+import java.util.*
 import kotlin.properties.Delegates
 
 class CreateRecordActivity : AppCompatActivity() {
@@ -45,11 +44,33 @@ class CreateRecordActivity : AppCompatActivity() {
             val product = parent.getItemAtPosition(position) as Product
             addProduct(product)
         }
+        priceField.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {}
+            override fun beforeTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {}
 
-        // TODO: make this a save button that sends the GraphQL mutation or saves locally
-        //       and sends it when there is internet connection
-        saveButton.setOnClickListener { view -> finish() }
-        updateSaveButtonState()
+            // TODO: review price validation rules here
+            override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
+                var str = text.toString()
+                if(str[0] == '$') {
+                   str = str.slice(1..str.length)
+                }
+                if(str.toDoubleOrNull() == null) {
+                    updateSaveButtonState(false)
+                } else {
+                    updateSaveButtonState(true)
+                }
+            }
+        })
+
+        saveButton.setOnClickListener { view ->
+            val record = Record(selected.map{ it.id }.toCollection(ArrayList()), priceField.text.toString().toDouble(), Date())
+            record.dirty = true
+            val intent = Intent()
+            intent.putExtra(RECORD, record)
+            setResult(RECORD_CREATED, intent)
+            finish()
+        }
+        updateSaveButtonState(true)
     }
 
     @SuppressLint("SetTextI18n")
@@ -60,7 +81,7 @@ class CreateRecordActivity : AppCompatActivity() {
         chip.setOnClickListener { removeProduct(chips.indexOfChild(it)) }
         chips.addView(chip)
         priceField.setText("%.2f".format(calculatePrice()))
-        updateSaveButtonState()
+        updateSaveButtonState(true)
     }
 
     @SuppressLint("SetTextI18n")
@@ -68,11 +89,11 @@ class CreateRecordActivity : AppCompatActivity() {
         selected.removeAt(index)
         chips.removeViewAt(index)
         priceField.setText("%.2f".format(calculatePrice()))
-        updateSaveButtonState()
+        updateSaveButtonState(true)
     }
 
-    private fun updateSaveButtonState() {
-        if(selected.size == 0) {
+    private fun updateSaveButtonState(priceValid: Boolean) {
+        if(selected.size == 0 || !priceValid) {
             saveButton.isEnabled = false
             saveButton.background.colorFilter = PorterDuffColorFilter(0xFF999999.toInt(), PorterDuff.Mode.SRC_IN)
         } else {
@@ -115,6 +136,9 @@ class CreateRecordActivity : AppCompatActivity() {
     }
 
     companion object {
+        val RECORD_CREATED = 0
+        val RECORD = "record"
+
         private val PRODUCT_TYPE = "pt"
         private val PRODUCTS = "prods"
         private val PRICES = "prices"

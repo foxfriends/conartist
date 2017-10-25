@@ -5,6 +5,7 @@ import android.os.Parcelable
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.int
 import com.beust.klaxon.string
+import com.cameldridge.conartist.parcel.createParcel
 
 data class Product(
     val id: Int,

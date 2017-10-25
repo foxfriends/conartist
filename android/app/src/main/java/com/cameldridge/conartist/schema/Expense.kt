@@ -3,6 +3,7 @@ package com.cameldridge.conartist.schema
 import android.os.Parcel
 import android.os.Parcelable
 import com.beust.klaxon.*
+import com.cameldridge.conartist.parcel.createParcel
 import java.util.*
 
 data class Expense(

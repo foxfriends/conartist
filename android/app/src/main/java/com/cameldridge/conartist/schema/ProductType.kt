@@ -5,6 +5,7 @@ import android.os.Parcelable
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.int
 import com.beust.klaxon.string
+import com.cameldridge.conartist.parcel.createParcel
 
 data class ProductType(
     val id: Int,
@@ -38,10 +39,3 @@ data class ProductType(
         val CREATOR = createParcel { ProductType(it) }
     }
 }
-
-// TODO: This is just copied from internet. Put it somewhere real
-inline fun <reified T : Parcelable> createParcel(crossinline createFromParcel: (Parcel) -> T?): Parcelable.Creator<T> =
-    object : Parcelable.Creator<T> {
-        override fun createFromParcel(source: Parcel): T? = createFromParcel(source)
-        override fun newArray(size: Int): Array<out T?> = arrayOfNulls(size)
-    }

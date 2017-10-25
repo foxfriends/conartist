@@ -3,6 +3,7 @@ package com.cameldridge.conartist
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.cameldridge.conartist.api.API
 import com.cameldridge.conartist.api.Authorization
 import com.github.kittinunf.fuel.core.FuelManager
 import me.lazmaid.kraph.Kraph
@@ -15,14 +16,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        FuelManager.instance.basePath = "https://con--artist.herokuapp.com/api"
+        FuelManager.instance.basePath = API.baseURL + API.apiURL
 
         Kraph.fragment("MetaConvention") {
             field("id")
             field("code")
             field("name")
             field("start")
-            field("end  ")
+            field("end")
         }
         Kraph.fragment("Record") {
             field("products")
@@ -45,10 +46,11 @@ class MainActivity : AppCompatActivity() {
                         }
                         startActivityForResult(AppRootActivity.newIntent(this), APP)
                     }
-                    LoginActivity.FAILURE -> finish()
+                    else -> finish()
                 }
             }
             APP -> finish()
+            else -> super.onActivityResult(requestCode, resultCode, intent)
         }
     }
 

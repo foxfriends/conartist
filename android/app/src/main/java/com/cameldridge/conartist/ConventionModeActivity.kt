@@ -11,6 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import com.cameldridge.conartist.api.API
+import com.cameldridge.conartist.api.GraphQLMutation
 import com.cameldridge.conartist.schema.FullConvention
 import com.cameldridge.conartist.schema.ProductType
 import com.cameldridge.conartist.schema.Record
@@ -18,9 +20,14 @@ import kotlinx.android.synthetic.main.activity_convention_mode.*
 import kotlinx.android.synthetic.main.fragment_product_type_page.view.*
 import kotlinx.android.synthetic.main.fragment_records_page.view.*
 import kotlin.properties.Delegates
+import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KProperty
 
 class ConventionModeActivity : AppCompatActivity() {
     private var con: FullConvention by Delegates.notNull()
+    private var types: ProductTypesPage by Delegates.notNull()
+    private var records: RecordsPage by Delegates.notNull()
+    private var chat: ChatPage by Delegates.notNull()
 
     override fun onCreate(prevState: Bundle?) {
         super.onCreate(prevState)
@@ -43,12 +50,37 @@ class ConventionModeActivity : AppCompatActivity() {
         outState.putParcelable(CON, con)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        when(requestCode) {
+            CREATE_RECORD -> {
+                if (resultCode == CreateRecordActivity.RECORD_CREATED) {
+                    val record: Record = intent!!.getParcelableExtra(CreateRecordActivity.RECORD)
+                    con.records.add(record)
+                    records.records.add(record)
+                    if(API.available) {
+                        GraphQLMutation.addUserRecord(con.conId, record) { record.dirty = false }
+                    }
+                }
+            }
+            else -> super.onActivityResult(requestCode, resultCode, intent)
+        }
+    }
+
     inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         override fun getItem(position: Int): Fragment? =
             when(position) {
-                0 -> ProductTypesPage.create(con)
-                1 -> RecordsPage.create(con)
-                2 -> ChatPage.create(con)
+                0 -> {
+                    types = ProductTypesPage.create()
+                    types
+                }
+                1 -> {
+                    records = RecordsPage.create()
+                    records
+                }
+                2 -> {
+                    chat = ChatPage.create()
+                    chat
+                }
                 else -> null
             }
 
@@ -74,8 +106,14 @@ class ConventionModeActivity : AppCompatActivity() {
         }
     }
 
-    class ProductTypesPage: Fragment() {
-        private var con: FullConvention by Delegates.notNull()
+    internal class ParentConvention: ReadOnlyProperty<Fragment, FullConvention> {
+        override fun getValue(thisRef: Fragment, property: KProperty<*>): FullConvention {
+            return (thisRef.activity as ConventionModeActivity).con
+        }
+    }
+
+    internal class ProductTypesPage: Fragment() {
+        private val con: FullConvention by ParentConvention()
         private var productTypes: ArrayAdapter<ProductType> by Delegates.notNull()
 
         override fun onCreateView(
@@ -89,36 +127,30 @@ class ConventionModeActivity : AppCompatActivity() {
                 val pt = parent.getItemAtPosition(position) as ProductType
                 CreateRecordActivity
                     .newIntent(
-                        context,
+                        activity,
                         pt,
                         con.products.filter { it.typeId == pt.id }.toCollection(ArrayList()),
                         con.prices.filter { it.typeId == pt.id }.toCollection(ArrayList())
                     )
-                    .let { startActivityForResult(it, CREATE_RECORD) }
+                    .let { activity.startActivityForResult(it, CREATE_RECORD) }
             }
             return view
         }
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
-            con = arguments.getParcelable(CON)
             productTypes = ProductTypeRowListAdapter(activity, con.prices)
             productTypes.addAll(con.productTypes)
         }
 
         companion object {
-            fun create(con: FullConvention): ProductTypesPage {
-                val page = ProductTypesPage()
-                page.arguments = Bundle()
-                page.arguments.putParcelable(CON, con)
-                return page
-            }
+            fun create(): ProductTypesPage = ProductTypesPage()
         }
     }
 
-    class RecordsPage: Fragment() {
-        private var con: FullConvention by Delegates.notNull()
-        private var records: ArrayAdapter<Record> by Delegates.notNull()
+    internal class RecordsPage: Fragment() {
+        private val con: FullConvention by ParentConvention()
+        internal var records: ArrayAdapter<Record> by Delegates.notNull()
 
         override fun onCreateView(
             inflater: LayoutInflater,
@@ -132,23 +164,17 @@ class ConventionModeActivity : AppCompatActivity() {
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
-            con = arguments.getParcelable(CON)
             records = RecordRowListAdapter(activity, con.products, con.productTypes)
             records.addAll(con.records)
         }
 
         companion object {
-            fun create(con: FullConvention): RecordsPage {
-                val page = RecordsPage()
-                page.arguments = Bundle()
-                page.arguments.putParcelable(CON, con)
-                return page
-            }
+            fun create(): RecordsPage = RecordsPage()
         }
     }
 
-    class ChatPage: Fragment() {
-        private var con: FullConvention by Delegates.notNull()
+    internal class ChatPage: Fragment() {
+        private val con: FullConvention by ParentConvention()
 
         override fun onCreateView(
             inflater: LayoutInflater,
@@ -158,18 +184,8 @@ class ConventionModeActivity : AppCompatActivity() {
             return inflater.inflate(R.layout.fragment_chat_page, container, false)
         }
 
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            con = arguments.getParcelable(CON)
-        }
-
         companion object {
-            fun create(con: FullConvention): ChatPage {
-                val page = ChatPage()
-                page.arguments = Bundle()
-                page.arguments.putParcelable(CON, con)
-                return page
-            }
+            fun create(): ChatPage = ChatPage()
         }
     }
 }

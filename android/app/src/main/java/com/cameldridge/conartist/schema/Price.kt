@@ -6,6 +6,7 @@ import com.beust.klaxon.JsonObject
 import com.beust.klaxon.array
 import com.beust.klaxon.double
 import com.beust.klaxon.int
+import com.cameldridge.conartist.parcel.createParcel
 
 data class PricePair(val quantity: Int, val price: Double): Parcelable {
     constructor(parcel: Parcel) : this(

@@ -26,7 +26,6 @@ class GraphQLQuery<T>(
             .unwrap()
             ?.obj("data")
             ?.obj(deserializer.first)
-            ?.let{ println(it); it }
             ?.let(deserializer.second::deserialize)
 
     override fun onPostExecute(result: T?) {

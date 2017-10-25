@@ -6,6 +6,7 @@ import com.beust.klaxon.JsonObject
 import com.beust.klaxon.array
 import com.beust.klaxon.int
 import com.beust.klaxon.string
+import com.cameldridge.conartist.parcel.createParcel
 import java.util.*
 
 interface Convention {

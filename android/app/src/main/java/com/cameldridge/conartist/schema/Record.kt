@@ -2,7 +2,13 @@ package com.cameldridge.conartist.schema
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.beust.klaxon.*
+import com.beust.klaxon.JsonObject
+import com.beust.klaxon.array
+import com.beust.klaxon.double
+import com.beust.klaxon.long
+import com.cameldridge.conartist.parcel.createParcel
+import com.cameldridge.conartist.parcel.readBool
+import com.cameldridge.conartist.parcel.writeBool
 import java.util.*
 
 data class Record(
@@ -10,11 +16,15 @@ data class Record(
     val price: Double,
     val time: Date
 ): Parcelable {
+    var dirty = false
+
     constructor(parcel: Parcel) : this(
         parcel.createIntArray().toCollection(ArrayList()),
         parcel.readDouble(),
         Date(parcel.readLong())
-    )
+    ) {
+        dirty = parcel.readBool()
+    }
 
     companion object : GraphQLDeserializer<Record> {
         override fun deserialize(json: JsonObject): Record? {
@@ -33,6 +43,7 @@ data class Record(
         parcel.writeIntArray(products.toIntArray())
         parcel.writeDouble(price)
         parcel.writeLong(time.time)
+        parcel.writeBool(dirty)
     }
 
     override fun describeContents(): Int {

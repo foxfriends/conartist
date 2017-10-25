@@ -38,11 +38,14 @@ view model page =
         placeholder "Convention loading..."
 
 summary : Model -> Convention -> Html msg
-summary _ convention =
+summary model convention =
   div [ class "convention__summary" ]
-    [ conInfo (asMeta convention) ]
-    -- TODO: best sellers
-    -- TODO: revenue summary
+    (conInfo (asMeta convention) ::
+      (if Date.compare (Convention.asMeta convention).start model.now == GT then
+        [ disclaimer ]
+      else
+        [ bestSellers convention
+        , revenue convention ]))
 
 conInfo : MetaConvention -> Html msg
 conInfo { name, code, start, end } =
@@ -63,6 +66,58 @@ conInfo { name, code, start, end } =
         ]
       ]
       []
+
+bestSellers : Convention -> Html msg
+bestSellers con =
+  case Convention.asFull con of
+    Just con ->
+      let
+        allRecordProducts = List.concatMap .products con.records
+        normalProducts = List.map Product.normalize con.products
+        maxBy fn a b = if fn a > fn b then a else b
+        mostFrequent list =
+          let rec item acc =
+            Dict.update item (Maybe.withDefault 0 >> (+) 1 >> Just) acc
+          in List.foldl rec Dict.empty list
+            |> Dict.toList
+            |> List.foldl (maxBy Tuple.second) (0, 0)
+            |> Tuple.first
+        product =
+          allRecordProducts
+            |> mostFrequent
+            |> \p -> List_.find (.id >> (==) p) normalProducts
+            |> Maybe.map .name
+            |> Maybe.withDefault "Unknown"
+        productType =
+          allRecordProducts
+            |> List.filterMap (\p -> (List_.find (.id >> (==) p) normalProducts))
+            |> List.map .type_id
+            |> mostFrequent
+            |> \t -> List_.find (ProductType.normalize >> .id >> (==) t) con.productTypes
+            |> Maybe.map (ProductType.normalize >> .name)
+            |> Maybe.withDefault "Unknown"
+      in
+      card "Best Sellers"
+        [ class "convention__card" ]
+        [ defList text
+          [ ("Best product", product)
+          , ("Best type of product", productType) ] ]
+        []
+    Nothing -> text ""
+
+revenue : Convention -> Html msg
+revenue con = text ""
+
+disclaimer : Html msg
+disclaimer =
+  card "Note"
+    [ class "convention__card" ]
+    [ text  """
+            This convention has not yet started! Products and prices you see here
+            show what will you plan to be selling. Make sure everything looks
+            right before the day comes!
+            """ ]
+    []
 
 products : Model -> ConventionPageState -> Convention -> Html Msg
 products model page con =

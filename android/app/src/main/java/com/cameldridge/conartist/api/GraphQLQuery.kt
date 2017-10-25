@@ -19,7 +19,11 @@ class GraphQLQuery<T>(
 ) : AsyncTask<Void, Void, T>() {
     override fun doInBackground(vararg params: Void): T? =
         "/v2"
-            .httpGet(listOf("query" to query.toGraphQueryString()))
+            .httpGet(listOf(
+                "query" to query.requestQueryString(),
+                "variables" to query.requestVariableString(),
+                "operationName" to query.requestOperationName()
+            ))
             .header(Authorization.header())
             .responseObject(JsonDeserializer)
             .third

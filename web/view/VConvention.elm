@@ -5,7 +5,7 @@ import Date exposing (Date)
 import Date.Extra as Date
 import Hex
 import Either exposing (Either(..))
-import Dict
+import Dict exposing (Dict)
 import Set
 
 import Model exposing (Model)
@@ -22,6 +22,7 @@ import Fancy
 import Product
 import Price
 import Chart
+import ChartSettings
 import List_
 
 -- TODO: split up this module
@@ -70,6 +71,9 @@ conInfo { name, code, start, end } =
       ]
       []
 
+frequency : comparable -> Dict comparable Int -> Dict comparable Int
+frequency item acc = Dict.update item (Maybe.withDefault 0 >> (+) 1 >> Just) acc
+
 bestSellers : Convention -> Html msg
 bestSellers con =
   case Convention.asFull con of
@@ -79,9 +83,7 @@ bestSellers con =
         normalProducts = List.map Product.normalize con.products
         maxBy fn a b = if fn a > fn b then a else b
         mostFrequent list =
-          let rec item acc =
-            Dict.update item (Maybe.withDefault 0 >> (+) 1 >> Just) acc
-          in List.foldl rec Dict.empty list
+          List.foldl frequency Dict.empty list
             |> Dict.toList
             |> List.foldl (maxBy Tuple.second) (0, 0)
             |> Tuple.first
@@ -239,10 +241,18 @@ stats model con =
     Just fc -> case fc.records of
       [] -> placeholder "You haven't sold anything, so there are no stats to report!"
       _ ->
-        Chart.bars [ "#81c784", "#e57373" ]
-          (fc.products
-            |> List.map Product.normalize
-            |> List.map (\{name, quantity} -> (name, [ toFloat quantity, toFloat quantity ])))
+        div []
+          [ inventoryChart {} fc ]
+
+inventoryChart : ChartSettings.Inventory -> Convention.FullConvention -> Html msg
+inventoryChart settings fc =
+  let
+    soldQuantity = List.foldl frequency Dict.empty (List.concatMap .products fc.records)
+  in
+  Chart.bars [ "#81c784", "#e57373" ]
+    (fc.products
+      |> List.map Product.normalize
+      |> List.map (\{id, name, quantity} -> (name, [ toFloat quantity, toFloat (quantity - (Dict.get id soldQuantity |> Maybe.withDefault 0)) ])))
 
 
 dateRange : Date -> Date -> String

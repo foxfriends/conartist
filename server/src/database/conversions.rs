@@ -1,5 +1,5 @@
 use postgres::types::{FromSql, ToSql, MONEY, INT8, Type, IsNull};
-use juniper::{Value};
+use juniper::Value;
 use std::error::Error;
 
 #[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
@@ -13,7 +13,9 @@ graphql_scalar!(Money {
     }
 
     from_input_value(v: &InputValue) -> Option<Money> {
-        v.as_float_value().map(|s| Money(s.to_owned()))
+        v   .as_float_value()
+            .or_else(|| v.as_int_value().map(|i| i as f64))
+            .map(|s| Money(s.to_owned()))
     }
 });
 

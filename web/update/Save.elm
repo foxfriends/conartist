@@ -49,6 +49,8 @@ savePrices : Model -> List (Cmd Msg)
 savePrices model =
   let
     news =  List.foldl Price.collectPrices [] model.user.prices
+      |> List.filter Tuple.first
+      |> List.map Tuple.second
     keep = Set.fromList <| List.filterMap (Price.normalize >> Maybe.map (\p -> (p.type_id, p.product_id |> Maybe.withDefault 0))) model.user.prices
     delSet = Set.fromList
       <| List.filter (not << flip Set.member keep)

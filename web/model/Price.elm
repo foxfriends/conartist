@@ -54,6 +54,12 @@ isDirty price = case price of
   New _ -> True
   Deleted _ -> True
 
+isUpdated : Price -> Bool
+isUpdated price = case price of
+  Clean _ -> False
+  Dirty _ -> True
+  New _ -> True
+  Deleted _ -> False
 normalize : Price -> Maybe FullPrice
 normalize price = case price of
   Clean p   -> Just p
@@ -304,15 +310,13 @@ deletedData price = case price of
 hash : (Int, Maybe Int) -> String
 hash (t, p) = toString t ++ "_" ++ toString (Maybe.withDefault 0 p)
 
-collectPrices : Price -> List CondensedPrice -> List CondensedPrice
-collectPrices price prices =
-  case normalize price of
+collectPrices : Price -> List (Bool, CondensedPrice) -> List (Bool, CondensedPrice)
+collectPrices price_ prices =
+  case normalize price_ of
     Nothing -> prices
     Just { type_id, product_id, price, quantity } ->
       List_.updateAtOrInsert
-        (CondensedPrice type_id product_id [(quantity, price)])
-        (\p -> p.type_id == type_id && p.product_id == product_id)
-        (\p ->
-          { p
-          | prices = (quantity, price) :: p.prices })
+        (isUpdated price_, (CondensedPrice type_id product_id [(quantity, price)]))
+        (\(_, p) -> p.type_id == type_id && p.product_id == product_id)
+        (\(m, p) -> (m || isUpdated price_, { p | prices = (quantity, price) :: p.prices }))
         prices

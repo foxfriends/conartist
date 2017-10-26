@@ -241,7 +241,8 @@ stats model con =
     Just fc -> case fc.records of
       [] -> placeholder "You haven't sold anything, so there are no stats to report!"
       _ ->
-        div []
+        div
+          [ class "convention__stats" ]
           [ inventoryChart {} fc ]
 
 inventoryChart : ChartSettings.Inventory -> Convention.FullConvention -> Html msg
@@ -249,7 +250,9 @@ inventoryChart settings fc =
   let
     soldQuantity = List.foldl frequency Dict.empty (List.concatMap .products fc.records)
   in
-  Chart.bars [ "#81c784", "#e57373" ]
+  Chart.bars
+    [ class "convention__chart" ]
+    [ "#81c784", "#e57373" ]
     (fc.products
       |> List.map Product.normalize
       |> List.map (\{id, name, quantity} ->

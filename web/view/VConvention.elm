@@ -3,10 +3,11 @@ import Html exposing (Html, div, text, span)
 import Html.Attributes exposing (class, style)
 import Date exposing (Date)
 import Date.Extra as Date
-import Hex
 import Either exposing (Either(..))
 import Dict exposing (Dict)
+import Hex
 import Set
+import Mouse
 
 import Model exposing (Model)
 import Msg exposing (Msg(..))
@@ -243,14 +244,15 @@ stats model page con =
       _ ->
         div
           [ class "convention__stats" ]
-          [ inventoryChart page.chart_settings.inventory fc ]
+          [ inventoryChart model.mouse page.chart_settings.inventory fc ]
 
-inventoryChart : ChartSettings.Inventory -> Convention.FullConvention -> Html msg
-inventoryChart settings fc =
+inventoryChart : Mouse.Position -> ChartSettings.Inventory -> Convention.FullConvention -> Html msg
+inventoryChart hovering settings fc =
   let
     soldQuantity = List.foldl frequency Dict.empty (List.concatMap .products fc.records)
   in
-  Chart.bars
+  Chart.barsWithHover
+    hovering
     [ class "convention__chart" ]
     [ "#81c784", "#e57373" ]
     (fc.products

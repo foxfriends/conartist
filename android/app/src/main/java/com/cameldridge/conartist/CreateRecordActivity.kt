@@ -51,6 +51,9 @@ class CreateRecordActivity : AppCompatActivity() {
             // TODO: review price validation rules here
             override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
                 var str = text.toString()
+                if(str.isEmpty()) {
+                    updateSaveButtonState(false)
+                }
                 if(str[0] == '$') {
                    str = str.slice(1..str.length)
                 }
@@ -136,7 +139,7 @@ class CreateRecordActivity : AppCompatActivity() {
     }
 
     companion object {
-        val RECORD_CREATED = 0
+        val RECORD_CREATED = 14
         val RECORD = "record"
 
         private val PRODUCT_TYPE = "pt"

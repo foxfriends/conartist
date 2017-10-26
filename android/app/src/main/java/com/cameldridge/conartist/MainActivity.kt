@@ -30,14 +30,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         FuelManager.instance.basePath = API.baseURL + API.apiURL
 
-        Kraph.fragment("MetaConvention") {
+        Kraph.defineFragment("MetaConvention") {
             field("id")
             field("code")
             field("name")
             field("start")
             field("end")
         }
-        Kraph.fragment("Record") {
+        Kraph.defineFragment("Record") {
             field("products")
             field("price")
             field("time")

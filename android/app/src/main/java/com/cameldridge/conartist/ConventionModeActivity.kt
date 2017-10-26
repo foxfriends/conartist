@@ -54,7 +54,7 @@ class ConventionModeActivity : AppCompatActivity() {
         when(requestCode) {
             CREATE_RECORD -> {
                 if (resultCode == CreateRecordActivity.RECORD_CREATED) {
-                    val record: Record = intent!!.getParcelableExtra(CreateRecordActivity.RECORD)
+                    val record: Record = intent?.getParcelableExtra(CreateRecordActivity.RECORD) ?: return
                     con.records.add(record)
                     records.records.add(record)
                     if(API.available) {

@@ -44,5 +44,5 @@ dependencies {
     compile 'com.github.kittinunf.result:result:1.2.0'
     compile 'com.github.kittinunf.fuel:fuel-android:1.11.0'
     compile 'com.beust:klaxon:0.30'
-    compile "com.github.OinkIguana:kraph:develop-SNAPSHOT"
+    compile "com.github.OinkIguana:kraph:master-SNAPSHOT"
 }

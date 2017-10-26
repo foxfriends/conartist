@@ -11,17 +11,18 @@ import Set
 import Model exposing (Model)
 import Msg exposing (Msg(..))
 import Page exposing (ConventionPageState)
-import Fancy
 import Convention exposing (Convention, MetaConvention, asMeta, asFull)
 import Tabs exposing (tabs, TabItem(Tab))
 import Table exposing (basicSortableTable, TableHeader(..))
 import Card exposing (card)
 import Lists exposing (defList)
-import List_
+import Join exposing (ProductWithType, PriceWithTypeAndProduct, RecordWithTypedProduct)
 import ProductType exposing (ProductType, FullType)
+import Fancy
 import Product
 import Price
-import Join exposing (ProductWithType, PriceWithTypeAndProduct, RecordWithTypedProduct)
+import Chart
+import List_
 
 view : Model -> ConventionPageState -> Html Msg
 view model page =
@@ -217,8 +218,8 @@ productString products =
   let
     reducer c p =
       Dict.update c.name (\v -> case v of
-          Nothing -> Just 1
-          Just o -> Just (o + 1)) p
+        Nothing -> Just 1
+        Just o -> Just (o + 1)) p
     expander k v p =
       p ++ case v of
         1 -> k ++ ", "
@@ -230,7 +231,17 @@ productString products =
     |> String.dropRight 2
 
 stats : Model -> Convention -> Html msg
-stats _ _ = placeholder "This page has not yet been created!"
+stats model con =
+  case asFull con of
+    Nothing -> errorPage
+    Just fc -> case fc.records of
+      [] -> placeholder "You haven't sold anything, so there are no stats to report!"
+      _ ->
+        Chart.bars [ "#81c784", "#e57373" ]
+          (fc.products
+            |> List.map Product.normalize
+            |> List.map (\{name, quantity} -> (name, [ toFloat quantity, toFloat quantity ])))
+
 
 dateRange : Date -> Date -> String
 dateRange start end = (Convention.formatDate start) ++ "–" ++ (Convention.formatDate end)

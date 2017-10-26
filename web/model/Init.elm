@@ -19,6 +19,7 @@ init loc =
   , now = Date.fromTime 0
   , show_discontinued = False
   , sidenav_visible = False
-  , location = Just loc }
+  , location = Just loc
+  , mouse = { x = 0, y = 0 } }
   ! [ LocalStorage.get "authtoken"
     , Task.perform SetDate Date.now ]

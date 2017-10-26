@@ -3,6 +3,7 @@ import Http
 import GraphQL.Client.Http exposing (Error)
 import Date exposing (Date)
 import Navigation exposing (Location)
+import Mouse
 
 import ConRequest exposing (ConRequest, Pagination)
 import Product exposing (FullProduct)
@@ -92,7 +93,6 @@ type Msg
   -- navigation
   | DoNav String
   | DidNav Location
-  | SetDate Date
   | ToggleSidenav
   | Reauthorized (Result Http.Error (ConRequest String))
   -- dialog
@@ -101,5 +101,7 @@ type Msg
   | DialogPage Int
   | ShowErrorMessage String
   -- other
+  | MouseMove Mouse.Position
+  | SetDate Date
   | Batch (List Msg)
   | Ignore

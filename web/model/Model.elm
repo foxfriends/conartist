@@ -2,6 +2,7 @@ module Model exposing (..)
 import List exposing (foldl)
 import Date exposing (Date)
 import Navigation exposing (Location)
+import Mouse
 
 import Product
 import Price
@@ -19,7 +20,8 @@ type alias Model =
   , now: Date
   , show_discontinued: Bool
   , sidenav_visible: Bool
-  , location: Maybe Location }
+  , location: Maybe Location
+  , mouse: Mouse.Position }
 
 
 -- TODO: Cleaning could probably be improved??

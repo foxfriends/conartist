@@ -26,6 +26,7 @@ update msg model =
         (finalmodel, morecmd) = update (Batch rest) newmodel
       in finalmodel ! [ morecmd, cmd ]
     SetDate now -> { model | now = now } ! []
+    MouseMove pos -> { model | mouse = pos } ! []
     ToggleSidenav -> { model | sidenav_visible = not model.sidenav_visible } ! []
     _ -> model ! [] )
   |> continue Load.update msg

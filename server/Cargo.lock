@@ -8,9 +8,9 @@ dependencies = [
  "colored 1.5.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "iron 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "jsonwebtoken 3.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "juniper 0.8.1 (git+https://github.com/graphql-rust/juniper)",
- "juniper_codegen 0.8.1 (git+https://github.com/graphql-rust/juniper)",
- "juniper_iron 0.1.0 (git+https://github.com/graphql-rust/juniper_iron)",
+ "juniper 0.8.1 (git+https://github.com/oinkiguana/juniper)",
+ "juniper_codegen 0.8.1 (git+https://github.com/oinkiguana/juniper)",
+ "juniper_iron 0.1.0 (git+https://github.com/oinkiguana/juniper_iron)",
  "mount 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "params 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "postgres 0.15.1 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -357,7 +357,7 @@ dependencies = [
 [[package]]
 name = "juniper"
 version = "0.8.1"
-source = "git+https://github.com/graphql-rust/juniper#88f0fdce6f361de6c66fc110d2e2be34de8e3dfc"
+source = "git+https://github.com/oinkiguana/juniper#4c9a26e4e459c15eacf46e4430eec69bd1abbed4"
 dependencies = [
  "chrono 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "fnv 1.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -371,7 +371,7 @@ dependencies = [
 [[package]]
 name = "juniper_codegen"
 version = "0.8.1"
-source = "git+https://github.com/graphql-rust/juniper#88f0fdce6f361de6c66fc110d2e2be34de8e3dfc"
+source = "git+https://github.com/oinkiguana/juniper#4c9a26e4e459c15eacf46e4430eec69bd1abbed4"
 dependencies = [
  "quote 0.3.15 (registry+https://github.com/rust-lang/crates.io-index)",
  "syn 0.11.11 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -380,10 +380,10 @@ dependencies = [
 [[package]]
 name = "juniper_iron"
 version = "0.1.0"
-source = "git+https://github.com/graphql-rust/juniper_iron#607025d8d30c65e44ff2d0fc2c2f14aa022fe6d4"
+source = "git+https://github.com/oinkiguana/juniper_iron#c13eb518fa95c5cb7db1321abcf42d99b5b06393"
 dependencies = [
  "iron 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "juniper 0.8.1 (git+https://github.com/graphql-rust/juniper)",
+ "juniper 0.8.1 (git+https://github.com/oinkiguana/juniper)",
  "serde 1.0.15 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_json 1.0.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "urlencoded 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1108,9 +1108,9 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 "checksum itoa 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)" = "ae3088ea4baeceb0284ee9eea42f591226e6beaecf65373e41b38d95a1b8e7a1"
 "checksum itoa 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)" = "8324a32baf01e2ae060e9de58ed0bc2320c9a2833491ee36cd3b4c414de4db8c"
 "checksum jsonwebtoken 3.0.0 (registry+https://github.com/rust-lang/crates.io-index)" = "c15d2aa968b4fce74e5e14b8cf4f399fbcd6966cdabe7198a066b3963f719327"
-"checksum juniper 0.8.1 (git+https://github.com/graphql-rust/juniper)" = "<none>"
-"checksum juniper_codegen 0.8.1 (git+https://github.com/graphql-rust/juniper)" = "<none>"
-"checksum juniper_iron 0.1.0 (git+https://github.com/graphql-rust/juniper_iron)" = "<none>"
+"checksum juniper 0.8.1 (git+https://github.com/oinkiguana/juniper)" = "<none>"
+"checksum juniper_codegen 0.8.1 (git+https://github.com/oinkiguana/juniper)" = "<none>"
+"checksum juniper_iron 0.1.0 (git+https://github.com/oinkiguana/juniper_iron)" = "<none>"
 "checksum kernel32-sys 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "7507624b29483431c0ba2d82aece8ca6cdba9382bff4ddd0f7490560c056098d"
 "checksum language-tags 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "a91d884b6667cd606bb5a69aa0c99ba811a115fc68915e7056ec08a46e93199a"
 "checksum lazy_static 0.2.9 (registry+https://github.com/rust-lang/crates.io-index)" = "c9e5e58fa1a4c3b915a561a78a22ee0cac6ab97dca2504428bc1cb074375f8d5"

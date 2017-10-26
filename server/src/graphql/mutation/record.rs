@@ -1,5 +1,5 @@
 //! Input objects needed to modify sales records
-use chrono::NaiveDateTime;
+use chrono::{DateTime,FixedOffset};
 use database::Money;
 
 #[derive(Clone, GraphQLInputObject)]
@@ -8,7 +8,7 @@ pub struct RecordAdd {
     pub con_id: i32,
     pub products: Vec<i32>,
     pub price: Money,
-    pub time: NaiveDateTime,
+    pub time: DateTime<FixedOffset>,
 }
 
 #[derive(Clone, GraphQLInputObject)]

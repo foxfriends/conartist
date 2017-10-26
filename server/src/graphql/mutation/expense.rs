@@ -1,5 +1,5 @@
 //! Input objects needed to modify convention expense
-use chrono::NaiveDateTime;
+use chrono::{DateTime,FixedOffset};
 
 #[derive(Clone, GraphQLInputObject)]
 #[graphql(description="Information required to create a convention expense")]
@@ -8,7 +8,7 @@ pub struct ExpenseAdd {
     pub price: f64,
     pub category: String,
     pub description: String,
-    pub time: NaiveDateTime,
+    pub time: DateTime<FixedOffset>,
 }
 
 #[derive(Clone, GraphQLInputObject)]

@@ -150,7 +150,7 @@ graphql_object!(Mutation: Database |&self| {
         dbtry! {
             executor
                 .context()
-                .create_user_record(user_id, record.con_id, record.products, record.price, record.time)
+                .create_user_record(user_id, record.con_id, record.products, record.price, record.time.naive_utc())
         }
     }
     field mod_user_record(&executor, user_id: Option<i32>, record: RecordMod) -> FieldResult<Record> { Err(FieldError::new("Unimplemented", Value::null())) }

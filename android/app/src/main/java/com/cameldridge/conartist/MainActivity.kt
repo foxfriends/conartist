@@ -1,6 +1,5 @@
 package com.cameldridge.conartist
 
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
@@ -10,9 +9,6 @@ import com.cameldridge.conartist.api.API
 import com.cameldridge.conartist.api.Authorization
 import com.github.kittinunf.fuel.core.FuelManager
 import me.lazmaid.kraph.Kraph
-import android.content.IntentFilter
-import android.net.ConnectivityManager.CONNECTIVITY_ACTION
-import android.widget.Toast
 
 
 fun Context.isConnected(): Boolean {
@@ -48,15 +44,7 @@ class MainActivity : AppCompatActivity() {
         startActivityForResult(LoginActivity.newIntent(this), SIGN_IN)
 
         API.available = isConnected()
-
-        val filter = IntentFilter()
-        filter.addAction(CONNECTIVITY_ACTION)
-        registerReceiver(object: BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                API.available = context?.isConnected() == true
-                Toast.makeText(context, if(API.available) { "Connected!" } else { "Disconnected!" }, Toast.LENGTH_SHORT).show()
-            }
-        }, filter)
+        // TODO: update availability when network status changes
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {

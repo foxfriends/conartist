@@ -46,7 +46,7 @@ class GraphQLQuery<T>(
         fun user(handler: (User?) -> Unit) =
             GraphQLQuery(
                 Kraph {
-                    query {
+                    query ("GetUser") {
                         field("user") {
                             field("name")
                             field("email")
@@ -63,7 +63,7 @@ class GraphQLQuery<T>(
         fun con(code: String, handler: (FullConvention?) -> Unit) =
             GraphQLQuery(
                 Kraph {
-                    query {
+                    query ("GetUserConvention") {
                         field("userConvention", mapOf("code" to code)) {
                             fragment("MetaConvention")
                             field("productTypes") {

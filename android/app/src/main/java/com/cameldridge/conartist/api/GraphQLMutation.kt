@@ -5,6 +5,7 @@ import com.beust.klaxon.obj
 import com.cameldridge.conartist.result.unwrap
 import com.cameldridge.conartist.schema.GraphQLDeserializer
 import com.cameldridge.conartist.schema.Record
+import com.cameldridge.conartist.schema.formatTime
 import com.github.kittinunf.fuel.httpPost
 import me.lazmaid.kraph.Kraph
 
@@ -21,7 +22,9 @@ class GraphQLMutation<T>(
             .httpPost()
             .header(Authorization.header())
             .body(query.toRequestString())
+            .let{ println(it); it }
             .responseObject(JsonDeserializer)
+            .let{ println(it); it }
             .third
             .unwrap()
             ?.obj("data")
@@ -40,13 +43,13 @@ class GraphQLMutation<T>(
         fun addUserRecord(conId: Int, record: Record, handler: (Record?) -> Unit) =
             GraphQLMutation(
                 Kraph {
-                    query {
+                    mutation("AddUserRecord") {
                         fieldObject("addUserRecord", mapOf(
                             "record" to mapOf(
                                 "conId" to conId,
                                 "products" to record.products,
                                 "price" to record.price,
-                                "time" to record.time
+                                "time" to formatTime(record.time)
                             )
                         )) {
                             fragment("Record")

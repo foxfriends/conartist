@@ -58,7 +58,7 @@ class ConventionModeActivity : AppCompatActivity() {
                     con.records.add(record)
                     records.records.add(record)
                     if(API.available) {
-                        GraphQLMutation.addUserRecord(con.conId, record) { record.dirty = false }
+                        GraphQLMutation.addUserRecord(con.conId, record) { record.dirty = false } .execute()
                     }
                 }
             }

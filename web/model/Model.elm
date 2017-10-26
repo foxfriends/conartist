@@ -21,6 +21,9 @@ type alias Model =
   , sidenav_visible: Bool
   , location: Maybe Location }
 
+
+-- TODO: Cleaning could probably be improved??
+
 isDirty : Model -> Bool
 isDirty { user } =
       foldl (Convention.isDirty >> (||))  False user.conventions

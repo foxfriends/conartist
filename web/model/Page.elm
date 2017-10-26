@@ -3,6 +3,7 @@ import Status exposing (Status(..))
 import Msg exposing (TabStatus)
 import List exposing (repeat)
 import Validation exposing (Validation(..), valueOf, invalidate, empty, isValid)
+import ChartSettings
 
 type Page
   = Loading
@@ -26,7 +27,9 @@ type alias ConventionPageState =
   , convention: String
   , product_sort: List Order
   , price_sort: List Order
-  , record_sort: List Order }
+  , record_sort: List Order
+  , chart_settings:
+    { inventory: ChartSettings.Inventory } }
 
 type Selector
   = TypeSelector Int
@@ -106,5 +109,13 @@ inventory = Inventory <| InventoryPageState (TabStatus 0 150) { open = False, pa
 pricing : Page
 pricing = Pricing <| PricingPageState None (sort 5)
 
-convention : String -> Page
-convention con = Convention <| ConventionPageState (TabStatus 0 150) con (sort 3) (sort 4) (sort 5)
+convention : String -> Int -> Page
+convention con typeId = Convention <|
+  ConventionPageState
+  (TabStatus 0 150)
+  con
+  (sort 3)
+  (sort 4)
+  (sort 5)
+  { inventory =
+    { product_type = typeId } }

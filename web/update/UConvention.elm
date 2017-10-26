@@ -15,5 +15,6 @@ update msg model = case model.page of
       { model | page = Convention { page | price_sort = updateSort col page.price_sort } } ! []
     SortConRecordsTable col ->
       { model | page = Convention { page | record_sort = updateSort col page.record_sort } } ! []
+    -- TODO: Change chart settings
     _ -> (model, Cmd.none)
   _ -> (model, Cmd.none)

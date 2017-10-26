@@ -10,9 +10,8 @@ import Msg exposing (Msg(..))
 import Page exposing (Page(..))
 import Load
 import LocalStorage
+import ProductType
 import ConRequest exposing (ConRequest(Success))
-import Convention exposing (Convention(..))
-import List_
 
 matchers : Model -> Parser ((Page, Cmd Msg) -> a) a
 matchers model =
@@ -22,7 +21,14 @@ matchers model =
     , map (Dashboard, Cmd.none) <| s "dashboard"
     , map (Page.inventory, Cmd.none) <| s "inventory"
     , map (Page.pricing, Cmd.none) <| s "prices"
-    , map (\code -> (Page.convention code, fillConvention model code)) (s "conventions" </> string)
+    , map
+        (\code ->
+          (Page.convention code
+            (List.head model.user.productTypes
+              |> Maybe.map (ProductType.normalize >> .id)
+              |> Maybe.withDefault 0)
+          , fillConvention model code))
+        (s "conventions" </> string)
     , map (Conventions, Cmd.none) <| s "conventions"
     , map (Settings, Cmd.none) <| s "settings" ]
 
@@ -46,7 +52,10 @@ update msg model = case msg of
       { authModel
       | page = page
       , location = Nothing } in
-    pageModel ! [ reauthorize pageModel, Load.userAndThen task pageModel, url |> Maybe.map Navigation.newUrl |> Maybe.withDefault Cmd.none ]
+    pageModel !
+      [ reauthorize pageModel
+      , Load.userAndThen task pageModel
+      , url |> Maybe.map Navigation.newUrl |> Maybe.withDefault Cmd.none ]
   LSRetrive ("authtoken", Nothing) ->
     ( { model
       | page = Page.signIn
@@ -57,7 +66,8 @@ update msg model = case msg of
     ( { model | sidenav_visible = False, page = Page.signIn, authtoken = "" }
     , Cmd.batch [ LocalStorage.remove "authtoken", Navigation.newUrl signInPath ] )
   DoNav url   -> ( { model | sidenav_visible = False }, Navigation.newUrl url )
-  DidNav loc  -> let (page, cmd) = parseLocation model loc in ( { model | page = page, sidenav_visible = False }, cmd )
+  DidNav loc  -> parseLocation model loc
+    |> Tuple.mapFirst (\p -> { model | page = p, sidenav_visible = False })
   _           -> (model, Cmd.none)
 
 dashboardPath : String

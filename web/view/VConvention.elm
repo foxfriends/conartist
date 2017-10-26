@@ -36,7 +36,7 @@ view model page =
           , Tab "Products" <| products model page con
           , Tab "Prices" <| prices model page con
           , Tab "Sales" <| sales model page con
-          , Tab "Stats" <| stats model con ]
+          , Tab "Stats" <| stats model page con ]
         page.current_tab
       Nothing ->
         placeholder "Convention loading..."
@@ -234,8 +234,8 @@ productString products =
     |> Dict.foldl expander ""
     |> String.dropRight 2
 
-stats : Model -> Convention -> Html msg
-stats model con =
+stats : Model -> ConventionPageState -> Convention -> Html msg
+stats model page con =
   case asFull con of
     Nothing -> errorPage
     Just fc -> case fc.records of
@@ -243,7 +243,7 @@ stats model con =
       _ ->
         div
           [ class "convention__stats" ]
-          [ inventoryChart {} fc ]
+          [ inventoryChart page.chart_settings.inventory fc ]
 
 inventoryChart : ChartSettings.Inventory -> Convention.FullConvention -> Html msg
 inventoryChart settings fc =
@@ -255,6 +255,7 @@ inventoryChart settings fc =
     [ "#81c784", "#e57373" ]
     (fc.products
       |> List.map Product.normalize
+      |> List.filter (.type_id >> (==) settings.product_type)
       |> List.map (\{id, name, quantity} ->
         (name
         , [ toFloat quantity

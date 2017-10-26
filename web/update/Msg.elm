@@ -35,7 +35,6 @@ type Msg
   | OpenKeyPurchase
   | OpenChooseConvention
   | AddConvention MetaConvention
-  | AddedConvention (Result Http.Error (ConRequest ()))
   -- inventory
   | ChangeInventoryTab TabStatus
   | ColorPickerPage Int

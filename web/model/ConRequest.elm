@@ -20,10 +20,3 @@ decode decoder =
       else
         Decode.at ["error"] Decode.string |> Decode.map Failure
     )
-
-decodePagination : (Decoder a) -> Decoder (Pagination a)
-decodePagination decoder =
-  Decode.map3 Pagination
-    (Decode.field "data" (Decode.list decoder))
-    (Decode.field "pages" (Decode.int))
-    (Decode.field "page" (Decode.int))

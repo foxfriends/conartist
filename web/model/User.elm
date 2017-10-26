@@ -5,7 +5,6 @@ import ProductType exposing (ProductType)
 import Price exposing (Price)
 import Convention exposing (Convention)
 
-
 type alias User =
   { email: String
   , name: String

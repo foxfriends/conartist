@@ -9,5 +9,5 @@ bars colors =
     (Bars
       normalAxis
       (List.map (uncurry group))
-      [ List.map fill colors ]
+      (List.map (fill >> List.singleton) colors)
       (Percentage 75))

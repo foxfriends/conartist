@@ -24,6 +24,8 @@ import Price
 import Chart
 import List_
 
+-- TODO: split up this module
+
 view : Model -> ConventionPageState -> Html Msg
 view model page =
   case List_.find (asMeta >> .code >> (==) page.convention) model.user.conventions of

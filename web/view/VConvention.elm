@@ -252,7 +252,10 @@ inventoryChart settings fc =
   Chart.bars [ "#81c784", "#e57373" ]
     (fc.products
       |> List.map Product.normalize
-      |> List.map (\{id, name, quantity} -> (name, [ toFloat quantity, toFloat (quantity - (Dict.get id soldQuantity |> Maybe.withDefault 0)) ])))
+      |> List.map (\{id, name, quantity} ->
+        (name
+        , [ toFloat quantity
+          , toFloat (max 0 <| quantity - (Dict.get id soldQuantity |> Maybe.withDefault 0)) ])))
 
 
 dateRange : Date -> Date -> String

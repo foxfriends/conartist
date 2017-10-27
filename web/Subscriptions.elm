@@ -1,5 +1,5 @@
 module Subscriptions exposing (subscriptions)
-import Mouse
+-- import Mouse
 import Time
 import Date
 
@@ -14,5 +14,6 @@ subscriptions model =
     [ LocalStorage.retrieve LSRetrive
     , Files.didRead DidFileRead
     , Files.didWrite DidFileWrite
-    , Mouse.moves MouseMove
-    , Time.every Time.minute (Date.fromTime >> SetDate)]
+    -- , Mouse.moves MouseMove
+    , Time.every Time.minute (Date.fromTime >> SetDate)
+    ]

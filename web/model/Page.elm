@@ -117,5 +117,4 @@ convention con typeId = Convention <|
   (sort 3)
   (sort 4)
   (sort 5)
-  { inventory =
-    { product_type = typeId } }
+  { inventory = ChartSettings.inventory typeId }

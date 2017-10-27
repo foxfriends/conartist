@@ -4,6 +4,7 @@ import GraphQL.Client.Http exposing (Error)
 import Date exposing (Date)
 import Navigation exposing (Location)
 import Mouse
+import Plot
 
 import ConRequest exposing (ConRequest, Pagination)
 import Product exposing (FullProduct)
@@ -69,6 +70,8 @@ type Msg
   | SortConProductsTable Int
   | SortConPricesTable Int
   | SortConRecordsTable Int
+  -- charts
+  | InventoryChartHover (Maybe Plot.Point)
   -- loading
   | DidLoadUser (Result Error User)
   | DidLoadUserThen (Cmd Msg) (Result Error User)

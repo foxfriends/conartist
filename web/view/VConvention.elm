@@ -235,7 +235,7 @@ productString products =
     |> Dict.foldl expander ""
     |> String.dropRight 2
 
-stats : Model -> ConventionPageState -> Convention -> Html msg
+stats : Model -> ConventionPageState -> Convention -> Html Msg
 stats model page con =
   case asFull con of
     Nothing -> errorPage
@@ -246,13 +246,13 @@ stats model page con =
           [ class "convention__stats" ]
           [ inventoryChart model.mouse page.chart_settings.inventory fc ]
 
-inventoryChart : Mouse.Position -> ChartSettings.Inventory -> Convention.FullConvention -> Html msg
+inventoryChart : Mouse.Position -> ChartSettings.Inventory -> Convention.FullConvention -> Html Msg
 inventoryChart hovering settings fc =
   let
     soldQuantity = List.foldl frequency Dict.empty (List.concatMap .products fc.records)
-  in
-  Chart.barsWithHover
-    hovering
+  in Chart.barsWithHover
+    InventoryChartHover
+    settings.hovering
     [ class "convention__chart" ]
     [ "#81c784", "#e57373" ]
     (fc.products

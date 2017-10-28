@@ -5,8 +5,7 @@
     "license": "MIT",
     "source-directories": [
         "./src",
-        "./src/model",
-        "./src/ports"
+        "./src/model"
     ],
     "exposed-modules": [],
     "dependencies": {

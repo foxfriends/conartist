@@ -5,7 +5,7 @@ import Task
 
 import Model exposing (Model)
 import Msg exposing (Msg(..))
-import LocalStorage
+import Ports.LocalStorage as LocalStorage
 import User
 import Page
 import Dialog exposing (Dialog(..))

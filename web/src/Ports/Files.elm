@@ -1,4 +1,4 @@
-port module Files exposing (..)
+port module Ports.Files exposing (..)
 
 port read : String -> Cmd msg
 port write : (String, String) -> Cmd msg

@@ -8,7 +8,7 @@ import ProductType
 import Product
 import Price
 import Util.List as List
-import Files
+import Ports.Files as Files
 
 
 update : Msg -> Model -> (Model, Cmd Msg)

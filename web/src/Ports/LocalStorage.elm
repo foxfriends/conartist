@@ -1,4 +1,4 @@
-port module LocalStorage exposing (..)
+port module Ports.LocalStorage exposing (..)
 
 port set : (String, String) -> Cmd msg
 port remove : String -> Cmd msg

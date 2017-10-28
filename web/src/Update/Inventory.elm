@@ -8,7 +8,7 @@ import Product exposing (Product(..))
 import View.Table exposing (updateSort)
 import Validation exposing (Validation(..))
 import ProductType
-import Files
+import Ports.Files as Files
 import Util.List as List
 import Util.Util as Util
 

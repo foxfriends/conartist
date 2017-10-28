@@ -5,8 +5,8 @@ import Date
 
 import Model exposing (Model)
 import Msg exposing (Msg(..))
-import Files
-import LocalStorage
+import Ports.Files as Files
+import Ports.LocalStorage as LocalStorage
 
 subscriptions : Model -> Sub Msg
 subscriptions model =

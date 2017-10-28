@@ -10,7 +10,7 @@ import Page exposing (Page(..), SignInPageState, validateSignInForm)
 import Status exposing (Status(..))
 import Update.Load as Load
 import ConRequest
-import LocalStorage
+import Ports.LocalStorage as LocalStorage
 import Routing exposing (dashboardPath)
 import Validation exposing (Validation(..), valueOf, validate, invalidate, empty, errorFor, toResult)
 

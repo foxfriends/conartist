@@ -9,7 +9,7 @@ import Model exposing (Model)
 import Msg exposing (Msg(..))
 import Page exposing (Page(..))
 import Update.Load as Load
-import LocalStorage
+import Ports.LocalStorage as LocalStorage
 import ProductType
 import ConRequest exposing (ConRequest(Success))
 

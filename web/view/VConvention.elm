@@ -22,7 +22,7 @@ import ProductType exposing (ProductType, FullType)
 import Fancy
 import Product
 import Price
-import Chart
+import Chart.Inventory
 import ChartSettings
 import List_
 
@@ -250,8 +250,7 @@ inventoryChart : Mouse.Position -> ChartSettings.Inventory -> Convention.FullCon
 inventoryChart hovering settings fc =
   let
     soldQuantity = List.foldl frequency Dict.empty (List.concatMap .products fc.records)
-  in Chart.barsWithHover
-    InventoryChartHover
+  in Chart.Inventory.view
     settings.hovering
     [ class "convention__chart" ]
     [ "#81c784", "#e57373" ]

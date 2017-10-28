@@ -16,7 +16,7 @@ import GraphQL.Request.Builder as GraphQL exposing (..)
 import GraphQL.Request.Builder.Arg as Arg
 import GraphQL.Request.Builder.Variable as Var
 
-import Util
+import Util.Util as Util
 import Model exposing (Model)
 import User exposing (User)
 import ProductType exposing (FullType, InternalType, NewType, ProductType(..))

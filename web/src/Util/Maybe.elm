@@ -1,4 +1,4 @@
-module Maybe_ exposing (..)
+module Util.Maybe exposing (..)
 import Lazy exposing (Lazy, lazy, force)
 
 or_else : Lazy (Maybe a) -> Maybe a -> Maybe a

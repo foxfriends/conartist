@@ -8,9 +8,9 @@ import Product exposing (Product(..))
 import View.Table exposing (updateSort)
 import Validation exposing (Validation(..))
 import ProductType
-import List_
 import Files
-import Util
+import Util.List as List
+import Util.Util as Util
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case model.page of
@@ -25,7 +25,7 @@ update msg model = case model.page of
         { model
         | user =
           { user
-          | productTypes = ProductType.validateAll <| List_.updateAt (ProductType.normalize >> .id >> (==) id) (ProductType.setName name) types
+          | productTypes = ProductType.validateAll <| List.updateAt (ProductType.normalize >> .id >> (==) id) (ProductType.setName name) types
           }
         } ! []
     ProductTypeColor id color ->
@@ -36,7 +36,7 @@ update msg model = case model.page of
         { model
         | user =
           { user
-          | productTypes = List_.updateAt (ProductType.normalize >> .id >> (==) id) (ProductType.setColor color) types
+          | productTypes = List.updateAt (ProductType.normalize >> .id >> (==) id) (ProductType.setColor color) types
           }
         } ! []
     ProductTypeDiscontinued id ->
@@ -47,7 +47,7 @@ update msg model = case model.page of
           { model
           | user =
             { user
-            | productTypes = List_.filterUpdateAt (ProductType.normalize >> .id >> (==) id) ProductType.toggleDiscontinued types } }
+            | productTypes = List.filterUpdateAt (ProductType.normalize >> .id >> (==) id) ProductType.toggleDiscontinued types } }
       in
         if model.show_discontinued
           then result ! []
@@ -60,7 +60,7 @@ update msg model = case model.page of
         { model
         | user =
           { user
-          | products = Product.validateAll <| List_.updateAt
+          | products = Product.validateAll <| List.updateAt
               (Product.normalize >> (\q -> q.id == id && q.type_id == type_))
               (Product.setName name)
               products
@@ -74,7 +74,7 @@ update msg model = case model.page of
         { model
         | user =
           { user
-          | products = Product.validateAll <| List_.updateAt
+          | products = Product.validateAll <| List.updateAt
               (Product.normalize >> (\q -> q.id == id && q.type_id == type_))
               (Product.setQuantity quantity)
               products
@@ -88,7 +88,7 @@ update msg model = case model.page of
         { model
         | user =
           { user
-          | products = List_.filterUpdateAt
+          | products = List.filterUpdateAt
               (Product.normalize >> (\q -> q.id == id && q.type_id == type_))
               Product.toggleDiscontinued
               products
@@ -199,13 +199,13 @@ update msg model = case model.page of
           |> List.indexedMap (\x -> \(i, n, q) ->
             ( if i > 0 then
                 model.user.products
-                  |> List_.find (Product.normalize >> .id >> (==) i)
+                  |> List.find (Product.normalize >> .id >> (==) i)
               else
                 model.user.products
-                  |> List_.find (\p -> let q = Product.normalize p in q.name == n && q.type_id == t))
+                  |> List.find (\p -> let q = Product.normalize p in q.name == n && q.type_id == t))
             |> Maybe.map (Product.setQuantity q)
             |> Maybe.withDefault (New <| Product.NewProduct (o + x) t (Valid n) (Valid (Right q))))
-          |> List.foldl (\p -> List_.updateAtOrInsert p (Product.normalize >> .id >> (==) (Product.normalize p).id) (always p)) user.products
+          |> List.foldl (\p -> List.updateAtOrInsert p (Product.normalize >> .id >> (==) (Product.normalize p).id) (always p)) user.products
       in
         { model | user = { user | products = Product.validateAll products } } ! []
     _ -> model ! []

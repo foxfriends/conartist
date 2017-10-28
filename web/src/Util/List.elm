@@ -1,4 +1,4 @@
-module List_ exposing (..)
+module Util.List exposing (..)
 
 enumerate : List a -> List (Int, a)
 enumerate l = let len = List.length l in

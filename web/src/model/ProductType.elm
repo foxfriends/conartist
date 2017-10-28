@@ -1,8 +1,8 @@
 module ProductType exposing (..)
 import Validation exposing (Validation(..), valueOf, invalidate, validate, empty)
 import Either exposing (Either(..))
-import List_
-import Either_ exposing (both)
+import Util.List as List
+import Util.Either exposing (both)
 import MD5 exposing (hex)
 
 type alias NewType =
@@ -53,11 +53,11 @@ individualClean : List (String, FullType) -> ProductType -> ProductType
 individualClean updates ptype =
   let
     replaceNew p = updates
-      |> List_.find (Tuple.first >> (==) (hex <| valueOf p.name))
+      |> List.find (Tuple.first >> (==) (hex <| valueOf p.name))
       |> Maybe.map (Clean << Tuple.second)
       |> Maybe.withDefault (New p)
     replaceDirty p = updates
-      |> List_.find (Tuple.first >> (==) (hex <| Either.unpack identity valueOf p.name))
+      |> List.find (Tuple.first >> (==) (hex <| Either.unpack identity valueOf p.name))
       |> Maybe.map (Clean << Tuple.second)
       |> Maybe.withDefault (Dirty p)
   in

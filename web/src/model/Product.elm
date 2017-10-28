@@ -4,9 +4,9 @@ import Dict
 import Either exposing (Either(..))
 import MD5
 
-import Util
-import List_
-import Either_ exposing (both)
+import Util.Util as Util
+import Util.List as List
+import Util.Either exposing (both)
 import Validation exposing (Validation(..), valueOf, validate, invalidate)
 
 type alias NewProduct =
@@ -110,12 +110,12 @@ individualClean updates product =
   let
     replaceNew p =
       updates
-        |> List_.find (Tuple.first >> (==) (hash (New p)))
+        |> List.find (Tuple.first >> (==) (hash (New p)))
         |> Maybe.map (Tuple.second >> Clean)
         |> Maybe.withDefault (New p)
     replaceDirty p =
       updates
-        |> List_.find (Tuple.first >> (==) (hash (Dirty p)))
+        |> List.find (Tuple.first >> (==) (hash (Dirty p)))
         |> Maybe.map (Clean << Tuple.second)
         |> Maybe.withDefault (Dirty p)
   in
@@ -137,7 +137,7 @@ fillNewTypes updates originals products =
       Dict.fromList
         (updates
           |> List.filterMap
-            (\u -> List_.find (.name >> valueOf >> (==) u.name) oldNews
+            (\u -> List.find (.name >> valueOf >> (==) u.name) oldNews
               |> Maybe.map (.localId >> flip (,) u.id)))
   in products
     |> List.map (\p -> case p of

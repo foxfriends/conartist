@@ -5,7 +5,7 @@ import Product exposing (Product, FullProduct)
 import ProductType exposing (ProductType, FullType)
 import Price exposing (Price)
 import Record exposing (Record)
-import List_
+import Util.List as List
 
 type alias ProductWithType =
   { product: Product
@@ -29,7 +29,7 @@ productsWithTypes : List ProductType -> List Product -> List ProductWithType
 productsWithTypes types products =
   List.filterMap
     (\p ->
-      List_.find (ProductType.normalize >> .id >> (==) (Product.normalize p).type_id) types
+      List.find (ProductType.normalize >> .id >> (==) (Product.normalize p).type_id) types
         |> Maybe.map (joinProductToType p))
     products
 
@@ -39,12 +39,12 @@ joinProductToType prod typ = ProductWithType prod typ
 pricesWithProductsAndTypes : List ProductType -> List Product -> List Price -> List PriceWithTypeAndProduct
 pricesWithProductsAndTypes types products prices =
   prices
-    |> List.map (\p -> (p, List_.find (ProductType.normalize >> .id >> (==) (Price.typeId p)) types))
+    |> List.map (\p -> (p, List.find (ProductType.normalize >> .id >> (==) (Price.typeId p)) types))
     |> List.map (uncurry joinTypeToPrice)
     |> List.filterMap
       (\p -> case Price.productId p.price of
         Nothing -> Just (p, Nothing)
-        Just i -> List_.find (Product.normalize >> .id >> (==) i) products |> Maybe.map (Just >> (,) p))
+        Just i -> List.find (Product.normalize >> .id >> (==) i) products |> Maybe.map (Just >> (,) p))
     |> List.map (uncurry joinProductToTypedPrice)
 
 joinTypeToPrice : Price -> Maybe ProductType -> PriceWithType
@@ -63,4 +63,4 @@ recordsWithTypedProducts types products records =
 joinProductsToRecord : List ProductWithType -> Record -> RecordWithTypedProduct
 joinProductsToRecord products record =
   { record
-  | products = List.filterMap (\i -> List_.find (.product >> Product.normalize >> .id >> (==) i) products) record.products }
+  | products = List.filterMap (\i -> List.find (.product >> Product.normalize >> .id >> (==) i) products) record.products }

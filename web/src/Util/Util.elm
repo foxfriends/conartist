@@ -1,4 +1,4 @@
-module Util exposing (..)
+module Util.Util exposing (..)
 
 toInt : String -> Result String Int
 toInt str = case str of

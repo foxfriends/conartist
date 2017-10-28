@@ -24,13 +24,13 @@ import Product
 import Price
 import View.Chart.Inventory
 import ChartSettings
-import List_
+import Util.List as List
 
 -- TODO: split up this module
 
 view : Model -> ConventionPageState -> Html Msg
 view model page =
-  case List_.find (asMeta >> .code >> (==) page.convention) model.user.conventions of
+  case List.find (asMeta >> .code >> (==) page.convention) model.user.conventions of
       Just con ->
         tabs ChangeConventionTab []
           [ Tab "Summary" <| summary model con
@@ -91,15 +91,15 @@ bestSellers con =
         product =
           allRecordProducts
             |> mostFrequent
-            |> \p -> List_.find (.id >> (==) p) normalProducts
+            |> \p -> List.find (.id >> (==) p) normalProducts
             |> Maybe.map .name
             |> Maybe.withDefault "Unknown"
         productType =
           allRecordProducts
-            |> List.filterMap (\p -> (List_.find (.id >> (==) p) normalProducts))
+            |> List.filterMap (\p -> (List.find (.id >> (==) p) normalProducts))
             |> List.map .type_id
             |> mostFrequent
-            |> \t -> List_.find (ProductType.normalize >> .id >> (==) t) con.productTypes
+            |> \t -> List.find (ProductType.normalize >> .id >> (==) t) con.productTypes
             |> Maybe.map (ProductType.normalize >> .name)
             |> Maybe.withDefault "Unknown"
       in

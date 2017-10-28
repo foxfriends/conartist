@@ -14,7 +14,7 @@ import Price exposing (Price(..))
 import Join exposing (PriceWithTypeAndProduct)
 import View.Fancy as Fancy exposing (ButtonStyle(..))
 import View.Align exposing (centered)
-import List_
+import Util.List as List
 import Validation exposing (Validation(..))
 
 view : Model -> PricingPageState -> Html Msg
@@ -52,7 +52,7 @@ priceRow model page { productType, product, price } =
         (\x -> case x of
           Just x ->
             types
-              |> List_.find (.id >> (==) x)
+              |> List.find (.id >> (==) x)
               |> Maybe.map .name
               |> Maybe.withDefault "Unknown type"
           Nothing -> "Choose a type")
@@ -69,7 +69,7 @@ priceRow model page { productType, product, price } =
         (\x -> case x of
           Just x ->
             products
-              |> List_.find (.id >> (==) x)
+              |> List.find (.id >> (==) x)
               |> Maybe.map .name
               |> Maybe.withDefault "Unknown product"
           Nothing -> "All")

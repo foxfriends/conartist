@@ -5,7 +5,7 @@ import Html.Events exposing (onInput, onClick)
 import Hex
 import Either
 
-import Either_ exposing (both)
+import Util.Either exposing (both)
 import Model exposing (Model)
 import Msg exposing (Msg(..))
 import View.Tabs exposing (tabsWithFooter, TabItem(..))

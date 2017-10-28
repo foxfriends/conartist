@@ -1,4 +1,4 @@
-module Either_ exposing (both)
+module Util.Either exposing (both)
 import Either exposing (Either, unpack)
 
 both : Either a a -> a

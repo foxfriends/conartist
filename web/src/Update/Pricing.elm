@@ -7,7 +7,7 @@ import Join
 import ProductType
 import Product
 import Price
-import List_
+import Util.List as List
 import Files
 
 
@@ -29,7 +29,7 @@ update msg model = case model.page of
             | page = Pricing { page | open_selector = None }
             , user =
               { user
-              | prices = Price.validateAll <| List_.flatUpdateAt
+              | prices = Price.validateAll <| List.flatUpdateAt
                   (Price.index >> (==) index)
                   (\p ->
                     List.filterMap identity
@@ -48,7 +48,7 @@ update msg model = case model.page of
         | page = Pricing { page | open_selector = None }
         , user =
           { user
-          | prices = Price.validateAll <| List_.flatUpdateAt
+          | prices = Price.validateAll <| List.flatUpdateAt
               (Price.index >> (==) index)
               (\p ->
                 List.filterMap identity
@@ -65,7 +65,7 @@ update msg model = case model.page of
         { model
         | user =
           { user
-          | prices = Price.validateAll <| List_.updateAt
+          | prices = Price.validateAll <| List.updateAt
               (Price.index >> (==) index)
               (Price.setPrice price)
               prices
@@ -79,7 +79,7 @@ update msg model = case model.page of
         { model
         | user =
           { user
-          | prices = Price.validateAll <| List_.updateAt
+          | prices = Price.validateAll <| List.updateAt
               (Price.index >> (==) index)
               (Price.setQuantity quantity)
               prices

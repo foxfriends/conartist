@@ -6,7 +6,6 @@
     "source-directories": [
         "./src",
         "./src/model",
-        "./src/util",
         "./src/ports"
     ],
     "exposed-modules": [],

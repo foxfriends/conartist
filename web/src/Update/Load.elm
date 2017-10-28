@@ -5,7 +5,7 @@ import Model exposing (Model)
 import Msg exposing (Msg(..))
 import Dialog exposing (Dialog(..))
 import Convention exposing (asMeta, Convention(Full))
-import List_
+import Util.List as List
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case msg of
@@ -18,7 +18,7 @@ update msg model = case msg of
   DidLoadConvention (Ok con) ->
     let
       user = model.user
-      conventions = List_.updateAt (asMeta >> .code >> (==) con.code) (always <| Full con) user.conventions
+      conventions = List.updateAt (asMeta >> .code >> (==) con.code) (always <| Full con) user.conventions
     in
       { model | user = { user | conventions = conventions } } ! []
   _ -> model ! []

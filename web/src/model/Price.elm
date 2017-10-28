@@ -3,9 +3,9 @@ import Either exposing (Either(..))
 import FormatNumber exposing (format)
 import FormatNumber.Locales exposing (usLocale)
 
-import List_
-import Either_
-import Util
+import Util.List as List
+import Util.Either as Either
+import Util.Util as Util
 import ProductType exposing (ProductType)
 import Product exposing (Product)
 import Validation exposing (Validation(..), valueOf, validate, empty, invalidate, isValid)
@@ -65,8 +65,8 @@ normalize price = case price of
   Clean p   -> Just p
   Dirty p   -> Just <| FullPrice
     p.index
-    (Either_.both p.type_id)
-    (Either_.both p.product_id)
+    (Either.both p.type_id)
+    (Either.both p.product_id)
     (priceFloat <| Either.mapRight valueOf p.price)
     (Either.unpack identity (valueOf >> Util.toInt >> Result.withDefault 0) p.quantity)
   New p     -> Just <| FullPrice
@@ -78,7 +78,7 @@ normalize price = case price of
   Deleted _ -> Nothing
 
 priceStr : Either Float String -> String
-priceStr = Either.mapLeft moneyFormat >> Either_.both
+priceStr = Either.mapLeft moneyFormat >> Either.both
 
 priceFloat : Either Float String -> Float
 priceFloat = Either.mapRight parseMoney >> Either.unpack identity (Result.withDefault 0)
@@ -166,14 +166,14 @@ index price = case price of
 typeId : Price -> Int
 typeId price = case price of
   Clean p   -> p.type_id
-  Dirty p   -> Either_.both p.type_id
+  Dirty p   -> Either.both p.type_id
   New p     -> valueOf p.type_id
   Deleted p -> p.type_id
 
 productId : Price -> Maybe Int
 productId price = case price of
   Clean p   -> p.product_id
-  Dirty p   -> Either_.both p.product_id
+  Dirty p   -> Either.both p.product_id
   New p     -> p.product_id
   Deleted p -> p.product_id
 
@@ -238,7 +238,7 @@ validateAll prices =
         Dirty p -> Dirty
           { p
           | price = Either.mapRight validatePrice p.price
-          , quantity = Either.mapRight (validateQuantity (Either_.both p.type_id) (Either_.both p.product_id)) p.quantity
+          , quantity = Either.mapRight (validateQuantity (Either.both p.type_id) (Either.both p.product_id)) p.quantity
           }
         Deleted p -> price
   in List.map check prices
@@ -257,8 +257,8 @@ fillNewTypes : List ProductType.FullType -> List ProductType -> List Price -> Li
 fillNewTypes updates types prices =
   let replacement i = types
     |> List.map ProductType.normalize
-    |> List_.find (.id >> (==) i)
-    |> Maybe.andThen (\t -> List_.find (.name >> (==) t.name) updates)
+    |> List.find (.id >> (==) i)
+    |> Maybe.andThen (\t -> List.find (.name >> (==) t.name) updates)
     |> Maybe.map .id
     |> Maybe.withDefault i
   in prices
@@ -269,7 +269,7 @@ fillNewTypes updates types prices =
         else
           { p | type_id = Valid (replacement <| valueOf p.type_id) }
       Clean p -> Clean p
-      Dirty p -> Dirty <| if (Either_.both p.type_id) > 0 then p else { p | type_id = Right <| replacement (Either_.both p.type_id) }
+      Dirty p -> Dirty <| if (Either.both p.type_id) > 0 then p else { p | type_id = Right <| replacement (Either.both p.type_id) }
       Deleted p -> Deleted <| if p.type_id > 0 then p else { p | type_id = replacement p.type_id })
 
 fillNewProducts : List Product.FullProduct -> List Product -> List Price -> List Price
@@ -279,15 +279,15 @@ fillNewProducts updates products prices =
     then i
     else products
       |> List.map Product.normalize
-      |> List_.find (.id >> (==) i)
-      |> Maybe.andThen (\t -> List_.find (.name >> (==) t.name) updates)
+      |> List.find (.id >> (==) i)
+      |> Maybe.andThen (\t -> List.find (.name >> (==) t.name) updates)
       |> Maybe.map .id
       |> Maybe.withDefault i
   in prices
     |> List.map (\price -> case price of
       New p -> New  { p | product_id = Maybe.map replacement p.product_id }
       Clean p -> Clean p
-      Dirty p -> Dirty { p | product_id = Right <| Maybe.map replacement (Either_.both p.product_id) }
+      Dirty p -> Dirty { p | product_id = Right <| Maybe.map replacement (Either.both p.product_id) }
       Deleted p -> Deleted { p | product_id = Maybe.map replacement p.product_id } )
 
 delete : Price -> Maybe Price
@@ -315,7 +315,7 @@ collectPrices price_ prices =
   case normalize price_ of
     Nothing -> prices
     Just { type_id, product_id, price, quantity } ->
-      List_.updateAtOrInsert
+      List.updateAtOrInsert
         (isUpdated price_, (CondensedPrice type_id product_id [(quantity, price)]))
         (\(_, p) -> p.type_id == type_id && p.product_id == product_id)
         (\(m, p) -> (m || isUpdated price_, { p | prices = (quantity, price) :: p.prices }))

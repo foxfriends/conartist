@@ -12,7 +12,7 @@ module View.Table exposing
 import Html exposing (Html, div, text)
 import Html.Events exposing (onClick)
 import Html.Attributes exposing (class, style)
-import List_ exposing (zip)
+import Util.List exposing (zip)
 
 type TableHeader a msg
   = Sortable String (a -> a -> Order) (Int -> msg)

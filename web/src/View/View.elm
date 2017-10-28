@@ -2,9 +2,10 @@ module View.View exposing (view)
 import Html exposing (Html, div, main_)
 import Html.Attributes exposing (class)
 
-import Model exposing (Model)
-import Page exposing (Page(..))
 import Msg exposing (Msg)
+
+import Model.Model exposing (Model)
+import Model.Page exposing (Page(..))
 
 import View.SignIn
 import View.Dashboard

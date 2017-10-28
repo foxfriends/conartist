@@ -1,12 +1,12 @@
 module Update.Pricing exposing (update)
-import Model exposing (Model)
-import Page exposing (Page(..), Selector(..))
 import Msg exposing (Msg(..))
 import View.Table exposing (updateSort)
-import Join
-import ProductType
-import Product
-import Price
+import Model.Model exposing (Model)
+import Model.Page exposing (Page(..), Selector(..))
+import Model.Join as Join
+import Model.ProductType as ProductType
+import Model.Product as Product
+import Model.Price as Price
 import Util.List as List
 import Ports.Files as Files
 

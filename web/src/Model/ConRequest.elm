@@ -1,4 +1,4 @@
-module ConRequest exposing (..)
+module Model.ConRequest exposing (..)
 import Json.Decode as Decode exposing (Decoder)
 
 type ConRequest a

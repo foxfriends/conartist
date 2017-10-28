@@ -5,13 +5,13 @@ import Http
 import Json.Decode as Decode
 
 import GraphQL exposing (query, getFullConvention)
-import Model exposing (Model)
 import Msg exposing (Msg(..))
-import Page exposing (Page(..))
+import Model.Model exposing (Model)
+import Model.Page as Page exposing (Page(..))
+import Model.ProductType as ProductType
+import Model.ConRequest as ConRequest exposing (ConRequest(Success))
 import Update.Load as Load
 import Ports.LocalStorage as LocalStorage
-import ProductType
-import ConRequest exposing (ConRequest(Success))
 
 matchers : Model -> Parser ((Page, Cmd Msg) -> a) a
 matchers model =

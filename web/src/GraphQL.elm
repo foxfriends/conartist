@@ -17,16 +17,16 @@ import GraphQL.Request.Builder.Arg as Arg
 import GraphQL.Request.Builder.Variable as Var
 
 import Util.Util as Util
-import Model exposing (Model)
-import User exposing (User)
-import ProductType exposing (FullType, InternalType, NewType, ProductType(..))
-import Product exposing (FullProduct, InternalProduct, NewProduct, Product(..))
-import Price exposing (FullPrice, CondensedPrice, Price(..))
-import Convention exposing (MetaConvention, FullConvention, Convention(..))
-import Record exposing (Record)
-import Expense exposing (Expense)
-import Pagination exposing (Pagination)
-import Validation exposing (valueOf)
+import Model.Model exposing (Model)
+import Model.User exposing (User)
+import Model.ProductType as ProductType exposing (FullType, InternalType, NewType, ProductType(..))
+import Model.Product as Product exposing (FullProduct, InternalProduct, NewProduct, Product(..))
+import Model.Price as Price exposing (FullPrice, CondensedPrice, Price(..))
+import Model.Convention as Convention exposing (MetaConvention, FullConvention, Convention(..))
+import Model.Record exposing (Record)
+import Model.Expense exposing (Expense)
+import Model.Pagination exposing (Pagination)
+import Model.Validation exposing (valueOf)
 
 -- TODO: make user of fragments to reduce request size
 

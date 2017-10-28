@@ -4,7 +4,7 @@ import Html.Attributes exposing (class, type_, value, tabindex, style)
 import Html.Events exposing (onClick, onCheck)
 
 import View.Icon exposing (icon)
-import Validation exposing (Validation(..), isEmpty, isValid, isInvalid, valueOf, errorFor)
+import Model.Validation exposing (Validation(..), isEmpty, isValid, isInvalid, valueOf, errorFor)
 
 flush : Html.Attribute msg
 flush = class "fancy-input--flush"

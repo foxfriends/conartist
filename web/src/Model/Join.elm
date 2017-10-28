@@ -1,10 +1,10 @@
-module Join exposing (..)
+module Model.Join exposing (..)
 import Date exposing (Date)
 
-import Product exposing (Product, FullProduct)
-import ProductType exposing (ProductType, FullType)
-import Price exposing (Price)
-import Record exposing (Record)
+import Model.Product as Product exposing (Product, FullProduct)
+import Model.ProductType as ProductType exposing (ProductType, FullType)
+import Model.Price as Price exposing (Price)
+import Model.Record exposing (Record)
 import Util.List as List
 
 type alias ProductWithType =

@@ -1,9 +1,9 @@
-module User exposing (User, new)
+module Model.User exposing (User, new)
 
-import Product exposing (Product)
-import ProductType exposing (ProductType)
-import Price exposing (Price)
-import Convention exposing (Convention)
+import Model.Product exposing (Product)
+import Model.ProductType exposing (ProductType)
+import Model.Price exposing (Price)
+import Model.Convention exposing (Convention)
 
 type alias User =
   { email: String

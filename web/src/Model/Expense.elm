@@ -1,4 +1,4 @@
-module Expense exposing (Expense)
+module Model.Expense exposing (Expense)
 import Date exposing (Date)
 
 type alias Expense =

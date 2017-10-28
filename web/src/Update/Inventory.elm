@@ -1,13 +1,13 @@
 module Update.Inventory exposing (update)
 import Either exposing (Either(..))
 
-import Model exposing (Model)
-import Page exposing (Page(..))
 import Msg exposing (Msg(..), TabStatus)
-import Product exposing (Product(..))
 import View.Table exposing (updateSort)
-import Validation exposing (Validation(..))
-import ProductType
+import Model.Validation as Validation exposing (Validation(..))
+import Model.Model exposing (Model)
+import Model.Page exposing (Page(..))
+import Model.Product as Product exposing (Product(..))
+import Model.ProductType as ProductType
 import Ports.Files as Files
 import Util.List as List
 import Util.Util as Util

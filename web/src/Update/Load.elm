@@ -1,10 +1,10 @@
 module Update.Load exposing (update, user, userAndThen)
 
 import GraphQL exposing (query, getUser)
-import Model exposing (Model)
+import Model.Model exposing (Model)
+import Model.Dialog exposing (Dialog(..))
+import Model.Convention exposing (asMeta, Convention(Full))
 import Msg exposing (Msg(..))
-import Dialog exposing (Dialog(..))
-import Convention exposing (asMeta, Convention(Full))
 import Util.List as List
 
 update : Msg -> Model -> (Model, Cmd Msg)

@@ -1,16 +1,16 @@
-module Model exposing (..)
+module Model.Model exposing (..)
 import List exposing (foldl)
 import Date exposing (Date)
 import Navigation exposing (Location)
 import Mouse
 
-import Product
-import Price
-import ProductType
-import Convention
-import Page exposing (Page)
-import Dialog exposing (Dialog)
-import User exposing (User)
+import Model.Product as Product
+import Model.Price as Price
+import Model.ProductType as ProductType
+import Model.Convention as Convention
+import Model.Page exposing (Page)
+import Model.Dialog exposing (Dialog)
+import Model.User exposing (User)
 
 type alias Model =
   { user: User

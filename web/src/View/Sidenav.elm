@@ -4,9 +4,9 @@ import Html.Attributes exposing (class, href)
 import Html.Events exposing (onWithOptions, onClick)
 import Json.Decode as Decode
 
-import Model exposing (Model)
 import Msg exposing (Msg(..))
 import View.List exposing (list, row, clickable)
+import Model.Model exposing (Model)
 import Routing
 
 navigateTo : String -> List (Html.Attribute Msg)

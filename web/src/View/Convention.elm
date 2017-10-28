@@ -9,21 +9,21 @@ import Hex
 import Set
 import Mouse
 
-import Model exposing (Model)
 import Msg exposing (Msg(..))
-import Page exposing (ConventionPageState)
-import Convention exposing (Convention, MetaConvention, asMeta, asFull)
+import Model.Join as Join exposing (ProductWithType, PriceWithTypeAndProduct, RecordWithTypedProduct)
+import Model.Model exposing (Model)
+import Model.Page exposing (ConventionPageState)
+import Model.Convention as Convention exposing (Convention, MetaConvention, asMeta, asFull)
+import Model.ProductType as ProductType exposing (ProductType, FullType)
+import Model.Product as Product
+import Model.Price as Price
+import Model.ChartSettings as ChartSettings
 import View.Tabs exposing (tabs, TabItem(Tab))
 import View.Table exposing (basicSortableTable, TableHeader(..))
 import View.Card exposing (card)
 import View.List exposing (defList)
-import Join exposing (ProductWithType, PriceWithTypeAndProduct, RecordWithTypedProduct)
-import ProductType exposing (ProductType, FullType)
 import View.Fancy as Fancy
-import Product
-import Price
 import View.Chart.Inventory
-import ChartSettings
 import Util.List as List
 
 -- TODO: split up this module

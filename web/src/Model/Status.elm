@@ -1,4 +1,4 @@
-module Status exposing (Status(..))
+module Model.Status exposing (Status(..))
 
 type Status
   = Success String

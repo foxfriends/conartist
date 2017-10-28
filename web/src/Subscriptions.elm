@@ -3,7 +3,7 @@ module Subscriptions exposing (subscriptions)
 import Time
 import Date
 
-import Model exposing (Model)
+import Model.Model exposing (Model)
 import Msg exposing (Msg(..))
 import Ports.Files as Files
 import Ports.LocalStorage as LocalStorage

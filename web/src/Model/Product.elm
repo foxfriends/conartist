@@ -1,5 +1,4 @@
-module Product exposing (..)
-import ProductType exposing (ProductType)
+module Model.Product exposing (..)
 import Dict
 import Either exposing (Either(..))
 import MD5
@@ -7,7 +6,8 @@ import MD5
 import Util.Util as Util
 import Util.List as List
 import Util.Either exposing (both)
-import Validation exposing (Validation(..), valueOf, validate, invalidate)
+import Model.ProductType as ProductType exposing (ProductType)
+import Model.Validation as Validation exposing (Validation(..), valueOf, validate, invalidate)
 
 type alias NewProduct =
   { localId: Int

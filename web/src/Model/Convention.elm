@@ -1,12 +1,12 @@
-module Convention exposing (..)
+module Model.Convention exposing (..)
 import Date exposing (Date)
 import Date.Extra as Date exposing (toFormattedString)
 
-import Product exposing (Product)
-import Price exposing (Price)
-import ProductType exposing (ProductType)
-import Record exposing (Record)
-import Expense exposing (Expense)
+import Model.Product exposing (Product)
+import Model.Price exposing (Price)
+import Model.ProductType exposing (ProductType)
+import Model.Record exposing (Record)
+import Model.Expense exposing (Expense)
 
 type alias MetaConvention =
   { id: Int

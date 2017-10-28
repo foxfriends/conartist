@@ -4,15 +4,15 @@ import Json.Decode as Decode
 import Json.Encode as Json
 import Navigation exposing (newUrl)
 
-import Model exposing (Model)
 import Msg exposing (Msg(..))
-import Page exposing (Page(..), SignInPageState, validateSignInForm)
-import Status exposing (Status(..))
-import Update.Load as Load
-import ConRequest
-import Ports.LocalStorage as LocalStorage
 import Routing exposing (dashboardPath)
-import Validation exposing (Validation(..), valueOf, validate, invalidate, empty, errorFor, toResult)
+import Ports.LocalStorage as LocalStorage
+import Update.Load as Load
+import Model.Model exposing (Model)
+import Model.Page exposing (Page(..), SignInPageState, validateSignInForm)
+import Model.Status exposing (Status(..))
+import Model.ConRequest as ConRequest
+import Model.Validation as Validation exposing (Validation(..), valueOf, validate, invalidate, empty, errorFor, toResult)
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case model.page of

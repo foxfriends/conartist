@@ -1,14 +1,14 @@
-module Init exposing (init)
+module Model.Init exposing (init)
 import Navigation exposing (Location)
 import Date
 import Task
 
-import Model exposing (Model)
 import Msg exposing (Msg(..))
 import Ports.LocalStorage as LocalStorage
-import User
-import Page
-import Dialog exposing (Dialog(..))
+import Model.Model exposing (Model)
+import Model.User as User
+import Model.Page as Page
+import Model.Dialog exposing (Dialog(..))
 
 init : Location -> (Model, Cmd Msg)
 init loc =

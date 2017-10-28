@@ -3,15 +3,15 @@ import Html exposing (Html, div, button, text, span)
 import Html.Attributes exposing (class, id, disabled)
 import Html.Events exposing (onClick)
 
-import View.Fancy as Fancy exposing (ButtonStyle(..))
 import Msg exposing (Msg(..))
-import Dialog exposing (Dialog(..))
-import Pagination exposing (Pagination)
+import View.Fancy as Fancy exposing (ButtonStyle(..))
 import View.Icon exposing (icon)
 import View.Table exposing (tableWithSpacing, TableHeader(..))
-import Convention exposing (MetaConvention)
 import View.Align exposing (centered)
-import Model exposing (Model)
+import Model.Pagination exposing (Pagination)
+import Model.Dialog exposing (Dialog(..))
+import Model.Convention as Convention exposing (MetaConvention)
+import Model.Model exposing (Model)
 
 view : Model -> Dialog -> Html Msg
 view model dialog =

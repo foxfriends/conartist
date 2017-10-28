@@ -1,4 +1,4 @@
-module Record exposing (Record)
+module Model.Record exposing (Record)
 import Date exposing (Date)
 
 type alias Record =

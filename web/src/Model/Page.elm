@@ -1,9 +1,9 @@
-module Page exposing (..)
-import Status exposing (Status(..))
+module Model.Page exposing (..)
 import Msg exposing (TabStatus)
+import Model.Status exposing (Status(..))
 import List exposing (repeat)
-import Validation exposing (Validation(..), valueOf, invalidate, empty, isValid)
-import ChartSettings
+import Model.Validation exposing (Validation(..), valueOf, invalidate, empty, isValid)
+import Model.ChartSettings as ChartSettings
 
 type Page
   = Loading

@@ -1,17 +1,17 @@
 module Msg exposing (Msg(..), TabStatus)
-import Http
 import GraphQL.Client.Http exposing (Error)
 import Date exposing (Date)
 import Navigation exposing (Location)
+import Http
 import Mouse
 import Plot
 
-import ConRequest exposing (ConRequest, Pagination)
-import Product exposing (FullProduct)
-import ProductType exposing (FullType)
-import Price exposing (CondensedPrice)
-import Convention exposing (MetaConvention, FullConvention)
-import User exposing (User)
+import Model.ConRequest exposing (ConRequest, Pagination)
+import Model.Product exposing (FullProduct)
+import Model.ProductType exposing (FullType)
+import Model.Price exposing (CondensedPrice)
+import Model.Convention exposing (MetaConvention, FullConvention)
+import Model.User exposing (User)
 
 type alias TabStatus =
   { current: Int

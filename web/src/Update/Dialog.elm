@@ -5,10 +5,10 @@ import Dom exposing (focus)
 import Task
 
 import GraphQL exposing (query, mutation, getConventionPage, addConvention)
-import Model exposing (Model)
 import Msg exposing (Msg(..))
-import Dialog exposing (Dialog(..))
-import Convention exposing (Convention(..))
+import Model.Model exposing (Model)
+import Model.Dialog exposing (Dialog(..))
+import Model.Convention exposing (Convention(..))
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case msg of

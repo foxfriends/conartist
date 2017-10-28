@@ -1,7 +1,7 @@
 module Update.Convention exposing (update)
-import Model exposing (Model)
-import Page exposing (Page(..))
 import Msg exposing (Msg(..))
+import Model.Model exposing (Model)
+import Model.Page exposing (Page(..))
 import View.Table exposing (updateSort)
 
 update : Msg -> Model -> (Model, Cmd Msg)

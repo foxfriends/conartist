@@ -4,18 +4,18 @@ import Html.Attributes exposing (class, type_, disabled)
 import Html.Events exposing (onClick, onInput)
 import Either exposing (Either(..))
 
-import Model exposing (Model)
-import Page exposing (PricingPageState, Selector(..))
 import Msg exposing (Msg(..))
 import View.Table exposing (sortableTable, TableHeader(..))
-import ProductType
-import Product
-import Price exposing (Price(..))
-import Join exposing (PriceWithTypeAndProduct)
 import View.Fancy as Fancy exposing (ButtonStyle(..))
 import View.Align exposing (centered)
 import Util.List as List
-import Validation exposing (Validation(..))
+import Model.Model as Model exposing (Model)
+import Model.Page exposing (PricingPageState, Selector(..))
+import Model.ProductType as ProductType
+import Model.Product as Product
+import Model.Price as Price exposing (Price(..))
+import Model.Join as Join exposing (PriceWithTypeAndProduct)
+import Model.Validation exposing (Validation(..))
 
 view : Model -> PricingPageState -> Html Msg
 view model page =

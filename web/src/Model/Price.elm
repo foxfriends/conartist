@@ -1,4 +1,4 @@
-module Price exposing (..)
+module Model.Price exposing (..)
 import Either exposing (Either(..))
 import FormatNumber exposing (format)
 import FormatNumber.Locales exposing (usLocale)
@@ -6,9 +6,9 @@ import FormatNumber.Locales exposing (usLocale)
 import Util.List as List
 import Util.Either as Either
 import Util.Util as Util
-import ProductType exposing (ProductType)
-import Product exposing (Product)
-import Validation exposing (Validation(..), valueOf, validate, empty, invalidate, isValid)
+import Model.ProductType as ProductType exposing (ProductType)
+import Model.Product as Product exposing (Product)
+import Model.Validation exposing (Validation(..), valueOf, validate, empty, invalidate, isValid)
 
 type alias FullPrice =
   { index: Int

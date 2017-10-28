@@ -1,11 +1,11 @@
 module Update.Save exposing (update)
+import Set
 
 import GraphQL exposing (..)
-import Model exposing (Model)
-import Price
-import Product
-import ProductType
-import Set
+import Model.Model as Model exposing (Model)
+import Model.Price as Price
+import Model.Product as Product
+import Model.ProductType as ProductType
 import Msg exposing (Msg(..))
 
 -- TODO: messages for errors

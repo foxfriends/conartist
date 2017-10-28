@@ -6,9 +6,9 @@ import Date exposing (Date)
 import Date.Extra as Date
 import List exposing (map, filter, isEmpty, foldl)
 
-import Model exposing (Model)
-import Convention exposing (Convention, MetaConvention)
 import Msg exposing (Msg(..))
+import Model.Model exposing (Model)
+import Model.Convention as Convention exposing (Convention, MetaConvention)
 import View.Card as Card exposing (card, cardWithHeader)
 import View.Fancy as Fancy exposing (ButtonStyle(..))
 import View.Icon exposing (icon)

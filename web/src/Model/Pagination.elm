@@ -1,4 +1,4 @@
-module Pagination exposing (Pagination)
+module Model.Pagination exposing (Pagination)
 
 type alias Pagination t =
   { data: (List t)

@@ -5,8 +5,8 @@ import Html.Events exposing (onInput, onClick)
 import Html.Keyed as K
 
 import Msg exposing (Msg(..))
-import Page exposing (SignInPageState)
-import Status exposing (Status)
+import Model.Page exposing (SignInPageState)
+import Model.Status as Status exposing (Status)
 import View.Card exposing (card)
 import View.Fancy as Fancy exposing (ButtonStyle(..))
 

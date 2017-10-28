@@ -6,18 +6,18 @@ import Hex
 import Either
 
 import Util.Either exposing (both)
-import Model exposing (Model)
 import Msg exposing (Msg(..))
 import View.Tabs exposing (tabsWithFooter, TabItem(..))
-import ProductType exposing (ProductType, FullType)
-import Product exposing (FullProduct)
 import View.Table exposing (sortableTable, TableHeader(..))
 import View.Icon exposing (icon)
-import Join exposing (ProductWithType)
-import Page exposing (InventoryPageState)
 import View.Fancy as Fancy exposing (ButtonStyle(..), TooltipAlignment(..))
 import View.Align exposing (centered)
-import Validation exposing (Validation(..))
+import Model.ProductType as ProductType exposing (ProductType, FullType)
+import Model.Product as Product exposing (FullProduct)
+import Model.Validation as Validation exposing (Validation(..))
+import Model.Join as Join exposing (ProductWithType)
+import Model.Page exposing (InventoryPageState)
+import Model.Model as Model exposing (Model)
 
 view : Model -> InventoryPageState -> Html Msg
 view model page =

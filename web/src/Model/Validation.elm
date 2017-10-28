@@ -1,4 +1,4 @@
-module Validation exposing (..)
+module Model.Validation exposing (..)
 
 type Validation a
   = Valid a

@@ -1,4 +1,4 @@
-module ChartSettings exposing (..)
+module Model.ChartSettings exposing (..)
 import Plot exposing (Point)
 
 type alias Inventory =

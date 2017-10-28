@@ -1,6 +1,6 @@
 module Update.Update exposing (update)
 
-import Model exposing (Model)
+import Model.Model exposing (Model)
 import Msg exposing (Msg(..))
 
 import Routing

@@ -1,8 +1,8 @@
-import Model exposing (Model)
-import Init exposing (init)
-import Msg exposing (Msg)
+import Model.Model exposing (Model)
+import Model.Init exposing (init)
 import Update.Update exposing (update)
 import View.View exposing (view)
+import Msg exposing (Msg)
 import Subscriptions exposing (subscriptions)
 import Navigation
 

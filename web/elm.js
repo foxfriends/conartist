@@ -4,7 +4,7 @@ import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
-import { Main } from './Main.elm';
+import { Main } from './src/Main.elm';
 
 const app = Main.fullscreen();
 

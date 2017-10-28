@@ -1,4 +1,4 @@
-module UInventory exposing (update)
+module Update.Inventory exposing (update)
 import Either exposing (Either(..))
 
 import Model exposing (Model)

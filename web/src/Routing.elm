@@ -8,7 +8,7 @@ import GraphQL exposing (query, getFullConvention)
 import Model exposing (Model)
 import Msg exposing (Msg(..))
 import Page exposing (Page(..))
-import Load
+import Update.Load as Load
 import LocalStorage
 import ProductType
 import ConRequest exposing (ConRequest(Success))

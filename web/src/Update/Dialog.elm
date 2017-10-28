@@ -1,4 +1,4 @@
-module UDialog exposing (update)
+module Update.Dialog exposing (update)
 import Delay exposing (after)
 import Time exposing (millisecond)
 import Dom exposing (focus)

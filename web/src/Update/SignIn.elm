@@ -1,4 +1,4 @@
-module USignIn exposing (update)
+module Update.SignIn exposing (update)
 import Http
 import Json.Decode as Decode
 import Json.Encode as Json
@@ -8,7 +8,7 @@ import Model exposing (Model)
 import Msg exposing (Msg(..))
 import Page exposing (Page(..), SignInPageState, validateSignInForm)
 import Status exposing (Status(..))
-import Load
+import Update.Load as Load
 import ConRequest
 import LocalStorage
 import Routing exposing (dashboardPath)

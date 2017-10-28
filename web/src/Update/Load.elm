@@ -1,4 +1,4 @@
-module Load exposing (update, user, userAndThen)
+module Update.Load exposing (update, user, userAndThen)
 
 import GraphQL exposing (query, getUser)
 import Model exposing (Model)

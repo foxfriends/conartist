@@ -1,16 +1,16 @@
-module Update exposing (update)
+module Update.Update exposing (update)
 
 import Model exposing (Model)
 import Msg exposing (Msg(..))
 
-import Load
-import Save
-import USignIn
-import UInventory
-import UPricing
 import Routing
-import UDialog
-import UConvention
+import Update.Load
+import Update.Save
+import Update.SignIn
+import Update.Inventory
+import Update.Pricing
+import Update.Dialog
+import Update.Convention
 
 continue : (Msg -> Model -> (Model, Cmd Msg)) -> Msg -> (Model, Cmd Msg) -> (Model, Cmd Msg)
 continue action msg (model, cmd) =
@@ -29,11 +29,11 @@ update msg model =
     MouseMove pos -> { model | mouse = pos } ! []
     ToggleSidenav -> { model | sidenav_visible = not model.sidenav_visible } ! []
     _ -> model ! [] )
-  |> continue Load.update msg
-  |> continue Save.update msg
-  |> continue UDialog.update msg
+  |> continue Update.Load.update msg
+  |> continue Update.Save.update msg
+  |> continue Update.Dialog.update msg
   |> continue Routing.update msg
-  |> continue USignIn.update msg
-  |> continue UInventory.update msg
-  |> continue UPricing.update msg
-  |> continue UConvention.update msg
+  |> continue Update.SignIn.update msg
+  |> continue Update.Inventory.update msg
+  |> continue Update.Pricing.update msg
+  |> continue Update.Convention.update msg

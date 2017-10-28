@@ -1,4 +1,4 @@
-module UConvention exposing (update)
+module Update.Convention exposing (update)
 import Model exposing (Model)
 import Page exposing (Page(..))
 import Msg exposing (Msg(..))

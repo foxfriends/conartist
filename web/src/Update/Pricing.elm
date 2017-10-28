@@ -1,4 +1,4 @@
-module UPricing exposing (update)
+module Update.Pricing exposing (update)
 import Model exposing (Model)
 import Page exposing (Page(..), Selector(..))
 import Msg exposing (Msg(..))

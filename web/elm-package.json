@@ -4,11 +4,10 @@
     "repository": "https://github.com/oinkiguana/conartist.git",
     "license": "MIT",
     "source-directories": [
-        ".",
-        "./model",
-        "./update",
-        "./util",
-        "./ports"
+        "./src",
+        "./src/model",
+        "./src/util",
+        "./src/ports"
     ],
     "exposed-modules": [],
     "dependencies": {

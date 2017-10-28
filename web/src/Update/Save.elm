@@ -1,4 +1,4 @@
-module Save exposing (update)
+module Update.Save exposing (update)
 
 import GraphQL exposing (..)
 import Model exposing (Model)

@@ -1,16 +1,16 @@
-module VDialog exposing (view, backdrop)
+module View.Dialog exposing (view, backdrop)
 import Html exposing (Html, div, button, text, span)
 import Html.Attributes exposing (class, id, disabled)
 import Html.Events exposing (onClick)
 
-import Fancy exposing (ButtonStyle(..))
+import View.Fancy as Fancy exposing (ButtonStyle(..))
 import Msg exposing (Msg(..))
 import Dialog exposing (Dialog(..))
 import Pagination exposing (Pagination)
-import Icon exposing (icon)
-import Table exposing (tableWithSpacing, TableHeader(..))
+import View.Icon exposing (icon)
+import View.Table exposing (tableWithSpacing, TableHeader(..))
 import Convention exposing (MetaConvention)
-import Align exposing (centered)
+import View.Align exposing (centered)
 import Model exposing (Model)
 
 view : Model -> Dialog -> Html Msg

@@ -1,4 +1,4 @@
-module Lists exposing (..)
+module View.List exposing (..)
 import Html exposing (Html, div, span, text)
 import Html.Attributes exposing (class, tabindex)
 import List exposing (map, isEmpty)

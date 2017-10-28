@@ -1,4 +1,4 @@
-module VPricing exposing (view)
+module View.Pricing exposing (view)
 import Html exposing (Html, div, text)
 import Html.Attributes exposing (class, type_, disabled)
 import Html.Events exposing (onClick, onInput)
@@ -7,13 +7,13 @@ import Either exposing (Either(..))
 import Model exposing (Model)
 import Page exposing (PricingPageState, Selector(..))
 import Msg exposing (Msg(..))
-import Table exposing (sortableTable, TableHeader(..))
+import View.Table exposing (sortableTable, TableHeader(..))
 import ProductType
 import Product
 import Price exposing (Price(..))
 import Join exposing (PriceWithTypeAndProduct)
-import Fancy exposing (ButtonStyle(..))
-import Align exposing (centered)
+import View.Fancy as Fancy exposing (ButtonStyle(..))
+import View.Align exposing (centered)
 import List_
 import Validation exposing (Validation(..))
 

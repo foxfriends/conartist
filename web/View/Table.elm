@@ -1,4 +1,4 @@
-module Table exposing
+module View.Table exposing
   ( table
   , tableHeader
   , tableRow

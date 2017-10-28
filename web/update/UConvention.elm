@@ -2,7 +2,7 @@ module UConvention exposing (update)
 import Model exposing (Model)
 import Page exposing (Page(..))
 import Msg exposing (Msg(..))
-import Table exposing (updateSort)
+import View.Table exposing (updateSort)
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case model.page of

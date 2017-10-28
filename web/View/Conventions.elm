@@ -1,4 +1,4 @@
-module VConventions exposing (view, conListRow)
+module View.Conventions exposing (view, conListRow)
 import Html exposing (Html, div, text, span)
 import Html.Attributes exposing (class, tabindex)
 import Html.Events exposing (onClick)
@@ -7,10 +7,10 @@ import Model exposing (Model)
 import Convention exposing (Convention, MetaConvention)
 import Msg exposing (Msg(..))
 import Routing exposing (conventionPath)
-import Table exposing (tableHeader, tableRow)
-import Fancy exposing (ButtonStyle(..), TooltipAlignment(..))
-import Attributes exposing (onInteract)
-import VConvention exposing (dateRange)
+import View.Table exposing (tableHeader, tableRow)
+import View.Fancy as Fancy exposing (ButtonStyle(..), TooltipAlignment(..))
+import View.Attributes exposing (onInteract)
+import View.Convention exposing (dateRange)
 
 view : Model -> Html Msg
 view model =

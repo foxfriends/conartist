@@ -1,9 +1,9 @@
-module Fancy exposing (..)
-
+module View.Fancy exposing (..)
 import Html exposing (Html, div, span, label, text)
 import Html.Attributes exposing (class, type_, value, tabindex, style)
 import Html.Events exposing (onClick, onCheck)
-import Icon exposing (icon)
+
+import View.Icon exposing (icon)
 import Validation exposing (Validation(..), isEmpty, isValid, isInvalid, valueOf, errorFor)
 
 flush : Html.Attribute msg

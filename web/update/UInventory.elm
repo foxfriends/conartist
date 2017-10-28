@@ -5,7 +5,7 @@ import Model exposing (Model)
 import Page exposing (Page(..))
 import Msg exposing (Msg(..), TabStatus)
 import Product exposing (Product(..))
-import Table exposing (updateSort)
+import View.Table exposing (updateSort)
 import Validation exposing (Validation(..))
 import ProductType
 import List_

@@ -1,4 +1,4 @@
-module Card exposing (card, cardWithHeader, placeholder)
+module View.Card exposing (card, cardWithHeader, placeholder)
 import Html exposing (Html, div, button, text, span)
 import Html.Attributes exposing (class)
 

@@ -1,4 +1,4 @@
-module VSidenav exposing (view)
+module View.Sidenav exposing (view)
 import Html exposing (Html, div, a, text)
 import Html.Attributes exposing (class, href)
 import Html.Events exposing (onWithOptions, onClick)
@@ -6,7 +6,7 @@ import Json.Decode as Decode
 
 import Model exposing (Model)
 import Msg exposing (Msg(..))
-import Lists exposing (list, row, clickable)
+import View.List exposing (list, row, clickable)
 import Routing
 
 navigateTo : String -> List (Html.Attribute Msg)

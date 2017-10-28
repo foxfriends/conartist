@@ -2,7 +2,7 @@ import Model exposing (Model)
 import Init exposing (init)
 import Msg exposing (Msg)
 import Update exposing (update)
-import View exposing (view)
+import View.View exposing (view)
 import Subscriptions exposing (subscriptions)
 import Navigation
 

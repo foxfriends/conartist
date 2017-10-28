@@ -1,8 +1,9 @@
-module Chart.Inventory exposing (..)
+module View.Chart.Inventory exposing (..)
 import Html exposing (Html, div, text)
 import Svg exposing (Svg)
 import Svg.Attributes exposing (..)
 import Plot exposing (..)
+
 import Msg exposing (..)
 
 -- TODO: stacked bars, for better inventory chart

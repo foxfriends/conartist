@@ -1,4 +1,4 @@
-module VConvention exposing (view, dateRange)
+module View.Convention exposing (view, dateRange)
 import Html exposing (Html, div, text, span)
 import Html.Attributes exposing (class, style)
 import Date exposing (Date)
@@ -13,16 +13,16 @@ import Model exposing (Model)
 import Msg exposing (Msg(..))
 import Page exposing (ConventionPageState)
 import Convention exposing (Convention, MetaConvention, asMeta, asFull)
-import Tabs exposing (tabs, TabItem(Tab))
-import Table exposing (basicSortableTable, TableHeader(..))
-import Card exposing (card)
-import Lists exposing (defList)
+import View.Tabs exposing (tabs, TabItem(Tab))
+import View.Table exposing (basicSortableTable, TableHeader(..))
+import View.Card exposing (card)
+import View.List exposing (defList)
 import Join exposing (ProductWithType, PriceWithTypeAndProduct, RecordWithTypedProduct)
 import ProductType exposing (ProductType, FullType)
-import Fancy
+import View.Fancy as Fancy
 import Product
 import Price
-import Chart.Inventory
+import View.Chart.Inventory
 import ChartSettings
 import List_
 
@@ -250,7 +250,7 @@ inventoryChart : Mouse.Position -> ChartSettings.Inventory -> Convention.FullCon
 inventoryChart hovering settings fc =
   let
     soldQuantity = List.foldl frequency Dict.empty (List.concatMap .products fc.records)
-  in Chart.Inventory.view
+  in View.Chart.Inventory.view
     settings.hovering
     [ class "convention__chart" ]
     [ "#81c784", "#e57373" ]

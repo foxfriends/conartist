@@ -1,4 +1,4 @@
-module VDashboard exposing (view)
+module View.Dashboard exposing (view)
 import Html exposing (Html, div, text, span)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
@@ -9,11 +9,11 @@ import List exposing (map, filter, isEmpty, foldl)
 import Model exposing (Model)
 import Convention exposing (Convention, MetaConvention)
 import Msg exposing (Msg(..))
-import Card exposing (card, cardWithHeader)
-import Fancy exposing (ButtonStyle(..))
-import Icon exposing (icon)
-import Lists exposing (titledList)
-import VConventions exposing (conListRow)
+import View.Card as Card exposing (card, cardWithHeader)
+import View.Fancy as Fancy exposing (ButtonStyle(..))
+import View.Icon exposing (icon)
+import View.List exposing (titledList)
+import View.Conventions exposing (conListRow)
 
 view : Model -> Html Msg
 view model =

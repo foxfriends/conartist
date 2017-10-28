@@ -1,10 +1,10 @@
-module VToolbar exposing (view)
+module View.Toolbar exposing (view)
 import Html exposing (Html, div, span, a, text)
 import Html.Attributes exposing (class, href)
 import Html.Events exposing (onClick)
 
 import Msg exposing (Msg(..))
-import Fancy exposing (button, ButtonStyle(..))
+import View.Fancy exposing (button, ButtonStyle(..))
 
 view : a -> Html Msg
 view _ = div

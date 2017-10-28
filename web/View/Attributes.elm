@@ -1,4 +1,4 @@
-module Attributes exposing (onInteract, onEnter)
+module View.Attributes exposing (onInteract, onEnter)
 import Html
 import Html.Events exposing (onClick, on, keyCode)
 import Json.Decode as Decode

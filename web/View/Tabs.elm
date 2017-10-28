@@ -1,4 +1,4 @@
-module Tabs exposing (tabs, tabsWithFooter, TabItem(..))
+module View.Tabs exposing (tabs, tabsWithFooter, TabItem(..))
 import Html exposing (Html, div, text)
 import Html.Attributes exposing (class, style, tabindex)
 import Html.Events exposing (onClick, on)
@@ -7,8 +7,8 @@ import Json.Decode as Decode
 import DOM exposing (target, offsetLeft, offsetWidth)
 
 import Msg exposing (Msg(..), TabStatus)
-import Icon exposing (icon)
-import Attributes exposing (onInteract, onEnter)
+import View.Icon exposing (icon)
+import View.Attributes exposing (onInteract, onEnter)
 
 type TabItem msg
   = Tab String (Html msg)

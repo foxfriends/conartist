@@ -1,4 +1,4 @@
-module VSignIn exposing (view)
+module View.SignIn exposing (view)
 import Html exposing (Html, div, input, button, text, label)
 import Html.Attributes exposing (type_, placeholder, class, disabled)
 import Html.Events exposing (onInput, onClick)
@@ -7,8 +7,8 @@ import Html.Keyed as K
 import Msg exposing (Msg(..))
 import Page exposing (SignInPageState)
 import Status exposing (Status)
-import Card exposing (card)
-import Fancy exposing (ButtonStyle(..))
+import View.Card exposing (card)
+import View.Fancy as Fancy exposing (ButtonStyle(..))
 
 view : a -> SignInPageState -> Html Msg
 view _ page =

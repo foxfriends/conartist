@@ -2,7 +2,7 @@ module UPricing exposing (update)
 import Model exposing (Model)
 import Page exposing (Page(..), Selector(..))
 import Msg exposing (Msg(..))
-import Table exposing (updateSort)
+import View.Table exposing (updateSort)
 import Join
 import ProductType
 import Product

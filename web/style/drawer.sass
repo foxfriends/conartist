@@ -7,6 +7,16 @@
   right: 0
   z-index: 1000
   pointer-events: none
+  &--left, &--right
+    @extend .drawer
+  &--left &__content
+    right: 100%
+    &--open
+      transform: translateX($drawer-width)
+  &--right &__content
+    left: 100%
+    &--open
+      transform: translateX(-$drawer-width)
   &__container
     transform: translate3d(0, 0, 0)
     z-index: 0
@@ -14,7 +24,6 @@
   &__content
     pointer-events: auto
     position: fixed
-    right: 100%
     top: 0
     bottom: 0
     width: $drawer-width
@@ -29,7 +38,6 @@
       @extend .drawer__content
       +card(4)
       pointer-events: auto
-      transform: translateX($drawer-width)
   &__backdrop
     @extend %backdrop
     &--open

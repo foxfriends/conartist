@@ -24,7 +24,10 @@ import View.Card exposing (card)
 import View.List exposing (defList)
 import View.Fancy as Fancy
 import View.Chart.Inventory
+import View.Chart.Settings as Settings
 import Util.List as List
+import View.Drawer as Drawer
+import Util.Maybe as Maybe
 
 -- TODO: split up this module
 
@@ -32,13 +35,15 @@ view : Model -> ConventionPageState -> Html Msg
 view model page =
   case List.find (asMeta >> .code >> (==) page.convention) model.user.conventions of
       Just con ->
-        tabs ChangeConventionTab []
-          [ Tab "Summary" <| summary model con
-          , Tab "Products" <| products model page con
-          , Tab "Prices" <| prices model page con
-          , Tab "Sales" <| sales model page con
-          , Tab "Stats" <| stats model page con ]
-        page.current_tab
+        (tabs
+          ChangeConventionTab
+          []
+            [ Tab "Summary" <| summary model con
+            , Tab "Products" <| products model page con
+            , Tab "Prices" <| prices model page con
+            , Tab "Sales" <| sales model page con
+            , Tab "Stats" <| stats model page con ]
+          page.current_tab)
       Nothing ->
         placeholder "Convention loading..."
 
@@ -242,9 +247,11 @@ stats model page con =
     Just fc -> case fc.records of
       [] -> placeholder "You haven't sold anything, so there are no stats to report!"
       _ ->
-        div
-          [ class "convention__stats" ]
-          [ inventoryChart model.mouse page.chart_settings.inventory fc ]
+        Drawer.drawerContainer [ class "convention__stats-container" ]
+          (Drawer.rightDrawer (Maybe.isSomething page.open_settings) ChartHideSettings [] [ Settings.view model page ])
+          ( div
+              [ class "convention__stats" ]
+              [ inventoryChart model.mouse page.chart_settings.inventory fc ] )
 
 inventoryChart : Mouse.Position -> ChartSettings.Inventory -> Convention.FullConvention -> Html Msg
 inventoryChart hovering settings fc =

@@ -1,4 +1,4 @@
-module View.Drawer exposing (drawer, Side)
+module View.Drawer exposing (drawer, drawerContainer, Side)
 import Html exposing (Html, div)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
@@ -13,3 +13,7 @@ drawer open close attrs contents =
     div (class "drawer" :: attrs)
       [ div [ class <| "drawer__backdrop" ++ visibility, onClick close ] []
       , div [ class <| "drawer__content" ++ visibility ] contents ]
+
+drawerContainer : List (Html.Attribute msg) -> Html msg -> Html msg -> Html msg
+drawerContainer attrs drawer main_ =
+  div (class "drawer__container" :: attrs) [ drawer, main_ ]

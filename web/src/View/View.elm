@@ -16,6 +16,7 @@ import View.Dialog
 import View.Pricing
 import View.Conventions
 import View.Convention
+import View.Drawer
 
 view : Model -> Html Msg
 view model =
@@ -24,9 +25,9 @@ view model =
       SignIn state -> [ main_ [ class "ca__content" ] [ View.SignIn.view model state ] ]
       _         ->
         [ View.Toolbar.view model
-        , div [ class "ca__container" ]
-          [ View.Sidenav.view model
-          , mainView model ]
+        , View.Drawer.drawerContainer [ class "ca__container" ]
+            (View.Sidenav.view model)
+            (mainView model)
         , View.Dialog.view model model.dialog
         , View.Dialog.backdrop model.dialog ]
   in

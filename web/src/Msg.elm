@@ -74,6 +74,7 @@ type Msg
   | InventoryChartHover (Maybe Plot.Point)
   | InventoryChartType Int
   | InventoryChartShowSettings
+  | ChartHideSettings
   -- loading
   | DidLoadUser (Result Error User)
   | DidLoadChooseConvention (Result Error (Pagination MetaConvention))

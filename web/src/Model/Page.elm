@@ -22,12 +22,20 @@ type alias InventoryPageState =
     , page: Int }
   , table_sort: List Order }
 
+type ChartSettingsPage
+  = InventorySettings { typeSelectorOpen: Bool }
+
+inventoryChartSettingsPage : ChartSettingsPage
+inventoryChartSettingsPage = InventorySettings
+  { typeSelectorOpen = False }
+
 type alias ConventionPageState =
   { current_tab: TabStatus
   , convention: String
   , product_sort: List Order
   , price_sort: List Order
   , record_sort: List Order
+  , open_settings: Maybe ChartSettingsPage
   , chart_settings:
     { inventory: ChartSettings.Inventory } }
 
@@ -117,4 +125,5 @@ convention con typeId = Convention <|
   (sort 3)
   (sort 4)
   (sort 5)
+  Nothing
   { inventory = ChartSettings.inventory typeId }

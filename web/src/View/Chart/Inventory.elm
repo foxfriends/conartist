@@ -2,7 +2,7 @@ module View.Chart.Inventory exposing (..)
 import Html exposing (Html, div, text)
 import Html.Attributes exposing (class)
 import Svg exposing (Svg)
-import Svg.Attributes exposing (fill)
+import Svg.Attributes as Svg exposing (fill)
 import Plot exposing (..)
 
 import View.Chart.Settings as Settings
@@ -28,8 +28,8 @@ barGroup : Maybe Point -> String -> List Float -> BarGroup
 barGroup hovering label heights =
   { label = \x ->
       { position = x
-      , view = viewLabel [] label }
-  , verticalLine = onHovering (fullLine [ class "bar-chart__hint-line" ]) hovering
+      , view = viewLabel [ Svg.class "bar-chart__label--angled" ] label }
+  , verticalLine = onHovering (fullLine [ Svg.class "bar-chart__hint-line" ]) hovering
   , hint = onHovering (hint heights) hovering
   , bars = List.map (bar Nothing) heights
   }

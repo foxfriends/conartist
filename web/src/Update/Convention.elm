@@ -1,7 +1,7 @@
 module Update.Convention exposing (update)
 import Msg exposing (Msg(..))
 import Model.Model exposing (Model)
-import Model.Page exposing (Page(..))
+import Model.Page exposing (Page(..), inventoryChartSettingsPage)
 import View.Table exposing (updateSort)
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -15,6 +15,10 @@ update msg model = case model.page of
       { model | page = Convention { page | price_sort = updateSort col page.price_sort } } ! []
     SortConRecordsTable col ->
       { model | page = Convention { page | record_sort = updateSort col page.record_sort } } ! []
+    ChartHideSettings ->
+      { model | page = Convention { page | open_settings = Nothing } } ! []
+    InventoryChartShowSettings ->
+      { model | page = Convention { page | open_settings = Just inventoryChartSettingsPage } } ! []
     InventoryChartType type_ ->
       let
         chart_settings = page.chart_settings

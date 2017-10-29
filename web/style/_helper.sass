@@ -100,3 +100,18 @@ $font--icon: 'Material Icons'
     height: $size
     transform-origin: center center
     animation: pulsate 1s ease-in-out infinite alternate
+
+%backdrop
+  position: fixed
+  left: 0
+  right: 0
+  top: 0
+  bottom: 0
+  z-index: 1
+  pointer-events: none
+  transition: background-color 0.3s
+  background-color: rgba(0, 0, 0, 0)
+  &--open
+    pointer-events: auto
+    cursor: pointer
+    background-color: rgba(0, 0, 0, 0.4)

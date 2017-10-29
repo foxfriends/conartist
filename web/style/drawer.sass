@@ -1,5 +1,5 @@
-.sidenav
-  $sidenav-width: 300px
+.drawer
+  $drawer-width: 300px
   position: fixed
   top: 0
   left: 0
@@ -13,7 +13,7 @@
     right: 100%
     top: 0
     bottom: 0
-    width: $sidenav-width
+    width: $drawer-width
     z-index: 4
     display: flex
     flex-direction: column
@@ -22,22 +22,11 @@
     background: white
     pointer-events: none
     &--open
-      @extend .sidenav__content
+      @extend .drawer__content
       +card(4)
       pointer-events: auto
-      transform: translateX($sidenav-width)
+      transform: translateX($drawer-width)
   &__backdrop
-    position: fixed
-    left: 0
-    right: 0
-    top: 0
-    bottom: 0
-    z-index: 1
-    pointer-events: none
-    transition: background-color 0.3s
-    background-color: rgba(0, 0, 0, 0)
+    @extend %backdrop
     &--open
-      @extend .sidenav__backdrop
-      pointer-events: auto
-      cursor: pointer
-      background-color: rgba(0, 0, 0, 0.4)
+      @extend %backdrop--open

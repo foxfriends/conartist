@@ -6,6 +6,7 @@ import Json.Decode as Decode
 
 import Msg exposing (Msg(..))
 import View.List exposing (list, row, clickable)
+import View.Drawer exposing (drawer)
 import Model.Model exposing (Model)
 import Routing
 
@@ -33,7 +34,6 @@ doSignOut =
 view : Model -> Html Msg
 view { sidenav_visible } =
   let
-    visibility = if sidenav_visible then "--open" else ""
     items =
       [ (navigateTo Routing.dashboardPath, "Dashboard")
       , (navigateTo Routing.inventoryPath, "Inventory")
@@ -41,10 +41,10 @@ view { sidenav_visible } =
       , (navigateTo Routing.conventionsPath, "Conventions")
       , (navigateTo Routing.settingsPath, "Settings")
       , (doSignOut, "Sign Out") ]
+    contents =
+      list (uncurry navListRow) items
   in
-    div [ class "sidenav"]
-      [ div [ class <| "sidenav__backdrop" ++ visibility, onClick ToggleSidenav ] []
-      , div [ class <| "sidenav__content" ++ visibility ] [ list (uncurry navListRow) items ] ]
+    drawer sidenav_visible ToggleSidenav [] [ contents ]
 
 navListRow : List (Html.Attribute Msg) -> String -> Html Msg
 navListRow attrs title =

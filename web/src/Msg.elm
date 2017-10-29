@@ -1,4 +1,4 @@
-module Msg exposing (Msg(..), TabStatus)
+module Msg exposing (Msg(..), TabStatus, chain)
 import GraphQL.Client.Http exposing (Error)
 import Date exposing (Date)
 import Navigation exposing (Location)
@@ -72,9 +72,10 @@ type Msg
   | SortConRecordsTable Int
   -- charts
   | InventoryChartHover (Maybe Plot.Point)
+  | InventoryChartType Int
+  | InventoryChartShowSettings
   -- loading
   | DidLoadUser (Result Error User)
-  | DidLoadUserThen (Cmd Msg) (Result Error User)
   | DidLoadChooseConvention (Result Error (Pagination MetaConvention))
   | DidLoadConvention (Result Error FullConvention)
   -- saving
@@ -107,4 +108,9 @@ type Msg
   | MouseMove Mouse.Position
   | SetDate Date
   | Batch (List Msg)
+  | Chain (Cmd Msg) Msg
   | Ignore
+
+chain : Cmd Msg -> Cmd Msg -> Cmd Msg
+chain second first =
+  Cmd.map (Chain second) first

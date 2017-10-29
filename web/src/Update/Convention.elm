@@ -15,11 +15,17 @@ update msg model = case model.page of
       { model | page = Convention { page | price_sort = updateSort col page.price_sort } } ! []
     SortConRecordsTable col ->
       { model | page = Convention { page | record_sort = updateSort col page.record_sort } } ! []
+    InventoryChartType type_ ->
+      let
+        chart_settings = page.chart_settings
+        inventory = chart_settings.inventory
+      in
+      { model | page = Convention { page | chart_settings = { chart_settings | inventory = { inventory | product_type = type_ }}}} ! []
     InventoryChartHover hovering ->
       let
         chart_settings = page.chart_settings
         inventory = chart_settings.inventory
       in
-      { model | page = Convention { page | chart_settings = { chart_settings | inventory = { inventory | hovering = hovering } } } } ! []
+      { model | page = Convention { page | chart_settings = { chart_settings | inventory = { inventory | hovering = hovering }}}} ! []
     _ -> model ! []
   _ -> (model, Cmd.none)

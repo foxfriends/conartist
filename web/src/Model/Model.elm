@@ -12,6 +12,8 @@ import Model.Page exposing (Page)
 import Model.Dialog exposing (Dialog)
 import Model.User exposing (User)
 
+-- TODO: make the whole model more consistent about camelCase and snake_case
+--       should probably switch it all to camelCase
 type alias Model =
   { user: User
   , authtoken : String
@@ -22,7 +24,6 @@ type alias Model =
   , sidenav_visible: Bool
   , location: Maybe Location
   , mouse: Mouse.Position }
-
 
 -- TODO: Cleaning could probably be improved??
 

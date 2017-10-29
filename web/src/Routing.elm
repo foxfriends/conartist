@@ -5,7 +5,7 @@ import Http
 import Json.Decode as Decode
 
 import GraphQL exposing (query, getFullConvention)
-import Msg exposing (Msg(..))
+import Msg exposing (Msg(..), chain)
 import Model.Model exposing (Model)
 import Model.Page as Page exposing (Page(..))
 import Model.ProductType as ProductType
@@ -54,8 +54,8 @@ update msg model = case msg of
       , location = Nothing } in
     pageModel !
       [ reauthorize pageModel
-      , Load.userAndThen task pageModel
-      , url |> Maybe.map Navigation.newUrl |> Maybe.withDefault Cmd.none ]
+      , (Load.user pageModel) |> chain task
+      , (url |> Maybe.map Navigation.newUrl |> Maybe.withDefault Cmd.none) ]
   LSRetrive ("authtoken", Nothing) ->
     ( { model
       | page = Page.signIn

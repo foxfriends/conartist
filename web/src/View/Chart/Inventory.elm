@@ -1,15 +1,17 @@
 module View.Chart.Inventory exposing (..)
 import Html exposing (Html, div, text)
+import Html.Attributes exposing (class)
 import Svg exposing (Svg)
-import Svg.Attributes exposing (..)
+import Svg.Attributes exposing (fill)
 import Plot exposing (..)
 
+import View.Chart.Settings as Settings
 import Msg exposing (..)
 
 -- TODO: stacked bars, for better inventory chart
 view : Maybe Point -> List (Html.Attribute Msg) -> List String -> List (String, List Float) -> Html Msg
 view hovering attrs colors data =
-  div attrs
+  div (class "chart" :: attrs)
     [ viewBarsCustom
       { defaultBarsPlotCustomizations
       | onHover = Just InventoryChartHover
@@ -19,11 +21,14 @@ view hovering attrs colors data =
         (List.map (uncurry (barGroup hovering)))
         (List.map (fill >> List.singleton) colors)
         (Percentage 75))
-      data ]
+      data
+    , Settings.button InventoryChartShowSettings ]
 
 barGroup : Maybe Point -> String -> List Float -> BarGroup
 barGroup hovering label heights =
-  { label = \p -> { position = p, view = viewLabel [] label }
+  { label = \x ->
+      { position = x
+      , view = viewLabel [] label }
   , verticalLine = onHovering (fullLine [ class "bar-chart__hint-line" ]) hovering
   , hint = onHovering (hint heights) hovering
   , bars = List.map (bar Nothing) heights

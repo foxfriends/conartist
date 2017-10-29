@@ -25,6 +25,9 @@ update msg model =
         (newmodel, cmd) = update first model
         (finalmodel, morecmd) = update (Batch rest) newmodel
       in finalmodel ! [ morecmd, cmd ]
+    Chain cmd msg ->
+      let (newmodel, newcmd) = update msg model
+      in newmodel ! [ cmd, newcmd ]
     SetDate now -> { model | now = now } ! []
     MouseMove pos -> { model | mouse = pos } ! []
     ToggleSidenav -> { model | sidenav_visible = not model.sidenav_visible } ! []

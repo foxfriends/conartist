@@ -57,7 +57,7 @@ priceRow model page { productType, product, price } =
               |> Maybe.withDefault "Unknown type"
           Nothing -> "Choose a type")
         ( types
-          |> (if model.show_discontinued then identity else List.filter (\t -> not t.discontinued))
+          |> (if model.show_discontinued then identity else List.filter (not << .discontinued))
           |> List.map .id )
         (productType |> Maybe.map (ProductType.normalize >> .id))
         ( case page.open_selector of

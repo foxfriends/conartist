@@ -1,7 +1,7 @@
 module Update.Convention exposing (update)
 import Msg exposing (Msg(..))
 import Model.Model exposing (Model)
-import Model.Page exposing (Page(..), inventoryChartSettingsPage)
+import Model.Page exposing (Page(..), inventoryChartSettingsPage, ChartSettingsPage(..))
 import View.Table exposing (updateSort)
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -19,12 +19,43 @@ update msg model = case model.page of
       { model | page = Convention { page | open_settings = Nothing } } ! []
     InventoryChartShowSettings ->
       { model | page = Convention { page | open_settings = Just inventoryChartSettingsPage } } ! []
-    InventoryChartType type_ ->
-      let
-        chart_settings = page.chart_settings
-        inventory = chart_settings.inventory
-      in
-      { model | page = Convention { page | chart_settings = { chart_settings | inventory = { inventory | product_type = type_ }}}} ! []
+    InventoryChartSelectType ->
+      case page.open_settings of
+        Just (InventorySettings settings) ->
+          { model
+          | page = Convention
+            { page
+            | open_settings = Just <| InventorySettings { settings | typeSelectorOpen = True } } } ! []
+        _ -> model ! []
+    InventoryChartType (Just type_) ->
+      case page.open_settings of
+        Just (InventorySettings settings) ->
+          let
+            chart_settings = page.chart_settings
+            inventory = chart_settings.inventory
+          in
+          { model
+          | page = Convention
+            { page
+            | open_settings = Just <| InventorySettings { settings | typeSelectorOpen = False }
+            , chart_settings =
+              { chart_settings
+              | inventory =
+                { inventory
+                | product_type = type_ }}}} ! []
+        _ -> model ! []
+    InventoryChartType Nothing ->
+      case page.open_settings of
+        Just (InventorySettings settings) ->
+          let
+            chart_settings = page.chart_settings
+            inventory = chart_settings.inventory
+          in
+          { model
+          | page = Convention
+            { page
+            | open_settings = Just <| InventorySettings { settings | typeSelectorOpen = False } }} ! []
+        _ -> model ! []
     InventoryChartHover hovering ->
       let
         chart_settings = page.chart_settings

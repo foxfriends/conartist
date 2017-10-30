@@ -72,7 +72,8 @@ type Msg
   | SortConRecordsTable Int
   -- charts
   | InventoryChartHover (Maybe Plot.Point)
-  | InventoryChartType Int
+  | InventoryChartSelectType
+  | InventoryChartType (Maybe Int)
   | InventoryChartShowSettings
   | ChartHideSettings
   -- loading

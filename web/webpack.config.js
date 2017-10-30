@@ -7,14 +7,18 @@ const path = require('path');
 module.exports = {
   entry: './index.js',
   output: {
-    path: path.resolve('.'),
+    path: path.resolve('.', 'static'),
     filename: 'conartist.min.js',
   },
   module: {
     rules: [
-      { test: /\.elm$/, loader: 'elm-webpack-loader', exclude: /(elm-stuff|node_modules)/ },
-      // TODO: using url-loader temporarily. update to file loader eventualy
-      { test: /\.(png|svg|gif|jpe?g)$/, loader: 'url-loader!img-loader' },
+      {
+        test: /\.elm$/,
+        loader: 'elm-webpack-loader',
+        exclude: /(elm-stuff|node_modules)/,
+        options: { cwd: '.' }
+      },
+      { test: /\.(png|svg|gif|jpe?g)$/, loader: 'file-loader?name=images/[hash].[ext]!img-loader' },
       { test: /\.(sass|s?css)$/,
         exclude: /(elm-stuff|node_modules)/,
         use: ExtractTextPlugin.extract({

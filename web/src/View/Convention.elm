@@ -256,6 +256,7 @@ stats model page con =
 inventoryChart : Mouse.Position -> ChartSettings.Inventory -> Convention.FullConvention -> Html Msg
 inventoryChart hovering settings fc =
   case settings.product_type of
+    -- TODO: adjust placement of settings button to look like it's attached to the chart
     Nothing ->
       div
         [ class "convention__chart" ]

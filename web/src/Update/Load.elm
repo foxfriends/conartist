@@ -30,24 +30,21 @@ update msg model = case msg of
 user : Model -> Cmd Msg
 user = query DidLoadUser getUser
 
+-- TODO: automatically send the debug notes to the developers when the error
+--       dialog is triggered. On the server side is more likely the more useful
+--       place to do it. Probably just do this after getting into production
+--       though...
+
 userLoadError : String -> Html msg
-userLoadError err =
-  div []
-    [ div []
-      [ text
-        """
-        Something went wrong and your account could not be found! Concerned? Send this
-        below to the developers:
-        """ ]
-    , div [] [ text err ] ]
+userLoadError = Update.Dialog.errorWithMsg
+  """
+  Something went wrong and your account could not be found! Concerned? Send this
+  below to the developers:
+  """
 
 fillConError : String -> Html msg
-fillConError err =
-  div []
-    [ div []
-      [ text
-        """
-        Something went wrong and this convention could not be loaded! Concerned? Send this
-        below to the developers:
-        """ ]
-    , div [] [ text err ] ]
+fillConError = Update.Dialog.errorWithMsg
+  """
+  Something went wrong and this convention could not be loaded! Concerned? Send this
+  below to the developers:
+  """

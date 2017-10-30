@@ -1,5 +1,5 @@
-module Update.Dialog exposing (update)
-import Html exposing (text)
+module Update.Dialog exposing (update, errorWithMsg)
+import Html exposing (Html, text, div)
 import Delay exposing (after)
 import Time exposing (millisecond)
 import Dom exposing (focus)
@@ -47,3 +47,9 @@ loadConventions = query DidLoadChooseConvention << (flip getConventionPage 5)
 
 purchaseConvention : String -> Model -> Cmd Msg
 purchaseConvention = mutation (always Ignore) << addConvention
+
+errorWithMsg : String -> String -> Html msg
+errorWithMsg msg err =
+  div []
+    [ div [] [ text msg ]
+    , div [] [ text err ] ]

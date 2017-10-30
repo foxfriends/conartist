@@ -1,5 +1,6 @@
 module Update.Save exposing (update)
 import Set
+import Html exposing (Html)
 
 import GraphQL exposing (..)
 import Model.Model as Model exposing (Model)
@@ -7,8 +8,8 @@ import Model.Price as Price
 import Model.Product as Product
 import Model.ProductType as ProductType
 import Msg exposing (Msg(..))
+import Update.Dialog
 
--- TODO: messages for errors
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case msg of
   Save -> update SaveTypes model
@@ -16,11 +17,18 @@ update msg model = case msg of
   SaveProducts -> model ! saveProducts model
   SavePrices -> model ! savePrices model
   CreatedTypes (Ok updates) -> update SaveProducts <| Model.cleanTypes updates model
+  CreatedTypes (Err err) -> Update.Dialog.update (ShowErrorMessageComplex (typeUpdateError (toString err)) Ignore) model
   UpdatedTypes (Ok updates) -> Model.cleanTypes updates model ! []
+  UpdatedTypes (Err err) -> Update.Dialog.update (ShowErrorMessageComplex (typeUpdateError (toString err)) Ignore) model
   CreatedProducts (Ok updates) -> update SavePrices <| Model.cleanProducts updates model
+  CreatedProducts (Err err) -> Update.Dialog.update (ShowErrorMessageComplex (productUpdateError (toString err)) Ignore) model
   UpdatedProducts (Ok updates) -> Model.cleanProducts updates model ! []
+  UpdatedProducts (Err err) -> Update.Dialog.update (ShowErrorMessageComplex (productUpdateError (toString err)) Ignore) model
   CreatedPrices (Ok updates) -> Model.cleanPrices updates model ! []
+  CreatedPrices (Err err) -> Update.Dialog.update (ShowErrorMessageComplex (pricesUpdateError (toString err)) Ignore) model
   DeletedPrices (Ok updates) -> Model.removeDeletedPrices model ! []
+  DeletedPrices (Err err) -> Update.Dialog.update (ShowErrorMessageComplex (pricesUpdateError (toString err)) Ignore) model
+
   _ -> model ! []
 
 saveTypes : Model -> List (Cmd Msg)
@@ -62,3 +70,31 @@ savePrices model =
     [ if List.length news > 0 then mutation CreatedPrices (createPrices news) model else Cmd.none
     , if List.length dels > 0 then mutation DeletedPrices (deletePrices dels) model else Cmd.none ]
   else []
+
+typeUpdateError : String -> Html msg
+typeUpdateError = Update.Dialog.errorWithMsg
+  """
+  We messed up! Your new product types weren't saved properly! Don't worry though,
+  they're still safe right here. It's most likely something weird going on with
+  the names. Try renaming some of the ones you changed and saving again. Also,
+  send the note below to the developers so this doesn't happen to anyone else!
+  """
+
+productUpdateError : String -> Html msg
+productUpdateError = Update.Dialog.errorWithMsg
+  """
+  We messed up! Your new products weren't saved properly! Don't worry though,
+  they're still safe right here. It's most likely something weird going on with
+  the names. Try renaming some of the ones you changed and saving again. Also,
+  send the note below to the developers so this doesn't happen to anyone else!
+  """
+
+pricesUpdateError : String -> Html msg
+pricesUpdateError = Update.Dialog.errorWithMsg
+  """
+  We messed up! Your new prices weren't saved properly! Don't worry though,
+  they're still safe right here. It's most likely something weird going on with
+  the names. Check over the numbers and see if any aren't actually numbers, or if
+  you have some repeats, then try saving again. Also, send the note below to the
+  developers so this doesn't happen to anyone else!
+  """

@@ -1,5 +1,6 @@
+$width__drawer: 300px
+
 .drawer
-  $drawer-width: 300px
   position: fixed
   top: 0
   left: 0
@@ -12,21 +13,22 @@
   &--left &__content
     right: 100%
     &--open
-      transform: translateX($drawer-width)
+      transform: translateX($width__drawer)
   &--right &__content
     left: 100%
     &--open
-      transform: translateX(-$drawer-width)
+      transform: translateX(-$width__drawer)
   &__container
     transform: translate3d(0, 0, 0)
     z-index: 0
-    overflow: auto
+    overflow-y: auto
+    overflow-x: hidden
   &__content
     pointer-events: auto
     position: fixed
     top: 0
     bottom: 0
-    width: $drawer-width
+    width: $width__drawer
     z-index: 4
     display: flex
     flex-direction: column

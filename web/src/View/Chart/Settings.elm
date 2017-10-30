@@ -43,6 +43,6 @@ view model page =
                 ( types
                   |> (if model.show_discontinued then identity else List.filter (not << .discontinued))
                   |> List.map .id )
-                (Just page.chart_settings.inventory.product_type)
+                page.chart_settings.inventory.product_type
                 s.typeSelectorOpen ] ]
       _ -> [ text "" ]

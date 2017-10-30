@@ -9,9 +9,11 @@ import Msg exposing (Msg(..), chain)
 import Model.Model exposing (Model)
 import Model.Page as Page exposing (Page(..))
 import Model.ProductType as ProductType
+import Model.Convention as Convention
 import Model.ConRequest as ConRequest exposing (ConRequest(Success))
 import Update.Load as Load
 import Ports.LocalStorage as LocalStorage
+import Util.List as List
 
 matchers : Model -> Parser ((Page, Cmd Msg) -> a) a
 matchers model =
@@ -25,8 +27,7 @@ matchers model =
         (\code ->
           (Page.convention code
             (List.head model.user.productTypes
-              |> Maybe.map (ProductType.normalize >> .id)
-              |> Maybe.withDefault 0)
+              |> Maybe.map (ProductType.normalize >> .id))
           , fillConvention model code))
         (s "conventions" </> string)
     , map (Conventions, Cmd.none) <| s "conventions"
@@ -92,7 +93,13 @@ signInPath : String
 signInPath = "/sign-in"
 
 fillConvention : Model -> String -> Cmd Msg
-fillConvention = flip (getFullConvention >> query DidLoadConvention )
+fillConvention model code =
+  case List.find (Convention.asMeta >> .code >> (==) code) model.user.conventions of
+    -- TODO: this will not update a convention if it has changed between now and
+    --       the next time the conventions page is opened
+    --       need to get some sort of notes from server when things change?
+    Just (Convention.Full _) -> Cmd.none
+    _ -> query DidLoadConvention (getFullConvention code) model
 
 reauthorize : Model -> Cmd Msg
 reauthorize model =

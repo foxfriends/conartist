@@ -42,7 +42,7 @@ update msg model = case model.page of
               { chart_settings
               | inventory =
                 { inventory
-                | product_type = type_ }}}} ! []
+                | product_type = Just type_ }}}} ! []
         _ -> model ! []
     InventoryChartType Nothing ->
       case page.open_settings of

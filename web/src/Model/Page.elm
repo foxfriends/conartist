@@ -117,7 +117,7 @@ inventory = Inventory <| InventoryPageState (TabStatus 0 150) { open = False, pa
 pricing : Page
 pricing = Pricing <| PricingPageState None (sort 5)
 
-convention : String -> Int -> Page
+convention : String -> Maybe Int -> Page
 convention con typeId = Convention <|
   ConventionPageState
   (TabStatus 0 150)

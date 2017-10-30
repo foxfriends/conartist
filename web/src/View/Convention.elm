@@ -255,19 +255,27 @@ stats model page con =
 
 inventoryChart : Mouse.Position -> ChartSettings.Inventory -> Convention.FullConvention -> Html Msg
 inventoryChart hovering settings fc =
-  let
-    soldQuantity = List.foldl frequency Dict.empty (List.concatMap .products fc.records)
-  in View.Chart.Inventory.view
-    settings.hovering
-    [ class "convention__chart" ]
-    [ "#81c784", "#e57373" ]
-    (fc.products
-      |> List.map Product.normalize
-      |> List.filter (.type_id >> (==) settings.product_type)
-      |> List.map (\{id, name, quantity} ->
-        (name
-        , [ toFloat quantity
-          , toFloat (max 0 <| quantity - (Dict.get id soldQuantity |> Maybe.withDefault 0)) ])))
+  case settings.product_type of
+    Nothing ->
+      div
+        [ class "convention__chart" ]
+        [ placeholder "Choose a product type"
+        -- TODO: put a chart placeholder background image here
+        , Settings.button InventoryChartShowSettings ]
+    Just type_ ->
+      let
+        soldQuantity = List.foldl frequency Dict.empty (List.concatMap .products fc.records)
+      in View.Chart.Inventory.view
+        settings.hovering
+        [ class "convention__chart" ]
+        [ "#81c784", "#e57373" ]
+        (fc.products
+          |> List.map Product.normalize
+          |> List.filter (.type_id >> (==) type_)
+          |> List.map (\{id, name, quantity} ->
+            (name
+            , [ toFloat quantity
+              , toFloat (max 0 <| quantity - (Dict.get id soldQuantity |> Maybe.withDefault 0)) ])))
 
 
 dateRange : Date -> Date -> String

@@ -23,6 +23,8 @@ update msg model = case msg of
       conventions = List.updateAt (asMeta >> .code >> (==) con.code) (always <| Full con) user.conventions
     in
       { model | user = { user | conventions = conventions } } ! []
+  DidLoadConvention (Err err) ->
+    Update.Dialog.update (ShowErrorMessageComplex (fillConError (toString err)) Ignore) model
   _ -> model ! []
 
 user : Model -> Cmd Msg
@@ -35,6 +37,17 @@ userLoadError err =
       [ text
         """
         Something went wrong and your account could not be found! Concerned? Send this
+        below to the developers:
+        """ ]
+    , div [] [ text err ] ]
+
+fillConError : String -> Html msg
+fillConError err =
+  div []
+    [ div []
+      [ text
+        """
+        Something went wrong and this convention could not be loaded! Concerned? Send this
         below to the developers:
         """ ]
     , div [] [ text err ] ]

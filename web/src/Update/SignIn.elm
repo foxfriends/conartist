@@ -5,7 +5,7 @@ import Json.Encode as Json
 import Navigation exposing (newUrl)
 
 import Msg exposing (Msg(..))
-import Routing exposing (dashboardPath)
+import Paths exposing (dashboardPath)
 import Ports.LocalStorage as LocalStorage
 import Update.Load as Load
 import Model.Model exposing (Model)

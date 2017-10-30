@@ -32,14 +32,14 @@ backdrop dialog =
 innerView : Model -> Dialog -> List (Html Msg)
 innerView model dialog =
   case dialog of
-    Error msg ->
+    Error msg close ->
       [ title [ class "dialog__title--warn" ] [ icon "error" [ class "dialog__title-icon" ], text "Oh no" ]
-      , content [ text msg ]
-      , actions [ cancel ] ]
+      , content [ msg ]
+      , actions [ cancel close ] ]
     ChooseConvention data ->
       [ title [ class "dialog__title" ] [ text "Choose a convention" ]
       , content [ chooseConventionList model.user.keys data ] -- TODO
-      , actions <| [ cancel ] ]
+      , actions <| [ cancel Ignore ] ]
     _ -> [ text "" ]
 
 title : List (Html.Attribute msg) -> List (Html msg) -> Html msg
@@ -54,8 +54,8 @@ actions = div [ class "dialog__actions" ]
 ok : Html Msg
 ok = Fancy.button Flat "Ok" [ onClick CloseDialog, id "dialog-focus-target" ]
 
-cancel : Html Msg
-cancel = Fancy.button Flat "Cancel" [ onClick CloseDialog, id "dialog-focus-target" ]
+cancel : Msg -> Html Msg
+cancel action = Fancy.button Flat "Cancel" [ onClick (Batch [CloseDialog, action]), id "dialog-focus-target" ]
 
 chooseConventionControls : Int -> Int -> List (Html Msg)
 chooseConventionControls pages page =

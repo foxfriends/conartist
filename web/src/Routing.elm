@@ -1,19 +1,16 @@
 module Routing exposing (..)
 import UrlParser exposing (..)
 import Navigation exposing (Location)
-import Http
-import Json.Decode as Decode
 
-import GraphQL exposing (query, getFullConvention)
 import Msg exposing (Msg(..), chain)
 import Model.Model exposing (Model)
 import Model.Page as Page exposing (Page(..))
 import Model.ProductType as ProductType
-import Model.Convention as Convention
 import Model.ConRequest as ConRequest exposing (ConRequest(Success))
 import Update.Load as Load
 import Ports.LocalStorage as LocalStorage
-import Util.List as List
+import Update.Actions exposing (..)
+import Paths exposing (..)
 
 matchers : Model -> Parser ((Page, Cmd Msg) -> a) a
 matchers model =
@@ -70,45 +67,3 @@ update msg model = case msg of
   DidNav loc  -> parseLocation model loc
     |> Tuple.mapFirst (\p -> { model | page = p, sidenav_visible = False })
   _           -> (model, Cmd.none)
-
-dashboardPath : String
-dashboardPath = "/dashboard"
-
-inventoryPath : String
-inventoryPath = "/inventory"
-
-pricingPath : String
-pricingPath = "/prices"
-
-conventionsPath : String
-conventionsPath = "/conventions"
-
-conventionPath : String -> String
-conventionPath = (++) "/conventions/"
-
-settingsPath : String
-settingsPath = "/settings"
-
-signInPath : String
-signInPath = "/sign-in"
-
-fillConvention : Model -> String -> Cmd Msg
-fillConvention model code =
-  case List.find (Convention.asMeta >> .code >> (==) code) model.user.conventions of
-    -- TODO: this will not update a convention if it has changed between now and
-    --       the next time the conventions page is opened
-    --       need to get some sort of notes from server when things change?
-    Just (Convention.Full _) -> Cmd.none
-    _ -> query DidLoadConvention (getFullConvention code) model
-
-reauthorize : Model -> Cmd Msg
-reauthorize model =
-  Http.send Reauthorized <|
-    Http.request
-      { method = "Get"
-      , headers = [ Http.header "Authorization" ("Bearer " ++ model.authtoken) ]
-      , url = "/api/auth/"
-      , body = Http.emptyBody
-      , expect = Http.expectJson (ConRequest.decode Decode.string)
-      , timeout = Nothing
-      , withCredentials = False }

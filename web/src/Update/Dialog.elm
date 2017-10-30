@@ -1,4 +1,5 @@
 module Update.Dialog exposing (update)
+import Html exposing (text)
 import Delay exposing (after)
 import Time exposing (millisecond)
 import Dom exposing (focus)
@@ -14,7 +15,9 @@ update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case msg of
   CloseDialog -> { model | dialog = Closed model.dialog } ! [ after 300 millisecond EmptyDialog ]
   EmptyDialog -> { model | dialog = None } ! []
-  ShowErrorMessage err -> { model | dialog = Error err } ! [ focusClose ]
+  ShowErrorMessage err -> { model | dialog = Error (text err) Ignore } ! [ focusClose ]
+  ShowErrorMessageAction err action -> { model | dialog = Error (text err) action } ! [ focusClose ]
+  ShowErrorMessageComplex err action -> { model | dialog = Error err Ignore } ! [ focusClose ]
   OpenChooseConvention -> { model | dialog = ChooseConvention { data = [], pages = 0, page = 0 } } ![ focusClose, loadConventions 0 model ]
   DialogPage offset ->
     case model.dialog of

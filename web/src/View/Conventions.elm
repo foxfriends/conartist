@@ -4,7 +4,7 @@ import Html.Attributes exposing (class, tabindex)
 import Html.Events exposing (onClick)
 
 import Msg exposing (Msg(..))
-import Routing exposing (conventionPath)
+import Paths exposing (conventionPath)
 import Model.Model exposing (Model)
 import Model.Convention as Convention exposing (Convention, MetaConvention)
 import View.Table exposing (tableHeader, tableRow)

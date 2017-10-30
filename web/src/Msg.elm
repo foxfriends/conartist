@@ -1,4 +1,5 @@
 module Msg exposing (Msg(..), TabStatus, chain)
+import Html exposing (Html)
 import GraphQL.Client.Http exposing (Error)
 import Date exposing (Date)
 import Navigation exposing (Location)
@@ -106,6 +107,8 @@ type Msg
   | EmptyDialog
   | DialogPage Int
   | ShowErrorMessage String
+  | ShowErrorMessageComplex (Html Msg) Msg
+  | ShowErrorMessageAction String Msg
   -- other
   | MouseMove Mouse.Position
   | SetDate Date

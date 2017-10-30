@@ -8,7 +8,8 @@ import Msg exposing (Msg(..))
 import View.List exposing (list, row, clickable)
 import View.Drawer exposing (drawer)
 import Model.Model exposing (Model)
-import Routing
+import Update.Actions exposing (doSignOut)
+import Paths
 
 navigateTo : String -> List (Html.Attribute Msg)
 navigateTo url =
@@ -19,27 +20,16 @@ navigateTo url =
     [ onWithOptions "click" options (Decode.succeed <| DoNav url)
     , href url ]
 
-doSignOut : List (Html.Attribute Msg)
-doSignOut =
-  let
-    options =
-      { stopPropagation = False
-      , preventDefault = True }
-    url = Routing.signInPath
-  in
-     [ onWithOptions "click" options (Decode.succeed <| DoSignOut )
-     , href url ]
-
 -- TODO: the items are tab focusable even when the sidenav is hidden
 view : Model -> Html Msg
 view { sidenav_visible } =
   let
     items =
-      [ (navigateTo Routing.dashboardPath, "Dashboard")
-      , (navigateTo Routing.inventoryPath, "Inventory")
-      , (navigateTo Routing.pricingPath, "Pricing")
-      , (navigateTo Routing.conventionsPath, "Conventions")
-      , (navigateTo Routing.settingsPath, "Settings")
+      [ (navigateTo Paths.dashboardPath, "Dashboard")
+      , (navigateTo Paths.inventoryPath, "Inventory")
+      , (navigateTo Paths.pricingPath, "Pricing")
+      , (navigateTo Paths.conventionsPath, "Conventions")
+      , (navigateTo Paths.settingsPath, "Settings")
       , (doSignOut, "Sign Out") ]
     contents =
       list (uncurry navListRow) items

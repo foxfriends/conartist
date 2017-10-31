@@ -15,7 +15,7 @@ errorFor : Validation a -> Maybe String
 errorFor v = case v of
   Valid _ -> Nothing
   Invalid _ e -> Just e
-  Empty a e -> Just e
+  Empty _ e -> Just e
 
 map : (a -> b) -> Validation a -> Validation b
 map f v = case v of

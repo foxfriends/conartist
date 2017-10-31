@@ -78,7 +78,7 @@ saveProducts model =
 savePrices : Model -> (Model, Cmd Msg)
 savePrices model =
   let
-    news =  List.foldl Price.collectPrices [] model.user.prices
+    news = List.foldl Price.collectPrices [] model.user.prices
       |> List.filter Tuple.first
       |> List.map Tuple.second
     keep = Set.fromList <| List.filterMap (Price.normalize >> Maybe.map (\p -> (p.type_id, p.product_id |> Maybe.withDefault 0))) model.user.prices
@@ -92,7 +92,16 @@ savePrices model =
     model !
       [ if List.length news > 0 then mutation CreatedPrices (createPrices news) model else Cmd.none
       , if List.length dels > 0 then mutation DeletedPrices (deletePrices dels) model else Cmd.none ]
-  else model ! []
+  else
+    let
+      errorMessages = Price.errorMessages model.user.prices
+    in
+      Update.Dialog.update
+        (ShowErrorMessageComplex
+          (Html.div [] <|
+            List.map (Html.text >> List.singleton >> Html.div []) errorMessages)
+          Ignore)
+        model
 
 typeUpdateError : String -> Html msg
 typeUpdateError = Update.Dialog.errorWithMsg

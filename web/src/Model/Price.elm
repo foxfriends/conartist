@@ -2,13 +2,16 @@ module Model.Price exposing (..)
 import Either exposing (Either(..))
 import FormatNumber exposing (format)
 import FormatNumber.Locales exposing (usLocale)
+import Dict
+import Lazy exposing (lazy)
 
 import Util.List as List
 import Util.Either as Either
 import Util.Util as Util
+import Util.Maybe as Maybe
 import Model.ProductType as ProductType exposing (ProductType)
 import Model.Product as Product exposing (Product)
-import Model.Validation exposing (Validation(..), valueOf, validate, empty, invalidate, isValid)
+import Model.Validation as Validation exposing (Validation(..), valueOf, validate, empty, invalidate, isValid)
 import Model.ErrorString exposing (..)
 
 type alias FullPrice =
@@ -243,6 +246,101 @@ validateAll prices =
           }
         Deleted p -> price
   in List.map check prices
+
+-- TODO: these error messages could be more helpful with type/product information
+-- also this error type thing ew. we need help
+-- https://github.com/elm-lang/elm-compiler/issues/774
+-- http://reasonablypolymorphic.com/blog/elm-is-wrong#fnref3
+type ErrorType
+  = NanQuantity
+  | NegQuantity
+  | DupQuantity
+  | NanPrice
+  | NegPrice
+  | NoType
+etToInt : ErrorType -> Int
+etToInt et = case et of
+  NanQuantity -> 1
+  NegQuantity -> 2
+  DupQuantity -> 3
+  NanPrice -> 4
+  NegPrice -> 5
+  NoType -> 6
+intToEt : Int -> ErrorType
+intToEt int = case int of
+  1 -> NanQuantity
+  2 -> NegQuantity
+  3 -> DupQuantity
+  4 -> NanPrice
+  5 -> NegPrice
+  6 -> NoType
+  _ -> Debug.crash "whoops"
+errorMessages : List Price -> List String
+errorMessages prices =
+  let
+    has q = if q == 1 then "has" else "have"
+    is q = if q == 1 then "is" else "are"
+    aNumber q = if q == 1 then "a number" else "numbers"
+    price q = if q == 1 then "price's" else "prices'"
+    noTypeMessage q = toString q ++ " of your prices " ++ has q ++ " no type set."
+    nanQuantityMessage q = toString q ++ " of your " ++ price q ++ " quantities " ++ is q ++ " not " ++ aNumber q ++ "."
+    negQuantityMessage q = toString q ++ " of your " ++ price q ++ " quantities " ++ is q ++ " less than 0."
+    duplicateQuantityMessage q = toString q ++ " of your " ++ price q ++ " quantities " ++ is q ++ " listed more than once."
+    nanPriceMessage q = toString q ++ " of your " ++ price q ++ " prices " ++ is q ++ " not " ++ aNumber q ++ "."
+    negPriceMessage q = toString q ++ " of your " ++ price q ++ " prices " ++ is q ++ " less than 0."
+    typeError type_ =
+      if Validation.errorFor type_ == Just noType then
+        Just NoType
+      else Nothing
+    priceError price =
+      case Validation.errorFor price of
+        Just err ->
+          if err == nanPrice || err == emptyPrice then
+            Just NanPrice
+          else if err == negPrice then
+            Just NegPrice
+          else Nothing
+        _ -> Nothing
+    quantityError quantity =
+      case Validation.errorFor quantity of
+        Just err ->
+          if err == nanQuantity || err == noQuantity || err == emptyQuantity then
+            Just NanQuantity
+          else if err == negQuantity then
+            Just NegQuantity
+          else if err == duplicateQuantity then
+            Just DupQuantity
+          else Nothing
+        _ -> Nothing
+    errorMessage price =
+      case price of
+        New { type_id, quantity, price } ->
+          typeError type_id
+            |> Maybe.orElse (lazy (\() -> quantityError quantity))
+            |> Maybe.orElse (lazy (\() -> priceError price))
+        Dirty { type_id, quantity, price } ->
+          Either.unpack (always Nothing) quantityError quantity
+            |> Maybe.orElse (lazy (\() -> (Either.unpack (always Nothing) priceError price)))
+        _ -> Nothing
+    collect price messages =
+      case errorMessage price of
+        Just err ->
+          Dict.update
+            (etToInt err)
+            (Maybe.map ((+) 1) >> Maybe.withDefault 1 >> Just)
+            messages
+        Nothing -> messages
+  in
+    List.foldl collect Dict.empty prices
+      |> Dict.toList
+      |> List.map (\(m, q) ->
+        case intToEt m of
+          NanQuantity -> nanQuantityMessage q
+          NegQuantity -> negQuantityMessage q
+          DupQuantity -> duplicateQuantityMessage q
+          NanPrice -> nanPriceMessage q
+          NegPrice -> negPriceMessage q
+          NoType -> noTypeMessage q)
 
 allValid : List Price -> Bool
 allValid prices =

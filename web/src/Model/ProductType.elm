@@ -1,8 +1,10 @@
 module Model.ProductType exposing (..)
 import Either exposing (Either(..))
+import Dict
 import MD5 exposing (hex)
 
 import Model.Validation as Validation exposing (Validation(..), valueOf, invalidate, validate, empty)
+import Model.ErrorString exposing (..)
 import Util.List as List
 import Util.Either exposing (both)
 
@@ -115,9 +117,9 @@ validateAll types =
           { i
           | name = let v = valueOf i.name in
              if v == "" then
-               invalidate "Name is empty" i.name
+               invalidate emptyName i.name
              else if isBad v then
-               invalidate "Name is duplicated" i.name
+               invalidate duplicateName i.name
              else
                validate i.name
           }
@@ -125,13 +127,50 @@ validateAll types =
           { i
           | name = let v = Either.unpack identity valueOf i.name in
               if v == "" then
-                Either.mapRight (invalidate "Name is empty") i.name
+                Either.mapRight (invalidate emptyName) i.name
               else if isBad v then
-                Either.mapRight (invalidate "Name is duplicated") i.name
+                Either.mapRight (invalidate duplicateName) i.name
               else
                 Either.mapRight validate i.name
           }
   in List.map check types
+
+errorMessages : List ProductType -> List String
+errorMessages types =
+  let
+    names q = if q == 1 then "a name" else " names"
+    is q = if q == 1 then "is" else "are"
+    emptyMessage q = toString q ++ " of your product types " ++ is q ++ " missing " ++ names q
+    nameError name =
+      case Validation.errorFor name of
+        Just err ->
+          if err == emptyName then
+            Just (emptyMessage 1)
+          else if err == duplicateName then
+            Just <| "The product type named \"" ++ valueOf name ++ "\" is duplicated"
+          else Nothing
+        _ -> Nothing
+    errorMessage type_ =
+      case type_ of
+        New { name } -> nameError name
+        Dirty { name } -> Either.unpack (always Nothing) nameError name
+        _ -> Nothing
+    collect type_ messages =
+      case errorMessage type_ of
+        Just err ->
+          Dict.update
+            err
+            (Maybe.map ((+) 1) >> Maybe.withDefault 1 >> Just)
+            messages
+        Nothing -> messages
+  in
+    List.foldl collect Dict.empty types
+      |> Dict.toList
+      |> List.map (\(m, q) ->
+        if m == (emptyMessage 1) then
+          emptyMessage q
+        else
+          m)
 
 allValid : List ProductType -> Bool
 allValid types =

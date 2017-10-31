@@ -6,8 +6,10 @@ import MD5
 import Util.Util as Util
 import Util.List as List
 import Util.Either exposing (both)
+import Util.Result exposing (isErr)
 import Model.ProductType as ProductType exposing (ProductType)
 import Model.Validation as Validation exposing (Validation(..), valueOf, validate, invalidate)
+import Model.ErrorString exposing (..)
 
 type alias NewProduct =
   { localId: Int
@@ -159,15 +161,15 @@ validateAll products =
           { i
           | name = let v = valueOf i.name in
               if v == "" then
-                invalidate "Name is empty" i.name
+                invalidate emptyName i.name
               else if isBad (i.type_id, v) then
-                invalidate "Name is duplicated" i.name
+                invalidate duplicateName i.name
               else validate i.name
           , quantity = let v = Either.unpack Ok Util.toInt (valueOf i.quantity) in
               if isErr v then
-                invalidate "Quantity is not a number" i.quantity
+                invalidate nanQuantity i.quantity
               else if Result.withDefault 0 v < 0 then
-                invalidate "Quantity is less than 0" i.quantity
+                invalidate negQuantity i.quantity
               else
                 validate i.quantity
           }
@@ -175,15 +177,15 @@ validateAll products =
           { i
           | name = let v = Either.unpack identity valueOf i.name in
               if v == "" then
-                Either.mapRight (invalidate "Name is empty") i.name
+                Either.mapRight (invalidate emptyName) i.name
               else if isBad (i.type_id, v) then
-                Either.mapRight (invalidate "Name is duplicated") i.name
+                Either.mapRight (invalidate duplicateName) i.name
               else Either.mapRight validate i.name
           , quantity = let v = Either.unpack Ok (valueOf >> Util.toInt) i.quantity in
               if isErr v then
-                Either.mapRight (invalidate "Quantity is not a number") i.quantity
+                Either.mapRight (invalidate nanQuantity) i.quantity
               else if Result.withDefault 0 v < 0 then
-                Either.mapRight (invalidate "Quantity is less than 0") i.quantity
+                Either.mapRight (invalidate negQuantity) i.quantity
               else
                 Either.mapRight validate i.quantity
           }
@@ -199,11 +201,6 @@ allValid products =
         (Either.unpack (always True) Validation.isValid t.name)
         && (Either.unpack (always True) Validation.isValid t.quantity)
   in List.all isValid products
-
-isErr : Result a b -> Bool
-isErr v = case v of
-  Ok _ -> False
-  Err _ -> True
 
 toInt : String -> Int
 toInt = Util.toInt >> Result.withDefault 0

@@ -9,6 +9,7 @@ import Util.Util as Util
 import Model.ProductType as ProductType exposing (ProductType)
 import Model.Product as Product exposing (Product)
 import Model.Validation exposing (Validation(..), valueOf, validate, empty, invalidate, isValid)
+import Model.ErrorString exposing (..)
 
 type alias FullPrice =
   { index: Int
@@ -204,33 +205,33 @@ validateAll prices =
     isBad tpx = List.filter ((==) tpx) sets |> List.length |> (<) 1
     validateQuantity t p q =
       if valueOf q == "" then
-        empty "Set a quantity" q
+        empty emptyQuantity q
       else case Util.toInt <| valueOf q of
         Ok x ->
           if x == 0 then
-            empty "Quantity is 0" q
+            empty noQuantity q
           else if x < 0 then
-            invalidate "Quantity is negative" q
+            invalidate negQuantity q
           else if isBad (t, p, x) then
-            invalidate "Quantity is duplicated" q
+            invalidate duplicateQuantity q
           else
             validate q
-        Err _ -> invalidate "Not a number" q
+        Err _ -> invalidate nanQuantity q
     validatePrice p =
       if valueOf p == "" then
-        empty "Set a price" p
+        empty emptyPrice p
       else case parseMoney <| valueOf p of
         Ok x ->
           if x < 0 then
-            invalidate "Price is negative" p
+            invalidate negPrice p
           else
             validate p
-        Err _ -> invalidate "Not a number" p
+        Err _ -> invalidate nanPrice p
     check price =
       case price of
         New p -> New
           { p
-          | type_id = if valueOf p.type_id == 0 then empty "Choose a type" p.type_id else validate p.type_id
+          | type_id = if valueOf p.type_id == 0 then empty noType p.type_id else validate p.type_id
           , price = validatePrice p.price
           , quantity = validateQuantity (valueOf p.type_id) p.product_id p.quantity
           }

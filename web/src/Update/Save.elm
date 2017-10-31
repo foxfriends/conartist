@@ -13,9 +13,9 @@ import Update.Dialog
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case msg of
   Save -> update SaveTypes model
-  SaveTypes -> model ! saveTypes model
-  SaveProducts -> model ! saveProducts model
-  SavePrices -> model ! savePrices model
+  SaveTypes -> saveTypes model
+  SaveProducts -> saveProducts model
+  SavePrices -> savePrices model
   CreatedTypes (Ok updates) -> update SaveProducts <| Model.cleanTypes updates model
   CreatedTypes (Err err) -> Update.Dialog.update (ShowErrorMessageComplex (typeUpdateError (toString err)) Ignore) model
   UpdatedTypes (Ok updates) -> Model.cleanTypes updates model ! []
@@ -31,29 +31,42 @@ update msg model = case msg of
 
   _ -> model ! []
 
-saveTypes : Model -> List (Cmd Msg)
+saveTypes : Model -> (Model, Cmd Msg)
 saveTypes model =
   if ProductType.allValid model.user.productTypes then
     let
       mods = List.filterMap ProductType.dirtyData model.user.productTypes
       news = List.filterMap ProductType.newData model.user.productTypes
+      (spm, spc) = saveProducts model
     in
-      [ if List.length mods > 0 then mutation UpdatedTypes (updateProductTypes mods) model else Cmd.none
-      , if List.length news > 0 then mutation CreatedTypes (createProductTypes news) model else Cmd.batch <| saveProducts model ]
-  else []
+      (if List.length news > 0 then model else spm) !
+        [ if List.length mods > 0 then mutation UpdatedTypes (updateProductTypes mods) model else Cmd.none
+        , if List.length news > 0 then mutation CreatedTypes (createProductTypes news) model else spc ]
+  else
+    let
+      errorMessages = ProductType.errorMessages model.user.productTypes
+    in
+      Update.Dialog.update
+        (ShowErrorMessageComplex
+          (Html.div [] <|
+            List.map (Html.text >> List.singleton >> Html.div []) errorMessages)
+          Ignore)
+        model
 
-saveProducts : Model -> List (Cmd Msg)
+saveProducts : Model -> (Model, Cmd Msg)
 saveProducts model =
   if Product.allValid model.user.products then
     let
       mods = List.filterMap Product.dirtyData model.user.products
       news = List.filterMap Product.newData model.user.products
+      (spm, spc) = savePrices model
     in
-      [ if List.length mods > 0 then mutation UpdatedProducts (updateProducts mods) model else Cmd.none
-      , if List.length news > 0 then mutation CreatedProducts (createProducts news) model else Cmd.batch <| savePrices model ]
-  else []
+      (if List.length news > 0 then model else spm) !
+        [ if List.length mods > 0 then mutation UpdatedProducts (updateProducts mods) model else Cmd.none
+        , if List.length news > 0 then mutation CreatedProducts (createProducts news) model else spc ]
+  else model ! []
 
-savePrices : Model -> List (Cmd Msg)
+savePrices : Model -> (Model, Cmd Msg)
 savePrices model =
   let
     news =  List.foldl Price.collectPrices [] model.user.prices
@@ -67,9 +80,10 @@ savePrices model =
     dels = List.map (Tuple.mapSecond (\p -> if p == 0 then Nothing else Just p)) <| Set.toList delSet
   in
   if Price.allValid model.user.prices then
-    [ if List.length news > 0 then mutation CreatedPrices (createPrices news) model else Cmd.none
-    , if List.length dels > 0 then mutation DeletedPrices (deletePrices dels) model else Cmd.none ]
-  else []
+    model !
+      [ if List.length news > 0 then mutation CreatedPrices (createPrices news) model else Cmd.none
+      , if List.length dels > 0 then mutation DeletedPrices (deletePrices dels) model else Cmd.none ]
+  else model ! []
 
 typeUpdateError : String -> Html msg
 typeUpdateError = Update.Dialog.errorWithMsg

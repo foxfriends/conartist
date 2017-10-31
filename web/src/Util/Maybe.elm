@@ -1,5 +1,5 @@
 module Util.Maybe exposing (..)
-import Lazy exposing (Lazy, lazy, force)
+import Lazy exposing (Lazy, force)
 
 orElse : Lazy (Maybe a) -> Maybe a -> Maybe a
 orElse d m = case m of

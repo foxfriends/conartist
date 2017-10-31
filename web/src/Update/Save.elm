@@ -64,7 +64,16 @@ saveProducts model =
       (if List.length news > 0 then model else spm) !
         [ if List.length mods > 0 then mutation UpdatedProducts (updateProducts mods) model else Cmd.none
         , if List.length news > 0 then mutation CreatedProducts (createProducts news) model else spc ]
-  else model ! []
+  else
+    let
+      errorMessages = Product.errorMessages model.user.products
+    in
+      Update.Dialog.update
+        (ShowErrorMessageComplex
+          (Html.div [] <|
+            List.map (Html.text >> List.singleton >> Html.div []) errorMessages)
+          Ignore)
+        model
 
 savePrices : Model -> (Model, Cmd Msg)
 savePrices model =

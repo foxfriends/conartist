@@ -2,11 +2,13 @@ module Model.Product exposing (..)
 import Dict
 import Either exposing (Either(..))
 import MD5
+import Lazy exposing (lazy)
 
 import Util.Util as Util
 import Util.List as List
 import Util.Either exposing (both)
 import Util.Result exposing (isErr)
+import Util.Maybe as Maybe
 import Model.ProductType as ProductType exposing (ProductType)
 import Model.Validation as Validation exposing (Validation(..), valueOf, validate, invalidate)
 import Model.ErrorString exposing (..)
@@ -190,6 +192,58 @@ validateAll products =
                 Either.mapRight validate i.quantity
           }
   in List.map check products
+
+errorMessages : List Product -> List String
+errorMessages products =
+  let
+    names q = if q == 1 then "a name" else " names"
+    is q = if q == 1 then "is" else "are"
+    emptyNameMessage q = toString q ++ " of your products " ++ is q ++ " missing " ++ names q ++ "."
+    nanQuantityMessage n = "The quantity for " ++ n ++ " is not a number."
+    negQuantityMessage n = "The quantity for " ++ n ++ " is less than 0."
+    nameError name =
+      case Validation.errorFor name of
+        Just err ->
+          if err == emptyName then
+            Just (emptyNameMessage 1)
+          else if err == duplicateName then
+            Just <| "The product named \"" ++ valueOf name ++ "\" is duplicated"
+          else Nothing
+        _ -> Nothing
+    quantityError name quantity =
+      case Validation.errorFor quantity of
+        Just err ->
+          if err == nanQuantity then
+            Just (nanQuantityMessage name)
+          else if err == negQuantity then
+            Just (negQuantityMessage name)
+          else Nothing
+        _ -> Nothing
+    errorMessage product =
+      case product of
+        New { name, quantity } ->
+          nameError name
+            |> Maybe.orElse (lazy (\() -> quantityError (valueOf name) quantity))
+        Dirty { name, quantity } ->
+          Either.unpack (always Nothing) nameError name
+            |> Maybe.orElse (lazy (\() -> (Either.unpack (always Nothing) (quantityError (Either.unpack identity valueOf name)) quantity)))
+        _ -> Nothing
+    collect product messages =
+      case errorMessage product of
+        Just err ->
+          Dict.update
+            err
+            (Maybe.map ((+) 1) >> Maybe.withDefault 1 >> Just)
+            messages
+        Nothing -> messages
+  in
+    List.foldl collect Dict.empty products
+      |> Dict.toList
+      |> List.map (\(m, q) ->
+        if m == (emptyNameMessage 1) then
+          emptyNameMessage q
+        else
+          m)
 
 allValid : List Product -> Bool
 allValid products =

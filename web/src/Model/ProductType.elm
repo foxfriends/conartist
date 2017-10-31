@@ -140,14 +140,14 @@ errorMessages types =
   let
     names q = if q == 1 then "a name" else " names"
     is q = if q == 1 then "is" else "are"
-    emptyMessage q = toString q ++ " of your product types " ++ is q ++ " missing " ++ names q
+    emptyMessage q = toString q ++ " of your product types " ++ is q ++ " missing " ++ names q ++ "."
     nameError name =
       case Validation.errorFor name of
         Just err ->
           if err == emptyName then
             Just (emptyMessage 1)
           else if err == duplicateName then
-            Just <| "The product type named \"" ++ valueOf name ++ "\" is duplicated"
+            Just <| "The product type named \"" ++ valueOf name ++ "\" is duplicated."
           else Nothing
         _ -> Nothing
     errorMessage type_ =

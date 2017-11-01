@@ -24,7 +24,7 @@ data class Expense(
             val price = json.double("price") ?: return null
             val category = json.string("category") ?: return null
             val description = json.string("description") ?: return null
-            val spendTime = json.long("spendTime")?.let(::Date) ?: return null
+            val spendTime = json.string("time")?.let(::parseTime) ?: return null
 
             return Expense(price, category, description, spendTime)
         }

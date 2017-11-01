@@ -4,7 +4,7 @@
 use std::panic::catch_unwind;
 use postgres::rows::Row;
 use postgres_array::Array;
-use chrono::{NaiveDateTime, NaiveDate};
+use chrono::{NaiveDate, NaiveDateTime};
 use iterator::*;
 use super::Money;
 

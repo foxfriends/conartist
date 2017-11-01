@@ -1,4 +1,5 @@
 //! Holds information about a convention
+use chrono::{DateTime, Utc};
 use database::Database;
 pub use database::Convention;
 
@@ -8,7 +9,6 @@ graphql_object!(Convention: Database |&self| {
     field id() -> i32 { self.con_id }
     field code() -> &String { &self.code }
     field name() -> &String { &self.title }
-    // TODO: Having trouble returning a NaiveDate here
-    field start() -> String { self.start_date.to_string() }
-    field end() -> String { self.end_date.to_string() }
+    field start() -> DateTime<Utc> { DateTime::from_utc(self.start_date.and_hms(0, 0, 0), Utc) }
+    field end() -> DateTime<Utc> { DateTime::from_utc(self.end_date.and_hms(23, 59, 59), Utc) }
 });

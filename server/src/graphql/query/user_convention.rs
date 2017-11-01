@@ -1,5 +1,6 @@
 //! Holds information about a convention and a user's products, prices, and records during that convention
 use database::Database;
+use chrono::{DateTime, Utc};
 use juniper::FieldResult;
 use database::{ProductType, ProductInInventory, Price, PriceRow, FullUserConvention, Record, Expense};
 
@@ -11,9 +12,8 @@ graphql_object!(FullUserConvention: Database |&self| {
     field con_id() -> i32 { self.con_id }
     field code() -> &String { &self.code }
     field name() -> &String { &self.title }
-    // TODO: Having trouble returning a NaiveDate here
-    field start() -> String { self.start_date.to_string() }
-    field end() -> String { self.end_date.to_string() }
+    field start() -> DateTime<Utc> { DateTime::from_utc(self.start_date.and_hms(0, 0, 0), Utc) }
+    field end() -> DateTime<Utc> { DateTime::from_utc(self.end_date.and_hms(23, 59, 59), Utc) }
 
     // TODO: Option to retrieve all non-discontinued products instead of just products attached to
     //       this convention

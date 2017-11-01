@@ -44,12 +44,6 @@ date =
         )
     |> customScalar DateType
 
-time : ValueSpec NonNull DateType Date vars
-time =
-  Decode.float
-    |> Decode.map Date.fromTime
-    |> customScalar DateType
-
 -- Decoders
 
 productType : ValueSpec NonNull ObjectType FullType vars
@@ -111,14 +105,14 @@ record : ValueSpec NonNull ObjectType Record vars
 record = object Record
   |> with (field "products" [] (list int))
   |> with (field "price" [] float)
-  |> with (field "time" [] time)
+  |> with (field "time" [] date)
 
 expense : ValueSpec NonNull ObjectType Expense vars
 expense = object Expense
   |> with (field "price" [] float)
   |> with (field "category" [] string)
   |> with (field "description" [] string)
-  |> with (field "time" [] time)
+  |> with (field "time" [] date)
 
 user : ValueSpec NonNull ObjectType User vars
 user = object User

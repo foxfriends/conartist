@@ -2,10 +2,7 @@ package com.cameldridge.conartist.schema
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.beust.klaxon.JsonObject
-import com.beust.klaxon.array
-import com.beust.klaxon.double
-import com.beust.klaxon.long
+import com.beust.klaxon.*
 import com.cameldridge.conartist.parcel.createParcel
 import com.cameldridge.conartist.parcel.readBool
 import com.cameldridge.conartist.parcel.writeBool
@@ -30,7 +27,7 @@ data class Record(
         override fun deserialize(json: JsonObject): Record? {
             val products = json.array<Int>("products")?.let { ArrayList(it) } ?: return null
             val price = json.double("price") ?: return null
-            val time = json.long("time")?.let(::Date) ?: return null
+            val time = json.string("time")?.let(::parseTime) ?: return null
 
             return Record(products, price, time)
         }

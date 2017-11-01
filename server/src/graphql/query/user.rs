@@ -1,7 +1,7 @@
 //! Holds information about a user and their products, prices, and conventions
-use chrono::NaiveDateTime;
-use juniper::FieldResult;
 use database::{Database, User, ProductType, ProductInInventory, PriceRow, FullUserConvention};
+use juniper::FieldResult;
+use chrono::{DateTime, Utc};
 
 graphql_object!(User: Database |&self| {
     description: "Holds information about a user and their products, prices, and conventions"
@@ -10,7 +10,7 @@ graphql_object!(User: Database |&self| {
     field name() -> &String { &self.name }
     field email() -> &String { &self.email }
     field keys() -> i32 { self.keys }
-    field join_date() -> NaiveDateTime { self.join_date }
+    field join_date() -> DateTime<Utc> { DateTime::from_utc(self.join_date, Utc) }
 
     field product_types(&executor) -> FieldResult<Vec<ProductType>> {
         dbtry! {

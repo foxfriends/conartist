@@ -75,6 +75,8 @@ CREATE TABLE Products (
 CREATE INDEX index_Products ON Products (user_id, type_id);
 COMMENT ON TABLE Products IS 'The specific products that a user produces';
 
+-- TODO: would this be better as user-inventory and con-inventory?
+-- TODO: figure out how inventory changes will actually be tracked
 CREATE TABLE Inventory (
   inv_id      SERIAL PRIMARY KEY,
   user_id     INT          REFERENCES Users             (user_id)     ON DELETE CASCADE,
@@ -92,6 +94,9 @@ CREATE INDEX index_Inventory_con ON Inventory (user_con_id);
 CREATE INDEX index_Inventory_user ON Inventory (user_id);
 COMMENT ON TABLE Inventory IS 'Keeps track of how many of each item a user has, or how many were in existence during a specific convention';
 
+-- TODO: would this be better as user-prices and con-prices?
+-- TODO: history of price changes? or something at least to allow changing prices
+--       during a convention instead?
 CREATE TABLE Prices (
   price_id    SERIAL PRIMARY KEY,
   user_id     INT          REFERENCES Users             (user_id)     ON DELETE CASCADE,

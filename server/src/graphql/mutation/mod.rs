@@ -140,7 +140,15 @@ graphql_object!(Mutation: Database |&self| {
                 .create_user_convention(user_id, con_code)
         }
     }
-    field del_user_convention(&executor, user_id: Option<i32>, con_code: String) -> FieldResult<bool> { Err(FieldError::new("Unimplemented", Value::null())) }
+    field del_user_convention(&executor, user_id: Option<i32>, con_code: String) -> FieldResult<bool> {
+         ensure!(con_code.len() == 5);
+
+         dbtry! {
+             executor
+                .context()
+                .delete_user_convention(user_id, con_code)
+         }
+    }
 
     field add_user_record(&executor, user_id: Option<i32>, record: RecordAdd) -> FieldResult<Record> {
         ensure!(record.products.len() != 0);
@@ -156,7 +164,18 @@ graphql_object!(Mutation: Database |&self| {
     field mod_user_record(&executor, user_id: Option<i32>, record: RecordMod) -> FieldResult<Record> { Err(FieldError::new("Unimplemented", Value::null())) }
     field del_user_record(&executor, user_id: Option<i32>, record: RecordDel) -> FieldResult<()> { Err(FieldError::new("Unimplemented", Value::null())) }
 
-    field add_user_expense(&executor, user_id: Option<i32>, expense: ExpenseAdd) -> FieldResult<Expense> { Err(FieldError::new("Unimplemented", Value::null())) }
+    field add_user_expense(&executor, user_id: Option<i32>, expense: ExpenseAdd) -> FieldResult<Expense> {
+        ensure!(expense.con_id > 0);
+        ensure!(expense.price > Money(0f64));
+        ensure!(expense.category.len() > 0 && expense.category.len() < 32);
+        ensure!(expense.description.len() > 0 && expense.description.len() < 512);
+
+        dbtry! {
+            executor
+                .context()
+                .create_user_expense(user_id, expense.con_id, expense.price, expense.category, expense.description, expense.time.naive_utc())
+        }
+    }
     field mod_user_expense(&executor, user_id: Option<i32>, expense: ExpenseMod) -> FieldResult<Expense> { Err(FieldError::new("Unimplemented", Value::null())) }
     field del_user_expense(&executor, user_id: Option<i32>, expense: ExpenseDel) -> FieldResult<()> { Err(FieldError::new("Unimplemented", Value::null())) }
 });

@@ -12,4 +12,26 @@ impl Database {
                 .map_err(|r| format!("Failed to delete price for type {}. Reason: {}", type_id, r))
         }   .map(|r| r == 1)
     }
+
+    pub fn delete_user_convention(&self, maybe_user_id: Option<i32>, con_code: String) -> Result<bool, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let conn = self.pool.get().unwrap();
+        let trans = conn.transaction().unwrap();
+
+        let convention = query!(trans, "SELECT * FROM Conventions WHERE code = $1 AND start_date > NOW()::TIMESTAMP", con_code)
+            .into_iter()
+            .nth(0)
+            .ok_or_else(|| format!("No upcoming convention exists with code {}", con_code))
+            .and_then(|r| Convention::from(r))?;
+        execute!(trans, "DELETE FROM User_Conventions WHERE user_id = $1 AND con_id = $2", user_id, convention.con_id)
+            .map_err(|r| r.to_string())
+            .and_then(|r| if r == 1 { Ok(()) } else { Err("".to_string()) })
+            .map_err(|_| format!("User {} was not signed up for convention {}", user_id, con_code))?;
+        execute!(trans, "UPDATE Users SET keys = keys + 1 WHERE user_id = $1", user_id)
+            .map_err(|r| r.to_string())
+            .and_then(|r| if r == 1 { Ok(()) } else { Err("".to_string()) })
+            .map_err(|_| format!("Could not return key to user {}", user_id))?;
+        trans.commit().unwrap();
+        Ok(true)
+    }
 }

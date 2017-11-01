@@ -50,7 +50,13 @@ impl Database {
         Err(format!("Failed to create product {}", name))
     }
 
-    pub fn create_or_update_price(&self, maybe_user_id: Option<i32>, type_id: i32, product_id: Option<i32>, prices: Array<f64>) -> Result<Price, String> {
+    pub fn create_or_update_price(
+        &self,
+        maybe_user_id: Option<i32>,
+        type_id: i32,
+        product_id: Option<i32>,
+        prices: Array<f64>,
+    ) -> Result<Price, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
 
         let pid = product_id.map(|r| format!("{}", r)).unwrap_or("NULL".to_string());
@@ -95,15 +101,15 @@ impl Database {
 
         let conn = self.pool.get().unwrap();
         let trans = conn.transaction().unwrap();
-        execute!(trans, "UPDATE Users SET keys = keys -1 WHERE user_id = $1 AND keys > 0", user_id)
-            .map_err(|r| r.to_string())
-            .and_then(|r| if r == 1 { Ok(()) } else { Err("".to_string()) })
-            .map_err(|_| format!("User {} does not have enough keys to sign up for a convention", user_id))?;
         let convention = query!(trans, "SELECT * FROM Conventions WHERE code = $1 AND start_date > NOW()::TIMESTAMP", con_code)
             .into_iter()
             .nth(0)
             .ok_or_else(|| format!("No upcoming convention exists with code {}", con_code))
             .and_then(|r| Convention::from(r))?;
+        execute!(trans, "UPDATE Users SET keys = keys - 1 WHERE user_id = $1 AND keys > 0", user_id)
+            .map_err(|r| r.to_string())
+            .and_then(|r| if r == 1 { Ok(()) } else { Err("".to_string()) })
+            .map_err(|_| format!("User {} does not have enough keys to sign up for a convention", user_id))?;
         execute!(trans, "INSERT INTO User_Conventions (user_id, con_id) VALUES ($1, $2) RETURNING *", user_id, convention.con_id)
             .map_err(|r| r.to_string())
             .and_then(|r| if r == 1 { Ok(()) } else { Err("unknown".to_string()) })
@@ -142,6 +148,41 @@ impl Database {
             .nth(0)
             .ok_or_else(|| format!("Failed to create new record for usercon {}", user_con_id))
             .and_then(|r| Record::from(r))?;
+        trans.commit().unwrap();
+        Ok(record)
+    }
+
+    pub fn create_user_expense(
+        &self,
+        maybe_user_id: Option<i32>,
+        con_id: i32,
+        price: Money,
+        category: String,
+        description: String,
+        time: NaiveDateTime,
+    ) -> Result<Expense, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+
+        let conn = self.pool.get().unwrap();
+        let trans = conn.transaction().unwrap();
+
+        let user_con_id = query!(trans, "SELECT user_con_id FROM User_Conventions WHERE user_id = $1 AND con_id = $2", user_id, con_id)
+            .into_iter()
+            .nth(0)
+            .ok_or_else(|| format!("User {} is not signed up for convention {}", user_id, con_id))?
+            .get::<usize, i32>(0);
+
+        let record = query!(trans, "
+            INSERT INTO Expenses
+                (user_con_id, price, category, description, spend_time)
+            VALUES
+                ($1, $2, $3, $4, $5)
+            RETURNING *"
+        , user_con_id, price, category, description, time)
+            .into_iter()
+            .nth(0)
+            .ok_or_else(|| format!("Failed to create new expense for usercon {}", user_con_id))
+            .and_then(|r| Expense::from(r))?;
         trans.commit().unwrap();
         Ok(record)
     }

@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter
 import com.cameldridge.conartist.schema.Product
 import com.cameldridge.conartist.schema.ProductType
 import com.cameldridge.conartist.schema.Record
+import com.cameldridge.conartist.schema.formatTimePretty
 import kotlinx.android.synthetic.main.record_list_row.view.*
 
 class RecordRowListAdapter(
@@ -48,6 +49,8 @@ class RecordRowListAdapter(
 
         // TODO: Support for other currencies
         view.price.text = "$%.2f".format(record.price)
+
+        view.saleTime.text = formatTimePretty(record.time)
 
         return view
     }

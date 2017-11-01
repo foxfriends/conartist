@@ -17,3 +17,7 @@ fun formatDatePretty(date: Date): String = datePrintFormat.format(date)
 private val timeParseFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
 fun parseTime(date: String): Date = timeParseFormat.parse(date)
 fun formatTime(date: Date): String = timeParseFormat.format(date)
+
+@SuppressLint("SimpleDateFormat")
+private val timePrintFormat = SimpleDateFormat("EEE, h:mm a")
+fun formatTimePretty(date: Date): String = timePrintFormat.format(date)

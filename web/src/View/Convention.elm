@@ -113,12 +113,34 @@ bestSellers con =
         [ class "convention__card" ]
         [ defList text
           [ ("Best product", product)
-          , ("Best type of product", productType) ] ]
+          , ("Best type of product", productType)
+          ]
+        ]
         []
     Nothing -> text ""
 
 revenue : Convention -> Html msg
-revenue con = text ""
+revenue con =
+  case Convention.asFull con of
+    Just con ->
+      let
+        (quantity, gross) =
+          con.records
+            |> List.foldl (\r -> \(q, p) -> (q + List.length r.products, p + r.price)) (0, 0)
+        expense = 0
+        net = gross - expense
+      in
+      card "Sales summary"
+        [ class "convention__card" ]
+        [ defList text
+          [ ("Gross profit", toString gross)
+          , ("Total expense", toString expense)
+          , ("Net profit", toString net)
+          , ("Items sold", toString quantity)
+          ]
+        ]
+        []
+    Nothing -> text ""
 
 disclaimer : Html msg
 disclaimer =

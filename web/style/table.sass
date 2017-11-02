@@ -24,7 +24,11 @@
       color: $color__text--secondary
       font-size: 10pt
     &--borderless
+      @extend .table__cell
       border: none
+    &--summary
+      @extend .table__cell
+      background-color: transparentize($color--accent, 0.8)
     &--sortable
       @extend .table__cell--header
       cursor: pointer

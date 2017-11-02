@@ -13,7 +13,7 @@ graphql_object!(FullUserConvention: Database |&self| {
     field code() -> &String { &self.code }
     field name() -> &String { &self.title }
     field start() -> DateTime<Utc> { DateTime::from_utc(self.start_date.and_hms(0, 0, 0), Utc) }
-    field end() -> DateTime<Utc> { DateTime::from_utc(self.end_date.and_hms(23, 59, 59), Utc) }
+    field end() -> DateTime<Utc> { DateTime::from_utc(self.end_date.and_hms(0, 0, 0), Utc) }
 
     // TODO: Option to retrieve all non-discontinued products instead of just products attached to
     //       this convention

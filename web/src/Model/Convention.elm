@@ -1,6 +1,6 @@
 module Model.Convention exposing (..)
 import Date exposing (Date)
-import Date.Extra as Date exposing (toFormattedString)
+import Date.Extra as Date exposing (toUtcFormattedString)
 
 import Model.Product exposing (Product)
 import Model.Price exposing (Price)
@@ -50,4 +50,4 @@ asFull con = case con of
   Full con -> Just con
 
 formatDate : Date -> String
-formatDate = toFormattedString "MMM d, y"
+formatDate = toUtcFormattedString "MMM d, y"

@@ -6,6 +6,7 @@ module View.Table exposing
   , tableWithSpacing
   , basicSortableTable
   , sortableTable
+  , summarizedTable
   , updateSort
   , TableHeader(..)
   )
@@ -33,6 +34,9 @@ headerColumn sort index title = div [ class "table__cell--header" ]
 
 column : Html msg -> Html msg
 column data = div [ class "table__cell" ] [ data ]
+
+summaryColumn : Html msg -> Html msg
+summaryColumn data = div [ class "table__cell--summary" ] [ data ]
 
 tableHeader : List String -> Html msg
 tableHeader titles =
@@ -73,7 +77,15 @@ tableWithSpacing
     -> (a -> List (Html msg))
     -> List a
     -> Html msg
-tableWithSpacing spacing footer attrs headers = customTable (List.map (always EQ) headers) spacing footer attrs headers
+tableWithSpacing spacing footer attrs headers =
+  summarizedTable
+    Nothing
+    (always <| always (Nothing, []))
+    (List.map (always EQ) headers)
+    spacing
+    footer
+    attrs
+    headers
 
 basicSortableTable
     : List Order
@@ -93,10 +105,12 @@ sortableTable
     -> (a -> List (Html msg))
     -> List a
     -> Html msg
-sortableTable = customTable
+sortableTable = summarizedTable Nothing (always <| always (Nothing, []))
 
-customTable
-    : List Order
+summarizedTable
+    : b
+    -> (b -> Maybe a -> (b, List (Html msg)))
+    -> List Order
     -> String
     -> List (Html msg)
     -> List (Html.Attribute msg)
@@ -104,15 +118,44 @@ customTable
     -> (a -> List (Html msg))
     -> List a
     -> Html msg
-customTable sortStatus spacing footerContents attrs columnHeaders columns data =
-  div
-    ([ class "table__container" ] ++ attrs)
-    <|  [ div
-          [ class "table"
-          , style [ ("grid-template-columns", spacing ) ] ]
-          ( (List.indexedMap (\i -> \(o, h) -> headerColumn o i h) (zip sortStatus columnHeaders))
-            ++ List.map column (List.concatMap columns (List.sortWith (sortFn sortStatus columnHeaders) data)) ) ]
-        ++ if List.isEmpty footerContents then [] else [ div [ class "table__footer" ] footerContents ]
+summarizedTable = customTable
+
+customTable
+    : b
+    -> (b -> Maybe a -> (b, List (Html msg)))
+    -> List Order
+    -> String
+    -> List (Html msg)
+    -> List (Html.Attribute msg)
+    -> List (TableHeader a msg)
+    -> (a -> List (Html msg))
+    -> List a
+    -> Html msg
+customTable init summarizer sortStatus spacing footerContents attrs columnHeaders columns data =
+  let
+    headers =
+      columnHeaders
+        |> zip sortStatus
+        |> List.indexedMap (\i -> \(o, h) -> headerColumn o i h)
+    cells =
+      data
+        |> List.sortWith (sortFn sortStatus columnHeaders)
+        |> List.foldl (\a -> \(acc, values) ->
+            let
+              (newacc, summary) = summarizer acc (Just a)
+            in
+              (newacc, values ++ (List.map summaryColumn summary) ++ List.map column (columns a))
+          ) (init, [])
+        |> Tuple.mapFirst (flip summarizer Nothing >> Tuple.second)
+        |> (\(f, r) -> r ++ List.map summaryColumn f)
+  in
+    div
+      ([ class "table__container" ] ++ attrs)
+      <|  [ div
+            [ class "table"
+            , style [ ("grid-template-columns", spacing ) ] ]
+            ( headers ++ cells ) ]
+          ++ if List.isEmpty footerContents then [] else [ div [ class "table__footer" ] footerContents ]
 
 sortFor : TableHeader a msg -> (a -> a -> Order)
 sortFor header = case header of

@@ -19,7 +19,7 @@ import Model.Product as Product
 import Model.Price as Price
 import Model.ChartSettings as ChartSettings
 import View.Tabs exposing (tabs, TabItem(Tab))
-import View.Table exposing (basicSortableTable, TableHeader(..))
+import View.Table exposing (summarizedTable, basicSortableTable, TableHeader(..))
 import View.Card exposing (card)
 import View.List exposing (defList)
 import View.Fancy as Fancy
@@ -28,6 +28,7 @@ import View.Chart.Settings as Settings
 import Util.List as List
 import View.Drawer as Drawer
 import Util.Maybe as Maybe
+import Util.Date as Date
 
 -- TODO: split up this module
 
@@ -197,17 +198,45 @@ sales model page con =
       case fc.records of
         [] -> placeholder "You haven't sold anything yet!"
         _  ->
-          basicSortableTable page.record_sort []
+          let _ = Debug.log "date" <| Date.utcWeekdayNumber (Convention.asMeta con).start in
+          summarizedTable
+            (case page.record_sort of
+              [EQ, EQ, EQ, EQ, _] -> (Just (0, 0, (Convention.asMeta con).start))
+              _ -> Nothing)
+            (\m -> \rec -> case m of
+              Nothing -> (Nothing, [])
+              Just (p, q, d) ->
+                case rec of
+                  Just rec ->
+                    if Date.utcWeekdayNumber d == Date.utcWeekdayNumber rec.time then
+                      (Just (p + rec.price, q + List.length rec.products, rec.time), [])
+                    else
+                      ( Just (rec.price, List.length rec.products, rec.time)
+                      , [ text "Total"
+                        , text ""
+                        , text (toString q)
+                        , text (Price.priceStr (Left p))
+                        , text "" ])
+                  Nothing ->
+                    ( Nothing
+                    , [ text "Total"
+                      , text ""
+                      , text (toString q)
+                      , text (Price.priceStr (Left p))
+                      , text "" ]))
+            page.record_sort
+            "1fr 1fr 1fr 1fr 1fr" [] []
             [ Standard "Type"
             , Standard "Products"
             , Sortable "Quantity" rquantitysort SortConRecordsTable
             , Sortable "Price" rpricesort SortConRecordsTable
             , Sortable "Time" timesort SortConRecordsTable ]
-            recordRow <|
-            Join.recordsWithTypedProducts
-              model.user.productTypes
-              (if List.isEmpty fc.products then model.user.products else fc.products)
-              fc.records
+            recordRow
+            ( fc.records
+                |> List.sortWith (\a -> \b -> Date.compare a.time b.time)
+                |> Join.recordsWithTypedProducts
+                  model.user.productTypes
+                  (if List.isEmpty fc.products then model.user.products else fc.products) )
 
 recordRow : RecordWithTypedProduct -> List (Html msg)
 recordRow record =

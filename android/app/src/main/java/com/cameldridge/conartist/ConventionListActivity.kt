@@ -9,17 +9,17 @@ import android.widget.ArrayAdapter
 import com.cameldridge.conartist.api.GraphQLQuery
 import com.cameldridge.conartist.schema.Convention
 import com.cameldridge.conartist.schema.User
-import kotlinx.android.synthetic.main.activity_app_root.*
+import kotlinx.android.synthetic.main.activity_convention_list.*
 import kotlin.properties.Delegates
 
-class AppRootActivity : AppCompatActivity() {
+class ConventionListActivity : AppCompatActivity() {
     private var conList: ArrayAdapter<Convention> by Delegates.notNull()
 
     private var user: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_app_root)
+        setContentView(R.layout.activity_convention_list)
 
         conList = ConventionRowListAdapter(this)
         conventionList.adapter = conList
@@ -34,7 +34,7 @@ class AppRootActivity : AppCompatActivity() {
                         val i = it.conventions.indexOfFirst { it.meta().code == filled.meta().code }
                         it.conventions[i] = filled
                     }
-                    startActivity(ConventionModeActivity.newIntent(this, filled))
+                    startActivity(MetaConventionActivity.newIntent(this, filled))
                 }
             } .execute()
         }
@@ -71,7 +71,7 @@ class AppRootActivity : AppCompatActivity() {
     companion object {
         internal enum class UIState { LOAD, FAIL, LIST }
         fun newIntent(ctx: Context): Intent {
-            return Intent(ctx, AppRootActivity::class.java)
+            return Intent(ctx, ConventionListActivity::class.java)
         }
     }
 }

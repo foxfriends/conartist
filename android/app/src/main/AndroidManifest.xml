@@ -26,16 +26,27 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".AppRootActivity" />
+        <activity android:name=".ConventionListActivity" />
         <activity
             android:name=".ConventionModeActivity"
-            android:parentActivityName=".AppRootActivity" />
+            android:parentActivityName=".MetaConventionActivity" />
         <activity
             android:name=".CreateRecordActivity"
             android:parentActivityName=".ConventionModeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.cameldridge.conartist.ConventionModeActivity" />
+        </activity>
+        <activity
+            android:name=".MetaConventionActivity"
+            android:parentActivityName=".ConventionListActivity" />
+        <activity
+            android:name=".CreateExpenseActivity"
+            android:label="@string/title_activity_create_expense"
+            android:parentActivityName=".MetaConventionActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cameldridge.conartist.MetaConventionActivity" />
         </activity>
     </application>
 

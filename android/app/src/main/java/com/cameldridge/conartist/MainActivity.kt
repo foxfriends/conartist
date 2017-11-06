@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                         if(intent != null) {
                             Authorization.set(intent.getStringExtra(LoginActivity.AUTH_TOKEN))
                         }
-                        startActivityForResult(AppRootActivity.newIntent(this), APP)
+                        startActivityForResult(ConventionListActivity.newIntent(this), APP)
                     }
                     else -> finish()
                 }

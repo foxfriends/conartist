@@ -3,7 +3,6 @@
 #       Probably use Apollo, and have to patch jahewson or port ApolloJS for Elm
 
 scalar Date
-scalar Time
 
 type Query {
   user(id: Int): User!
@@ -16,7 +15,7 @@ type User {
   name: String!
   email: String!
   keys: Int!
-  joinDate: Time!
+  joinDate: Date!
   productTypes: [ProductType]!
   products: [ProductInInventory]!
   prices: [PriceRow]!
@@ -59,7 +58,7 @@ type Record {
   id: Int!
   products: [Int]!
   price: Float!
-  time: Time!
+  date: Date!
 }
 
 type Expense {
@@ -67,7 +66,7 @@ type Expense {
   price: Float!
   category: String!
   description: String!
-  time: Time!
+  time:ate!
 }
 
 type FullUserConvention {
@@ -167,7 +166,7 @@ input RecordAdd {
   conId: Int!
   products: [Int]!
   price: Float!
-  time: Time!
+  date: Date!
 }
 input RecordMod {
   recordId: Int!
@@ -183,7 +182,7 @@ input ExpenseAdd {
   price: Float!
   category: String!
   description: String!
-  time: Time!
+  date: Date!
 }
 input ExpenseMod {
   expenseId: Int!

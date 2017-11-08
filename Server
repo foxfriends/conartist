@@ -1,3 +1,2 @@
-echo "Starting!"
 cd server
 target/release/server

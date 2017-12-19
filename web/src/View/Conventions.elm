@@ -10,7 +10,7 @@ import Model.Convention as Convention exposing (Convention, MetaConvention)
 import View.Table exposing (tableHeader, tableRow)
 import View.Fancy as Fancy exposing (ButtonStyle(..), TooltipAlignment(..))
 import View.Attributes exposing (onInteract)
-import View.Convention exposing (dateRange)
+import View.Convention.Util exposing (dateRange)
 
 view : Model -> Html Msg
 view model =

@@ -15,7 +15,7 @@ import View.Inventory
 import View.Dialog
 import View.Pricing
 import View.Conventions
-import View.Convention
+import View.Convention.Convention
 import View.Drawer
 
 view : Model -> Html Msg
@@ -42,5 +42,5 @@ mainView model =
         Inventory state -> View.Inventory.view model state
         Pricing state   -> View.Pricing.view model state
         Conventions     -> View.Conventions.view model
-        Convention con  -> View.Convention.view model con
+        Convention con  -> View.Convention.Convention.view model con
         _               -> div [] [] ]

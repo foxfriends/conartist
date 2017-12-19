@@ -1,7 +1,6 @@
 module View.Convention.Convention exposing (view)
 import Html exposing (Html, div, text, span)
 import Html.Attributes exposing (class, style)
-import Date exposing (Date)
 import Date.Extra as Date
 import Either exposing (Either(..))
 import Dict exposing (Dict)
@@ -20,8 +19,6 @@ import Model.Price as Price
 import Model.ChartSettings as ChartSettings
 import View.Tabs exposing (tabs, TabItem(Tab))
 import View.Table exposing (summarizedTable, basicSortableTable, TableHeader(..))
-import View.Card exposing (card)
-import View.List exposing (defList)
 import View.Fancy as Fancy
 import View.Chart.Inventory
 import View.Chart.Settings as Settings
@@ -30,9 +27,9 @@ import View.Drawer as Drawer
 import Util.Maybe as Maybe
 import Util.Date as Date
 import View.Convention.Summary as Summary
-import View.Convention.Util exposing (dateRange, frequency)
-
--- TODO: split up this module
+import View.Convention.Products as Products
+import View.Convention.Util exposing (dateRange, frequency, errorPage, placeholder, productTypeLabel, productCircle)
+import View.Convention.Sort exposing (..)
 
 view : Model -> ConventionPageState -> Html Msg
 view model page =
@@ -42,48 +39,13 @@ view model page =
           ChangeConventionTab
           []
             [ Tab "Summary" <| Summary.view model con
-            , Tab "Products" <| products model page con
+            , Tab "Products" <| Products.view model page con
             , Tab "Prices" <| prices model page con
             , Tab "Sales" <| sales model page con
             , Tab "Stats" <| stats model page con ]
           page.current_tab)
       Nothing ->
         placeholder "Convention loading..."
-
-products : Model -> ConventionPageState -> Convention -> Html Msg
-products model page con =
-  case asFull con of
-    Nothing -> errorPage
-    Just fc ->
-      basicSortableTable page.product_sort []
-        [ Sortable "Type" typesort SortConProductsTable
-        , Sortable "Name" namesort SortConProductsTable
-        , Sortable "Quantity" quantitysort SortConProductsTable ]
-        productRow <|
-        Join.productsWithTypes model.user.productTypes
-          (if List.isEmpty fc.products then model.user.products else fc.products)
-
-productRow : ProductWithType -> List (Html msg)
-productRow p =
-  let
-    product = Product.normalize p.product
-    productType = ProductType.normalize p.productType
-  in
-    [ productTypeLabel productType
-    , text product.name
-    , text (toString product.quantity) ]
-
-productTypeLabel : FullType -> Html msg
-productTypeLabel { color, name } =
-  div [ class "convention__product-type"]
-    [ productCircle color name
-    , text name ]
-
-productCircle : Int -> String -> Html msg
-productCircle color name =
-  Fancy.letterCircle
-    (String.cons '#' <| String.padLeft 6 '0' <| Hex.toString color)
-    (String.left 1 name)
 
 prices : Model -> ConventionPageState -> Convention -> Html Msg
 prices model page con =
@@ -226,54 +188,6 @@ inventoryChart hovering settings fc =
             , [ toFloat quantity
               , toFloat (max 0 <| quantity - (Dict.get id soldQuantity |> Maybe.withDefault 0)) ])))
 
-errorPage : Html msg
-errorPage = placeholder "It seems something has gone wrong. Maybe you should reload."
-
-placeholder : String -> Html msg
-placeholder str = div [ class "convention__placeholder" ] [ text str ]
-
 -- Lots of dumb sort functions
 -- Many are repeated in the other view files
 -- TODO: make these standardized somewhere, or improve the syntax of sort tables
-
-typesort : ProductWithType -> ProductWithType -> Order
-typesort a b = compare (ProductType.normalize a.productType).name (ProductType.normalize b.productType).name
-
-namesort : ProductWithType -> ProductWithType -> Order
-namesort a b = compare (Product.normalize a.product).name (Product.normalize a.product).name
-
-maybetypesort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
-maybetypesort a b =
-  let extract = Maybe.map (ProductType.normalize >> .name) >> Maybe.withDefault "" in
-    compare
-      (extract a.productType)
-      (extract b.productType)
-
-maybeproductsort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
-maybeproductsort a b =
-  let extract = Maybe.map (Product.normalize >> .name) >> Maybe.withDefault "" in
-    compare
-      (extract a.product)
-      (extract b.product)
-
-quantitysort : ProductWithType -> ProductWithType -> Order
-quantitysort a b = compare (Product.normalize a.product).quantity (Product.normalize a.product).quantity
-
-pquantitysort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
-pquantitysort a b =
-  let extract = Price.normalize >> Maybe.map .quantity >> Maybe.withDefault 0 in
-    compare (extract a.price) (extract b.price)
-
-rquantitysort : RecordWithTypedProduct -> RecordWithTypedProduct -> Order
-rquantitysort a b = compare (List.length a.products) (List.length b.products)
-
-pricesort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
-pricesort a b =
-  let extract = Price.normalize >> Maybe.map .price >> Maybe.withDefault 0 in
-    compare (extract a.price) (extract b.price)
-
-rpricesort : RecordWithTypedProduct -> RecordWithTypedProduct -> Order
-rpricesort a b = compare (Price.priceFloat (Left a.price)) (Price.priceFloat (Left b.price))
-
-timesort : RecordWithTypedProduct -> RecordWithTypedProduct -> Order
-timesort a b = Date.compare a.time b.time

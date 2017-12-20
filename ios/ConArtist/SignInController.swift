@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  SignInView.swift
 //  ConArtist
 //
 //  Created by Cameron Eldridge on 2017-10-21.
@@ -8,8 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
+class SignInController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -19,7 +18,5 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
 }
 

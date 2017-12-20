@@ -66,7 +66,7 @@ type Expense {
   price: Float!
   category: String!
   description: String!
-  time:ate!
+  time: Date!
 }
 
 type FullUserConvention {

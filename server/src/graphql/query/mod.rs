@@ -10,7 +10,7 @@ mod user_convention;
 mod user;
 mod pagination;
 
-use chrono::{NaiveDate, Utc};
+use chrono::{DateTime, Utc, FixedOffset};
 use juniper::{FieldResult, FieldError, Value};
 use database::{Database, User, Convention, FullUserConvention};
 use self::pagination::Pagination;
@@ -43,14 +43,14 @@ graphql_object!(Query: Database |&self| {
 
     field convention(
         &executor,
-        date: Option<NaiveDate> as "The earliest day for which to retrieve conventions. Defaults to the current time",
+        date: Option<DateTime<FixedOffset>> as "The earliest day for which to retrieve conventions. Defaults to the current time",
         limit = 5: i32 as "The limit on how many conventions to retrieve",
         page = 0: i32 as "Which page to retrieve from",
         exclude_mine = false: bool as "Set to true to not get conventions the current user is already signed up for",
     ) -> Pagination<Convention> as "Retrieves one page of conventions which start after a given date" {
         executor
             .context()
-            .get_conventions_after(date.unwrap_or(Utc::today().naive_utc()), exclude_mine)
+            .get_conventions_after(date.map(|r| r.naive_utc().date()).unwrap_or(Utc::today().naive_utc()), exclude_mine)
             .map(|cons| (
                 cons.len(),
                 cons.into_iter()

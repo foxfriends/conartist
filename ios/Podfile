@@ -1,0 +1,17 @@
+platform :ios, '10.3'
+
+target 'ConArtist' do
+  use_frameworks!
+
+  # Pods for ConArtist
+  pod 'Apollo', '~> 0.7.0'
+  pod 'Alamofire', '~> 4.5'
+  pod 'PromiseKit', '~> 4.4'
+  pod 'PromiseKit/Alamofire', '~> 4.0'
+  pod 'Gloss', '~> 2.0'
+
+  target 'ConArtistTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+end

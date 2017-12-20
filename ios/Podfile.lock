@@ -1,0 +1,37 @@
+PODS:
+  - Alamofire (4.6.0)
+  - Apollo (0.7.0):
+    - Apollo/Core (= 0.7.0)
+  - Apollo/Core (0.7.0)
+  - Gloss (2.0.0)
+  - PromiseKit (4.5.0):
+    - PromiseKit/Foundation (= 4.5.0)
+    - PromiseKit/QuartzCore (= 4.5.0)
+    - PromiseKit/UIKit (= 4.5.0)
+  - PromiseKit/Alamofire (4.5.0):
+    - Alamofire (~> 4.0)
+    - PromiseKit/CorePromise
+  - PromiseKit/CorePromise (4.5.0)
+  - PromiseKit/Foundation (4.5.0):
+    - PromiseKit/CorePromise
+  - PromiseKit/QuartzCore (4.5.0):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (4.5.0):
+    - PromiseKit/CorePromise
+
+DEPENDENCIES:
+  - Alamofire (~> 4.5)
+  - Apollo (~> 0.7.0)
+  - Gloss (~> 2.0)
+  - PromiseKit (~> 4.4)
+  - PromiseKit/Alamofire (~> 4.0)
+
+SPEC CHECKSUMS:
+  Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
+  Apollo: d6649ac06168660e70c6226c4eadfc0770791ba5
+  Gloss: b67617f327406adfd47adf20172d00680a3a31bd
+  PromiseKit: 9c1d9f6d7b65e3951a90bea7f407c56972be5d8e
+
+PODFILE CHECKSUM: 465ebb679bc949afbb641ce8756d32d82663e080
+
+COCOAPODS: 1.4.0.rc.1

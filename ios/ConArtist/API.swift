@@ -18,11 +18,12 @@ struct API {
             "usr": username,
             "psw": password
         ]
+        print(username, password)
         return Alamofire
             .request(ConArtist.API.SignInURL, method: .post, parameters: parameters, encoding: JSONEncoding.default)
             .responseJSON()
             .then { response -> String in
-                guard let json = (response as? DataResponse<Any>)?.result.value as? JSON else {
+                guard let json = response as? JSON else {
                     fatalError("HTTP Error?")
                     // TODO: proper http error handling
                 }

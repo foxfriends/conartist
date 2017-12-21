@@ -10,8 +10,8 @@ import Apollo
 
 struct ConArtist {
     struct API {
-        static let BaseURL = "http://con--artist.herokuapp.com"
-        static let SignInURL = BaseURL + "/auth"
+        static let BaseURL = "https://con--artist.herokuapp.com"
+        static let SignInURL = BaseURL + "/api/auth"
 
         private static let GraphQLURL = BaseURL + "/api/v2"
         private static var authToken: String? = nil

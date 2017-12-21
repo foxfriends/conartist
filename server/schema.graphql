@@ -2,7 +2,9 @@
 #       GraphQL stuff in the clients.
 #       Probably use Apollo, and have to patch jahewson or port ApolloJS for Elm
 
-scalar Date
+scalar NaiveDate
+scalar DateTimeUtc
+scalar DateTimeFixedOffset
 
 type Query {
   user(id: Int): User!
@@ -15,7 +17,7 @@ type User {
   name: String!
   email: String!
   keys: Int!
-  joinDate: Date!
+  joinDate: DateTimeUtc!
   productTypes: [ProductType]!
   products: [ProductInInventory]!
   prices: [PriceRow]!
@@ -58,7 +60,7 @@ type Record {
   id: Int!
   products: [Int]!
   price: Float!
-  date: Date!
+  time: DateTimeUtc!
 }
 
 type Expense {
@@ -66,7 +68,7 @@ type Expense {
   price: Float!
   category: String!
   description: String!
-  time: Date!
+  time: DateTimeUtc!
 }
 
 type FullUserConvention {
@@ -74,8 +76,8 @@ type FullUserConvention {
   conId: Int!
   code: String!
   name: String!
-  start: Date!
-  end: Date!
+  start: DateTimeUtc!
+  end: DateTimeUtc!
   productTypes: [ProductType]!
   products: [ProductInInventory]!
   condensedPrices: [Price]!
@@ -88,8 +90,8 @@ type Convention {
   id: Int!
   code: String!
   name: String!
-  start: Date!
-  end: Date!
+  start: DateTimeUtc!
+  end: DateTimeUtc!
 }
 
 type ConventionPage {
@@ -166,7 +168,7 @@ input RecordAdd {
   conId: Int!
   products: [Int]!
   price: Float!
-  date: Date!
+  date: DateTimeFixedOffset!
 }
 input RecordMod {
   recordId: Int!
@@ -182,7 +184,7 @@ input ExpenseAdd {
   price: Float!
   category: String!
   description: String!
-  date: Date!
+  date: DateTimeFixedOffset!
 }
 input ExpenseMod {
   expenseId: Int!
@@ -196,19 +198,13 @@ input ExpenseDel {
 
 query User($id: Int) {
   user(id: $id) {
-    id
     name
     email
-    keys
-    productTypes {
-      ...ProductTypeFragment
-    }
-    products {
-      ...ProductFragment
-    }
-    prices {
-      ...PriceRowFragment
-    }
+  }
+}
+
+query UserConventionList($id: Int) {
+  user(id: $id) {
     conventions {
       ...MetaConventionFragment
     }
@@ -221,7 +217,7 @@ query FullConvention($id: Int, $code: String!) {
   }
 }
 
-query ConventionPage($date: Date, $limit: Int, $page: int) {
+query ConventionPage($date: DateTimeFixedOffset, $limit: Int, $page: Int) {
   convention(date: $date, limit: $limit, page: $page) {
     page
     pages
@@ -242,7 +238,7 @@ fragment ProductTypeFragment on ProductType {
   discontinued
 }
 
-fragment ProductTypeFragment on ProductInInventory {
+fragment ProductFragment on ProductInInventory {
   id
   name
   quantity
@@ -263,6 +259,21 @@ fragment MetaConventionFragment on FullUserConvention {
   name
   start
   end
+}
+
+fragment RecordFragment on Record {
+  id
+  products
+  price
+  time
+}
+
+fragment ExpenseFragment on Expense {
+  id
+  category
+  description
+  price
+  time
 }
 
 fragment FullConventionFragment on FullUserConvention {

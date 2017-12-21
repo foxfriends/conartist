@@ -198,19 +198,13 @@ input ExpenseDel {
 
 query User($id: Int) {
   user(id: $id) {
-    id
     name
     email
-    keys
-    productTypes {
-      ...ProductTypeFragment
-    }
-    products {
-      ...ProductFragment
-    }
-    prices {
-      ...PriceRowFragment
-    }
+  }
+}
+
+query UserConventionList($id: Int) {
+  user(id: $id) {
     conventions {
       ...MetaConventionFragment
     }

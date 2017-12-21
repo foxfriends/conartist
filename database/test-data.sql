@@ -14,4 +14,7 @@ INSERT INTO Conventions (code, title, start_date, end_date) VALUES
   ('LABXE', 'Creepy Con', DATE '2017-10-13', DATE '2017-10-15'),
   ('MANBI', 'Central Canada Comic Con', DATE '2017-10-27', DATE '2017-10-29'),
   ('HHBAE', 'GTA Comic Con', DATE '2017-11-12', DATE '2017-11-12'),
-  ('PABIE', 'Gatecon', DATE '2018-09-14', DATE '2018-09-16');
+  ('PABIE', 'Gatecon', DATE '2018-09-14', DATE '2018-09-16'),
+  ('BMNEI', 'PAX South', DATE '2018-01-12', DATE '2018-01-14'),
+  ('MNABZ', 'Desucon Frostbite', DATE '2018-01-26', DATE '2018-01-28'),
+  ('HHBZE', 'Mini-Mini Con', DATE '2018-05-05', DATE '2018-05-05');

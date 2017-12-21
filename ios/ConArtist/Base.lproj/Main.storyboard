@@ -74,34 +74,69 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1620" y="-717"/>
+            <point key="canvasLocation" x="820" y="-290"/>
         </scene>
         <!--Convention List Controller-->
-        <scene sceneID="m0u-hb-jx2">
+        <scene sceneID="ezI-KT-Lu0">
             <objects>
-                <viewController id="cCQ-mx-hac" customClass="ConventionListController" customModule="ConArtist" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="qpU-bc-M5t"/>
-                        <viewControllerLayoutGuide type="bottom" id="N3S-p0-ave"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="0ZN-7O-cm5">
+                <tableViewController id="fys-Nl-meB" customClass="ConventionListController" customModule="ConArtist" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="a87-la-fNK">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="tzj-pa-dE5"/>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="ShowSignIn" id="zOw-hO-N2M"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ynq-XB-aXr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ConventionListCell" id="dDW-sc-q46" customClass="ConventionListRow" customModule="ConArtist" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dDW-sc-q46" id="he4-Fx-EBN">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Yj1-QC-UD6">
+                                            <rect key="frame" x="8" y="0.0" width="367" height="43.5"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Con Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n5d-Ur-Zii">
+                                                    <rect key="frame" x="0.0" y="0.0" width="367" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jan. 2, 2018" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xr9-dV-RvP">
+                                                    <rect key="frame" x="0.0" y="20.5" width="367" height="23"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="Xr9-dV-RvP" secondAttribute="bottom" id="3DC-Vq-JHK"/>
+                                                <constraint firstItem="n5d-Ur-Zii" firstAttribute="top" secondItem="Yj1-QC-UD6" secondAttribute="top" id="PUj-VE-OIv"/>
+                                            </constraints>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Yj1-QC-UD6" firstAttribute="top" secondItem="he4-Fx-EBN" secondAttribute="top" id="W4r-nQ-8Hc"/>
+                                        <constraint firstAttribute="bottom" secondItem="Yj1-QC-UD6" secondAttribute="bottom" id="Yka-Uu-IVE"/>
+                                        <constraint firstItem="Yj1-QC-UD6" firstAttribute="leading" secondItem="he4-Fx-EBN" secondAttribute="leading" constant="8" id="n72-wi-6jB"/>
+                                        <constraint firstAttribute="trailing" secondItem="Yj1-QC-UD6" secondAttribute="trailing" id="ogn-wZ-4In"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="fys-Nl-meB" id="VVm-7D-0eG"/>
+                            <outlet property="delegate" destination="fys-Nl-meB" id="HTh-PB-gbs"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kAL-WD-7jL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="839" y="38"/>
+            <point key="canvasLocation" x="820" y="399"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Root Navigation Controller-->
         <scene sceneID="tqd-MD-gZ2">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KlN-Qs-tGG" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KlN-Qs-tGG" customClass="RootNavigationController" customModule="ConArtist" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="gjm-xV-bKv">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -109,7 +144,8 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="cCQ-mx-hac" kind="relationship" relationship="rootViewController" id="Mza-zM-h9b"/>
+                        <segue destination="fys-Nl-meB" kind="showDetail" identifier="ShowConventionList" id="QI2-9P-ydT"/>
+                        <segue destination="BYZ-38-t0r" kind="showDetail" identifier="ShowSignIn" id="MHL-o1-kVK"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AHe-hx-Vww" userLabel="First Responder" sceneMemberID="firstResponder"/>

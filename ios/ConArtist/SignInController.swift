@@ -9,15 +9,15 @@
 import UIKit
 
 class SignInController: ConArtistViewController {
-    @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var signInButton: UIButton!
+    @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
 
     @IBAction func pressSignIn(_ sender: Any) {
         let username = emailTextField.text ?? ""
         let password = passwordTextField.text ?? ""
         // Attempt a log in
-        API .signIn(username: username, password: password)
+        Auth.signIn(username: username, password: password)
             .then { self.dismissReturning(data: $0, animated: true) }
             .catch { print($0) }
     }

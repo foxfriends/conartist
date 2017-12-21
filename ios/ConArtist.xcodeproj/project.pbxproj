@@ -18,9 +18,14 @@
 		324592971FEAFEE000DE89BB /* ConRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592961FEAFEE000DE89BB /* ConRequest.swift */; };
 		3245929A1FEB132600DE89BB /* CAError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592991FEB132600DE89BB /* CAError.swift */; };
 		3245929C1FEB19DA00DE89BB /* GraphQL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3245929B1FEB19DA00DE89BB /* GraphQL.swift */; };
-		324592A01FEB230600DE89BB /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3245929F1FEB230600DE89BB /* API.swift */; };
+		324592A01FEB230600DE89BB /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3245929F1FEB230600DE89BB /* Auth.swift */; };
 		324592A21FEB4B4D00DE89BB /* ConventionListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592A11FEB4B4D00DE89BB /* ConventionListController.swift */; };
 		324592A41FEB5CE000DE89BB /* ConArtistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592A31FEB5CE000DE89BB /* ConArtistViewController.swift */; };
+		324592A61FEB786D00DE89BB /* ConventionListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592A51FEB786D00DE89BB /* ConventionListRow.swift */; };
+		324592A81FEC253100DE89BB /* RootNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592A71FEC253100DE89BB /* RootNavigationController.swift */; };
+		324592AA1FEC2E7900DE89BB /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592A91FEC2E7900DE89BB /* Model.swift */; };
+		324592AC1FEC2EA500DE89BB /* Convention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592AB1FEC2EA500DE89BB /* Convention.swift */; };
+		324592AE1FEC314900DE89BB /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592AD1FEC314900DE89BB /* DateExtensions.swift */; };
 		C2E3ACC3210C151F27F71107 /* Pods_ConArtist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE8B039676510BCEC679764D /* Pods_ConArtist.framework */; };
 		E0D8F8978AA25B5F222E19FB /* Pods_ConArtistTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CA031CB351655A962D7BD65 /* Pods_ConArtistTests.framework */; };
 /* End PBXBuildFile section */
@@ -52,9 +57,14 @@
 		324592961FEAFEE000DE89BB /* ConRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConRequest.swift; sourceTree = "<group>"; };
 		324592991FEB132600DE89BB /* CAError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CAError.swift; sourceTree = "<group>"; };
 		3245929B1FEB19DA00DE89BB /* GraphQL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphQL.swift; sourceTree = "<group>"; };
-		3245929F1FEB230600DE89BB /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		3245929F1FEB230600DE89BB /* Auth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		324592A11FEB4B4D00DE89BB /* ConventionListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConventionListController.swift; sourceTree = "<group>"; };
 		324592A31FEB5CE000DE89BB /* ConArtistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConArtistViewController.swift; sourceTree = "<group>"; };
+		324592A51FEB786D00DE89BB /* ConventionListRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConventionListRow.swift; sourceTree = "<group>"; };
+		324592A71FEC253100DE89BB /* RootNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootNavigationController.swift; sourceTree = "<group>"; };
+		324592A91FEC2E7900DE89BB /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		324592AB1FEC2EA500DE89BB /* Convention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convention.swift; sourceTree = "<group>"; };
+		324592AD1FEC314900DE89BB /* DateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		5C406A08D0DDC415ECB3E29A /* Pods-ConArtistTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConArtistTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ConArtistTests/Pods-ConArtistTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5CA031CB351655A962D7BD65 /* Pods_ConArtistTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ConArtistTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		910953E2D95714FA5C58D57C /* Pods-ConArtist.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConArtist.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ConArtist/Pods-ConArtist.debug.xcconfig"; sourceTree = "<group>"; };
@@ -109,6 +119,7 @@
 				3259871F1FEA488100A7C35C /* Model */,
 				321B75D91F9BAD320055EBC4 /* AppDelegate.swift */,
 				324592941FEAFA6000DE89BB /* ConArtist.swift */,
+				324592AD1FEC314900DE89BB /* DateExtensions.swift */,
 				321B75DD1F9BAD320055EBC4 /* Main.storyboard */,
 				321B75E51F9BAD320055EBC4 /* LaunchScreen.storyboard */,
 				321B75E31F9BAD320055EBC4 /* Assets.xcassets */,
@@ -130,10 +141,12 @@
 		3259871F1FEA488100A7C35C /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				3245929F1FEB230600DE89BB /* API.swift */,
+				3245929F1FEB230600DE89BB /* Auth.swift */,
 				3245929B1FEB19DA00DE89BB /* GraphQL.swift */,
 				324592961FEAFEE000DE89BB /* ConRequest.swift */,
 				324592991FEB132600DE89BB /* CAError.swift */,
+				324592A91FEC2E7900DE89BB /* Model.swift */,
+				324592AB1FEC2EA500DE89BB /* Convention.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -144,6 +157,8 @@
 				321B75DB1F9BAD320055EBC4 /* SignInController.swift */,
 				324592A11FEB4B4D00DE89BB /* ConventionListController.swift */,
 				324592A31FEB5CE000DE89BB /* ConArtistViewController.swift */,
+				324592A51FEB786D00DE89BB /* ConventionListRow.swift */,
+				324592A71FEC253100DE89BB /* RootNavigationController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -404,12 +419,17 @@
 			files = (
 				3245929C1FEB19DA00DE89BB /* GraphQL.swift in Sources */,
 				324592951FEAFA6000DE89BB /* ConArtist.swift in Sources */,
-				324592A01FEB230600DE89BB /* API.swift in Sources */,
+				324592A61FEB786D00DE89BB /* ConventionListRow.swift in Sources */,
+				324592A01FEB230600DE89BB /* Auth.swift in Sources */,
 				321B75DC1F9BAD320055EBC4 /* SignInController.swift in Sources */,
+				324592A81FEC253100DE89BB /* RootNavigationController.swift in Sources */,
+				324592AC1FEC2EA500DE89BB /* Convention.swift in Sources */,
+				324592AA1FEC2E7900DE89BB /* Model.swift in Sources */,
 				324592A41FEB5CE000DE89BB /* ConArtistViewController.swift in Sources */,
 				324592971FEAFEE000DE89BB /* ConRequest.swift in Sources */,
 				321B75DA1F9BAD320055EBC4 /* AppDelegate.swift in Sources */,
 				321B75E21F9BAD320055EBC4 /* ConArtist.xcdatamodeld in Sources */,
+				324592AE1FEC314900DE89BB /* DateExtensions.swift in Sources */,
 				3245929A1FEB132600DE89BB /* CAError.swift in Sources */,
 				324592A21FEB4B4D00DE89BB /* ConventionListController.swift in Sources */,
 			);

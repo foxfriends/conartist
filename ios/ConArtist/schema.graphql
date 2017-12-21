@@ -200,11 +200,6 @@ query User($id: Int) {
   user(id: $id) {
     name
     email
-  }
-}
-
-query UserConventionList($id: Int) {
-  user(id: $id) {
     conventions {
       ...MetaConventionFragment
     }

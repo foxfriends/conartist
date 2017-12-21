@@ -41,4 +41,6 @@ struct ConArtist {
     struct Keys {
         static let AuthToken = "AuthToken"
     }
+    
+    static var Model: Model? = nil
 }

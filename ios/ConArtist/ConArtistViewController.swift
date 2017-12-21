@@ -14,6 +14,10 @@ class ConArtistViewController: UIViewController {
     private var onTargetReturnFromSegue: ((Any?) -> Void)? = nil
     private var returnValue: Any? = nil
 
+    func setCompletionCallback(to cb: @escaping (Any?) -> Void) {
+        self.onSelfReturnFromSegue = cb
+    }
+    
     /// Performs a segue as usual, but sets up a handler for when the target view controller calls its
     /// corresponding `dismissReturning` method. This requires that both this VC and the target VC are
     /// subclasses of `ConArtistViewController`

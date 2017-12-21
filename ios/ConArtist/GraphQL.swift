@@ -4,97 +4,7 @@ import Apollo
 
 public final class UserQuery: GraphQLQuery {
   public static let operationString =
-    "query User($id: Int) {\n  user(id: $id) {\n    __typename\n    name\n    email\n  }\n}"
-
-  public var id: Int?
-
-  public init(id: Int? = nil) {
-    self.id = id
-  }
-
-  public var variables: GraphQLMap? {
-    return ["id": id]
-  }
-
-  public struct Data: GraphQLSelectionSet {
-    public static let possibleTypes = ["Query"]
-
-    public static let selections: [GraphQLSelection] = [
-      GraphQLField("user", arguments: ["id": GraphQLVariable("id")], type: .nonNull(.object(User.selections))),
-    ]
-
-    public var snapshot: Snapshot
-
-    public init(snapshot: Snapshot) {
-      self.snapshot = snapshot
-    }
-
-    public init(user: User) {
-      self.init(snapshot: ["__typename": "Query", "user": user.snapshot])
-    }
-
-    /// Retrieves one user, corresponding to the provided ID
-    public var user: User {
-      get {
-        return User(snapshot: snapshot["user"]! as! Snapshot)
-      }
-      set {
-        snapshot.updateValue(newValue.snapshot, forKey: "user")
-      }
-    }
-
-    public struct User: GraphQLSelectionSet {
-      public static let possibleTypes = ["User"]
-
-      public static let selections: [GraphQLSelection] = [
-        GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-        GraphQLField("name", type: .nonNull(.scalar(String.self))),
-        GraphQLField("email", type: .nonNull(.scalar(String.self))),
-      ]
-
-      public var snapshot: Snapshot
-
-      public init(snapshot: Snapshot) {
-        self.snapshot = snapshot
-      }
-
-      public init(name: String, email: String) {
-        self.init(snapshot: ["__typename": "User", "name": name, "email": email])
-      }
-
-      public var __typename: String {
-        get {
-          return snapshot["__typename"]! as! String
-        }
-        set {
-          snapshot.updateValue(newValue, forKey: "__typename")
-        }
-      }
-
-      public var name: String {
-        get {
-          return snapshot["name"]! as! String
-        }
-        set {
-          snapshot.updateValue(newValue, forKey: "name")
-        }
-      }
-
-      public var email: String {
-        get {
-          return snapshot["email"]! as! String
-        }
-        set {
-          snapshot.updateValue(newValue, forKey: "email")
-        }
-      }
-    }
-  }
-}
-
-public final class UserConventionListQuery: GraphQLQuery {
-  public static let operationString =
-    "query UserConventionList($id: Int) {\n  user(id: $id) {\n    __typename\n    conventions {\n      __typename\n      ...MetaConventionFragment\n    }\n  }\n}"
+    "query User($id: Int) {\n  user(id: $id) {\n    __typename\n    name\n    email\n    conventions {\n      __typename\n      ...MetaConventionFragment\n    }\n  }\n}"
 
   public static var requestString: String { return operationString.appending(MetaConventionFragment.fragmentString) }
 
@@ -140,6 +50,8 @@ public final class UserConventionListQuery: GraphQLQuery {
 
       public static let selections: [GraphQLSelection] = [
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+        GraphQLField("name", type: .nonNull(.scalar(String.self))),
+        GraphQLField("email", type: .nonNull(.scalar(String.self))),
         GraphQLField("conventions", type: .nonNull(.list(.nonNull(.object(Convention.selections))))),
       ]
 
@@ -149,8 +61,8 @@ public final class UserConventionListQuery: GraphQLQuery {
         self.snapshot = snapshot
       }
 
-      public init(conventions: [Convention]) {
-        self.init(snapshot: ["__typename": "User", "conventions": conventions.map { $0.snapshot }])
+      public init(name: String, email: String, conventions: [Convention]) {
+        self.init(snapshot: ["__typename": "User", "name": name, "email": email, "conventions": conventions.map { $0.snapshot }])
       }
 
       public var __typename: String {
@@ -159,6 +71,24 @@ public final class UserConventionListQuery: GraphQLQuery {
         }
         set {
           snapshot.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var name: String {
+        get {
+          return snapshot["name"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "name")
+        }
+      }
+
+      public var email: String {
+        get {
+          return snapshot["email"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "email")
         }
       }
 

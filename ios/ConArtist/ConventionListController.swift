@@ -7,26 +7,45 @@
 //
 
 import Strongbox
+import Foundation
 
-class ConventionListController: ConArtistViewController {
-    var user: UserQuery.Data.User?
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        ensureSignedIn()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+class ConventionListController: UITableViewController {
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
     }
     
-    func ensureSignedIn() {
-        if ConArtist.API.AuthToken == ConArtist.API.Unauthorized {
-            performSegueForReturnValue(withIdentifier: "ShowSignIn", sender: self) { self.user = $0 as? UserQuery.Data.User }
-        } else {
-            API.reauthorize().then { self.user = $0 }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case 0:
+            return ConArtist.Model?.cons(before: Date.today()).count ?? 0
+        case 1:
+            return ConArtist.Model?.cons(during: Date.today()).count ?? 0
+        case 2:
+            return ConArtist.Model?.cons(after: Date.today()).count ?? 0
+        default:
+            return 0
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ConventionListCell", for: indexPath) as! ConventionListRow
+        
+        var item: Convention? = nil
+        switch indexPath.section {
+        case 0:
+            item = ConArtist.Model?.cons(before: Date.today())[indexPath.item]
+        case 1:
+            item = ConArtist.Model?.cons(during: Date.today())[indexPath.item]
+        case 2:
+            item = ConArtist.Model?.cons(after: Date.today())[indexPath.item]
+        default:
+            break
+        }
+        
+        cell.conTitle?.text = item?.name
+        cell.conDate?.text = "Test date"
+        
+        return cell
     }
 }
 

@@ -1,5 +1,5 @@
 //
-//  API.swift
+//  Auth.swift
 //  ConArtist
 //
 //  Created by Cameron Eldridge on 2017-12-20.
@@ -10,7 +10,7 @@ import PromiseKit
 import Alamofire
 import Gloss
 
-struct API {
+struct Auth {
     /// Signs in with the provided account info, then retrieves the basic user data
     static func signIn(username: String, password: String) -> Promise<UserQuery.Data.User> {
         let parameters = [

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RootNavigationController: UINavigationController {
+class RootNavigationController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.ensureSignedIn()
@@ -19,31 +19,4 @@ class RootNavigationController: UINavigationController {
         // Dispose of any resources that can be recreated.
     }
 
-    func ensureSignedIn() {
-        if ConArtist.API.AuthToken == ConArtist.API.Unauthorized {
-            self.performSegue(withIdentifier: SegueIdentifier.ShowSignIn.rawValue, sender: self)
-        } else {
-            Auth.reauthorize().then(execute: self.setUserAndContinue)
-        }
-    }
-    
-    func setUserAndContinue(_ user: UserQuery.Data.User?) {
-        ConArtist.Model = Model.from(graphQL: user)
-        if ConArtist.Model != nil {
-            self.performSegue(withIdentifier: SegueIdentifier.ShowConventionList.rawValue, sender: self)
-        }
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier ?? "" {
-        case SegueIdentifier.ShowSignIn.rawValue:
-            (segue.destination as? ConArtistViewController)?
-                .setCompletionCallback { self.setUserAndContinue($0 as? UserQuery.Data.User) }
-        default: break
-        }
-    }
-    
-    private enum SegueIdentifier: String {
-        case ShowSignIn, ShowConventionList
-    }
 }

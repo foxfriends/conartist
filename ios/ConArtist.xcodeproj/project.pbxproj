@@ -22,7 +22,6 @@
 		324592A21FEB4B4D00DE89BB /* ConventionListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592A11FEB4B4D00DE89BB /* ConventionListController.swift */; };
 		324592A41FEB5CE000DE89BB /* ConArtistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592A31FEB5CE000DE89BB /* ConArtistViewController.swift */; };
 		324592A61FEB786D00DE89BB /* ConventionListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592A51FEB786D00DE89BB /* ConventionListRow.swift */; };
-		324592A81FEC253100DE89BB /* RootNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592A71FEC253100DE89BB /* RootNavigationController.swift */; };
 		324592AA1FEC2E7900DE89BB /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592A91FEC2E7900DE89BB /* Model.swift */; };
 		324592AC1FEC2EA500DE89BB /* Convention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592AB1FEC2EA500DE89BB /* Convention.swift */; };
 		324592AE1FEC314900DE89BB /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592AD1FEC314900DE89BB /* DateExtensions.swift */; };
@@ -61,7 +60,6 @@
 		324592A11FEB4B4D00DE89BB /* ConventionListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConventionListController.swift; sourceTree = "<group>"; };
 		324592A31FEB5CE000DE89BB /* ConArtistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConArtistViewController.swift; sourceTree = "<group>"; };
 		324592A51FEB786D00DE89BB /* ConventionListRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConventionListRow.swift; sourceTree = "<group>"; };
-		324592A71FEC253100DE89BB /* RootNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootNavigationController.swift; sourceTree = "<group>"; };
 		324592A91FEC2E7900DE89BB /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		324592AB1FEC2EA500DE89BB /* Convention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convention.swift; sourceTree = "<group>"; };
 		324592AD1FEC314900DE89BB /* DateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
@@ -158,7 +156,6 @@
 				324592A11FEB4B4D00DE89BB /* ConventionListController.swift */,
 				324592A31FEB5CE000DE89BB /* ConArtistViewController.swift */,
 				324592A51FEB786D00DE89BB /* ConventionListRow.swift */,
-				324592A71FEC253100DE89BB /* RootNavigationController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -422,7 +419,6 @@
 				324592A61FEB786D00DE89BB /* ConventionListRow.swift in Sources */,
 				324592A01FEB230600DE89BB /* Auth.swift in Sources */,
 				321B75DC1F9BAD320055EBC4 /* SignInController.swift in Sources */,
-				324592A81FEC253100DE89BB /* RootNavigationController.swift in Sources */,
 				324592AC1FEC2EA500DE89BB /* Convention.swift in Sources */,
 				324592AA1FEC2E7900DE89BB /* Model.swift in Sources */,
 				324592A41FEB5CE000DE89BB /* ConArtistViewController.swift in Sources */,

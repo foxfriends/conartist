@@ -74,9 +74,9 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="820" y="-290"/>
+            <point key="canvasLocation" x="1370" y="-259"/>
         </scene>
-        <!--Convention List Controller-->
+        <!--Conventions-->
         <scene sceneID="ezI-KT-Lu0">
             <objects>
                 <tableViewController id="fys-Nl-meB" customClass="ConventionListController" customModule="ConArtist" customModuleProvider="target" sceneMemberID="viewController">
@@ -85,24 +85,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ConventionListCell" id="dDW-sc-q46" customClass="ConventionListRow" customModule="ConArtist" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ConventionListCell" id="dDW-sc-q46" customClass="ConventionListRow" customModule="ConArtist" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dDW-sc-q46" id="he4-Fx-EBN">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Yj1-QC-UD6">
-                                            <rect key="frame" x="8" y="0.0" width="367" height="43.5"/>
+                                            <rect key="frame" x="8" y="0.0" width="334" height="43.5"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Con Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n5d-Ur-Zii">
-                                                    <rect key="frame" x="0.0" y="0.0" width="367" height="20.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="334" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jan. 2, 2018" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xr9-dV-RvP">
-                                                    <rect key="frame" x="0.0" y="20.5" width="367" height="23"/>
+                                                    <rect key="frame" x="0.0" y="20.5" width="334" height="23"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -121,6 +121,10 @@
                                         <constraint firstAttribute="trailing" secondItem="Yj1-QC-UD6" secondAttribute="trailing" id="ogn-wZ-4In"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="titleLabel" destination="n5d-Ur-Zii" id="j38-dx-fXR"/>
+                                    <outlet property="dateLabel" destination="Xr9-dV-RvP" id="4ia-Z6-bKr"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -128,15 +132,20 @@
                             <outlet property="delegate" destination="fys-Nl-meB" id="HTh-PB-gbs"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Conventions" id="1p2-hb-CTv"/>
+                    <connections>
+                        <outlet property="tableView" destination="a87-la-fNK" id="Uxt-ZH-ULQ"/>
+                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="ShowSignIn" id="oLP-x7-cN6"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kAL-WD-7jL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="820" y="399"/>
+            <point key="canvasLocation" x="583" y="399"/>
         </scene>
-        <!--Root Navigation Controller-->
+        <!--Navigation Controller-->
         <scene sceneID="tqd-MD-gZ2">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KlN-Qs-tGG" customClass="RootNavigationController" customModule="ConArtist" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KlN-Qs-tGG" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="gjm-xV-bKv">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -144,13 +153,12 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="fys-Nl-meB" kind="showDetail" identifier="ShowConventionList" id="QI2-9P-ydT"/>
-                        <segue destination="BYZ-38-t0r" kind="showDetail" identifier="ShowSignIn" id="MHL-o1-kVK"/>
+                        <segue destination="fys-Nl-meB" kind="relationship" relationship="rootViewController" id="uQR-6H-XYx"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AHe-hx-Vww" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="32.799999999999997" y="38.23088455772114"/>
+            <point key="canvasLocation" x="-220" y="399"/>
         </scene>
     </scenes>
 </document>

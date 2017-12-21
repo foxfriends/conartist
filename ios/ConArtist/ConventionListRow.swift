@@ -9,6 +9,6 @@
 import UIKit
 
 class ConventionListRow: UITableViewCell {
-    @IBOutlet weak var conDate: UILabel!
-    @IBOutlet weak var conTitle: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
 }

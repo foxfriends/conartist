@@ -8,32 +8,18 @@
 
 import UIKit
 
-class SignInController: UIViewController {
+class SignInController: ConArtistViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var passwordTextField: UITextField!
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 
     @IBAction func pressSignIn(_ sender: Any) {
         let username = emailTextField.text ?? ""
         let password = passwordTextField.text ?? ""
         // Attempt a log in
-        API.signIn(username: username, password: password)
-            .then { user -> Void in
-                debugPrint(user)
-            }
-            .catch { error in
-                print(error)
-            }
+        API .signIn(username: username, password: password)
+            .then { self.dismissReturning(data: $0, animated: true) }
+            .catch { print($0) }
     }
 }
 

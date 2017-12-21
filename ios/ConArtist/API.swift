@@ -11,40 +11,60 @@ import Alamofire
 import Gloss
 
 struct API {
-    /// Creates a new `User` by first signing in with the provided account info,
-    /// then retrieving the basic user data.
+    /// Signs in with the provided account info, then retrieves the basic user data
     static func signIn(username: String, password: String) -> Promise<UserQuery.Data.User> {
         let parameters = [
             "usr": username,
             "psw": password
         ]
-        print(username, password)
         return Alamofire
             .request(ConArtist.API.SignInURL, method: .post, parameters: parameters, encoding: JSONEncoding.default)
             .responseJSON()
-            .then { response -> String in
-                guard let json = response as? JSON else {
-                    fatalError("HTTP Error?")
-                    // TODO: proper http error handling
+            .then(execute: handleConRequest as ((Any) throws -> String))
+            .then(execute: setAuthToken)
+            .then(execute: loadUser)
+    }
+
+    /// Refreshes the provided authorization token, then retrieves the user data again
+    static func reauthorize() -> Promise<UserQuery.Data.User> {
+        let headers = [
+            "Authorization": "Bearer \(ConArtist.API.AuthToken)"
+        ]
+        return Alamofire
+            .request(ConArtist.API.SignInURL, headers: headers)
+            .responseJSON()
+            .then(execute: handleConRequest as ((Any) throws -> String))
+            .then(execute: setAuthToken)
+            .then(execute: loadUser)
+    }
+    
+    private static func handleConRequest<T>(_ response: Any) throws -> T {
+        guard let json = response as? JSON else {
+            fatalError("HTTP Error?")
+            // TODO: proper http error handling
+        }
+        switch ConRequest<T>.init(json: json)! {
+        case .success(data: let data):
+            return data
+        case .failure(error: let error):
+            throw CAError(msg: error)
+        }
+    }
+    
+    private static func setAuthToken(_ authToken: String) -> Void {
+        ConArtist.API.AuthToken = authToken
+    }
+    
+    private static func loadUser(_ _: Void) throws -> Promise<UserQuery.Data.User> {
+        return Promise.init(resolvers: { (resolve, reject) in
+            ConArtist.API.GraphQL.fetch(query: UserQuery(id: nil)) { (result, error) in
+                guard let data = result?.data else {
+                    reject(error!)
+                    return
                 }
-                switch ConRequest<String>.init(json: json)! {
-                case .success(data: let data):
-                    return data
-                case .failure(error: let error):
-                    throw CAError(msg: error)
-                }
+                resolve(data.user)
             }
-            .then { authToken -> Promise<UserQuery.Data.User> in
-                ConArtist.API.AuthToken = authToken
-                return Promise.init(resolvers: { (resolve, reject) in
-                    ConArtist.API.GraphQL.fetch(query: UserQuery(id: nil)) { (result, error) in
-                        guard let data = result?.data else {
-                            reject(error!)
-                            return
-                        }
-                        resolve(data.user)
-                    }
-                })
-            }
+        })
+
     }
 }

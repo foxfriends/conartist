@@ -18,6 +18,7 @@ PODS:
     - PromiseKit/CorePromise
   - PromiseKit/UIKit (4.5.0):
     - PromiseKit/CorePromise
+  - Strongbox (0.4.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.5)
@@ -25,13 +26,15 @@ DEPENDENCIES:
   - Gloss (~> 2.0)
   - PromiseKit (~> 4.4)
   - PromiseKit/Alamofire (~> 4.0)
+  - Strongbox
 
 SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
   Apollo: d6649ac06168660e70c6226c4eadfc0770791ba5
   Gloss: b67617f327406adfd47adf20172d00680a3a31bd
   PromiseKit: 9c1d9f6d7b65e3951a90bea7f407c56972be5d8e
+  Strongbox: d7386b85bd4f50ea9da5154919ad998989fceb2f
 
-PODFILE CHECKSUM: 465ebb679bc949afbb641ce8756d32d82663e080
+PODFILE CHECKSUM: 605600c53a1f2bc5d21f580657faad25bf3360e9
 
 COCOAPODS: 1.4.0.rc.1

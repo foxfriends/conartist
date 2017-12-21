@@ -4,3 +4,6 @@
 
 # not actually generated but hey its not really code either
 *.config.js linguist-generated=true
+
+# Apollo codegen files
+GraphQL.swift linguist-generated=true

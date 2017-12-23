@@ -33,6 +33,7 @@ type ProductType {
 
 type ProductInInventory {
   id: Int!
+  typeId: Int!
   name: String!
   quantity: Int!
   discontinued: Boolean!
@@ -235,6 +236,7 @@ fragment ProductTypeFragment on ProductType {
 
 fragment ProductFragment on ProductInInventory {
   id
+  typeId
   name
   quantity
   discontinued

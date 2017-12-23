@@ -415,6 +415,7 @@ public final class FullConventionQuery: GraphQLQuery {
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("id", type: .nonNull(.scalar(Int.self))),
+          GraphQLField("typeId", type: .nonNull(.scalar(Int.self))),
           GraphQLField("name", type: .nonNull(.scalar(String.self))),
           GraphQLField("quantity", type: .nonNull(.scalar(Int.self))),
           GraphQLField("discontinued", type: .nonNull(.scalar(Bool.self))),
@@ -426,8 +427,8 @@ public final class FullConventionQuery: GraphQLQuery {
           self.snapshot = snapshot
         }
 
-        public init(id: Int, name: String, quantity: Int, discontinued: Bool) {
-          self.init(snapshot: ["__typename": "ProductInInventory", "id": id, "name": name, "quantity": quantity, "discontinued": discontinued])
+        public init(id: Int, typeId: Int, name: String, quantity: Int, discontinued: Bool) {
+          self.init(snapshot: ["__typename": "ProductInInventory", "id": id, "typeId": typeId, "name": name, "quantity": quantity, "discontinued": discontinued])
         }
 
         public var __typename: String {
@@ -445,6 +446,15 @@ public final class FullConventionQuery: GraphQLQuery {
           }
           set {
             snapshot.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var typeId: Int {
+          get {
+            return snapshot["typeId"]! as! Int
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "typeId")
           }
         }
 
@@ -1134,13 +1144,14 @@ public struct ProductTypeFragment: GraphQLFragment {
 
 public struct ProductFragment: GraphQLFragment {
   public static let fragmentString =
-    "fragment ProductFragment on ProductInInventory {\n  __typename\n  id\n  name\n  quantity\n  discontinued\n}"
+    "fragment ProductFragment on ProductInInventory {\n  __typename\n  id\n  typeId\n  name\n  quantity\n  discontinued\n}"
 
   public static let possibleTypes = ["ProductInInventory"]
 
   public static let selections: [GraphQLSelection] = [
     GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
     GraphQLField("id", type: .nonNull(.scalar(Int.self))),
+    GraphQLField("typeId", type: .nonNull(.scalar(Int.self))),
     GraphQLField("name", type: .nonNull(.scalar(String.self))),
     GraphQLField("quantity", type: .nonNull(.scalar(Int.self))),
     GraphQLField("discontinued", type: .nonNull(.scalar(Bool.self))),
@@ -1152,8 +1163,8 @@ public struct ProductFragment: GraphQLFragment {
     self.snapshot = snapshot
   }
 
-  public init(id: Int, name: String, quantity: Int, discontinued: Bool) {
-    self.init(snapshot: ["__typename": "ProductInInventory", "id": id, "name": name, "quantity": quantity, "discontinued": discontinued])
+  public init(id: Int, typeId: Int, name: String, quantity: Int, discontinued: Bool) {
+    self.init(snapshot: ["__typename": "ProductInInventory", "id": id, "typeId": typeId, "name": name, "quantity": quantity, "discontinued": discontinued])
   }
 
   public var __typename: String {
@@ -1171,6 +1182,15 @@ public struct ProductFragment: GraphQLFragment {
     }
     set {
       snapshot.updateValue(newValue, forKey: "id")
+    }
+  }
+
+  public var typeId: Int {
+    get {
+      return snapshot["typeId"]! as! Int
+    }
+    set {
+      snapshot.updateValue(newValue, forKey: "typeId")
     }
   }
 
@@ -1671,6 +1691,7 @@ public struct FullConventionFragment: GraphQLFragment {
       GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
       GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
       GraphQLField("id", type: .nonNull(.scalar(Int.self))),
+      GraphQLField("typeId", type: .nonNull(.scalar(Int.self))),
       GraphQLField("name", type: .nonNull(.scalar(String.self))),
       GraphQLField("quantity", type: .nonNull(.scalar(Int.self))),
       GraphQLField("discontinued", type: .nonNull(.scalar(Bool.self))),
@@ -1682,8 +1703,8 @@ public struct FullConventionFragment: GraphQLFragment {
       self.snapshot = snapshot
     }
 
-    public init(id: Int, name: String, quantity: Int, discontinued: Bool) {
-      self.init(snapshot: ["__typename": "ProductInInventory", "id": id, "name": name, "quantity": quantity, "discontinued": discontinued])
+    public init(id: Int, typeId: Int, name: String, quantity: Int, discontinued: Bool) {
+      self.init(snapshot: ["__typename": "ProductInInventory", "id": id, "typeId": typeId, "name": name, "quantity": quantity, "discontinued": discontinued])
     }
 
     public var __typename: String {
@@ -1701,6 +1722,15 @@ public struct FullConventionFragment: GraphQLFragment {
       }
       set {
         snapshot.updateValue(newValue, forKey: "id")
+      }
+    }
+
+    public var typeId: Int {
+      get {
+        return snapshot["typeId"]! as! Int
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "typeId")
       }
     }
 

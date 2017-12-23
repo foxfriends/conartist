@@ -188,13 +188,13 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="APE-QE-qXz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2206" y="735"/>
+            <point key="canvasLocation" x="2174" y="399"/>
         </scene>
         <!--Sell-->
         <scene sceneID="g4G-IJ-tJz">
             <objects>
                 <tableViewController title="Sell" id="ole-O4-8sN" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="EVH-lf-4cr">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="EVH-lf-4cr" customClass="ProductTypeListController">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -217,7 +217,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eDM-Cp-pJl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2206" y="85"/>
+            <point key="canvasLocation" x="2174" y="-260"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="tqd-MD-gZ2">

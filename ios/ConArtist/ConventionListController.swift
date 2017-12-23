@@ -127,7 +127,7 @@ class ConventionListController: UITableViewController {
         else {
             return
         }
-        ConArtist.focusedConvention = con
+        con.fill().then { ConArtist.focusedConvention = $0 }
         performSegue(withIdentifier: SegueIdentifier.ShowConventionDetails.rawValue, sender: self)
     }
 }

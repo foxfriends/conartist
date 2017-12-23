@@ -7,11 +7,13 @@
 //
 
 import Foundation
+import PromiseKit
 
 struct Model {
     let name: String
     let email: String
-    let conventions: [Convention]
+    var conventions: [Convention]
+
     
     static func from(graphQL maybeUser: UserQuery.Data.User?) -> Model? {
         guard let user = maybeUser else { return nil }
@@ -30,5 +32,12 @@ struct Model {
     }
     func cons(after date: Date) -> [Convention] {
         return conventions.filter { $0.start > date }
+    }
+    
+    mutating func update(convention con: Convention) {
+        guard let index = (self.conventions.index { $0.id == con.id }) else {
+            return
+        }
+        self.conventions[index] = con
     }
 }

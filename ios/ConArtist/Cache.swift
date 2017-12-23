@@ -14,11 +14,16 @@ class Cache<T> {
         self.calculation = calc
     }
     
-    func get() -> T {
-        if cached == nil {
-            cached = calculation()
+    var value: T {
+        get {
+            if cached == nil {
+                cached = calculation()
+            }
+            return cached!
         }
-        return cached!
+        set {
+            cached = newValue
+        }
     }
     
     func clear() {

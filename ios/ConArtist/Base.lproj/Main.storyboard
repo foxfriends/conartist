@@ -124,7 +124,7 @@
                                 <connections>
                                     <outlet property="dateLabel" destination="Xr9-dV-RvP" id="4ia-Z6-bKr"/>
                                     <outlet property="titleLabel" destination="n5d-Ur-Zii" id="j38-dx-fXR"/>
-                                    <segue destination="Pl1-1j-CFq" kind="show" trigger="accessoryAction" id="Un2-rr-R7q"/>
+                                    <segue destination="Pl1-1j-CFq" kind="show" identifier="ShowConventionDetails" trigger="accessoryAction" id="Un2-rr-R7q"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

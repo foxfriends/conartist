@@ -18,7 +18,7 @@ class ConventionListController: UITableViewController {
     // MARK: - Navigation
     
     func ensureSignedIn() {
-        if ConArtist.API.AuthToken == ConArtist.API.Unauthorized {
+        if ConArtist.API.authToken == ConArtist.API.Unauthorized {
             performSegue(withIdentifier: SegueIdentifier.ShowSignIn.rawValue, sender: self)
         } else {
             // TODO: store user data and load that before reaching for the server
@@ -43,7 +43,7 @@ class ConventionListController: UITableViewController {
     }
     
     let cachedConventions: Cache<[ConventionTimePeriod: [Convention]]> = Cache {
-        guard let model = ConArtist.Model else {
+        guard let model = ConArtist.model else {
             return [.Past: [], .Present: [], .Future: []]
         }
         return [
@@ -66,7 +66,7 @@ class ConventionListController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard
             let timePeriod = ConventionTimePeriod(rawValue: section),
-            let cons = cachedConventions.get()[timePeriod]
+            let cons = cachedConventions.value[timePeriod]
         else {
             return 0
         }
@@ -100,7 +100,7 @@ class ConventionListController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         guard
             let timePeriod = ConventionTimePeriod(rawValue: section),
-            let cons = cachedConventions.get()[timePeriod]
+            let cons = cachedConventions.value[timePeriod]
         else {
             return 0
         }
@@ -111,7 +111,7 @@ class ConventionListController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ConventionListCell", for: indexPath) as! ConventionListRow
         if
             let timePeriod = ConventionTimePeriod(rawValue: indexPath.section),
-            let item = cachedConventions.get()[timePeriod]?[indexPath.row]
+            let item = cachedConventions.value[timePeriod]?[indexPath.row]
         {
             cell.titleLabel?.text = item.name
             cell.dateLabel?.text = "Test date" // TODO: date range formatting (Mmm. DD, YYYY -- Mmm. DD, YYYY)
@@ -119,5 +119,15 @@ class ConventionListController: UITableViewController {
 
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard
+            let timePeriod = ConventionTimePeriod(rawValue: indexPath.section),
+            let con = cachedConventions.value[timePeriod]?[indexPath.row]
+        else {
+            return
+        }
+        ConArtist.focusedConvention = con
+        performSegue(withIdentifier: SegueIdentifier.ShowConventionDetails.rawValue, sender: self)
+    }
 }
-

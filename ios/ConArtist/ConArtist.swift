@@ -16,18 +16,18 @@ struct ConArtist {
 
         static let Unauthorized = "Unauthorized"
         private static let GraphQLURL = BaseURL + "/api/v2"
-        private static var authToken: String? = Strongbox().unarchive(objectForKey: Keys.AuthToken) as? String
-        static var AuthToken: String {
-            get { return authToken ?? Unauthorized }
+        private static var _authToken: String? = Strongbox().unarchive(objectForKey: Keys.AuthToken) as? String
+        static var authToken: String {
+            get { return _authToken ?? Unauthorized }
             set {
-                authToken = newValue
+                _authToken = newValue
                 if !Strongbox().archive(authToken, key: Keys.AuthToken) {
                     print("Archival of authToken has failed. User will need to sign in again later")
                 }
                 let config = URLSessionConfiguration.default
-                config.httpAdditionalHeaders = ["Authorization": "Bearer \(AuthToken)"]
+                config.httpAdditionalHeaders = ["Authorization": "Bearer \(authToken)"]
 
-                GraphQL = ApolloClient(
+                _GraphQL = ApolloClient(
                     networkTransport: HTTPNetworkTransport(
                         url: URL(string: ConArtist.API.GraphQLURL)!,
                         configuration: config
@@ -35,12 +35,14 @@ struct ConArtist {
                 )
             }
         }
-        static var GraphQL = ApolloClient(url: URL(string: ConArtist.API.GraphQLURL)!)
+        static private var _GraphQL = ApolloClient(url: URL(string: ConArtist.API.GraphQLURL)!)
+        static var GraphQL: ApolloClient { get { return _GraphQL } }
     }
     
     struct Keys {
         static let AuthToken = "AuthToken"
     }
     
-    static var Model: Model? = nil
+    static var model: Model? = nil
+    static var focusedConvention: Convention? = nil
 }

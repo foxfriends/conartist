@@ -29,7 +29,7 @@ struct Auth {
     /// Refreshes the provided authorization token, then retrieves the user data again
     static func reauthorize() -> Promise<Void> {
         let headers = [
-            "Authorization": "Bearer \(ConArtist.API.AuthToken)"
+            "Authorization": "Bearer \(ConArtist.API.authToken)"
         ]
         return Alamofire
             .request(ConArtist.API.SignInURL, headers: headers)
@@ -54,7 +54,7 @@ struct Auth {
     }
     
     private static func setAuthToken(_ authToken: String) -> Void {
-        ConArtist.API.AuthToken = authToken
+        ConArtist.API.authToken = authToken
     }
     
     private static func loadUser(_ _: Void) throws -> Promise<UserQuery.Data.User> {
@@ -70,6 +70,6 @@ struct Auth {
     }
     
     private static func storeUser(_ user: UserQuery.Data.User) -> Void {
-        ConArtist.Model = Model.from(graphQL: user)
+        ConArtist.model = Model.from(graphQL: user)
     }
 }

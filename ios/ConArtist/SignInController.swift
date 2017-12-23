@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SignInController: ConArtistViewController {
+class SignInController: UIViewController {
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -18,7 +18,7 @@ class SignInController: ConArtistViewController {
         let password = passwordTextField.text ?? ""
         // Attempt a log in
         Auth.signIn(username: username, password: password)
-            .then { self.dismissReturning(data: $0, animated: true) }
+            .then { self.dismiss(animated: true) }
             .catch { print($0) }
     }
 }

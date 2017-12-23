@@ -22,7 +22,7 @@ struct ConArtist {
             set {
                 authToken = newValue
                 if !Strongbox().archive(authToken, key: Keys.AuthToken) {
-                    print("Archival of authToken has failed. User will need to sign in manually again later")
+                    print("Archival of authToken has failed. User will need to sign in again later")
                 }
                 let config = URLSessionConfiguration.default
                 config.httpAdditionalHeaders = ["Authorization": "Bearer \(AuthToken)"]

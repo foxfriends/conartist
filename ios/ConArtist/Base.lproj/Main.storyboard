@@ -122,8 +122,9 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="titleLabel" destination="n5d-Ur-Zii" id="j38-dx-fXR"/>
                                     <outlet property="dateLabel" destination="Xr9-dV-RvP" id="4ia-Z6-bKr"/>
+                                    <outlet property="titleLabel" destination="n5d-Ur-Zii" id="j38-dx-fXR"/>
+                                    <segue destination="Pl1-1j-CFq" kind="show" trigger="accessoryAction" id="Un2-rr-R7q"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -141,6 +142,82 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kAL-WD-7jL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="583" y="399"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="jsf-JC-Nff">
+            <objects>
+                <tabBarController id="Pl1-1j-CFq" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="NvI-SA-x4Z">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="ole-O4-8sN" kind="relationship" relationship="viewControllers" id="Nz9-xa-f0j"/>
+                        <segue destination="aWH-2Y-wga" kind="relationship" relationship="viewControllers" id="5kf-Ih-v6Y"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fs5-hF-CYd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1369" y="399"/>
+        </scene>
+        <!--Records-->
+        <scene sceneID="4eB-YH-Yo4">
+            <objects>
+                <tableViewController title="Records" id="aWH-2Y-wga" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Gxj-Xz-EEx">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="SVy-p2-X51">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SVy-p2-X51" id="Mfd-UV-2Le">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="aWH-2Y-wga" id="NpF-Cd-yu7"/>
+                            <outlet property="delegate" destination="aWH-2Y-wga" id="VFi-bh-OFR"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="Item" id="VdZ-bt-Dqk"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="APE-QE-qXz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2206" y="735"/>
+        </scene>
+        <!--Sell-->
+        <scene sceneID="g4G-IJ-tJz">
+            <objects>
+                <tableViewController title="Sell" id="ole-O4-8sN" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="EVH-lf-4cr">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="QP7-LA-Kdn">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QP7-LA-Kdn" id="Zuw-ez-6W9">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ole-O4-8sN" id="djh-40-tJJ"/>
+                            <outlet property="delegate" destination="ole-O4-8sN" id="465-ME-QgA"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="Sell" id="pdY-NZ-yqG"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eDM-Cp-pJl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2206" y="85"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="tqd-MD-gZ2">

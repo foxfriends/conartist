@@ -12,7 +12,7 @@ import Gloss
 
 struct Auth {
     /// Signs in with the provided account info, then retrieves the basic user data
-    static func signIn(username: String, password: String) -> Promise<UserQuery.Data.User> {
+    static func signIn(username: String, password: String) -> Promise<Void> {
         let parameters = [
             "usr": username,
             "psw": password
@@ -23,10 +23,11 @@ struct Auth {
             .then(execute: handleConRequest as ((Any) throws -> String))
             .then(execute: setAuthToken)
             .then(execute: loadUser)
+            .then(execute: storeUser)
     }
 
     /// Refreshes the provided authorization token, then retrieves the user data again
-    static func reauthorize() -> Promise<UserQuery.Data.User> {
+    static func reauthorize() -> Promise<Void> {
         let headers = [
             "Authorization": "Bearer \(ConArtist.API.AuthToken)"
         ]
@@ -36,6 +37,7 @@ struct Auth {
             .then(execute: handleConRequest as ((Any) throws -> String))
             .then(execute: setAuthToken)
             .then(execute: loadUser)
+            .then(execute: storeUser)
     }
     
     private static func handleConRequest<T>(_ response: Any) throws -> T {
@@ -65,6 +67,9 @@ struct Auth {
                 resolve(data.user)
             }
         })
-
+    }
+    
+    private static func storeUser(_ user: UserQuery.Data.User) -> Void {
+        ConArtist.Model = Model.from(graphQL: user)
     }
 }

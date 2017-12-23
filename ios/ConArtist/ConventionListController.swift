@@ -12,79 +12,111 @@ import Foundation
 class ConventionListController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.ensureSignedIn()
+        ensureSignedIn()
     }
     
     // MARK: - Navigation
     
     func ensureSignedIn() {
         if ConArtist.API.AuthToken == ConArtist.API.Unauthorized {
-            self.performSegue(withIdentifier: SegueIdentifier.ShowSignIn.rawValue, sender: self)
+            performSegue(withIdentifier: SegueIdentifier.ShowSignIn.rawValue, sender: self)
         } else {
             // TODO: store user data and load that before reaching for the server
-            Auth.reauthorize().then(execute: self.setUserAndContinue)
+            Auth.reauthorize().then(execute: refresh)
         }
     }
     
-    func setUserAndContinue(_ user: UserQuery.Data.User?) {
-        ConArtist.Model = Model.from(graphQL: user)
-        self.tableView.reloadData()
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier ?? "" {
-        case SegueIdentifier.ShowSignIn.rawValue:
-            (segue.destination as? ConArtistViewController)?
-                .setCompletionCallback { self.setUserAndContinue($0 as? UserQuery.Data.User) }
-        default: break
+        if segue.identifier == SegueIdentifier.ShowSignIn.rawValue {
+            (segue.destination as? ConArtistViewController)?.setCompletionCallback { _ in self.refresh() }
         }
     }
     
     private enum SegueIdentifier: String {
-        case ShowSignIn
+        case ShowSignIn, ShowConventionDetails
     }
 
     // MARK: - TableView
     
+    enum ConventionTimePeriod: Int {
+        case Present = 0, Future, Past
+    }
+    
+    let cachedConventions: Cache<[ConventionTimePeriod: [Convention]]> = Cache {
+        guard let model = ConArtist.Model else {
+            return [.Past: [], .Present: [], .Future: []]
+        }
+        return [
+            // TODO: this could be more efficient, but this is clean for now
+            .Past: model.cons(before: Date.today()),
+            .Present: model.cons(during: Date.today()),
+            .Future: model.cons(after: Date.today())
+        ]
+    }
+
+    func refresh() {
+        cachedConventions.clear()
+        tableView.reloadData()
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 3
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ConArtist.Model?.conventions.count ?? 0
-        /*
-        switch section {
-        case 0:
-            return ConArtist.Model?.cons(before: Date.today()).count ?? 0
-        case 1:
-            return ConArtist.Model?.cons(during: Date.today()).count ?? 0
-        case 2:
-            return ConArtist.Model?.cons(after: Date.today()).count ?? 0
-        default:
+        guard
+            let timePeriod = ConventionTimePeriod(rawValue: section),
+            let cons = cachedConventions.get()[timePeriod]
+        else {
             return 0
         }
-        */
+        return cons.count
+    }
+    
+    let SectionHeaderHeight: CGFloat = 25
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let timePeriod = ConventionTimePeriod(rawValue: section) else {
+            return nil
+        }
+
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: SectionHeaderHeight))
+        let label = UILabel(frame: CGRect(x: 15, y: 0, width: tableView.bounds.width - 30, height: SectionHeaderHeight))
+        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.textColor = UIColor.black
+        
+        switch timePeriod {
+        case .Past:
+            label.text = "Previous"
+        case .Present:
+            label.text = "Current"
+        case .Future:
+            label.text = "Upcoming"
+        }
+        
+        view.addSubview(label)
+        return view
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        guard
+            let timePeriod = ConventionTimePeriod(rawValue: section),
+            let cons = cachedConventions.get()[timePeriod]
+        else {
+            return 0
+        }
+        return cons.isEmpty ? 0 as CGFloat : SectionHeaderHeight
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ConventionListCell", for: indexPath) as! ConventionListRow
-        /*
-        var item: Convention? = nil
-        switch indexPath.section {
-        case 0:
-            item = ConArtist.Model?.cons(before: Date.today())[indexPath.item]
-        case 1:
-            item = ConArtist.Model?.cons(during: Date.today())[indexPath.item]
-        case 2:
-            item = ConArtist.Model?.cons(after: Date.today())[indexPath.item]
-        default:
-            break
+        if
+            let timePeriod = ConventionTimePeriod(rawValue: indexPath.section),
+            let item = cachedConventions.get()[timePeriod]?[indexPath.row]
+        {
+            cell.titleLabel?.text = item.name
+            cell.dateLabel?.text = "Test date" // TODO: date range formatting (Mmm. DD, YYYY -- Mmm. DD, YYYY)
         }
-        */
-        let item = ConArtist.Model?.conventions[indexPath.item]
-        cell.titleLabel?.text = item?.name
-        cell.dateLabel?.text = "Test date"
-        
+
         return cell
     }
 }

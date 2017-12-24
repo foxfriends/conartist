@@ -40,15 +40,17 @@ class ProductTypeListController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProductTypeCell", for: indexPath) as! ProductTypeListRow
         if indexPath.row < productTypes.value.count {
-            // TODO: fill in the view...
-            // -   type circle
-            // -   type name
-            // -   some of the prices (?)
+            let item = productTypes.value[indexPath.row]
+            cell.typeSymbolLabel.text = String(item.name.characters.first ?? "?")
+            cell.nameLabel.text = item.name
+            cell.priceLabel.text = "$2.00"
         }
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // TODO: Navigate to product page
+        // TODO:
+        // -   Set focused product type
+        // -   Navigate to product page
     }
 }

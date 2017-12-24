@@ -9,5 +9,7 @@
 import UIKit
 
 class ProductTypeListRow: UITableViewCell {
-    
+    @IBOutlet weak var typeSymbolLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
 }

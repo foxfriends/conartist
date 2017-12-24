@@ -44,5 +44,8 @@ struct ConArtist {
     }
     
     static var model: Model? = nil
-    static var focusedConvention: Convention? = nil
+    
+    struct Error: Swift.Error {
+        let msg: String
+    }
 }

@@ -10,6 +10,20 @@ import Strongbox
 import Foundation
 
 class ConventionListController: UITableViewController {
+    private let SectionHeaderHeight: CGFloat = 25
+    
+    private let cachedConventions: Cache<[ConventionTimePeriod: [Convention]]> = Cache {
+        guard let model = ConArtist.model else {
+            return [.Past: [], .Present: [], .Future: []]
+        }
+        return [
+            // TODO: this could be more efficient, but this is clean for now
+            .Past: model.cons(before: Date.today()),
+            .Present: model.cons(during: Date.today()),
+            .Future: model.cons(after: Date.today())
+        ]
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         ensureSignedIn()
@@ -17,7 +31,7 @@ class ConventionListController: UITableViewController {
     
     // MARK: - Navigation
     
-    func ensureSignedIn() {
+    private func ensureSignedIn() {
         if ConArtist.API.authToken == ConArtist.API.Unauthorized {
             performSegue(withIdentifier: SegueIdentifier.ShowSignIn.rawValue, sender: self)
         } else {
@@ -38,23 +52,11 @@ class ConventionListController: UITableViewController {
 
     // MARK: - TableView
     
-    enum ConventionTimePeriod: Int {
+    private enum ConventionTimePeriod: Int {
         case Present = 0, Future, Past
     }
-    
-    let cachedConventions: Cache<[ConventionTimePeriod: [Convention]]> = Cache {
-        guard let model = ConArtist.model else {
-            return [.Past: [], .Present: [], .Future: []]
-        }
-        return [
-            // TODO: this could be more efficient, but this is clean for now
-            .Past: model.cons(before: Date.today()),
-            .Present: model.cons(during: Date.today()),
-            .Future: model.cons(after: Date.today())
-        ]
-    }
 
-    func refresh() {
+    private func refresh() {
         cachedConventions.clear()
         tableView.reloadData()
     }
@@ -73,7 +75,6 @@ class ConventionListController: UITableViewController {
         return cons.count
     }
     
-    let SectionHeaderHeight: CGFloat = 25
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let timePeriod = ConventionTimePeriod(rawValue: section) else {
             return nil
@@ -127,7 +128,7 @@ class ConventionListController: UITableViewController {
         else {
             return
         }
-        con.fill().then { ConArtist.focusedConvention = $0 }
+        ConArtist.model?.focusedConvention = con
         performSegue(withIdentifier: SegueIdentifier.ShowConventionDetails.rawValue, sender: self)
     }
 }

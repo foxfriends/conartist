@@ -76,31 +76,49 @@ enum Convention {
         }
     }
     
-    func productType(for id: Int) -> ProductType? {
-        switch self {
-        case .Meta:
-            return nil
-        case .Full(_, _, _, _, _, let types, _, _, _, _):
-            return types.first { $0.id == id }
+    var productTypes: [ProductType]? {
+        get {
+            switch self {
+            case .Meta:
+                return nil
+            case .Full(_, _, _, _, _, let types, _, _, _, _):
+                return types
+            }
         }
+    }
+    
+    var products: [Product]? {
+        get {
+            switch self {
+            case .Meta:
+                return nil
+            case .Full(_, _, _, _, _, _, let products, _, _, _):
+                return products
+            }
+        }
+    }
+    
+    var prices: [Price]? {
+        get {
+            switch self {
+            case .Meta:
+                return nil
+            case .Full(_, _, _, _, _, _, _, let prices, _, _):
+                return prices
+            }
+        }
+    }
+    
+    func productType(for id: Int) -> ProductType? {
+        return productTypes?.first { $0.id == id }
     }
     
     func product(for id: Int) -> Product? {
-        switch self {
-        case .Meta:
-            return nil
-        case .Full(_, _, _, _, _, _, let products, _, _, _):
-            return products.first { $0.id == id }
-        }
+        return products?.first { $0.id == id }
     }
     
     func price(for product: Product? = nil, of type: ProductType) -> [Price]? {
-        switch self {
-        case .Meta:
-            return nil
-        case .Full(_, _, _, _, _, _, _, let prices, _, _):
-            return prices.filter { $0.typeId == type.id && $0.productId == product?.id }
-        }
+        return prices?.filter { $0.typeId == type.id && $0.productId == product?.id }
     }
     
     // MARK: - Initializers
@@ -138,7 +156,7 @@ enum Convention {
             return Promise { (resolve, reject) in
                 ConArtist.API.GraphQL.fetch(query: FullConventionQuery(id: nil, code: code)) { (result, error) in
                     guard let con = Convention.from(graphQL: result?.data?.userConvention) else {
-                        reject(error ?? CAError(msg: "Invalid convention details"))
+                        reject(error ?? ConArtist.Error(msg: "Invalid convention details"))
                         return
                     }
                     resolve(con)

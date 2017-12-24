@@ -8,6 +8,8 @@
 
 import UIKit
 
+// TODO: re-evaluate whether this is actually needed, or just bloat
+
 class ConArtistViewController: UIViewController {
     // TODO: this is not the prettiest implementation... might be enough but I haven't got enough experience to judge that yet
     private var onSelfReturnFromSegue: ((Any?) -> Void)? = nil

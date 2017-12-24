@@ -49,7 +49,7 @@ struct Auth {
         case .success(data: let data):
             return data
         case .failure(error: let error):
-            throw CAError(msg: error)
+            throw ConArtist.Error(msg: error)
         }
     }
     
@@ -70,6 +70,6 @@ struct Auth {
     }
     
     private static func storeUser(_ user: UserQuery.Data.User) -> Void {
-        ConArtist.model = Model.from(graphQL: user)
+        ConArtist.model = Model(graphQL: user)
     }
 }

@@ -30,3 +30,9 @@ class Cache<T> {
         cached = nil
     }
 }
+
+// TODO: linked caches
+// -   When the parent cache is invalidated, the child caches are too
+
+// TODO: on value change hooks
+// -   Is that just an observable then?

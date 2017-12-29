@@ -1,21 +1,24 @@
 use postgres::types::{FromSql, ToSql, MONEY, INT8, Type, IsNull};
 use juniper::Value;
 use std::error::Error;
+use std::str::FromStr;
 
 #[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 pub struct Money(pub f64);
 
 graphql_scalar!(Money {
-    description: "Represents a monitary value as a float"
+    // TODO: improve when proper currency support is added
+    description: "Represents a monetary value and a currency as a string"
 
     resolve(&self) -> Value {
-        Value::float(self.0)
+        Value::string(format!("${}", self.0))
     }
 
     from_input_value(v: &InputValue) -> Option<Money> {
-        v   .as_float_value()
-            .or_else(|| v.as_int_value().map(|i| i as f64))
-            .map(|s| Money(s.to_owned()))
+        v   .as_string_value()
+            .map(|s| s[1..].to_string())
+            .and_then(|s| FromStr::from_str(&s).ok())
+            .map(|s| Money(s))
     }
 });
 

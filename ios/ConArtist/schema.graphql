@@ -5,6 +5,7 @@
 scalar NaiveDate
 scalar DateTimeUtc
 scalar DateTimeFixedOffset
+scalar Money
 
 type Query {
   user(id: Int): User!
@@ -41,7 +42,7 @@ type ProductInInventory {
 
 type PricePairOut {
   quantity: Int!
-  price: Float!
+  price: Money!
 }
 type Price {
   typeId: Int!
@@ -54,19 +55,19 @@ type PriceRow {
   typeId: Int!
   productId: Int
   quantity: Int!
-  price: Float!
+  price: Money!
 }
 
 type Record {
   id: Int!
   products: [Int]!
-  price: Float!
+  price: Money!
   time: DateTimeUtc!
 }
 
 type Expense {
   id: Int!
-  price: Float!
+  price: Money!
   category: String!
   description: String!
   time: DateTimeUtc!
@@ -153,7 +154,7 @@ input ProductMod {
 
 input PricePairIn {
   quantity: Int!
-  price: Float!
+  price: Money!
 }
 input PriceAdd {
   typeId: Int!
@@ -168,7 +169,7 @@ input PriceDel {
 input RecordAdd {
   conId: Int!
   products: [Int]!
-  price: Float!
+  price: Money!
   date: DateTimeFixedOffset!
 }
 input RecordMod {
@@ -182,7 +183,7 @@ input RecordDel {
 
 input ExpenseAdd {
   conId: Int!
-  price: Float!
+  price: Money!
   category: String!
   description: String!
   date: DateTimeFixedOffset!

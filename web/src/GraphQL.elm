@@ -28,7 +28,7 @@ import Model.Expense exposing (Expense)
 import Model.Pagination exposing (Pagination)
 import Model.Validation exposing (valueOf)
 
--- TODO: make user of fragments to reduce request size
+-- TODO: make use of fragments to reduce request size
 
 -- Types
 
@@ -43,6 +43,23 @@ date =
             Nothing -> Decode.fail "Date format is incorrect"
         )
     |> customScalar DateType
+
+type MoneyType = MoneyType
+money : ValueSpec NonNull MoneyType Float vars
+money =
+  Decode.string
+    |> Decode.andThen
+      (\moneyString ->
+        case String.uncons moneyString of
+          -- TODO: support more currencies
+          Just ('$', amt) -> case String.toFloat amt of
+            Ok float -> Decode.succeed float
+            Err msg -> Decode.fail msg
+          _ -> Decode.fail "Not a money value")
+    |> customScalar MoneyType
+
+argMoney : Float -> Arg.Value vars
+argMoney p = Arg.string <| Price.priceStr <| Left p
 
 -- Decoders
 
@@ -64,7 +81,7 @@ product = object FullProduct
 pricePair : ValueSpec NonNull ObjectType (Int, Float) vars
 pricePair = object (,)
   |> with (field "quantity" [] int)
-  |> with (field "price" [] float)
+  |> with (field "price" [] money)
 
 price : ValueSpec NonNull ObjectType CondensedPrice vars
 price = object CondensedPrice
@@ -77,7 +94,7 @@ priceRow = object FullPrice
   |> with (field "index" [] int)
   |> with (field "typeId" [] int)
   |> with (field "productId" [] (nullable int))
-  |> with (field "price" [] float)
+  |> with (field "price" [] money)
   |> with (field "quantity" [] int)
 
 metaConvention : ValueSpec NonNull ObjectType MetaConvention vars
@@ -104,12 +121,12 @@ fullConvention = object FullConvention
 record : ValueSpec NonNull ObjectType Record vars
 record = object Record
   |> with (field "products" [] (list int))
-  |> with (field "price" [] float)
+  |> with (field "price" [] money)
   |> with (field "time" [] date)
 
 expense : ValueSpec NonNull ObjectType Expense vars
 expense = object Expense
-  |> with (field "price" [] float)
+  |> with (field "price" [] money)
   |> with (field "category" [] string)
   |> with (field "description" [] string)
   |> with (field "time" [] date)
@@ -237,17 +254,17 @@ updateProducts products =
     <| keyValuePairs
     <| List.map updateProduct products
 
-pricePairArg : (Int, Float) -> Arg.Value vars
-pricePairArg (q, p) =
+argPricePair : (Int, Float) -> Arg.Value vars
+argPricePair (q, p) =
   Arg.object
     [ ("quantity", Arg.int q)
-    , ("price", Arg.float p) ]
+    , ("price", argMoney p) ]
 priceAdd : CondensedPrice -> Arg.Value vars
 priceAdd pr =
   Arg.object
     [ ("typeId", Arg.int pr.type_id)
     , ("productId", (argNullable Arg.int) pr.product_id)
-    , ("prices", (Arg.list << List.map pricePairArg) pr.prices) ]
+    , ("prices", (Arg.list << List.map argPricePair) pr.prices) ]
 createPrice : CondensedPrice -> SelectionSpec Field CondensedPrice vars
 createPrice pr =
   aliasAs (Price.hash (pr.type_id, pr.product_id)) <|
@@ -277,7 +294,7 @@ deletePrices : List (Int, Maybe Int) -> Request Mutation (List (String, Bool))
 deletePrices prices =
   request {}
     <| mutationDocument
-    <| map (List.map <| Tuple.mapFirst (String.dropLeft 1)) -- TODO don't need
+    <| map (List.map <| Tuple.mapFirst (String.dropLeft 1)) -- TODO: don't need -- TODO: what did this mean?
     <| keyValuePairs
     <| List.map deletePrice prices
 
@@ -307,6 +324,7 @@ mutation : (Result Error result -> msg) -> Request Mutation result -> Model -> C
 mutation msg query model = Task.attempt msg <| customSendMutation (authorized "POST" model.authtoken) query
 
 -- Helpers
+
 argNullable : (a -> Arg.Value vars) -> Maybe a -> Arg.Value vars
 argNullable fn = Maybe.map fn >> Maybe.withDefault Arg.null
 

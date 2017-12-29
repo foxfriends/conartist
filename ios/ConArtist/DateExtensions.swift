@@ -7,9 +7,11 @@
 //
 
 import Foundation
+import SwiftDate
 
 extension String {
     func toDate() -> Date? {
+        print(self)
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         return formatter.date(from: self)

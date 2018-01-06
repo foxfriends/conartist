@@ -76,6 +76,13 @@ enum Convention {
         }
     }
     
+    private static let DateFormat: String = "MMM dd, yyyy"
+    var dateString: String {
+        get {
+            return "\(self.start.toString(Convention.DateFormat)) - \(self.end.toString(Convention.DateFormat))"
+        }
+    }
+    
     var productTypes: [ProductType]? {
         get {
             switch self {

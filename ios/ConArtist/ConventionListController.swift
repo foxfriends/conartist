@@ -115,7 +115,7 @@ class ConventionListController: UITableViewController {
             let item = cachedConventions.value[timePeriod]?[indexPath.row]
         {
             cell.titleLabel?.text = item.name
-            cell.dateLabel?.text = "Test date" // TODO: date range formatting (Mmm. DD, YYYY -- Mmm. DD, YYYY)
+            cell.dateLabel?.text = item.dateString
         }
 
         return cell

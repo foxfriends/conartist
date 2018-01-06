@@ -23,6 +23,7 @@
 		324592AA1FEC2E7900DE89BB /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592A91FEC2E7900DE89BB /* Model.swift */; };
 		324592AC1FEC2EA500DE89BB /* Convention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592AB1FEC2EA500DE89BB /* Convention.swift */; };
 		324592AE1FEC314900DE89BB /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592AD1FEC314900DE89BB /* DateExtensions.swift */; };
+		3266CEF720017E2C0016D5E6 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3266CEF620017E2C0016D5E6 /* ColorExtensions.swift */; };
 		32BC33D91FEE15AE0006256A /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33D81FEE15AE0006256A /* Cache.swift */; };
 		32BC33DB1FEEECF50006256A /* ProductTypeListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33DA1FEEECF50006256A /* ProductTypeListController.swift */; };
 		32BC33DD1FEEED030006256A /* ProductListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33DC1FEEED030006256A /* ProductListController.swift */; };
@@ -71,6 +72,7 @@
 		324592A91FEC2E7900DE89BB /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		324592AB1FEC2EA500DE89BB /* Convention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convention.swift; sourceTree = "<group>"; };
 		324592AD1FEC314900DE89BB /* DateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
+		3266CEF620017E2C0016D5E6 /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
 		32BC33D81FEE15AE0006256A /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		32BC33DA1FEEECF50006256A /* ProductTypeListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductTypeListController.swift; sourceTree = "<group>"; };
 		32BC33DC1FEEED030006256A /* ProductListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductListController.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 			children = (
 				324592AD1FEC314900DE89BB /* DateExtensions.swift */,
 				32BC33D81FEE15AE0006256A /* Cache.swift */,
+				3266CEF620017E2C0016D5E6 /* ColorExtensions.swift */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -291,6 +294,7 @@
 				TargetAttributes = {
 					321B75D51F9BAD320055EBC4 = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = KT5TYPEMWT;
 						ProvisioningStyle = Automatic;
 					};
 					321B75EC1F9BAD320055EBC4 = {
@@ -400,6 +404,7 @@
 				"${BUILT_PRODUCTS_DIR}/Gloss/Gloss.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Strongbox/Strongbox.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftMoment/SwiftMoment.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -408,6 +413,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Gloss.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Strongbox.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftMoment.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -482,6 +488,7 @@
 				32BC33DD1FEEED030006256A /* ProductListController.swift in Sources */,
 				324592971FEAFEE000DE89BB /* ConRequest.swift in Sources */,
 				32BC33EE1FEF19680006256A /* ConArtistViewController.swift in Sources */,
+				3266CEF720017E2C0016D5E6 /* ColorExtensions.swift in Sources */,
 				32BC33EA1FEEF2420006256A /* Price.swift in Sources */,
 				32BC33E61FEEF1E40006256A /* Record.swift in Sources */,
 				321B75DA1F9BAD320055EBC4 /* AppDelegate.swift in Sources */,
@@ -647,7 +654,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = KT5TYPEMWT;
 				INFOPLIST_FILE = ConArtist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -665,7 +672,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = KT5TYPEMWT;
 				INFOPLIST_FILE = ConArtist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

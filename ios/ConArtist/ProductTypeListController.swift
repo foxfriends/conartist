@@ -27,6 +27,7 @@ class ProductTypeListController: UITableViewController {
     
     private func refresh() {
         productTypes.clear()
+        tableView.reloadData()
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -41,7 +42,8 @@ class ProductTypeListController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProductTypeCell", for: indexPath) as! ProductTypeListRow
         if indexPath.row < productTypes.value.count {
             let item = productTypes.value[indexPath.row]
-            cell.typeSymbolLabel.text = String(item.name.characters.first ?? "?")
+            cell.typeSymbolLabel.text = String(item.name.first ?? "?")
+            cell.typeSymbolLabel.backgroundColor = UIColor.from(hex: item.color)
             cell.nameLabel.text = item.name
             cell.priceLabel.text = "$2.00"
         }

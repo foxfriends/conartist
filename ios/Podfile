@@ -10,6 +10,7 @@ target 'ConArtist' do
   pod 'PromiseKit/Alamofire', '~> 4.0'
   pod 'Gloss', '~> 2.0'
   pod 'Strongbox'
+  pod 'SwiftMoment'
 
   target 'ConArtistTests' do
     inherit! :search_paths

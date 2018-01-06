@@ -19,6 +19,7 @@ PODS:
   - PromiseKit/UIKit (4.5.0):
     - PromiseKit/CorePromise
   - Strongbox (0.4.0)
+  - SwiftMoment (0.7)
 
 DEPENDENCIES:
   - Alamofire (~> 4.5)
@@ -27,6 +28,7 @@ DEPENDENCIES:
   - PromiseKit (~> 4.4)
   - PromiseKit/Alamofire (~> 4.0)
   - Strongbox
+  - SwiftMoment
 
 SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
@@ -34,7 +36,8 @@ SPEC CHECKSUMS:
   Gloss: b67617f327406adfd47adf20172d00680a3a31bd
   PromiseKit: 9c1d9f6d7b65e3951a90bea7f407c56972be5d8e
   Strongbox: d7386b85bd4f50ea9da5154919ad998989fceb2f
+  SwiftMoment: dc6dd27012e267819104cbb03f74ff9192dd0b42
 
-PODFILE CHECKSUM: 605600c53a1f2bc5d21f580657faad25bf3360e9
+PODFILE CHECKSUM: f50011132c1fc9836d1a00fd2bf38233047f2641
 
 COCOAPODS: 1.4.0.rc.1

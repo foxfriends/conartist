@@ -7,20 +7,22 @@
 //
 
 import Foundation
-import SwiftDate
+import SwiftMoment
 
 extension String {
     func toDate() -> Date? {
-        print(self)
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-        return formatter.date(from: self)
+        return moment(self)?.date
     }
 }
 
 extension Date {
     static func today() -> Date {
+        // TODO: can this be done with moment?
         let components = Calendar.current.dateComponents([.day, .month, .year], from: Date())
         return Calendar.current.date(from: components)!
+    }
+    
+    func toString(_ format: String) -> String {
+        return moment(self).format(format)
     }
 }

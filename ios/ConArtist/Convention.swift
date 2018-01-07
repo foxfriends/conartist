@@ -116,6 +116,28 @@ enum Convention {
         }
     }
     
+    var records: [Record]? {
+        get {
+            switch self {
+            case .Meta:
+                return nil
+            case .Full(_, _, _, _, _, _, _, _, let records, _):
+                return records
+            }
+        }
+    }
+    
+    var expenses: [Expense]? {
+        get {
+            switch self {
+            case .Meta:
+                return nil
+            case .Full(_, _, _, _, _, _, _, _, _, let expenses):
+                return expenses
+            }
+        }
+    }
+    
     func productType(for id: Int) -> ProductType? {
         return productTypes?.first { $0.id == id }
     }

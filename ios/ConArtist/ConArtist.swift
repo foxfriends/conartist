@@ -48,4 +48,6 @@ struct ConArtist {
     struct Error: Swift.Error {
         let msg: String
     }
+    
+    static let NoID = 0
 }

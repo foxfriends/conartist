@@ -114,8 +114,7 @@ class ConventionListController: UITableViewController {
             let timePeriod = ConventionTimePeriod(rawValue: indexPath.section),
             let item = cachedConventions.value[timePeriod]?[indexPath.row]
         {
-            cell.titleLabel?.text = item.name
-            cell.dateLabel?.text = item.dateString
+            cell.fill(with: item)
         }
 
         return cell

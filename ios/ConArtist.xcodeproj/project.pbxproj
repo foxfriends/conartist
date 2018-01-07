@@ -24,6 +24,7 @@
 		324592AC1FEC2EA500DE89BB /* Convention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592AB1FEC2EA500DE89BB /* Convention.swift */; };
 		324592AE1FEC314900DE89BB /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592AD1FEC314900DE89BB /* DateExtensions.swift */; };
 		3266CEF720017E2C0016D5E6 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3266CEF620017E2C0016D5E6 /* ColorExtensions.swift */; };
+		3266CEF920018B710016D5E6 /* RecordListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3266CEF820018B710016D5E6 /* RecordListRow.swift */; };
 		32BC33D91FEE15AE0006256A /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33D81FEE15AE0006256A /* Cache.swift */; };
 		32BC33DB1FEEECF50006256A /* ProductTypeListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33DA1FEEECF50006256A /* ProductTypeListController.swift */; };
 		32BC33DD1FEEED030006256A /* ProductListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33DC1FEEED030006256A /* ProductListController.swift */; };
@@ -73,6 +74,7 @@
 		324592AB1FEC2EA500DE89BB /* Convention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convention.swift; sourceTree = "<group>"; };
 		324592AD1FEC314900DE89BB /* DateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		3266CEF620017E2C0016D5E6 /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
+		3266CEF820018B710016D5E6 /* RecordListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordListRow.swift; sourceTree = "<group>"; };
 		32BC33D81FEE15AE0006256A /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		32BC33DA1FEEECF50006256A /* ProductTypeListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductTypeListController.swift; sourceTree = "<group>"; };
 		32BC33DC1FEEED030006256A /* ProductListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductListController.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 			children = (
 				324592A51FEB786D00DE89BB /* ConventionListRow.swift */,
 				32BC33EF1FEF70F20006256A /* ProductTypeListRow.swift */,
+				3266CEF820018B710016D5E6 /* RecordListRow.swift */,
 			);
 			name = "TableView Cells";
 			sourceTree = "<group>";
@@ -493,6 +496,7 @@
 				32BC33E61FEEF1E40006256A /* Record.swift in Sources */,
 				321B75DA1F9BAD320055EBC4 /* AppDelegate.swift in Sources */,
 				32BC33D91FEE15AE0006256A /* Cache.swift in Sources */,
+				3266CEF920018B710016D5E6 /* RecordListRow.swift in Sources */,
 				321B75E21F9BAD320055EBC4 /* ConArtist.xcdatamodeld in Sources */,
 				324592AE1FEC314900DE89BB /* DateExtensions.swift in Sources */,
 				32BC33E01FEEED140006256A /* RecordListController.swift in Sources */,

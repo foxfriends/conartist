@@ -28,6 +28,7 @@ mod database;
 mod cr;
 mod iterator;
 mod error;
+mod money;
 
 use std::env;
 use mount::Mount;

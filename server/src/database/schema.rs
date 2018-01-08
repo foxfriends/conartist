@@ -3,10 +3,9 @@
 
 use std::panic::catch_unwind;
 use postgres::rows::Row;
-use postgres_array::Array;
 use chrono::{NaiveDate, NaiveDateTime};
-use iterator::*;
-use super::Money;
+use money::Money;
+use serde_json;
 
 #[derive(Clone)]
 pub struct User {
@@ -234,7 +233,6 @@ pub struct Price {
 }
 impl Price {
     pub fn from(row: Row) -> Result<Self, String> {
-        let prices: Array<f64> = row.get("prices");
         catch_unwind(|| {
             Self {
                 price_id: row.get("price_id"),
@@ -242,7 +240,7 @@ impl Price {
                 user_con_id: row.get("user_con_id"),
                 type_id: row.get("type_id"),
                 product_id: row.get("product_id"),
-                prices: prices.into_iter().paired().map(|r| (r.0 as i32, Money(r.1))).collect(),
+                prices: serde_json::from_str(&row.get::<&'static str, String>("prices")).unwrap(),
             }
         }).map_err(|_| "Tried to create a Price from a non-Price row".to_string())
     }

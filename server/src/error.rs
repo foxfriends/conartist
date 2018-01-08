@@ -14,3 +14,16 @@ impl Display for StringError {
 impl Error for StringError {
     fn description(&self) -> &str { &*self.0 }
 }
+
+#[derive(Debug)]
+pub struct MoneyError(pub String);
+
+impl Display for MoneyError {
+    fn fmt(&self, f: &mut Formatter) -> Result {
+        Debug::fmt(self, f)
+    }
+}
+
+impl Error for MoneyError {
+    fn description(&self) -> &str { &*self.0 }
+}

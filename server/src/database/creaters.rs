@@ -1,6 +1,7 @@
 use super::*;
-use postgres_array::Array;
 use chrono::NaiveDateTime;
+use money::Money;
+use serde_json;
 
 impl Database {
     pub fn create_user(&self, email: String, name: String, password: String) -> Result<(), String> {
@@ -55,7 +56,7 @@ impl Database {
         maybe_user_id: Option<i32>,
         type_id: i32,
         product_id: Option<i32>,
-        prices: Array<f64>,
+        prices: serde_json::Value,
     ) -> Result<Price, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
 

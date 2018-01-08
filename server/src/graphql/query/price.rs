@@ -1,7 +1,7 @@
 //! Holds information about the price of a product or product type
-use database::{Database, Money};
 use super::super::common::PricePairOut;
-use database::{Price, PriceRow};
+use database::{Database, Price, PriceRow};
+use money::Money;
 
 graphql_object!(Price: Database |&self| {
     description: "Holds information about the price of a product or product type"

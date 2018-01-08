@@ -7,14 +7,14 @@ mod record;
 mod expense;
 
 use juniper::{FieldResult, FieldError, Value};
-use postgres_array::{Array, Dimension};
-use database::{Database, User, ProductType, ProductInInventory, Price, Convention, Record, Expense, Money};
+use serde_json;
+use database::{Database, User, ProductType, ProductInInventory, Price, Convention, Record, Expense};
+use money::Money;
 use self::product::*;
 use self::product_type::*;
 use self::price::*;
 use self::record::*;
 use self::expense::*;
-use super::common::PricePairIn;
 
 pub struct Mutation;
 
@@ -108,14 +108,9 @@ graphql_object!(Mutation: Database |&self| {
 
     // Prices
     field add_user_price(&executor, user_id: Option<i32>, price: PriceAdd) -> FieldResult<Price> {
-        ensure!(price.prices.iter().all(|p| p.quantity >= 0 && p.price >= Money(0f64)));
+        ensure!(price.prices.iter().all(|p| p.quantity >= 0 && p.price >= Money::new(0i64, p.price.cur())));
 
-        let prices =
-            price.prices
-                .into_iter()
-                .map(|PricePairIn{ quantity, price }| Array::from_vec(vec![quantity as f64, price.into()], 0))
-                .fold(Array::from_parts(vec![], vec![Dimension{ len: 0, lower_bound: 0 }, Dimension{ len: 2, lower_bound: 0 }]), |mut a, v| {a.push(v); a});
-
+        let prices: serde_json::Value = price.prices.into();
         dbtry! {
             executor
                 .context()
@@ -153,7 +148,7 @@ graphql_object!(Mutation: Database |&self| {
     field add_user_record(&executor, user_id: Option<i32>, record: RecordAdd) -> FieldResult<Record> {
         ensure!(record.products.len() != 0);
         ensure!(record.con_id > 0);
-        ensure!(record.price > Money(0f64));
+        ensure!(record.price > Money::new(0i64, record.price.cur()));
 
         dbtry! {
             executor
@@ -166,7 +161,7 @@ graphql_object!(Mutation: Database |&self| {
 
     field add_user_expense(&executor, user_id: Option<i32>, expense: ExpenseAdd) -> FieldResult<Expense> {
         ensure!(expense.con_id > 0);
-        ensure!(expense.price > Money(0f64));
+        ensure!(expense.price > Money::new(0i64, expense.price.cur()));
         ensure!(expense.category.len() > 0 && expense.category.len() < 32);
         ensure!(expense.description.len() > 0 && expense.description.len() < 512);
 

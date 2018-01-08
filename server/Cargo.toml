@@ -5,7 +5,7 @@ authors = ["Cameron Eldridge <cameldridge+git@gmail.com>"]
 
 # TODO: solidify dependency versions before entering production?
 [dependencies]
-postgres = { version = "*", features = ["with-chrono"] }
+postgres = { version = "*", features = ["with-chrono", "with-serde_json"] }
 postgres_array = "*"
 juniper = { git = "https://github.com/oinkiguana/juniper" }
 juniper_codegen = { git = "https://github.com/oinkiguana/juniper" }

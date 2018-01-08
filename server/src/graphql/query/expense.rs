@@ -1,7 +1,8 @@
 //! Holds information about a convention expense
-use database::{Database, Money};
+use database::{Database};
 use chrono::{DateTime, Utc};
 pub use database::Expense;
+use money::Money;
 
 graphql_object!(Expense: Database |&self| {
     description: "Holds information about a convention expense"

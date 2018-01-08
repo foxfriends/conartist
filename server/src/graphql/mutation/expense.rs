@@ -1,6 +1,6 @@
 //! Input objects needed to modify convention expense
 use chrono::{DateTime,FixedOffset};
-use database::Money;
+use money::Money;
 
 #[derive(Clone, GraphQLInputObject)]
 #[graphql(description="Information required to create a convention expense")]

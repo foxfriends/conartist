@@ -1,11 +1,11 @@
 module View.Convention.Sort exposing (..)
-import Either exposing (Either(..))
 import Date.Extra as Date
 
 import Model.Join as Join exposing (ProductWithType, PriceWithTypeAndProduct, RecordWithTypedProduct)
 import Model.Product as Product
 import Model.ProductType as ProductType
 import Model.Price as Price
+import Model.Money as Money
 
 typesort : ProductWithType -> ProductWithType -> Order
 typesort a b = compare (ProductType.normalize a.productType).name (ProductType.normalize b.productType).name
@@ -40,11 +40,11 @@ rquantitysort a b = compare (List.length a.products) (List.length b.products)
 
 pricesort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
 pricesort a b =
-  let extract = Price.normalize >> Maybe.map .price >> Maybe.withDefault 0 in
+  let extract = Price.normalize >> Maybe.map .price >> Maybe.map Money.numeric >> Maybe.withDefault 0 in
     compare (extract a.price) (extract b.price)
 
 rpricesort : RecordWithTypedProduct -> RecordWithTypedProduct -> Order
-rpricesort a b = compare (Price.priceFloat (Left a.price)) (Price.priceFloat (Left b.price))
+rpricesort a b = compare (Money.numeric a.price) (Money.numeric b.price)
 
 timesort : RecordWithTypedProduct -> RecordWithTypedProduct -> Order
 timesort a b = Date.compare a.time b.time

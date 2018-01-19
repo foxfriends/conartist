@@ -45,9 +45,8 @@ fn main() {
     println!("Starting ConArtist server...");
 
     let conn_str = env::var("DATABASE_URL").unwrap_or(DATABASE_URL.to_string());
-    let config = r2d2::Config::default();
     let manager = PostgresConnectionManager::new(conn_str, TlsMode::None).unwrap();
-    let pool = r2d2::Pool::new(config, manager).unwrap();
+    let pool = r2d2::Pool::new(manager).unwrap();
     let database = database::DatabaseFactory::new(pool.clone());
     let privileged = database.create_privileged();
     let mut mount = Mount::new();

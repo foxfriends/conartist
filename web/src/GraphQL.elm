@@ -27,6 +27,7 @@ import Model.Record exposing (Record)
 import Model.Expense exposing (Expense)
 import Model.Pagination exposing (Pagination)
 import Model.Validation exposing (valueOf)
+import Model.Money as Money exposing (Money(..), Currency)
 
 -- TODO: make use of fragments to reduce request size
 
@@ -44,22 +45,19 @@ date =
         )
     |> customScalar DateType
 
+-- TODO: support other currencies
 type MoneyType = MoneyType
-money : ValueSpec NonNull MoneyType Float vars
+money : ValueSpec NonNull MoneyType Money vars
 money =
   Decode.string
-    |> Decode.andThen
-      (\moneyString ->
-        case String.uncons moneyString of
-          -- TODO: support more currencies
-          Just ('$', amt) -> case String.toFloat amt of
-            Ok float -> Decode.succeed float
-            Err msg -> Decode.fail msg
-          _ -> Decode.fail "Not a money value")
+    |> Decode.map Money.fromString
+    |> Decode.andThen (\ms -> case ms of
+        Ok money -> Decode.succeed money
+        Err msg -> Decode.fail msg)
     |> customScalar MoneyType
 
-argMoney : Float -> Arg.Value vars
-argMoney p = Arg.string <| Price.priceStr <| Left p
+argMoney : Money -> Arg.Value vars
+argMoney = Arg.string << Money.toString
 
 -- Decoders
 
@@ -78,7 +76,7 @@ product = object FullProduct
   |> with (field "quantity" [] int)
   |> with (field "discontinued" [] bool)
 
-pricePair : ValueSpec NonNull ObjectType (Int, Float) vars
+pricePair : ValueSpec NonNull ObjectType (Int, Money) vars
 pricePair = object (,)
   |> with (field "quantity" [] int)
   |> with (field "price" [] money)
@@ -254,11 +252,11 @@ updateProducts products =
     <| keyValuePairs
     <| List.map updateProduct products
 
-argPricePair : (Int, Float) -> Arg.Value vars
+argPricePair : (Int, Money) -> Arg.Value vars
 argPricePair (q, p) =
   Arg.object
     [ ("quantity", Arg.int q)
-    , ("price", argMoney p) ]
+    , ("price", argMoney p) ] -- TODO: refactor money as integer throughout instead of float
 priceAdd : CondensedPrice -> Arg.Value vars
 priceAdd pr =
   Arg.object

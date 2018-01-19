@@ -5,6 +5,7 @@ import Model.Product as Product exposing (Product, FullProduct)
 import Model.ProductType as ProductType exposing (ProductType, FullType)
 import Model.Price as Price exposing (Price)
 import Model.Record exposing (Record)
+import Model.Money exposing (Money)
 import Util.List as List
 
 type alias ProductWithType =
@@ -22,7 +23,7 @@ type alias PriceWithTypeAndProduct =
 
 type alias RecordWithTypedProduct =
   { products: List ProductWithType
-  , price: Float
+  , price: Money
   , time: Date }
 
 productsWithTypes : List ProductType -> List Product -> List ProductWithType

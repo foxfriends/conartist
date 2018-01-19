@@ -16,6 +16,7 @@ import Model.Product as Product
 import Model.Price as Price exposing (Price(..))
 import Model.Join as Join exposing (PriceWithTypeAndProduct)
 import Model.Validation exposing (Validation(..))
+import Model.Money as Money
 
 view : Model -> PricingPageState -> Html Msg
 view model page =
@@ -123,5 +124,5 @@ quantitysort a b =
 
 pricesort : PriceWithTypeAndProduct -> PriceWithTypeAndProduct -> Order
 pricesort a b =
-  let extract = Price.normalize >> Maybe.map .price >> Maybe.withDefault 0 in
+  let extract = Price.normalize >> Maybe.map .price >> Maybe.map Money.numeric >> Maybe.withDefault 0 in
     compare (extract a.price) (extract b.price)

@@ -1,8 +1,9 @@
 module Model.Expense exposing (Expense)
 import Date exposing (Date)
+import Model.Money exposing (Money)
 
 type alias Expense =
-  { price: Float
+  { price: Money
   , category: String
   , description: String
   , spend_time: Date }

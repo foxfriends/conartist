@@ -2,6 +2,7 @@
 #![allow(dead_code)]
 
 use std::panic::catch_unwind;
+use std::str::FromStr;
 use postgres::rows::Row;
 use chrono::{NaiveDate, NaiveDateTime};
 use money::Money;
@@ -240,7 +241,16 @@ impl Price {
                 user_con_id: row.get("user_con_id"),
                 type_id: row.get("type_id"),
                 product_id: row.get("product_id"),
-                prices: serde_json::from_str(&row.get::<&'static str, String>("prices")).unwrap(),
+                prices: row .get::<&'static str, serde_json::Value>("prices")
+                            .as_array()
+                            .map(|l|
+                                l.clone().iter()
+                                    .map(|vp|
+                                        vp.as_array()
+                                            .map(|p| (p[0].as_i64().unwrap() as i32, FromStr::from_str(p[1].as_str().unwrap()).unwrap()))
+                                            .unwrap())
+                                    .collect())
+                            .unwrap()
             }
         }).map_err(|_| "Tried to create a Price from a non-Price row".to_string())
     }

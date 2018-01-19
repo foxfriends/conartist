@@ -7,6 +7,7 @@ import Model.Join as Join
 import Model.ProductType as ProductType
 import Model.Product as Product
 import Model.Price as Price
+import Model.Money as Money
 import Util.List as List
 import Ports.Files as Files
 
@@ -111,7 +112,7 @@ update msg model =
               ++ ","
               ++ (p.price |> Price.normalize |> Maybe.map .quantity |> Maybe.withDefault 0 |> toString)
               ++ ","
-              ++ (p.price |> Price.normalize |> Maybe.map .price |> Maybe.withDefault 0 |> toString)
+              ++ (p.price |> Price.normalize |> Maybe.map .price |> Maybe.withDefault (Money.money 0) |> toString)
               ++ "\n"
             )
           |> List.foldl (++) ""

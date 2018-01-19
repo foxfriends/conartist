@@ -2,7 +2,6 @@ module View.Convention.Sales exposing (view)
 import Html exposing (Html, div, text)
 import Html.Attributes exposing (class, style)
 import Date.Extra as Date
-import Either exposing (Either(..))
 import Dict exposing (Dict)
 import Set
 
@@ -13,7 +12,7 @@ import Model.Page exposing (ConventionPageState)
 import Model.Convention as Convention exposing (Convention, asFull)
 import Model.ProductType as ProductType
 import Model.Product as Product
-import Model.Price as Price
+import Model.Money as Money
 import View.Table exposing (summarizedTable, TableHeader(..))
 import Util.Date as Date
 import View.Convention.Util exposing (errorPage, placeholder, productCircle)
@@ -27,10 +26,9 @@ view model page con =
       case fc.records of
         [] -> placeholder "You haven't sold anything yet!"
         _  ->
-          let _ = Debug.log "date" <| Date.utcWeekdayNumber (Convention.asMeta con).start in
           summarizedTable
             (case page.record_sort of
-              [EQ, EQ, EQ, EQ, _] -> (Just (0, 0, (Convention.asMeta con).start))
+              [EQ, EQ, EQ, EQ, _] -> (Just (Money.money 0, 0, (Convention.asMeta con).start))
               _ -> Nothing)
             (\m -> \rec -> case m of
               Nothing -> (Nothing, [])
@@ -38,20 +36,20 @@ view model page con =
                 case rec of
                   Just rec ->
                     if Date.utcWeekdayNumber d == Date.utcWeekdayNumber rec.time then
-                      (Just (p + rec.price, q + List.length rec.products, rec.time), [])
+                      (Just (Maybe.withDefault p (Money.add p rec.price), q + List.length rec.products, rec.time), [])
                     else
                       ( Just (rec.price, List.length rec.products, rec.time)
                       , [ text "Total"
                         , text ""
                         , text (toString q)
-                        , text (Price.priceStr (Left p))
+                        , text (Money.prettyprint p)
                         , text "" ])
                   Nothing ->
                     ( Nothing
                     , [ text "Total"
                       , text ""
                       , text (toString q)
-                      , text (Price.priceStr (Left p))
+                      , text (Money.prettyprint p)
                       , text "" ]))
             page.record_sort
             "1fr 1fr 1fr 1fr 1fr" [] []
@@ -72,7 +70,7 @@ recordRow record =
   [ div [ class "convention__product-type" ] <| typeSet record.products
   , text <| productString record.products
   , text <| toString (List.length record.products)
-  , text <| Price.priceStr (Left record.price)
+  , text <| Money.prettyprint record.price
   , text <| Date.toFormattedString "EEE, h:mm a" record.time ]
 
 typeSet : List ProductWithType -> List (Html msg)

@@ -7,10 +7,11 @@ import Dict exposing (Dict)
 import Model.Model exposing (Model)
 import Model.Convention as Convention exposing (Convention, MetaConvention, asMeta)
 import Model.ProductType as ProductType
+import Model.Product as Product
+import Model.Money as Money
 import View.Card exposing (card)
 import View.List exposing (defList)
 import View.Convention.Util exposing (dateRange, frequency)
-import Model.Product as Product
 import Util.List as List
 
 view : Model -> Convention -> Html msg
@@ -88,7 +89,7 @@ revenue con =
       let
         (quantity, gross) =
           con.records
-            |> List.foldl (\r -> \(q, p) -> (q + List.length r.products, p + r.price)) (0, 0)
+            |> List.foldl (\r -> \(q, p) -> (q + List.length r.products, p + Money.numeric r.price)) (0, 0)
         expense = 0
         net = gross - expense
       in

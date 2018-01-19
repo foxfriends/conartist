@@ -1,7 +1,5 @@
 module Model.Price exposing (..)
 import Either exposing (Either(..))
-import FormatNumber exposing (format)
-import FormatNumber.Locales exposing (usLocale)
 import Dict
 import Lazy exposing (lazy)
 
@@ -13,19 +11,20 @@ import Model.ProductType as ProductType exposing (ProductType)
 import Model.Product as Product exposing (Product)
 import Model.Validation as Validation exposing (Validation(..), valueOf, validate, empty, invalidate, isValid)
 import Model.ErrorString exposing (..)
+import Model.Money as Money exposing (Money)
 
 type alias FullPrice =
   { index: Int
   , type_id: Int
   , product_id: Maybe Int
-  , price: Float
+  , price: Money
   , quantity: Int }
 
 type alias InternalPrice =
   { index: Int
   , type_id: Either Int Int
   , product_id: Either (Maybe Int) (Maybe Int)
-  , price: Either Float (Validation String)
+  , price: Either Money (Validation String)
   , quantity: Either Int (Validation String) }
 
 type alias NewPrice =
@@ -43,7 +42,7 @@ type alias DeletedPrice =
 type alias CondensedPrice =
   { type_id: Int
   , product_id: Maybe Int
-  , prices: List (Int, Float) }
+  , prices: List (Int, Money) }
 
 type Price
   = Clean FullPrice
@@ -71,21 +70,24 @@ normalize price = case price of
     p.index
     (Either.both p.type_id)
     (Either.both p.product_id)
-    (priceFloat <| Either.mapRight valueOf p.price)
+    (Either.unpack identity (Money.money << Result.withDefault 0 << Util.toInt << valueOf) p.price)
     (Either.unpack identity (valueOf >> Util.toInt >> Result.withDefault 0) p.quantity)
   New p     -> Just <| FullPrice
     p.index
     (valueOf p.type_id)
     p.product_id
-    (priceFloat <| Right <| valueOf p.price)
+    (Money.money <| Result.withDefault 0 <| Util.toInt <| valueOf p.price)
     (Result.withDefault 0 <| Util.toInt <| valueOf p.quantity)
   Deleted _ -> Nothing
 
-priceStr : Either Float String -> String
-priceStr = Either.mapLeft moneyFormat >> Either.both
+priceStr : Either Money String -> String
+priceStr = Either.mapLeft Money.prettyprint >> Either.both
 
-priceFloat : Either Float String -> Float
-priceFloat = Either.mapRight parseMoney >> Either.unpack identity (Result.withDefault 0)
+priceInt : Either Money String -> Int
+priceInt = Either.unpack Money.numeric (Money.parse >> Result.map Money.numeric >> Result.withDefault 0)
+
+priceFloat : Either Money String -> Float
+priceFloat = priceInt >> toFloat >> flip (/) 100
 
 setTypeId : Int -> Price -> Price
 setTypeId id price = case price of
@@ -184,16 +186,6 @@ productId price = case price of
 new : Int -> Price
 new index = New (NewPrice index (Empty 0 "Choose a type") Nothing (Valid "$0.00") (Valid "0"))
 
-parseMoney : String -> Result String Float
-parseMoney money =
-  case String.uncons money of
-    Just ('$', rest) -> parseMoney rest
-    _ -> String.toFloat money
-      |> Result.map ((*) 100 >> floor >> toFloat >> flip (/) 100)
-
-moneyFormat : Float -> String
-moneyFormat = String.cons '$' << format usLocale
-
 -- NOTE: just assumes that saving worked... maybe can check that later
 clean : List (String, CondensedPrice) -> List Price -> List Price
 clean _ = List.filterMap (Maybe.map Clean << normalize)
@@ -223,9 +215,9 @@ validateAll prices =
     validatePrice p =
       if valueOf p == "" then
         empty emptyPrice p
-      else case parseMoney <| valueOf p of
+      else case Money.parse <| valueOf p of
         Ok x ->
-          if x < 0 then
+          if Money.numeric x < 0 then
             invalidate negPrice p
           else
             validate p

@@ -20,7 +20,7 @@ impl FromStr for Currency {
     type Err = MoneyError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        serde_json::from_str(s).map_err(|_| MoneyError(format!("Could not deserialize {} as a currency code", s)))
+        serde_json::from_str(&format!("\"{}\"", s)).map_err(|_| MoneyError(format!("Could not deserialize {} as a currency code", s)))
     }
 }
 
@@ -57,7 +57,7 @@ impl Money {
 }
 
 impl Display for Money {
-    fn fmt(&self, f: &mut Formatter) -> ::std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter) -> ::std::fmt::Result {
         unimplemented!() // TODO: currency symbols and proper locale formatting
     }
 }

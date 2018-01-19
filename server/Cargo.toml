@@ -9,7 +9,7 @@ postgres = { version = "*", features = ["with-chrono", "with-serde_json"] }
 postgres_array = "*"
 juniper = { git = "https://github.com/oinkiguana/juniper" }
 juniper_codegen = { git = "https://github.com/oinkiguana/juniper" }
-juniper_iron = { git = "https://github.com/oinkiguana/juniper_iron" }
+juniper_iron = { git = "https://github.com/oinkiguana/juniper" }
 iron = "*"
 mount = "*"
 router = "*"

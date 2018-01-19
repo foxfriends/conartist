@@ -1,15 +1,16 @@
-use postgres::types::{FromSql, ToSql, MONEY, INT8, Type, IsNull};
+use postgres::types::{FromSql, ToSql, BPCHAR, Type, IsNull};
 use juniper::Value;
 use std::error::Error;
 use std::str::FromStr;
-use money::{Money, Currency};
+use money::Money;
+use error::MoneyError;
 
 graphql_scalar!(Money {
     // TODO: improve when proper currency support is added
     description: "Represents a monetary value and a currency as a string, such as CAD150 for $1.50 in CAD"
 
     resolve(&self) -> Value {
-        Value::string(format!("{}", self.amt()))
+        Value::string(self.to_string())
     }
 
     from_input_value(v: &InputValue) -> Option<Money> {
@@ -26,19 +27,18 @@ impl Into<i64> for Money {
 
 impl FromSql for Money {
     fn from_sql(_: &Type, raw: &[u8]) -> Result<Money, Box<Error + Sync + Send>> {
-        // TODO: support other currencies that aren't in dollar/cent
-        <i64 as FromSql>::from_sql(&INT8, raw).map(|r| Money::new(r, Currency::CAD))
+        <String as FromSql>::from_sql(&BPCHAR, raw).and_then(|s| FromStr::from_str(&s).map_err(|e: MoneyError| Box::new(e).into()))
     }
 
-    accepts!(MONEY);
+    accepts!(BPCHAR);
 }
 
 impl ToSql for Money {
     fn to_sql(&self, _: &Type, out: &mut Vec<u8>) -> Result<IsNull, Box<Error + 'static + Sync + Send>> {
-        self.amt().to_sql(&INT8, out)
+        self.to_string().to_sql(&BPCHAR, out)
     }
 
-    accepts!(MONEY);
+    accepts!(BPCHAR);
 
     to_sql_checked!();
 }

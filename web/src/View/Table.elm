@@ -8,12 +8,17 @@ module View.Table exposing
   , sortableTable
   , summarizedTable
   , updateSort
+  , cellLiner
   , TableHeader(..)
   )
 import Html exposing (Html, div, text)
 import Html.Events exposing (onClick)
 import Html.Attributes exposing (class, style)
 import Util.List exposing (zip)
+
+cellLiner : Html.Attribute msg
+cellLiner = class "table__cell-liner"
+
 
 type TableHeader a msg
   = Sortable String (a -> a -> Order) (Int -> msg)

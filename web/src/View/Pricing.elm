@@ -8,6 +8,7 @@ import Msg exposing (Msg(..))
 import View.Table exposing (sortableTable, TableHeader(..))
 import View.Fancy as Fancy exposing (ButtonStyle(..))
 import View.Align exposing (centered)
+import View.Attributes exposing (currencyText)
 import Util.List as List
 import Model.Model as Model exposing (Model)
 import Model.Page exposing (PricingPageState, Selector(..))
@@ -96,7 +97,7 @@ priceRow model page { productType, product, price } =
         Dirty p -> Either.unpack (Valid << Price.priceStr << Left) identity p.price
         Deleted _ -> Valid "$0.00"
       in
-        Fancy.validatedInput "" value [ Fancy.flush ] [ type_ "text", onInput (PricingPrice index) ]
+        Fancy.validatedInput "" value [ Fancy.flush ] [ currencyText, type_ "text", onInput (PricingPrice index) ]
     , centered <| Fancy.button Icon "remove_circle_outline" [ onClick (PricingRemove index) ] ]
 
 footer : Model -> List (Html Msg)

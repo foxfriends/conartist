@@ -89,16 +89,16 @@ revenue con =
       let
         (quantity, gross) =
           con.records
-            |> List.foldl (\r -> \(q, p) -> (q + List.length r.products, p + Money.numeric r.price)) (0, 0)
-        expense = 0
-        net = gross - expense
+            |> List.foldl (\r -> \(q, p) -> (q + List.length r.products, Maybe.withDefault r.price <| Money.add p r.price)) (0, Money.money 0)
+        expense = Money.money 0
+        net = Maybe.withDefault gross <| Money.add gross expense -- TODO: subtract?
       in
       card "Sales summary"
         [ class "convention__card" ]
         [ defList text
-          [ ("Gross profit", toString gross)
-          , ("Total expense", toString expense)
-          , ("Net profit", toString net)
+          [ ("Gross profit", Money.prettyprint gross)
+          , ("Total expense", Money.prettyprint expense)
+          , ("Net profit", Money.prettyprint net)
           , ("Items sold", toString quantity)
           ]
         ]

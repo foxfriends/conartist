@@ -3,6 +3,7 @@ use error::MoneyError;
 use std::str::FromStr;
 use std::fmt::{Display, Formatter};
 use serde_json;
+use serde::{Serialize, Deserialize, Serializer, Deserializer};
 
 /// Represents a specific currency. Strings are more versatile here, but not as stable.
 #[derive(Copy, Clone, PartialEq, Eq, Debug, Serialize, Deserialize)]
@@ -32,7 +33,7 @@ impl FromStr for Currency {
 ///
 /// In the case that fractional cents are required, an extension will need to be created. For now
 /// fractional cents seem to be out of scope.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct Money {
     amt: i64,
     cur: Currency, // TODO: make an enum for all the currency types?
@@ -56,6 +57,18 @@ impl Money {
     }
 }
 
+impl Serialize for Money {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error> where S: Serializer {
+        self.to_string().serialize(serializer)
+    }
+}
+
+impl<'a> Deserialize<'a> for Money {
+    fn deserialize<D>(deserializer: D) -> Result<Money, D::Error> where D: Deserializer<'a> {
+        Ok(FromStr::from_str(&String::deserialize(deserializer)?).unwrap()) // HACK: bad use of unwrap!
+    }
+}
+
 impl Display for Money {
     fn fmt(&self, _f: &mut Formatter) -> ::std::fmt::Result {
         unimplemented!() // TODO: currency symbols and proper locale formatting
@@ -76,8 +89,8 @@ impl FromStr for Money {
     type Err = MoneyError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let amt = FromStr::from_str(&s[3..]).map_err(|_| MoneyError("Could not parse amount from currency value".to_string()))?;
         let cur = FromStr::from_str(&s[..3])?;
+        let amt = s[3..].trim().parse().map_err(|_| MoneyError("Could not parse amount from money value".to_string()))?;
         Ok(Money::new(amt, cur))
     }
 }

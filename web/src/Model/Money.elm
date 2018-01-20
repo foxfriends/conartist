@@ -11,7 +11,8 @@ module Model.Money exposing
   , Currency(..)
   )
 import Util.Util as Util
-
+import FormatNumber exposing (format)
+import FormatNumber.Locales as Locales
 -- TODO: can this file be auto-generated from a list?
 
 type Currency
@@ -42,7 +43,9 @@ fromString moneyString =
     (Nothing, _)       -> Err <| (String.left 3 moneyString ++ " is not a valid currency code")
 
 prettyprint : Money -> String
-prettyprint = (++) "$" << Basics.toString << (/) 100 << toFloat << numeric
+prettyprint (Money cur val) = case cur of
+  USD -> (++) "$" <| format Locales.usLocale <| flip (/) 100 <| toFloat val
+  CAD -> (++) "$" <| format Locales.usLocale <| flip (/) 100 <| toFloat val
 
 parse : String -> Result String Money
 parse money =

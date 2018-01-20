@@ -81,7 +81,7 @@ conventionRow : Int -> MetaConvention -> List (Html Msg)
 conventionRow keys con =
   let { name, code, start, end } = con in
     [ text name
-    , span [ class "text__placeholder" ] [ text code ]
+    , span [ class "text--placeholder" ] [ text code ]
     , span [] [ text <| (Convention.formatDate start) ++ "–" ++ (Convention.formatDate end) ]
     , centered <|
         -- TODO: transition button to close on hover?

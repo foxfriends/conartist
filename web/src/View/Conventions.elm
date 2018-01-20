@@ -31,7 +31,7 @@ conListRow con =
 conTableRow : MetaConvention -> List (Html msg)
 conTableRow { name, code, start, end } =
   [ text name
-  , span [ class "text__placeholder" ] [ text code ]
+  , span [ class "text--placeholder" ] [ text code ]
   , text <| dateRange start end ]
 
 footer : Model -> List (Html Msg)

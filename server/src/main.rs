@@ -26,7 +26,6 @@ mod middleware;
 mod graphql;
 mod database;
 mod cr;
-mod iterator;
 mod error;
 mod money;
 

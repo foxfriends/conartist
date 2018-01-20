@@ -256,7 +256,7 @@ argPricePair : (Int, Money) -> Arg.Value vars
 argPricePair (q, p) =
   Arg.object
     [ ("quantity", Arg.int q)
-    , ("price", argMoney p) ] -- TODO: refactor money as integer throughout instead of float
+    , ("price", argMoney p) ]
 priceAdd : CondensedPrice -> Arg.Value vars
 priceAdd pr =
   Arg.object

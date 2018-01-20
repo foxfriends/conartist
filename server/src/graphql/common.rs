@@ -11,7 +11,7 @@ pub struct PricePairIn {
 impl Into<serde_json::Value> for PricePairIn {
     fn into(self) -> serde_json::Value {
         json!(
-            [ self.quantity, self.price ]
+            [ self.quantity, self.price.to_string() ]
         )
     }
 }

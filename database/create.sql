@@ -115,12 +115,12 @@ CREATE INDEX index_Prices_con ON Prices (user_con_id);
 CREATE INDEX index_Prices_user ON Prices (user_id);
 COMMENT ON TABLE Prices IS 'Records how much each product or product type should cost, for a user or for a specific convention';
 
--- VARCHAR(23) is used to represent money, 23 being the longest possible length
+-- CHAR(23) is used to represent money, 23 being the longest possible length
 -- e.g. CAD-9223372036854775808 to CAD9223372036854775807
 CREATE TABLE Records (
   record_id   SERIAL PRIMARY KEY,
   user_con_id INT NOT NULL REFERENCES User_Conventions (user_con_id) ON DELETE CASCADE,
-  price       VARCHAR(23) NOT NULL,
+  price       CHAR(23) NOT NULL,
   products    INT[] NOT NULL,
   sale_time   TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP)
 );
@@ -130,7 +130,7 @@ COMMENT ON TABLE Records IS 'Represents a sale of one or more products to one cu
 CREATE TABLE Expenses (
   expense_id  SERIAL PRIMARY KEY,
   user_con_id INT NOT NULL REFERENCES User_Conventions (user_con_id) ON DELETE CASCADE,
-  price       VARCHAR(23) NOT NULL,
+  price       CHAR(23) NOT NULL,
   category    VARCHAR(32),
   description VARCHAR(512),
   spend_time  TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP)

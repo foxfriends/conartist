@@ -6,7 +6,7 @@ import Model.Page exposing (ConventionPageState)
 import Model.Convention exposing (asMeta)
 import View.Convention.Summary as Summary
 import View.Convention.Products as Products
-import View.Convention.Products as Prices
+import View.Convention.Prices as Prices
 import View.Convention.Sales as Sales
 import View.Convention.Stats as Stats
 import View.Tabs exposing (tabs, TabItem(Tab))

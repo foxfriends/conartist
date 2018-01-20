@@ -70,13 +70,13 @@ normalize price = case price of
     p.index
     (Either.both p.type_id)
     (Either.both p.product_id)
-    (Either.unpack identity (Money.money << Result.withDefault 0 << Util.toInt << valueOf) p.price)
+    (Either.unpack identity (Result.withDefault (Money.money 0) << Money.parse << valueOf) p.price)
     (Either.unpack identity (valueOf >> Util.toInt >> Result.withDefault 0) p.quantity)
   New p     -> Just <| FullPrice
     p.index
     (valueOf p.type_id)
     p.product_id
-    (Money.money <| Result.withDefault 0 <| Util.toInt <| valueOf p.price)
+    (Result.withDefault (Money.money 0) <| Money.parse <| valueOf p.price)
     (Result.withDefault 0 <| Util.toInt <| valueOf p.quantity)
   Deleted _ -> Nothing
 

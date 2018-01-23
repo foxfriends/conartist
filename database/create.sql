@@ -136,4 +136,4 @@ CREATE TABLE Expenses (
   spend_time  TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP)
 );
 CREATE INDEX index_Expenses ON Expenses (user_con_id);
-COMMENT ON TABLE Records IS 'Represents something that was purchased by a user to facilitate their attendence at a convention';
+COMMENT ON TABLE Expenses IS 'Represents something that was purchased by a user to facilitate their attendence at a convention';

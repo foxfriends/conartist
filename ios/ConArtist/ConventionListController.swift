@@ -10,17 +10,16 @@ import Strongbox
 import Foundation
 
 class ConventionListController: UITableViewController {
-    private let SectionHeaderHeight: CGFloat = 25
-    
-    private let cachedConventions: Cache<[ConventionTimePeriod: [Convention]]> = Cache {
+    private let cachedConventions: Cache<[[Convention]]> = Cache {
         guard let model = ConArtist.model else {
-            return [.Past: [], .Present: [], .Future: []]
+            return [[], [], []]
         }
         return [
             // TODO: this could be more efficient, but this is clean for now
-            .Past: model.cons(before: Date.today()),
-            .Present: model.cons(during: Date.today()),
-            .Future: model.cons(after: Date.today())
+            // [Present, Past, Future] is the order of the sections
+            model.cons(during: Date.today()),
+            model.cons(before: Date.today()),
+            model.cons(after: Date.today())
         ]
     }
     
@@ -51,10 +50,6 @@ class ConventionListController: UITableViewController {
     }
 
     // MARK: - TableView
-    
-    private enum ConventionTimePeriod: Int {
-        case Present = 0, Future, Past
-    }
 
     private func refresh() {
         cachedConventions.clear()
@@ -62,72 +57,58 @@ class ConventionListController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        let present = cachedConventions.value[0].count > 0 ? 1 : 0
+        let past = cachedConventions.value[1].count > 0 ? 1 : 0
+        let future = cachedConventions.value[2].count > 0 ? 1 : 0
+        return past + present + future
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard
-            let timePeriod = ConventionTimePeriod(rawValue: section),
-            let cons = cachedConventions.value[timePeriod]
-        else {
-            return 0
-        }
-        return cons.count
+            section < numberOfSections(in: tableView),
+            let adjusted = adjustSection(section)
+        else { return 0 }
+        return cachedConventions.value[adjusted].count
     }
     
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let timePeriod = ConventionTimePeriod(rawValue: section) else {
-            return nil
-        }
-
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: SectionHeaderHeight))
-        let label = UILabel(frame: CGRect(x: 15, y: 0, width: tableView.bounds.width - 30, height: SectionHeaderHeight))
-        label.font = UIFont.boldSystemFont(ofSize: 15)
-        label.textColor = UIColor.black
-        
-        switch timePeriod {
-        case .Past:
-            label.text = "Previous"
-        case .Present:
-            label.text = "Current"
-        case .Future:
-            label.text = "Upcoming"
-        }
-        
-        view.addSubview(label)
-        return view
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard
-            let timePeriod = ConventionTimePeriod(rawValue: section),
-            let cons = cachedConventions.value[timePeriod]
-        else {
-            return 0
-        }
-        return cons.isEmpty ? 0 as CGFloat : SectionHeaderHeight
+            section < numberOfSections(in: tableView),
+            let adjusted = adjustSection(section)
+        else { return nil }
+        return ["Current", "Previous", "Upcoming"][adjusted]
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ConventionListCell", for: indexPath) as! ConventionListRow
-        if
-            let timePeriod = ConventionTimePeriod(rawValue: indexPath.section),
-            let item = cachedConventions.value[timePeriod]?[indexPath.row]
-        {
-            cell.fill(with: item)
+        if indexPath.section < numberOfSections(in: tableView) {
+            if let adjusted = adjustSection(indexPath.section) {
+                let item = cachedConventions.value[adjusted][indexPath.row]
+                cell.fill(with: item)
+            }
         }
-
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard
-            let timePeriod = ConventionTimePeriod(rawValue: indexPath.section),
-            let con = cachedConventions.value[timePeriod]?[indexPath.row]
-        else {
-            return
-        }
-        ConArtist.model?.focusedConvention = con
+            indexPath.section < numberOfSections(in: tableView),
+            let adjusted = adjustSection(indexPath.section)
+        else { return }
+        ConArtist.model?.focusedConvention = cachedConventions.value[adjusted][indexPath.row]
         performSegue(withIdentifier: SegueIdentifier.ShowConventionDetails.rawValue, sender: self)
+    }
+    
+    func adjustSection(_ section: Int) -> Int? {
+        var caught = 0
+        for i in 0...3 {
+            if cachedConventions.value[i].count > 0 {
+                caught += 1
+                if caught > section {
+                    return i
+                }
+            }
+        }
+        return nil
     }
 }

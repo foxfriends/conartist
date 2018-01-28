@@ -10,7 +10,7 @@ import Foundation
 
 struct Expense {
     let id: Int
-    let price: String // TODO: why is this a string
+    let price: Money
     let time: Date
     let category: String
     let description: String
@@ -19,7 +19,7 @@ struct Expense {
         guard let expense = maybeExpense else { return nil }
         return Expense(
             id: expense.id,
-            price: expense.price,
+            price: expense.price.toMoney()!, // TODO: is ! bad?
             time: expense.time.toDate()!, // TODO: is ! bad?
             category: expense.category,
             description: expense.description

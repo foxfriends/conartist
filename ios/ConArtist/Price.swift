@@ -10,7 +10,7 @@ struct Price {
     let typeId: Int
     let productId: Int?
     let quantity: Int
-    let price: String // TODO: why is this a string?
+    let price: Money
     
     static func from(graphQL maybePrice: FullConventionQuery.Data.UserConvention.Price?) -> Price? {
         guard let price = maybePrice else { return nil }
@@ -18,7 +18,7 @@ struct Price {
             typeId: price.typeId,
             productId: price.productId,
             quantity: price.quantity, 
-            price: price.price
+            price: price.price.toMoney()!
         )
     }
 }

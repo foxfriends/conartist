@@ -39,7 +39,7 @@ class RecordListRow: UITableViewCell {
                     return "\(prev!), \(result)"
                 }
         }
-        priceLabel.text = item.price
+        priceLabel.text = item.price.toString()
         timeLabel.text = item.time.toString("E h:mm")
     }
 }

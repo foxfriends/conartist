@@ -9,8 +9,6 @@
 import UIKit
 
 class RecordListController: UITableViewController {
-    private let records: Cache<[Record]> = Cache { ConArtist.model?.focusedConvention?.records ?? [] }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // TODO: display loading indicator
@@ -22,8 +20,13 @@ class RecordListController: UITableViewController {
     
     // MARK: - TableView
     
+    private var records = {
+        get {
+            return ConArtist.model?.focusedConvention?.records ?? []
+        }
+    }
+    
     private func refresh() {
-        records.clear()
         tableView.reloadData()
     }
     

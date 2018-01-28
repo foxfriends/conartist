@@ -9,12 +9,6 @@
 import Foundation
 import SwiftMoment
 
-extension String {
-    func toDate() -> Date? {
-        return moment(self)?.date
-    }
-}
-
 extension Date {
     static func today() -> Date {
         // TODO: can this be done with moment?

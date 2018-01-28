@@ -2765,7 +2765,7 @@
         {
           "kind": "SCALAR",
           "name": "Money",
-          "description": "Represents a monitary value as a float",
+          "description": "Represents a monetary value and a currency as a string, such as CAD150 for $1.50 in CAD",
           "fields": null,
           "inputFields": null,
           "interfaces": null,
@@ -3387,7 +3387,7 @@
               "deprecationReason": null
             },
             {
-              "name": "INLINE_FRAGMENT",
+              "name": "INLINE_SPREAD",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -3577,7 +3577,7 @@
           "locations": [
             "FIELD",
             "FRAGMENT_SPREAD",
-            "INLINE_FRAGMENT"
+            "INLINE_SPREAD"
           ],
           "args": [
             {
@@ -3602,7 +3602,7 @@
           "locations": [
             "FIELD",
             "FRAGMENT_SPREAD",
-            "INLINE_FRAGMENT"
+            "INLINE_SPREAD"
           ],
           "args": [
             {

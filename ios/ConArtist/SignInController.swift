@@ -9,7 +9,6 @@
 import UIKit
 
 class SignInController: UIViewController {
-    @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
 

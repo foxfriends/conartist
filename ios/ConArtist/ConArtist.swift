@@ -43,7 +43,7 @@ struct ConArtist {
         static let AuthToken = "AuthToken"
     }
     
-    static var model: Model? = nil
+    static let model = Model()
     
     struct Error: Swift.Error {
         let msg: String

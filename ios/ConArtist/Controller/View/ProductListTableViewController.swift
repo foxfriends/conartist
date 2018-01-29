@@ -1,5 +1,5 @@
 //
-//  ProductListController.swift
+//  ProductListTableViewController.swift
 //  ConArtist
 //
 //  Created by Cameron Eldridge on 2017-12-23.

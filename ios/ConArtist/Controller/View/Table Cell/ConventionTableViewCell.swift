@@ -1,5 +1,5 @@
 //
-//  ConventionListRow.swift
+//  ConventionTableViewCell.swift
 //  ConArtist
 //
 //  Created by Cameron Eldridge on 2017-12-21.
@@ -8,7 +8,8 @@
 
 import UIKit
 
-class ConventionListRow: UITableViewCell {
+class ConventionTableViewCell: UITableViewCell {
+    static let ID = "ConventionCell"
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     

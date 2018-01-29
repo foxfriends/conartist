@@ -6,12 +6,14 @@ target 'ConArtist' do
   # Pods for ConArtist
   pod 'Apollo', '~> 0.7.0'
   pod 'Alamofire', '~> 4.5'
-  pod 'PromiseKit', '~> 4.4'
-  pod 'PromiseKit/Alamofire', '~> 4.0'
   pod 'Gloss', '~> 2.0'
   pod 'Strongbox'
   pod 'SwiftMoment'
-
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  pod 'RxAlamofire'
+  pod 'SexyTooltip'
+  
   target 'ConArtistTests' do
     inherit! :search_paths
     # Pods for testing

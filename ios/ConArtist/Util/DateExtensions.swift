@@ -11,7 +11,6 @@ import SwiftMoment
 
 extension Date {
     static func today() -> Date {
-        // TODO: can this be done with moment?
         let components = Calendar.current.dateComponents([.day, .month, .year], from: Date())
         return Calendar.current.date(from: components)!
     }

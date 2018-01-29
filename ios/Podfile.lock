@@ -4,20 +4,17 @@ PODS:
     - Apollo/Core (= 0.7.0)
   - Apollo/Core (0.7.0)
   - Gloss (2.0.0)
-  - PromiseKit (4.5.0):
-    - PromiseKit/Foundation (= 4.5.0)
-    - PromiseKit/QuartzCore (= 4.5.0)
-    - PromiseKit/UIKit (= 4.5.0)
-  - PromiseKit/Alamofire (4.5.0):
-    - Alamofire (~> 4.0)
-    - PromiseKit/CorePromise
-  - PromiseKit/CorePromise (4.5.0)
-  - PromiseKit/Foundation (4.5.0):
-    - PromiseKit/CorePromise
-  - PromiseKit/QuartzCore (4.5.0):
-    - PromiseKit/CorePromise
-  - PromiseKit/UIKit (4.5.0):
-    - PromiseKit/CorePromise
+  - pop (1.0.10)
+  - RxAlamofire (4.0.0):
+    - RxAlamofire/Core (= 4.0.0)
+  - RxAlamofire/Core (4.0.0):
+    - Alamofire (~> 4.5)
+    - RxSwift (~> 4.0)
+  - RxCocoa (4.0.0):
+    - RxSwift (~> 4.0)
+  - RxSwift (4.0.0)
+  - SexyTooltip (1.2.6):
+    - pop (~> 1.0)
   - Strongbox (0.4.0)
   - SwiftMoment (0.7)
 
@@ -25,8 +22,10 @@ DEPENDENCIES:
   - Alamofire (~> 4.5)
   - Apollo (~> 0.7.0)
   - Gloss (~> 2.0)
-  - PromiseKit (~> 4.4)
-  - PromiseKit/Alamofire (~> 4.0)
+  - RxAlamofire
+  - RxCocoa
+  - RxSwift
+  - SexyTooltip
   - Strongbox
   - SwiftMoment
 
@@ -34,10 +33,14 @@ SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
   Apollo: d6649ac06168660e70c6226c4eadfc0770791ba5
   Gloss: b67617f327406adfd47adf20172d00680a3a31bd
-  PromiseKit: 9c1d9f6d7b65e3951a90bea7f407c56972be5d8e
+  pop: 82ca6b068ce9278fd350fd9dd09482a0ce9492e6
+  RxAlamofire: 6ea579ac53bf14cb4bc7049a3866e5a769989b1d
+  RxCocoa: d62846ca96495d862fa4c59ea7d87e5031d7340e
+  RxSwift: fd680d75283beb5e2559486f3c0ff852f0d35334
+  SexyTooltip: 47654d390fbb85f31b8e49f4e48c5f1eec58a4c9
   Strongbox: d7386b85bd4f50ea9da5154919ad998989fceb2f
   SwiftMoment: dc6dd27012e267819104cbb03f74ff9192dd0b42
 
-PODFILE CHECKSUM: f50011132c1fc9836d1a00fd2bf38233047f2641
+PODFILE CHECKSUM: aaa43796b56becded29e734fed73f950a52bde0c
 
 COCOAPODS: 1.4.0.rc.1

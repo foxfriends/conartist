@@ -1,5 +1,5 @@
 //
-//  ProductTypeListRow.swift
+//  ProductTypeTableViewCell.swift
 //  ConArtist
 //
 //  Created by Cameron Eldridge on 2017-12-24.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProductTypeListRow: UITableViewCell {
+class ProductTypeTableViewCell: UITableViewCell {
     @IBOutlet weak var typeSymbolLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!

@@ -1,5 +1,5 @@
 //
-//  RecordListTableViewController.swift
+//  RecordListViewController.swift
 //  ConArtist
 //
 //  Created by Cameron Eldridge on 2017-12-23.
@@ -9,8 +9,9 @@
 import UIKit
 import RxSwift
 
-class RecordListTableViewController: UITableViewController {
+class RecordListViewController: UIViewController {
     fileprivate static let ID = "RecordList"
+    @IBOutlet weak var recordsTableView: UITableView!
     fileprivate var ørecords: Observable<[Record]>!
     fileprivate var øproductTypes: Observable<[ProductType]>!
     fileprivate var øproducts: Observable<[Product]>!
@@ -29,22 +30,22 @@ class RecordListTableViewController: UITableViewController {
             øproductTypes.map { [weak self] in self?._productTypes = $0 },
             øproducts.map { [weak self] in self?._products = $0 }
         ])
-            .subscribe({ [weak self] _ in self?.tableView.reloadData() })
+            .subscribe({ [weak self] _ in self?.recordsTableView.reloadData() })
             .disposed(by: disposeBag)
     }
 }
 
 // MARK: - TableView
-extension RecordListTableViewController {
-    override func numberOfSections(in tableView: UITableView) -> Int {
+extension RecordListViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return section == 0 ? _records.count : 0
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RecordTableViewCell.ID, for: indexPath) as! RecordTableViewCell
         if let record = _records.nth(indexPath.row) {
             cell.fill(with: record, using: _productTypes, and: _products)
@@ -54,12 +55,12 @@ extension RecordListTableViewController {
 }
 
 // MARK: - Navigation
-extension RecordListTableViewController {
-    class func addAsTab(to navigator: UITabBarController, for ørecords: Observable<[Record]>, _ øproductTypes: Observable<[ProductType]>, and øproducts: Observable<[Product]>) {
-        let controller = RecordListTableViewController.instantiate(withId: RecordListTableViewController.ID) as! RecordListTableViewController
+extension RecordListViewController {
+    class func create(with ørecords: Observable<[Record]>, _ øproductTypes: Observable<[ProductType]>, and øproducts: Observable<[Product]>) -> RecordListViewController {
+        let controller: RecordListViewController = RecordListViewController.instantiate(withId: RecordListViewController.ID)
         controller.ørecords = ørecords
         controller.øproductTypes = øproductTypes
         controller.øproducts = øproducts
-        navigator.viewControllers?.append(controller)
+        return controller
     }
 }

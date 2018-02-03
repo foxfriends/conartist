@@ -11,7 +11,6 @@ import RxSwift
 
 class Model {
     enum Page {
-        case Start
         case SignIn
         case Conventions
         case Convention(Observable<Convention>)
@@ -21,7 +20,7 @@ class Model {
     let name = Variable<String?>(nil)
     let email = Variable<String?>(nil)
     let conventions = Variable<[Convention]>([])
-    let page = Variable<Page>(.Start)
+    let page = Variable<[Page]>([.SignIn])
     
     func setUser(graphQL user: UserQuery.Data.User?) {
         guard let user = user else { return }

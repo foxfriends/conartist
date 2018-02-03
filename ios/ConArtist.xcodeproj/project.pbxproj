@@ -18,14 +18,15 @@
 		324592971FEAFEE000DE89BB /* ConRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592961FEAFEE000DE89BB /* ConRequest.swift */; };
 		3245929C1FEB19DA00DE89BB /* GraphQL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3245929B1FEB19DA00DE89BB /* GraphQL.swift */; };
 		324592A01FEB230600DE89BB /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3245929F1FEB230600DE89BB /* Auth.swift */; };
-		324592A21FEB4B4D00DE89BB /* ConventionListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592A11FEB4B4D00DE89BB /* ConventionListTableViewController.swift */; };
+		324592A21FEB4B4D00DE89BB /* ConventionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592A11FEB4B4D00DE89BB /* ConventionListViewController.swift */; };
 		324592AA1FEC2E7900DE89BB /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592A91FEC2E7900DE89BB /* Model.swift */; };
 		324592AC1FEC2EA500DE89BB /* Convention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592AB1FEC2EA500DE89BB /* Convention.swift */; };
 		324592AE1FEC314900DE89BB /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592AD1FEC314900DE89BB /* DateExtensions.swift */; };
 		3266CEF720017E2C0016D5E6 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3266CEF620017E2C0016D5E6 /* ColorExtensions.swift */; };
-		32BC33DB1FEEECF50006256A /* ProductTypeListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33DA1FEEECF50006256A /* ProductTypeListTableViewController.swift */; };
+		32AE416720253D5C0061EB64 /* RootNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AE416620253D5C0061EB64 /* RootNavigationController.swift */; };
+		32AE4169202553CF0061EB64 /* ProductTypeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AE4168202553CF0061EB64 /* ProductTypeListViewController.swift */; };
+		32AE416B202554AD0061EB64 /* RecordListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AE416A202554AD0061EB64 /* RecordListViewController.swift */; };
 		32BC33DD1FEEED030006256A /* ProductListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33DC1FEEED030006256A /* ProductListTableViewController.swift */; };
-		32BC33E01FEEED140006256A /* RecordListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33DF1FEEED140006256A /* RecordListTableViewController.swift */; };
 		32BC33E21FEEF17E0006256A /* ProductType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33E11FEEF17E0006256A /* ProductType.swift */; };
 		32BC33E41FEEF1B80006256A /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33E31FEEF1B80006256A /* Product.swift */; };
 		32BC33E61FEEF1E40006256A /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33E51FEEF1E40006256A /* Record.swift */; };
@@ -73,14 +74,15 @@
 		324592961FEAFEE000DE89BB /* ConRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConRequest.swift; sourceTree = "<group>"; };
 		3245929B1FEB19DA00DE89BB /* GraphQL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphQL.swift; sourceTree = "<group>"; };
 		3245929F1FEB230600DE89BB /* Auth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
-		324592A11FEB4B4D00DE89BB /* ConventionListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConventionListTableViewController.swift; sourceTree = "<group>"; };
+		324592A11FEB4B4D00DE89BB /* ConventionListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConventionListViewController.swift; sourceTree = "<group>"; };
 		324592A91FEC2E7900DE89BB /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		324592AB1FEC2EA500DE89BB /* Convention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convention.swift; sourceTree = "<group>"; };
 		324592AD1FEC314900DE89BB /* DateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		3266CEF620017E2C0016D5E6 /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
-		32BC33DA1FEEECF50006256A /* ProductTypeListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductTypeListTableViewController.swift; sourceTree = "<group>"; };
+		32AE416620253D5C0061EB64 /* RootNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootNavigationController.swift; sourceTree = "<group>"; };
+		32AE4168202553CF0061EB64 /* ProductTypeListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductTypeListViewController.swift; sourceTree = "<group>"; };
+		32AE416A202554AD0061EB64 /* RecordListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordListViewController.swift; sourceTree = "<group>"; };
 		32BC33DC1FEEED030006256A /* ProductListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductListTableViewController.swift; sourceTree = "<group>"; };
-		32BC33DF1FEEED140006256A /* RecordListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordListTableViewController.swift; sourceTree = "<group>"; };
 		32BC33E11FEEF17E0006256A /* ProductType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductType.swift; sourceTree = "<group>"; };
 		32BC33E31FEEF1B80006256A /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		32BC33E51FEEF1E40006256A /* Record.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
@@ -176,10 +178,10 @@
 			children = (
 				32C39C27201EA54E00071E26 /* Table Cell */,
 				321B75DB1F9BAD320055EBC4 /* SignInViewController.swift */,
-				324592A11FEB4B4D00DE89BB /* ConventionListTableViewController.swift */,
-				32BC33DA1FEEECF50006256A /* ProductTypeListTableViewController.swift */,
+				324592A11FEB4B4D00DE89BB /* ConventionListViewController.swift */,
+				32AE4168202553CF0061EB64 /* ProductTypeListViewController.swift */,
 				32BC33DC1FEEED030006256A /* ProductListTableViewController.swift */,
-				32BC33DF1FEEED140006256A /* RecordListTableViewController.swift */,
+				32AE416A202554AD0061EB64 /* RecordListViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -221,6 +223,7 @@
 			isa = PBXGroup;
 			children = (
 				32C39C35201EA66800071E26 /* ConventionDetailsTabBarController.swift */,
+				32AE416620253D5C0061EB64 /* RootNavigationController.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -517,10 +520,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32AE416B202554AD0061EB64 /* RecordListViewController.swift in Sources */,
 				32BC33E81FEEF2070006256A /* Expense.swift in Sources */,
 				32C39C20201E99A100071E26 /* ArrayExtensions.swift in Sources */,
 				3245929C1FEB19DA00DE89BB /* GraphQL.swift in Sources */,
 				324592951FEAFA6000DE89BB /* ConArtist.swift in Sources */,
+				32AE416720253D5C0061EB64 /* RootNavigationController.swift in Sources */,
 				32C39C31201EA5B400071E26 /* RecordTableViewCell.swift in Sources */,
 				324592A01FEB230600DE89BB /* Auth.swift in Sources */,
 				321B75DC1F9BAD320055EBC4 /* SignInViewController.swift in Sources */,
@@ -532,6 +537,7 @@
 				32BC33DD1FEEED030006256A /* ProductListTableViewController.swift in Sources */,
 				32C39C36201EA66800071E26 /* ConventionDetailsTabBarController.swift in Sources */,
 				324592971FEAFEE000DE89BB /* ConRequest.swift in Sources */,
+				32AE4169202553CF0061EB64 /* ProductTypeListViewController.swift in Sources */,
 				3266CEF720017E2C0016D5E6 /* ColorExtensions.swift in Sources */,
 				32BC33EA1FEEF2420006256A /* Price.swift in Sources */,
 				32BC33E61FEEF1E40006256A /* Record.swift in Sources */,
@@ -542,11 +548,9 @@
 				32C39C1E201E870600071E26 /* UIViewExtensions.swift in Sources */,
 				324592AE1FEC314900DE89BB /* DateExtensions.swift in Sources */,
 				32BE32BB201E786B00BFEB16 /* UIViewControllerExtensions.swift in Sources */,
-				32BC33E01FEEED140006256A /* RecordListTableViewController.swift in Sources */,
 				32C39C33201EA5B400071E26 /* ProductTypeTableViewCell.swift in Sources */,
-				32BC33DB1FEEECF50006256A /* ProductTypeListTableViewController.swift in Sources */,
 				32BC33E41FEEF1B80006256A /* Product.swift in Sources */,
-				324592A21FEB4B4D00DE89BB /* ConventionListTableViewController.swift in Sources */,
+				324592A21FEB4B4D00DE89BB /* ConventionListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

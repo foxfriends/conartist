@@ -18,17 +18,22 @@ class ConventionDetailsTabBarController : UITabBarController {
         let ørecords = øconvention.flatMap { $0.records }
         let øproducts = øconvention.flatMap { $0.products }
         
-        ProductTypeListTableViewController.addAsTab(to: self, for: øtypes)
-        RecordListTableViewController.addAsTab(to: self, for: ørecords, øtypes, and: øproducts)
+        setViewControllers(
+            [
+                ProductTypeListViewController.create(with: øtypes),
+                RecordListViewController.create(with: ørecords, øtypes, and: øproducts)
+            ],
+            animated: false
+        )
     }
 }
 
 // MARK: - Navigation
 
 extension ConventionDetailsTabBarController {
-    class func push(to navigator: UINavigationController, for øconvention: Observable<Convention>) {
+    class func create(for øconvention: Observable<Convention>) -> ConventionDetailsTabBarController {
         let controller = ConventionDetailsTabBarController.instantiate(withId: ConventionDetailsTabBarController.ID) as! ConventionDetailsTabBarController
         controller.øconvention = øconvention
-        navigator.pushViewController(controller, animated: true)
+        return controller
     }
 }

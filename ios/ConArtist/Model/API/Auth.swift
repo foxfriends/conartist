@@ -40,9 +40,9 @@ struct Auth {
             .map(storeUser)
     }
     
-    private static func handleConRequest<T>(_ response: Any) throws -> T {
-        guard let json = response as? JSON else {
-            throw ConArtist.Error(msg: "Error parsing JSON for ConRequest")
+    private static func handleConRequest<T>(_ response: (HTTPURLResponse, Any)) throws -> T {
+        guard let json = response.1 as? JSON else {
+            throw ConArtist.Error(msg: "Error parsing JSON for ConRequest: \(response)")
         }
         switch ConRequest<T>.init(json: json)! {
         case .success(data: let data):

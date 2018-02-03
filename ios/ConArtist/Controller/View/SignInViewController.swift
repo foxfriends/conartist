@@ -38,6 +38,15 @@ extension SignInViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if ConArtist.API.authToken != ConArtist.API.Unauthorized {
+            Auth.reauthorize()
+                .subscribe(
+                    onNext: { ConArtist.model.page.value.append(.Conventions) },
+                    onError: { print("Sign in failed: \($0)") }
+                )
+                .disposed(by: disposeBag)
+        }
+        
         let øcredentials = Observable.combineLatest([emailTextField.rx.text, passwordTextField.rx.text])
         signInButton.rx.tap
             .withLatestFrom(øcredentials)
@@ -46,10 +55,7 @@ extension SignInViewController {
                 self?.øerrorState.on(.next(.IncorrectCredentials))
                 return Observable.empty()
             }
-            .subscribe {
-                guard case .next(_) = $0 else { return }
-                ConArtist.model.page.value = .Conventions
-            }
+            .subscribe(onNext: { ConArtist.model.page.value.append(.Conventions) })
             .disposed(by: disposeBag)
         
         øerrorState
@@ -61,17 +67,7 @@ extension SignInViewController {
 
 // MARK: - Navigation
 extension SignInViewController {
-    private class func create() -> SignInViewController {
-        return SignInViewController.instantiate(withId: SignInViewController.ID) as! SignInViewController
-    }
-    
-    class func push(to navigator: UINavigationController) {
-        let controller = SignInViewController.create()
-        navigator.pushViewController(controller, animated: true)
-    }
-    
-    class func present(from navigator: UIViewController) {
-        let controller = SignInViewController.create()
-        navigator.present(controller, animated: true)
+    class func create() -> SignInViewController {
+        return SignInViewController.instantiate(withId: SignInViewController.ID)
     }
 }

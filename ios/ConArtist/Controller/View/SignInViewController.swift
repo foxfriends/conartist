@@ -60,7 +60,8 @@ extension SignInViewController {
         
         øerrorState
             .map { $0.message() }
-            .subscribe( onNext: signInButton.showTooltip)
+            .asDriver(onErrorJustReturn: "An unknown error has occurred")
+            .drive( onNext: signInButton.showTooltip)
             .disposed(by: disposeBag)
     }
 }

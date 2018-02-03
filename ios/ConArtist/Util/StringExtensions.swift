@@ -21,8 +21,8 @@ extension String {
 extension String {
     func toMoney() -> Money? {
         guard
-            let currency = CurrencyCode(rawValue: String(self.dropFirst(3))),
-            let amount = Int(self)
+            let currency = CurrencyCode(rawValue: String(self.prefix(3))),
+            let amount = Int(self.dropFirst(3))
         else {
             return nil
         }

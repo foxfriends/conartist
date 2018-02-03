@@ -11,13 +11,22 @@ import RxSwift
 
 class ConventionDetailsTabBarController : UITabBarController {
     fileprivate static let ID = "ConventionDetails"
-    var øconvention: Observable<Convention>!
+    fileprivate let disposeBag = DisposeBag()
+    var convention: Convention!
+}
+
+// MARK: - Lifecycle
+extension ConventionDetailsTabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        let øtypes = øconvention.flatMap { $0.productTypes }
-        let ørecords = øconvention.flatMap { $0.records }
-        let øproducts = øconvention.flatMap { $0.products }
+        convention
+            .fill()
+            .subscribe()
+            .disposed(by: disposeBag)
         
+        let øtypes = convention.productTypes
+        let ørecords = convention.records
+        let øproducts = convention.products
         setViewControllers(
             [
                 ProductTypeListViewController.create(with: øtypes),
@@ -31,9 +40,9 @@ class ConventionDetailsTabBarController : UITabBarController {
 // MARK: - Navigation
 
 extension ConventionDetailsTabBarController {
-    class func create(for øconvention: Observable<Convention>) -> ConventionDetailsTabBarController {
-        let controller = ConventionDetailsTabBarController.instantiate(withId: ConventionDetailsTabBarController.ID) as! ConventionDetailsTabBarController
-        controller.øconvention = øconvention
+    class func create(for convention: Convention) -> ConventionDetailsTabBarController {
+        let controller: ConventionDetailsTabBarController = ConventionDetailsTabBarController.instantiate(withId: ConventionDetailsTabBarController.ID)
+        controller.convention = convention
         return controller
     }
 }

@@ -23,7 +23,8 @@ extension ProductTypeListViewController {
         super.viewDidLoad()
         øproductTypes
             .map({ [weak self] in self?.productTypes = $0 })
-            .subscribe(onNext: productTypesTableView.reloadData)
+            .asDriver(onErrorJustReturn: ())
+            .drive(onNext: productTypesTableView.reloadData)
             .disposed(by: disposeBag)
     }
 }

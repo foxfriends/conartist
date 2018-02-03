@@ -45,7 +45,7 @@ class Convention {
     }
 }
 
-// MARK: - Date format
+// MARK: - Helpers
 extension Convention {
     private static let DateFormat: String = "MMM dd, yyyy"
     var dateString: String {
@@ -55,7 +55,7 @@ extension Convention {
     }
 }
 
-// MARK: - Filling
+// MARK: - API
 extension Convention {
     func fill() -> Observable<Void> {
         if øconvention.value == nil {

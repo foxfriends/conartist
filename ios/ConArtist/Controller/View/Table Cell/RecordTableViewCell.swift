@@ -16,7 +16,8 @@ class RecordTableViewCell: UITableViewCell {
     @IBOutlet weak var timeLabel: UILabel!
     
     func fill(with item: Record, using types: [ProductType], and products: [Product]) {
-        let typeId = item.products.first ?? ConArtist.NoID // having no product should be impossible, but defaulting this can't hurt
+        let productId = item.products.first ?? ConArtist.NoID // having no product should be impossible, but defaulting this can't hurt
+        let typeId = products.first { $0.id == productId }?.typeId ?? ConArtist.NoID
         let type = types.first { $0.id == typeId }
         typeSymbolLabel.text = String(type?.name.first ?? "?")
         typeSymbolLabel.backgroundColor = UIColor.from(hex: type?.color ?? 0xFFFFFF)

@@ -13,7 +13,7 @@ class Model {
     enum Page {
         case SignIn
         case Conventions
-        case Convention(Observable<Convention>)
+        case Convention(Convention)
         case Products(ProductType)
     }
     

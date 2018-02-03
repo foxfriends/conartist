@@ -40,7 +40,8 @@ extension ConventionListViewController {
             .map { $0.map { $0.count > 0 } }
             .map { zip($0, ["Present", "Past", "Future"]) }
             .map { $0.filter { $0.0 } }
-            .subscribe(onNext: { [weak self] sections in
+            .asDriver(onErrorJustReturn: [])
+            .drive(onNext: { [weak self] sections in
                 self?.sectionTitles = sections.map { $0.1 }
                 self?.conventionsTableView.reloadData()
             })
@@ -94,7 +95,7 @@ extension ConventionListViewController: UITableViewDelegate {
             let section = sectionTitles.nth(indexPath.section),
             let convention = conventions(for: section).nth(indexPath.row)
         else { return }
-        ConArtist.model.page.value.append(.Convention(øconventions.asObservable().map { $0.first { $0.id == convention.id }! }))
+        ConArtist.model.page.value.append(.Convention(convention))
     }
 }
 

@@ -19,7 +19,7 @@ struct Money {
     func toString() -> String {
         switch currency {
         case .CAD, .USD:
-            return "$\(Float(amount) / 100.0)"
+            return String(format: "$%.2f", Float(amount) / 100.0)
         }
     }
     

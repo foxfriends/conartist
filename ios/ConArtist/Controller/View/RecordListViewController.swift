@@ -16,9 +16,9 @@ class RecordListViewController: UIViewController {
     fileprivate var øproductTypes: Observable<[ProductType]>!
     fileprivate var øproducts: Observable<[Product]>!
     
-    fileprivate var _records: [Record] = []
-    fileprivate var _productTypes: [ProductType] = []
-    fileprivate var _products: [Product] = []
+    fileprivate var records: [Record] = []
+    fileprivate var productTypes: [ProductType] = []
+    fileprivate var products: [Product] = []
     
     fileprivate let disposeBag = DisposeBag()
     
@@ -26,11 +26,12 @@ class RecordListViewController: UIViewController {
         super.viewDidLoad()
         
         Observable.combineLatest([
-            ørecords.map { [weak self] in self?._records = $0 },
-            øproductTypes.map { [weak self] in self?._productTypes = $0 },
-            øproducts.map { [weak self] in self?._products = $0 }
+            ørecords.map { [weak self] in self?.records = $0 },
+            øproductTypes.map { [weak self] in self?.productTypes = $0 },
+            øproducts.map { [weak self] in self?.products = $0 }
         ])
-            .subscribe({ [weak self] _ in self?.recordsTableView.reloadData() })
+            .asDriver(onErrorJustReturn: [])
+            .drive(onNext: { [weak self] _ in self?.recordsTableView.reloadData() })
             .disposed(by: disposeBag)
     }
 }
@@ -42,13 +43,13 @@ extension RecordListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? _records.count : 0
+        return section == 0 ? records.count : 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RecordTableViewCell.ID, for: indexPath) as! RecordTableViewCell
-        if let record = _records.nth(indexPath.row) {
-            cell.fill(with: record, using: _productTypes, and: _products)
+        if let record = records.nth(indexPath.row) {
+            cell.fill(with: record, using: productTypes, and: products)
         }
         return cell
     }

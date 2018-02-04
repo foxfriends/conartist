@@ -37,8 +37,6 @@ class Convention {
         start = startDate
         end = endDate
         
-        øconvention.asObservable().subscribe({ print($0) }).disposed(by: disposeBag)
-        
         productTypes = øconvention.asObservable().map { $0?.productTypes.filterMap(ProductType.from) ?? [] }
         products = øconvention.asObservable().map { $0?.products.filterMap(Product.from) ?? [] }
         prices = øconvention.asObservable().map { $0?.prices.filterMap(Price.from) ?? [] }

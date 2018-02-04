@@ -42,6 +42,7 @@ graphql_object!(FullUserConvention: Database |&self| {
     }
 
     field prices(&executor, include_all = false: bool) -> FieldResult<Vec<PriceRow>> {
+        println!("{}", include_all);
         dbtry! {
             executor
                 .context()

@@ -12,6 +12,10 @@ import RxSwift
 class RecordListViewController: UIViewController {
     fileprivate static let ID = "RecordList"
     @IBOutlet weak var recordsTableView: UITableView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var backButton: UIButton!
+    
+    fileprivate var convention: Convention!
     fileprivate var ørecords: Observable<[Record]>!
     fileprivate var øproductTypes: Observable<[ProductType]>!
     fileprivate var øproducts: Observable<[Product]>!
@@ -33,6 +37,13 @@ class RecordListViewController: UIViewController {
             .asDriver(onErrorJustReturn: [])
             .drive(onNext: { [weak self] _ in self?.recordsTableView.reloadData() })
             .disposed(by: disposeBag)
+        
+        backButton.rx.tap
+            .filter { [unowned self] _ in self.tabBarController?.selectedViewController == self }
+            .subscribe({ _ in ConArtist.model.page.value.removeLast() })
+            .disposed(by: disposeBag)
+        
+        titleLabel.text = convention.name
     }
 }
 
@@ -57,8 +68,9 @@ extension RecordListViewController: UITableViewDataSource {
 
 // MARK: - Navigation
 extension RecordListViewController {
-    class func create(with ørecords: Observable<[Record]>, _ øproductTypes: Observable<[ProductType]>, and øproducts: Observable<[Product]>) -> RecordListViewController {
+    class func create(for convention: Convention, with ørecords: Observable<[Record]>, _ øproductTypes: Observable<[ProductType]>, and øproducts: Observable<[Product]>) -> RecordListViewController {
         let controller: RecordListViewController = RecordListViewController.instantiate(withId: RecordListViewController.ID)
+        controller.convention = convention
         controller.ørecords = ørecords
         controller.øproductTypes = øproductTypes
         controller.øproducts = øproducts

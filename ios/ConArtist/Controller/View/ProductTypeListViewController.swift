@@ -12,6 +12,9 @@ import RxSwift
 class ProductTypeListViewController: UIViewController {
     fileprivate static let ID = "ProductTypeList"
     @IBOutlet weak var productTypesTableView: UITableView!
+    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var titleLabel: UILabel!
+    fileprivate var convention: Convention!
     fileprivate let øproductTypes = Variable<[ProductType]>([])
     fileprivate let øproducts = Variable<[Product]>([])
     fileprivate let øprices = Variable<[Price]>([])
@@ -26,6 +29,13 @@ extension ProductTypeListViewController {
             .asDriver()
             .map { _ in () }
             .drive(onNext: productTypesTableView.reloadData)
+            .disposed(by: disposeBag)
+        
+        titleLabel.text = convention.name
+        
+        backButton.rx.tap
+            .filter { [unowned self] _ in self.tabBarController?.selectedViewController == self }
+            .subscribe { _ in ConArtist.model.page.value.removeLast() }
             .disposed(by: disposeBag)
     }
 }
@@ -53,17 +63,19 @@ extension ProductTypeListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension ProductTypeListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let typeId = øproductTypes.value[indexPath.row].id
-        let products = øproducts.value.filter { $0.typeId == typeId }
-        let prices = øprices.value.filter { $0.typeId == typeId }
-        ConArtist.model.page.value.append(.Products(products, prices))
+        let productType = øproductTypes.value[indexPath.row]
+        let products = øproducts.value.filter { $0.typeId == productType.id }
+        let prices = øprices.value.filter { $0.typeId == productType.id }
+        ConArtist.model.page.value.append(.Products(productType, products, prices))
     }
 }
 
 // MARK: Navigation
 extension ProductTypeListViewController {
-    class func create(with øproductTypes: Observable<[ProductType]>, _ øproducts: Observable<[Product]>, and øprices: Observable<[Price]>) -> ProductTypeListViewController {
+    class func create(for convention: Convention, with øproductTypes: Observable<[ProductType]>, _ øproducts: Observable<[Product]>, and øprices: Observable<[Price]>) -> ProductTypeListViewController {
         let controller: ProductTypeListViewController = ProductTypeListViewController.instantiate(withId: ProductTypeListViewController.ID)
+
+        controller.convention = convention
         øproducts
             .bind(to: controller.øproducts)
             .disposed(by: controller.disposeBag)

@@ -39,8 +39,8 @@ class RootNavigationController: UINavigationController {
             return ConventionListViewController.create()
         case .Convention(let convention):
             return ConventionDetailsTabBarController.create(for: convention)
-        case .Products(let products, let prices):
-            return ProductListViewController.create(for: products, and: prices)
+        case .Products(let productType, let products, let prices):
+            return ProductListViewController.create(for: productType, products, and: prices)
         }
     }
 }

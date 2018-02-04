@@ -16,8 +16,12 @@ class ProductListViewController: UIViewController {
     @IBOutlet weak var selectedProductsCollectionView: UICollectionView!
     @IBOutlet weak var productsTableView: UITableView!
     @IBOutlet weak var selectedProductsFlowLayout: UICollectionViewFlowLayout!
+    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var titleLabel: UILabel!
     
     fileprivate let øselectedProducts = Variable<[Product]>([])
+    fileprivate var productType: ProductType!
     fileprivate var products: [Product]!
     fileprivate var prices: [Prices]!
 }
@@ -64,6 +68,8 @@ extension ProductListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        titleLabel.text = productType.name
+        
         øselectedProducts
             .asDriver()
             .map { _ in () }
@@ -71,6 +77,14 @@ extension ProductListViewController {
             .disposed(by: disposeBag)
         
         selectedProductsFlowLayout.estimatedItemSize = CGSize(width: 1, height: 1)
+        
+        cancelButton.rx.tap
+            .subscribe({ _ in ConArtist.model.page.value.removeLast() })
+            .disposed(by: disposeBag)
+        
+        saveButton.rx.tap
+            .subscribe({ _ in ConArtist.model.page.value.removeLast() })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -124,8 +138,9 @@ extension ProductListViewController: UITableViewDelegate {
 
 // MARK: - Navigation
 extension ProductListViewController {
-    class func create(for products: [Product], and prices: [Price]) -> ProductListViewController {
+    class func create(for productType: ProductType, _ products: [Product], and prices: [Price]) -> ProductListViewController {
         let controller: ProductListViewController = ProductListViewController.instantiate(withId: ProductListViewController.ID)
+        controller.productType = productType
         controller.products = products
         controller.prices = Prices.condense(prices)
         return controller

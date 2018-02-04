@@ -14,7 +14,7 @@ class Model {
         case SignIn
         case Conventions
         case Convention(Convention)
-        case Products([Product], [Price])
+        case Products(ProductType, [Product], [Price])
     }
     
     let name = Variable<String?>(nil)

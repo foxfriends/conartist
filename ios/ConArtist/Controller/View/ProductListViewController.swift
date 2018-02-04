@@ -43,12 +43,14 @@ extension ProductListViewController {
             return updated
         }
         return items.reduce(Money(currency: .CAD, amount: 0)) { price, item in
+            let id = item.key
+            var count = item.value
+            guard let prices = self.prices.first(where: { $0.productId ?? ConArtist.NoID == id })?.prices.sorted(by: { $0.key < $1.key }) else {
+                return price
+            }
             var newPrice = price
-            let id = item.0
-            var count = item.1
-            let prices = self.prices.first { $0.productId ?? ConArtist.NoID == id }!.prices.sorted(by: { $0.key > $1.key })
             while count > 0 {
-                let price = prices.reduce(prices.first!) { best, price in
+                let price = prices.reduce((key: 0, value: Money(currency: .CAD, amount: 0))) { best, price in
                     if price.key <= count && price.key > best.key {
                         return price
                     } else {

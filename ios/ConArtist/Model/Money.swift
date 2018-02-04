@@ -28,7 +28,7 @@ struct Money {
     }
     
     static func +(a: Money, b: Money) -> Money {
-        if a.currency == b.currency { return a }
+        if a.currency != b.currency { return a }
         return Money(
             currency: a.currency,
             amount: a.amount + b.amount

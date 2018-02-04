@@ -39,10 +39,14 @@ extension SignInViewController {
         super.viewDidLoad()
         
         if ConArtist.API.authToken != ConArtist.API.Unauthorized {
+            ConArtist.model.page.value.append(.Conventions)
             Auth.reauthorize()
                 .subscribe(
-                    onNext: { ConArtist.model.page.value.append(.Conventions) },
-                    onError: { print("Sign in failed: \($0)") }
+                    onError: {
+                        print("Sign in failed: \($0)")
+                        ConArtist.model.page.value.removeLast()
+                        ConArtist.API.authToken = ConArtist.API.Unauthorized
+                    }
                 )
                 .disposed(by: disposeBag)
         }

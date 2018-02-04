@@ -14,6 +14,7 @@ class ConventionListViewController: UIViewController {
     fileprivate static let ID = "ConventionList"
     
     @IBOutlet weak var conventionsTableView: UITableView!
+    @IBOutlet weak var settingsButton: UIButton!
     
     fileprivate let øconventions = ConArtist.model.conventions
     fileprivate let disposeBag = DisposeBag()
@@ -22,6 +23,25 @@ class ConventionListViewController: UIViewController {
     fileprivate var past: [Convention] = []
     fileprivate var future: [Convention] = []
     fileprivate var sectionTitles: [String] = []
+}
+
+extension ConventionListViewController {
+    fileprivate func openSettings() {
+        let settings = [
+            SettingsViewController.Group(
+                title: "General",
+                items: [
+                    .Action("Sign out", { [weak self] in self?.signOut() })
+                ]
+            ),
+        ]
+        ConArtist.model.page.value.append(.Settings(settings))
+    }
+    
+    fileprivate func signOut() {
+        ConArtist.model.page.value = [.SignIn]
+        ConArtist.API.authToken = ConArtist.API.Unauthorized
+    }
 }
 
 // MARK: - Lifecycle
@@ -45,6 +65,10 @@ extension ConventionListViewController {
                 self?.sectionTitles = sections.map { $0.1 }
                 self?.conventionsTableView.reloadData()
             })
+            .disposed(by: disposeBag)
+        
+        settingsButton.rx.tap
+            .subscribe(onNext: { [unowned self] _ in self.openSettings() })
             .disposed(by: disposeBag)
     }
 }

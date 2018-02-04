@@ -25,7 +25,7 @@ class RootNavigationController: UINavigationController {
                 if previous.count < current.count {
                     self.pushViewController(self.viewController(for: current.last!), animated: true)
                 } else {
-                    self.popViewController(animated: true)
+                    self.popToViewController(self.viewControllers[current.count - 1], animated: true)
                 }
             })
             .disposed(by: disposeBag)
@@ -41,6 +41,8 @@ class RootNavigationController: UINavigationController {
             return ConventionDetailsTabBarController.create(for: convention)
         case .Products(let productType, let products, let prices):
             return ProductListViewController.create(for: productType, products, and: prices)
+        case .Settings(let settings):
+            return SettingsViewController.create(for: settings)
         }
     }
 }

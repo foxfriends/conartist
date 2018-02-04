@@ -15,6 +15,7 @@ class Model {
         case Conventions
         case Convention(Convention)
         case Products(ProductType, [Product], [Price])
+        case Settings([SettingsViewController.Group])
     }
     
     let name = Variable<String?>(nil)

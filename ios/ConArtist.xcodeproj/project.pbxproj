@@ -13,7 +13,6 @@
 		321B75E21F9BAD320055EBC4 /* ConArtist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 321B75E01F9BAD320055EBC4 /* ConArtist.xcdatamodeld */; };
 		321B75E41F9BAD320055EBC4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 321B75E31F9BAD320055EBC4 /* Assets.xcassets */; };
 		321B75E71F9BAD320055EBC4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 321B75E51F9BAD320055EBC4 /* LaunchScreen.storyboard */; };
-		321B75F21F9BAD320055EBC4 /* ConArtistTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321B75F11F9BAD320055EBC4 /* ConArtistTests.swift */; };
 		324592951FEAFA6000DE89BB /* ConArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592941FEAFA6000DE89BB /* ConArtist.swift */; };
 		324592971FEAFEE000DE89BB /* ConRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592961FEAFEE000DE89BB /* ConRequest.swift */; };
 		3245929C1FEB19DA00DE89BB /* GraphQL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3245929B1FEB19DA00DE89BB /* GraphQL.swift */; };
@@ -47,21 +46,9 @@
 		32E80BD7201700EB0008EC27 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E80BD6201700EB0008EC27 /* StringExtensions.swift */; };
 		32F6F6441FF706AA00935554 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 32F6F6431FF706AA00935554 /* Images.xcassets */; };
 		C2E3ACC3210C151F27F71107 /* Pods_ConArtist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE8B039676510BCEC679764D /* Pods_ConArtist.framework */; };
-		E0D8F8978AA25B5F222E19FB /* Pods_ConArtistTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CA031CB351655A962D7BD65 /* Pods_ConArtistTests.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		321B75EE1F9BAD320055EBC4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 321B75CE1F9BAD320055EBC4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 321B75D51F9BAD320055EBC4;
-			remoteInfo = ConArtist;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		063B1EFBB50902FCD0882249 /* Pods-ConArtistTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConArtistTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ConArtistTests/Pods-ConArtistTests.release.xcconfig"; sourceTree = "<group>"; };
 		321B75D61F9BAD320055EBC4 /* ConArtist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConArtist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		321B75D91F9BAD320055EBC4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		321B75DB1F9BAD320055EBC4 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -70,9 +57,6 @@
 		321B75E31F9BAD320055EBC4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		321B75E61F9BAD320055EBC4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		321B75E81F9BAD320055EBC4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		321B75ED1F9BAD320055EBC4 /* ConArtistTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ConArtistTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		321B75F11F9BAD320055EBC4 /* ConArtistTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConArtistTests.swift; sourceTree = "<group>"; };
-		321B75F31F9BAD320055EBC4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		324592941FEAFA6000DE89BB /* ConArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConArtist.swift; sourceTree = "<group>"; };
 		324592961FEAFEE000DE89BB /* ConRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConRequest.swift; sourceTree = "<group>"; };
 		3245929B1FEB19DA00DE89BB /* GraphQL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphQL.swift; sourceTree = "<group>"; };
@@ -105,8 +89,6 @@
 		32E80BD3201700100008EC27 /* Money.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Money.swift; sourceTree = "<group>"; };
 		32E80BD6201700EB0008EC27 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		32F6F6431FF706AA00935554 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		5C406A08D0DDC415ECB3E29A /* Pods-ConArtistTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConArtistTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ConArtistTests/Pods-ConArtistTests.debug.xcconfig"; sourceTree = "<group>"; };
-		5CA031CB351655A962D7BD65 /* Pods_ConArtistTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ConArtistTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		910953E2D95714FA5C58D57C /* Pods-ConArtist.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConArtist.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ConArtist/Pods-ConArtist.debug.xcconfig"; sourceTree = "<group>"; };
 		BE8B039676510BCEC679764D /* Pods_ConArtist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ConArtist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2AA33475894D324CF81CCB2 /* Pods-ConArtist.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConArtist.release.xcconfig"; path = "Pods/Target Support Files/Pods-ConArtist/Pods-ConArtist.release.xcconfig"; sourceTree = "<group>"; };
@@ -121,14 +103,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		321B75EA1F9BAD320055EBC4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E0D8F8978AA25B5F222E19FB /* Pods_ConArtistTests.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -136,7 +110,6 @@
 			isa = PBXGroup;
 			children = (
 				321B75D81F9BAD320055EBC4 /* ConArtist */,
-				321B75F01F9BAD320055EBC4 /* ConArtistTests */,
 				321B75D71F9BAD320055EBC4 /* Products */,
 				9705F5900542E6A817EB42D0 /* Pods */,
 				4FB42CF41256E760A79587D8 /* Frameworks */,
@@ -147,7 +120,6 @@
 			isa = PBXGroup;
 			children = (
 				321B75D61F9BAD320055EBC4 /* ConArtist.app */,
-				321B75ED1F9BAD320055EBC4 /* ConArtistTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -168,15 +140,6 @@
 				32F6F6431FF706AA00935554 /* Images.xcassets */,
 			);
 			path = ConArtist;
-			sourceTree = "<group>";
-		};
-		321B75F01F9BAD320055EBC4 /* ConArtistTests */ = {
-			isa = PBXGroup;
-			children = (
-				321B75F11F9BAD320055EBC4 /* ConArtistTests.swift */,
-				321B75F31F9BAD320055EBC4 /* Info.plist */,
-			);
-			path = ConArtistTests;
 			sourceTree = "<group>";
 		};
 		32C39C23201EA4DC00071E26 /* View */ = {
@@ -275,7 +238,6 @@
 			isa = PBXGroup;
 			children = (
 				BE8B039676510BCEC679764D /* Pods_ConArtist.framework */,
-				5CA031CB351655A962D7BD65 /* Pods_ConArtistTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -285,8 +247,6 @@
 			children = (
 				910953E2D95714FA5C58D57C /* Pods-ConArtist.debug.xcconfig */,
 				C2AA33475894D324CF81CCB2 /* Pods-ConArtist.release.xcconfig */,
-				5C406A08D0DDC415ECB3E29A /* Pods-ConArtistTests.debug.xcconfig */,
-				063B1EFBB50902FCD0882249 /* Pods-ConArtistTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -315,27 +275,6 @@
 			productReference = 321B75D61F9BAD320055EBC4 /* ConArtist.app */;
 			productType = "com.apple.product-type.application";
 		};
-		321B75EC1F9BAD320055EBC4 /* ConArtistTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 321B75F91F9BAD320055EBC4 /* Build configuration list for PBXNativeTarget "ConArtistTests" */;
-			buildPhases = (
-				34604C122E9CC8353977E7ED /* [CP] Check Pods Manifest.lock */,
-				321B75E91F9BAD320055EBC4 /* Sources */,
-				321B75EA1F9BAD320055EBC4 /* Frameworks */,
-				321B75EB1F9BAD320055EBC4 /* Resources */,
-				E8FF4E7391B59DF126E13A15 /* [CP] Embed Pods Frameworks */,
-				639277BDB4578709539B0E5B /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				321B75EF1F9BAD320055EBC4 /* PBXTargetDependency */,
-			);
-			name = ConArtistTests;
-			productName = ConArtistTests;
-			productReference = 321B75ED1F9BAD320055EBC4 /* ConArtistTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -350,11 +289,6 @@
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = KT5TYPEMWT;
 						ProvisioningStyle = Automatic;
-					};
-					321B75EC1F9BAD320055EBC4 = {
-						CreatedOnToolsVersion = 8.3.3;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 321B75D51F9BAD320055EBC4;
 					};
 				};
 			};
@@ -372,7 +306,6 @@
 			projectRoot = "";
 			targets = (
 				321B75D51F9BAD320055EBC4 /* ConArtist */,
-				321B75EC1F9BAD320055EBC4 /* ConArtistTests */,
 			);
 		};
 /* End PBXProject section */
@@ -386,13 +319,6 @@
 				32F6F6441FF706AA00935554 /* Images.xcassets in Resources */,
 				321B75E41F9BAD320055EBC4 /* Assets.xcassets in Resources */,
 				321B75DF1F9BAD320055EBC4 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		321B75EB1F9BAD320055EBC4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,39 +338,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "APOLLO_FRAMEWORK_PATH=\"$(eval find $FRAMEWORK_SEARCH_PATHS -name \"Apollo.framework\" -maxdepth 1)\"\n\nif [ -z \"$APOLLO_FRAMEWORK_PATH\" ]; then\necho \"error: Couldn't find Apollo.framework in FRAMEWORK_SEARCH_PATHS; make sure to add the framework to your project.\"\nexit 1\nfi\n\ncd \"${SRCROOT}/${TARGET_NAME}\"\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-codegen.sh generate $(find . -name '*.graphql') --schema schema.json --output Model/API/GraphQL.swift";
-		};
-		34604C122E9CC8353977E7ED /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ConArtistTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		639277BDB4578709539B0E5B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ConArtistTests/Pods-ConArtistTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		693BFD9862FF5ADE35690E83 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -515,21 +408,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E8FF4E7391B59DF126E13A15 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ConArtistTests/Pods-ConArtistTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -574,23 +452,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		321B75E91F9BAD320055EBC4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				321B75F21F9BAD320055EBC4 /* ConArtistTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		321B75EF1F9BAD320055EBC4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 321B75D51F9BAD320055EBC4 /* ConArtist */;
-			targetProxy = 321B75EE1F9BAD320055EBC4 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		321B75DD1F9BAD320055EBC4 /* Main.storyboard */ = {
@@ -755,36 +617,6 @@
 			};
 			name = Release;
 		};
-		321B75FA1F9BAD320055EBC4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5C406A08D0DDC415ECB3E29A /* Pods-ConArtistTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = ConArtistTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = cameldridge.ConArtistTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ConArtist.app/ConArtist";
-			};
-			name = Debug;
-		};
-		321B75FB1F9BAD320055EBC4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 063B1EFBB50902FCD0882249 /* Pods-ConArtistTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = ConArtistTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = cameldridge.ConArtistTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ConArtist.app/ConArtist";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -802,15 +634,6 @@
 			buildConfigurations = (
 				321B75F71F9BAD320055EBC4 /* Debug */,
 				321B75F81F9BAD320055EBC4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		321B75F91F9BAD320055EBC4 /* Build configuration list for PBXNativeTarget "ConArtistTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				321B75FA1F9BAD320055EBC4 /* Debug */,
-				321B75FB1F9BAD320055EBC4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

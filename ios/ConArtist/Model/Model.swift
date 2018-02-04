@@ -29,4 +29,12 @@ class Model {
         self.email.value = user.email
         self.conventions.value = user.conventions.filterMap(Convention.init)
     }
+    
+    func goBack(_ pages: Int = 1) -> Void {
+        self.page.value.removeLast(pages)
+    }
+    
+    func navigateTo(page: Page) {
+        self.page.value.append(page)
+    }
 }

@@ -81,11 +81,11 @@ extension ProductListViewController {
         selectedProductsFlowLayout.estimatedItemSize = CGSize(width: 1, height: 1)
         
         cancelButton.rx.tap
-            .subscribe({ _ in ConArtist.model.page.value.removeLast() })
+            .subscribe({ _ in ConArtist.model.goBack() })
             .disposed(by: disposeBag)
         
         saveButton.rx.tap
-            .subscribe({ _ in ConArtist.model.page.value.removeLast() })
+            .subscribe({ _ in ConArtist.model.goBack() })
             .disposed(by: disposeBag)
     }
 }

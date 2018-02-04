@@ -35,7 +35,7 @@ extension ConventionListViewController {
                 ]
             ),
         ]
-        ConArtist.model.page.value.append(.Settings(settings))
+        ConArtist.model.navigateTo(page: .Settings(settings))
     }
     
     fileprivate func signOut() {
@@ -119,7 +119,7 @@ extension ConventionListViewController: UITableViewDelegate {
             let section = sectionTitles.nth(indexPath.section),
             let convention = conventions(for: section).nth(indexPath.row)
         else { return }
-        ConArtist.model.page.value.append(.Convention(convention))
+        ConArtist.model.navigateTo(page: .Convention(convention))
     }
 }
 

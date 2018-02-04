@@ -39,12 +39,12 @@ extension SignInViewController {
         super.viewDidLoad()
         
         if ConArtist.API.authToken != ConArtist.API.Unauthorized {
-            ConArtist.model.page.value.append(.Conventions)
+            ConArtist.model.navigateTo(page: .Conventions)
             Auth.reauthorize()
                 .subscribe(
                     onError: {
                         print("Sign in failed: \($0)")
-                        ConArtist.model.page.value.removeLast()
+                        ConArtist.model.page.value = [.SignIn]
                         ConArtist.API.authToken = ConArtist.API.Unauthorized
                     }
                 )
@@ -59,7 +59,7 @@ extension SignInViewController {
                 self?.øerrorState.on(.next(.IncorrectCredentials))
                 return Observable.empty()
             }
-            .subscribe(onNext: { ConArtist.model.page.value.append(.Conventions) })
+            .subscribe(onNext: { ConArtist.model.navigateTo(page: .Conventions) })
             .disposed(by: disposeBag)
         
         øerrorState

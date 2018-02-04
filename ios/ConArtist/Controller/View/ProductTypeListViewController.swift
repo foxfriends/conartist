@@ -35,7 +35,7 @@ extension ProductTypeListViewController {
         
         backButton.rx.tap
             .filter { [unowned self] _ in self.tabBarController?.selectedViewController == self }
-            .subscribe { _ in ConArtist.model.page.value.removeLast() }
+            .subscribe { _ in ConArtist.model.goBack() }
             .disposed(by: disposeBag)
     }
 }
@@ -66,7 +66,7 @@ extension ProductTypeListViewController: UITableViewDelegate {
         let productType = øproductTypes.value[indexPath.row]
         let products = øproducts.value.filter { $0.typeId == productType.id }
         let prices = øprices.value.filter { $0.typeId == productType.id }
-        ConArtist.model.page.value.append(.Products(productType, products, prices))
+        ConArtist.model.navigateTo(page: .Products(productType, products, prices))
     }
 }
 

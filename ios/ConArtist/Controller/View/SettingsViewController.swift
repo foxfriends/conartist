@@ -36,7 +36,7 @@ extension SettingsViewController {
         super.viewDidLoad()
         
         doneButton.rx.tap
-            .subscribe(onNext: { _ in ConArtist.model.page.value.removeLast() })
+            .subscribe(onNext: { _ in ConArtist.model.goBack() })
             .disposed(by: disposeBag)
     }
 }

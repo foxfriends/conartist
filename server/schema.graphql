@@ -79,9 +79,9 @@ type FullUserConvention {
   start: DateTimeUtc!
   end: DateTimeUtc!
   productTypes: [ProductType]!
-  products: [ProductInInventory]!
-  condensedPrices: [Price]!
-  prices: [PriceRow]!
+  products(includeAll: Boolean): [ProductInInventory]!
+  condensedPrices(includeAll: Boolean): [Price]!
+  prices(includeAll: Boolean): [PriceRow]!
   records: [Record]!
   expenses: [Expense]!
 }

@@ -81,9 +81,9 @@ type FullUserConvention {
   start: DateTimeUtc!
   end: DateTimeUtc!
   productTypes: [ProductType]!
-  products: [ProductInInventory]!
-  condensedPrices: [Price]!
-  prices: [PriceRow]!
+  products(includeAll: Boolean): [ProductInInventory]!
+  condensedPrices(includeAll: Boolean): [Price]!
+  prices(includeAll: Boolean): [PriceRow]!
   records: [Record]!
   expenses: [Expense]!
 }
@@ -277,7 +277,7 @@ fragment ExpenseFragment on Expense {
 fragment FullConventionFragment on FullUserConvention {
   ...MetaConventionFragment
   products(includeAll: true) { ...ProductFragment }
-  productTypes(includeAll: true) { ...ProductTypeFragment }
+  productTypes { ...ProductTypeFragment }
   prices(includeAll: true) { ...PriceRowFragment }
   records { ...RecordFragment }
   expenses { ...ExpenseFragment }

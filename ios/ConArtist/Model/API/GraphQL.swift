@@ -261,9 +261,9 @@ public final class FullConventionQuery: GraphQLQuery {
         GraphQLField("name", type: .nonNull(.scalar(String.self))),
         GraphQLField("start", type: .nonNull(.scalar(String.self))),
         GraphQLField("end", type: .nonNull(.scalar(String.self))),
-        GraphQLField("products", type: .nonNull(.list(.nonNull(.object(Product.selections))))),
+        GraphQLField("products", arguments: ["includeAll": true], type: .nonNull(.list(.nonNull(.object(Product.selections))))),
         GraphQLField("productTypes", type: .nonNull(.list(.nonNull(.object(ProductType.selections))))),
-        GraphQLField("prices", type: .nonNull(.list(.nonNull(.object(Price.selections))))),
+        GraphQLField("prices", arguments: ["includeAll": true], type: .nonNull(.list(.nonNull(.object(Price.selections))))),
         GraphQLField("records", type: .nonNull(.list(.nonNull(.object(Record.selections))))),
         GraphQLField("expenses", type: .nonNull(.list(.nonNull(.object(Expense.selections))))),
       ]
@@ -1534,7 +1534,7 @@ public struct ExpenseFragment: GraphQLFragment {
 
 public struct FullConventionFragment: GraphQLFragment {
   public static let fragmentString =
-    "fragment FullConventionFragment on FullUserConvention {\n  __typename\n  ...MetaConventionFragment\n  products {\n    __typename\n    ...ProductFragment\n  }\n  productTypes {\n    __typename\n    ...ProductTypeFragment\n  }\n  prices {\n    __typename\n    ...PriceRowFragment\n  }\n  records {\n    __typename\n    ...RecordFragment\n  }\n  expenses {\n    __typename\n    ...ExpenseFragment\n  }\n}"
+    "fragment FullConventionFragment on FullUserConvention {\n  __typename\n  ...MetaConventionFragment\n  products(includeAll: true) {\n    __typename\n    ...ProductFragment\n  }\n  productTypes {\n    __typename\n    ...ProductTypeFragment\n  }\n  prices(includeAll: true) {\n    __typename\n    ...PriceRowFragment\n  }\n  records {\n    __typename\n    ...RecordFragment\n  }\n  expenses {\n    __typename\n    ...ExpenseFragment\n  }\n}"
 
   public static let possibleTypes = ["FullUserConvention"]
 
@@ -1546,9 +1546,9 @@ public struct FullConventionFragment: GraphQLFragment {
     GraphQLField("name", type: .nonNull(.scalar(String.self))),
     GraphQLField("start", type: .nonNull(.scalar(String.self))),
     GraphQLField("end", type: .nonNull(.scalar(String.self))),
-    GraphQLField("products", type: .nonNull(.list(.nonNull(.object(Product.selections))))),
+    GraphQLField("products", arguments: ["includeAll": true], type: .nonNull(.list(.nonNull(.object(Product.selections))))),
     GraphQLField("productTypes", type: .nonNull(.list(.nonNull(.object(ProductType.selections))))),
-    GraphQLField("prices", type: .nonNull(.list(.nonNull(.object(Price.selections))))),
+    GraphQLField("prices", arguments: ["includeAll": true], type: .nonNull(.list(.nonNull(.object(Price.selections))))),
     GraphQLField("records", type: .nonNull(.list(.nonNull(.object(Record.selections))))),
     GraphQLField("expenses", type: .nonNull(.list(.nonNull(.object(Expense.selections))))),
   ]

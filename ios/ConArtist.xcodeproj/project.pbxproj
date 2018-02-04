@@ -288,6 +288,7 @@
 					321B75D51F9BAD320055EBC4 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = KT5TYPEMWT;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 				};

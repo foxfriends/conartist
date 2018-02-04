@@ -276,9 +276,9 @@ fragment ExpenseFragment on Expense {
 
 fragment FullConventionFragment on FullUserConvention {
   ...MetaConventionFragment
-  products { ...ProductFragment }
-  productTypes { ...ProductTypeFragment }
-  prices { ...PriceRowFragment }
+  products(includeAll: true) { ...ProductFragment }
+  productTypes(includeAll: true) { ...ProductTypeFragment }
+  prices(includeAll: true) { ...PriceRowFragment }
   records { ...RecordFragment }
   expenses { ...ExpenseFragment }
 }

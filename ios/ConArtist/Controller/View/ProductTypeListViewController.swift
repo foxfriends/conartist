@@ -12,8 +12,9 @@ import RxSwift
 class ProductTypeListViewController: UIViewController {
     fileprivate static let ID = "ProductTypeList"
     @IBOutlet weak var productTypesTableView: UITableView!
-    fileprivate var øproductTypes: Observable<[ProductType]>!
-    fileprivate var productTypes: [ProductType]!
+    fileprivate let øproductTypes = Variable<[ProductType]>([])
+    fileprivate let øproducts = Variable<[Product]>([])
+    fileprivate let øprices = Variable<[Price]>([])
     fileprivate let disposeBag = DisposeBag()
 }
 
@@ -22,8 +23,8 @@ extension ProductTypeListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         øproductTypes
-            .map({ [weak self] in self?.productTypes = $0 })
-            .asDriver(onErrorJustReturn: ())
+            .asDriver()
+            .map { _ in () }
             .drive(onNext: productTypesTableView.reloadData)
             .disposed(by: disposeBag)
     }
@@ -36,13 +37,13 @@ extension ProductTypeListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? productTypes.count : 0
+        return section == 0 ? øproductTypes.value.count : 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ProductTypeCell", for: indexPath) as! ProductTypeTableViewCell
-        if indexPath.row < productTypes.count {
-            let item = productTypes[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: ProductTypeTableViewCell.ID, for: indexPath) as! ProductTypeTableViewCell
+        if indexPath.row < øproductTypes.value.count {
+            let item = øproductTypes.value[indexPath.row]
             cell.fill(with: item)
         }
         return cell
@@ -52,17 +53,26 @@ extension ProductTypeListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension ProductTypeListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // TODO:
-        // -   Set focused product type
-        // -   Navigate to product page
+        let typeId = øproductTypes.value[indexPath.row].id
+        let products = øproducts.value.filter { $0.typeId == typeId }
+        let prices = øprices.value.filter { $0.typeId == typeId }
+        ConArtist.model.page.value.append(.Products(products, prices))
     }
 }
 
 // MARK: Navigation
 extension ProductTypeListViewController {
-    class func create(with øtypes: Observable<[ProductType]>) -> ProductTypeListViewController {
+    class func create(with øproductTypes: Observable<[ProductType]>, _ øproducts: Observable<[Product]>, and øprices: Observable<[Price]>) -> ProductTypeListViewController {
         let controller: ProductTypeListViewController = ProductTypeListViewController.instantiate(withId: ProductTypeListViewController.ID)
-        controller.øproductTypes = øtypes
+        øproducts
+            .bind(to: controller.øproducts)
+            .disposed(by: controller.disposeBag)
+        øproductTypes
+            .bind(to: controller.øproductTypes)
+            .disposed(by: controller.disposeBag)
+        øprices
+            .bind(to: controller.øprices)
+            .disposed(by: controller.disposeBag)
         return controller
     }
 }

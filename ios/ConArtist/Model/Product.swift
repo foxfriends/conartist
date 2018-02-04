@@ -10,6 +10,7 @@ struct Product {
     let id: Int
     let typeId: Int
     let name: String
+    let quantity: Int
     let discontinued: Bool
     
     static func from(graphQL maybeProduct: FullConventionQuery.Data.UserConvention.Product?) -> Product? {
@@ -18,6 +19,7 @@ struct Product {
             id: product.id,
             typeId: product.typeId,
             name: product.name,
+            quantity: product.quantity,
             discontinued: product.discontinued
         )
     }

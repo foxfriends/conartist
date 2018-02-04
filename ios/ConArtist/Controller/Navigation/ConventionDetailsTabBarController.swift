@@ -27,9 +27,10 @@ extension ConventionDetailsTabBarController {
         let øtypes = convention.productTypes
         let ørecords = convention.records
         let øproducts = convention.products
+        let øprices = convention.prices
         setViewControllers(
             [
-                ProductTypeListViewController.create(with: øtypes),
+                ProductTypeListViewController.create(with: øtypes, øproducts, and: øprices),
                 RecordListViewController.create(with: ørecords, øtypes, and: øproducts)
             ],
             animated: false

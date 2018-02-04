@@ -9,6 +9,7 @@
 import UIKit
 
 class ProductTypeTableViewCell: UITableViewCell {
+    static let ID = "ProductTypeCell"
     @IBOutlet weak var typeSymbolLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!

@@ -26,4 +26,17 @@ struct Money {
     func toJSON() -> String {
         return "\(currency)\(amount)"
     }
+    
+    static func +(a: Money, b: Money) -> Money {
+        if a.currency == b.currency { return a }
+        return Money(
+            currency: a.currency,
+            amount: a.amount + b.amount
+        )
+    }
+    
+    static func +=(a: inout Money, b: Money) {
+        a = a + b
+    }
 }
+

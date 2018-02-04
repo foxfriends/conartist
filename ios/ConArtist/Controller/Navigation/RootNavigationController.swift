@@ -37,11 +37,10 @@ class RootNavigationController: UINavigationController {
             return SignInViewController.create()
         case .Conventions:
             return ConventionListViewController.create()
-        case .Convention(let øconvention):
-            return ConventionDetailsTabBarController.create(for: øconvention)
-        case .Products:
-            // TODO: implement the product list
-            return UIViewController()
+        case .Convention(let convention):
+            return ConventionDetailsTabBarController.create(for: convention)
+        case .Products(let products, let prices):
+            return ProductListViewController.create(for: products, and: prices)
         }
     }
 }

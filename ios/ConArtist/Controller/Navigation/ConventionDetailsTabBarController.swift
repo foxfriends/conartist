@@ -35,6 +35,20 @@ extension ConventionDetailsTabBarController {
             ],
             animated: false
         )
+        
+        ConArtist.model.dismissed
+            .filterMap { result -> ([Product], Money)? in
+                if case .Sale(let products, let money) = result {
+                    return (products, money)
+                } else {
+                    return nil
+                }
+            }
+            .subscribe(onNext: { [unowned self] products, price in
+                let newRecord = Record(id: nil, products: products.map { $0.id }, price: price, time: Date())
+                self.convention.addRecord(newRecord)
+            })
+            .disposed(by: disposeBag)
     }
 }
 

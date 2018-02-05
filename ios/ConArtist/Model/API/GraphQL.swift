@@ -2,6 +2,105 @@
 
 import Apollo
 
+/// Information required to create a sales record
+public struct RecordAdd: GraphQLMapConvertible {
+  public var graphQLMap: GraphQLMap
+
+  public init(conId: Int, products: [Int], price: String, time: String) {
+    graphQLMap = ["conId": conId, "products": products, "price": price, "time": time]
+  }
+
+  public var conId: Int {
+    get {
+      return graphQLMap["conId"] as! Int
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "conId")
+    }
+  }
+
+  public var products: [Int] {
+    get {
+      return graphQLMap["products"] as! [Int]
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "products")
+    }
+  }
+
+  public var price: String {
+    get {
+      return graphQLMap["price"] as! String
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "price")
+    }
+  }
+
+  public var time: String {
+    get {
+      return graphQLMap["time"] as! String
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "time")
+    }
+  }
+}
+
+/// Information required to create a convention expense
+public struct ExpenseAdd: GraphQLMapConvertible {
+  public var graphQLMap: GraphQLMap
+
+  public init(conId: Int, price: String, category: String, description: String, time: String) {
+    graphQLMap = ["conId": conId, "price": price, "category": category, "description": description, "time": time]
+  }
+
+  public var conId: Int {
+    get {
+      return graphQLMap["conId"] as! Int
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "conId")
+    }
+  }
+
+  public var price: String {
+    get {
+      return graphQLMap["price"] as! String
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "price")
+    }
+  }
+
+  public var category: String {
+    get {
+      return graphQLMap["category"] as! String
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "category")
+    }
+  }
+
+  public var description: String {
+    get {
+      return graphQLMap["description"] as! String
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "description")
+    }
+  }
+
+  public var time: String {
+    get {
+      return graphQLMap["time"] as! String
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "time")
+    }
+  }
+}
+
 public final class UserQuery: GraphQLQuery {
   public static let operationString =
     "query User($id: Int) {\n  user(id: $id) {\n    __typename\n    name\n    email\n    conventions {\n      __typename\n      ...MetaConventionFragment\n    }\n  }\n}"
@@ -1065,6 +1164,288 @@ public final class ConventionPageQuery: GraphQLQuery {
           }
           set {
             snapshot.updateValue(newValue, forKey: "end")
+          }
+        }
+      }
+    }
+  }
+}
+
+public final class AddRecordMutation: GraphQLMutation {
+  public static let operationString =
+    "mutation AddRecord($id: Int, $record: RecordAdd!) {\n  addUserRecord(userId: $id, record: $record) {\n    __typename\n    ...RecordFragment\n  }\n}"
+
+  public static var requestString: String { return operationString.appending(RecordFragment.fragmentString) }
+
+  public var id: Int?
+  public var record: RecordAdd
+
+  public init(id: Int? = nil, record: RecordAdd) {
+    self.id = id
+    self.record = record
+  }
+
+  public var variables: GraphQLMap? {
+    return ["id": id, "record": record]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes = ["Mutation"]
+
+    public static let selections: [GraphQLSelection] = [
+      GraphQLField("addUserRecord", arguments: ["userId": GraphQLVariable("id"), "record": GraphQLVariable("record")], type: .nonNull(.object(AddUserRecord.selections))),
+    ]
+
+    public var snapshot: Snapshot
+
+    public init(snapshot: Snapshot) {
+      self.snapshot = snapshot
+    }
+
+    public init(addUserRecord: AddUserRecord) {
+      self.init(snapshot: ["__typename": "Mutation", "addUserRecord": addUserRecord.snapshot])
+    }
+
+    public var addUserRecord: AddUserRecord {
+      get {
+        return AddUserRecord(snapshot: snapshot["addUserRecord"]! as! Snapshot)
+      }
+      set {
+        snapshot.updateValue(newValue.snapshot, forKey: "addUserRecord")
+      }
+    }
+
+    public struct AddUserRecord: GraphQLSelectionSet {
+      public static let possibleTypes = ["Record"]
+
+      public static let selections: [GraphQLSelection] = [
+        GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+        GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+        GraphQLField("id", type: .nonNull(.scalar(Int.self))),
+        GraphQLField("products", type: .nonNull(.list(.nonNull(.scalar(Int.self))))),
+        GraphQLField("price", type: .nonNull(.scalar(String.self))),
+        GraphQLField("time", type: .nonNull(.scalar(String.self))),
+      ]
+
+      public var snapshot: Snapshot
+
+      public init(snapshot: Snapshot) {
+        self.snapshot = snapshot
+      }
+
+      public init(id: Int, products: [Int], price: String, time: String) {
+        self.init(snapshot: ["__typename": "Record", "id": id, "products": products, "price": price, "time": time])
+      }
+
+      public var __typename: String {
+        get {
+          return snapshot["__typename"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var id: Int {
+        get {
+          return snapshot["id"]! as! Int
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "id")
+        }
+      }
+
+      public var products: [Int] {
+        get {
+          return snapshot["products"]! as! [Int]
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "products")
+        }
+      }
+
+      public var price: String {
+        get {
+          return snapshot["price"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "price")
+        }
+      }
+
+      public var time: String {
+        get {
+          return snapshot["time"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "time")
+        }
+      }
+
+      public var fragments: Fragments {
+        get {
+          return Fragments(snapshot: snapshot)
+        }
+        set {
+          snapshot += newValue.snapshot
+        }
+      }
+
+      public struct Fragments {
+        public var snapshot: Snapshot
+
+        public var recordFragment: RecordFragment {
+          get {
+            return RecordFragment(snapshot: snapshot)
+          }
+          set {
+            snapshot += newValue.snapshot
+          }
+        }
+      }
+    }
+  }
+}
+
+public final class AddExpenseMutation: GraphQLMutation {
+  public static let operationString =
+    "mutation AddExpense($id: Int, $expense: ExpenseAdd!) {\n  addUserExpense(userId: $id, expense: $expense) {\n    __typename\n    ...ExpenseFragment\n  }\n}"
+
+  public static var requestString: String { return operationString.appending(ExpenseFragment.fragmentString) }
+
+  public var id: Int?
+  public var expense: ExpenseAdd
+
+  public init(id: Int? = nil, expense: ExpenseAdd) {
+    self.id = id
+    self.expense = expense
+  }
+
+  public var variables: GraphQLMap? {
+    return ["id": id, "expense": expense]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes = ["Mutation"]
+
+    public static let selections: [GraphQLSelection] = [
+      GraphQLField("addUserExpense", arguments: ["userId": GraphQLVariable("id"), "expense": GraphQLVariable("expense")], type: .nonNull(.object(AddUserExpense.selections))),
+    ]
+
+    public var snapshot: Snapshot
+
+    public init(snapshot: Snapshot) {
+      self.snapshot = snapshot
+    }
+
+    public init(addUserExpense: AddUserExpense) {
+      self.init(snapshot: ["__typename": "Mutation", "addUserExpense": addUserExpense.snapshot])
+    }
+
+    public var addUserExpense: AddUserExpense {
+      get {
+        return AddUserExpense(snapshot: snapshot["addUserExpense"]! as! Snapshot)
+      }
+      set {
+        snapshot.updateValue(newValue.snapshot, forKey: "addUserExpense")
+      }
+    }
+
+    public struct AddUserExpense: GraphQLSelectionSet {
+      public static let possibleTypes = ["Expense"]
+
+      public static let selections: [GraphQLSelection] = [
+        GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+        GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+        GraphQLField("id", type: .nonNull(.scalar(Int.self))),
+        GraphQLField("category", type: .nonNull(.scalar(String.self))),
+        GraphQLField("description", type: .nonNull(.scalar(String.self))),
+        GraphQLField("price", type: .nonNull(.scalar(String.self))),
+        GraphQLField("time", type: .nonNull(.scalar(String.self))),
+      ]
+
+      public var snapshot: Snapshot
+
+      public init(snapshot: Snapshot) {
+        self.snapshot = snapshot
+      }
+
+      public init(id: Int, category: String, description: String, price: String, time: String) {
+        self.init(snapshot: ["__typename": "Expense", "id": id, "category": category, "description": description, "price": price, "time": time])
+      }
+
+      public var __typename: String {
+        get {
+          return snapshot["__typename"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var id: Int {
+        get {
+          return snapshot["id"]! as! Int
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "id")
+        }
+      }
+
+      public var category: String {
+        get {
+          return snapshot["category"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "category")
+        }
+      }
+
+      public var description: String {
+        get {
+          return snapshot["description"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "description")
+        }
+      }
+
+      public var price: String {
+        get {
+          return snapshot["price"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "price")
+        }
+      }
+
+      public var time: String {
+        get {
+          return snapshot["time"]! as! String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "time")
+        }
+      }
+
+      public var fragments: Fragments {
+        get {
+          return Fragments(snapshot: snapshot)
+        }
+        set {
+          snapshot += newValue.snapshot
+        }
+      }
+
+      public struct Fragments {
+        public var snapshot: Snapshot
+
+        public var expenseFragment: ExpenseFragment {
+          get {
+            return ExpenseFragment(snapshot: snapshot)
+          }
+          set {
+            snapshot += newValue.snapshot
           }
         }
       }

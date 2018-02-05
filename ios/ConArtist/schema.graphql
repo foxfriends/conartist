@@ -170,7 +170,7 @@ input RecordAdd {
   conId: Int!
   products: [Int]!
   price: Money!
-  date: DateTimeFixedOffset!
+  time: DateTimeFixedOffset!
 }
 input RecordMod {
   recordId: Int!
@@ -186,7 +186,7 @@ input ExpenseAdd {
   price: Money!
   category: String!
   description: String!
-  date: DateTimeFixedOffset!
+  time: DateTimeFixedOffset!
 }
 input ExpenseMod {
   expenseId: Int!
@@ -196,36 +196,6 @@ input ExpenseMod {
 }
 input ExpenseDel {
   expenseId: Int!
-}
-
-query User($id: Int) {
-  user(id: $id) {
-    name
-    email
-    conventions {
-      ...MetaConventionFragment
-    }
-  }
-}
-
-query FullConvention($id: Int, $code: String!) {
-  userConvention(id: $id, code: $code) {
-    ...FullConventionFragment
-  }
-}
-
-query ConventionPage($date: DateTimeFixedOffset, $limit: Int, $page: Int) {
-  convention(date: $date, limit: $limit, page: $page) {
-    page
-    pages
-    data {
-      id
-      name
-      code
-      start
-      end
-    }
-  }
 }
 
 fragment ProductTypeFragment on ProductType {
@@ -281,4 +251,46 @@ fragment FullConventionFragment on FullUserConvention {
   prices(includeAll: true) { ...PriceRowFragment }
   records { ...RecordFragment }
   expenses { ...ExpenseFragment }
+}
+
+query User($id: Int) {
+  user(id: $id) {
+    name
+    email
+    conventions {
+      ...MetaConventionFragment
+    }
+  }
+}
+
+query FullConvention($id: Int, $code: String!) {
+  userConvention(id: $id, code: $code) {
+    ...FullConventionFragment
+  }
+}
+
+query ConventionPage($date: DateTimeFixedOffset, $limit: Int, $page: Int) {
+  convention(date: $date, limit: $limit, page: $page) {
+    page
+    pages
+    data {
+      id
+      name
+      code
+      start
+      end
+    }
+  }
+}
+
+mutation AddRecord($id: Int, $record: RecordAdd!) {
+  addUserRecord(userId: $id, record: $record) {
+    ...RecordFragment
+  }
+}
+
+mutation AddExpense($id: Int, $expense: ExpenseAdd!) {
+  addUserExpense(userId: $id, expense: $expense) {
+    ...ExpenseFragment
+  }
 }

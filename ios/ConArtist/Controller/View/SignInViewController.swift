@@ -53,13 +53,19 @@ extension SignInViewController {
         
         let øcredentials = Observable.combineLatest([emailTextField.rx.text, passwordTextField.rx.text])
         signInButton.rx.tap
+            .execute { [unowned self] in self.signInButton.isEnabled = false }
             .withLatestFrom(øcredentials)
-            .flatMap { credentials in Auth.signIn(email: credentials[0] ?? "", password: credentials[1] ?? "") }
-            .catchError { [weak self] _ in
-                self?.øerrorState.on(.next(.IncorrectCredentials))
-                return Observable.empty()
+            .flatMap { credentials in
+                Auth.signIn(email: credentials[0] ?? "", password: credentials[1] ?? "")
+                    .map { true }
+                    .catchError { [weak self] _ in
+                        self?.øerrorState.on(.next(.IncorrectCredentials))
+                        return Observable.just(false)
+                    }
             }
-            .subscribe(onNext: { ConArtist.model.navigateTo(page: .Conventions) })
+            .execute({ [weak self] _ in self?.signInButton.isEnabled = true })
+            .filter { $0 }
+            .subscribe({ _ in ConArtist.model.navigateTo(page: .Conventions) })
             .disposed(by: disposeBag)
         
         øerrorState

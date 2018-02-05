@@ -9,7 +9,7 @@
 import Foundation
 
 struct Record {
-    let id: Int
+    let id: Int?
     let products: [Int]
     let price: Money
     let time: Date
@@ -22,5 +22,9 @@ struct Record {
             price: record.price.toMoney()!, // TODO: is ! bad?
             time: record.time.toDate()! // TODO: is ! bad?
         )
+    }
+    
+    func add(to con: Convention) -> RecordAdd {
+        return RecordAdd(conId: con.id, products: products, price: price.toJSON(), time: time.toJSON())
     }
 }

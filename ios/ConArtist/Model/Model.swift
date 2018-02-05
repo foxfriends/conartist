@@ -18,10 +18,15 @@ class Model {
         case Settings([SettingsViewController.Group])
     }
     
+    enum PageResult {
+        case Sale([Product], Money)
+    }
+    
     let name = Variable<String?>(nil)
     let email = Variable<String?>(nil)
     let conventions = Variable<[Convention]>([])
     let page = Variable<[Page]>([.SignIn])
+    let dismissed = PublishSubject<PageResult>()
     
     func setUser(graphQL user: UserQuery.Data.User?) {
         guard let user = user else { return }
@@ -30,8 +35,11 @@ class Model {
         self.conventions.value = user.conventions.filterMap(Convention.init)
     }
     
-    func goBack(_ pages: Int = 1) -> Void {
+    func goBack(_ pages: Int = 1, returning value: PageResult? = nil) -> Void {
         self.page.value.removeLast(pages)
+        if let value = value {
+            dismissed.onNext(value)
+        }
     }
     
     func navigateTo(page: Page) {

@@ -15,7 +15,13 @@ extension Date {
         return Calendar.current.date(from: components)!
     }
     
+    // Formats the date according to the provided format string
     func toString(_ format: String) -> String {
         return moment(self).format(format)
+    }
+    
+    // Formats the date as an RFC-3339 date string
+    func toJSON() -> String {
+        return moment(self).format("yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ")
     }
 }

@@ -13,7 +13,9 @@ extension Array {
         guard index < self.count else { return nil }
         return self[index]
     }
-    
+}
+
+extension Sequence {
     func filterMap<T>(_ transform: (Element) -> T?) -> [T] {
         return self.map(transform).filter { $0 != nil } as! [T]
     }

@@ -21,6 +21,8 @@ class ProductListViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     
     fileprivate let øselectedProducts = Variable<[Product]>([])
+    fileprivate var price = Money(currency: .CAD, amount: 0)
+    
     fileprivate var productType: ProductType!
     fileprivate var products: [Product]!
     fileprivate var prices: [Prices]!
@@ -29,7 +31,8 @@ class ProductListViewController: UIViewController {
 extension ProductListViewController {
     fileprivate func updateSelection() {
         selectedProductsCollectionView.reloadData()
-        priceTextField.text = calculatePrice().toString()
+        price = calculatePrice()
+        priceTextField.text = price.toString()
     }
     
     fileprivate func calculatePrice() -> Money {
@@ -85,7 +88,12 @@ extension ProductListViewController {
             .disposed(by: disposeBag)
         
         saveButton.rx.tap
-            .subscribe({ _ in ConArtist.model.goBack() })
+            .subscribe({ [unowned self] _ in ConArtist.model.goBack(1, returning: .Sale(self.øselectedProducts.value, self.price)) })
+            .disposed(by: disposeBag)
+        
+        priceTextField.rx.value
+            .filterMap { Money.parse(as: .CAD, $0 ?? "") }
+            .subscribe(onNext: { [unowned self] in self.price = $0 })
             .disposed(by: disposeBag)
     }
 }

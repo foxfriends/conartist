@@ -1,5 +1,5 @@
 use super::*;
-use chrono::NaiveDateTime;
+use chrono::{NaiveDateTime, Utc};
 use money::Money;
 use serde_json;
 
@@ -132,6 +132,16 @@ impl Database {
         let conn = self.pool.get().unwrap();
         let trans = conn.transaction().unwrap();
 
+        let convention = query!(trans, "SELECT * FROM Conventions WHERE con_id = $1", con_id)
+            .into_iter()
+            .nth(0)
+            .ok_or_else(|| format!("No convention exists with id {}", con_id))
+            .and_then(|r| Convention::from(r))?;
+
+        if convention.end_date.and_hms(23, 59, 59) < Utc::now().naive_utc() {
+            return Err(format!("Convention '{}' ({}) has ended", convention.title, con_id));
+        }
+
         let user_con_id = query!(trans, "SELECT user_con_id FROM User_Conventions WHERE user_id = $1 AND con_id = $2", user_id, con_id)
             .into_iter()
             .nth(0)
@@ -166,6 +176,16 @@ impl Database {
 
         let conn = self.pool.get().unwrap();
         let trans = conn.transaction().unwrap();
+
+        let convention = query!(trans, "SELECT * FROM Conventions WHERE con_id = $1", con_id)
+            .into_iter()
+            .nth(0)
+            .ok_or_else(|| format!("No convention exists with id {}", con_id))
+            .and_then(|r| Convention::from(r))?;
+
+        if convention.end_date.and_hms(23, 59, 59) < Utc::now().naive_utc() {
+            return Err(format!("Convention '{}' ({}) has ended", convention.title, con_id));
+        }
 
         let user_con_id = query!(trans, "SELECT user_con_id FROM User_Conventions WHERE user_id = $1 AND con_id = $2", user_id, con_id)
             .into_iter()

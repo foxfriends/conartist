@@ -51,12 +51,12 @@ extension SignInViewController {
                 .disposed(by: disposeBag)
         }
         
-        let øcredentials = Observable.combineLatest([emailTextField.rx.text, passwordTextField.rx.text])
+        let øcredentials = Observable.combineLatest(emailTextField.rx.text, passwordTextField.rx.text)
         signInButton.rx.tap
             .execute { [unowned self] in self.signInButton.isEnabled = false }
             .withLatestFrom(øcredentials)
             .flatMap { credentials in
-                Auth.signIn(email: credentials[0] ?? "", password: credentials[1] ?? "")
+                Auth.signIn(email: credentials.0 ?? "", password: credentials.1 ?? "")
                     .map { true }
                     .catchError { [weak self] _ in
                         self?.øerrorState.on(.next(.IncorrectCredentials))

@@ -12,15 +12,20 @@ import RxCocoa
 
 class SettingsBooleanTableViewCell: UITableViewCell {
     static let ID = "SettingsBooleanCell"
+    
+    private var disposeBag = DisposeBag()
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var valueSwitch: UISwitch!
 
     func setup(title: String, value: Variable<Bool>) {
+        disposeBag = DisposeBag()
         titleLabel.text = title
 
         valueSwitch.isOn = value.value
         valueSwitch.rx
             .isOn
             .subscribe(onNext: { on in value.value = on })
+            .disposed(by: disposeBag)
     }
 }

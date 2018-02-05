@@ -2,6 +2,7 @@ platform :ios, '10.3'
 
 target 'ConArtist' do
   use_frameworks!
+  inhibit_all_warnings!
 
   # Pods for ConArtist
   pod 'Apollo', '~> 0.7.0'
@@ -13,9 +14,5 @@ target 'ConArtist' do
   pod 'RxCocoa'
   pod 'RxAlamofire'
   pod 'SexyTooltip'
-  
-  target 'ConArtistTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
+  pod 'MaterialComponents/Snackbar'
 end

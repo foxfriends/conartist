@@ -13,7 +13,7 @@ extension ObservableType {
         return map(transform).filter { $0 != nil }.map { $0! }
     }
     
-    func execute(_ f: @escaping (Self.E) -> Void) -> Observable<Self.E> {
-        return map({ f($0); return $0 })
+    func execute(_ f: @escaping (Self.E) throws -> Void) -> Observable<Self.E> {
+        return map { try f($0); return $0 }
     }
 }

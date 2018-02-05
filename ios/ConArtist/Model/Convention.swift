@@ -80,7 +80,7 @@ extension Convention {
     func fill(_ force: Bool = false) -> Observable<Void> {
         if øconvention.value == nil || force {
             return ConArtist.API.GraphQL
-                .observe(query: FullConventionQuery(id: nil, code: code))
+                .observe(query: FullConventionQuery(id: nil, code: code), cachePolicy: force ? .fetchIgnoringCacheData : .returnCacheDataElseFetch)
                 .catchError { _ in Observable.empty() }
                 .map { [weak self] data in self?.øconvention.value = data.userConvention }
         } else {
@@ -89,9 +89,25 @@ extension Convention {
     }
     
     func save() -> Observable<Void> {
-        let records = øaddedRecords.value.map { record in ConArtist.API.GraphQL.observe(mutation: AddRecordMutation(id: nil, record: record.add(to: self))).map { _ in nil as Error? }.catchError { Observable.just($0) } }
-        let expenses = øaddedExpenses.value.map { expense in ConArtist.API.GraphQL.observe(mutation: AddExpenseMutation(id: nil, expense: expense.add(to: self))).map { _ in nil as Error? }.catchError { Observable.just($0) } }
-        return Observable.zip(Observable.zip(records), Observable.zip(expenses))
+        let records = øaddedRecords.value.isEmpty
+            ? Observable.just([])
+            : Observable.zip(
+                øaddedRecords.value.map { record in
+                    ConArtist.API.GraphQL.observe(mutation: AddRecordMutation(id: nil, record: record.add(to: self)))
+                        .map { _ in nil as Error? }
+                        .catchError { Observable.just($0) }
+                }
+            )
+        let expenses = øaddedExpenses.value.isEmpty
+            ? Observable.just([])
+            : Observable.zip(
+                øaddedExpenses.value.map { expense in
+                    ConArtist.API.GraphQL.observe(mutation: AddExpenseMutation(id: nil, expense: expense.add(to: self)))
+                        .map { _ in nil as Error? }
+                        .catchError { Observable.just($0) }
+                }
+            )
+        return Observable.zip(records, expenses)
             .map { [weak self] re in
                 guard let `self` = self else { return }
                 let (records, expenses) = re

@@ -14,6 +14,7 @@ class RecordTableViewCell: UITableViewCell {
     @IBOutlet weak var productsListLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var modifiedMarkView: UIView!
     
     func fill(with item: Record, using types: [ProductType], and products: [Product]) {
         let productId = item.products.first ?? ConArtist.NoID // having no product should be impossible, but defaulting this can't hurt
@@ -43,5 +44,6 @@ class RecordTableViewCell: UITableViewCell {
         }
         priceLabel.text = item.price.toString()
         timeLabel.text = item.time.toString("E h:mm")
+        modifiedMarkView.isHidden = item.id != nil
     }
 }

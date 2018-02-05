@@ -23,7 +23,7 @@ graphql_object!(Mutation: Database |&self| {
 
     // Users
     field change_user_email(&executor, user_id: Option<i32>, email: String) -> FieldResult<User> {
-        ensure!(email.len() > 0);
+        ensure!(email.len() > 0 && email.len() <= 512);
 
         dbtry! {
             executor
@@ -41,7 +41,7 @@ graphql_object!(Mutation: Database |&self| {
         }
     }
     field change_user_name(&executor, user_id: Option<i32>, name: String) -> FieldResult<User> {
-        ensure!(name.len() > 0);
+        ensure!(name.len() > 0 && name.len() <= 512);
 
         dbtry! {
             executor
@@ -61,7 +61,7 @@ graphql_object!(Mutation: Database |&self| {
 
     // Product types
     field add_user_product_type(&executor, user_id: Option<i32>, product_type: ProductTypeAdd) -> FieldResult<ProductType> {
-        ensure!(product_type.name.len() > 0);
+        ensure!(product_type.name.len() > 0 && product_type.name.len() <= 512);
         ensure!(product_type.color >= 0);
 
         dbtry! {
@@ -72,7 +72,8 @@ graphql_object!(Mutation: Database |&self| {
     }
     field mod_user_product_type(&executor, user_id: Option<i32>, product_type: ProductTypeMod) -> FieldResult<ProductType> {
         ensure!(product_type.type_id > 0);
-        ensure!(product_type.name.as_ref().map(|s| s.len()).unwrap_or(1) > 0);
+        let name_length = product_type.name.as_ref().map(|s| s.len()).unwrap_or(1);
+        ensure!(name_length > 0 && name_length <= 512);
         ensure!(product_type.color.unwrap_or(0) >= 0);
 
         dbtry! {
@@ -84,7 +85,7 @@ graphql_object!(Mutation: Database |&self| {
 
     // Products
     field add_user_product(&executor, user_id: Option<i32>, product: ProductAdd) -> FieldResult<ProductInInventory> {
-        ensure!(product.name.len() > 0);
+        ensure!(product.name.len() > 0 && product.name.len() <= 512);
         ensure!(product.type_id > 0);
         ensure!(product.quantity >= 0);
 
@@ -96,7 +97,8 @@ graphql_object!(Mutation: Database |&self| {
     }
     field mod_user_product(&executor, user_id: Option<i32>, product: ProductMod) -> FieldResult<ProductInInventory> {
         ensure!(product.product_id > 0);
-        ensure!(product.name.as_ref().map(|s| s.len()).unwrap_or(1) > 0);
+        let name_length = product.name.as_ref().map(|s| s.len()).unwrap_or(1);
+        ensure!(name_length > 0 && name_length <= 512);
         ensure!(product.quantity.unwrap_or(0) >= 0);
 
         dbtry! {
@@ -108,7 +110,7 @@ graphql_object!(Mutation: Database |&self| {
 
     // Prices
     field add_user_price(&executor, user_id: Option<i32>, price: PriceAdd) -> FieldResult<Price> {
-        ensure!(price.prices.iter().all(|p| p.quantity >= 0 && p.price >= Money::new(0i64, p.price.cur())));
+        ensure!(price.prices.iter().all(|p| p.quantity > 0 && p.price > Money::new(0i64, p.price.cur())));
 
         let prices: serde_json::Value = price.prices.into();
         dbtry! {
@@ -148,7 +150,7 @@ graphql_object!(Mutation: Database |&self| {
     field add_user_record(&executor, user_id: Option<i32>, record: RecordAdd) -> FieldResult<Record> {
         ensure!(record.products.len() != 0);
         ensure!(record.con_id > 0);
-        ensure!(record.price > Money::new(0i64, record.price.cur()));
+        ensure!(record.price >= Money::new(0i64, record.price.cur()));
 
         dbtry! {
             executor
@@ -161,7 +163,7 @@ graphql_object!(Mutation: Database |&self| {
 
     field add_user_expense(&executor, user_id: Option<i32>, expense: ExpenseAdd) -> FieldResult<Expense> {
         ensure!(expense.con_id > 0);
-        ensure!(expense.price > Money::new(0i64, expense.price.cur()));
+        ensure!(expense.price >= Money::new(0i64, expense.price.cur()));
         ensure!(expense.category.len() > 0 && expense.category.len() < 32);
         ensure!(expense.description.len() > 0 && expense.description.len() < 512);
 

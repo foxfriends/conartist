@@ -10,9 +10,25 @@ import UIKit
 import SexyTooltip
 
 extension UIView {
-    func showTooltip(_ title: String) {
-        let tooltip = SexyTooltip(attributedString: NSAttributedString(string: title, attributes: [:]))
-        tooltip?.present(from: self)
-        tooltip?.dismiss(inTimeInterval: 5)
+    func showTooltip(text: String) {
+        showTooltip(
+            attributedText: NSAttributedString(
+                string: text,
+                attributes: [
+                    NSForegroundColorAttributeName: UIColor.lightGray,
+                    NSFontAttributeName: UIFont.systemFont(ofSize: 14)
+                ]
+            )
+        )
+    }
+    
+    func showTooltip(attributedText: NSAttributedString) {
+        guard let tooltip = SexyTooltip(attributedString: attributedText) else { return }
+        tooltip.hasShadow = true
+        tooltip.cornerRadius = 15
+        tooltip.margin = UIEdgeInsets.zero
+        tooltip.padding = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        tooltip.present(from: self)
+        tooltip.dismiss(inTimeInterval: 5)
     }
 }

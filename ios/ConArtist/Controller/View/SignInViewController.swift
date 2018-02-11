@@ -52,7 +52,7 @@ extension SignInViewController {
         }
         
         let øcredentials = Observable.combineLatest(emailTextField.rx.text, passwordTextField.rx.text)
-        signInButton.rx.tap
+        Observable.merge(signInButton.rx.tap.map { _ in () }, passwordTextField.rx.controlEvent([.editingDidEndOnExit]).map { _ in () })
             .execute { [unowned self] in self.signInButton.isEnabled = false }
             .withLatestFrom(øcredentials)
             .flatMap { credentials in
@@ -68,10 +68,14 @@ extension SignInViewController {
             .subscribe({ _ in ConArtist.model.navigateTo(page: .Conventions) })
             .disposed(by: disposeBag)
         
+        emailTextField.rx.controlEvent([.editingDidEndOnExit])
+            .subscribe(onNext: { [weak self] _ in self?.passwordTextField.becomeFirstResponder() })
+            .disposed(by: disposeBag)
+        
         øerrorState
             .map { $0.message() }
             .asDriver(onErrorJustReturn: "An unknown error has occurred")
-            .drive( onNext: signInButton.showTooltip)
+            .drive(onNext: { [weak self] in self?.emailTextField.showTooltip(text: $0) })
             .disposed(by: disposeBag)
     }
 }

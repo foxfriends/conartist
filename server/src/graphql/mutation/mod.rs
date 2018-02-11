@@ -128,22 +128,18 @@ graphql_object!(Mutation: Database |&self| {
     }
 
     // Conventions
-    field add_user_convention(&executor, user_id: Option<i32>, con_code: String) -> FieldResult<Convention> {
-        ensure!(con_code.len() == 5);
-
+    field add_user_convention(&executor, user_id: Option<i32>, con_id: i32) -> FieldResult<Convention> {
         dbtry! {
             executor
                 .context()
-                .create_user_convention(user_id, con_code)
+                .create_user_convention(user_id, con_id)
         }
     }
-    field del_user_convention(&executor, user_id: Option<i32>, con_code: String) -> FieldResult<bool> {
-         ensure!(con_code.len() == 5);
-
+    field del_user_convention(&executor, user_id: Option<i32>, con_id: i32) -> FieldResult<bool> {
          dbtry! {
              executor
                 .context()
-                .delete_user_convention(user_id, con_code)
+                .delete_user_convention(user_id, con_id)
          }
     }
 

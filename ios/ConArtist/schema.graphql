@@ -9,7 +9,7 @@ scalar Money
 
 type Query {
   user(id: Int): User!
-  userConvention(id: Int, code: String!): FullUserConvention!
+  userConvention(id: Int, id: Int!): FullUserConvention!
   convention(date: Date, page: Int, limit: Int): ConventionPage!
 }
 
@@ -76,10 +76,10 @@ type Expense {
 type FullUserConvention {
   id: Int!
   conId: Int!
-  code: String!
   name: String!
   start: DateTimeUtc!
   end: DateTimeUtc!
+  extraData: String!
   productTypes: [ProductType]!
   products(includeAll: Boolean): [ProductInInventory]!
   condensedPrices(includeAll: Boolean): [Price]!
@@ -90,10 +90,10 @@ type FullUserConvention {
 
 type Convention {
   id: Int!
-  code: String!
   name: String!
   start: DateTimeUtc!
   end: DateTimeUtc!
+  extraData: String!
 }
 
 type ConventionPage {
@@ -117,8 +117,8 @@ type Mutation {
   addUserPrice(userId: Int, price: PriceAdd!): Price!
   delUserPrice(userId: Int, price: PriceDel!): Boolean!
 
-  addUserConvention(userId: Int, conCode: String!): Convention!
-  delUserConvention(userId: Int, conCode: String!): Boolean!
+  addUserConvention(userId: Int, conId: Int!): Convention!
+  delUserConvention(userId: Int, conId: Int!): Boolean!
 
   addUserRecord(userId: Int, record: RecordAdd!): Record!
   modUserRecord(userId: Int, record: RecordMod!): Record!
@@ -175,7 +175,7 @@ input RecordAdd {
 input RecordMod {
   recordId: Int!
   products: [Int]
-  price: Float
+  price: Money
 }
 input RecordDel {
   recordId: Int!
@@ -190,7 +190,7 @@ input ExpenseAdd {
 }
 input ExpenseMod {
   expenseId: Int!
-  price: Float
+  price: Money
   category: String
   description: String
 }
@@ -223,10 +223,10 @@ fragment PriceRowFragment on PriceRow {
 
 fragment MetaConventionFragment on FullUserConvention {
   id
-  code
   name
   start
   end
+  extraData
 }
 
 fragment RecordFragment on Record {
@@ -263,8 +263,8 @@ query User($id: Int) {
   }
 }
 
-query FullConvention($id: Int, $code: String!) {
-  userConvention(id: $id, code: $code) {
+query FullConvention($userId: Int, $conId: Int!) {
+  userConvention(userId: $userId, conId: $conId) {
     ...FullConventionFragment
   }
 }
@@ -276,7 +276,6 @@ query ConventionPage($date: DateTimeFixedOffset, $limit: Int, $page: Int) {
     data {
       id
       name
-      code
       start
       end
     }

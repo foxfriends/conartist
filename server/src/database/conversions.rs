@@ -1,9 +1,11 @@
+use serde_json;
 use postgres::types::{FromSql, ToSql, BPCHAR, Type, IsNull};
 use juniper::Value;
 use std::error::Error;
 use std::str::FromStr;
 use money::Money;
 use error::MoneyError;
+use database::ConventionExtraData;
 
 graphql_scalar!(Money {
     // TODO: improve when proper currency support is added
@@ -42,3 +44,14 @@ impl ToSql for Money {
 
     to_sql_checked!();
 }
+
+graphql_scalar!(ConventionExtraData {
+    resolve(&self) -> Value {
+        Value::string(serde_json::to_string(self).unwrap())
+    }
+
+    from_input_value(v: &InputValue) -> Option<ConventionExtraData> {
+        v   .as_string_value()
+            .and_then(|s| serde_json::from_str(&s).ok())
+    }
+});

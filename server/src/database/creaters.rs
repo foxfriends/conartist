@@ -97,15 +97,15 @@ impl Database {
         }
     }
 
-    pub fn create_user_convention(&self, maybe_user_id: Option<i32>, con_code: String) -> Result<Convention, String> {
+    pub fn create_user_convention(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<Convention, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
 
         let conn = self.pool.get().unwrap();
         let trans = conn.transaction().unwrap();
-        let convention = query!(trans, "SELECT * FROM Conventions WHERE code = $1 AND start_date > NOW()::TIMESTAMP", con_code)
+        let convention = query!(trans, "SELECT * FROM Conventions WHERE con_id = $1 AND start_date > NOW()::TIMESTAMP", con_id)
             .into_iter()
             .nth(0)
-            .ok_or_else(|| format!("No upcoming convention exists with code {}", con_code))
+            .ok_or_else(|| format!("No upcoming convention exists with id {}", con_id))
             .and_then(|r| Convention::from(r))?;
         execute!(trans, "UPDATE Users SET keys = keys - 1 WHERE user_id = $1 AND keys > 0", user_id)
             .map_err(|r| r.to_string())
@@ -114,7 +114,7 @@ impl Database {
         execute!(trans, "INSERT INTO User_Conventions (user_id, con_id) VALUES ($1, $2) RETURNING *", user_id, convention.con_id)
             .map_err(|r| r.to_string())
             .and_then(|r| if r == 1 { Ok(()) } else { Err("unknown".to_string()) })
-            .map_err(|r| format!("Failed to sign user {} up for convention {}. Reason: {}", user_id, con_code, r))?;
+            .map_err(|r| format!("Failed to sign user {} up for convention {}. Reason: {}", user_id, con_id, r))?;
         trans.commit().unwrap();
         Ok(convention)
     }

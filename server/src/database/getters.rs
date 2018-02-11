@@ -74,19 +74,19 @@ impl Database {
         )
     }
 
-    pub fn get_convention_for_user(&self, maybe_user_id: Option<i32>, con_code: &str) -> Result<FullUserConvention, String> {
+    pub fn get_convention_for_user(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<FullUserConvention, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         query!(conn, "
             SELECT *
             FROM User_Conventions u INNER JOIN Conventions c ON u.con_id = c.con_id
             WHERE user_id = $1
-              AND code = $2
-        ", user_id, con_code)
+              AND con_id = $2
+        ", user_id, con_id)
             .iter()
             .filter_map(|row| FullUserConvention::from(row).ok())
             .nth(0)
-            .ok_or(format!("User {} is not signed up for convention {}", user_id, con_code))
+            .ok_or(format!("User {} is not signed up for convention {}", user_id, con_id))
     }
 
     pub fn get_products_for_user_con(&self, user_id: i32, user_con_id: i32, include_all: bool) -> Result<Vec<ProductInInventory>, String> {

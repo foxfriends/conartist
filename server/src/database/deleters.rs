@@ -13,20 +13,20 @@ impl Database {
         }   .map(|r| r == 1)
     }
 
-    pub fn delete_user_convention(&self, maybe_user_id: Option<i32>, con_code: String) -> Result<bool, String> {
+    pub fn delete_user_convention(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<bool, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         let trans = conn.transaction().unwrap();
 
-        let convention = query!(trans, "SELECT * FROM Conventions WHERE code = $1 AND start_date > NOW()::TIMESTAMP", con_code)
+        let convention = query!(trans, "SELECT * FROM Conventions WHERE con_id = $1 AND start_date > NOW()::TIMESTAMP", con_id)
             .into_iter()
             .nth(0)
-            .ok_or_else(|| format!("No upcoming convention exists with code {}", con_code))
+            .ok_or_else(|| format!("No upcoming convention exists with id {}", con_id))
             .and_then(|r| Convention::from(r))?;
         execute!(trans, "DELETE FROM User_Conventions WHERE user_id = $1 AND con_id = $2", user_id, convention.con_id)
             .map_err(|r| r.to_string())
             .and_then(|r| if r == 1 { Ok(()) } else { Err("".to_string()) })
-            .map_err(|_| format!("User {} was not signed up for convention {}", user_id, con_code))?;
+            .map_err(|_| format!("User {} was not signed up for convention {}", user_id, con_id))?;
         execute!(trans, "UPDATE Users SET keys = keys + 1 WHERE user_id = $1", user_id)
             .map_err(|r| r.to_string())
             .and_then(|r| if r == 1 { Ok(()) } else { Err("".to_string()) })

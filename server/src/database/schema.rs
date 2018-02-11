@@ -3,6 +3,7 @@
 
 use std::panic::catch_unwind;
 use std::str::FromStr;
+use std::collections::HashMap;
 use postgres::rows::Row;
 use chrono::{NaiveDate, NaiveDateTime};
 use money::Money;
@@ -32,23 +33,26 @@ impl User {
     }
 }
 
+#[derive(Deserialize, Serialize, Clone)]
+pub struct ConventionExtraData(HashMap<String, String>);
+
 #[derive(Clone)]
 pub struct Convention {
     pub con_id: i32,
-    pub code: String,
     pub title: String,
     pub start_date: NaiveDate,
     pub end_date: NaiveDate,
+    pub extra_data: ConventionExtraData,
 }
 impl Convention {
     pub fn from(row: Row) -> Result<Self, String> {
         catch_unwind(|| {
             Self {
                 con_id: row.get("con_id"),
-                code: row.get("code"),
                 title: row.get("title"),
                 start_date: row.get("start_date"),
                 end_date: row.get("end_date"),
+                extra_data: serde_json::from_str(&row.get::<&'static str, String>("extra_data")).unwrap(),
             }
         }).map_err(|_| "Tried to create a Convention from a non-Convention row".to_string())
     }
@@ -59,10 +63,10 @@ pub struct FullUserConvention {
     pub user_con_id: i32,
     pub user_id: i32,
     pub con_id: i32,
-    pub code: String,
     pub title: String,
     pub start_date: NaiveDate,
     pub end_date: NaiveDate,
+    pub extra_data: ConventionExtraData,
 }
 impl FullUserConvention {
     pub fn from(row: Row) -> Result<Self, String> {
@@ -71,10 +75,10 @@ impl FullUserConvention {
                 user_con_id: row.get("user_con_id"),
                 user_id: row.get("user_id"),
                 con_id: row.get("con_id"),
-                code: row.get("code"),
                 title: row.get("title"),
                 start_date: row.get("start_date"),
                 end_date: row.get("end_date"),
+                extra_data: serde_json::from_str(&row.get::<&'static str, String>("extra_data")).unwrap(),
             }
         }).map_err(|_| "Tried to create a FullUserConvention from a non-FullUserConvention row".to_string())
 
@@ -103,10 +107,10 @@ impl UserConvention {
             user_con_id: self.user_con_id,
             user_id: self.user_id,
             con_id: self.con_id,
-            code: con.code,
             title: con.title,
             start_date: con.start_date,
             end_date: con.end_date,
+            extra_data: con.extra_data,
         }
     }
 }

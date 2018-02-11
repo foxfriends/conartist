@@ -35,13 +35,30 @@ COMMENT ON TABLE Users IS 'A user of the ConArtist app';
 
 CREATE TABLE Conventions (
   con_id      SERIAL PRIMARY KEY,
-  code        CHAR(5) UNIQUE NOT NULL,
   title       VARCHAR(512) NOT NULL,
   start_date  DATE NOT NULL,
-  end_date    DATE NOT NULL
+  end_date    DATE NOT NULL,
+  extra_info  JSON NOT NULL DEFAULT ('[]') -- { name: "Title", info: "Info" }[]
 );
-CREATE INDEX index_Conventions on Conventions (code);
+CREATE INDEX index_Conventions ON Conventions (con_id);
 COMMENT ON TABLE Conventions IS 'The many conventions that are taking place around the world';
+
+CREATE TABLE ConventionInfo (
+  con_info_id SERIAL PRIMARY KEY,
+  con_id      INT NOT NULL REFERENCES Conventions (con_id) ON DELETE CASCADE,
+  user_id     INT NOT NULL REFERENCES Users       (user_id) ON DELETE CASCADE, -- would be nice to keep these if a user is deleted
+  information TEXT NOT NULL
+);
+CREATE INDEX index_ConventionInfo ON ConventionInfo (con_id);
+COMMENT ON TABLE ConventionInfo IS 'User contributed information about a convention';
+
+CREATE TABLE ConventionInfoRatings (
+  con_info_id INT NOT NULL REFERENCES ConventionInfo (con_info_id) ON DELETE CASCADE,
+  user_id     INT NOT NULL REFERENCES Users          (user_id)     ON DELETE CASCADE,
+  rating      BOOLEAN NOT NULL
+);
+CREATE INDEX index_ConventionInfoRatings ON ConventionInfoRatings (con_info_id);
+COMMENT ON TABLE ConventionInfoRatings IS 'Tracks the quality of provided info';
 
 CREATE TABLE User_Conventions (
   user_con_id SERIAL PRIMARY KEY,

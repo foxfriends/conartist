@@ -32,12 +32,12 @@ graphql_object!(Query: Database |&self| {
 
     field user_convention(
         &executor,
-        id: Option<i32> as "The ID of the user to retrieve. Leave out to request self",
-        code: String as "The con-code of the convention to retrieve",
+        user_id: Option<i32> as "The ID of the user to retrieve. Leave out to request self",
+        con_id: i32 as "The ID of the convention to retrieve",
     ) -> FieldResult<FullUserConvention> as "Retrieves the full information of one user's convention" {
         executor
             .context()
-            .get_convention_for_user(id, &code)
+            .get_convention_for_user(user_id, con_id)
             .map_err(|s| FieldError::new(s, Value::null()))
     }
 

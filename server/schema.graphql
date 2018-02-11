@@ -5,10 +5,11 @@
 scalar NaiveDate
 scalar DateTimeUtc
 scalar DateTimeFixedOffset
+scalar Money
 
 type Query {
   user(id: Int): User!
-  userConvention(id: Int, code: String!): FullUserConvention!
+  userConvention(id: Int, conId: Int!): FullUserConvention!
   convention(date: Date, page: Int, limit: Int): ConventionPage!
 }
 
@@ -40,7 +41,7 @@ type ProductInInventory {
 
 type PricePairOut {
   quantity: Int!
-  price: Float!
+  price: Money!
 }
 type Price {
   typeId: Int!
@@ -53,19 +54,19 @@ type PriceRow {
   typeId: Int!
   productId: Int
   quantity: Int!
-  price: Float!
+  price: Money!
 }
 
 type Record {
   id: Int!
   products: [Int]!
-  price: Float!
+  price: Money!
   time: DateTimeUtc!
 }
 
 type Expense {
   id: Int!
-  price: Float!
+  price: Money!
   category: String!
   description: String!
   time: DateTimeUtc!
@@ -74,10 +75,10 @@ type Expense {
 type FullUserConvention {
   id: Int!
   conId: Int!
-  code: String!
   name: String!
   start: DateTimeUtc!
   end: DateTimeUtc!
+  extraData: String!
   productTypes: [ProductType]!
   products(includeAll: Boolean): [ProductInInventory]!
   condensedPrices(includeAll: Boolean): [Price]!
@@ -88,10 +89,10 @@ type FullUserConvention {
 
 type Convention {
   id: Int!
-  code: String!
   name: String!
   start: DateTimeUtc!
   end: DateTimeUtc!
+  extraData: String!
 }
 
 type ConventionPage {
@@ -115,8 +116,8 @@ type Mutation {
   addUserPrice(userId: Int, price: PriceAdd!): Price!
   delUserPrice(userId: Int, price: PriceDel!): Boolean!
 
-  addUserConvention(userId: Int, conCode: String!): Convention!
-  delUserConvention(userId: Int, conCode: String!): Boolean!
+  addUserConvention(userId: Int, conId: Int!): Convention!
+  delUserConvention(userId: Int, conId: Int!): Boolean!
 
   addUserRecord(userId: Int, record: RecordAdd!): Record!
   modUserRecord(userId: Int, record: RecordMod!): Record!
@@ -152,7 +153,7 @@ input ProductMod {
 
 input PricePairIn {
   quantity: Int!
-  price: Float!
+  price: Money!
 }
 input PriceAdd {
   typeId: Int!
@@ -167,13 +168,13 @@ input PriceDel {
 input RecordAdd {
   conId: Int!
   products: [Int]!
-  price: Float!
+  price: Money!
   date: DateTimeFixedOffset!
 }
 input RecordMod {
   recordId: Int!
   products: [Int]
-  price: Float
+  price: Money
 }
 input RecordDel {
   recordId: Int!
@@ -181,14 +182,14 @@ input RecordDel {
 
 input ExpenseAdd {
   conId: Int!
-  price: Float!
+  price: Money!
   category: String!
   description: String!
   date: DateTimeFixedOffset!
 }
 input ExpenseMod {
   expenseId: Int!
-  price: Float
+  price: Money
   category: String
   description: String
 }

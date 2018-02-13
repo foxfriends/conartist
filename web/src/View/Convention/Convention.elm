@@ -16,7 +16,7 @@ import Util.List as List
 import Model.Model exposing (Model)
 view : Model -> ConventionPageState -> Html Msg
 view model page =
-  case List.find (asMeta >> .code >> (==) page.convention) model.user.conventions of
+  case List.find (asMeta >> .id >> (==) page.convention) model.user.conventions of
       Just con ->
         (tabs
           ChangeConventionTab

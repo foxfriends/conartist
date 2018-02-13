@@ -16,7 +16,7 @@ view : Model -> Html Msg
 view model =
   div [ class "conventions" ]
     [ div [ class "conventions__list" ]
-      (tableHeader [ "Name", "Code", "Date" ] ::
+      (tableHeader [ "Name", "Date" ] ::
         (model.user.conventions
           |> List.map Convention.asMeta
           |> List.map conListRow))
@@ -25,13 +25,12 @@ view model =
 conListRow : MetaConvention -> Html Msg
 conListRow con =
   div
-    ([ class "conventions__row--clickable", tabindex 0 ] ++ onInteract (DoNav (conventionPath con.code)) Ignore)
+    ([ class "conventions__row--clickable", tabindex 0 ] ++ onInteract (DoNav (conventionPath con.id)) Ignore)
     [ tableRow conTableRow con ]
 
 conTableRow : MetaConvention -> List (Html msg)
-conTableRow { name, code, start, end } =
+conTableRow { name, start, end } =
   [ text name
-  , span [ class "text--placeholder" ] [ text code ]
   , text <| dateRange start end ]
 
 footer : Model -> List (Html Msg)

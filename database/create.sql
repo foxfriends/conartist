@@ -38,7 +38,8 @@ CREATE TABLE Conventions (
   title       VARCHAR(512) NOT NULL,
   start_date  DATE NOT NULL,
   end_date    DATE NOT NULL,
-  extra_info  JSON NOT NULL DEFAULT ('[]') -- { name: "Title", info: "Info" }[]
+  extra_info  JSON NOT NULL DEFAULT ('[]'), -- { name: "Title", info: "Info" }[]
+  predecessor INT REFERENCES Conventions (con_id)
 );
 CREATE INDEX index_Conventions ON Conventions (con_id);
 COMMENT ON TABLE Conventions IS 'The many conventions that are taking place around the world';
@@ -52,10 +53,20 @@ CREATE TABLE ConventionInfo (
 CREATE INDEX index_ConventionInfo ON ConventionInfo (con_id);
 COMMENT ON TABLE ConventionInfo IS 'User contributed information about a convention';
 
+CREATE TABLE ConventionRatings (
+  con_id      INT NOT NULL REFERENCES Conventions (con_id)  ON DELETE CASCADE,
+  user_id     INT NOT NULL REFERENCES Users       (user_id) ON DELETE CASCADE,
+  rating      INT NOT NULL,
+  review      TEXT NOT NULL,
+  PRIMARY KEY (con_id, user_id)
+);
+CREATE INDEX index_ConventionRatings ON ConventionRatings (con_id);
+
 CREATE TABLE ConventionInfoRatings (
   con_info_id INT NOT NULL REFERENCES ConventionInfo (con_info_id) ON DELETE CASCADE,
   user_id     INT NOT NULL REFERENCES Users          (user_id)     ON DELETE CASCADE,
-  rating      BOOLEAN NOT NULL
+  rating      BOOLEAN NOT NULL,
+  PRIMARY KEY (con_info_id, user_id)
 );
 CREATE INDEX index_ConventionInfoRatings ON ConventionInfoRatings (con_info_id);
 COMMENT ON TABLE ConventionInfoRatings IS 'Tracks the quality of provided info';

@@ -25,18 +25,15 @@ view model convention =
         , revenue convention ]))
 
 conInfo : MetaConvention -> Html msg
-conInfo { name, code, start, end } =
+conInfo { name, start, end, extraInfo } =
   let dayCount = 1 + Date.diff Date.Day start end
       plural = dayCount > 1
   in
     card name
       [ class "convention__card" ]
       [ defList text
-        [ ( "Code", code )
-        , ( "Date", dateRange start end ++ " (" ++ toString dayCount ++ " day" ++ (if plural then "s" else "") ++ ")" )
-        -- TODO: conventions could have more data associated with them...
-        --       maybe there's some API out there somewhere...
-        --       maybe I invent such an API...
+        [ ( "Date", dateRange start end ++ " (" ++ toString dayCount ++ " day" ++ (if plural then "s" else "") ++ ")" )
+        -- TODO: parse the extraInfo and fill this in accordingly
         -- , ( "Location", "Unknown" )
         -- , ( "Hours", "Unknown" )
         -- , ( "Setup Time", "Unknown" )

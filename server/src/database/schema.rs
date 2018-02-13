@@ -3,7 +3,6 @@
 
 use std::panic::catch_unwind;
 use std::str::FromStr;
-use std::collections::HashMap;
 use postgres::rows::Row;
 use chrono::{NaiveDate, NaiveDateTime};
 use money::Money;
@@ -34,7 +33,12 @@ impl User {
 }
 
 #[derive(Deserialize, Serialize, Clone)]
-pub struct ConventionExtraData(HashMap<String, String>);
+pub struct ConventionExtraInfoItem {
+    name: String,
+    info: String
+}
+#[derive(Deserialize, Serialize, Clone)]
+pub struct ConventionExtraInfo(Vec<ConventionExtraInfoItem>);
 
 #[derive(Clone)]
 pub struct Convention {
@@ -42,7 +46,7 @@ pub struct Convention {
     pub title: String,
     pub start_date: NaiveDate,
     pub end_date: NaiveDate,
-    pub extra_data: ConventionExtraData,
+    pub extra_info: ConventionExtraInfo,
 }
 impl Convention {
     pub fn from(row: Row) -> Result<Self, String> {
@@ -52,7 +56,7 @@ impl Convention {
                 title: row.get("title"),
                 start_date: row.get("start_date"),
                 end_date: row.get("end_date"),
-                extra_data: serde_json::from_str(&row.get::<&'static str, String>("extra_data")).unwrap(),
+                extra_info: serde_json::from_value(row.get::<&'static str, serde_json::Value>("extra_info")).unwrap(),
             }
         }).map_err(|_| "Tried to create a Convention from a non-Convention row".to_string())
     }
@@ -66,7 +70,7 @@ pub struct FullUserConvention {
     pub title: String,
     pub start_date: NaiveDate,
     pub end_date: NaiveDate,
-    pub extra_data: ConventionExtraData,
+    pub extra_info: ConventionExtraInfo,
 }
 impl FullUserConvention {
     pub fn from(row: Row) -> Result<Self, String> {
@@ -78,10 +82,9 @@ impl FullUserConvention {
                 title: row.get("title"),
                 start_date: row.get("start_date"),
                 end_date: row.get("end_date"),
-                extra_data: serde_json::from_str(&row.get::<&'static str, String>("extra_data")).unwrap(),
+                extra_info: serde_json::from_value(row.get::<&'static str, serde_json::Value>("extra_info")).unwrap(),
             }
         }).map_err(|_| "Tried to create a FullUserConvention from a non-FullUserConvention row".to_string())
-
     }
 }
 
@@ -110,7 +113,7 @@ impl UserConvention {
             title: con.title,
             start_date: con.start_date,
             end_date: con.end_date,
-            extra_data: con.extra_data,
+            extra_info: con.extra_info,
         }
     }
 }

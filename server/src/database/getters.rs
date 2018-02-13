@@ -81,7 +81,7 @@ impl Database {
             SELECT *
             FROM User_Conventions u INNER JOIN Conventions c ON u.con_id = c.con_id
             WHERE user_id = $1
-              AND con_id = $2
+              AND u.con_id = $2
         ", user_id, con_id)
             .iter()
             .filter_map(|row| FullUserConvention::from(row).ok())

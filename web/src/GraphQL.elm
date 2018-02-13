@@ -99,17 +99,17 @@ metaConvention : ValueSpec NonNull ObjectType MetaConvention vars
 metaConvention = object MetaConvention
   |> with (field "id" [] int)
   |> with (field "name" [] string)
-  |> with (field "code" [] string)
   |> with (field "start" [] date)
   |> with (field "end" [] date)
+  |> with (field "extraInfo" [] string)
 
 fullConvention : ValueSpec NonNull ObjectType FullConvention vars
 fullConvention = object FullConvention
   |> with (field "id" [] int)
   |> with (field "name" [] string)
-  |> with (field "code" [] string)
   |> with (field "start" [] date)
   |> with (field "end" [] date)
+  |> with (field "extraInfo" [] string)
   |> with (field "products" [] (map (List.map Product.Clean) <| map (List.sortBy .id) (list product)))
   |> with (field "productTypes" [] (map (List.map ProductType.Clean) <| map (List.sortBy .id) (list productType)))
   |> with (field "prices" [] (list <| map Price.Clean priceRow))
@@ -152,12 +152,12 @@ getUser =
   request { id = Nothing } <| queryDocument <| extract <|
     field "user" [ ("id", Arg.variable (Var.required "id" .id (Var.nullable Var.int))) ] user
 
-getFullConvention : String -> Request Query FullConvention
-getFullConvention code =
-  request { code = code, id = Nothing } <| queryDocument <| extract <|
+getFullConvention : Int -> Request Query FullConvention
+getFullConvention conId =
+  request { conId = conId, userId = Nothing } <| queryDocument <| extract <|
     field "userConvention"
-      [ ("id", Arg.variable (Var.required "id" .id (Var.nullable Var.int)))
-      , ("code", Arg.variable (Var.required "code" .code Var.string)) ]
+      [ ("userId", Arg.variable (Var.required "userId" .userId (Var.nullable Var.int)))
+      , ("conId", Arg.variable (Var.required "conId" .conId Var.int)) ]
       fullConvention
 
 getConventionPage : Int -> Int -> Request Query (Pagination MetaConvention)
@@ -296,13 +296,13 @@ deletePrices prices =
     <| keyValuePairs
     <| List.map deletePrice prices
 
-addConvention : String -> Request Mutation MetaConvention
-addConvention code =
-  request { conCode = code }
+addConvention : Int -> Request Mutation MetaConvention
+addConvention conId =
+  request { conId = conId }
     <| mutationDocument
     <| extract
     <| field "addUserConvention"
-        [ ("conCode", Arg.variable (Var.required "conCode" .conCode Var.string)) ]
+        [ ("conCode", Arg.variable (Var.required "conId" .conId Var.int)) ]
         metaConvention
 
 -- Requests

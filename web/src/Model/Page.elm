@@ -31,7 +31,7 @@ inventoryChartSettingsPage = InventorySettings
 
 type alias ConventionPageState =
   { current_tab: TabStatus
-  , convention: String
+  , convention: Int
   , product_sort: List Order
   , price_sort: List Order
   , record_sort: List Order
@@ -117,11 +117,11 @@ inventory = Inventory <| InventoryPageState (TabStatus 0 150) { open = False, pa
 pricing : Page
 pricing = Pricing <| PricingPageState None (sort 5)
 
-convention : String -> Maybe Int -> Page
-convention con typeId = Convention <|
+convention : Int -> Maybe Int -> Page
+convention conId typeId = Convention <|
   ConventionPageState
   (TabStatus 0 150)
-  con
+  conId
   (sort 3)
   (sort 4)
   (sort 5)

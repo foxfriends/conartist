@@ -22,7 +22,7 @@ view model page =
       Just (InventorySettings s) ->
         let
           types =
-            List.find (Convention.asMeta >> .code >> (==) page.convention) model.user.conventions
+            List.find (Convention.asMeta >> .id >> (==) page.convention) model.user.conventions
               |> Maybe.andThen Convention.asFull
               |> Maybe.map .productTypes
               |> Maybe.withDefault model.user.productTypes

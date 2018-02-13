@@ -5,7 +5,7 @@ use std::error::Error;
 use std::str::FromStr;
 use money::Money;
 use error::MoneyError;
-use database::ConventionExtraData;
+use database::ConventionExtraInfo;
 
 graphql_scalar!(Money {
     // TODO: improve when proper currency support is added
@@ -45,12 +45,12 @@ impl ToSql for Money {
     to_sql_checked!();
 }
 
-graphql_scalar!(ConventionExtraData {
+graphql_scalar!(ConventionExtraInfo {
     resolve(&self) -> Value {
         Value::string(serde_json::to_string(self).unwrap())
     }
 
-    from_input_value(v: &InputValue) -> Option<ConventionExtraData> {
+    from_input_value(v: &InputValue) -> Option<ConventionExtraInfo> {
         v   .as_string_value()
             .and_then(|s| serde_json::from_str(&s).ok())
     }

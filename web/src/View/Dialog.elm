@@ -70,18 +70,17 @@ chooseConventionControls pages page =
 chooseConventionList : Int -> (Pagination MetaConvention) -> Html Msg
 chooseConventionList keys { data, pages, page } =
   tableWithSpacing
-    "1fr 1fr 1fr 70px"
+    "1fr 1fr 70px"
     (chooseConventionControls pages page)
     []
-    [ Standard "Name", Standard "Code", Standard "Date", Standard "" ]
+    [ Standard "Name", Standard "Date", Standard "" ]
     (conventionRow keys)
     data
 
 conventionRow : Int -> MetaConvention -> List (Html Msg)
 conventionRow keys con =
-  let { name, code, start, end } = con in
+  let { name, start, end } = con in
     [ text name
-    , span [ class "text--placeholder" ] [ text code ]
     , span [] [ text <| (Convention.formatDate start) ++ "–" ++ (Convention.formatDate end) ]
     , centered <|
         -- TODO: transition button to close on hover?

@@ -78,7 +78,7 @@ type FullUserConvention {
   name: String!
   start: DateTimeUtc!
   end: DateTimeUtc!
-  extraData: String!
+  extraInfo: String!
   productTypes: [ProductType]!
   products(includeAll: Boolean): [ProductInInventory]!
   condensedPrices(includeAll: Boolean): [Price]!
@@ -92,7 +92,7 @@ type Convention {
   name: String!
   start: DateTimeUtc!
   end: DateTimeUtc!
-  extraData: String!
+  extraInfo: String!
 }
 
 type ConventionPage {

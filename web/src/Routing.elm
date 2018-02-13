@@ -21,12 +21,12 @@ matchers model =
     , map (Page.inventory, Cmd.none) <| s "inventory"
     , map (Page.pricing, Cmd.none) <| s "prices"
     , map
-        (\code ->
-          (Page.convention code
+        (\conId ->
+          (Page.convention conId
             (List.head model.user.productTypes
               |> Maybe.map (ProductType.normalize >> .id))
-          , fillConvention model code))
-        (s "conventions" </> string)
+          , fillConvention model conId))
+        (s "conventions" </> int)
     , map (Conventions, Cmd.none) <| s "conventions"
     , map (Settings, Cmd.none) <| s "settings" ]
 

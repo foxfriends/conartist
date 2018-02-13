@@ -12,8 +12,8 @@ pricingPath = "/prices"
 conventionsPath : String
 conventionsPath = "/conventions"
 
-conventionPath : String -> String
-conventionPath = (++) "/conventions/"
+conventionPath : Int -> String
+conventionPath = toString >> (++) "/conventions/"
 
 settingsPath : String
 settingsPath = "/settings"

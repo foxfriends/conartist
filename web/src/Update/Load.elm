@@ -20,7 +20,7 @@ update msg model = case msg of
   DidLoadConvention (Ok con) ->
     let
       user = model.user
-      conventions = List.updateAt (asMeta >> .code >> (==) con.code) (always <| Full con) user.conventions
+      conventions = List.updateAt (asMeta >> .id >> (==) con.id) (always <| Full con) user.conventions
     in
       { model | user = { user | conventions = conventions } } ! []
   DidLoadConvention (Err err) ->

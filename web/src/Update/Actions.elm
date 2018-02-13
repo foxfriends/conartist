@@ -13,14 +13,14 @@ import Util.List as List
 import GraphQL exposing (query, getFullConvention)
 import Model.ConRequest as ConRequest
 
-fillConvention : Model -> String -> Cmd Msg
-fillConvention model code =
-  case List.find (Convention.asMeta >> .code >> (==) code) model.user.conventions of
+fillConvention : Model -> Int -> Cmd Msg
+fillConvention model conId =
+  case List.find (Convention.asMeta >> .id >> (==) conId) model.user.conventions of
     -- TODO: this will not update a convention if it has changed between now and
     --       the next time the conventions page is opened
     --       need to get some sort of notes from server when things change?
     Just (Convention.Full _) -> Cmd.none
-    _ -> query DidLoadConvention (getFullConvention code) model
+    _ -> query DidLoadConvention (getFullConvention conId) model
 
 reauthorize : Model -> Cmd Msg
 reauthorize model =

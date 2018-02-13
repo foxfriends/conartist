@@ -35,7 +35,7 @@ update msg model = case msg of
         | conventions = Meta con :: user.conventions
         , keys = user.keys - 1
         }
-      } ! [ purchaseConvention con.code model ]
+      } ! [ purchaseConvention con.id model ]
     else model ! [] -- silent fail because the button should be disabled
   _ -> model ! []
 
@@ -45,7 +45,7 @@ focusClose = focus "dialog-focus-target" |> Task.attempt (always Ignore)
 loadConventions : Int -> Model -> Cmd Msg
 loadConventions = query DidLoadChooseConvention << (flip getConventionPage 5)
 
-purchaseConvention : String -> Model -> Cmd Msg
+purchaseConvention : Int -> Model -> Cmd Msg
 purchaseConvention = mutation (always Ignore) << addConvention
 
 errorWithMsg : String -> String -> Html msg

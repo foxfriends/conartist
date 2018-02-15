@@ -1,5 +1,5 @@
 //
-//  ObservableExtensions.swift
+//  Observable+FilterMap.swift
 //  ConArtist
 //
 //  Created by Cameron Eldridge on 2018-02-04.
@@ -11,9 +11,5 @@ import RxSwift
 extension ObservableType {
     func filterMap<T>(_ transform: @escaping (Self.E) -> T?) -> Observable<T> {
         return map(transform).filter { $0 != nil }.map { $0! }
-    }
-    
-    func execute(_ f: @escaping (Self.E) throws -> Void) -> Observable<Self.E> {
-        return map { try f($0); return $0 }
     }
 }

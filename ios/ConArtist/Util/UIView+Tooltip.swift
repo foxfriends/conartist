@@ -1,5 +1,5 @@
 //
-//  UIViewExtensions.swift
+//  UIView+Tooltip.swift
 //  ConArtist
 //
 //  Created by Cameron Eldridge on 2018-01-28.

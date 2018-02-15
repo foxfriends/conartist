@@ -16,7 +16,7 @@ class ProductTypeTableViewCell: UITableViewCell {
     
     func fill(with item: ProductType) {
         typeSymbolLabel.text = String(item.name.first ?? "?")
-        typeSymbolLabel.backgroundColor = UIColor.from(hex: item.color)
+        typeSymbolLabel.backgroundColor = UIColor(hex: item.color)
         nameLabel.text = item.name
         priceLabel.text = "$2.00"
     }

@@ -21,7 +21,7 @@ class RecordTableViewCell: UITableViewCell {
         let typeId = products.first { $0.id == productId }?.typeId ?? ConArtist.NoID
         let type = types.first { $0.id == typeId }
         typeSymbolLabel.text = String(type?.name.first ?? "?")
-        typeSymbolLabel.backgroundColor = UIColor.from(hex: type?.color ?? 0xFFFFFF)
+        typeSymbolLabel.backgroundColor = UIColor(hex: type?.color ?? 0xFFFFFF)
         productsListLabel.text = item.products
             .reduce([:]) { (prev: [Int: Int], next) in
                 // count up the products of each name

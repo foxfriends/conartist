@@ -11,10 +11,10 @@ import RxSwift
 
 class Convention {
     let id: Int
-    let code: String
     let name: String
     let start: Date
     let end: Date
+    let extraInfo: String
 
     let productTypes: Observable<[ProductType]>
     let products: Observable<[Product]>
@@ -35,10 +35,10 @@ class Convention {
             let endDate = con.end.toDate()
         else { return nil }
         id = con.id
-        code = con.code
         name = con.name
         start = startDate
         end = endDate
+        extraInfo = con.extraInfo
         
         productTypes = øconvention.asObservable().map { $0?.productTypes.filterMap(ProductType.from) ?? [] }
         products = øconvention.asObservable().map { $0?.products.filterMap(Product.from) ?? [] }
@@ -80,7 +80,7 @@ extension Convention {
     func fill(_ force: Bool = false) -> Observable<Void> {
         if øconvention.value == nil || force {
             return ConArtist.API.GraphQL
-                .observe(query: FullConventionQuery(id: nil, code: code), cachePolicy: force ? .fetchIgnoringCacheData : .returnCacheDataElseFetch)
+                .observe(query: FullConventionQuery(userId: nil, conId: id), cachePolicy: force ? .fetchIgnoringCacheData : .returnCacheDataElseFetch)
                 .catchError { _ in Observable.empty() }
                 .map { [weak self] data in self?.øconvention.value = data.userConvention }
         } else {

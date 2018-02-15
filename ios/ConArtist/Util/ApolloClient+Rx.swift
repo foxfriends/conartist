@@ -1,5 +1,5 @@
 //
-//  ApolloClientExtensions.swift
+//  ApolloClient+Rx.swift
 //  ConArtist
 //
 //  Created by Cameron Eldridge on 2018-01-28.

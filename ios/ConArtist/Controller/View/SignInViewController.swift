@@ -53,7 +53,7 @@ extension SignInViewController {
         
         let øcredentials = Observable.combineLatest(emailTextField.rx.text, passwordTextField.rx.text)
         Observable.merge(signInButton.rx.tap.map { _ in () }, passwordTextField.rx.controlEvent([.editingDidEndOnExit]).map { _ in () })
-            .execute { [unowned self] in self.signInButton.isEnabled = false }
+            .do(onNext: { [unowned self] in self.signInButton.isEnabled = false })
             .withLatestFrom(øcredentials)
             .flatMap { credentials in
                 Auth.signIn(email: credentials.0 ?? "", password: credentials.1 ?? "")
@@ -63,7 +63,7 @@ extension SignInViewController {
                         return Observable.just(false)
                     }
             }
-            .execute({ [weak self] _ in self?.signInButton.isEnabled = true })
+            .do(onNext: { [weak self] _ in self?.signInButton.isEnabled = true })
             .filter { $0 }
             .subscribe({ _ in ConArtist.model.navigateTo(page: .Conventions) })
             .disposed(by: disposeBag)

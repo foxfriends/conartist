@@ -453,14 +453,14 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "conCode",
+                  "name": "conId",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "SCALAR",
-                      "name": "String",
+                      "name": "Int",
                       "ofType": null
                     }
                   },
@@ -494,14 +494,14 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "conCode",
+                  "name": "conId",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "SCALAR",
-                      "name": "String",
+                      "name": "Int",
                       "ofType": null
                     }
                   },
@@ -773,6 +773,16 @@
           "possibleTypes": null
         },
         {
+          "kind": "SCALAR",
+          "name": "ConventionExtraInfo",
+          "description": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
           "kind": "INPUT_OBJECT",
           "name": "PriceAdd",
           "description": "Information required to create a new price",
@@ -850,6 +860,16 @@
               "defaultValue": null
             }
           ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "SCALAR",
+          "name": "DateTimeUtc",
+          "description": "DateTime",
+          "fields": null,
+          "inputFields": null,
           "interfaces": null,
           "enumValues": null,
           "possibleTypes": null
@@ -938,16 +958,6 @@
           ],
           "inputFields": null,
           "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "SCALAR",
-          "name": "DateTimeUtc",
-          "description": "DateTime",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
           "enumValues": null,
           "possibleTypes": null
         },
@@ -1422,7 +1432,7 @@
               "description": "Retrieves the full information of one user's convention",
               "args": [
                 {
-                  "name": "id",
+                  "name": "userId",
                   "description": "The ID of the user to retrieve. Leave out to request self",
                   "type": {
                     "kind": "SCALAR",
@@ -1432,14 +1442,14 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "code",
-                  "description": "The con-code of the convention to retrieve",
+                  "name": "conId",
+                  "description": "The ID of the convention to retrieve",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "SCALAR",
-                      "name": "String",
+                      "name": "Int",
                       "ofType": null
                     }
                   },
@@ -1575,22 +1585,6 @@
               "deprecationReason": null
             },
             {
-              "name": "code",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "name",
               "description": null,
               "args": [],
@@ -1632,6 +1626,22 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "DateTimeUtc",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "extraInfo",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ConventionExtraInfo",
                   "ofType": null
                 }
               },
@@ -2964,22 +2974,6 @@
               "deprecationReason": null
             },
             {
-              "name": "code",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "name",
               "description": null,
               "args": [],
@@ -3021,6 +3015,22 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "DateTimeUtc",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "extraInfo",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ConventionExtraInfo",
                   "ofType": null
                 }
               },

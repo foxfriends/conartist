@@ -38,17 +38,17 @@ struct ConArtist {
         static private var _GraphQL = ApolloClient(url: URL(string: ConArtist.API.GraphQLURL)!)
         static var GraphQL: ApolloClient { get { return _GraphQL } }
     }
-    
+
     struct Keys {
         static let AuthToken = "AuthToken"
     }
-    
+
     static let model = Model()
-    
+
     struct Error: Swift.Error {
         let msg: String
     }
-    
+
     static let NoID = 0
 
     struct Color {

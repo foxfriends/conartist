@@ -18,6 +18,7 @@ extern crate jsonwebtoken as jwt;
 extern crate bcrypt;
 extern crate chrono;
 extern crate colored;
+extern crate iron_cors;
 
 #[macro_use] mod macros;
 mod web;
@@ -32,6 +33,7 @@ mod money;
 use std::env;
 use mount::Mount;
 use iron::prelude::*;
+use iron_cors::CorsMiddleware;
 use juniper_iron::GraphQLHandler;
 use r2d2_postgres::{TlsMode, PostgresConnectionManager};
 use colored::*;
@@ -49,6 +51,7 @@ fn main() {
     let database = database::DatabaseFactory::new(pool.clone());
     let privileged = database.create_privileged();
     let mut mount = Mount::new();
+    let cors = CorsMiddleware::with_whitelist(["https://con--artist.herokuapp.com".to_string()].into_iter().cloned().collect());
 
     let graphql =
         if env::args().all(|a| a != "--open") {
@@ -79,8 +82,11 @@ fn main() {
         .mount("/api", rest::new(privileged))
         .mount("/", web::new());
 
+    let mut chain = Chain::new(mount);
+    chain.link_around(cors);
+
     let port = env::var("PORT").unwrap_or(DEFAULT_PORT.to_string());
     let host = "0.0.0.0";
     println!("ConArtist server listening at {}:{}", host, port);
-    Iron::new(mount).http(format!("{}:{}", host, port)).unwrap();
+    Iron::new(chain).http(format!("{}:{}", host, port)).unwrap();
 }

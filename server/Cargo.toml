@@ -13,6 +13,7 @@ juniper_iron = { git = "https://github.com/oinkiguana/juniper" }
 iron = "*"
 mount = "*"
 router = "*"
+iron-cors = "*"
 params = "*"
 staticfile = "*"
 bodyparser = "*"

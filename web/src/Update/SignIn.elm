@@ -106,17 +106,35 @@ isValid page =
       |> List.map (Result.map (always ()))
       |> List.foldl (Result.andThen << always) (Ok ())
 
+post : String -> Http.Body -> Decode.Decoder a -> Http.Request a
+post url body decoder = Debug.log "request"
+  Http.request
+    { method = "POST"
+    , headers =
+      [ Http.header "Origin" baseURL
+      -- , Http.header "Access-Control-Request-Method" "POST"
+      -- , Http.header "Access-Control-Request-Headers" "X-Custom-Header"
+      ]
+    , url = baseURL ++ url
+    , body = body
+    , expect = Http.expectJson decoder
+    , timeout = Nothing
+    , withCredentials = False
+    }
+
+get : String -> Decode.Decoder a -> Http.Request a
+get url = Http.get (baseURL ++ url)
+
 checkExistingEmail : String -> Cmd Msg
 checkExistingEmail email =
   if not <| email == "" then
-    Http.send DidCheckExistingEmail <| Http.get
-      (baseURL ++ "/api/account/exists/" ++ email)
+    Http.send DidCheckExistingEmail <| get ("/api/account/exists/" ++ email)
       (ConRequest.decode Decode.bool)
   else Cmd.none
 
 doSignIn : String -> String -> Cmd Msg
 doSignIn email password =
-  Http.send DidSignIn <| Http.post (baseURL ++ "/api/auth")
+  Http.send DidSignIn <| post "/api/auth"
       (Http.jsonBody <| Json.object
         [ ("usr", Json.string email)
         , ("psw", Json.string password) ] )
@@ -124,7 +142,7 @@ doSignIn email password =
 
 createAccount : String -> String -> String -> Cmd Msg
 createAccount email name password =
-  Http.send DidCreateAccount <| Http.post (baseURL ++ "/api/account/new")
+  Http.send DidCreateAccount <| post "/api/account/new"
       (Http.jsonBody <| Json.object
         [ ("email", Json.string email)
         , ("name", Json.string name)

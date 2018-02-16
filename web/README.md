@@ -22,7 +22,8 @@ Requires the use of the server. See `/server/README.md` for details.
 
 Change the `baseURL` in `src/Constants.elm` to point at the Heroku server to use
 that as the backend. Note that you still need a local server running to serve the
-actual document, but at least you can access the real database.
+actual document, but at least you can access the real database. __Please do not
+commit this if you change it__.
 
 ## Adding/upgrading dependencies
 

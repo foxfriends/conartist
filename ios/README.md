@@ -36,6 +36,10 @@ I hope to use a single set of GraphQL files for all clients eventually, but for 
 GraphQL queries are located in `ios/ConArtist/schema.graphql`. This file is compiled automatically
 when the app is built.
 
+Please note that the iOS project is currently pointing at the production server (Heroku), not the
+local one, so you don't need to install or run the server locally. Adding another configuration to
+point at the local server would be great.
+
 ## Designs
 
 The design specs are available on [Figma][]. For permission to edit the project, just ask me and

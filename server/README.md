@@ -18,10 +18,12 @@ The server supports a single flag, `--open`, which turns off the authentication 
 GraphQL API. Useful for when using Apollo, for example, to introspect the API and generate the
 source files. No guarantees the app will actually work correctly in this mode.
 
-## Deploying to Heroku
+## Deploying to production
 
 Just tell me to do it. I don't know how to set up another person for my Heroku, and don't really
 feel like figuring it out.
+
+The URL for the production server is this: `https://con--artist.herokuapp.com`
 
 ## The GraphQL file
 

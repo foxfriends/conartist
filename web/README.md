@@ -28,3 +28,8 @@ to start your own instance.
 Always go for the latest and greatest. Do not succumb to technical debt. Make a note of it in your
 commit messages when `npm install` needs to be run again so that nobody is left confused about why
 everything is broken.
+
+## Troubleshooting
+
+If you experience troubles with `node-sass`, just reinstall it (`npm install node-sass`). Usually
+that fixes it...

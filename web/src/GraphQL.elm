@@ -20,6 +20,7 @@ import GraphQL.Request.Builder.Arg as Arg
 import GraphQL.Request.Builder.Variable as Var
 
 import Util.Util as Util
+import Constants exposing (baseURL)
 import Model.Model exposing (Model)
 import Model.User exposing (User)
 import Model.ProductType as ProductType exposing (FullType, InternalType, NewType, ProductType(..))
@@ -314,7 +315,7 @@ authorized : String -> String -> RequestOptions
 authorized method authtoken =
   { method = method
   , headers = [ Http.header "Authorization" ("Bearer " ++ authtoken) ]
-  , url = "/api/v2"
+  , url = baseURL ++ "/api/v2"
   , timeout = Nothing
   , withCredentials = False }
 

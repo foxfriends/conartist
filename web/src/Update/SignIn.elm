@@ -5,6 +5,7 @@ import Json.Encode as Json
 import Navigation exposing (newUrl)
 
 import Msg exposing (Msg(..))
+import Constants exposing (baseURL)
 import Paths exposing (dashboardPath)
 import Ports.LocalStorage as LocalStorage
 import Update.Load as Load
@@ -109,13 +110,13 @@ checkExistingEmail : String -> Cmd Msg
 checkExistingEmail email =
   if not <| email == "" then
     Http.send DidCheckExistingEmail <| Http.get
-      ("/api/account/exists/" ++ email)
+      (baseURL ++ "/api/account/exists/" ++ email)
       (ConRequest.decode Decode.bool)
   else Cmd.none
 
 doSignIn : String -> String -> Cmd Msg
 doSignIn email password =
-  Http.send DidSignIn <| Http.post "/api/auth"
+  Http.send DidSignIn <| Http.post (baseURL ++ "/api/auth")
       (Http.jsonBody <| Json.object
         [ ("usr", Json.string email)
         , ("psw", Json.string password) ] )
@@ -123,7 +124,7 @@ doSignIn email password =
 
 createAccount : String -> String -> String -> Cmd Msg
 createAccount email name password =
-  Http.send DidCreateAccount <| Http.post "/api/account/new"
+  Http.send DidCreateAccount <| Http.post (baseURL ++ "/api/account/new")
       (Http.jsonBody <| Json.object
         [ ("email", Json.string email)
         , ("name", Json.string name)

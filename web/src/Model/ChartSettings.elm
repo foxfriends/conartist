@@ -1,4 +1,4 @@
-module Model.ChartSettings exposing (Inventory(..), inventory)
+module Model.ChartSettings exposing (Inventory, inventory)
 {-| Defines the options that are available for the different charts.
 
 # Inventory chart

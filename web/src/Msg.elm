@@ -7,7 +7,8 @@ import Http
 import Mouse
 import Plot
 
-import Model.ConRequest exposing (ConRequest, Pagination)
+import Model.ConRequest exposing (ConRequest)
+import Model.Pagination exposing (Pagination)
 import Model.Product exposing (FullProduct)
 import Model.ProductType exposing (FullType)
 import Model.Price exposing (CondensedPrice)

@@ -1,3 +1,8 @@
+/**
+ * Serves as the entry point to the Elm application. Pretty much all functionality is implemented in
+ * Elm.
+ */
+
 import { Observable } from 'rxjs/Observable';
 import saveAs from 'save-as';
 import 'rxjs/add/observable/fromEvent';

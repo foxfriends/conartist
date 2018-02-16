@@ -4,7 +4,8 @@
   "description": "ConArtist web dashboard",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "elm package install -y && webpack"
+    "postinstall": "elm package install -y && webpack",
+    "build": "webpack"
   },
   "author": "Cameron Eldridge",
   "license": "MIT",

@@ -20,8 +20,9 @@ to making a watcher work.
 
 Requires the use of the server. See `/server/README.md` for details.
 
-I'll hopefully set something up to use the production server as the backend so that you don't have
-to start your own instance.
+Change the `baseURL` in `src/Constants.elm` to point at the Heroku server to use
+that as the backend. Note that you still need a local server running to serve the
+actual document, but at least you can access the real database.
 
 ## Adding/upgrading dependencies
 

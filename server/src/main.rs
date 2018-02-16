@@ -51,7 +51,16 @@ fn main() {
     let database = database::DatabaseFactory::new(pool.clone());
     let privileged = database.create_privileged();
     let mut mount = Mount::new();
-    let cors = CorsMiddleware::with_whitelist(["https://con--artist.herokuapp.com".to_string()].into_iter().cloned().collect());
+    let cors =
+        if env::args().all(|a| a != "--any-origin") {
+            CorsMiddleware::with_whitelist(["https://con--artist.herokuapp.com".to_string()].into_iter().cloned().collect())
+        } else {
+            println!();
+            println!("{}", "WARNING: Running with no CORS protection. All origins are permitted.".yellow());
+            println!("{}", "         Do not run with `--any-origin` flag in production!".yellow());
+            println!();
+            CorsMiddleware::with_allow_any()
+        };
 
     let graphql =
         if env::args().all(|a| a != "--open") {
@@ -65,7 +74,7 @@ fn main() {
             ]
         } else {
             println!();
-            println!("{}", "WARNING: Running in test mode. No authorization required.".yellow());
+            println!("{}", "WARNING: Running in open mode. No authorization required.".yellow());
             println!("{}", "         Do not run with `--open` flag in production!".yellow());
             println!();
             chain! [

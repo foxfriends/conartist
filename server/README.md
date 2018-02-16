@@ -23,7 +23,10 @@ source files. No guarantees the app will actually work correctly in this mode.
 Just tell me to do it. I don't know how to set up another person for my Heroku, and don't really
 feel like figuring it out.
 
-The URL for the production server is this: `https://con--artist.herokuapp.com`
+The URL for the production server is this: `https://con--artist.herokuapp.com`.
+
+Currently the production build is running with all CORS origins enabled. This should
+be removed when convenient, as it is not secure at all.
 
 ## The GraphQL file
 

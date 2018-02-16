@@ -112,8 +112,7 @@ post url body decoder = Debug.log "request"
     { method = "POST"
     , headers =
       [ Http.header "Origin" baseURL
-      -- , Http.header "Access-Control-Request-Method" "POST"
-      -- , Http.header "Access-Control-Request-Headers" "X-Custom-Header"
+      , Http.header "Access-Control-Request-Headers" "X-Custom-Header"
       ]
     , url = baseURL ++ url
     , body = body

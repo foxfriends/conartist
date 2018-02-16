@@ -30,7 +30,7 @@ update msg model =
       in newmodel ! [ cmd, newcmd ]
     SetDate now -> { model | now = now } ! []
     MouseMove pos -> { model | mouse = pos } ! []
-    ToggleSidenav -> { model | sidenav_visible = not model.sidenav_visible } ! []
+    ToggleSidenav -> { model | sidenavVisible = not model.sidenavVisible } ! []
     _ -> model ! [] )
   |> continue Update.Load.update msg
   |> continue Update.Save.update msg

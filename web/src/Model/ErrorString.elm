@@ -1,4 +1,6 @@
 module Model.ErrorString exposing (..)
+{-| Defines common error messages that may come up when validating the model.
+-}
 
 emptyName : String
 emptyName = "Name is empty"

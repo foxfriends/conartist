@@ -1,4 +1,9 @@
 module Util.Tree exposing (..)
+{-| An implementation of binary trees for efficiently searching through the data model. Attempts to
+adhere to the `List` interface so that they can be used almost interchangeably.
+
+Currently unused.
+-}
 
 -- TODO: use a balanced tree of some sort (that one with the rotating probably)
 

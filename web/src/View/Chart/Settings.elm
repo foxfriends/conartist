@@ -41,7 +41,7 @@ view model page =
                       |> Maybe.withDefault "Choose a type"
                   Nothing -> "Choose a type")
                 ( types
-                  |> (if model.show_discontinued then identity else List.filter (not << .discontinued))
+                  |> (if model.showDiscontinued then identity else List.filter (not << .discontinued))
                   |> List.map .id )
                 page.chart_settings.inventory.product_type
                 s.typeSelectorOpen ] ]

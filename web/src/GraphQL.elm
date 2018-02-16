@@ -5,6 +5,9 @@ module GraphQL exposing
   , createProducts, updateProducts
   , createPrices, deletePrices
   , addConvention )
+{-| Provides type safe access to the GraphQL API. Hopefully this file will someday be automatically
+generated, but for now it is just manual, so not actually type safe if any mistakes are made...
+-}
 import Task
 import Http
 import Json.Decode as Decode

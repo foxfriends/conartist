@@ -1,4 +1,10 @@
-module Util.Maybe exposing (..)
+module Util.Maybe exposing
+  ( orElse
+  , andThenWithDefault
+  , isSomething
+  )
+{-| Some helpers for working with Maybes
+-}
 import Lazy exposing (Lazy, force)
 
 orElse : Lazy (Maybe a) -> Maybe a -> Maybe a

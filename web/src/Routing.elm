@@ -1,4 +1,6 @@
 module Routing exposing (..)
+{-| Handles URL navigation in the app, providing the full single page application effect
+-}
 import UrlParser exposing (..)
 import Navigation exposing (Location)
 
@@ -61,9 +63,9 @@ update msg model = case msg of
       , location = Nothing }
     , Navigation.newUrl signInPath )
   DoSignOut   ->
-    ( { model | sidenav_visible = False, page = Page.signIn, authtoken = "" }
+    ( { model | sidenavVisible = False, page = Page.signIn, authtoken = "" }
     , Cmd.batch [ LocalStorage.remove "authtoken", Navigation.newUrl signInPath ] )
-  DoNav url   -> ( { model | sidenav_visible = False }, Navigation.newUrl url )
+  DoNav url   -> ( { model | sidenavVisible = False }, Navigation.newUrl url )
   DidNav loc  -> parseLocation model loc
-    |> Tuple.mapFirst (\p -> { model | page = p, sidenav_visible = False })
+    |> Tuple.mapFirst (\p -> { model | page = p, sidenavVisible = False })
   _           -> (model, Cmd.none)

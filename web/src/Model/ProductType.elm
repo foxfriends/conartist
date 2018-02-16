@@ -1,4 +1,9 @@
 module Model.ProductType exposing (..)
+{-| Defines the ProductType type from the ConArtist data model.
+
+# Definition
+@docs ProductType, FullType, NewType
+-}
 import Either exposing (Either(..))
 import Dict
 import MD5 exposing (hex)
@@ -8,23 +13,32 @@ import Model.ErrorString exposing (..)
 import Util.List as List
 import Util.Either exposing (both)
 
+{-| A subset of the full data required to represent a `ProductType` the server does not yet know of.
+-}
 type alias NewType =
   { localId: Int
   , name: Validation String
   , color: Int }
 
+{-| The complete data to represent a fresh `ProductType` from the server
+-}
 type alias FullType =
   { id: Int
   , name: String
   , color: Int
   , discontinued: Bool }
 
+{-| A more complex representation of the ProductType to determine which components have been
+modified by a user. Not to be used in the View functions (use accessors instead)
+-}
 type alias InternalType =
   { id: Int
   , name: Either String (Validation String)
   , color: Either Int Int
   , discontinued: Either Bool Bool }
 
+{-| A ProductType can be in any of 3 states, depending on the user's modifications.
+-}
 type ProductType
   = Clean FullType
   | Dirty InternalType

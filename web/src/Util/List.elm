@@ -1,4 +1,14 @@
-module Util.List exposing (..)
+module Util.List exposing
+  ( enumerate
+  , find
+  , updateAt
+  , filterUpdateAt
+  , flatUpdateAt
+  , updateAtOrInsert
+  , zip
+  )
+{-| Some helpers for working with lists
+-}
 
 enumerate : List a -> List (Int, a)
 enumerate l = let len = List.length l in

@@ -1,4 +1,6 @@
 module Model.Price exposing (..)
+{-| Defines the `Price` type from the ConArtist data model.
+-}
 import Either exposing (Either(..))
 import Dict
 import Lazy exposing (lazy)

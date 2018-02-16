@@ -1,4 +1,6 @@
 module Model.Product exposing (..)
+{-| Defines the Product type from the ConArtist data model.
+-}
 import Dict
 import Either exposing (Either(..))
 import MD5

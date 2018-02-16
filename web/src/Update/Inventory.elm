@@ -44,7 +44,7 @@ update msg model =
               { user
               | productTypes = List.filterUpdateAt (ProductType.normalize >> .id >> (==) id) ProductType.toggleDiscontinued types } }
         in
-          if model.show_discontinued
+          if model.showDiscontinued
             then result ! []
             else update (ChangeInventoryTab (TabStatus (page.current_tab.current - 1) page.current_tab.width)) result
       ProductName type_ id name ->
@@ -80,7 +80,7 @@ update msg model =
       NewProductType ->
         let
           len = List.length types
-          tabIndex = if model.show_discontinued
+          tabIndex = if model.showDiscontinued
             then len
             else types
               |> List.map ProductType.normalize
@@ -195,6 +195,6 @@ currentType : Model -> Int -> Maybe ProductType.FullType
 currentType model current =
   model.user.productTypes
     |> List.map ProductType.normalize
-    |> (if model.show_discontinued then identity else List.filter (not << .discontinued))
+    |> (if model.showDiscontinued then identity else List.filter (not << .discontinued))
     |> List.drop current
     |> List.head

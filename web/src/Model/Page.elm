@@ -1,10 +1,18 @@
 module Model.Page exposing (..)
+{-| Data representation of the pages of the app. Used in conjunction with the router to determine
+the URLs.
+
+# Definition
+@docs Page, Selector
+-}
 import Msg exposing (TabStatus)
 import Model.Status exposing (Status(..))
 import List exposing (repeat)
 import Model.Validation exposing (Validation(..), valueOf, invalidate, empty, isValid)
 import Model.ChartSettings as ChartSettings
 
+{-| The different pages that exist in the app.
+-}
 type Page
   = Loading
   | Dashboard
@@ -39,6 +47,8 @@ type alias ConventionPageState =
   , chart_settings:
     { inventory: ChartSettings.Inventory } }
 
+{-| A handy sub-model to handle the state of dropdown menus.
+-}
 type Selector
   = TypeSelector Int
   | ProductSelector Int

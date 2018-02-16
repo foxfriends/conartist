@@ -1,5 +1,12 @@
 module Model.Validation exposing (..)
+{-| Tracks the validity of some user provided value.
 
+# Definition
+@docs Validation
+-}
+
+{-| Tracks the validity of some user provided value. Can be in one of 3 states.
+-}
 type Validation a
   = Valid a
   | Invalid a String

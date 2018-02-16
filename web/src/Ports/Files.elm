@@ -1,5 +1,6 @@
 port module Ports.Files exposing (..)
-
+{-| Ports to access files on the user's computer.
+-}
 port read : String -> Cmd msg
 port write : (String, String) -> Cmd msg
 

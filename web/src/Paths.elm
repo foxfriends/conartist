@@ -1,4 +1,6 @@
 module Paths exposing (..)
+{-| Constructors for URLs to the different routes accepted by the app
+-}
 
 dashboardPath : String
 dashboardPath = "/dashboard"

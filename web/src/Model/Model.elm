@@ -1,4 +1,10 @@
 module Model.Model exposing (..)
+{-| The entire ConArtist web dashboard data model. Acts as the single source of truth for the app at
+any given moment.
+
+# Definition
+@docs Model
+-}
 import List exposing (foldl)
 import Date exposing (Date)
 import Navigation exposing (Location)
@@ -12,21 +18,25 @@ import Model.Page exposing (Page)
 import Model.Dialog exposing (Dialog)
 import Model.User exposing (User)
 
--- TODO: make the whole model more consistent about camelCase and snake_case
---       should probably switch it all to camelCase
+{-| The actual ConArtist data model. Contains all information required to render the app.
+-}
 type alias Model =
   { user: User
   , authtoken : String
   , page: Page
   , dialog: Dialog
   , now: Date
-  , show_discontinued: Bool
-  , sidenav_visible: Bool
+  , showDiscontinued: Bool
+  , sidenavVisible: Bool
   , location: Maybe Location
-  , mouse: Mouse.Position }
+  , mouse: Mouse.Position
+  }
 
--- TODO: Cleaning could probably be improved??
+{-| Determines whether any part of the Model is currently dirty (modified since the last time it was
+saved) or not.
 
+    isDirty model
+-}
 isDirty : Model -> Bool
 isDirty { user } =
       foldl (Convention.isDirty >> (||))  False user.conventions
@@ -43,7 +53,9 @@ cleanPrices updates model =
     { model
     | user =
       { user
-      | prices = Price.reindex <| Price.clean updates prices } }
+      | prices = Price.reindex <| Price.clean updates prices
+      }
+    }
 
 removeDeletedPrices : Model -> Model
 removeDeletedPrices model =
@@ -83,6 +95,3 @@ cleanTypes updates model =
       | productTypes = ProductType.clean updates types
       , products = Product.fillNewTypes (List.map Tuple.second updates) types products
       , prices = Price.fillNewTypes (List.map Tuple.second updates) types prices } }
-
-validateRequest : Model -> Result String Model
-validateRequest _ = Err "no"

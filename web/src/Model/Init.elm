@@ -17,8 +17,8 @@ init loc =
   , page = Page.Loading
   , dialog = None
   , now = Date.fromTime 0
-  , show_discontinued = False
-  , sidenav_visible = False
+  , showDiscontinued = False
+  , sidenavVisible = False
   , location = Just loc
   , mouse = { x = 0, y = 0 } }
   ! [ LocalStorage.get "authtoken"

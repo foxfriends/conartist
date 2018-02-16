@@ -22,7 +22,7 @@ navigateTo url =
 
 -- TODO: the items are tab focusable even when the sidenav is hidden
 view : Model -> Html Msg
-view { sidenav_visible } =
+view { sidenavVisible } =
   let
     items =
       [ (navigateTo Paths.dashboardPath, "Dashboard")
@@ -34,7 +34,7 @@ view { sidenav_visible } =
     contents =
       list (uncurry navListRow) items
   in
-    drawer sidenav_visible ToggleSidenav [] [ contents ]
+    drawer sidenavVisible ToggleSidenav [] [ contents ]
 
 navListRow : List (Html.Attribute Msg) -> String -> Html Msg
 navListRow attrs title =

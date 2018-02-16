@@ -75,7 +75,7 @@ inventoryFooter : Model -> InventoryPageState -> List (Html Msg)
 inventoryFooter model { current_tab, color_picker } =
   let dirty = Model.isDirty model in
   case model.user.productTypes
-    |> (if model.show_discontinued then identity else List.filter (not << .discontinued << ProductType.normalize))
+    |> (if model.showDiscontinued then identity else List.filter (not << .discontinued << ProductType.normalize))
     |> List.drop current_tab.current
     |> List.head
   of

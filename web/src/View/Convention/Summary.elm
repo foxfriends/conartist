@@ -1,5 +1,5 @@
 module View.Convention.Summary exposing (view)
-import Html exposing (Html, div, text)
+import Html exposing (Html, div, text, span)
 import Html.Attributes exposing (class)
 import Date.Extra as Date
 import Dict exposing (Dict)
@@ -12,6 +12,7 @@ import Model.Money as Money
 import View.Card exposing (card)
 import View.List exposing (defList)
 import View.Convention.Util exposing (dateRange, frequency)
+import View.Attributes exposing (tabularFigures)
 import Util.List as List
 
 view : Model -> Convention -> Html msg
@@ -92,7 +93,7 @@ revenue con =
       in
       card "Sales summary"
         [ class "convention__card" ]
-        [ defList text
+        [ defList (span [ tabularFigures ] << List.singleton << text)
           [ ("Gross profit", Money.prettyprint gross)
           , ("Total expense", Money.prettyprint expense)
           , ("Net profit", Money.prettyprint net)

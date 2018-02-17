@@ -3,15 +3,16 @@
 @import drawer
 @import dialog
 @import align
+@import icon
 
 .ca, button, input
   font-family: $font--body
   color: $color__text--body
 a:link, a:visited
   text-decoration: none
-  color: darker($color--primary, 40%, 20%)
+  color: darker($color--accent, 40%, 20%)
 a:hover, a:active
-  color: darker($color--primary, 10%)
+  color: darker($color--accent, 10%)
 
 $height__toolbar: 50px
 
@@ -24,6 +25,7 @@ $height__toolbar: 50px
   line-height: 1.4
   &__title
     font-family: $font--title
+    letter-spacing: 0.5px
   &__toolbar
     +card(1)
     +natural-light($color--primary)
@@ -31,6 +33,7 @@ $height__toolbar: 50px
     align-items: center
     padding: 0 20px
     height: $height__toolbar
+    color: $color__text--invert
   &__container
     position: absolute
     top: $height__toolbar
@@ -38,10 +41,10 @@ $height__toolbar: 50px
     bottom: 0
   &__content
     height: 100%
+  &__nav-link
+    +small-caps
 
 .text--placeholder
   color: $color--placeholder
-.text--currency
+.text--tabular
   font-variant-numeric: tabular-nums
-  text-align: right
-  justify-content: flex-end

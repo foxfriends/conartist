@@ -17,7 +17,7 @@ import View.Table as Table exposing (summarizedTable, TableHeader(..))
 import Util.Date as Date
 import View.Convention.Util exposing (errorPage, placeholder, productCircle)
 import View.Convention.Sort exposing (..)
-import View.Attributes exposing (currencyText)
+import View.Attributes exposing (tabularFigures)
 
 view : Model -> ConventionPageState -> Convention -> Html Msg
 view model page con =
@@ -43,14 +43,14 @@ view model page con =
                       , [ text "Total"
                         , text ""
                         , text (toString q)
-                        , div [Table.cellLiner, currencyText] [text (Money.prettyprint p)]
+                        , div [Table.cellLiner, tabularFigures] [text (Money.prettyprint p)]
                         , text "" ])
                   Nothing ->
                     ( Nothing
                     , [ text "Total"
                       , text ""
                       , text (toString q)
-                      , div [Table.cellLiner, currencyText] [text (Money.prettyprint p)]
+                      , div [Table.cellLiner, tabularFigures] [text (Money.prettyprint p)]
                       , text "" ]))
             page.record_sort
             "1fr 1fr 1fr 1fr 1fr" [] []
@@ -71,7 +71,7 @@ recordRow record =
   [ div [ class "convention__product-type" ] <| typeSet record.products
   , text <| productString record.products
   , text <| toString (List.length record.products)
-  , div [ Table.cellLiner, currencyText ] [ text <| Money.prettyprint record.price ]
+  , div [ Table.cellLiner, tabularFigures ] [ text <| Money.prettyprint record.price ]
   , text <| Date.toFormattedString "EEE, h:mm a" record.time ]
 
 typeSet : List ProductWithType -> List (Html msg)

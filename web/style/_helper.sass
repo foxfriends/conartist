@@ -1,20 +1,21 @@
 @import hsv
 @import animations
 
-$color--primary: rgb(110, 171, 244)
-$color--accent: rgb(128, 194, 138)
-$color--warn: rgb(185, 36, 21)
-$color--placeholder: transparentize(black, 0.64)
-$color--divider: transparentize(black, 0.88)
-$color__text--body: transparentize(black, 0.13)
-$color__text--secondary: transparentize(black, 0.46)
+$color--conartist: #DA4800
+$color--primary: $color--conartist
+$color--accent: rgb(110, 171, 244)
+$color--warn: #ff0000
+$color__text--base: black
+$color--placeholder: transparentize($color__text--base, 0.64)
+$color--divider: transparentize($color__text--base, 0.88)
+$color__text--body: transparentize($color__text--base, 0.13)
+$color__text--secondary: transparentize($color__text--base, 0.46)
 $color__text--heading: $color__text--secondary
 $color__text--invert: transparentize(white, 0.13)
 $color__background--dark: $color__text--secondary
-$color__background--light: white
-$color--conartist: #DA4800
+$color__background--light: #ffffff
 
-$font--title: 'Quicksand'
+$font--title: 'Quicksand' bold
 $font--body: 'Open Sans'
 $font--icon: 'Material Icons'
 
@@ -66,6 +67,16 @@ $font--icon: 'Material Icons'
       background-color: transparentize(darker($color--primary, 30%, 30%), 0.9)
     &:active
       background-color: transparentize(darker($color--primary, 50%, 50%), 0.85)
+
+=icon-font
+  font-family: $font--icon
+  font-variant-caps: normal
+  font-variant-ligatures: common-ligatures
+
+=small-caps
+  text-transform: lowercase
+  font-variant: small-caps
+  letter-spacing: 1px
 
 =card($depth)
   z-index: $depth

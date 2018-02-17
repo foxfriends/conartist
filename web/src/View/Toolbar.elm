@@ -9,4 +9,4 @@ import View.Fancy exposing (button, ButtonStyle(..))
 view : a -> Html Msg
 view _ = div
   [ class "ca__toolbar" ]
-  [ button Icon "menu" [ onClick ToggleSidenav ], span [ class "ca__title" ] [ text "ConArtist" ] ]
+  [ button Icon "menu" [ onClick ToggleSidenav, class "fancy-button--light-text" ], span [ class "ca__title" ] [ text "ConArtist" ] ]

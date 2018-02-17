@@ -10,7 +10,7 @@ import Model.ProductType as ProductType
 import Model.Product as Product
 import Model.Price as Price
 import Model.Money as Money
-import View.Attributes exposing (currencyText)
+import View.Attributes exposing (tabularFigures)
 import View.Table as Table exposing (basicSortableTable, TableHeader(..))
 import View.Convention.Util exposing (errorPage, productTypeLabel)
 import View.Convention.Sort exposing (..)
@@ -37,4 +37,4 @@ priceRow { product, productType, price } =
   [ productType |> Maybe.map (ProductType.normalize >> productTypeLabel) |> Maybe.withDefault (text "")
   , text <| (product |> Maybe.map (Product.normalize >> .name) |> Maybe.withDefault "")
   , text (price |> Price.normalize >> Maybe.map .quantity |> Maybe.withDefault 0 >> toString)
-  , div [ Table.cellLiner, currencyText ] [text (Price.normalize price |> Maybe.map .price |> Maybe.withDefault (Money.money 0) |> Money.prettyprint)] ]
+  , div [ Table.cellLiner, tabularFigures ] [text (Price.normalize price |> Maybe.map .price |> Maybe.withDefault (Money.money 0) |> Money.prettyprint)] ]

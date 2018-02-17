@@ -110,10 +110,7 @@ post : String -> Http.Body -> Decode.Decoder a -> Http.Request a
 post url body decoder = Debug.log "request"
   Http.request
     { method = "POST"
-    , headers =
-      [ Http.header "Origin" baseURL
-      , Http.header "Access-Control-Request-Headers" "X-Custom-Header"
-      ]
+    , headers = []
     , url = baseURL ++ url
     , body = body
     , expect = Http.expectJson decoder

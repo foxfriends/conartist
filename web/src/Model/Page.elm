@@ -20,7 +20,7 @@ type Page
   | Pricing PricingPageState
   | Conventions
   | Convention ConventionPageState
-  | Settings
+  | Settings SettingsPageState
   | SignIn SignInPageState
 
 type alias InventoryPageState =
@@ -35,7 +35,8 @@ type ChartSettingsPage
 
 inventoryChartSettingsPage : ChartSettingsPage
 inventoryChartSettingsPage = InventorySettings
-  { typeSelectorOpen = False }
+  { typeSelectorOpen = False
+  }
 
 type alias ConventionPageState =
   { current_tab: TabStatus
@@ -45,7 +46,9 @@ type alias ConventionPageState =
   , record_sort: List Order
   , open_settings: Maybe ChartSettingsPage
   , chart_settings:
-    { inventory: ChartSettings.Inventory } }
+    { inventory: ChartSettings.Inventory
+    }
+  }
 
 {-| A handy sub-model to handle the state of dropdown menus.
 -}
@@ -56,7 +59,8 @@ type Selector
 
 type alias PricingPageState =
   { open_selector : Selector
-  , table_sort: List Order }
+  , table_sort: List Order
+  }
 
 type alias SignInPageState =
   { email: Validation String
@@ -66,7 +70,15 @@ type alias SignInPageState =
   , name: Validation String
   , terms_accepted: Validation Bool
   , is_sign_in: Bool
-  , status: Status }
+  , status: Status
+  }
+
+type alias SettingsPageState =
+  { currencySelectorOpen : Bool
+  }
+
+settingsPage : Page
+settingsPage = Settings { currencySelectorOpen = False }
 
 signIn : Page
 signIn = SignIn <| validateSignInForm <| SignInPageState (Valid "") (Valid "") (Valid "") (Valid "") (Valid "") (Valid False) True (Success "")

@@ -17,6 +17,7 @@ import View.Pricing
 import View.Conventions
 import View.Convention.Convention
 import View.Drawer
+import View.Settings
 
 view : Model -> Html Msg
 view model =
@@ -38,9 +39,10 @@ mainView model =
   main_
     [ class "ca__content" ]
     [ case model.page of
-        Dashboard       -> View.Dashboard.view model
-        Inventory state -> View.Inventory.view model state
-        Pricing state   -> View.Pricing.view model state
-        Conventions     -> View.Conventions.view model
-        Convention con  -> View.Convention.Convention.view model con
-        _               -> div [] [] ]
+        Dashboard         -> View.Dashboard.view model
+        Inventory state   -> View.Inventory.view model state
+        Pricing state     -> View.Pricing.view model state
+        Conventions       -> View.Conventions.view model
+        Convention con    -> View.Convention.Convention.view model con
+        Settings state    -> View.Settings.view model model.settings state
+        _                 -> div [] [] ]

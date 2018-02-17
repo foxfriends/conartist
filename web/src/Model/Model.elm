@@ -17,6 +17,7 @@ import Model.Convention as Convention
 import Model.Page exposing (Page)
 import Model.Dialog exposing (Dialog)
 import Model.User exposing (User)
+import Model.Money exposing (Currency)
 
 {-| The actual ConArtist data model. Contains all information required to render the app.
 -}
@@ -30,6 +31,11 @@ type alias Model =
   , sidenavVisible: Bool
   , location: Maybe Location
   , mouse: Mouse.Position
+  , settings: Settings
+  }
+
+type alias Settings =
+  { currency: Currency
   }
 
 {-| Determines whether any part of the Model is currently dirty (modified since the last time it was

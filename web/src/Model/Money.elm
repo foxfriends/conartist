@@ -1,5 +1,7 @@
 module Model.Money exposing
   ( currency
+  , currencyString
+  , allCurrencies
   , toString
   , fromString
   , prettyprint
@@ -23,7 +25,7 @@ documentation for the Money specification.
 @docs currency, currencyString
 
 # Helpers
-@docs money, numeric, add
+@docs allCurrencies, money, numeric, add
 -}
 import Util.Util as Util
 import FormatNumber exposing (format)
@@ -55,6 +57,11 @@ currencyString : Currency -> String
 currencyString c = case c of
   CAD -> "CAD"
   USD -> "USD"
+
+{-| A list of all the currencies that are available
+-}
+allCurrencies : List Currency
+allCurrencies = [CAD, USD]
 
 {-| The actual `Money` data type, containing a `Currency` code and a number corresponding to how
 many of the currency's minimum denomination is held.

@@ -6,6 +6,7 @@ import Msg exposing (Msg(..))
 import Model.Model exposing (Model, Settings)
 import Model.Page exposing (SettingsPageState)
 import Model.Money as Money
+import View.Attributes exposing (onInteract)
 import View.Card exposing (..)
 import View.Fancy as Fancy
 
@@ -24,5 +25,5 @@ view model settings state =
           (Just settings.currency)
           state.currencySelectorOpen
       ]
-      []
+      [ Fancy.button Fancy.Primary "Save" (onInteract SaveSettings Ignore) ]
     ]

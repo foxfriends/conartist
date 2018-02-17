@@ -1,7 +1,7 @@
 module Update.Settings exposing (update)
 
 import Msg exposing (Msg(..))
-import Model.Model exposing (Model)
+import Model.Model as Model exposing (Model)
 import Model.Page exposing (Page(..), Selector(..))
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -22,5 +22,11 @@ update msg model =
         } ! []
       SelectCurrency Nothing ->
         { model | page = Settings { page | currencySelectorOpen = False } } ! []
+      SaveSettings ->
+        model ! [ saveSettings settings ]
       _ -> model ! []
     _ -> model ! []
+
+saveSettings : Model.Settings -> Cmd Msg
+saveSettings settings = Cmd.none
+-- TODO: this requires an API change

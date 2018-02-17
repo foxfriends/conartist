@@ -82,6 +82,8 @@ type Msg
   -- settings
   | OpenCurrencySelector
   | SelectCurrency (Maybe Currency)
+  | SaveSettings
+  | DidSaveSettings (Result Error ())
   -- loading
   | DidLoadUser (Result Error User)
   | DidLoadChooseConvention (Result Error (Pagination MetaConvention))

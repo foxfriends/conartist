@@ -4,7 +4,8 @@
   "description": "Promo site for ConArtist",
   "main": "index.html",
   "scripts": {
-    "start": "http-server ."
+    "start": "http-server .",
+    "build": "webpack --watch"
   },
   "author": "Cameron Eldridge",
   "license": "ISC",

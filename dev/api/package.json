@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "ConArtist API testing page",
   "main": "index.html",
+  "scripts": {
+    "build": "webpack --watch"
+  },
   "author": "Cameron Eldridge",
   "license": "ISC",
   "devDependencies": {

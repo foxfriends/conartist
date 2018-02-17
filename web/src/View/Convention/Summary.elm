@@ -23,7 +23,7 @@ view model convention =
         [ disclaimer ]
       else
         [ bestSellers convention
-        , revenue convention ]))
+        , revenue model convention ]))
 
 conInfo : MetaConvention -> Html msg
 conInfo { name, start, end, extraInfo } =
@@ -80,8 +80,8 @@ bestSellers con =
         []
     Nothing -> text ""
 
-revenue : Convention -> Html msg
-revenue con =
+revenue : Model -> Convention -> Html msg
+revenue model con =
   case Convention.asFull con of
     Just con ->
       let
@@ -94,9 +94,9 @@ revenue con =
       card "Sales summary"
         [ class "convention__card" ]
         [ defList (span [ tabularFigures ] << List.singleton << text)
-          [ ("Gross profit", Money.prettyprint gross)
-          , ("Total expense", Money.prettyprint expense)
-          , ("Net profit", Money.prettyprint net)
+          [ ("Gross profit", Money.prettyprint <| Money.resolveAuto model.settings.currency gross)
+          , ("Total expense", Money.prettyprint <| Money.resolveAuto model.settings.currency expense)
+          , ("Net profit", Money.prettyprint <| Money.resolveAuto model.settings.currency net)
           , ("Items sold", toString quantity)
           ]
         ]

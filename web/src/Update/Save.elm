@@ -7,6 +7,7 @@ import Model.Model as Model exposing (Model)
 import Model.Price as Price
 import Model.Product as Product
 import Model.ProductType as ProductType
+import Model.Money as Money
 import Msg exposing (Msg(..))
 import Update.Dialog
 
@@ -81,6 +82,7 @@ savePrices model =
     news = List.foldl Price.collectPrices [] model.user.prices
       |> List.filter Tuple.first
       |> List.map Tuple.second
+      |> List.map (\price -> { price | prices = List.map (Tuple.mapSecond (Money.resolveAuto model.settings.currency)) price.prices })
     keep = Set.fromList <| List.filterMap (Price.normalize >> Maybe.map (\p -> (p.type_id, p.product_id |> Maybe.withDefault 0))) model.user.prices
     delSet = Set.fromList
       <| List.filter (not << flip Set.member keep)

@@ -43,14 +43,14 @@ view model page con =
                       , [ text "Total"
                         , text ""
                         , text (toString q)
-                        , div [Table.cellLiner, tabularFigures] [text (Money.prettyprint p)]
+                        , div [Table.cellLiner, tabularFigures] [text (Money.prettyprint <| Money.resolveAuto model.settings.currency p)]
                         , text "" ])
                   Nothing ->
                     ( Nothing
                     , [ text "Total"
                       , text ""
                       , text (toString q)
-                      , div [Table.cellLiner, tabularFigures] [text (Money.prettyprint p)]
+                      , div [Table.cellLiner, tabularFigures] [text (Money.prettyprint <| Money.resolveAuto model.settings.currency p)]
                       , text "" ]))
             page.record_sort
             "1fr 1fr 1fr 1fr 1fr" [] []
@@ -59,19 +59,19 @@ view model page con =
             , Sortable "Quantity" rquantitysort SortConRecordsTable
             , Sortable "Price" rpricesort SortConRecordsTable
             , Sortable "Time" timesort SortConRecordsTable ]
-            recordRow
+            (recordRow model.settings.currency)
             ( fc.records
                 |> List.sortWith (\a -> \b -> Date.compare a.time b.time)
                 |> Join.recordsWithTypedProducts
                   model.user.productTypes
                   (if List.isEmpty fc.products then model.user.products else fc.products) )
 
-recordRow : RecordWithTypedProduct -> List (Html msg)
-recordRow record =
+recordRow : Money.Currency -> RecordWithTypedProduct -> List (Html msg)
+recordRow defaultCurrency record =
   [ div [ class "convention__product-type" ] <| typeSet record.products
   , text <| productString record.products
   , text <| toString (List.length record.products)
-  , div [ Table.cellLiner, tabularFigures ] [ text <| Money.prettyprint record.price ]
+  , div [ Table.cellLiner, tabularFigures ] [ text <| Money.prettyprint <| Money.resolveAuto defaultCurrency record.price ]
   , text <| Date.toFormattedString "EEE, h:mm a" record.time ]
 
 typeSet : List ProductWithType -> List (Html msg)

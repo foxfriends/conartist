@@ -4,7 +4,8 @@
 
 Most actual user data is behind the GraphQL endpoint. Requires the Authorization header with the
 JWT provided from the auth endpoints. This API can be exposed to not require authorization by
-running the server with the `--open` flag.
+running the server with the `--open` flag. It uses standard GraphQL documentation stuff, so see the
+schema.graphql file or just use GraphiQL or something to check what's available.
 
 Query:
 ```

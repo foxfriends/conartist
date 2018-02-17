@@ -6,7 +6,7 @@
   "scripts": {
     "start": "http-server ."
   },
-  "author": "",
+  "author": "Cameron Eldridge",
   "license": "ISC",
   "devDependencies": {
     "css-loader": "^0.28.7",

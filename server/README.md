@@ -18,6 +18,16 @@ The server supports a single flag, `--open`, which turns off the authentication 
 GraphQL API. Useful for when using Apollo, for example, to introspect the API and generate the
 source files. No guarantees the app will actually work correctly in this mode.
 
+## Dev mode
+
+```bash
+cargo run -- --dev
+```
+
+When testing things it may be helpful to run in dev mode by supplying the `--dev` flag. This
+exposes the dev tools at `http://localhost:8080/dev`. Running in dev and open mode will be useful
+for testing the GraphQL API as well, to get around the sign in requirements.
+
 ## Deploying to production
 
 Just tell me to do it. I don't know how to set up another person for my Heroku, and don't really

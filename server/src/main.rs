@@ -29,6 +29,7 @@ mod database;
 mod cr;
 mod error;
 mod money;
+mod devtools;
 
 use std::env;
 use mount::Mount;
@@ -52,27 +53,18 @@ fn main() {
     let privileged = database.create_privileged();
     let mut mount = Mount::new();
     let cors =
-        if env::args().all(|a| a != "--any-origin") {
-            CorsMiddleware::with_whitelist(["https://con--artist.herokuapp.com".to_string()].into_iter().cloned().collect())
-        } else {
+        if env::args().any(|a| a == "--any-origin") {
             println!();
             println!("{}", "WARNING: Running with no CORS protection. All origins are permitted.".yellow());
             println!("{}", "         Do not run with `--any-origin` flag in production!".yellow());
             println!();
             CorsMiddleware::with_allow_any()
+        } else {
+            CorsMiddleware::with_whitelist(["https://con--artist.herokuapp.com".to_string()].into_iter().cloned().collect())
         };
 
     let graphql =
-        if env::args().all(|a| a != "--open") {
-            chain! [
-                middleware::VerifyJWT::new();
-                GraphQLHandler::new(
-                    move |r| database.create(r),
-                    graphql::Query,
-                    graphql::Mutation,
-                )
-            ]
-        } else {
+        if env::args().any(|a| a == "--open") {
             println!();
             println!("{}", "WARNING: Running in open mode. No authorization required.".yellow());
             println!("{}", "         Do not run with `--open` flag in production!".yellow());
@@ -84,7 +76,24 @@ fn main() {
                     graphql::Mutation,
                 )
             ]
+        } else {
+            chain! [
+                middleware::VerifyJWT::new();
+                GraphQLHandler::new(
+                    move |r| database.create(r),
+                    graphql::Query,
+                    graphql::Mutation,
+                )
+            ]
         };
+
+    if env::args().any(|a| a == "--dev") {
+        println!();
+        println!("{}", "WARNING: Running in dev mode. Dev tools page is exposed.".yellow());
+        println!("{}", "         Do not run with `--dev` flag in production!".yellow());
+        println!();
+        mount.mount("/dev", devtools::new());
+    }
 
     mount
         .mount("/api/v2", graphql)

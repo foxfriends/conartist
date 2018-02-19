@@ -82,7 +82,7 @@ savePrices model =
     news = List.foldl Price.collectPrices [] model.user.prices
       |> List.filter Tuple.first
       |> List.map Tuple.second
-      |> List.map (\price -> { price | prices = List.map (Tuple.mapSecond (Money.resolveAuto model.settings.currency)) price.prices })
+      |> List.map (\price -> { price | prices = List.map (Tuple.mapSecond (Money.resolveAuto model.user.settings.currency)) price.prices })
     keep = Set.fromList <| List.filterMap (Price.normalize >> Maybe.map (\p -> (p.type_id, p.product_id |> Maybe.withDefault 0))) model.user.prices
     delSet = Set.fromList
       <| List.filter (not << flip Set.member keep)

@@ -1,5 +1,8 @@
 use super::*;
+use std::str::FromStr;
+use money::Currency;
 use bcrypt;
+use std::error::Error;
 
 impl Database {
     pub fn set_user_email(&self, maybe_user_id: Option<i32>, email: String) -> Result<User, String> {
@@ -50,6 +53,22 @@ impl Database {
         let conn = self.pool.get().unwrap();
         for row in &query!(conn, "UPDATE Users SET keys = keys + $1 WHERE user_id = $2 RETURNING *", quantity, user_id) {
             return User::from(row);
+        }
+        return Err(format!("No user {} exists", user_id))
+    }
+
+    pub fn set_user_settings_currency(&self, maybe_user_id: Option<i32>, currency: Currency) -> Result<Currency, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+
+        let conn = self.pool.get().unwrap();
+        for row in &query!(conn, "
+            INSERT INTO UserSettings (user_id, currency)
+                 VALUES ($1, $2)
+            ON CONFLICT (user_id) DO
+             UPDATE SET currency = $2
+              RETURNING currency
+        ", user_id, currency) {
+            return FromStr::from_str(&row.get::<&'static str, String>("currency")).map_err(|e| Error::description(&e).to_string());
         }
         return Err(format!("No user {} exists", user_id))
     }

@@ -22,7 +22,6 @@ init loc =
   , sidenavVisible = False
   , location = Just loc
   , mouse = { x = 0, y = 0 }
-  , settings = { currency = CAD }
   } ! [ LocalStorage.get "authtoken"
       , Task.perform SetDate Date.now
       ]

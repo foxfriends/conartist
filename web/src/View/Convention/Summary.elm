@@ -94,9 +94,9 @@ revenue model con =
       card "Sales summary"
         [ class "convention__card" ]
         [ defList (span [ tabularFigures ] << List.singleton << text)
-          [ ("Gross profit", Money.prettyprint <| Money.resolveAuto model.settings.currency gross)
-          , ("Total expense", Money.prettyprint <| Money.resolveAuto model.settings.currency expense)
-          , ("Net profit", Money.prettyprint <| Money.resolveAuto model.settings.currency net)
+          [ ("Gross profit", Money.prettyprint <| Money.resolveAuto model.user.settings.currency gross)
+          , ("Total expense", Money.prettyprint <| Money.resolveAuto model.user.settings.currency expense)
+          , ("Net profit", Money.prettyprint <| Money.resolveAuto model.user.settings.currency net)
           , ("Items sold", toString quantity)
           ]
         ]

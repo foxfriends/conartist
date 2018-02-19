@@ -31,11 +31,6 @@ type alias Model =
   , sidenavVisible: Bool
   , location: Maybe Location
   , mouse: Mouse.Position
-  , settings: Settings
-  }
-
-type alias Settings =
-  { currency: Currency
   }
 
 {-| Determines whether any part of the Model is currently dirty (modified since the last time it was

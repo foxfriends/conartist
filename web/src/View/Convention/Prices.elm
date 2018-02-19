@@ -25,7 +25,7 @@ view model page con =
         , Sortable "Product" maybeproductsort SortConPricesTable
         , Sortable "Quantity" pquantitysort SortConPricesTable
         , Sortable "Price" pricesort SortConPricesTable ]
-        (priceRow model.settings.currency) <|
+        (priceRow model.user.settings.currency) <|
           List.filterMap (\p -> Maybe.map (always p) p.productType) <|
             Join.pricesWithProductsAndTypes
               model.user.productTypes

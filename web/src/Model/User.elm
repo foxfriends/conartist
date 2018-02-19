@@ -9,6 +9,7 @@ import Model.Product exposing (Product)
 import Model.ProductType exposing (ProductType)
 import Model.Price exposing (Price)
 import Model.Convention exposing (Convention)
+import Model.Settings exposing (Settings, settings)
 
 {-| The actual `User` data type
 -}
@@ -20,11 +21,13 @@ type alias User =
   , products: List Product
   , productTypes: List ProductType
   , prices: List Price
-  , conventions: List Convention }
+  , conventions: List Convention
+  , settings: Settings
+  }
 
 {-| Creates a new blank user.
 
     new
 -}
 new : User
-new = User "" "" 0 [] [] [] []
+new = User "" "" 0 [] [] [] [] settings

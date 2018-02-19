@@ -1,4 +1,5 @@
 //! The Conventions table, and the join of Conventions and all of the user's data
+#![allow(dead_code)]
 use std::panic::catch_unwind;
 use postgres::rows::Row;
 use chrono::NaiveDate;

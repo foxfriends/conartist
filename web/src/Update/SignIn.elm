@@ -14,6 +14,7 @@ import Model.Page exposing (Page(..), SignInPageState, validateSignInForm)
 import Model.Status exposing (Status(..))
 import Model.ConRequest as ConRequest
 import Model.Validation as Validation exposing (Validation(..), valueOf, validate, invalidate, empty, errorFor, toResult)
+import Model.Settings exposing (settings)
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case model.page of
@@ -53,9 +54,19 @@ update msg model = case model.page of
         let
           newmodel =
             { model
-            | user = { email = valueOf page.email, name = "", keys = 0, products = [], productTypes = [], prices = [], conventions = [] }
+            | user =
+              { email = valueOf page.email
+              , name = ""
+              , keys = 0
+              , products = []
+              , productTypes = []
+              , prices = []
+              , conventions = []
+              , settings = settings
+              }
             , authtoken = authtoken
-            , page = Dashboard }
+            , page = Dashboard
+            }
         in
           newmodel
           ! [ newUrl dashboardPath

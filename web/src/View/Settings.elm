@@ -3,7 +3,8 @@ import Html exposing (Html, div, span, text)
 import Html.Attributes exposing (class)
 
 import Msg exposing (Msg(..))
-import Model.Model exposing (Model, Settings)
+import Model.Model exposing (Model)
+import Model.Settings exposing (Settings)
 import Model.Page exposing (SettingsPageState)
 import Model.Money as Money
 import View.Attributes exposing (onInteract)

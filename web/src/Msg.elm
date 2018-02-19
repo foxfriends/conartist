@@ -15,6 +15,7 @@ import Model.Price exposing (CondensedPrice)
 import Model.Convention exposing (MetaConvention, FullConvention)
 import Model.User exposing (User)
 import Model.Money exposing (Currency)
+import Model.Settings exposing (Settings)
 
 type alias TabStatus =
   { current: Int
@@ -83,7 +84,7 @@ type Msg
   | OpenCurrencySelector
   | SelectCurrency (Maybe Currency)
   | SaveSettings
-  | DidSaveSettings (Result Error ())
+  | DidSaveSettings (Result Error Settings)
   -- loading
   | DidLoadUser (Result Error User)
   | DidLoadChooseConvention (Result Error (Pagination MetaConvention))

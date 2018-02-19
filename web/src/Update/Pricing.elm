@@ -112,7 +112,7 @@ update msg model =
               ++ ","
               ++ (p.price |> Price.normalize |> Maybe.map .quantity |> Maybe.withDefault 0 |> toString)
               ++ ","
-              ++ (p.price |> Price.normalize |> Maybe.map .price |> Maybe.withDefault (Money.money 0) |> Money.resolveAuto model.settings.currency |> toString)
+              ++ (p.price |> Price.normalize |> Maybe.map .price |> Maybe.withDefault (Money.money 0) |> Money.resolveAuto model.user.settings.currency |> toString)
               ++ "\n"
             )
           |> List.foldl (++) ""

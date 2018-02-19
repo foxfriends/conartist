@@ -43,14 +43,14 @@ view model page con =
                       , [ text "Total"
                         , text ""
                         , text (toString q)
-                        , div [Table.cellLiner, tabularFigures] [text (Money.prettyprint <| Money.resolveAuto model.settings.currency p)]
+                        , div [Table.cellLiner, tabularFigures] [text (Money.prettyprint <| Money.resolveAuto model.user.settings.currency p)]
                         , text "" ])
                   Nothing ->
                     ( Nothing
                     , [ text "Total"
                       , text ""
                       , text (toString q)
-                      , div [Table.cellLiner, tabularFigures] [text (Money.prettyprint <| Money.resolveAuto model.settings.currency p)]
+                      , div [Table.cellLiner, tabularFigures] [text (Money.prettyprint <| Money.resolveAuto model.user.settings.currency p)]
                       , text "" ]))
             page.record_sort
             "1fr 1fr 1fr 1fr 1fr" [] []
@@ -59,7 +59,7 @@ view model page con =
             , Sortable "Quantity" rquantitysort SortConRecordsTable
             , Sortable "Price" rpricesort SortConRecordsTable
             , Sortable "Time" timesort SortConRecordsTable ]
-            (recordRow model.settings.currency)
+            (recordRow model.user.settings.currency)
             ( fc.records
                 |> List.sortWith (\a -> \b -> Date.compare a.time b.time)
                 |> Join.recordsWithTypedProducts

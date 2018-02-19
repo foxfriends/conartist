@@ -44,5 +44,5 @@ mainView model =
         Pricing state     -> View.Pricing.view model state
         Conventions       -> View.Conventions.view model
         Convention con    -> View.Convention.Convention.view model con
-        Settings state    -> View.Settings.view model model.settings state
+        Settings state    -> View.Settings.view model model.user.settings state
         _                 -> div [] [] ]

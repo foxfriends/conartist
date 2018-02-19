@@ -3,7 +3,7 @@ use postgres::types::{FromSql, ToSql, BPCHAR, Type, IsNull};
 use juniper::Value;
 use std::error::Error;
 use std::str::FromStr;
-use money::Money;
+use money::{Money, Currency};
 use error::MoneyError;
 use database::ConventionExtraInfo;
 
@@ -36,6 +36,38 @@ impl FromSql for Money {
 }
 
 impl ToSql for Money {
+    fn to_sql(&self, _: &Type, out: &mut Vec<u8>) -> Result<IsNull, Box<Error + 'static + Sync + Send>> {
+        self.to_string().to_sql(&BPCHAR, out)
+    }
+
+    accepts!(BPCHAR);
+
+    to_sql_checked!();
+}
+
+graphql_scalar!(Currency {
+    // TODO: improve when proper currency support is added
+    description: "Represents a type of currency"
+
+    resolve(&self) -> Value {
+        Value::string(self.to_string())
+    }
+
+    from_input_value(v: &InputValue) -> Option<Currency> {
+        v   .as_string_value()
+            .and_then(|s| FromStr::from_str(&s).ok())
+    }
+});
+
+impl FromSql for Currency {
+    fn from_sql(_: &Type, raw: &[u8]) -> Result<Currency, Box<Error + Sync + Send>> {
+        <String as FromSql>::from_sql(&BPCHAR, raw).and_then(|s| FromStr::from_str(&s).map_err(|e: MoneyError| Box::new(e).into()))
+    }
+
+    accepts!(BPCHAR);
+}
+
+impl ToSql for Currency {
     fn to_sql(&self, _: &Type, out: &mut Vec<u8>) -> Result<IsNull, Box<Error + 'static + Sync + Send>> {
         self.to_string().to_sql(&BPCHAR, out)
     }

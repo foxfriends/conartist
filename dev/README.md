@@ -5,7 +5,8 @@ from here it will be possible to view test reports, run tests, and send requests
 
 ## API testing tool
 
-For sending arbitrary API requests to the server.
+For sending arbitrary API requests to the server. May not actually be of any use, since all
+meaningful data is in the GraphQL API.
 
 ## GraphiQL interface
 

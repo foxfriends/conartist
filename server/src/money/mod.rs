@@ -21,7 +21,8 @@ impl FromStr for Currency {
     type Err = MoneyError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        serde_json::from_str(&format!("\"{}\"", s)).map_err(|_| MoneyError(format!("Could not deserialize {} as a currency code", s)))
+        serde_json::from_str(&format!("\"{}\"", s))
+            .map_err(|_| MoneyError(format!("Could not deserialize {} as a currency code", s)))
     }
 }
 

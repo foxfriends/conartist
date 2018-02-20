@@ -12,6 +12,7 @@ import RxSwift
 
 class ConventionListViewController: UIViewController {
     fileprivate enum Section: String {
+        // TODO: localized strings? here?
         case Past = "Previous"
         case Present = "Today"
         case Future = "Upcoming"
@@ -132,6 +133,38 @@ extension ConventionListViewController: UITableViewDelegate {
             let convention = conventions(for: section).nth(indexPath.row)
         else { return }
         ConArtist.model.navigateTo(page: .Convention(convention))
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let title = self.tableView(tableView, titleForHeaderInSection: section) else { return nil }
+        let view = UIView()
+        let titleLabel = UILabel().customizable()
+        let hbar = HighlightableView().customizable()
+        let seeAllButton = UIButton().customizable().conArtistStyle()
+
+        view.addSubview(titleLabel)
+        view.addSubview(hbar)
+        view.addSubview(seeAllButton)
+
+        titleLabel.text = title
+        titleLabel.font = UIFont.systemFont(ofSize: 12).usingFeatures([.smallCaps])
+        titleLabel.textColor = ConArtist.Color.Text
+        seeAllButton.titleLabel?.font = UIFont.systemFont(ofSize: 12)
+        seeAllButton.setTitle("See all", for: .normal) // TODO: localized string
+
+        // TODO: hide see all button and adjust constraints when there are no more to see
+        view.addConstraints([
+            NSLayoutConstraint(item: titleLabel, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1, constant: 20),
+            NSLayoutConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: titleLabel, attribute: .centerY, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: view, attribute: .trailing, relatedBy: .equal, toItem: seeAllButton, attribute: .trailing, multiplier: 1, constant: 20),
+            NSLayoutConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: seeAllButton, attribute: .centerY, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: hbar, attribute: .leading, relatedBy: .equal, toItem: titleLabel, attribute: .trailing, multiplier: 1, constant: 10),
+            NSLayoutConstraint(item: seeAllButton, attribute: .leading, relatedBy: .equal, toItem: hbar, attribute: .trailing, multiplier: 1, constant: 10),
+            NSLayoutConstraint(item: hbar, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 1),
+            NSLayoutConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: hbar, attribute: .centerY, multiplier: 1, constant: 0)
+        ])
+
+        return view
     }
 }
 

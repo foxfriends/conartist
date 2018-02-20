@@ -10,10 +10,10 @@ import UIKit
 
 @IBDesignable
 class FakeNavBar: UIView {
-    private let navView = UIView()
-    private let titleLabel = UILabel()
-    let leftButton = UIButton()
-    let rightButton = UIButton()
+    private let navView = UIView().customizable()
+    private let titleLabel = UILabel().customizable()
+    let leftButton = UIButton().customizable().conArtistStyle()
+    let rightButton = UIButton().customizable().conArtistStyle()
 
     @IBInspectable var title: String? {
         didSet {
@@ -38,11 +38,6 @@ class FakeNavBar: UIView {
         layer.shadowRadius = 6
         layer.shadowOpacity = 0.25
 
-        navView.translatesAutoresizingMaskIntoConstraints = false
-        rightButton.translatesAutoresizingMaskIntoConstraints = false
-        leftButton.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-
         addSubview(navView)
         navView.addSubview(leftButton)
         navView.addSubview(rightButton)
@@ -62,14 +57,7 @@ class FakeNavBar: UIView {
             NSLayoutConstraint(item: titleLabel, attribute: .centerX, relatedBy: .equal, toItem: navView, attribute: .centerX, multiplier: 1, constant: 0)
         ])
 
-        let buttonFont = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold).usingFeatures([.smallCaps])
-        leftButton.titleLabel?.font = buttonFont
-        leftButton.setTitleColor(ConArtist.Color.Brand, for: .normal)
-        leftButton.setTitleColor(ConArtist.Color.BrandVariant, for: .highlighted)
         leftButton.isHidden = true
-        rightButton.titleLabel?.font = buttonFont
-        rightButton.setTitleColor(ConArtist.Color.Brand, for: .normal)
-        rightButton.setTitleColor(ConArtist.Color.BrandVariant, for: .highlighted)
         rightButton.isHidden = true
         titleLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold)
         titleLabel.textColor = ConArtist.Color.Text

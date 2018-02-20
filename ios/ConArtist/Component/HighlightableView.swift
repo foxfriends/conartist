@@ -1,5 +1,5 @@
 //
-//  HighlightableLineView.swift
+//  HighlightableView.swift
 //  ConArtist
 //
 //  Created by Cameron Eldridge on 2018-02-14.

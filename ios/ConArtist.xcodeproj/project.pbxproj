@@ -27,12 +27,14 @@
 		324592AE1FEC314900DE89BB /* Date+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592AD1FEC314900DE89BB /* Date+String.swift */; };
 		3266CEF720017E2C0016D5E6 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */; };
 		32892C4020352D1500F1AD9C /* FancyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32892C3F20352D1500F1AD9C /* FancyTextField.swift */; };
-		32892C4220352E9D00F1AD9C /* HighlightableLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32892C4120352E9D00F1AD9C /* HighlightableLineView.swift */; };
+		32892C4220352E9D00F1AD9C /* HighlightableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32892C4120352E9D00F1AD9C /* HighlightableView.swift */; };
 		32892C44203530C800F1AD9C /* Array+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32892C43203530C800F1AD9C /* Array+Safe.swift */; };
 		32AE416720253D5C0061EB64 /* RootNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AE416620253D5C0061EB64 /* RootNavigationController.swift */; };
 		32AE4169202553CF0061EB64 /* ProductTypeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AE4168202553CF0061EB64 /* ProductTypeListViewController.swift */; };
 		32AE416B202554AD0061EB64 /* RecordListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AE416A202554AD0061EB64 /* RecordListViewController.swift */; };
 		32B36EB720371BC700DA4593 /* FakeNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EB620371BC700DA4593 /* FakeNavBar.swift */; };
+		32B36EBD203BD2F000DA4593 /* UIButton+ConArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EBC203BD2F000DA4593 /* UIButton+ConArtist.swift */; };
+		32B36EBF203BD67800DA4593 /* UIView+Customizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EBE203BD67800DA4593 /* UIView+Customizable.swift */; };
 		32BC33DD1FEEED030006256A /* ProductListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33DC1FEEED030006256A /* ProductListViewController.swift */; };
 		32BC33E21FEEF17E0006256A /* ProductType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33E11FEEF17E0006256A /* ProductType.swift */; };
 		32BC33E41FEEF1B80006256A /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33E31FEEF1B80006256A /* Product.swift */; };
@@ -82,12 +84,14 @@
 		324592AD1FEC314900DE89BB /* Date+String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+String.swift"; sourceTree = "<group>"; };
 		3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		32892C3F20352D1500F1AD9C /* FancyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyTextField.swift; sourceTree = "<group>"; };
-		32892C4120352E9D00F1AD9C /* HighlightableLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightableLineView.swift; sourceTree = "<group>"; };
+		32892C4120352E9D00F1AD9C /* HighlightableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightableView.swift; sourceTree = "<group>"; };
 		32892C43203530C800F1AD9C /* Array+Safe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Safe.swift"; sourceTree = "<group>"; };
 		32AE416620253D5C0061EB64 /* RootNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootNavigationController.swift; sourceTree = "<group>"; };
 		32AE4168202553CF0061EB64 /* ProductTypeListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductTypeListViewController.swift; sourceTree = "<group>"; };
 		32AE416A202554AD0061EB64 /* RecordListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordListViewController.swift; sourceTree = "<group>"; };
 		32B36EB620371BC700DA4593 /* FakeNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeNavBar.swift; sourceTree = "<group>"; };
+		32B36EBC203BD2F000DA4593 /* UIButton+ConArtist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+ConArtist.swift"; sourceTree = "<group>"; };
+		32B36EBE203BD67800DA4593 /* UIView+Customizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Customizable.swift"; sourceTree = "<group>"; };
 		32BC33DC1FEEED030006256A /* ProductListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
 		32BC33E11FEEF17E0006256A /* ProductType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductType.swift; sourceTree = "<group>"; };
 		32BC33E31FEEF1B80006256A /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
@@ -178,7 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				32892C3F20352D1500F1AD9C /* FancyTextField.swift */,
-				32892C4120352E9D00F1AD9C /* HighlightableLineView.swift */,
+				32892C4120352E9D00F1AD9C /* HighlightableView.swift */,
 				32F12C0D20353E840045D0BC /* FancyButton.swift */,
 				32B36EB620371BC700DA4593 /* FakeNavBar.swift */,
 			);
@@ -205,11 +209,13 @@
 			children = (
 				32E80BD6201700EB0008EC27 /* String+Money.swift */,
 				32C39C1B201E812D00071E26 /* ApolloClient+Rx.swift */,
+				32B36EBC203BD2F000DA4593 /* UIButton+ConArtist.swift */,
 				324592AD1FEC314900DE89BB /* Date+String.swift */,
 				3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */,
 				32BE32BA201E786B00BFEB16 /* UIViewController+Instantiate.swift */,
 				321FDE832027D14B002DF04B /* Observable+FilterMap.swift */,
 				32C39C1D201E870600071E26 /* UIView+Tooltip.swift */,
+				32B36EBE203BD67800DA4593 /* UIView+Customizable.swift */,
 				32C39C1F201E99A100071E26 /* Sequence+FilterMap.swift */,
 				32892C43203530C800F1AD9C /* Array+Safe.swift */,
 				32F12C0F203544E60045D0BC /* UIFont+Features.swift */,
@@ -478,9 +484,11 @@
 				3245929C1FEB19DA00DE89BB /* GraphQL.swift in Sources */,
 				32F12C10203544E60045D0BC /* UIFont+Features.swift in Sources */,
 				324592951FEAFA6000DE89BB /* ConArtist.swift in Sources */,
+				32B36EBD203BD2F000DA4593 /* UIButton+ConArtist.swift in Sources */,
 				32AE416720253D5C0061EB64 /* RootNavigationController.swift in Sources */,
 				32C39C31201EA5B400071E26 /* RecordTableViewCell.swift in Sources */,
 				324592A01FEB230600DE89BB /* Auth.swift in Sources */,
+				32B36EBF203BD67800DA4593 /* UIView+Customizable.swift in Sources */,
 				321FDE842027D14B002DF04B /* Observable+FilterMap.swift in Sources */,
 				321B75DC1F9BAD320055EBC4 /* SignInViewController.swift in Sources */,
 				324592AC1FEC2EA500DE89BB /* Convention.swift in Sources */,
@@ -495,7 +503,7 @@
 				324592971FEAFEE000DE89BB /* ConRequest.swift in Sources */,
 				32AE4169202553CF0061EB64 /* ProductTypeListViewController.swift in Sources */,
 				32F12C1220354E550045D0BC /* String+Attributes.swift in Sources */,
-				32892C4220352E9D00F1AD9C /* HighlightableLineView.swift in Sources */,
+				32892C4220352E9D00F1AD9C /* HighlightableView.swift in Sources */,
 				3266CEF720017E2C0016D5E6 /* UIColor+Hex.swift in Sources */,
 				32BC33EA1FEEF2420006256A /* Price.swift in Sources */,
 				321FDE8020269E43002DF04B /* SettingsBooleanTableViewCell.swift in Sources */,

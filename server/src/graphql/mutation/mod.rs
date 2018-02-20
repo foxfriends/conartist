@@ -5,6 +5,7 @@ mod product_type;
 mod price;
 mod record;
 mod expense;
+mod settings;
 
 use juniper::{FieldResult, FieldError, Value};
 use serde_json;
@@ -15,6 +16,7 @@ use self::product_type::*;
 use self::price::*;
 use self::record::*;
 use self::expense::*;
+use self::settings::SettingsMutation;
 
 pub struct Mutation;
 
@@ -171,4 +173,8 @@ graphql_object!(Mutation: Database |&self| {
     }
     field mod_user_expense(&executor, user_id: Option<i32>, expense: ExpenseMod) -> FieldResult<Expense> { Err(FieldError::new("Unimplemented", Value::null())) }
     field del_user_expense(&executor, user_id: Option<i32>, expense: ExpenseDel) -> FieldResult<()> { Err(FieldError::new("Unimplemented", Value::null())) }
+
+    field update_settings(&executor, user_id: Option<i32>) -> FieldResult<SettingsMutation> {
+        Ok(SettingsMutation(user_id))
+    }
 });

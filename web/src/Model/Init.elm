@@ -9,6 +9,7 @@ import Model.Model exposing (Model)
 import Model.User as User
 import Model.Page as Page
 import Model.Dialog exposing (Dialog(..))
+import Model.Money exposing (Currency(..))
 
 init : Location -> (Model, Cmd Msg)
 init loc =
@@ -20,6 +21,7 @@ init loc =
   , showDiscontinued = False
   , sidenavVisible = False
   , location = Just loc
-  , mouse = { x = 0, y = 0 } }
-  ! [ LocalStorage.get "authtoken"
-    , Task.perform SetDate Date.now ]
+  , mouse = { x = 0, y = 0 }
+  } ! [ LocalStorage.get "authtoken"
+      , Task.perform SetDate Date.now
+      ]

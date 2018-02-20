@@ -27,6 +27,7 @@ $height__tabs-footer: 48px
     align-items: center
     justify-content: center
     cursor: pointer
+    +small-caps
   &__indicator
     position: absolute
     height: 4px
@@ -48,7 +49,7 @@ $height__tabs-footer: 48px
     right: 0
     transition: transform 0.4s
     z-index: 0
-    background: white
+    background: $color__background--light
     &--current
       @extend .tabs__content
       transform: none

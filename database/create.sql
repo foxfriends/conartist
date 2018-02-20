@@ -33,6 +33,13 @@ CREATE INDEX index_Users ON Users (email);
 COMMENT ON TABLE Users IS 'A user of the ConArtist app';
 -- TODO: add column comments
 
+CREATE TABLE UserSettings (
+  user_id   INT PRIMARY KEY REFERENCES Users (user_id) ON DELETE CASCADE,
+  currency  CHAR(3) NOT NULL DEFAULT 'CAD' -- Must be a valid currency code
+);
+CREATE INDEX index_UserSettings ON UserSettings (user_id);
+COMMENT ON TABLE UserSettings IS 'Configuration for each user''s specific environment';
+
 CREATE TABLE Conventions (
   con_id      SERIAL PRIMARY KEY,
   title       VARCHAR(512) NOT NULL,

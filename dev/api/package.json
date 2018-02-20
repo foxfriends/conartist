@@ -1,0 +1,23 @@
+{
+  "name": "dev-api",
+  "version": "1.0.0",
+  "description": "ConArtist API testing page",
+  "main": "index.html",
+  "scripts": {
+    "build": "webpack --watch"
+  },
+  "author": "Cameron Eldridge",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^0.28.9",
+    "fast-sass-loader": "^1.4.0",
+    "node-sass": "^4.7.2",
+    "postcss-loader": "^2.1.0",
+    "style-loader": "^0.18.2",
+    "uglifyjs-webpack-plugin": "^1.2.0",
+    "webpack": "^3.11.0"
+  },
+  "dependencies": {
+    "reset-css": "^2.2.1"
+  }
+}

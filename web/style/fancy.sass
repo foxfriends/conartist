@@ -92,6 +92,7 @@
   margin: 0 8px
   cursor: pointer
   +focus-circle
+  +small-caps
   &--primary
     @extend .fancy-button
     @extend %square-button
@@ -99,6 +100,8 @@
     transition: box-shadow 0.1s
     border: 1px solid darker($color--primary, 8%)
     +natural-light(lighter($color--primary))
+    color: $color__text--invert
+    font-weight: bolder
     &:hover
       +natural-light($color--primary)
     &:active
@@ -111,10 +114,14 @@
     @extend .fancy-button
     @extend %flat-clickable
     @extend %round-button
+    +icon-font
     +focus-circle(24px)
+  &--light-text
+    color: $color__text--invert
   &--fab
     @extend .fancy-button
     @extend %round-button
+    +icon-font
     +card(3)
     width: 50px
     height: 50px
@@ -159,8 +166,8 @@
     &::after
       content: "arrow_drop_down"
       margin-left: auto
-      font-family: $font--icon
       font-size: larger
+      +icon-font
   &__options
     +card(2)
     position: absolute

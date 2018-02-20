@@ -6,6 +6,7 @@ scalar NaiveDate
 scalar DateTimeUtc
 scalar DateTimeFixedOffset
 scalar Money
+scalar Currency
 
 type Query {
   user(id: Int): User!
@@ -23,6 +24,11 @@ type User {
   products: [ProductInInventory]!
   prices: [PriceRow]!
   conventions: [FullUserConvention]!
+  settings: Settings!
+}
+
+type Settings {
+  currency: Currency!
 }
 
 type ProductType {
@@ -126,6 +132,10 @@ type Mutation {
   addUserExpense(userId: Int, expense: ExpenseAdd!): Expense!
   modUserExpense(userId: Int, expense: ExpenseMod!): Expense!
   delUserExpense(userId: Int, expense: ExpenseDel!): Expense!
+
+  updateSettings(userId: Int) {
+    currency(currency: Currency!): Currency!
+  }
 }
 
 input ProductTypeAdd {

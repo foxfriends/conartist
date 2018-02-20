@@ -1,5 +1,5 @@
 //! Holds information about a user and their products, prices, and conventions
-use database::{Database, User, ProductType, ProductInInventory, PriceRow, FullUserConvention};
+use database::{Database, User, ProductType, ProductInInventory, PriceRow, FullUserConvention, Settings};
 use juniper::FieldResult;
 use chrono::{DateTime, Utc};
 
@@ -48,6 +48,14 @@ graphql_object!(User: Database |&self| {
             executor
                 .context()
                 .get_conventions_for_user(self.user_id)
+        }
+    }
+
+    field settings(&executor) -> FieldResult<Settings> {
+        dbtry! {
+            executor
+                .context()
+                .get_settings_for_user(self.user_id)
         }
     }
 });

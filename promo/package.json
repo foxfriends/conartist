@@ -4,9 +4,10 @@
   "description": "Promo site for ConArtist",
   "main": "index.html",
   "scripts": {
-    "start": "http-server ."
+    "start": "http-server .",
+    "build": "webpack --watch"
   },
-  "author": "",
+  "author": "Cameron Eldridge",
   "license": "ISC",
   "devDependencies": {
     "css-loader": "^0.28.7",

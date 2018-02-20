@@ -1,0 +1,9 @@
+{
+  "background": [4281545523, "#ff333333"],
+  "divider": [536870911, "#30ffffff"],
+  "brand": [4292495360, "#ffda4800"],
+  "text": [4294967295, "#ffffffff"],
+  "text-placeholder": [2147483647, "#7fffffff"],
+  "warn": [4294901760, "#ffff0000"],
+  "success": [4282286142, "#ff3e803e"]
+}

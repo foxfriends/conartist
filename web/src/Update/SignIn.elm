@@ -14,6 +14,7 @@ import Model.Page exposing (Page(..), SignInPageState, validateSignInForm)
 import Model.Status exposing (Status(..))
 import Model.ConRequest as ConRequest
 import Model.Validation as Validation exposing (Validation(..), valueOf, validate, invalidate, empty, errorFor, toResult)
+import Model.Settings exposing (settings)
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = case model.page of
@@ -53,9 +54,19 @@ update msg model = case model.page of
         let
           newmodel =
             { model
-            | user = { email = valueOf page.email, name = "", keys = 0, products = [], productTypes = [], prices = [], conventions = [] }
+            | user =
+              { email = valueOf page.email
+              , name = ""
+              , keys = 0
+              , products = []
+              , productTypes = []
+              , prices = []
+              , conventions = []
+              , settings = settings
+              }
             , authtoken = authtoken
-            , page = Dashboard }
+            , page = Dashboard
+            }
         in
           newmodel
           ! [ newUrl dashboardPath
@@ -110,10 +121,7 @@ post : String -> Http.Body -> Decode.Decoder a -> Http.Request a
 post url body decoder = Debug.log "request"
   Http.request
     { method = "POST"
-    , headers =
-      [ Http.header "Origin" baseURL
-      , Http.header "Access-Control-Request-Headers" "X-Custom-Header"
-      ]
+    , headers = []
     , url = baseURL ++ url
     , body = body
     , expect = Http.expectJson decoder

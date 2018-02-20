@@ -26,6 +26,7 @@
       @extend .table__cell
       color: $color__text--secondary
       font-size: 10pt
+      +small-caps
     &--borderless
       @extend .table__cell
       border: none
@@ -40,7 +41,7 @@
     display: flex
     align-items: center
     &::after
-      font-family: $font--icon
+      +icon-font
       font-size: 130%
     &--asc, &--desc
       @extend .table__sort

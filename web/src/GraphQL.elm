@@ -4,7 +4,9 @@ module GraphQL exposing
   , createProductTypes, updateProductTypes
   , createProducts, updateProducts
   , createPrices, deletePrices
-  , addConvention )
+  , addConvention
+  , updateSettings
+  )
 {-| Provides type safe access to the GraphQL API. Hopefully this file will someday be automatically
 generated, but for now it is just manual, so not actually type safe if any mistakes are made...
 -}
@@ -32,6 +34,7 @@ import Model.Expense exposing (Expense)
 import Model.Pagination exposing (Pagination)
 import Model.Validation exposing (valueOf)
 import Model.Money as Money exposing (Money(..), Currency)
+import Model.Settings exposing (Settings)
 
 -- TODO: make use of fragments to reduce request size
 
@@ -41,9 +44,10 @@ type DateType = DateType
 date : ValueSpec NonNull DateType Date vars
 date =
   Decode.string
+    |> Decode.map Date.fromIsoString
     |> Decode.andThen
-        (\timeString ->
-          case Date.fromIsoString timeString of
+        (\maybeTime ->
+          case maybeTime of
             Just date -> Decode.succeed date
             Nothing -> Decode.fail "Date format is incorrect"
         )
@@ -55,13 +59,26 @@ money : ValueSpec NonNull MoneyType Money vars
 money =
   Decode.string
     |> Decode.map Money.fromString
-    |> Decode.andThen (\ms -> case ms of
+    |> Decode.andThen (\maybeMoney -> case maybeMoney of
         Ok money -> Decode.succeed money
         Err msg -> Decode.fail msg)
     |> customScalar MoneyType
 
 argMoney : Money -> Arg.Value vars
 argMoney = Arg.string << Money.toString
+
+type CurrencyType = CurrencyType
+currency : ValueSpec NonNull CurrencyType Currency vars
+currency =
+  Decode.string
+    |> Decode.map Money.currency
+    |> Decode.andThen (\currencyResult -> case currencyResult of
+        Just currency -> Decode.succeed currency
+        Nothing -> Decode.fail "Currency format is incorrect")
+    |> customScalar CurrencyType
+
+argCurrency : Currency -> Arg.Value vars
+argCurrency = Arg.string << Money.currencyString
 
 -- Decoders
 
@@ -133,6 +150,10 @@ expense = object Expense
   |> with (field "description" [] string)
   |> with (field "time" [] date)
 
+settings : ValueSpec NonNull ObjectType Settings vars
+settings = object Settings
+  |> with (field "currency" [] currency)
+
 user : ValueSpec NonNull ObjectType User vars
 user = object User
   |> with (field "email" [] string)
@@ -142,6 +163,7 @@ user = object User
   |> with (field "productTypes" [] (map (List.map ProductType.Clean) <| map (List.sortBy .id) (list productType)))
   |> with (field "prices" [] (list <| map Price.Clean priceRow))
   |> with (field "conventions" [] (list <| map Convention.Meta metaConvention))
+  |> with (field "settings" [] settings)
 
 pagination : ValueSpec NonNull ObjectType a vars -> ValueSpec NonNull ObjectType (Pagination a) vars
 pagination a = object Pagination
@@ -308,6 +330,16 @@ addConvention conId =
     <| field "addUserConvention"
         [ ("conCode", Arg.variable (Var.required "conId" .conId Var.int)) ]
         metaConvention
+
+updateSettings : Settings -> Request Mutation Settings
+updateSettings newSettings =
+  request {}
+    <| mutationDocument
+    <| extract
+    <| field "updateSettings"
+        []
+        ( object Settings
+          |> with (field "currency" [ ("currency", argCurrency newSettings.currency)] currency))
 
 -- Requests
 

@@ -1,5 +1,7 @@
 module Model.Money exposing
   ( currency
+  , currencyString
+  , allCurrencies
   , toString
   , fromString
   , prettyprint
@@ -7,6 +9,7 @@ module Model.Money exposing
   , numeric
   , money
   , add
+  , resolveAuto
   , Money(..)
   , Currency(..)
   )
@@ -23,7 +26,7 @@ documentation for the Money specification.
 @docs currency, currencyString
 
 # Helpers
-@docs money, numeric, add
+@docs allCurrencies, money, resolveAuto, numeric, add
 -}
 import Util.Util as Util
 import FormatNumber exposing (format)
@@ -35,7 +38,7 @@ import FormatNumber.Locales as Locales
 type Currency
   = CAD
   | USD
-
+  | AUTO
 {-| Extracts a `Currnency` from a `String`, returning `Nothing` when it is not a valid currency
 code.
 
@@ -55,6 +58,12 @@ currencyString : Currency -> String
 currencyString c = case c of
   CAD -> "CAD"
   USD -> "USD"
+  AUTO -> Debug.crash "Trying to print AUTO currencyString"
+
+{-| A list of all the currencies that are available
+-}
+allCurrencies : List Currency
+allCurrencies = [CAD, USD]
 
 {-| The actual `Money` data type, containing a `Currency` code and a number corresponding to how
 many of the currency's minimum denomination is held.
@@ -89,6 +98,7 @@ prettyprint : Money -> String
 prettyprint (Money cur val) = case cur of
   USD -> (++) "$" <| format Locales.usLocale <| flip (/) 100 <| toFloat val
   CAD -> (++) "$" <| format Locales.usLocale <| flip (/) 100 <| toFloat val
+  AUTO -> Debug.crash "Trying to prettyprint Money AUTO"
 
 {-| Attempts to parse a `Money` value from its human readable localized representation. Returns an
 `Err` on failure.
@@ -109,14 +119,13 @@ parse money =
 numeric : Money -> Int
 numeric (Money _ i) = i
 
--- TODO: come up with some "auto" currency that will resolve itself eventually to the right thing
-{-| Creates a `Money` value from the local currency. The local currency is assumed to be CAD for
-now, but will hopefully be determined based on browser location in the future.
+{-| Creates a `Money` value from the AUTO currency. This value will need to be resolved with
+`resolveAuto` before it is of any use.
 
     money 1500 == Money CAD 1500
 -}
 money : Int -> Money
-money = Money CAD
+money = Money AUTO
 
 {-| Adds two `Money` values together, producing their sum if the curreny is the same, or Nothing
 otherwise (as two different currencies cannot be meaningfully added together)
@@ -127,3 +136,13 @@ otherwise (as two different currencies cannot be meaningfully added together)
 add : Money -> Money -> Maybe Money
 add (Money ca va) (Money cb vb) =
   if ca == cb then Just <| Money ca (va + vb) else Nothing
+
+{-| Turns the AUTO Currency code to the provided one.
+
+    resolveAuto CAD (Money AUTO 1500) == Money CAD 1500
+    resolveAuto CAD (Money USD 1500) == Money USD 1500
+-}
+resolveAuto : Currency -> Money -> Money
+resolveAuto currency money = case money of
+  Money AUTO val -> Money currency val
+  _ -> money

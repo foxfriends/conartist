@@ -1,5 +1,5 @@
 module View.Convention.Summary exposing (view)
-import Html exposing (Html, div, text)
+import Html exposing (Html, div, text, span)
 import Html.Attributes exposing (class)
 import Date.Extra as Date
 import Dict exposing (Dict)
@@ -12,6 +12,7 @@ import Model.Money as Money
 import View.Card exposing (card)
 import View.List exposing (defList)
 import View.Convention.Util exposing (dateRange, frequency)
+import View.Attributes exposing (tabularFigures)
 import Util.List as List
 
 view : Model -> Convention -> Html msg
@@ -22,7 +23,7 @@ view model convention =
         [ disclaimer ]
       else
         [ bestSellers convention
-        , revenue convention ]))
+        , revenue model convention ]))
 
 conInfo : MetaConvention -> Html msg
 conInfo { name, start, end, extraInfo } =
@@ -79,8 +80,8 @@ bestSellers con =
         []
     Nothing -> text ""
 
-revenue : Convention -> Html msg
-revenue con =
+revenue : Model -> Convention -> Html msg
+revenue model con =
   case Convention.asFull con of
     Just con ->
       let
@@ -92,10 +93,10 @@ revenue con =
       in
       card "Sales summary"
         [ class "convention__card" ]
-        [ defList text
-          [ ("Gross profit", Money.prettyprint gross)
-          , ("Total expense", Money.prettyprint expense)
-          , ("Net profit", Money.prettyprint net)
+        [ defList (span [ tabularFigures ] << List.singleton << text)
+          [ ("Gross profit", Money.prettyprint <| Money.resolveAuto model.user.settings.currency gross)
+          , ("Total expense", Money.prettyprint <| Money.resolveAuto model.user.settings.currency expense)
+          , ("Net profit", Money.prettyprint <| Money.resolveAuto model.user.settings.currency net)
           , ("Items sold", toString quantity)
           ]
         ]

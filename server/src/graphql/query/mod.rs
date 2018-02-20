@@ -9,6 +9,7 @@ mod expense;
 mod user_convention;
 mod user;
 mod pagination;
+mod settings;
 
 use chrono::{DateTime, Utc, FixedOffset};
 use juniper::{FieldResult, FieldError, Value};

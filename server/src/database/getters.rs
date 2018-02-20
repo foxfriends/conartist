@@ -10,7 +10,7 @@ impl Database {
         for row in &query!(conn, "SELECT * FROM Users WHERE email = $1", email) {
             return User::from(row);
         }
-        return Err(format!("No user with email {} exists", email))
+        Err(format!("No user with email {} exists", email))
     }
 
     pub fn get_user_by_id(&self, maybe_user_id: Option<i32>) -> Result<User, String> {
@@ -19,7 +19,15 @@ impl Database {
         for row in &query!(conn, "SELECT * FROM Users WHERE user_id = $1", user_id) {
             return User::from(row);
         }
-        return Err(format!("No user {} exists", user_id))
+        Err(format!("No user {} exists", user_id))
+    }
+
+    pub fn get_settings_for_user(&self, user_id: i32) -> Result<Settings, String> {
+        let conn = self.pool.get().unwrap();
+        for row in &query!(conn, "SELECT * FROM UserSettings WHERE user_id = $1", user_id) {
+            return Settings::from(row);
+        }
+        Ok(Settings::default(user_id))
     }
 
     pub fn get_product_types_for_user(&self, user_id: i32) -> Result<Vec<ProductType>, String> {

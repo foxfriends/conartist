@@ -11,6 +11,7 @@ import Update.Inventory
 import Update.Pricing
 import Update.Dialog
 import Update.Convention
+import Update.Settings
 
 continue : (Msg -> Model -> (Model, Cmd Msg)) -> Msg -> (Model, Cmd Msg) -> (Model, Cmd Msg)
 continue action msg (model, cmd) =
@@ -40,3 +41,4 @@ update msg model =
   |> continue Update.Inventory.update msg
   |> continue Update.Pricing.update msg
   |> continue Update.Convention.update msg
+  |> continue Update.Settings.update msg

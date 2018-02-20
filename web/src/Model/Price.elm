@@ -65,6 +65,7 @@ isUpdated price = case price of
   Dirty _ -> True
   New _ -> True
   Deleted _ -> False
+
 normalize : Price -> Maybe FullPrice
 normalize price = case price of
   Clean p   -> Just p

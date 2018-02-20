@@ -6,7 +6,7 @@ import Navigation exposing (Location)
 
 import Msg exposing (Msg(..), chain)
 import Model.Model exposing (Model)
-import Model.Page as Page exposing (Page(..))
+import Model.Page as Page exposing (Page(..), settingsPage)
 import Model.ProductType as ProductType
 import Model.ConRequest as ConRequest exposing (ConRequest(Success))
 import Update.Load as Load
@@ -30,7 +30,7 @@ matchers model =
           , fillConvention model conId))
         (s "conventions" </> int)
     , map (Conventions, Cmd.none) <| s "conventions"
-    , map (Settings, Cmd.none) <| s "settings" ]
+    , map (settingsPage, Cmd.none) <| s "settings" ]
 
 parseLocation : Model -> Location -> (Page, Cmd Msg)
 parseLocation model location = case parsePath (matchers model) location of

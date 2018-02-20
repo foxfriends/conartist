@@ -45,7 +45,7 @@ signInButtons sign_in status =
   , Fancy.button Flat
     ( if sign_in
       then "Create an account"
-      else "Actually, I already have an account")
+      else "I already have an account")
     [ class "sign-in__link" , onClick ToggleSignIn ] ]
 
 signInInfo : Bool -> Status -> List (Html msg)

@@ -11,6 +11,12 @@ import Foundation
 import RxSwift
 
 class ConventionListViewController: UIViewController {
+    fileprivate enum Section: String {
+        case Past = "Previous"
+        case Present = "Today"
+        case Future = "Upcoming"
+    }
+
     fileprivate static let ID = "ConventionList"
 
     @IBOutlet weak var navBar: FakeNavBar!
@@ -18,8 +24,9 @@ class ConventionListViewController: UIViewController {
     weak var settingsButton: UIButton!
     
     fileprivate let øconventions = ConArtist.model.conventions
+    fileprivate let øsections = Variable<[Section]>([])
     fileprivate let disposeBag = DisposeBag()
-    
+
     fileprivate var present: [Convention] = []
     fileprivate var past: [Convention] = []
     fileprivate var future: [Convention] = []
@@ -62,11 +69,15 @@ extension ConventionListViewController {
         
         Observable.combineLatest([øpresent, øfuture, øpast])
             .map { $0.map { $0.count > 0 } }
-            .map { zip($0, ["Present", "Past", "Future"]) }
-            .map { $0.filter { $0.0 } }
-            .asDriver(onErrorJustReturn: [])
+            .map { zip($0, [Section.Present, .Past, .Future]) }
+            .map { $0.filter { $0.0 }.map { $0.1 } }
+            .bind(to: øsections)
+            .disposed(by: disposeBag)
+
+        øsections
+            .asDriver()
             .drive(onNext: { [weak self] sections in
-                self?.sectionTitles = sections.map { $0.1 }
+                self?.sectionTitles = sections.map { $0.rawValue }
                 self?.conventionsTableView.reloadData()
             })
             .disposed(by: disposeBag)
@@ -79,17 +90,14 @@ extension ConventionListViewController {
 
 // MARK: - UITableViewDataSource
 extension ConventionListViewController: UITableViewDataSource {
-    // TODO: would be nice if this string was an enum
-    fileprivate func conventions(for section: String) -> [Convention] {
+    fileprivate func conventions(for section: Section) -> [Convention] {
         switch section {
-        case "Present":
+        case .Present:
             return present
-        case "Past":
+        case .Past:
             return past
-        case "Future":
+        case .Future:
             return future
-        default:
-            return []
         }
     }
     
@@ -98,7 +106,7 @@ extension ConventionListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let section = sectionTitles.nth(section) else { return 0 }
+        guard let section = øsections.value.nth(section) else { return 0 }
         return conventions(for: section).count
     }
     
@@ -108,7 +116,7 @@ extension ConventionListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ConventionTableViewCell.ID, for: indexPath) as! ConventionTableViewCell
-        if  let section = sectionTitles.nth(indexPath.section),
+        if  let section = øsections.value.nth(indexPath.section),
             let convention = conventions(for: section).nth(indexPath.row) {
             cell.fill(with: convention)
         }
@@ -120,7 +128,7 @@ extension ConventionListViewController: UITableViewDataSource {
 extension ConventionListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard
-            let section = sectionTitles.nth(indexPath.section),
+            let section = øsections.value.nth(indexPath.section),
             let convention = conventions(for: section).nth(indexPath.row)
         else { return }
         ConArtist.model.navigateTo(page: .Convention(convention))

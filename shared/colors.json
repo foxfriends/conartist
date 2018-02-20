@@ -2,6 +2,7 @@
   "background": [4281545523, "#ff333333"],
   "divider": [536870911, "#30ffffff"],
   "brand": [4292495360, "#ffda4800"],
+  "brandVariant": [4292450590, "#ffd9991e"],
   "text": [4294967295, "#ffffffff"],
   "text-placeholder": [2147483647, "#7fffffff"],
   "warn": [4294901760, "#ffff0000"],

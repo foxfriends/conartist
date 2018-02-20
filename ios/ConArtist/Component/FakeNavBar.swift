@@ -10,9 +10,10 @@ import UIKit
 
 @IBDesignable
 class FakeNavBar: UIView {
-    private var titleLabel: UILabel!
-    var leftButton: UIButton!
-    var rightButton: UIButton!
+    private let navView = UIView()
+    private let titleLabel = UILabel()
+    let leftButton = UIButton()
+    let rightButton = UIButton()
 
     @IBInspectable var title: String? {
         didSet {
@@ -21,13 +22,13 @@ class FakeNavBar: UIView {
     }
     @IBInspectable var leftButtonTitle: String? {
         didSet {
-            leftButton.titleLabel?.text = leftButtonTitle?.lowercased()
+            leftButton.setTitle(leftButtonTitle?.lowercased(), for: .normal)
             leftButton.isHidden = leftButtonTitle == nil
         }
     }
     @IBInspectable var rightButtonTitle: String? {
         didSet {
-            rightButton.titleLabel?.text = rightButtonTitle?.lowercased()
+            rightButton.setTitle(rightButtonTitle?.lowercased(), for: .normal)
             rightButton.isHidden = rightButtonTitle == nil
         }
     }
@@ -37,16 +38,17 @@ class FakeNavBar: UIView {
         layer.shadowRadius = 6
         layer.shadowOpacity = 0.25
 
-        let navView = UIView()
+        navView.translatesAutoresizingMaskIntoConstraints = false
+        rightButton.translatesAutoresizingMaskIntoConstraints = false
+        leftButton.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+
         addSubview(navView)
-        leftButton = UIButton()
         navView.addSubview(leftButton)
-        rightButton = UIButton()
         navView.addSubview(rightButton)
-        titleLabel = UILabel()
         navView.addSubview(titleLabel)
         addConstraints([
-            NSLayoutConstraint(item: navView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: 44),
+            NSLayoutConstraint(item: navView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: -44),
             NSLayoutConstraint(item: navView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: navView, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: navView, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: 0)
@@ -62,9 +64,13 @@ class FakeNavBar: UIView {
 
         let buttonFont = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold).usingFeatures([.smallCaps])
         leftButton.titleLabel?.font = buttonFont
-        leftButton.titleLabel?.textColor = ConArtist.Color.Brand
+        leftButton.setTitleColor(ConArtist.Color.Brand, for: .normal)
+        leftButton.setTitleColor(ConArtist.Color.BrandVariant, for: .highlighted)
+        leftButton.isHidden = true
         rightButton.titleLabel?.font = buttonFont
-        rightButton.titleLabel?.textColor = ConArtist.Color.Brand
+        rightButton.setTitleColor(ConArtist.Color.Brand, for: .normal)
+        rightButton.setTitleColor(ConArtist.Color.BrandVariant, for: .highlighted)
+        rightButton.isHidden = true
         titleLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold)
         titleLabel.textColor = ConArtist.Color.Text
     }

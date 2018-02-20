@@ -37,6 +37,10 @@ class FancyTextField: UITextField {
             .map { $0.isEmpty }
             .subscribe(onNext: { [unowned self] isHidden in UIView.animate(withDuration: 0.1) { self.titleLabel.alpha = isHidden ? 0 : 1 } })
             .disposed(by: disposeBag)
+
+        rx.controlEvent([.editingDidEndOnExit])
+            .subscribe(onNext: { [unowned self] in self.underlineView.isHighlighted = false })
+            .disposed(by: disposeBag)
     }
 
     override init(frame: CGRect) {

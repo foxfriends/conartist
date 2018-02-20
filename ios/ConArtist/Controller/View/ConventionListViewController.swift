@@ -12,9 +12,10 @@ import RxSwift
 
 class ConventionListViewController: UIViewController {
     fileprivate static let ID = "ConventionList"
-    
+
+    @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var conventionsTableView: UITableView!
-    @IBOutlet weak var settingsButton: UIButton!
+    weak var settingsButton: UIButton!
     
     fileprivate let øconventions = ConArtist.model.conventions
     fileprivate let disposeBag = DisposeBag()
@@ -48,6 +49,9 @@ extension ConventionListViewController {
 extension ConventionListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        settingsButton = navBar.rightButton
+
         let øpast = øconventions.asObservable().map { cons in cons.filter { $0.end < Date.today() } }
         let øpresent = øconventions.asObservable().map { cons in cons.filter { $0.start <= Date.today() && $0.end >= Date.today() } }
         let øfuture = øconventions.asObservable().map { cons in cons.filter { $0.start > Date.today() } }

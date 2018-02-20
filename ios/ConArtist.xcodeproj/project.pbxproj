@@ -32,6 +32,7 @@
 		32AE416720253D5C0061EB64 /* RootNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AE416620253D5C0061EB64 /* RootNavigationController.swift */; };
 		32AE4169202553CF0061EB64 /* ProductTypeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AE4168202553CF0061EB64 /* ProductTypeListViewController.swift */; };
 		32AE416B202554AD0061EB64 /* RecordListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AE416A202554AD0061EB64 /* RecordListViewController.swift */; };
+		32B36EB720371BC700DA4593 /* FakeNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EB620371BC700DA4593 /* FakeNavBar.swift */; };
 		32BC33DD1FEEED030006256A /* ProductListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33DC1FEEED030006256A /* ProductListViewController.swift */; };
 		32BC33E21FEEF17E0006256A /* ProductType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33E11FEEF17E0006256A /* ProductType.swift */; };
 		32BC33E41FEEF1B80006256A /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33E31FEEF1B80006256A /* Product.swift */; };
@@ -86,6 +87,7 @@
 		32AE416620253D5C0061EB64 /* RootNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootNavigationController.swift; sourceTree = "<group>"; };
 		32AE4168202553CF0061EB64 /* ProductTypeListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductTypeListViewController.swift; sourceTree = "<group>"; };
 		32AE416A202554AD0061EB64 /* RecordListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordListViewController.swift; sourceTree = "<group>"; };
+		32B36EB620371BC700DA4593 /* FakeNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeNavBar.swift; sourceTree = "<group>"; };
 		32BC33DC1FEEED030006256A /* ProductListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
 		32BC33E11FEEF17E0006256A /* ProductType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductType.swift; sourceTree = "<group>"; };
 		32BC33E31FEEF1B80006256A /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				32892C3F20352D1500F1AD9C /* FancyTextField.swift */,
 				32892C4120352E9D00F1AD9C /* HighlightableLineView.swift */,
 				32F12C0D20353E840045D0BC /* FancyButton.swift */,
+				32B36EB620371BC700DA4593 /* FakeNavBar.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -502,6 +505,7 @@
 				321B75DA1F9BAD320055EBC4 /* AppDelegate.swift in Sources */,
 				321B75E21F9BAD320055EBC4 /* ConArtist.xcdatamodeld in Sources */,
 				32892C44203530C800F1AD9C /* Array+Safe.swift in Sources */,
+				32B36EB720371BC700DA4593 /* FakeNavBar.swift in Sources */,
 				32E80BD7201700EB0008EC27 /* String+Money.swift in Sources */,
 				32892C4020352D1500F1AD9C /* FancyTextField.swift in Sources */,
 				32C9F9B920264BE00004566E /* ProductTableViewCell.swift in Sources */,

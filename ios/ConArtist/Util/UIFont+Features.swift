@@ -11,6 +11,7 @@ import UIKit
 extension UIFont {
     enum Feature {
         case smallCaps
+        case tabularFigures
 
         fileprivate var features: [[String: Int]] {
             switch self {
@@ -24,6 +25,12 @@ extension UIFont {
                     UIFontFeatureTypeIdentifierKey: kLowerCaseType
                 ]
                 return [upperCaseFeature, lowerCaseFeature]
+            case .tabularFigures:
+                let tabularFigures = [
+                    UIFontFeatureSelectorIdentifierKey: kProportionalNumbersSelector,
+                    UIFontFeatureTypeIdentifierKey: kNumberSpacingType
+                ]
+                return [tabularFigures]
             }
         }
     }

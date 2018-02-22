@@ -24,9 +24,9 @@ class SettingsViewController: UIViewController {
     
     fileprivate let disposeBag = DisposeBag()
     
-    @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var settingsTableView: UITableView!
-    
+    @IBOutlet weak var navBar: FakeNavBar!
+
     fileprivate var settings: [Group] = []
 }
 
@@ -35,7 +35,7 @@ extension SettingsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        doneButton.rx.tap
+        navBar.leftButton.rx.tap
             .subscribe(onNext: { _ in ConArtist.model.goBack() })
             .disposed(by: disposeBag)
     }

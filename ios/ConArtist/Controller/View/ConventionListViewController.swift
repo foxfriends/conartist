@@ -11,6 +11,7 @@ import Foundation
 import RxSwift
 
 class ConventionListViewController: UIViewController {
+    static let MaxConventionsPerSection = 2
     fileprivate enum Section {
         // TODO: localized strings? here?
         case Past
@@ -59,22 +60,34 @@ class ConventionListViewController: UIViewController {
     fileprivate var sectionTitles: [String] = []
 }
 
+// MARK: - Settings
 extension ConventionListViewController {
     fileprivate func openSettings() {
         let settings = [
             SettingsViewController.Group(
+                // TODO: localized strings
                 title: "General",
                 items: [
-                    .Action("Sign out", { [weak self] in self?.signOut() })
+                    .Action("Sign out", { [weak self] in self?.signOut() }),
+                    .Action("Report a bug/Request a feature", { [weak self] in self?.contactSupport() }),
+                    .Action("Help", { [weak self] in self?.showHelp() })
                 ]
             ),
         ]
         ConArtist.model.navigateTo(page: .Settings(settings))
     }
     
-    fileprivate func signOut() {
+    private func signOut() {
         ConArtist.model.page.value = [.SignIn]
         ConArtist.API.authToken = ConArtist.API.Unauthorized
+    }
+
+    private func contactSupport() {
+
+    }
+
+    private func showHelp() {
+
     }
 }
 
@@ -133,7 +146,7 @@ extension ConventionListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let section = øsections.value.nth(section) else { return 0 }
-        return max(conventions(for: section).count, 1)
+        return min(ConventionListViewController.MaxConventionsPerSection, max(conventions(for: section).count, 1))
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -183,30 +196,34 @@ extension ConventionListViewController: UITableViewDelegate {
         titleLabel.font = UIFont.systemFont(ofSize: 12).usingFeatures([.smallCaps])
         titleLabel.textColor = ConArtist.Color.Text
 
-        // TODO: hide see all button and adjust constraints when there are no more to see
         view.addConstraints([
             NSLayoutConstraint(item: titleLabel, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1, constant: 20),
             NSLayoutConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: titleLabel, attribute: .centerY, multiplier: 1, constant: 0)
         ])
 
-        // if it's not the top section, it gets a bar and maybe the "See all" button
-        if section != 0 {
+        if let conCount = øsections.value.nth(section).map(conventions(for:))?.count, conCount > ConventionListViewController.MaxConventionsPerSection {
             view.addSubview(seeAllButton)
-            seeAllButton.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-            seeAllButton.setTitle("See all", for: .normal) // TODO: localized string
             view.addConstraints([
-                NSLayoutConstraint(item: view, attribute: .trailing, relatedBy: .equal, toItem: seeAllButton, attribute: .trailing, multiplier: 1, constant: 20),
+                NSLayoutConstraint(item: seeAllButton, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1, constant: 20),
                 NSLayoutConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: seeAllButton, attribute: .centerY, multiplier: 1, constant: 0)
             ])
+        }
 
+        if section != 0 {
             view.addSubview(hbar)
             view.addConstraints([
                 NSLayoutConstraint(item: hbar, attribute: .leading, relatedBy: .equal, toItem: titleLabel, attribute: .trailing, multiplier: 1, constant: 10),
-                NSLayoutConstraint(item: seeAllButton, attribute: .leading, relatedBy: .equal, toItem: hbar, attribute: .trailing, multiplier: 1, constant: 10),
                 NSLayoutConstraint(item: hbar, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 1),
                 NSLayoutConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: hbar, attribute: .centerY, multiplier: 1, constant: 0)
             ])
+
+            if seeAllButton.superview != nil {
+                view.addConstraint(NSLayoutConstraint(item: seeAllButton, attribute: .leading, relatedBy: .equal, toItem: hbar, attribute: .trailing, multiplier: 1, constant: 10))
+            } else {
+                view.addConstraint(NSLayoutConstraint(item: view, attribute: .trailing, relatedBy: .equal, toItem: hbar, attribute: .trailing, multiplier: 1, constant: 20))
+            }
         }
+
         return view
     }
 }

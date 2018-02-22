@@ -12,8 +12,8 @@ import RxSwift
 @IBDesignable
 class FancyTextField: UITextField {
     private let disposeBag = DisposeBag()
-    private var underlineView: HighlightableView!
-    private var titleLabel: UILabel!
+    private let underlineView = HighlightableView()
+    private let titleLabel = UILabel()
 
     @IBInspectable var title: String? {
         didSet {
@@ -23,23 +23,24 @@ class FancyTextField: UITextField {
     }
 
     private func onInit() {
-        underlineView = HighlightableView(frame: CGRect(x: 10, y: frame.height - 1, width: frame.width - 20, height: 1))
-        titleLabel = UILabel(frame: CGRect(x: 20, y: 0, width: frame.width - 20, height: frame.height))
+        addSubview(underlineView)
+        addSubview(titleLabel)
+
+        underlineView.frame = CGRect(x: 10, y: frame.height - 1, width: frame.width - 20, height: 1)
+        titleLabel.frame = CGRect(x: 20, y: 0, width: frame.width - 20, height: frame.height)
         titleLabel.alpha = 0
         titleLabel.font = UIFont.systemFont(ofSize: 12).usingFeatures([.smallCaps])
         titleLabel.textColor = ConArtist.Color.TextPlaceholder
         attributedPlaceholder = placeholder?.withColor(ConArtist.Color.TextPlaceholder)
-        addSubview(underlineView)
-        addSubview(titleLabel)
 
         rx.text
-            .map { $0 ?? "" }
-            .map { $0.isEmpty }
-            .subscribe(onNext: { [unowned self] isHidden in UIView.animate(withDuration: 0.1) { self.titleLabel.alpha = isHidden ? 0 : 1 } })
+            .map { $0?.isEmpty ?? true }
+            .map { $0 ? 0 : 1 }
+            .subscribe(onNext: { [titleLabel] alpha in UIView.animate(withDuration: 0.1) { titleLabel.alpha = alpha } })
             .disposed(by: disposeBag)
 
         rx.controlEvent([.editingDidEndOnExit])
-            .subscribe(onNext: { [unowned self] in self.underlineView.isHighlighted = false })
+            .subscribe(onNext: { [underlineView] in underlineView.isHighlighted = false })
             .disposed(by: disposeBag)
     }
 

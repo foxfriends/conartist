@@ -12,9 +12,13 @@ import UIKit
 class FancyButton: UIButton {
     private func onInit() {
         layer.cornerRadius = frame.height / 2
-        layer.shadowOffset = CGSize(width: 0, height: 4)
-        layer.shadowRadius = 4
-        layer.shadowOpacity = 0.25
+        addShadow()
+    }
+
+    override var isEnabled: Bool {
+        didSet {
+            alpha = isEnabled ? 1 : 0.5
+        }
     }
 
     override init(frame: CGRect) {

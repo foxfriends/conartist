@@ -27,14 +27,14 @@ extension ProductTypeListViewController {
         super.viewDidLoad()
         øproductTypes
             .asDriver()
-            .map { _ in () }
+            .map(const(()))
             .drive(onNext: productTypesTableView.reloadData)
             .disposed(by: disposeBag)
         
         titleLabel.text = convention.name
         
         backButton.rx.tap
-            .filter { [unowned self] _ in self.tabBarController?.selectedViewController == self }
+            .filter { [tabBarController] _ in tabBarController?.selectedViewController == self }
             .subscribe { _ in ConArtist.model.goBack() }
             .disposed(by: disposeBag)
     }

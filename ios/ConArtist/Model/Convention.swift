@@ -14,7 +14,7 @@ class Convention {
     let name: String
     let start: Date
     let end: Date
-    let extraInfo: String
+    let extraInfo: ConventionExtraInfo
 
     let productTypes: Observable<[ProductType]>
     let products: Observable<[Product]>
@@ -27,7 +27,7 @@ class Convention {
 
     fileprivate let øconvention = Variable<FullConventionQuery.Data.UserConvention?>(nil)
     fileprivate let disposeBag = DisposeBag()
-    
+
     init?(graphQL con: UserQuery.Data.User.Convention?) {
         guard
             let con = con,
@@ -38,7 +38,7 @@ class Convention {
         name = con.name
         start = startDate
         end = endDate
-        extraInfo = con.extraInfo
+        extraInfo = ConventionExtraInfo(jsonString: con.extraInfo)
         
         productTypes = øconvention.asObservable().map { $0?.productTypes.filterMap(ProductType.from) ?? [] }
         products = øconvention.asObservable().map { $0?.products.filterMap(Product.from) ?? [] }
@@ -81,41 +81,41 @@ extension Convention {
         if øconvention.value == nil || force {
             return ConArtist.API.GraphQL
                 .observe(query: FullConventionQuery(userId: nil, conId: id), cachePolicy: force ? .fetchIgnoringCacheData : .returnCacheDataElseFetch)
-                .catchError { _ in Observable.empty() }
-                .map { [weak self] data in self?.øconvention.value = data.userConvention }
+                .catchError(const(Observable.empty()))
+                .map { [øconvention] data in øconvention.value = data.userConvention }
         } else {
             return Observable.of(())
         }
     }
     
     func save() -> Observable<Void> {
-        let records = øaddedRecords.value.isEmpty
+        let records: Observable<[Error?]> = øaddedRecords.value.isEmpty
             ? Observable.just([])
             : Observable.zip(
                 øaddedRecords.value.map { record in
                     ConArtist.API.GraphQL.observe(mutation: AddRecordMutation(id: nil, record: record.add(to: self)))
-                        .map { _ in nil as Error? }
+                        .map(const(nil))
                         .catchError { Observable.just($0) }
                 }
             )
-        let expenses = øaddedExpenses.value.isEmpty
+        let expenses: Observable<[Error?]> = øaddedExpenses.value.isEmpty
             ? Observable.just([])
             : Observable.zip(
                 øaddedExpenses.value.map { expense in
                     ConArtist.API.GraphQL.observe(mutation: AddExpenseMutation(id: nil, expense: expense.add(to: self)))
-                        .map { _ in nil as Error? }
+                        .map(const(nil))
                         .catchError { Observable.just($0) }
                 }
             )
         return Observable.zip(records, expenses)
-            .map { [weak self] re in
+            .map { [weak self] errors in
                 guard let `self` = self else { return }
-                let (records, expenses) = re
-                self.øaddedRecords.value = zip(self.øaddedRecords.value, records).filterMap { record, error in
+                let (recordErrors, expenseErrors) = errors
+                self.øaddedRecords.value = zip(self.øaddedRecords.value, recordErrors).filterMap { record, error in
                     guard error == nil else { return record }
                     return nil
                 }
-                self.øaddedExpenses.value = zip(self.øaddedExpenses.value, expenses).filterMap { expense, error in
+                self.øaddedExpenses.value = zip(self.øaddedExpenses.value, expenseErrors).filterMap { expense, error in
                     guard error == nil else { return expense }
                     return nil
                 }

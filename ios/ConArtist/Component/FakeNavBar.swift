@@ -34,9 +34,7 @@ class FakeNavBar: UIView {
     }
 
     private func onInit() {
-        layer.shadowOffset = CGSize(width: 0, height: 4)
-        layer.shadowRadius = 6
-        layer.shadowOpacity = 0.25
+        addShadow()
 
         addSubview(navView)
         navView.addSubview(leftButton)

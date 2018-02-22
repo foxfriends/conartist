@@ -29,17 +29,17 @@ class RecordListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Observable.combineLatest([
+        Observable.combineLatest(
             ørecords.map { [weak self] in self?.records = $0 },
             øproductTypes.map { [weak self] in self?.productTypes = $0 },
             øproducts.map { [weak self] in self?.products = $0 }
-        ])
-            .asDriver(onErrorJustReturn: [])
-            .drive(onNext: { [weak self] _ in self?.recordsTableView.reloadData() })
+        )   .map(const(()))
+            .asDriver(onErrorJustReturn: ())
+            .drive(onNext: { [recordsTableView] in recordsTableView?.reloadData() })
             .disposed(by: disposeBag)
         
         backButton.rx.tap
-            .filter { [unowned self] _ in self.tabBarController?.selectedViewController == self }
+            .filter { [tabBarController] _ in tabBarController?.selectedViewController == self }
             .subscribe({ _ in ConArtist.model.goBack() })
             .disposed(by: disposeBag)
         

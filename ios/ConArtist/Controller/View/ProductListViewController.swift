@@ -77,7 +77,7 @@ extension ProductListViewController {
         
         øselectedProducts
             .asDriver()
-            .map { _ in () }
+            .map(const(()))
             .drive(onNext: updateSelection)
             .disposed(by: disposeBag)
         
@@ -88,7 +88,7 @@ extension ProductListViewController {
             .disposed(by: disposeBag)
         
         saveButton.rx.tap
-            .subscribe({ [unowned self] _ in ConArtist.model.goBack(1, returning: .Sale(self.øselectedProducts.value, self.price)) })
+            .subscribe({ [øselectedProducts, price] _ in ConArtist.model.goBack(1, returning: .Sale(øselectedProducts.value, price)) })
             .disposed(by: disposeBag)
         
         priceTextField.rx.value

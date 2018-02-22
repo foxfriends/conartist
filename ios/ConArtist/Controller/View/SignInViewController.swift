@@ -23,7 +23,8 @@ class SignInViewController: UIViewController {
             }
         }
     }
-    
+
+    @IBOutlet weak var contentScrollView: UIScrollView!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var signInButton: UIButton!
@@ -31,13 +32,19 @@ class SignInViewController: UIViewController {
     fileprivate let øerrorState = PublishSubject<ErrorState>()
     
     let disposeBag = DisposeBag()
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
 
 // MARK: - Lifecycle
 extension SignInViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        startAdjustingForKeyboard()
+        setupSubscriptions()
+
         if ConArtist.API.authToken != ConArtist.API.Unauthorized {
             ConArtist.model.navigateTo(page: .Conventions)
             Auth.reauthorize()
@@ -50,33 +57,63 @@ extension SignInViewController {
                 )
                 .disposed(by: disposeBag)
         }
-        
+    }
+}
+
+// MARK: - Subscriptions
+extension SignInViewController {
+    fileprivate func setupSubscriptions() {
         let øcredentials = Observable.combineLatest(emailTextField.rx.text, passwordTextField.rx.text)
-        Observable.merge(signInButton.rx.tap.map { _ in () }, passwordTextField.rx.controlEvent([.editingDidEndOnExit]).map { _ in () })
-            .do(onNext: { [unowned self] in self.signInButton.isEnabled = false })
+        Observable.merge(
+            signInButton.rx.tap.map(const(())),
+            passwordTextField.rx.controlEvent([.editingDidEndOnExit]).map(const(()))
+            )
+            .filter { [signInButton] in signInButton?.isEnabled ?? false }
+            .do(onNext: { [signInButton] in signInButton?.isEnabled = false })
             .withLatestFrom(øcredentials)
-            .flatMap { credentials in
+            .flatMap { [øerrorState] credentials in
                 Auth.signIn(email: credentials.0 ?? "", password: credentials.1 ?? "")
-                    .map { true }
-                    .catchError { [weak self] _ in
-                        self?.øerrorState.on(.next(.IncorrectCredentials))
+                    .map(const(true))
+                    .catchError { _ in
+                        øerrorState.on(.next(.IncorrectCredentials))
                         return Observable.just(false)
                     }
             }
-            .do(onNext: { [weak self] _ in self?.signInButton.isEnabled = true })
-            .filter { $0 }
+            .do(onNext: { [signInButton] _ in signInButton?.isEnabled = true })
+            .filter(identity)
             .subscribe({ _ in ConArtist.model.navigateTo(page: .Conventions) })
             .disposed(by: disposeBag)
-        
+
         emailTextField.rx.controlEvent([.editingDidEndOnExit])
-            .subscribe(onNext: { [weak self] _ in self?.passwordTextField.becomeFirstResponder() })
+            .subscribe(onNext: { [passwordTextField] _ in passwordTextField?.becomeFirstResponder() })
             .disposed(by: disposeBag)
-        
+
         øerrorState
             .map { $0.message() }
             .asDriver(onErrorJustReturn: "An unknown error has occurred")
-            .drive(onNext: { [weak self] in self?.emailTextField.showTooltip(text: $0) })
+            .drive(onNext: { [emailTextField] in emailTextField?.showTooltip(text: $0) })
             .disposed(by: disposeBag)
+    }
+}
+
+// MARK: - Keyboard handling
+extension SignInViewController {
+    fileprivate func startAdjustingForKeyboard() {
+        NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
+    }
+
+    @objc func adjustForKeyboard(notification: Notification) {
+        let keyboardScreenEndFrame = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+
+        if notification.name == Notification.Name.UIKeyboardWillHide {
+            contentScrollView.contentInset = UIEdgeInsets.zero
+            contentScrollView.scrollIndicatorInsets = UIEdgeInsets.zero
+        } else {
+            contentScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height + 40, right: 0)
+            contentScrollView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height, right: 0)
+        }
     }
 }
 

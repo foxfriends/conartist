@@ -52,7 +52,10 @@ struct ConArtist {
     static let NoID = 0
 
     struct Color {
+        static let Shadow = UIColor.black
         static let Background = UIColor(hex: 0x333333)
+        static let BackgroundVariant = UIColor(hex: 0x444444)
+        static let BackgroundNavBar = UIColor(hex: 0x111111)
         static let Divider = UIColor.white.withAlphaComponent(0.12)
         static let Brand = UIColor(hex: 0xDA4800)
         static let BrandVariant = UIColor(hex: 0xD9991E)

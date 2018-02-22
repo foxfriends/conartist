@@ -35,6 +35,9 @@
 		32B36EB720371BC700DA4593 /* FakeNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EB620371BC700DA4593 /* FakeNavBar.swift */; };
 		32B36EBD203BD2F000DA4593 /* UIButton+ConArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EBC203BD2F000DA4593 /* UIButton+ConArtist.swift */; };
 		32B36EBF203BD67800DA4593 /* UIView+Customizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EBE203BD67800DA4593 /* UIView+Customizable.swift */; };
+		32B36EC1203BE0E600DA4593 /* ConventionExtraInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EC0203BE0E600DA4593 /* ConventionExtraInfo.swift */; };
+		32B36EC5203E5E7D00DA4593 /* UIView+Shadows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EC4203E5E7D00DA4593 /* UIView+Shadows.swift */; };
+		32B36EC7203E623B00DA4593 /* Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EC6203E623B00DA4593 /* Functional.swift */; };
 		32BC33DD1FEEED030006256A /* ProductListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33DC1FEEED030006256A /* ProductListViewController.swift */; };
 		32BC33E21FEEF17E0006256A /* ProductType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33E11FEEF17E0006256A /* ProductType.swift */; };
 		32BC33E41FEEF1B80006256A /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33E31FEEF1B80006256A /* Product.swift */; };
@@ -92,6 +95,9 @@
 		32B36EB620371BC700DA4593 /* FakeNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeNavBar.swift; sourceTree = "<group>"; };
 		32B36EBC203BD2F000DA4593 /* UIButton+ConArtist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+ConArtist.swift"; sourceTree = "<group>"; };
 		32B36EBE203BD67800DA4593 /* UIView+Customizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Customizable.swift"; sourceTree = "<group>"; };
+		32B36EC0203BE0E600DA4593 /* ConventionExtraInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConventionExtraInfo.swift; sourceTree = "<group>"; };
+		32B36EC4203E5E7D00DA4593 /* UIView+Shadows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Shadows.swift"; sourceTree = "<group>"; };
+		32B36EC6203E623B00DA4593 /* Functional.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functional.swift; sourceTree = "<group>"; };
 		32BC33DC1FEEED030006256A /* ProductListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
 		32BC33E11FEEF17E0006256A /* ProductType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductType.swift; sourceTree = "<group>"; };
 		32BC33E31FEEF1B80006256A /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
@@ -220,6 +226,8 @@
 				32892C43203530C800F1AD9C /* Array+Safe.swift */,
 				32F12C0F203544E60045D0BC /* UIFont+Features.swift */,
 				32F12C1120354E550045D0BC /* String+Attributes.swift */,
+				32B36EC4203E5E7D00DA4593 /* UIView+Shadows.swift */,
+				32B36EC6203E623B00DA4593 /* Functional.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -260,6 +268,7 @@
 				32C39C38201EA9F800071E26 /* API */,
 				324592A91FEC2E7900DE89BB /* Model.swift */,
 				324592AB1FEC2EA500DE89BB /* Convention.swift */,
+				32B36EC0203BE0E600DA4593 /* ConventionExtraInfo.swift */,
 				32BC33E11FEEF17E0006256A /* ProductType.swift */,
 				32BC33E91FEEF2420006256A /* Price.swift */,
 				32C9F9BD20265A840004566E /* Prices.swift */,
@@ -487,7 +496,9 @@
 				32B36EBD203BD2F000DA4593 /* UIButton+ConArtist.swift in Sources */,
 				32AE416720253D5C0061EB64 /* RootNavigationController.swift in Sources */,
 				32C39C31201EA5B400071E26 /* RecordTableViewCell.swift in Sources */,
+				32B36EC5203E5E7D00DA4593 /* UIView+Shadows.swift in Sources */,
 				324592A01FEB230600DE89BB /* Auth.swift in Sources */,
+				32B36EC7203E623B00DA4593 /* Functional.swift in Sources */,
 				32B36EBF203BD67800DA4593 /* UIView+Customizable.swift in Sources */,
 				321FDE842027D14B002DF04B /* Observable+FilterMap.swift in Sources */,
 				321B75DC1F9BAD320055EBC4 /* SignInViewController.swift in Sources */,
@@ -516,6 +527,7 @@
 				32B36EB720371BC700DA4593 /* FakeNavBar.swift in Sources */,
 				32E80BD7201700EB0008EC27 /* String+Money.swift in Sources */,
 				32892C4020352D1500F1AD9C /* FancyTextField.swift in Sources */,
+				32B36EC1203BE0E600DA4593 /* ConventionExtraInfo.swift in Sources */,
 				32C9F9B920264BE00004566E /* ProductTableViewCell.swift in Sources */,
 				32C39C1E201E870600071E26 /* UIView+Tooltip.swift in Sources */,
 				324592AE1FEC314900DE89BB /* Date+String.swift in Sources */,

@@ -20,6 +20,8 @@ class ProductTypeListViewController: UIViewController {
     fileprivate let øproducts = Variable<[Product]>([])
     fileprivate let øprices = Variable<[Price]>([])
     fileprivate let disposeBag = DisposeBag()
+
+    fileprivate let results = PublishSubject<([Product], Money)>()
 }
 
 // MARK: - Lifecycle
@@ -36,7 +38,7 @@ extension ProductTypeListViewController {
         
         backButton.rx.tap
             .filter { [tabBarController] _ in tabBarController?.selectedViewController == self }
-            .subscribe { _ in ConArtist.model.navigate(back: 1) }
+            .subscribe(onNext: { _ in ConArtist.model.navigate(back: 1) })
             .disposed(by: disposeBag)
     }
 }
@@ -84,20 +86,21 @@ extension ProductTypeListViewController: UITableViewDelegate {
 
 // MARK: Navigation
 extension ProductTypeListViewController {
-    class func create(for convention: Convention, with øproductTypes: Observable<[ProductType]>, _ øproducts: Observable<[Product]>, and øprices: Observable<[Price]>) -> ProductTypeListViewController {
+    class func show(for convention: Convention) -> Observable<([Product], Money)> {
         let controller: ProductTypeListViewController = ProductTypeListViewController.instantiate(withId: ProductTypeListViewController.ID)
 
         controller.convention = convention
-        øproducts
+        convention.products
             .bind(to: controller.øproducts)
             .disposed(by: controller.disposeBag)
-        øproductTypes
+        convention.productTypes
             .bind(to: controller.øproductTypes)
             .disposed(by: controller.disposeBag)
-        øprices
+        convention.prices
             .bind(to: controller.øprices)
             .disposed(by: controller.disposeBag)
 
-        return controller
+        ConArtist.model.navigate(present: controller)
+        return controller.results.asObservable()
     }
 }

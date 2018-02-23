@@ -174,7 +174,7 @@ extension ConventionListViewController: UITableViewDelegate {
             let section = øsections.value.nth(indexPath.section),
             let convention = conventions(for: section).nth(indexPath.row)
         else { return }
-        ConventionDetailsTabBarController.show(for: convention)
+        ConventionDetailsViewController.show(for: convention)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

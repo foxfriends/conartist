@@ -40,7 +40,7 @@ class RecordListViewController: UIViewController {
         
         backButton.rx.tap
             .filter { [tabBarController] _ in tabBarController?.selectedViewController == self }
-            .subscribe({ _ in ConArtist.model.navigate(back: 1) })
+            .subscribe(onNext: { _ in ConArtist.model.navigate(back: 1) })
             .disposed(by: disposeBag)
         
         titleLabel.text = convention.name
@@ -68,12 +68,13 @@ extension RecordListViewController: UITableViewDataSource {
 
 // MARK: - Navigation
 extension RecordListViewController {
-    class func create(for convention: Convention, with ørecords: Observable<[Record]>, _ øproductTypes: Observable<[ProductType]>, and øproducts: Observable<[Product]>) -> RecordListViewController {
+    class func show(for convention: Convention) {
         let controller: RecordListViewController = RecordListViewController.instantiate(withId: RecordListViewController.ID)
         controller.convention = convention
-        controller.ørecords = ørecords
-        controller.øproductTypes = øproductTypes
-        controller.øproducts = øproducts
-        return controller
+        controller.ørecords = convention.records
+        controller.øproductTypes = convention.productTypes
+        controller.øproducts = convention.products
+
+        ConArtist.model.navigate(push: controller)
     }
 }

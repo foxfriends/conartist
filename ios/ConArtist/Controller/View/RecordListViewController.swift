@@ -40,7 +40,7 @@ class RecordListViewController: UIViewController {
         
         backButton.rx.tap
             .filter { [tabBarController] _ in tabBarController?.selectedViewController == self }
-            .subscribe({ _ in ConArtist.model.goBack() })
+            .subscribe({ _ in ConArtist.model.navigate(back: 1) })
             .disposed(by: disposeBag)
         
         titleLabel.text = convention.name

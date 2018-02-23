@@ -36,7 +36,7 @@ extension SettingsViewController {
         super.viewDidLoad()
         
         navBar.leftButton.rx.tap
-            .subscribe(onNext: { _ in ConArtist.model.goBack() })
+            .subscribe(onNext: { _ in ConArtist.model.navigate(back: 1) })
             .disposed(by: disposeBag)
     }
 }
@@ -93,9 +93,9 @@ extension SettingsViewController: UITableViewDelegate {
 
 // MARK: - Navigation
 extension SettingsViewController {
-    class func create(for settings: [Group]) -> SettingsViewController {
+    class func show(for settings: [Group]) {
         let controller: SettingsViewController = SettingsViewController.instantiate(withId: SettingsViewController.ID)
         controller.settings = settings
-        return controller
+        ConArtist.model.navigate(present: controller)
     }
 }

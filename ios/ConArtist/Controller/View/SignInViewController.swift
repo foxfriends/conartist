@@ -25,9 +25,9 @@ class SignInViewController: UIViewController {
     }
 
     @IBOutlet weak var contentScrollView: UIScrollView!
-    @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var signInButton: UIButton!
+    @IBOutlet weak var emailTextField: FancyTextField!
+    @IBOutlet weak var passwordTextField: FancyTextField!
+    @IBOutlet weak var signInButton: FancyButton!
     
     fileprivate let øerrorState = PublishSubject<ErrorState>()
     
@@ -44,19 +44,12 @@ extension SignInViewController {
         super.viewDidLoad()
         startAdjustingForKeyboard()
         setupSubscriptions()
+    }
 
-        if ConArtist.API.authToken != ConArtist.API.Unauthorized {
-            ConArtist.model.navigateTo(page: .Conventions)
-            Auth.reauthorize()
-                .subscribe(
-                    onError: {
-                        print("Sign in failed: \($0)")
-                        ConArtist.model.page.value = [.SignIn]
-                        ConArtist.API.authToken = ConArtist.API.Unauthorized
-                    }
-                )
-                .disposed(by: disposeBag)
-        }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        emailTextField.text = nil
+        passwordTextField.text = nil
     }
 }
 
@@ -67,7 +60,7 @@ extension SignInViewController {
         Observable.merge(
             signInButton.rx.tap.map(const(())),
             passwordTextField.rx.controlEvent([.editingDidEndOnExit]).map(const(()))
-            )
+        )
             .filter { [signInButton] in signInButton?.isEnabled ?? false }
             .do(onNext: { [signInButton] in signInButton?.isEnabled = false })
             .withLatestFrom(øcredentials)
@@ -81,7 +74,7 @@ extension SignInViewController {
             }
             .do(onNext: { [signInButton] _ in signInButton?.isEnabled = true })
             .filter(identity)
-            .subscribe({ _ in ConArtist.model.navigateTo(page: .Conventions) })
+            .subscribe({ _ in ConventionListViewController.show() })
             .disposed(by: disposeBag)
 
         emailTextField.rx.controlEvent([.editingDidEndOnExit])
@@ -119,7 +112,12 @@ extension SignInViewController {
 
 // MARK: - Navigation
 extension SignInViewController {
-    class func create() -> SignInViewController {
-        return SignInViewController.instantiate(withId: SignInViewController.ID)
+    class func show(animated: Bool = true) {
+        let controller = SignInViewController.instantiate(withId: SignInViewController.ID)
+        if animated {
+            ConArtist.model.navigate(push: controller)
+        } else {
+            ConArtist.model.navigate(replace: controller)
+        }
     }
 }

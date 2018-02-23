@@ -74,11 +74,11 @@ extension ConventionListViewController {
                 ]
             ),
         ]
-        ConArtist.model.navigateTo(page: .Settings(settings))
+        SettingsViewController.show(for: settings)
     }
     
     private func signOut() {
-        ConArtist.model.page.value = [.SignIn]
+        ConArtist.model.navigate(backTo: SignInViewController.self)
         ConArtist.API.authToken = ConArtist.API.Unauthorized
     }
 
@@ -174,7 +174,7 @@ extension ConventionListViewController: UITableViewDelegate {
             let section = øsections.value.nth(indexPath.section),
             let convention = conventions(for: section).nth(indexPath.row)
         else { return }
-        ConArtist.model.navigateTo(page: .Convention(convention))
+        ConventionDetailsTabBarController.show(for: convention)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -192,7 +192,12 @@ extension ConventionListViewController: UITableViewDelegate {
 
 // MARK: - Navigation
 extension ConventionListViewController {
-    class func create() -> ConventionListViewController {
-        return ConventionListViewController.instantiate(withId: ConventionListViewController.ID)
+    class func show(animated: Bool = true) {
+        let controller = ConventionListViewController.instantiate(withId: ConventionListViewController.ID)
+        if animated {
+            ConArtist.model.navigate(push: controller)
+        } else {
+            ConArtist.model.navigate(replace: controller)
+        }
     }
 }

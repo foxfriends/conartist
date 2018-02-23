@@ -94,7 +94,7 @@ extension Convention {
             : Observable.zip(
                 øaddedRecords.value.map { record in
                     ConArtist.API.GraphQL.observe(mutation: AddRecordMutation(id: nil, record: record.add(to: self)))
-                        .map(const(nil))
+                        .map(const(nil as Error?))
                         .catchError { Observable.just($0) }
                 }
             )
@@ -103,7 +103,7 @@ extension Convention {
             : Observable.zip(
                 øaddedExpenses.value.map { expense in
                     ConArtist.API.GraphQL.observe(mutation: AddExpenseMutation(id: nil, expense: expense.add(to: self)))
-                        .map(const(nil))
+                        .map(const(nil as Error?))
                         .catchError { Observable.just($0) }
                 }
             )

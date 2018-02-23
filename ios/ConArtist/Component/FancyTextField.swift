@@ -22,6 +22,12 @@ class FancyTextField: UITextField {
         }
     }
 
+    override var text: String? {
+        didSet {
+            titleLabel.alpha = (text?.isEmpty ?? true) ? 0 : 1
+        }
+    }
+
     private func onInit() {
         addSubview(underlineView)
         addSubview(titleLabel)
@@ -37,10 +43,6 @@ class FancyTextField: UITextField {
             .map { $0?.isEmpty ?? true }
             .map { $0 ? 0 : 1 }
             .subscribe(onNext: { [titleLabel] alpha in UIView.animate(withDuration: 0.1) { titleLabel.alpha = alpha } })
-            .disposed(by: disposeBag)
-
-        rx.controlEvent([.editingDidEndOnExit])
-            .subscribe(onNext: { [underlineView] in underlineView.isHighlighted = false })
             .disposed(by: disposeBag)
     }
 
@@ -62,15 +64,17 @@ class FancyTextField: UITextField {
         return bounds.insetBy(dx: 20, dy: 0).offsetBy(dx: 0, dy: 5)
     }
 
+    @discardableResult
     override func becomeFirstResponder() -> Bool {
         let success = super.becomeFirstResponder()
         underlineView.isHighlighted = success
         return success
     }
 
+    @discardableResult
     override func resignFirstResponder() -> Bool {
         let success = super.resignFirstResponder()
-        underlineView.isHighlighted = !success
+        underlineView.isHighlighted = false
         return success
     }
 }

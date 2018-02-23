@@ -20,36 +20,31 @@ class RootNavigationController: UINavigationController {
             .asObservable()
             .scan(([], [])) { previous, next in (previous.1, next) }
             .asDriver(onErrorJustReturn: ([], []))
-            .drive(onNext: { [weak self] (previous, current) in
-                guard let `self` = self else { return }
-                if previous.count < current.count {
-                    self.pushViewController(self.viewController(for: current.last!), animated: true)
-                } else {
-                    self.popToViewController(self.viewControllers[current.count - 1], animated: true)
+            .drive(onNext: { [unowned self] (previous, current) in
+                let viewControllers = current.filter { switch $0 { case .Modal: return false; default: return true } }.map { $0.viewController }
+                var animated: Bool = true
+                if previous.count < current.count, let last = current.last {
+                    switch last {
+                    case .Appear: animated = false
+                    case .Modal(let vc):
+                        self.present(vc, animated: true)
+                    case .Over(let vc):
+                        // TODO: when something needs to be presented over something else, figure out how to
+                        //       actually do it
+                        self.present(vc, animated: true)
+                    default: break
+                    }
+                } else if previous.count > current.count {
+                    if case .Modal(let vc) = previous.last! {
+                        vc.dismiss(animated: true)
+                        animated = false
+                    }
                 }
+                self.setViewControllers(viewControllers, animated: animated)
             })
             .disposed(by: disposeBag)
-    }
-    
-    private func viewController(for page: Model.Page) -> UIViewController {
-        switch page {
-        case .SignIn:
-            return SignInViewController.create()
-        case .Conventions:
-            return ConventionListViewController.create()
-        case .Convention(let convention):
-            return ConventionDetailsTabBarController.create(for: convention)
-        case .Products(let productType, let products, let prices):
-            return ProductListViewController.create(for: productType, products, and: prices)
-        case .Settings(let settings):
-            return SettingsViewController.create(for: settings)
-        }
+
+        SplashScreenViewController.show()
     }
 }
 
-// MARK: - Navigation
-extension RootNavigationController {
-    class func create() -> RootNavigationController {
-        return RootNavigationController.instantiate(withId: RootNavigationController.ID) as! RootNavigationController
-    }
-}

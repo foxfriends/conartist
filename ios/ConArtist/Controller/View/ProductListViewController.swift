@@ -26,6 +26,8 @@ class ProductListViewController: UIViewController {
     fileprivate var productType: ProductType!
     fileprivate var products: [Product]!
     fileprivate var prices: [Prices]!
+
+    fileprivate let results = PublishSubject<([Product], Money)>()
 }
 
 extension ProductListViewController {
@@ -84,11 +86,14 @@ extension ProductListViewController {
         selectedProductsFlowLayout.estimatedItemSize = CGSize(width: 1, height: 1)
         
         cancelButton.rx.tap
-            .subscribe({ _ in ConArtist.model.goBack() })
+            .subscribe({ _ in ConArtist.model.navigate(back: 1) })
             .disposed(by: disposeBag)
         
         saveButton.rx.tap
-            .subscribe({ [øselectedProducts, price] _ in ConArtist.model.goBack(1, returning: .Sale(øselectedProducts.value, price)) })
+            .subscribe({ [results, øselectedProducts, price] _ in
+                ConArtist.model.navigate(back: 1)
+                results.onNext((øselectedProducts.value, price))
+            })
             .disposed(by: disposeBag)
         
         priceTextField.rx.value
@@ -148,11 +153,12 @@ extension ProductListViewController: UITableViewDelegate {
 
 // MARK: - Navigation
 extension ProductListViewController {
-    class func create(for productType: ProductType, _ products: [Product], and prices: [Price]) -> ProductListViewController {
+    class func show(for productType: ProductType, _ products: [Product], and prices: [Price]) -> Observable<([Product], Money)> {
         let controller: ProductListViewController = ProductListViewController.instantiate(withId: ProductListViewController.ID)
         controller.productType = productType
         controller.products = products
         controller.prices = Prices.condense(prices)
-        return controller
+        ConArtist.model.navigate(push: controller)
+        return controller.results.asObservable()
     }
 }

@@ -27,6 +27,7 @@ class ConventionTableViewCell: UITableViewCell {
 
     func emptyState() {
         titleLabel?.text = "No conventions today" // TODO: localized string
+        titleLabel?.font = titleLabel!.font.usingFeatures([.smallCaps])
         dateLabel?.text = nil
         locationLabel?.text = nil
         timeLabel?.text = nil

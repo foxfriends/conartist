@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import MaterialComponents.MaterialSnackbar
 
 class ProductTypeListViewController: UIViewController {
     fileprivate static let ID = "ProductTypeList"
@@ -35,7 +36,7 @@ extension ProductTypeListViewController {
         
         backButton.rx.tap
             .filter { [tabBarController] _ in tabBarController?.selectedViewController == self }
-            .subscribe { _ in ConArtist.model.goBack() }
+            .subscribe { _ in ConArtist.model.navigate(back: 1) }
             .disposed(by: disposeBag)
     }
 }
@@ -66,7 +67,18 @@ extension ProductTypeListViewController: UITableViewDelegate {
         let productType = øproductTypes.value[indexPath.row]
         let products = øproducts.value.filter { $0.typeId == productType.id }
         let prices = øprices.value.filter { $0.typeId == productType.id }
-        ConArtist.model.navigateTo(page: .Products(productType, products, prices))
+        ProductListViewController.show(for: productType, products, and: prices)
+            .flatMap { [unowned self] (products, price) -> Observable<Void> in
+                let newRecord = Record(id: nil, products: products.map { $0.id }, price: price, time: Date())
+                self.convention.addRecord(newRecord)
+                return self.convention.save()
+                    .catchError { _ in
+                        MDCSnackbarManager.show(MDCSnackbarMessage(text: "Some data could not be saved... Check your network status"))
+                        return Observable.empty()
+                    }
+            }
+            .subscribe(onNext: { _ in MDCSnackbarManager.show(MDCSnackbarMessage(text: "Saved!")) })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -85,6 +97,7 @@ extension ProductTypeListViewController {
         øprices
             .bind(to: controller.øprices)
             .disposed(by: controller.disposeBag)
+
         return controller
     }
 }

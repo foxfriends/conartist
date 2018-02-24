@@ -165,40 +165,32 @@
 		321B75D81F9BAD320055EBC4 /* ConArtist */ = {
 			isa = PBXGroup;
 			children = (
-				32C39C24201EA4F600071E26 /* Util */,
-				32892C3E20352CFB00F1AD9C /* Component */,
-				32C39C25201EA52800071E26 /* Controller */,
-				32C39C37201EA9E400071E26 /* Model */,
-				321B75D91F9BAD320055EBC4 /* AppDelegate.swift */,
-				324592941FEAFA6000DE89BB /* ConArtist.swift */,
-				321B75DD1F9BAD320055EBC4 /* Main.storyboard */,
-				321B75E51F9BAD320055EBC4 /* LaunchScreen.storyboard */,
+				321B75E01F9BAD320055EBC4 /* ConArtist.xcdatamodeld */,
+				321B75E81F9BAD320055EBC4 /* Info.plist */,
 				321B75E31F9BAD320055EBC4 /* Assets.xcassets */,
 				32F6F6431FF706AA00935554 /* Images.xcassets */,
-				321B75E81F9BAD320055EBC4 /* Info.plist */,
-				321B75E01F9BAD320055EBC4 /* ConArtist.xcdatamodeld */,
+				321B75D91F9BAD320055EBC4 /* AppDelegate.swift */,
+				324592941FEAFA6000DE89BB /* ConArtist.swift */,
+				32AE416620253D5C0061EB64 /* RootNavigationController.swift */,
+				32892C3E20352CFB00F1AD9C /* Components */,
+				32C39C37201EA9E400071E26 /* Model */,
+				32C39C25201EA52800071E26 /* Scenes */,
+				32B36ED42040E47E00DA4593 /* Storyboard */,
+				32C39C24201EA4F600071E26 /* Util */,
 			);
 			path = ConArtist;
 			sourceTree = "<group>";
 		};
-		321FDE7E20269E39002DF04B /* Settings */ = {
+		32892C3E20352CFB00F1AD9C /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				321FDE7F20269E43002DF04B /* SettingsBooleanTableViewCell.swift */,
-				321FDE8120269E67002DF04B /* SettingsActionTableViewCell.swift */,
-			);
-			path = Settings;
-			sourceTree = "<group>";
-		};
-		32892C3E20352CFB00F1AD9C /* Component */ = {
-			isa = PBXGroup;
-			children = (
+				32B36ED22040E35A00DA4593 /* Cell */,
+				32B36EB620371BC700DA4593 /* FakeNavBar.swift */,
+				32F12C0D20353E840045D0BC /* FancyButton.swift */,
 				32892C3F20352D1500F1AD9C /* FancyTextField.swift */,
 				32892C4120352E9D00F1AD9C /* HighlightableView.swift */,
-				32F12C0D20353E840045D0BC /* FancyButton.swift */,
-				32B36EB620371BC700DA4593 /* FakeNavBar.swift */,
 			);
-			path = Component;
+			path = Components;
 			sourceTree = "<group>";
 		};
 		32B36ECF203FB91000DA4593 /* Convention Details */ = {
@@ -210,89 +202,97 @@
 			path = "Convention Details";
 			sourceTree = "<group>";
 		};
-		32C39C23201EA4DC00071E26 /* View */ = {
+		32B36ED22040E35A00DA4593 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				32C9F9BA20264DA30004566E /* Collection Cell */,
-				32C39C27201EA54E00071E26 /* Table Cell */,
-				32B36ECF203FB91000DA4593 /* Convention Details */,
-				321B75DB1F9BAD320055EBC4 /* SignInViewController.swift */,
-				321FDE7C20269AB0002DF04B /* SettingsViewController.swift */,
-				324592A11FEB4B4D00DE89BB /* ConventionListViewController.swift */,
-				32AE4168202553CF0061EB64 /* ProductTypeListViewController.swift */,
-				32AE416A202554AD0061EB64 /* RecordListViewController.swift */,
-				32BC33DC1FEEED030006256A /* ProductListViewController.swift */,
-				32B36ECA203F97EF00DA4593 /* SplashScreenViewController.swift */,
+				32C9F9BA20264DA30004566E /* Collection */,
+				32C39C27201EA54E00071E26 /* Table */,
 			);
-			path = View;
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		32B36ED32040E37300DA4593 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				321FDE7F20269E43002DF04B /* SettingsBooleanTableViewCell.swift */,
+				321FDE8120269E67002DF04B /* SettingsActionTableViewCell.swift */,
+				321FDE7C20269AB0002DF04B /* SettingsViewController.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		32B36ED42040E47E00DA4593 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				321B75E51F9BAD320055EBC4 /* LaunchScreen.storyboard */,
+				321B75DD1F9BAD320055EBC4 /* Main.storyboard */,
+			);
+			path = Storyboard;
 			sourceTree = "<group>";
 		};
 		32C39C24201EA4F600071E26 /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				32E80BD6201700EB0008EC27 /* String+Money.swift */,
 				32C39C1B201E812D00071E26 /* ApolloClient+Rx.swift */,
-				32B36EBC203BD2F000DA4593 /* UIButton+ConArtist.swift */,
-				324592AD1FEC314900DE89BB /* Date+String.swift */,
-				3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */,
-				32BE32BA201E786B00BFEB16 /* UIViewController+Instantiate.swift */,
-				321FDE832027D14B002DF04B /* Observable+FilterMap.swift */,
-				32C39C1D201E870600071E26 /* UIView+Tooltip.swift */,
-				32B36EBE203BD67800DA4593 /* UIView+Customizable.swift */,
-				32C39C1F201E99A100071E26 /* Sequence+Helpers.swift */,
 				32892C43203530C800F1AD9C /* Array+Safe.swift */,
-				32F12C0F203544E60045D0BC /* UIFont+Features.swift */,
-				32F12C1120354E550045D0BC /* String+Attributes.swift */,
-				32B36EC4203E5E7D00DA4593 /* UIView+Shadows.swift */,
+				324592AD1FEC314900DE89BB /* Date+String.swift */,
 				32B36EC6203E623B00DA4593 /* Functional.swift */,
+				321FDE832027D14B002DF04B /* Observable+FilterMap.swift */,
+				32C39C1F201E99A100071E26 /* Sequence+Helpers.swift */,
+				32F12C1120354E550045D0BC /* String+Attributes.swift */,
+				32E80BD6201700EB0008EC27 /* String+Money.swift */,
+				32B36EBC203BD2F000DA4593 /* UIButton+ConArtist.swift */,
+				3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */,
+				32F12C0F203544E60045D0BC /* UIFont+Features.swift */,
+				32B36EBE203BD67800DA4593 /* UIView+Customizable.swift */,
+				32B36EC4203E5E7D00DA4593 /* UIView+Shadows.swift */,
+				32C39C1D201E870600071E26 /* UIView+Tooltip.swift */,
+				32BE32BA201E786B00BFEB16 /* UIViewController+Instantiate.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
 		};
-		32C39C25201EA52800071E26 /* Controller */ = {
+		32C39C25201EA52800071E26 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				32C39C34201EA64E00071E26 /* Navigation */,
-				32C39C23201EA4DC00071E26 /* View */,
+				32B36ECF203FB91000DA4593 /* Convention Details */,
+				324592A11FEB4B4D00DE89BB /* ConventionListViewController.swift */,
+				32BC33DC1FEEED030006256A /* ProductListViewController.swift */,
+				32AE4168202553CF0061EB64 /* ProductTypeListViewController.swift */,
+				32AE416A202554AD0061EB64 /* RecordListViewController.swift */,
+				32B36ED32040E37300DA4593 /* Settings */,
+				321B75DB1F9BAD320055EBC4 /* SignInViewController.swift */,
+				32B36ECA203F97EF00DA4593 /* SplashScreenViewController.swift */,
 			);
-			path = Controller;
+			path = Scenes;
 			sourceTree = "<group>";
 		};
-		32C39C27201EA54E00071E26 /* Table Cell */ = {
+		32C39C27201EA54E00071E26 /* Table */ = {
 			isa = PBXGroup;
 			children = (
-				321FDE7E20269E39002DF04B /* Settings */,
 				32C39C2F201EA5B300071E26 /* ConventionTableViewCell.swift */,
+				32C9F9B820264BE00004566E /* ProductTableViewCell.swift */,
 				32C39C30201EA5B400071E26 /* ProductTypeTableViewCell.swift */,
 				32C39C2E201EA5B300071E26 /* RecordTableViewCell.swift */,
-				32C9F9B820264BE00004566E /* ProductTableViewCell.swift */,
 				32B36EC8203E7A5800DA4593 /* TableHeaderView.swift */,
 			);
-			path = "Table Cell";
-			sourceTree = "<group>";
-		};
-		32C39C34201EA64E00071E26 /* Navigation */ = {
-			isa = PBXGroup;
-			children = (
-				32AE416620253D5C0061EB64 /* RootNavigationController.swift */,
-			);
-			path = Navigation;
+			path = Table;
 			sourceTree = "<group>";
 		};
 		32C39C37201EA9E400071E26 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				32C39C38201EA9F800071E26 /* API */,
-				324592A91FEC2E7900DE89BB /* Model.swift */,
 				324592AB1FEC2EA500DE89BB /* Convention.swift */,
 				32B36EC0203BE0E600DA4593 /* ConventionExtraInfo.swift */,
-				32BC33E11FEEF17E0006256A /* ProductType.swift */,
+				32BC33E71FEEF2070006256A /* Expense.swift */,
+				324592A91FEC2E7900DE89BB /* Model.swift */,
+				32E80BD3201700100008EC27 /* Money.swift */,
 				32BC33E91FEEF2420006256A /* Price.swift */,
 				32C9F9BD20265A840004566E /* Prices.swift */,
 				32BC33E31FEEF1B80006256A /* Product.swift */,
+				32BC33E11FEEF17E0006256A /* ProductType.swift */,
 				32BC33E51FEEF1E40006256A /* Record.swift */,
-				32BC33E71FEEF2070006256A /* Expense.swift */,
-				32E80BD3201700100008EC27 /* Money.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -307,12 +307,12 @@
 			path = API;
 			sourceTree = "<group>";
 		};
-		32C9F9BA20264DA30004566E /* Collection Cell */ = {
+		32C9F9BA20264DA30004566E /* Collection */ = {
 			isa = PBXGroup;
 			children = (
 				32C9F9BB20264DB70004566E /* ChipCollectionViewCell.swift */,
 			);
-			path = "Collection Cell";
+			path = Collection;
 			sourceTree = "<group>";
 		};
 		4FB42CF41256E760A79587D8 /* Frameworks */ = {

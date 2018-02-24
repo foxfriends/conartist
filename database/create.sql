@@ -45,7 +45,7 @@ CREATE TABLE Conventions (
   title       VARCHAR(512) NOT NULL,
   start_date  DATE NOT NULL,
   end_date    DATE NOT NULL,
-  extra_info  JSON NOT NULL DEFAULT ('[]'), -- { name: "Title", info: "Info" }[]
+  extra_info  JSON NOT NULL DEFAULT ('[]'), -- { name: "Title", info: "Info", action: "Action" }[]
   predecessor INT REFERENCES Conventions (con_id)
 );
 CREATE INDEX index_Conventions ON Conventions (con_id);

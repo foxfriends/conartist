@@ -18,3 +18,10 @@ INSERT INTO Conventions (title, start_date, end_date) VALUES
   ('PAX South', DATE '2018-01-12', DATE '2018-01-14'),
   ('Desucon Frostbite', DATE '2018-01-26', DATE '2018-01-28'),
   ('Mini-Mini Con', DATE '2018-05-05', DATE '2018-05-05');
+
+UPDATE Conventions 
+   SET extra_info = '[
+         { "title": "Website", "info": "fanexpocanada.com", "action": "https://www.fanexpocanada.com/en/home.html" },
+         { "title": "Address", "info": "Metro Toronto Convention Centre\n222 Bremner Blvd\nToronto, ON, Canada", "action": "conartist://map?coords=[43.6438286,-79.3889779]" }
+       ]'::JSON
+ WHERE title = 'Fan Expo';

@@ -1,5 +1,5 @@
 //
-//  ConventionDetailInfoView.swift
+//  ConventionExtraInfoTableViewCell.swift
 //  ConArtist
 //
 //  Created by Cameron Eldridge on 2018-02-22.
@@ -8,18 +8,18 @@
 
 import UIKit
 
-class ConventionDetailTableViewCell: UITableViewCell {
+class ConventionExtraInfoTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel?
     @IBOutlet weak var infoLabel: UILabel?
     @IBOutlet weak var actionLabel: UILabel?
 
-    func setup(title: String? = "", info: String? = "", action: String? = "") {
-        titleLabel?.text = title
+    func setup(with info: ConventionExtraInfo) {
+        titleLabel?.text = info.title
         titleLabel?.font = titleLabel!.font.usingFeatures([.smallCaps])
 
-        actionLabel?.text = action
+        actionLabel?.text = info.actionText
 
-        infoLabel?.text = info
-        infoLabel?.numberOfLines = 1 + (info?.count(ocurrencesOf: "\n") ?? 0)
+        infoLabel?.text = info.info
+        infoLabel?.numberOfLines = 1 + (info.info?.count(ocurrencesOf: "\n") ?? 0)
     }
 }

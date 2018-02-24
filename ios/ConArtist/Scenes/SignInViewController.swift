@@ -65,7 +65,7 @@ extension SignInViewController {
             .do(onNext: { [signInButton] in signInButton?.isEnabled = false })
             .withLatestFrom(øcredentials)
             .flatMap { [øerrorState] credentials in
-                Auth.signIn(email: credentials.0 ?? "", password: credentials.1 ?? "")
+                ConArtist.API.Auth.signIn(email: credentials.0 ?? "", password: credentials.1 ?? "")
                     .map(const(true))
                     .catchError { _ in
                         øerrorState.on(.next(.IncorrectCredentials))

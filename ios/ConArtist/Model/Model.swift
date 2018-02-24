@@ -57,7 +57,7 @@ class Model {
 
     func navigate(backTo vc: UIViewController) {
         var newValue = page.value
-        while newValue.last.map({ $0.viewController }).map((==) ≈ vc) == false {
+        while newValue.last.map({ $0.viewController }).map((==) <- vc) == false {
             newValue.removeLast()
         }
         page.value = newValue
@@ -65,7 +65,7 @@ class Model {
 
     func navigate(backTo vcClass: UIViewController.Type) {
         var newValue = page.value
-        while newValue.last.map({ type(of: $0.viewController) }).map((==) ≈ vcClass) == false {
+        while newValue.last.map({ type(of: $0.viewController) }).map((==) <- vcClass) == false {
             newValue.removeLast()
         }
         page.value = newValue

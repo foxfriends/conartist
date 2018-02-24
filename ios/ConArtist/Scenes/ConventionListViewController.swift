@@ -79,7 +79,7 @@ extension ConventionListViewController {
     
     private func signOut() {
         ConArtist.model.navigate(backTo: SignInViewController.self)
-        ConArtist.API.authToken = ConArtist.API.Unauthorized
+        ConArtist.API.Auth.authToken = ConArtist.API.Auth.Unauthorized
     }
 
     private func contactSupport() {

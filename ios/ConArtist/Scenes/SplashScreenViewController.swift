@@ -16,14 +16,14 @@ class SplashScreenViewController: UIViewController {
 extension SplashScreenViewController {
     override func viewDidLoad() {
         SignInViewController.show(animated: false)
-        if ConArtist.API.authToken != ConArtist.API.Unauthorized {
+        if ConArtist.API.Auth.authToken != ConArtist.API.Auth.Unauthorized {
             ConventionListViewController.show(animated: false)
-            let _ = Auth.reauthorize()
+            let _ = ConArtist.API.Auth.reauthorize()
                 .subscribe(
                     onError: {
                         print("Sign in failed: \($0)")
                         ConArtist.model.navigate(backTo: SignInViewController.self)
-                        ConArtist.API.authToken = ConArtist.API.Unauthorized
+                        ConArtist.API.Auth.authToken = ConArtist.API.Auth.Unauthorized
                     }
                 )
         }

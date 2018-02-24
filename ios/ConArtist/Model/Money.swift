@@ -9,15 +9,17 @@
 import Foundation
 
 enum CurrencyCode: String {
-    case CAD, USD
+    case AUTO, CAD, USD
 }
 
 struct Money {
     let currency: CurrencyCode
     let amount: Int
-    
+
+    static let zero: Money = Money(currency: .AUTO, amount: 0)
     static func parse(as currency: CurrencyCode, _ string: String) -> Money? {
         switch currency {
+        case .AUTO: return nil // cannot parse a currency as auto
         case .CAD, .USD:
             let pieces = (string.starts(with: "$") ? string.dropFirst() : string.dropFirst(0)).split(separator: ".")
             guard
@@ -29,10 +31,14 @@ struct Money {
             return Money(currency: .CAD, amount: dollars * 100 + cents)
         }
     }
-    
+}
+
+// MARK: - Formatters
+extension Money {
     // Formats this value to a human readable localized format
     func toString() -> String {
         switch currency {
+        case .AUTO: return "\(amount)"
         case .CAD, .USD:
             return String(format: "$%.2f", Float(amount) / 100.0)
         }
@@ -42,18 +48,31 @@ struct Money {
     func toJSON() -> String {
         return "\(currency)\(amount)"
     }
-    
-    // Adds together two money values, returning the first value unmodified if the currencies do not match up
+}
+
+// MARK: - Operators
+extension Money {
     static func +(a: Money, b: Money) -> Money {
-        if a.currency != b.currency { return a }
+        if a.currency != b.currency && (a.currency != .AUTO && b.currency != .AUTO) { return a }
         return Money(
-            currency: a.currency,
+            currency: a.currency == .AUTO ? b.currency : a.currency,
             amount: a.amount + b.amount
         )
     }
-    
-    static func +=(a: inout Money, b: Money) {
-        a = a + b
+
+    static prefix func -(a: Money) -> Money {
+        return Money(currency: a.currency, amount: -a.amount)
+    }
+
+    static func -(a: Money, b: Money) -> Money {
+        return a + (-b)
     }
 }
 
+// MARK: - Equatable
+extension Money: Equatable {
+    static func ==(a: Money, b: Money) -> Bool {
+        if a.currency != b.currency && (a.currency != .AUTO && b.currency != .AUTO) { return false }
+        return a.amount == b.amount
+    }
+}

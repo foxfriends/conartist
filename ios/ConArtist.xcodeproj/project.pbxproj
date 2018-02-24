@@ -37,10 +37,16 @@
 		32B36EBF203BD67800DA4593 /* UIView+Customizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EBE203BD67800DA4593 /* UIView+Customizable.swift */; };
 		32B36EC1203BE0E600DA4593 /* ConventionExtraInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EC0203BE0E600DA4593 /* ConventionExtraInfo.swift */; };
 		32B36EC5203E5E7D00DA4593 /* UIView+Shadows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EC4203E5E7D00DA4593 /* UIView+Shadows.swift */; };
-		32B36EC7203E623B00DA4593 /* Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EC6203E623B00DA4593 /* Functional.swift */; };
+		32B36EC7203E623B00DA4593 /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EC6203E623B00DA4593 /* Base.swift */; };
 		32B36EC9203E7A5800DA4593 /* TableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EC8203E7A5800DA4593 /* TableHeaderView.swift */; };
 		32B36ECB203F97EF00DA4593 /* SplashScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36ECA203F97EF00DA4593 /* SplashScreenViewController.swift */; };
-		32B36ECD203FB8DD00DA4593 /* ConventionDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36ECC203FB8DD00DA4593 /* ConventionDetailTableViewCell.swift */; };
+		32B36ECD203FB8DD00DA4593 /* ConventionExtraInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36ECC203FB8DD00DA4593 /* ConventionExtraInfoTableViewCell.swift */; };
+		32B36ED62040F57000DA4593 /* Optional+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36ED52040F57000DA4593 /* Optional+Helpers.swift */; };
+		32B36ED82041FF3200DA4593 /* NetworkImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36ED72041FF3200DA4593 /* NetworkImageView.swift */; };
+		32B36EDB2041FFF100DA4593 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EDA2041FFF100DA4593 /* API.swift */; };
+		32B36EDD2042010D00DA4593 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EDC2042010D00DA4593 /* Images.swift */; };
+		32B36EDF204202DB00DA4593 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EDE204202DB00DA4593 /* Keychain.swift */; };
+		32B36EE22042086500DA4593 /* Monad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EE12042086500DA4593 /* Monad.swift */; };
 		32BC33DD1FEEED030006256A /* ProductListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33DC1FEEED030006256A /* ProductListViewController.swift */; };
 		32BC33E21FEEF17E0006256A /* ProductType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33E11FEEF17E0006256A /* ProductType.swift */; };
 		32BC33E41FEEF1B80006256A /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33E31FEEF1B80006256A /* Product.swift */; };
@@ -100,10 +106,16 @@
 		32B36EBE203BD67800DA4593 /* UIView+Customizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Customizable.swift"; sourceTree = "<group>"; };
 		32B36EC0203BE0E600DA4593 /* ConventionExtraInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConventionExtraInfo.swift; sourceTree = "<group>"; };
 		32B36EC4203E5E7D00DA4593 /* UIView+Shadows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Shadows.swift"; sourceTree = "<group>"; };
-		32B36EC6203E623B00DA4593 /* Functional.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functional.swift; sourceTree = "<group>"; };
+		32B36EC6203E623B00DA4593 /* Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
 		32B36EC8203E7A5800DA4593 /* TableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableHeaderView.swift; sourceTree = "<group>"; };
 		32B36ECA203F97EF00DA4593 /* SplashScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenViewController.swift; sourceTree = "<group>"; };
-		32B36ECC203FB8DD00DA4593 /* ConventionDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConventionDetailTableViewCell.swift; sourceTree = "<group>"; };
+		32B36ECC203FB8DD00DA4593 /* ConventionExtraInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConventionExtraInfoTableViewCell.swift; sourceTree = "<group>"; };
+		32B36ED52040F57000DA4593 /* Optional+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Helpers.swift"; sourceTree = "<group>"; };
+		32B36ED72041FF3200DA4593 /* NetworkImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkImageView.swift; sourceTree = "<group>"; };
+		32B36EDA2041FFF100DA4593 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		32B36EDC2042010D00DA4593 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		32B36EDE204202DB00DA4593 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
+		32B36EE12042086500DA4593 /* Monad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monad.swift; sourceTree = "<group>"; };
 		32BC33DC1FEEED030006256A /* ProductListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
 		32BC33E11FEEF17E0006256A /* ProductType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductType.swift; sourceTree = "<group>"; };
 		32BC33E31FEEF1B80006256A /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
@@ -170,13 +182,13 @@
 				321B75E31F9BAD320055EBC4 /* Assets.xcassets */,
 				32F6F6431FF706AA00935554 /* Images.xcassets */,
 				321B75D91F9BAD320055EBC4 /* AppDelegate.swift */,
-				324592941FEAFA6000DE89BB /* ConArtist.swift */,
+				32B36ED92041FFD600DA4593 /* Services */,
 				32AE416620253D5C0061EB64 /* RootNavigationController.swift */,
 				32892C3E20352CFB00F1AD9C /* Components */,
 				32C39C37201EA9E400071E26 /* Model */,
 				32C39C25201EA52800071E26 /* Scenes */,
-				32B36ED42040E47E00DA4593 /* Storyboard */,
 				32C39C24201EA4F600071E26 /* Util */,
+				32B36ED42040E47E00DA4593 /* Storyboard */,
 			);
 			path = ConArtist;
 			sourceTree = "<group>";
@@ -189,6 +201,7 @@
 				32F12C0D20353E840045D0BC /* FancyButton.swift */,
 				32892C3F20352D1500F1AD9C /* FancyTextField.swift */,
 				32892C4120352E9D00F1AD9C /* HighlightableView.swift */,
+				32B36ED72041FF3200DA4593 /* NetworkImageView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -197,7 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				32C39C35201EA66800071E26 /* ConventionDetailsViewController.swift */,
-				32B36ECC203FB8DD00DA4593 /* ConventionDetailTableViewCell.swift */,
+				32B36ECC203FB8DD00DA4593 /* ConventionExtraInfoTableViewCell.swift */,
 			);
 			path = "Convention Details";
 			sourceTree = "<group>";
@@ -230,13 +243,32 @@
 			path = Storyboard;
 			sourceTree = "<group>";
 		};
+		32B36ED92041FFD600DA4593 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				324592941FEAFA6000DE89BB /* ConArtist.swift */,
+				32C39C38201EA9F800071E26 /* API */,
+				32B36EDE204202DB00DA4593 /* Keychain.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		32B36EE02042085400DA4593 /* Functional */ = {
+			isa = PBXGroup;
+			children = (
+				32B36EC6203E623B00DA4593 /* Base.swift */,
+				32B36EE12042086500DA4593 /* Monad.swift */,
+			);
+			path = Functional;
+			sourceTree = "<group>";
+		};
 		32C39C24201EA4F600071E26 /* Util */ = {
 			isa = PBXGroup;
 			children = (
 				32C39C1B201E812D00071E26 /* ApolloClient+Rx.swift */,
 				32892C43203530C800F1AD9C /* Array+Safe.swift */,
 				324592AD1FEC314900DE89BB /* Date+String.swift */,
-				32B36EC6203E623B00DA4593 /* Functional.swift */,
+				32B36EE02042085400DA4593 /* Functional */,
 				321FDE832027D14B002DF04B /* Observable+FilterMap.swift */,
 				32C39C1F201E99A100071E26 /* Sequence+Helpers.swift */,
 				32F12C1120354E550045D0BC /* String+Attributes.swift */,
@@ -248,6 +280,7 @@
 				32B36EC4203E5E7D00DA4593 /* UIView+Shadows.swift */,
 				32C39C1D201E870600071E26 /* UIView+Tooltip.swift */,
 				32BE32BA201E786B00BFEB16 /* UIViewController+Instantiate.swift */,
+				32B36ED52040F57000DA4593 /* Optional+Helpers.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -282,7 +315,7 @@
 		32C39C37201EA9E400071E26 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				32C39C38201EA9F800071E26 /* API */,
+				324592961FEAFEE000DE89BB /* ConRequest.swift */,
 				324592AB1FEC2EA500DE89BB /* Convention.swift */,
 				32B36EC0203BE0E600DA4593 /* ConventionExtraInfo.swift */,
 				32BC33E71FEEF2070006256A /* Expense.swift */,
@@ -300,7 +333,8 @@
 		32C39C38201EA9F800071E26 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				324592961FEAFEE000DE89BB /* ConRequest.swift */,
+				32B36EDA2041FFF100DA4593 /* API.swift */,
+				32B36EDC2042010D00DA4593 /* Images.swift */,
 				3245929B1FEB19DA00DE89BB /* GraphQL.swift */,
 				3245929F1FEB230600DE89BB /* Auth.swift */,
 			);
@@ -419,7 +453,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "APOLLO_FRAMEWORK_PATH=\"$(eval find $FRAMEWORK_SEARCH_PATHS -name \"Apollo.framework\" -maxdepth 1)\"\n\nif [ -z \"$APOLLO_FRAMEWORK_PATH\" ]; then\necho \"error: Couldn't find Apollo.framework in FRAMEWORK_SEARCH_PATHS; make sure to add the framework to your project.\"\nexit 1\nfi\n\ncd \"${SRCROOT}/${TARGET_NAME}\"\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-codegen.sh generate $(find . -name '*.graphql') --schema schema.json --output Model/API/GraphQL.swift";
+			shellScript = "APOLLO_FRAMEWORK_PATH=\"$(eval find $FRAMEWORK_SEARCH_PATHS -name \"Apollo.framework\" -maxdepth 1)\"\n\nif [ -z \"$APOLLO_FRAMEWORK_PATH\" ]; then\necho \"error: Couldn't find Apollo.framework in FRAMEWORK_SEARCH_PATHS; make sure to add the framework to your project.\"\nexit 1\nfi\n\ncd \"${SRCROOT}/${TARGET_NAME}\"\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-codegen.sh generate $(find . -name '*.graphql') --schema schema.json --output Services/API/GraphQL.swift";
 		};
 		693BFD9862FF5ADE35690E83 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -507,8 +541,10 @@
 				32BC33E81FEEF2070006256A /* Expense.swift in Sources */,
 				32C39C20201E99A100071E26 /* Sequence+Helpers.swift in Sources */,
 				32F12C0E20353E840045D0BC /* FancyButton.swift in Sources */,
-				32B36ECD203FB8DD00DA4593 /* ConventionDetailTableViewCell.swift in Sources */,
+				32B36ECD203FB8DD00DA4593 /* ConventionExtraInfoTableViewCell.swift in Sources */,
 				3245929C1FEB19DA00DE89BB /* GraphQL.swift in Sources */,
+				32B36EDB2041FFF100DA4593 /* API.swift in Sources */,
+				32B36EDF204202DB00DA4593 /* Keychain.swift in Sources */,
 				32F12C10203544E60045D0BC /* UIFont+Features.swift in Sources */,
 				324592951FEAFA6000DE89BB /* ConArtist.swift in Sources */,
 				32B36EBD203BD2F000DA4593 /* UIButton+ConArtist.swift in Sources */,
@@ -516,7 +552,7 @@
 				32C39C31201EA5B400071E26 /* RecordTableViewCell.swift in Sources */,
 				32B36EC5203E5E7D00DA4593 /* UIView+Shadows.swift in Sources */,
 				324592A01FEB230600DE89BB /* Auth.swift in Sources */,
-				32B36EC7203E623B00DA4593 /* Functional.swift in Sources */,
+				32B36EC7203E623B00DA4593 /* Base.swift in Sources */,
 				32B36EBF203BD67800DA4593 /* UIView+Customizable.swift in Sources */,
 				321FDE842027D14B002DF04B /* Observable+FilterMap.swift in Sources */,
 				321B75DC1F9BAD320055EBC4 /* SignInViewController.swift in Sources */,
@@ -528,6 +564,7 @@
 				32C9F9BC20264DB70004566E /* ChipCollectionViewCell.swift in Sources */,
 				32C9F9BE20265A840004566E /* Prices.swift in Sources */,
 				32BC33DD1FEEED030006256A /* ProductListViewController.swift in Sources */,
+				32B36ED62040F57000DA4593 /* Optional+Helpers.swift in Sources */,
 				32C39C36201EA66800071E26 /* ConventionDetailsViewController.swift in Sources */,
 				324592971FEAFEE000DE89BB /* ConRequest.swift in Sources */,
 				32AE4169202553CF0061EB64 /* ProductTypeListViewController.swift in Sources */,
@@ -550,10 +587,13 @@
 				32B36EC9203E7A5800DA4593 /* TableHeaderView.swift in Sources */,
 				32C9F9B920264BE00004566E /* ProductTableViewCell.swift in Sources */,
 				32C39C1E201E870600071E26 /* UIView+Tooltip.swift in Sources */,
+				32B36EDD2042010D00DA4593 /* Images.swift in Sources */,
 				324592AE1FEC314900DE89BB /* Date+String.swift in Sources */,
 				321FDE8220269E67002DF04B /* SettingsActionTableViewCell.swift in Sources */,
 				32BE32BB201E786B00BFEB16 /* UIViewController+Instantiate.swift in Sources */,
+				32B36ED82041FF3200DA4593 /* NetworkImageView.swift in Sources */,
 				32C39C33201EA5B400071E26 /* ProductTypeTableViewCell.swift in Sources */,
+				32B36EE22042086500DA4593 /* Monad.swift in Sources */,
 				32BC33E41FEEF1B80006256A /* Product.swift in Sources */,
 				324592A21FEB4B4D00DE89BB /* ConventionListViewController.swift in Sources */,
 			);

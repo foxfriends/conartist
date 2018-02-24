@@ -14,7 +14,8 @@ class Convention {
     let name: String
     let start: Date
     let end: Date
-    let extraInfo: ConventionExtraInfo
+    let imageURL: String? // placeholder until the server has images
+    let extraInfo: [ConventionExtraInfo]
 
     let productTypes: Observable<[ProductType]>
     let products: Observable<[Product]>
@@ -38,7 +39,8 @@ class Convention {
         name = con.name
         start = startDate
         end = endDate
-        extraInfo = ConventionExtraInfo(jsonString: con.extraInfo)
+        imageURL = nil
+        extraInfo = con.extraInfo.data(using: .utf8).tryFlatMap { try JSONDecoder().decode([ConventionExtraInfo].self, from: $0) } ?? []
         
         productTypes = øconvention.asObservable().map { $0?.productTypes.filterMap(ProductType.from) ?? [] }
         products = øconvention.asObservable().map { $0?.products.filterMap(Product.from) ?? [] }
@@ -58,9 +60,7 @@ class Convention {
 extension Convention {
     private static let DateFormat: String = "MMM dd, yyyy"
     var dateString: String {
-        get {
-            return "\(self.start.toString(Convention.DateFormat)) - \(self.end.toString(Convention.DateFormat))"
-        }
+        get { return "\(self.start.toString(Convention.DateFormat)) - \(self.end.toString(Convention.DateFormat))" }
     }
 }
 

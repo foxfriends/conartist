@@ -21,7 +21,7 @@ INSERT INTO Conventions (title, start_date, end_date) VALUES
 
 UPDATE Conventions 
    SET extra_info = '[
-         { "title": "Website", "actionText": "fanexpocanada.com", "action": "https://www.fanexpocanada.com/en/home.html" },
-         { "title": "Address", "info": "Metro Toronto Convention Centre\n222 Bremner Blvd\nToronto, ON, Canada", "actionText": "View on map", "action": "conartist://map?coords=[43.6438286,-79.3889779]" }
+         { "title": "Address", "info": "Metro Toronto Convention Centre\n222 Bremner Blvd\nToronto, ON, Canada", "actionText": "View on map", "action": "conartist://map?coords=[43.6438286,-79.3889779]" },
+         { "title": "Website", "actionText": "fanexpocanada.com", "action": "https://www.fanexpocanada.com/en/home.html" }
        ]'::JSON
  WHERE title = 'Fan Expo';

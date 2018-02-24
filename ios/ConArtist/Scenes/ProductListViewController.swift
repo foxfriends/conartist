@@ -63,7 +63,7 @@ extension ProductListViewController {
                     }
                 }
                 count -= price.key
-                newPrice += price.value
+                newPrice = newPrice + price.value
             }
             return newPrice
         }

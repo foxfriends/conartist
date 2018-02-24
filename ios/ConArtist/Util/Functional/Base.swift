@@ -23,8 +23,8 @@ func identity<T>(_ it: T) -> T {
 }
 
 // Partial function application
-infix operator ≈
-func ≈<T, U, R>(f: @escaping (T, U) -> R, t: T) -> (U) -> R {
+infix operator <-
+func <-<T, U, R>(f: @escaping (T, U) -> R, t: T) -> (U) -> R {
     return { f(t, $0 ) }
 }
 

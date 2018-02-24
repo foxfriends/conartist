@@ -7,9 +7,10 @@ use serde_json;
 
 #[derive(Deserialize, Serialize, Clone)]
 pub struct ConventionExtraInfoItem {
-    name: String,
+    title: String,
     info: Option<String>,
     action: Option<String>,
+    actionText: Option<String>,
 }
 #[derive(Deserialize, Serialize, Clone)]
 pub struct ConventionExtraInfo(Vec<ConventionExtraInfoItem>);

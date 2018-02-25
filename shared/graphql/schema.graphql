@@ -6,10 +6,11 @@ scalar NaiveDate
 scalar DateTimeUtc
 scalar DateTimeFixedOffset
 scalar Money
+scalar Currency
 
 type Query {
   user(id: Int): User!
-  userConvention(id: Int, id: Int!): FullUserConvention!
+  userConvention(id: Int, conId: Int!): FullUserConvention!
   convention(date: Date, page: Int, limit: Int): ConventionPage!
 }
 
@@ -23,6 +24,11 @@ type User {
   products: [ProductInInventory]!
   prices: [PriceRow]!
   conventions: [FullUserConvention]!
+  settings: Settings!
+}
+
+type Settings {
+  currency: Currency!
 }
 
 type ProductType {
@@ -34,7 +40,6 @@ type ProductType {
 
 type ProductInInventory {
   id: Int!
-  typeId: Int!
   name: String!
   quantity: Int!
   discontinued: Boolean!
@@ -44,6 +49,7 @@ type PricePairOut {
   quantity: Int!
   price: Money!
 }
+
 type Price {
   typeId: Int!
   productId: Int
@@ -77,10 +83,10 @@ type FullUserConvention {
   id: Int!
   conId: Int!
   name: String!
+  images: [String]!
   start: DateTimeUtc!
   end: DateTimeUtc!
-  extraInfo: [ConventionExtraInfo]!
-  userInfo: [ConventionUserInfo]!
+  extraInfo: String!
   productTypes: [ProductType]!
   products(includeAll: Boolean): [ProductInInventory]!
   condensedPrices(includeAll: Boolean): [Price]!
@@ -92,10 +98,11 @@ type FullUserConvention {
 type Convention {
   id: Int!
   name: String!
+  images: [String]!
   start: DateTimeUtc!
   end: DateTimeUtc!
-  extraInfo: [ConventionExtraInfo]!
-  userInfo: [ConventionUserInfo]!
+  extraInfo: ConventionExtraInfo!
+  userInfo: ConventionUserInfo!
 }
 
 type ConventionExtraInfo {
@@ -143,6 +150,10 @@ type Mutation {
   addUserExpense(userId: Int, expense: ExpenseAdd!): Expense!
   modUserExpense(userId: Int, expense: ExpenseMod!): Expense!
   delUserExpense(userId: Int, expense: ExpenseDel!): Expense!
+
+  updateSettings(userId: Int) {
+    currency(currency: Currency!): Currency!
+  }
 }
 
 input ProductTypeAdd {
@@ -212,111 +223,4 @@ input ExpenseMod {
 }
 input ExpenseDel {
   expenseId: Int!
-}
-
-fragment ProductTypeFragment on ProductType {
-  id
-  name
-  color
-  discontinued
-}
-
-fragment ProductFragment on ProductInInventory {
-  id
-  typeId
-  name
-  quantity
-  discontinued
-}
-
-fragment PriceRowFragment on PriceRow {
-  index
-  typeId
-  productId
-  quantity
-  price
-}
-
-fragment MetaConventionFragment on FullUserConvention {
-  id
-  name
-  start
-  end
-  extraInfo {
-    title
-    info
-    action
-    actionText
-  }
-  userInfo {
-    id
-    info
-    upvotes
-    downvotes
-  }
-}
-
-fragment RecordFragment on Record {
-  id
-  products
-  price
-  time
-}
-
-fragment ExpenseFragment on Expense {
-  id
-  category
-  description
-  price
-  time
-}
-
-fragment FullConventionFragment on FullUserConvention {
-  ...MetaConventionFragment
-  products(includeAll: true) { ...ProductFragment }
-  productTypes { ...ProductTypeFragment }
-  prices(includeAll: true) { ...PriceRowFragment }
-  records { ...RecordFragment }
-  expenses { ...ExpenseFragment }
-}
-
-query User($id: Int) {
-  user(id: $id) {
-    name
-    email
-    conventions {
-      ...MetaConventionFragment
-    }
-  }
-}
-
-query FullConvention($userId: Int, $conId: Int!) {
-  userConvention(userId: $userId, conId: $conId) {
-    ...FullConventionFragment
-  }
-}
-
-query ConventionPage($date: DateTimeFixedOffset, $limit: Int, $page: Int) {
-  convention(date: $date, limit: $limit, page: $page) {
-    page
-    pages
-    data {
-      id
-      name
-      start
-      end
-    }
-  }
-}
-
-mutation AddRecord($id: Int, $record: RecordAdd!) {
-  addUserRecord(userId: $id, record: $record) {
-    ...RecordFragment
-  }
-}
-
-mutation AddExpense($id: Int, $expense: ExpenseAdd!) {
-  addUserExpense(userId: $id, expense: $expense) {
-    ...ExpenseFragment
-  }
 }

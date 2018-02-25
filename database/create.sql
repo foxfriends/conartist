@@ -51,10 +51,19 @@ CREATE TABLE Conventions (
 CREATE INDEX index_Conventions ON Conventions (con_id);
 COMMENT ON TABLE Conventions IS 'The many conventions that are taking place around the world';
 
+CREATE TABLE ConventionImages (
+  image_id    SERIAL PRIMARY KEY,  
+  con_id      INT NOT NULL REFERENCES Conventions (con_id) ON DELETE CASCADE,
+  image_uuid  CHAR(36) NOT NULL,
+  create_date TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP)
+);
+CREATE INDEX index_ConventionImages ON ConventionImages (con_id);
+COMMENT ON TABLE ConventionImages IS 'Images associated with conventions';
+
 CREATE TABLE ConventionInfo (
   con_info_id SERIAL PRIMARY KEY,
   con_id      INT NOT NULL REFERENCES Conventions (con_id) ON DELETE CASCADE,
-  user_id     INT NOT NULL REFERENCES Users       (user_id) ON DELETE CASCADE, -- would be nice to keep these if a user is deleted
+  user_id     INT NOT NULL REFERENCES Users       (user_id) ON DELETE SET NULL,
   information TEXT NOT NULL
 );
 CREATE INDEX index_ConventionInfo ON ConventionInfo (con_id);

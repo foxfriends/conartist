@@ -1,0 +1,29 @@
+query User($id: Int) {
+  user(id: $id) {
+    name
+    email
+    conventions {
+      ...MetaConventionFragment
+    }
+  }
+}
+
+query FullConvention($userId: Int, $conId: Int!) {
+  userConvention(userId: $userId, conId: $conId) {
+    ...FullConventionFragment
+  }
+}
+
+query ConventionPage($date: DateTimeFixedOffset, $limit: Int, $page: Int) {
+  convention(date: $date, limit: $limit, page: $page) {
+    page
+    pages
+    data {
+      id
+      name
+      start
+      end
+    }
+  }
+}
+

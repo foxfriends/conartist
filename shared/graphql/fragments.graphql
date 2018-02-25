@@ -1,0 +1,66 @@
+fragment ProductTypeFragment on ProductType {
+  id
+  name
+  color
+  discontinued
+}
+
+fragment ProductFragment on ProductInInventory {
+  id
+  typeId
+  name
+  quantity
+  discontinued
+}
+
+fragment PriceRowFragment on PriceRow {
+  index
+  typeId
+  productId
+  quantity
+  price
+}
+
+fragment MetaConventionFragment on FullUserConvention {
+  id
+  name
+  start
+  end
+  extraInfo {
+    title
+    info
+    action
+    actionText
+  }
+  userInfo {
+    id
+    info
+    upvotes
+    downvotes
+  }
+}
+
+fragment RecordFragment on Record {
+  id
+  products
+  price
+  time
+}
+
+fragment ExpenseFragment on Expense {
+  id
+  category
+  description
+  price
+  time
+}
+
+fragment FullConventionFragment on FullUserConvention {
+  ...MetaConventionFragment
+  products(includeAll: true) { ...ProductFragment }
+  productTypes { ...ProductTypeFragment }
+  prices(includeAll: true) { ...PriceRowFragment }
+  records { ...RecordFragment }
+  expenses { ...ExpenseFragment }
+}
+

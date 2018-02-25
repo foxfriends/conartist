@@ -72,9 +72,21 @@ impl Database {
         let conn = self.pool.get().unwrap();
         Ok (
             query!(conn, "
-                SELECT *
-                FROM User_Conventions u INNER JOIN Conventions c ON u.con_id = c.con_id
-                WHERE user_id = $1
+                SELECT user_con_id,
+                       user_id,
+                       c.con_id, 
+                       title, 
+                       ARRAY_AGG(DISTINCT image_uuid) AS images,
+                       start_date,
+                       end_date,
+                       extra_info
+                  FROM User_Conventions u 
+            INNER JOIN Conventions c 
+                    ON u.con_id = c.con_id
+            INNER JOIN ConventionImages i
+                    ON i.con_id = c.con_id
+                 WHERE user_id = $1
+              GROUP BY c.con_id
             ", user_id)
                 .iter()
                 .filter_map(|row| FullUserConvention::from(row).ok())
@@ -86,10 +98,22 @@ impl Database {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         query!(conn, "
-            SELECT *
-            FROM User_Conventions u INNER JOIN Conventions c ON u.con_id = c.con_id
-            WHERE user_id = $1
-              AND u.con_id = $2
+            SELECT user_con_id,
+                   user_id,
+                   c.con_id,
+                   title,
+                   ARRAY_AGG(DISTINCT image_uuid) AS images,
+                   start_date,
+                   end_date,
+                   extra_info
+              FROM User_Conventions u 
+        INNER JOIN Conventions c 
+                ON u.con_id = c.con_id
+        INNER JOIN ConventionImages i
+                ON i.con_id = c.con_id
+             WHERE user_id = $1
+               AND u.con_id = $2
+          GROUP BY c.con_id
         ", user_id, con_id)
             .iter()
             .filter_map(|row| FullUserConvention::from(row).ok())
@@ -160,14 +184,23 @@ impl Database {
         Ok (
             if exclude_mine {
                 query!(conn, "
-                    SELECT * FROM Conventions c
-                    WHERE start_date > $1
-                      AND NOT EXISTS (
-                        SELECT 1
-                        FROM User_Conventions u
-                        WHERE u.user_id = $2
-                          AND u.con_id = c.con_id
-                      )
+                    SELECT c.con_id,
+                           title,
+                           ARRAY_AGG(DISTINCT image_uuid) AS images,
+                           start_date,
+                           end_date,
+                           extra_info
+                      FROM Conventions c
+                INNER JOIN ConventionImages i
+                        ON i.con_id = c.con_id
+                     WHERE start_date > $1
+            AND NOT EXISTS (
+                          SELECT 1
+                            FROM User_Conventions u
+                           WHERE u.user_id = $2
+                             AND u.con_id = c.con_id
+                           )
+                  GROUP BY c.con_id
                 ", date, self.resolve_user_id(None)?)
             } else {
                 query!(conn, "SELECT * FROM Conventions WHERE start_date > $1", date)

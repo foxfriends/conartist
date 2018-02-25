@@ -73,6 +73,7 @@ extension ConventionDetailsViewController {
             label.font = label.font.usingFeatures([.smallCaps])
         }
 
+        infoTableView.isScrollEnabled = false
         salesAmountLabel.font = salesAmountLabel.font.usingFeatures([.tabularFigures])
         expensesAmountLabel.font = expensesAmountLabel.font.usingFeatures([.tabularFigures])
         netRevenueAmountLabel.font = netRevenueAmountLabel.font.usingFeatures([.tabularFigures])
@@ -94,12 +95,10 @@ extension ConventionDetailsViewController {
         let salesTotal = convention.records
             .map { $0.map { $0.price } }
             .map { $0.reduce(Money.zero, +) }
-            .share()
 
         let expensesTotal = convention.expenses
             .map { $0.map { $0.price } }
             .map { $0.reduce(Money.zero, +) }
-            .share()
 
         salesTotal
             .map { $0.toString() }
@@ -128,6 +127,7 @@ extension ConventionDetailsViewController {
                 $0.map { info in
                     let label = UILabel()
                     label.text = info.info
+                    label.textColor = ConArtist.Color.Text
                     label.font = UIFont.systemFont(ofSize: 15)
                     return label
                 }
@@ -135,19 +135,15 @@ extension ConventionDetailsViewController {
             .asDriver(onErrorJustReturn: [] as [UILabel])
             .drive(onNext: { [userSuppliedInfoPreview] labels in
                 guard let userSuppliedInfoPreview = userSuppliedInfoPreview else { return }
-                userSuppliedInfoPreview.arrangedSubviews.forEach { $0.removeFromSuperview() }
-                labels.forEach(userSuppliedInfoPreview.addSubview)
-                if labels.count < 2 {
+                userSuppliedInfoPreview.subviews.forEach { $0.removeFromSuperview() }
+                labels.forEach(userSuppliedInfoPreview.addArrangedSubview)
+                if labels.count == 0 {
                     let label = UILabel()
+                    label.textAlignment = .center
                     label.font = UIFont.systemFont(ofSize: 15).usingFeatures([.smallCaps])
                     label.textColor = ConArtist.Color.TextPlaceholder.withAlphaComponent(0.25)
-                    // TODO: localized strings
-                    if labels.count == 1 {
-                        label.text = "That's all… free to add more"
-                    } else if labels.count == 0 {
-                        label.text = "There's nothing here… Got something to share?"
-                    }
-                    userSuppliedInfoPreview.addSubview(label)
+                    label.text = "There's nothing here…" // TODO: localized string
+                    userSuppliedInfoPreview.addArrangedSubview(label)
                 }
             })
             .disposed(by: disposeBag)

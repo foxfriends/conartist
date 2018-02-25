@@ -11,7 +11,13 @@ graphql_object!(Convention: Database |&self| {
     field name() -> &String { &self.title }
     field start() -> DateTime<Utc> { DateTime::from_utc(self.start_date.and_hms(0, 0, 0), Utc) }
     field end() -> DateTime<Utc> { DateTime::from_utc(self.end_date.and_hms(23, 59, 59), Utc) }
-    field images() -> &Vec<String> { &self.image_uuids }
+    field images(&executor) -> FieldResult<Vec<String>> { 
+        dbtry! {
+            executor
+                .context()
+                .get_images_for_convention(self.con_id)
+        }
+    }
 
     field extra_info() -> &Vec<ConventionExtraInfo> { &self.extra_info }
     field user_info(&executor) -> FieldResult<Vec<ConventionUserInfo>> {

@@ -74,19 +74,15 @@ impl Database {
             query!(conn, "
                 SELECT user_con_id,
                        user_id,
-                       c.con_id, 
-                       title, 
-                       ARRAY_AGG(DISTINCT image_uuid) AS images,
+                       u.con_id,
+                       title,
                        start_date,
                        end_date,
                        extra_info
-                  FROM User_Conventions u 
-            INNER JOIN Conventions c 
+                  FROM User_Conventions u
+            INNER JOIN Conventions c
                     ON u.con_id = c.con_id
-            INNER JOIN ConventionImages i
-                    ON i.con_id = c.con_id
                  WHERE user_id = $1
-              GROUP BY c.con_id
             ", user_id)
                 .iter()
                 .filter_map(|row| FullUserConvention::from(row).ok())
@@ -102,18 +98,14 @@ impl Database {
                    user_id,
                    c.con_id,
                    title,
-                   ARRAY_AGG(DISTINCT image_uuid) AS images,
                    start_date,
                    end_date,
                    extra_info
               FROM User_Conventions u 
         INNER JOIN Conventions c 
                 ON u.con_id = c.con_id
-        INNER JOIN ConventionImages i
-                ON i.con_id = c.con_id
              WHERE user_id = $1
                AND u.con_id = $2
-          GROUP BY c.con_id
         ", user_id, con_id)
             .iter()
             .filter_map(|row| FullUserConvention::from(row).ok())
@@ -186,13 +178,10 @@ impl Database {
                 query!(conn, "
                     SELECT c.con_id,
                            title,
-                           ARRAY_AGG(DISTINCT image_uuid) AS images,
                            start_date,
                            end_date,
                            extra_info
                       FROM Conventions c
-                INNER JOIN ConventionImages i
-                        ON i.con_id = c.con_id
                      WHERE start_date > $1
             AND NOT EXISTS (
                           SELECT 1
@@ -203,7 +192,15 @@ impl Database {
                   GROUP BY c.con_id
                 ", date, self.resolve_user_id(None)?)
             } else {
-                query!(conn, "SELECT * FROM Conventions WHERE start_date > $1", date)
+                query!(conn, "
+                       SELECT c.con_id,
+                              title,
+                              start_date,
+                              end_date,
+                              extra_info
+                         FROM Conventions 
+                        WHERE start_date > $1
+                ", date)
             }
             .iter()
             .filter_map(|row| Convention::from(row).ok())
@@ -227,6 +224,20 @@ impl Database {
             ", con_id)
             .iter()
             .filter_map(|row| ConventionUserInfo::from(row).ok())
+            .collect()
+        )
+    }
+
+    pub fn get_images_for_convention(&self, con_id: i32) -> Result<Vec<String>, String> {
+        let conn = self.pool.get().unwrap();
+        Ok (
+            query!(conn, "
+                SELECT DISTINCT image_uuid
+                  FROM ConventionImages
+                 WHERE con_id = $1
+            ", con_id)
+            .iter()
+            .filter_map(|row| row.get("image_uuid"))
             .collect()
         )
     }

@@ -1,2 +1,2 @@
 cd server
-target/release/server --any-origin
+target/release/server --any-origin --open --dev

@@ -6,6 +6,7 @@ use chrono::NaiveDate;
 use serde_json;
 
 #[derive(Deserialize, Serialize, Clone)]
+#[serde(rename_all = "camelCase")]
 pub struct ConventionExtraInfo {
     pub title: String,
     pub info: Option<String>,

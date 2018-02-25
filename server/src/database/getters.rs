@@ -184,8 +184,8 @@ impl Database {
             query!(conn, "
                 SELECT i.con_info_id, 
                        information, 
-                       SUM(CASE rating WHEN true THEN 1 ELSE 0 END) as upvotes,
-                       SUM(CASE rating WHEN false THEN 1 ELSE 0 END) as downvotes
+                       SUM(CASE rating WHEN true THEN 1 ELSE 0 END)::INT as upvotes,
+                       SUM(CASE rating WHEN false THEN 1 ELSE 0 END)::INT as downvotes
                   FROM ConventionInfo i
             INNER JOIN ConventionInfoRatings r
                     ON i.con_info_id = r.con_info_id

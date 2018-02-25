@@ -291,7 +291,7 @@
 			isa = PBXGroup;
 			children = (
 				32B36ECF203FB91000DA4593 /* Convention Details */,
-				324592A11FEB4B4D00DE89BB /* ConventionListViewController.swift */,
+				32F0B41420425D8500ADF209 /* Convention List */,
 				32BC33DC1FEEED030006256A /* ProductListViewController.swift */,
 				32AE4168202553CF0061EB64 /* ProductTypeListViewController.swift */,
 				32AE416A202554AD0061EB64 /* RecordListViewController.swift */,
@@ -305,7 +305,6 @@
 		32C39C27201EA54E00071E26 /* Table */ = {
 			isa = PBXGroup;
 			children = (
-				32C39C2F201EA5B300071E26 /* ConventionTableViewCell.swift */,
 				32C9F9B820264BE00004566E /* ProductTableViewCell.swift */,
 				32C39C30201EA5B400071E26 /* ProductTypeTableViewCell.swift */,
 				32C39C2E201EA5B300071E26 /* RecordTableViewCell.swift */,
@@ -350,6 +349,15 @@
 				32C9F9BB20264DB70004566E /* ChipCollectionViewCell.swift */,
 			);
 			path = Collection;
+			sourceTree = "<group>";
+		};
+		32F0B41420425D8500ADF209 /* Convention List */ = {
+			isa = PBXGroup;
+			children = (
+				324592A11FEB4B4D00DE89BB /* ConventionListViewController.swift */,
+				32C39C2F201EA5B300071E26 /* ConventionTableViewCell.swift */,
+			);
+			path = "Convention List";
 			sourceTree = "<group>";
 		};
 		4FB42CF41256E760A79587D8 /* Frameworks */ = {

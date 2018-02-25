@@ -16,7 +16,7 @@ class Convention {
     let end: Date
     let imageURL: String? // placeholder until the server has images
     let extraInfo: [ConventionExtraInfo]
-    let userInfo: [ConventionUserInfo] // placeholder until the server has userinfo
+    let userInfo: Observable<[ConventionUserInfo]>
 
     let productTypes: Observable<[ProductType]>
     let products: Observable<[Product]>
@@ -42,8 +42,9 @@ class Convention {
         end = endDate
         imageURL = nil
         extraInfo = con.extraInfo.filterMap(ConventionExtraInfo.init(graphQL:))
-        userInfo = con.userInfo.filterMap(ConventionUserInfo.init(graphQL:))
-        
+        userInfo = øconvention.asObservable()
+            .map { $0?.userInfo.filterMap(ConventionUserInfo.init(graphQL:)) ?? con.userInfo.filterMap(ConventionUserInfo.init(graphQL:)) }
+
         productTypes = øconvention.asObservable().map { $0?.productTypes.filterMap(ProductType.init(graphQL:)) ?? [] }
         products = øconvention.asObservable().map { $0?.products.filterMap(Product.init(graphQL:)) ?? [] }
         prices = øconvention.asObservable().map { $0?.prices.filterMap(Price.init(graphQL:)) ?? [] }

@@ -121,6 +121,36 @@ extension ConventionDetailsViewController {
             .map { $0.0 == Money.zero && $0.1 == Money.zero }
             .bind(to: revenueSection.rx.isHidden)
             .disposed(by: disposeBag)
+
+        convention.userInfo
+            .map { Array($0.prefix(2)) }
+            .map {
+                $0.map { info in
+                    let label = UILabel()
+                    label.text = info.info
+                    label.font = UIFont.systemFont(ofSize: 15)
+                    return label
+                }
+            }
+            .asDriver(onErrorJustReturn: [] as [UILabel])
+            .drive(onNext: { [userSuppliedInfoPreview] labels in
+                guard let userSuppliedInfoPreview = userSuppliedInfoPreview else { return }
+                userSuppliedInfoPreview.arrangedSubviews.forEach { $0.removeFromSuperview() }
+                labels.forEach(userSuppliedInfoPreview.addSubview)
+                if labels.count < 2 {
+                    let label = UILabel()
+                    label.font = UIFont.systemFont(ofSize: 15).usingFeatures([.smallCaps])
+                    label.textColor = ConArtist.Color.TextPlaceholder.withAlphaComponent(0.25)
+                    // TODO: localized strings
+                    if labels.count == 1 {
+                        label.text = "That's all… free to add more"
+                    } else if labels.count == 0 {
+                        label.text = "There's nothing here… Got something to share?"
+                    }
+                    userSuppliedInfoPreview.addSubview(label)
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }
 

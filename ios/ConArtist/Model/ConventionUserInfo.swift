@@ -19,6 +19,13 @@ struct ConventionUserInfo {
         info = userInfo.info
         rating = userInfo.upvotes - userInfo.downvotes
     }
+
+    init?(graphQL maybeInfo: FullConventionQuery.Data.UserConvention.UserInfo?) {
+        guard let userInfo = maybeInfo else { return nil }
+        id = userInfo.id
+        info = userInfo.info
+        rating = userInfo.upvotes - userInfo.downvotes
+    }
 }
 
 extension ConventionUserInfo: Equatable {

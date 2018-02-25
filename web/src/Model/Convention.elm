@@ -2,6 +2,8 @@ module Model.Convention exposing
   ( Convention(..)
   , MetaConvention
   , FullConvention
+  , ConventionExtraInfo
+  , ConventionUserInfo
   , asMeta
   , asFull
   , isDirty
@@ -10,7 +12,7 @@ module Model.Convention exposing
 {-| Defines the Convention type from the ConArtist data model.
 
 # Definition
-@docs Convention, MetaConvention, FullConvention
+@docs Convention, MetaConvention, FullConvention, ConventionExtraInfo, ConventionUserInfo
 
 # Conversion
 @docs asMeta, asFull
@@ -38,7 +40,8 @@ type alias MetaConvention =
   , name: String
   , start: Date
   , end: Date
-  , extraInfo: String
+  , extraInfo: List ConventionExtraInfo
+  , userInfo: List ConventionUserInfo
   }
 
 {-| The full information of a `Convention`, containing all the user's data.
@@ -48,7 +51,8 @@ type alias FullConvention =
   , name: String
   , start: Date
   , end: Date
-  , extraInfo: String
+  , extraInfo: List ConventionExtraInfo
+  , userInfo: List ConventionUserInfo
   , products: List Product
   , productTypes: List ProductType
   , prices: List Price
@@ -63,6 +67,24 @@ type Convention
   = Full FullConvention
   | Meta MetaConvention
 
+{-| Extra information about a convention, provided by the service
+-}
+type alias ConventionExtraInfo = 
+  { title: String
+  , info: Maybe String
+  , action: Maybe String
+  , actionText: Maybe String
+  }
+
+{-| Extra information about a convention, provided by users and rated on accuracy
+-}
+type alias ConventionUserInfo = 
+  { id: Int
+  , info: String
+  , upvotes: Int
+  , downvotes: Int
+  }
+
 {-| Extracts the `MetaConvention` information from a `Convention`.
 
     asMeta con
@@ -70,7 +92,7 @@ type Convention
 asMeta : Convention -> MetaConvention
 asMeta con = case con of
   Meta con -> con
-  Full con -> MetaConvention con.id con.name con.start con.end con.extraInfo
+  Full con -> MetaConvention con.id con.name con.start con.end con.extraInfo con.userInfo
 
 {-| Extracts the `FullConvention` information from a `Convention`, when possible, returning
 `Nothing` on failure.

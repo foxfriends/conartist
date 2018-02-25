@@ -28,7 +28,7 @@ import Model.User exposing (User)
 import Model.ProductType as ProductType exposing (FullType, InternalType, NewType, ProductType(..))
 import Model.Product as Product exposing (FullProduct, InternalProduct, NewProduct, Product(..))
 import Model.Price as Price exposing (FullPrice, CondensedPrice, Price(..))
-import Model.Convention as Convention exposing (MetaConvention, FullConvention, Convention(..))
+import Model.Convention as Convention exposing (MetaConvention, FullConvention, Convention(..), ConventionUserInfo, ConventionExtraInfo)
 import Model.Record exposing (Record)
 import Model.Expense exposing (Expense)
 import Model.Pagination exposing (Pagination)
@@ -122,7 +122,22 @@ metaConvention = object MetaConvention
   |> with (field "name" [] string)
   |> with (field "start" [] date)
   |> with (field "end" [] date)
-  |> with (field "extraInfo" [] string)
+  |> with (field "extraInfo" [] (list extraInfo))
+  |> with (field "userInfo" [] (list userInfo))
+
+extraInfo : ValueSpec NonNull ObjectType ConventionExtraInfo vars
+extraInfo = object ConventionExtraInfo
+  |> with (field "title" [] string)
+  |> with (field "info" [] (nullable string))
+  |> with (field "action" [] (nullable string))
+  |> with (field "actionText" [] (nullable string))
+
+userInfo : ValueSpec NonNull ObjectType ConventionUserInfo vars
+userInfo = object ConventionUserInfo
+  |> with (field "id" [] int)
+  |> with (field "info" [] string)
+  |> with (field "upvotes" [] int)
+  |> with (field "downvotes" [] int)
 
 fullConvention : ValueSpec NonNull ObjectType FullConvention vars
 fullConvention = object FullConvention
@@ -130,7 +145,8 @@ fullConvention = object FullConvention
   |> with (field "name" [] string)
   |> with (field "start" [] date)
   |> with (field "end" [] date)
-  |> with (field "extraInfo" [] string)
+  |> with (field "extraInfo" [] (list extraInfo))
+  |> with (field "userInfo" [] (list userInfo))
   |> with (field "products" [] (map (List.map Product.Clean) <| map (List.sortBy .id) (list product)))
   |> with (field "productTypes" [] (map (List.map ProductType.Clean) <| map (List.sortBy .id) (list productType)))
   |> with (field "prices" [] (list <| map Price.Clean priceRow))

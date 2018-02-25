@@ -12,13 +12,11 @@ struct ProductType {
     let color: Int
     let discontinued: Bool
     
-    static func from(graphQL maybeType: FullConventionQuery.Data.UserConvention.ProductType?) -> ProductType? {
+    init?(graphQL maybeType: FullConventionQuery.Data.UserConvention.ProductType?) {
         guard let type = maybeType else { return nil }
-        return ProductType(
-            id: type.id,
-            name: type.name,
-            color: type.color,
-            discontinued: type.discontinued
-        )
+        id = type.id
+        name = type.name
+        color = type.color
+        discontinued = type.discontinued
     }
 }

@@ -6,14 +6,32 @@ use chrono::NaiveDate;
 use serde_json;
 
 #[derive(Deserialize, Serialize, Clone)]
-pub struct ConventionExtraInfoItem {
-    title: String,
-    info: Option<String>,
-    action: Option<String>,
-    actionText: Option<String>,
+pub struct ConventionExtraInfo {
+    pub title: String,
+    pub info: Option<String>,
+    pub action: Option<String>,
+    pub action_text: Option<String>,
 }
-#[derive(Deserialize, Serialize, Clone)]
-pub struct ConventionExtraInfo(Vec<ConventionExtraInfoItem>);
+
+pub struct ConventionUserInfo {
+    pub con_info_id: i32,
+    pub info: String,
+    pub upvotes: i32,
+    pub downvotes: i32,
+}
+
+impl ConventionUserInfo {
+    pub fn from(row: Row) -> Result<Self, String> {
+        catch_unwind(|| {
+            Self {
+                con_info_id: row.get("con_info_id"),
+                info: row.get("informaton"),
+                upvotes: row.get("upvotes"),
+                downvotes: row.get("downvotes"),
+            }
+        }).map_err(|_| "Tried to create a ConventionUserInfo from a non-ConventionInfo row".to_string())
+    }
+}
 
 #[derive(Clone)]
 pub struct Convention {
@@ -21,8 +39,9 @@ pub struct Convention {
     pub title: String,
     pub start_date: NaiveDate,
     pub end_date: NaiveDate,
-    pub extra_info: ConventionExtraInfo,
+    pub extra_info: Vec<ConventionExtraInfo>,
 }
+
 impl Convention {
     pub fn from(row: Row) -> Result<Self, String> {
         catch_unwind(|| {
@@ -45,8 +64,9 @@ pub struct FullUserConvention {
     pub title: String,
     pub start_date: NaiveDate,
     pub end_date: NaiveDate,
-    pub extra_info: ConventionExtraInfo,
+    pub extra_info: Vec<ConventionExtraInfo>,
 }
+
 impl FullUserConvention {
     pub fn from(row: Row) -> Result<Self, String> {
         catch_unwind(|| {
@@ -69,6 +89,7 @@ pub struct UserConvention {
     pub user_id: i32,
     pub con_id: i32,
 }
+
 impl UserConvention {
     pub fn from(row: Row) -> Result<Self, String> {
         catch_unwind(|| {

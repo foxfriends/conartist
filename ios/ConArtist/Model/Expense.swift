@@ -14,16 +14,14 @@ struct Expense {
     let time: Date
     let category: String
     let description: String
-    
-    static func from(graphQL maybeExpense: FullConventionQuery.Data.UserConvention.Expense?) -> Expense? {
+
+    init?(graphQL maybeExpense: FullConventionQuery.Data.UserConvention.Expense?) {
         guard let expense = maybeExpense else { return nil }
-        return Expense(
-            id: expense.id,
-            price: expense.price.toMoney()!, // TODO: is ! bad?
-            time: expense.time.toDate()!, // TODO: is ! bad?
-            category: expense.category,
-            description: expense.description
-        )
+        id = expense.id
+        price = expense.price.toMoney()! // TODO: is ! bad?
+        time = expense.time.toDate()! // TODO: is ! bad?
+        category = expense.category
+        description = expense.description
     }
     
     func add(to con: Convention) -> ExpenseAdd {

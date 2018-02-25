@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum ConventionExtraInfo: Decodable {
+enum ConventionExtraInfo {
     case NoAction(title: String, info: String)
     case PrimaryAction(title: String, actionText: String, action: String)
     case SecondaryAction(title: String, info: String, actionText: String, action: String)
@@ -49,29 +49,16 @@ enum ConventionExtraInfo: Decodable {
         }
     }
 
-    private enum Key: String, CodingKey {
-        case title = "title"
-        case info = "info"
-        case actionText = "actionText"
-        case action = "action"
-    }
-
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: Key.self)
-        let title = try container.decode(String.self, forKey: .title)
-        let info = try? container.decode(String.self, forKey: .info)
-        let action = try? container.decode(String.self, forKey: .action)
-        let actionText = try? container.decode(String.self, forKey: .actionText)
-
-        if let info = info, let action = action, let actionText = actionText {
-            self = .SecondaryAction(title: title, info: info, actionText: actionText, action: action)
-        } else if let action = action, let actionText = actionText {
-            self = .PrimaryAction(title: title, actionText: actionText, action: action)
-        } else if let info = info {
-            self = .NoAction(title: title, info: info)
+    init?(graphQL maybeInfo: UserQuery.Data.User.Convention.ExtraInfo?) {
+        guard let conventionInfo = maybeInfo else { return nil }
+        if let info = conventionInfo.info, let action = conventionInfo.action, let actionText = conventionInfo.actionText {
+            self = .SecondaryAction(title: conventionInfo.title, info: info, actionText: actionText, action: action)
+        } else if let action = conventionInfo.action, let actionText = conventionInfo.actionText {
+            self = .PrimaryAction(title: conventionInfo.title, actionText: actionText, action: action)
+        } else if let info = conventionInfo.info {
+            self = .NoAction(title: conventionInfo.title, info: info)
         } else {
-            throw ConArtist.Error(msg: "Invalid combination of properties for ConventionExtraData")
+            return nil
         }
-
     }
 }

@@ -210,7 +210,8 @@ public final class UserQuery: GraphQLQuery {
           GraphQLField("name", type: .nonNull(.scalar(String.self))),
           GraphQLField("start", type: .nonNull(.scalar(String.self))),
           GraphQLField("end", type: .nonNull(.scalar(String.self))),
-          GraphQLField("extraInfo", type: .nonNull(.scalar(String.self))),
+          GraphQLField("extraInfo", type: .nonNull(.list(.nonNull(.object(ExtraInfo.selections))))),
+          GraphQLField("userInfo", type: .nonNull(.list(.nonNull(.object(UserInfo.selections))))),
         ]
 
         public var snapshot: Snapshot
@@ -219,8 +220,8 @@ public final class UserQuery: GraphQLQuery {
           self.snapshot = snapshot
         }
 
-        public init(id: Int, name: String, start: String, end: String, extraInfo: String) {
-          self.init(snapshot: ["__typename": "FullUserConvention", "id": id, "name": name, "start": start, "end": end, "extraInfo": extraInfo])
+        public init(id: Int, name: String, start: String, end: String, extraInfo: [ExtraInfo], userInfo: [UserInfo]) {
+          self.init(snapshot: ["__typename": "FullUserConvention", "id": id, "name": name, "start": start, "end": end, "extraInfo": extraInfo.map { $0.snapshot }, "userInfo": userInfo.map { $0.snapshot }])
         }
 
         public var __typename: String {
@@ -268,12 +269,21 @@ public final class UserQuery: GraphQLQuery {
           }
         }
 
-        public var extraInfo: String {
+        public var extraInfo: [ExtraInfo] {
           get {
-            return snapshot["extraInfo"]! as! String
+            return (snapshot["extraInfo"] as! [Snapshot]).map { ExtraInfo(snapshot: $0) }
           }
           set {
-            snapshot.updateValue(newValue, forKey: "extraInfo")
+            snapshot.updateValue(newValue.map { $0.snapshot }, forKey: "extraInfo")
+          }
+        }
+
+        public var userInfo: [UserInfo] {
+          get {
+            return (snapshot["userInfo"] as! [Snapshot]).map { UserInfo(snapshot: $0) }
+          }
+          set {
+            snapshot.updateValue(newValue.map { $0.snapshot }, forKey: "userInfo")
           }
         }
 
@@ -295,6 +305,140 @@ public final class UserQuery: GraphQLQuery {
             }
             set {
               snapshot += newValue.snapshot
+            }
+          }
+        }
+
+        public struct ExtraInfo: GraphQLSelectionSet {
+          public static let possibleTypes = ["ConventionExtraInfo"]
+
+          public static let selections: [GraphQLSelection] = [
+            GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            GraphQLField("title", type: .nonNull(.scalar(String.self))),
+            GraphQLField("info", type: .scalar(String.self)),
+            GraphQLField("action", type: .scalar(String.self)),
+            GraphQLField("actionText", type: .scalar(String.self)),
+          ]
+
+          public var snapshot: Snapshot
+
+          public init(snapshot: Snapshot) {
+            self.snapshot = snapshot
+          }
+
+          public init(title: String, info: String? = nil, action: String? = nil, actionText: String? = nil) {
+            self.init(snapshot: ["__typename": "ConventionExtraInfo", "title": title, "info": info, "action": action, "actionText": actionText])
+          }
+
+          public var __typename: String {
+            get {
+              return snapshot["__typename"]! as! String
+            }
+            set {
+              snapshot.updateValue(newValue, forKey: "__typename")
+            }
+          }
+
+          public var title: String {
+            get {
+              return snapshot["title"]! as! String
+            }
+            set {
+              snapshot.updateValue(newValue, forKey: "title")
+            }
+          }
+
+          public var info: String? {
+            get {
+              return snapshot["info"] as? String
+            }
+            set {
+              snapshot.updateValue(newValue, forKey: "info")
+            }
+          }
+
+          public var action: String? {
+            get {
+              return snapshot["action"] as? String
+            }
+            set {
+              snapshot.updateValue(newValue, forKey: "action")
+            }
+          }
+
+          public var actionText: String? {
+            get {
+              return snapshot["actionText"] as? String
+            }
+            set {
+              snapshot.updateValue(newValue, forKey: "actionText")
+            }
+          }
+        }
+
+        public struct UserInfo: GraphQLSelectionSet {
+          public static let possibleTypes = ["ConventionUserInfo"]
+
+          public static let selections: [GraphQLSelection] = [
+            GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            GraphQLField("id", type: .nonNull(.scalar(Int.self))),
+            GraphQLField("info", type: .nonNull(.scalar(String.self))),
+            GraphQLField("upvotes", type: .nonNull(.scalar(Int.self))),
+            GraphQLField("downvotes", type: .nonNull(.scalar(Int.self))),
+          ]
+
+          public var snapshot: Snapshot
+
+          public init(snapshot: Snapshot) {
+            self.snapshot = snapshot
+          }
+
+          public init(id: Int, info: String, upvotes: Int, downvotes: Int) {
+            self.init(snapshot: ["__typename": "ConventionUserInfo", "id": id, "info": info, "upvotes": upvotes, "downvotes": downvotes])
+          }
+
+          public var __typename: String {
+            get {
+              return snapshot["__typename"]! as! String
+            }
+            set {
+              snapshot.updateValue(newValue, forKey: "__typename")
+            }
+          }
+
+          public var id: Int {
+            get {
+              return snapshot["id"]! as! Int
+            }
+            set {
+              snapshot.updateValue(newValue, forKey: "id")
+            }
+          }
+
+          public var info: String {
+            get {
+              return snapshot["info"]! as! String
+            }
+            set {
+              snapshot.updateValue(newValue, forKey: "info")
+            }
+          }
+
+          public var upvotes: Int {
+            get {
+              return snapshot["upvotes"]! as! Int
+            }
+            set {
+              snapshot.updateValue(newValue, forKey: "upvotes")
+            }
+          }
+
+          public var downvotes: Int {
+            get {
+              return snapshot["downvotes"]! as! Int
+            }
+            set {
+              snapshot.updateValue(newValue, forKey: "downvotes")
             }
           }
         }
@@ -359,7 +503,8 @@ public final class FullConventionQuery: GraphQLQuery {
         GraphQLField("name", type: .nonNull(.scalar(String.self))),
         GraphQLField("start", type: .nonNull(.scalar(String.self))),
         GraphQLField("end", type: .nonNull(.scalar(String.self))),
-        GraphQLField("extraInfo", type: .nonNull(.scalar(String.self))),
+        GraphQLField("extraInfo", type: .nonNull(.list(.nonNull(.object(ExtraInfo.selections))))),
+        GraphQLField("userInfo", type: .nonNull(.list(.nonNull(.object(UserInfo.selections))))),
         GraphQLField("products", arguments: ["includeAll": true], type: .nonNull(.list(.nonNull(.object(Product.selections))))),
         GraphQLField("productTypes", type: .nonNull(.list(.nonNull(.object(ProductType.selections))))),
         GraphQLField("prices", arguments: ["includeAll": true], type: .nonNull(.list(.nonNull(.object(Price.selections))))),
@@ -373,8 +518,8 @@ public final class FullConventionQuery: GraphQLQuery {
         self.snapshot = snapshot
       }
 
-      public init(id: Int, name: String, start: String, end: String, extraInfo: String, products: [Product], productTypes: [ProductType], prices: [Price], records: [Record], expenses: [Expense]) {
-        self.init(snapshot: ["__typename": "FullUserConvention", "id": id, "name": name, "start": start, "end": end, "extraInfo": extraInfo, "products": products.map { $0.snapshot }, "productTypes": productTypes.map { $0.snapshot }, "prices": prices.map { $0.snapshot }, "records": records.map { $0.snapshot }, "expenses": expenses.map { $0.snapshot }])
+      public init(id: Int, name: String, start: String, end: String, extraInfo: [ExtraInfo], userInfo: [UserInfo], products: [Product], productTypes: [ProductType], prices: [Price], records: [Record], expenses: [Expense]) {
+        self.init(snapshot: ["__typename": "FullUserConvention", "id": id, "name": name, "start": start, "end": end, "extraInfo": extraInfo.map { $0.snapshot }, "userInfo": userInfo.map { $0.snapshot }, "products": products.map { $0.snapshot }, "productTypes": productTypes.map { $0.snapshot }, "prices": prices.map { $0.snapshot }, "records": records.map { $0.snapshot }, "expenses": expenses.map { $0.snapshot }])
       }
 
       public var __typename: String {
@@ -422,12 +567,21 @@ public final class FullConventionQuery: GraphQLQuery {
         }
       }
 
-      public var extraInfo: String {
+      public var extraInfo: [ExtraInfo] {
         get {
-          return snapshot["extraInfo"]! as! String
+          return (snapshot["extraInfo"] as! [Snapshot]).map { ExtraInfo(snapshot: $0) }
         }
         set {
-          snapshot.updateValue(newValue, forKey: "extraInfo")
+          snapshot.updateValue(newValue.map { $0.snapshot }, forKey: "extraInfo")
+        }
+      }
+
+      public var userInfo: [UserInfo] {
+        get {
+          return (snapshot["userInfo"] as! [Snapshot]).map { UserInfo(snapshot: $0) }
+        }
+        set {
+          snapshot.updateValue(newValue.map { $0.snapshot }, forKey: "userInfo")
         }
       }
 
@@ -503,6 +657,140 @@ public final class FullConventionQuery: GraphQLQuery {
           }
           set {
             snapshot += newValue.snapshot
+          }
+        }
+      }
+
+      public struct ExtraInfo: GraphQLSelectionSet {
+        public static let possibleTypes = ["ConventionExtraInfo"]
+
+        public static let selections: [GraphQLSelection] = [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("title", type: .nonNull(.scalar(String.self))),
+          GraphQLField("info", type: .scalar(String.self)),
+          GraphQLField("action", type: .scalar(String.self)),
+          GraphQLField("actionText", type: .scalar(String.self)),
+        ]
+
+        public var snapshot: Snapshot
+
+        public init(snapshot: Snapshot) {
+          self.snapshot = snapshot
+        }
+
+        public init(title: String, info: String? = nil, action: String? = nil, actionText: String? = nil) {
+          self.init(snapshot: ["__typename": "ConventionExtraInfo", "title": title, "info": info, "action": action, "actionText": actionText])
+        }
+
+        public var __typename: String {
+          get {
+            return snapshot["__typename"]! as! String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        public var title: String {
+          get {
+            return snapshot["title"]! as! String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "title")
+          }
+        }
+
+        public var info: String? {
+          get {
+            return snapshot["info"] as? String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "info")
+          }
+        }
+
+        public var action: String? {
+          get {
+            return snapshot["action"] as? String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "action")
+          }
+        }
+
+        public var actionText: String? {
+          get {
+            return snapshot["actionText"] as? String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "actionText")
+          }
+        }
+      }
+
+      public struct UserInfo: GraphQLSelectionSet {
+        public static let possibleTypes = ["ConventionUserInfo"]
+
+        public static let selections: [GraphQLSelection] = [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("id", type: .nonNull(.scalar(Int.self))),
+          GraphQLField("info", type: .nonNull(.scalar(String.self))),
+          GraphQLField("upvotes", type: .nonNull(.scalar(Int.self))),
+          GraphQLField("downvotes", type: .nonNull(.scalar(Int.self))),
+        ]
+
+        public var snapshot: Snapshot
+
+        public init(snapshot: Snapshot) {
+          self.snapshot = snapshot
+        }
+
+        public init(id: Int, info: String, upvotes: Int, downvotes: Int) {
+          self.init(snapshot: ["__typename": "ConventionUserInfo", "id": id, "info": info, "upvotes": upvotes, "downvotes": downvotes])
+        }
+
+        public var __typename: String {
+          get {
+            return snapshot["__typename"]! as! String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        public var id: Int {
+          get {
+            return snapshot["id"]! as! Int
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var info: String {
+          get {
+            return snapshot["info"]! as! String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "info")
+          }
+        }
+
+        public var upvotes: Int {
+          get {
+            return snapshot["upvotes"]! as! Int
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "upvotes")
+          }
+        }
+
+        public var downvotes: Int {
+          get {
+            return snapshot["downvotes"]! as! Int
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "downvotes")
           }
         }
       }
@@ -1675,7 +1963,7 @@ public struct PriceRowFragment: GraphQLFragment {
 
 public struct MetaConventionFragment: GraphQLFragment {
   public static let fragmentString =
-    "fragment MetaConventionFragment on FullUserConvention {\n  __typename\n  id\n  name\n  start\n  end\n  extraInfo\n}"
+    "fragment MetaConventionFragment on FullUserConvention {\n  __typename\n  id\n  name\n  start\n  end\n  extraInfo {\n    __typename\n    title\n    info\n    action\n    actionText\n  }\n  userInfo {\n    __typename\n    id\n    info\n    upvotes\n    downvotes\n  }\n}"
 
   public static let possibleTypes = ["FullUserConvention"]
 
@@ -1685,7 +1973,8 @@ public struct MetaConventionFragment: GraphQLFragment {
     GraphQLField("name", type: .nonNull(.scalar(String.self))),
     GraphQLField("start", type: .nonNull(.scalar(String.self))),
     GraphQLField("end", type: .nonNull(.scalar(String.self))),
-    GraphQLField("extraInfo", type: .nonNull(.scalar(String.self))),
+    GraphQLField("extraInfo", type: .nonNull(.list(.nonNull(.object(ExtraInfo.selections))))),
+    GraphQLField("userInfo", type: .nonNull(.list(.nonNull(.object(UserInfo.selections))))),
   ]
 
   public var snapshot: Snapshot
@@ -1694,8 +1983,8 @@ public struct MetaConventionFragment: GraphQLFragment {
     self.snapshot = snapshot
   }
 
-  public init(id: Int, name: String, start: String, end: String, extraInfo: String) {
-    self.init(snapshot: ["__typename": "FullUserConvention", "id": id, "name": name, "start": start, "end": end, "extraInfo": extraInfo])
+  public init(id: Int, name: String, start: String, end: String, extraInfo: [ExtraInfo], userInfo: [UserInfo]) {
+    self.init(snapshot: ["__typename": "FullUserConvention", "id": id, "name": name, "start": start, "end": end, "extraInfo": extraInfo.map { $0.snapshot }, "userInfo": userInfo.map { $0.snapshot }])
   }
 
   public var __typename: String {
@@ -1743,12 +2032,155 @@ public struct MetaConventionFragment: GraphQLFragment {
     }
   }
 
-  public var extraInfo: String {
+  public var extraInfo: [ExtraInfo] {
     get {
-      return snapshot["extraInfo"]! as! String
+      return (snapshot["extraInfo"] as! [Snapshot]).map { ExtraInfo(snapshot: $0) }
     }
     set {
-      snapshot.updateValue(newValue, forKey: "extraInfo")
+      snapshot.updateValue(newValue.map { $0.snapshot }, forKey: "extraInfo")
+    }
+  }
+
+  public var userInfo: [UserInfo] {
+    get {
+      return (snapshot["userInfo"] as! [Snapshot]).map { UserInfo(snapshot: $0) }
+    }
+    set {
+      snapshot.updateValue(newValue.map { $0.snapshot }, forKey: "userInfo")
+    }
+  }
+
+  public struct ExtraInfo: GraphQLSelectionSet {
+    public static let possibleTypes = ["ConventionExtraInfo"]
+
+    public static let selections: [GraphQLSelection] = [
+      GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+      GraphQLField("title", type: .nonNull(.scalar(String.self))),
+      GraphQLField("info", type: .scalar(String.self)),
+      GraphQLField("action", type: .scalar(String.self)),
+      GraphQLField("actionText", type: .scalar(String.self)),
+    ]
+
+    public var snapshot: Snapshot
+
+    public init(snapshot: Snapshot) {
+      self.snapshot = snapshot
+    }
+
+    public init(title: String, info: String? = nil, action: String? = nil, actionText: String? = nil) {
+      self.init(snapshot: ["__typename": "ConventionExtraInfo", "title": title, "info": info, "action": action, "actionText": actionText])
+    }
+
+    public var __typename: String {
+      get {
+        return snapshot["__typename"]! as! String
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "__typename")
+      }
+    }
+
+    public var title: String {
+      get {
+        return snapshot["title"]! as! String
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "title")
+      }
+    }
+
+    public var info: String? {
+      get {
+        return snapshot["info"] as? String
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "info")
+      }
+    }
+
+    public var action: String? {
+      get {
+        return snapshot["action"] as? String
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "action")
+      }
+    }
+
+    public var actionText: String? {
+      get {
+        return snapshot["actionText"] as? String
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "actionText")
+      }
+    }
+  }
+
+  public struct UserInfo: GraphQLSelectionSet {
+    public static let possibleTypes = ["ConventionUserInfo"]
+
+    public static let selections: [GraphQLSelection] = [
+      GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+      GraphQLField("id", type: .nonNull(.scalar(Int.self))),
+      GraphQLField("info", type: .nonNull(.scalar(String.self))),
+      GraphQLField("upvotes", type: .nonNull(.scalar(Int.self))),
+      GraphQLField("downvotes", type: .nonNull(.scalar(Int.self))),
+    ]
+
+    public var snapshot: Snapshot
+
+    public init(snapshot: Snapshot) {
+      self.snapshot = snapshot
+    }
+
+    public init(id: Int, info: String, upvotes: Int, downvotes: Int) {
+      self.init(snapshot: ["__typename": "ConventionUserInfo", "id": id, "info": info, "upvotes": upvotes, "downvotes": downvotes])
+    }
+
+    public var __typename: String {
+      get {
+        return snapshot["__typename"]! as! String
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "__typename")
+      }
+    }
+
+    public var id: Int {
+      get {
+        return snapshot["id"]! as! Int
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "id")
+      }
+    }
+
+    public var info: String {
+      get {
+        return snapshot["info"]! as! String
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "info")
+      }
+    }
+
+    public var upvotes: Int {
+      get {
+        return snapshot["upvotes"]! as! Int
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "upvotes")
+      }
+    }
+
+    public var downvotes: Int {
+      get {
+        return snapshot["downvotes"]! as! Int
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "downvotes")
+      }
     }
   }
 }
@@ -1916,7 +2348,8 @@ public struct FullConventionFragment: GraphQLFragment {
     GraphQLField("name", type: .nonNull(.scalar(String.self))),
     GraphQLField("start", type: .nonNull(.scalar(String.self))),
     GraphQLField("end", type: .nonNull(.scalar(String.self))),
-    GraphQLField("extraInfo", type: .nonNull(.scalar(String.self))),
+    GraphQLField("extraInfo", type: .nonNull(.list(.nonNull(.object(ExtraInfo.selections))))),
+    GraphQLField("userInfo", type: .nonNull(.list(.nonNull(.object(UserInfo.selections))))),
     GraphQLField("products", arguments: ["includeAll": true], type: .nonNull(.list(.nonNull(.object(Product.selections))))),
     GraphQLField("productTypes", type: .nonNull(.list(.nonNull(.object(ProductType.selections))))),
     GraphQLField("prices", arguments: ["includeAll": true], type: .nonNull(.list(.nonNull(.object(Price.selections))))),
@@ -1930,8 +2363,8 @@ public struct FullConventionFragment: GraphQLFragment {
     self.snapshot = snapshot
   }
 
-  public init(id: Int, name: String, start: String, end: String, extraInfo: String, products: [Product], productTypes: [ProductType], prices: [Price], records: [Record], expenses: [Expense]) {
-    self.init(snapshot: ["__typename": "FullUserConvention", "id": id, "name": name, "start": start, "end": end, "extraInfo": extraInfo, "products": products.map { $0.snapshot }, "productTypes": productTypes.map { $0.snapshot }, "prices": prices.map { $0.snapshot }, "records": records.map { $0.snapshot }, "expenses": expenses.map { $0.snapshot }])
+  public init(id: Int, name: String, start: String, end: String, extraInfo: [ExtraInfo], userInfo: [UserInfo], products: [Product], productTypes: [ProductType], prices: [Price], records: [Record], expenses: [Expense]) {
+    self.init(snapshot: ["__typename": "FullUserConvention", "id": id, "name": name, "start": start, "end": end, "extraInfo": extraInfo.map { $0.snapshot }, "userInfo": userInfo.map { $0.snapshot }, "products": products.map { $0.snapshot }, "productTypes": productTypes.map { $0.snapshot }, "prices": prices.map { $0.snapshot }, "records": records.map { $0.snapshot }, "expenses": expenses.map { $0.snapshot }])
   }
 
   public var __typename: String {
@@ -1979,12 +2412,21 @@ public struct FullConventionFragment: GraphQLFragment {
     }
   }
 
-  public var extraInfo: String {
+  public var extraInfo: [ExtraInfo] {
     get {
-      return snapshot["extraInfo"]! as! String
+      return (snapshot["extraInfo"] as! [Snapshot]).map { ExtraInfo(snapshot: $0) }
     }
     set {
-      snapshot.updateValue(newValue, forKey: "extraInfo")
+      snapshot.updateValue(newValue.map { $0.snapshot }, forKey: "extraInfo")
+    }
+  }
+
+  public var userInfo: [UserInfo] {
+    get {
+      return (snapshot["userInfo"] as! [Snapshot]).map { UserInfo(snapshot: $0) }
+    }
+    set {
+      snapshot.updateValue(newValue.map { $0.snapshot }, forKey: "userInfo")
     }
   }
 
@@ -2051,6 +2493,140 @@ public struct FullConventionFragment: GraphQLFragment {
       }
       set {
         snapshot += newValue.snapshot
+      }
+    }
+  }
+
+  public struct ExtraInfo: GraphQLSelectionSet {
+    public static let possibleTypes = ["ConventionExtraInfo"]
+
+    public static let selections: [GraphQLSelection] = [
+      GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+      GraphQLField("title", type: .nonNull(.scalar(String.self))),
+      GraphQLField("info", type: .scalar(String.self)),
+      GraphQLField("action", type: .scalar(String.self)),
+      GraphQLField("actionText", type: .scalar(String.self)),
+    ]
+
+    public var snapshot: Snapshot
+
+    public init(snapshot: Snapshot) {
+      self.snapshot = snapshot
+    }
+
+    public init(title: String, info: String? = nil, action: String? = nil, actionText: String? = nil) {
+      self.init(snapshot: ["__typename": "ConventionExtraInfo", "title": title, "info": info, "action": action, "actionText": actionText])
+    }
+
+    public var __typename: String {
+      get {
+        return snapshot["__typename"]! as! String
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "__typename")
+      }
+    }
+
+    public var title: String {
+      get {
+        return snapshot["title"]! as! String
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "title")
+      }
+    }
+
+    public var info: String? {
+      get {
+        return snapshot["info"] as? String
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "info")
+      }
+    }
+
+    public var action: String? {
+      get {
+        return snapshot["action"] as? String
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "action")
+      }
+    }
+
+    public var actionText: String? {
+      get {
+        return snapshot["actionText"] as? String
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "actionText")
+      }
+    }
+  }
+
+  public struct UserInfo: GraphQLSelectionSet {
+    public static let possibleTypes = ["ConventionUserInfo"]
+
+    public static let selections: [GraphQLSelection] = [
+      GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+      GraphQLField("id", type: .nonNull(.scalar(Int.self))),
+      GraphQLField("info", type: .nonNull(.scalar(String.self))),
+      GraphQLField("upvotes", type: .nonNull(.scalar(Int.self))),
+      GraphQLField("downvotes", type: .nonNull(.scalar(Int.self))),
+    ]
+
+    public var snapshot: Snapshot
+
+    public init(snapshot: Snapshot) {
+      self.snapshot = snapshot
+    }
+
+    public init(id: Int, info: String, upvotes: Int, downvotes: Int) {
+      self.init(snapshot: ["__typename": "ConventionUserInfo", "id": id, "info": info, "upvotes": upvotes, "downvotes": downvotes])
+    }
+
+    public var __typename: String {
+      get {
+        return snapshot["__typename"]! as! String
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "__typename")
+      }
+    }
+
+    public var id: Int {
+      get {
+        return snapshot["id"]! as! Int
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "id")
+      }
+    }
+
+    public var info: String {
+      get {
+        return snapshot["info"]! as! String
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "info")
+      }
+    }
+
+    public var upvotes: Int {
+      get {
+        return snapshot["upvotes"]! as! Int
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "upvotes")
+      }
+    }
+
+    public var downvotes: Int {
+      get {
+        return snapshot["downvotes"]! as! Int
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "downvotes")
       }
     }
   }

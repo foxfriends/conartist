@@ -51,9 +51,16 @@ extension ConventionDetailsViewController {
         setupSubscriptions()
     }
 
+    // NOTE: not the quickest calculation, but it should only be called once anyway...
+    //       if this starts to cause problems it can be memoized
+    private var tableViewHeight: CGFloat {
+        return (0..<tableView(infoTableView, numberOfRowsInSection: 0))
+            .map { infoTableView.cellForRow(at: IndexPath(row: $0, section: 0))!.frame.height }
+            .reduce(0, +)
+    }
     override func updateViewConstraints() {
         super.updateViewConstraints()
-        infoTableViewHeightConstraint.constant = infoTableView.contentSize.height + (infoTableView.tableHeaderView?.frame.height ?? 0)
+        infoTableViewHeightConstraint.constant = tableViewHeight + infoTableView.tableHeaderView!.frame.height
     }
 }
 

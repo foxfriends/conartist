@@ -16,6 +16,7 @@ class Convention {
     let end: Date
     let imageURL: String? // placeholder until the server has images
     let extraInfo: [ConventionExtraInfo]
+    let userInfo: [ConventionUserInfo] // placeholder until the server has userinfo
 
     let productTypes: Observable<[ProductType]>
     let products: Observable<[Product]>
@@ -40,17 +41,18 @@ class Convention {
         start = startDate
         end = endDate
         imageURL = nil
-        extraInfo = con.extraInfo.data(using: .utf8).tryFlatMap { try JSONDecoder().decode([ConventionExtraInfo].self, from: $0) } ?? []
+        extraInfo = con.extraInfo.filterMap(ConventionExtraInfo.init(graphQL:))
+        userInfo = con.userInfo.filterMap(ConventionUserInfo.init(graphQL:))
         
-        productTypes = øconvention.asObservable().map { $0?.productTypes.filterMap(ProductType.from) ?? [] }
-        products = øconvention.asObservable().map { $0?.products.filterMap(Product.from) ?? [] }
-        prices = øconvention.asObservable().map { $0?.prices.filterMap(Price.from) ?? [] }
+        productTypes = øconvention.asObservable().map { $0?.productTypes.filterMap(ProductType.init(graphQL:)) ?? [] }
+        products = øconvention.asObservable().map { $0?.products.filterMap(Product.init(graphQL:)) ?? [] }
+        prices = øconvention.asObservable().map { $0?.prices.filterMap(Price.init(graphQL:)) ?? [] }
         records = Observable.combineLatest(
-            øconvention.asObservable().map { $0?.records.filterMap(Record.from) ?? [] },
+            øconvention.asObservable().map { $0?.records.filterMap(Record.init(graphQL:)) ?? [] },
             øaddedRecords.asObservable()
         ).map({ ($0 + $1).sorted { $0.time < $1.time } })
         expenses = Observable.combineLatest(
-            øconvention.asObservable().map { $0?.expenses.filterMap(Expense.from) ?? [] },
+            øconvention.asObservable().map { $0?.expenses.filterMap(Expense.init(graphQL:)) ?? [] },
             øaddedExpenses.asObservable()
         ).map({ ($0 + $1).sorted { $0.time < $1.time } })
     }

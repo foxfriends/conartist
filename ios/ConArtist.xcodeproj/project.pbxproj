@@ -47,6 +47,7 @@
 		32B36EDD2042010D00DA4593 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EDC2042010D00DA4593 /* Images.swift */; };
 		32B36EDF204202DB00DA4593 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EDE204202DB00DA4593 /* Keychain.swift */; };
 		32B36EE22042086500DA4593 /* Monad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EE12042086500DA4593 /* Monad.swift */; };
+		32B36EE4204226B100DA4593 /* ConventionUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EE3204226B100DA4593 /* ConventionUserInfo.swift */; };
 		32BC33DD1FEEED030006256A /* ProductListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33DC1FEEED030006256A /* ProductListViewController.swift */; };
 		32BC33E21FEEF17E0006256A /* ProductType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33E11FEEF17E0006256A /* ProductType.swift */; };
 		32BC33E41FEEF1B80006256A /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33E31FEEF1B80006256A /* Product.swift */; };
@@ -116,6 +117,7 @@
 		32B36EDC2042010D00DA4593 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		32B36EDE204202DB00DA4593 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		32B36EE12042086500DA4593 /* Monad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monad.swift; sourceTree = "<group>"; };
+		32B36EE3204226B100DA4593 /* ConventionUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConventionUserInfo.swift; sourceTree = "<group>"; };
 		32BC33DC1FEEED030006256A /* ProductListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
 		32BC33E11FEEF17E0006256A /* ProductType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductType.swift; sourceTree = "<group>"; };
 		32BC33E31FEEF1B80006256A /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
@@ -317,6 +319,7 @@
 			children = (
 				324592961FEAFEE000DE89BB /* ConRequest.swift */,
 				324592AB1FEC2EA500DE89BB /* Convention.swift */,
+				32B36EE3204226B100DA4593 /* ConventionUserInfo.swift */,
 				32B36EC0203BE0E600DA4593 /* ConventionExtraInfo.swift */,
 				32BC33E71FEEF2070006256A /* Expense.swift */,
 				324592A91FEC2E7900DE89BB /* Model.swift */,
@@ -582,6 +585,7 @@
 				32B36EB720371BC700DA4593 /* FakeNavBar.swift in Sources */,
 				32E80BD7201700EB0008EC27 /* String+Money.swift in Sources */,
 				32892C4020352D1500F1AD9C /* FancyTextField.swift in Sources */,
+				32B36EE4204226B100DA4593 /* ConventionUserInfo.swift in Sources */,
 				32B36EC1203BE0E600DA4593 /* ConventionExtraInfo.swift in Sources */,
 				32B36ECB203F97EF00DA4593 /* SplashScreenViewController.swift in Sources */,
 				32B36EC9203E7A5800DA4593 /* TableHeaderView.swift in Sources */,

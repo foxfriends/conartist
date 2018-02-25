@@ -177,4 +177,24 @@ impl Database {
             .collect()
         )
     }
+
+    pub fn get_convention_user_info_for_convention(&self, con_id: i32) -> Result<Vec<ConventionUserInfo>, String> {
+        let conn = self.pool.get().unwrap();
+        Ok (
+            query!(conn, "
+                SELECT i.con_info_id, 
+                       information, 
+                       SUM(IF r.rating THEN 1 ELSE 0) as upvotes, 
+                       SUM(IF NOT r.rating THEN 1 ELSE 0) as downvotes
+                  FROM ConventionInfo i
+            INNER JOIN ConventionInfoRatings r
+                    ON i.con_info_id = r.con_info_id
+                 WHERE con_id = $1
+              GROUP BY i.con_info_id
+            ", con_id)
+            .iter()
+            .filter_map(|row| ConventionUserInfo::from(row).ok())
+            .collect()
+        )
+    }
 }

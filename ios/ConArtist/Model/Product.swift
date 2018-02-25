@@ -13,14 +13,12 @@ struct Product {
     let quantity: Int
     let discontinued: Bool
     
-    static func from(graphQL maybeProduct: FullConventionQuery.Data.UserConvention.Product?) -> Product? {
+    init?(graphQL maybeProduct: FullConventionQuery.Data.UserConvention.Product?) {
         guard let product = maybeProduct else { return nil }
-        return Product(
-            id: product.id,
-            typeId: product.typeId,
-            name: product.name,
-            quantity: product.quantity,
-            discontinued: product.discontinued
-        )
+        id = product.id
+        typeId = product.typeId
+        name = product.name
+        quantity = product.quantity
+        discontinued = product.discontinued
     }
 }

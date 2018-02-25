@@ -2,7 +2,7 @@
 use database::Database;
 use chrono::{DateTime, Utc};
 use juniper::FieldResult;
-use database::{ProductType, ProductInInventory, Price, PriceRow, FullUserConvention, ConventionExtraInfo, Record, Expense};
+use database::{ProductType, ProductInInventory, Price, PriceRow, FullUserConvention, ConventionExtraInfo, ConventionUserInfo, Record, Expense};
 
 graphql_object!(FullUserConvention: Database |&self| {
     description: "Holds information about a convention and a user's products, prices, and records during that convention"
@@ -13,7 +13,15 @@ graphql_object!(FullUserConvention: Database |&self| {
     field name() -> &String { &self.title }
     field start() -> DateTime<Utc> { DateTime::from_utc(self.start_date.and_hms(0, 0, 0), Utc) }
     field end() -> DateTime<Utc> { DateTime::from_utc(self.end_date.and_hms(0, 0, 0), Utc) }
-    field extra_info() -> &ConventionExtraInfo { &self.extra_info }
+    field extra_info() -> &Vec<ConventionExtraInfo> { &self.extra_info }
+
+    field user_info(&executor) -> FieldResult<Vec<ConventionUserInfo>> {
+        dbtry! {
+            executor
+                .context()
+                .get_convention_user_info_for_convention(self.con_id)
+        }
+    }
 
     // TODO: Option to retrieve all non-discontinued products instead of just products attached to
     //       this convention

@@ -79,7 +79,8 @@ type FullUserConvention {
   name: String!
   start: DateTimeUtc!
   end: DateTimeUtc!
-  extraInfo: String!
+  extraInfo: [ConventionExtraInfo]!
+  userInfo: [ConventionUserInfo]!
   productTypes: [ProductType]!
   products(includeAll: Boolean): [ProductInInventory]!
   condensedPrices(includeAll: Boolean): [Price]!
@@ -93,7 +94,22 @@ type Convention {
   name: String!
   start: DateTimeUtc!
   end: DateTimeUtc!
-  extraInfo: String!
+  extraInfo: [ConventionExtraInfo]!
+  userInfo: [ConventionUserInfo]!
+}
+
+type ConventionExtraInfo {
+  title: String!
+  info: String
+  action: String
+  actionText: String
+}
+
+type ConventionUserInfo {
+  id: Int!
+  info: String!
+  upvotes: Int!
+  downvotes: Int!
 }
 
 type ConventionPage {
@@ -226,7 +242,18 @@ fragment MetaConventionFragment on FullUserConvention {
   name
   start
   end
-  extraInfo
+  extraInfo {
+    title
+    info
+    action
+    actionText
+  }
+  userInfo {
+    id
+    info
+    upvotes
+    downvotes
+  }
 }
 
 fragment RecordFragment on Record {

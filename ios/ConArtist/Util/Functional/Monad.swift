@@ -81,6 +81,6 @@ extension ObservableType {
     }
 
     func flatBindMap<A, B>(_ f: @escaping (A) -> Observable<B?>) -> Observable<B?> where E == A? {
-        return flatMap { $0.flatMap(f) ?? Observable.empty() }
+        return flatMap { $0.flatMap(f) ?? Observable.just(nil) }
     }
 }

@@ -25,7 +25,7 @@ impl ConventionUserInfo {
         catch_unwind(|| {
             Self {
                 con_info_id: row.get("con_info_id"),
-                info: row.get("informaton"),
+                info: row.get("information"),
                 upvotes: row.get("upvotes"),
                 downvotes: row.get("downvotes"),
             }

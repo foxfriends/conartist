@@ -25,3 +25,13 @@ UPDATE Conventions
          { "title": "Website", "actionText": "fanexpocanada.com", "action": "https://www.fanexpocanada.com/en/home.html" }
        ]'::JSON
  WHERE title = 'Fan Expo';
+
+INSERT INTO ConventionInfo (con_id, user_id, information) VALUES
+  (5, 1, 'Underground parking is available'),
+  (5, 1, 'Badges must be picked up on Wednesday');
+
+INSERT INTO ConventionInfoRatings (con_info_id, user_id, rating) VALUES
+  (1, 1, true),
+  (1, 2, true),
+  (2, 1, true),
+  (2, 2, false);

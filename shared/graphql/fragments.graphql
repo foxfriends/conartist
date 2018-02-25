@@ -26,6 +26,7 @@ fragment MetaConventionFragment on FullUserConvention {
   name
   start
   end
+  images
   extraInfo {
     title
     info

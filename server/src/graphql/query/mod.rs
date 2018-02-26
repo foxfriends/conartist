@@ -1,15 +1,8 @@
 //! The entry point of a GraphQL query
 
 mod convention;
-mod product_type;
-mod product;
-mod price;
-mod record;
-mod expense;
-mod user_convention;
 mod user;
 mod pagination;
-mod settings;
 
 use chrono::{DateTime, Utc, FixedOffset};
 use juniper::{FieldResult, FieldError, Value};

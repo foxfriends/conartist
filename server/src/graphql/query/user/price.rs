@@ -1,5 +1,5 @@
 //! Holds information about the price of a product or product type
-use super::super::common::PricePairOut;
+use super::super::super::common::PricePairOut;
 use database::{Database, Price, PriceRow};
 use money::Money;
 

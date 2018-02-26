@@ -835,10 +835,12 @@ dependencies = [
 name = "server"
 version = "0.1.0"
 dependencies = [
+ "base64 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "bcrypt 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "bodyparser 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "chrono 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "colored 1.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "hyper 0.10.13 (registry+https://github.com/rust-lang/crates.io-index)",
  "iron 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "iron-cors 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "jsonwebtoken 4.0.0 (registry+https://github.com/rust-lang/crates.io-index)",

@@ -19,12 +19,15 @@ extern crate bcrypt;
 extern crate chrono;
 extern crate colored;
 extern crate iron_cors;
+extern crate hyper;
+extern crate base64;
 
 #[macro_use] mod macros;
 mod web;
 mod rest;
 mod middleware;
 mod graphql;
+mod resource;
 mod database;
 mod cr;
 mod error;
@@ -35,9 +38,11 @@ use std::env;
 use mount::Mount;
 use iron::prelude::*;
 use iron_cors::CorsMiddleware;
+use juniper::EmptyMutation;
 use juniper_iron::GraphQLHandler;
 use r2d2_postgres::{TlsMode, PostgresConnectionManager};
 use colored::*;
+use hyper::client::Client;
 
 const DATABASE_URL: &'static str = "postgresql://conartist_app:temporary-password@localhost/conartist";
 const DEFAULT_PORT: &'static str = "8080";
@@ -87,6 +92,13 @@ fn main() {
             ]
         };
 
+    let resource = 
+        GraphQLHandler::new(
+            |_| Client::new(), // TODO: HTTPS support
+            resource::Query,
+            EmptyMutation::new(),
+        );
+
     if env::args().any(|a| a == "--dev") {
         println!();
         println!("{}", "WARNING: Running in dev mode. Dev tools page is exposed.".yellow());
@@ -97,6 +109,7 @@ fn main() {
 
     mount
         .mount("/api/v2", graphql)
+        .mount("/resource", resource)
         .mount("/api", rest::new(privileged))
         .mount("/", web::new());
 

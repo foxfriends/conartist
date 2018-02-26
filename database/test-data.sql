@@ -35,3 +35,6 @@ INSERT INTO ConventionInfoRatings (con_info_id, user_id, rating) VALUES
   (1, 2, true),
   (2, 1, true),
   (2, 2, false);
+
+INSERT INTO ConventionImages (con_id, image_uuid) VALUES
+  (5, 'deea166f-5984-4481-9759-b465f7312c78');

@@ -1,4 +1,12 @@
 //! Holds information about a user and their products, prices, and conventions
+mod product_type;
+mod product;
+mod price;
+mod record;
+mod expense;
+mod user_convention;
+mod settings;
+
 use database::{Database, User, ProductType, ProductInInventory, PriceRow, FullUserConvention, Settings};
 use juniper::FieldResult;
 use chrono::{DateTime, Utc};

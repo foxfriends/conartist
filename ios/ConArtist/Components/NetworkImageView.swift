@@ -9,6 +9,7 @@
 import UIKit
 import RxSwift
 
+// TODO: show a loading thing when these are loading
 class NetworkImageView: UIImageView {
     private let disposeBag = DisposeBag()
 

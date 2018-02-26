@@ -13,6 +13,7 @@ import Alamofire
 extension ConArtist.API {
     struct Images {
         static func load(imageId: String) -> Observable<UIImage?> {
+            // TODO: ensure this is happening on a background thread?
             return ConArtist.API.Resources
                 .observe(query: ImageQuery(imageId: imageId))
                 .map { $0.image }

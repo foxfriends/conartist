@@ -7,7 +7,7 @@
 //
 
 // Function composition operator
-infix operator °
+infix operator ° : MultiplicationPrecedence
 func °<A, B, C>(f: @escaping (B) -> C, g: @escaping (A) -> B) -> (A) -> C {
     return { f(g($0)) }
 }
@@ -23,7 +23,7 @@ func identity<T>(_ it: T) -> T {
 }
 
 // Partial function application
-infix operator <-
+infix operator <- : MultiplicationPrecedence
 func <-<T, U, R>(f: @escaping (T, U) -> R, t: T) -> (U) -> R {
     return { f(t, $0 ) }
 }

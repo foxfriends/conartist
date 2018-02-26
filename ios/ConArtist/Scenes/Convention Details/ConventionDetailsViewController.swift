@@ -92,6 +92,10 @@ extension ConventionDetailsViewController {
             .subscribe(onNext: { ConArtist.model.navigate(back: 1) })
             .disposed(by: disposeBag)
 
+        seeAllRecordsButton.rx.tap
+            .subscribe(onNext: { [convention] in convention.map(RecordListViewController.show(for:)) })
+            .disposed(by: disposeBag)
+
         let salesTotal = convention.records
             .map { $0.map { $0.price } }
             .map { $0.reduce(Money.zero, +) }

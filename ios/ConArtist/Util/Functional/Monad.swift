@@ -21,8 +21,8 @@ protocol Monad {
     static func fail(_: Error) throws -> Self
 }
 
-infix operator >>
-infix operator >>-
+infix operator >> : BitwiseShiftPrecedence
+infix operator >>- : BitwiseShiftPrecedence
 
 extension Monad {
     static func >>(_ this: Self, _ f: @escaping (A) -> M) -> M {

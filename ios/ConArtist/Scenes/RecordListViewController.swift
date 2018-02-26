@@ -29,18 +29,19 @@ class RecordListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Observable.combineLatest(
-            ørecords.map { [weak self] in self?.records = $0 },
-            øproductTypes.map { [weak self] in self?.productTypes = $0 },
-            øproducts.map { [weak self] in self?.products = $0 }
-        )   .map(const(()))
+        Observable
+            .combineLatest(
+                ørecords.map { [weak self] in self?.records = $0 },
+                øproductTypes.map { [weak self] in self?.productTypes = $0 },
+                øproducts.map { [weak self] in self?.products = $0 }
+            )
+            .discard()
             .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [recordsTableView] in recordsTableView?.reloadData() })
             .disposed(by: disposeBag)
         
         backButton.rx.tap
-            .filter { [tabBarController] _ in tabBarController?.selectedViewController == self }
-            .subscribe(onNext: { _ in ConArtist.model.navigate(back: 1) })
+            .subscribe(onNext: { ConArtist.model.navigate(back: 1) })
             .disposed(by: disposeBag)
         
         titleLabel.text = convention.name

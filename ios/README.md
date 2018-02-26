@@ -26,15 +26,8 @@ with `apollo-codegen`.
     version of both.
 3.  Install `apollo-codegen` from NPM (`npm install -g apollo-codegen`)
 4.  Run the server in Open mode
-5.  Go to the iOS directory, and regenerate the `schema.json` file:
-
-    ```bash
-    apollo-codegen introspect-schema http://localhost:8080/api/v2 --output schema.json
-    ```
-
-I hope to use a single set of GraphQL files for all clients eventually, but for now the iOS specific
-GraphQL queries are located in `ios/ConArtist/schema.graphql`. This file is compiled automatically
-when the app is built.
+5.  Go to the iOS directory, and regenerate the `schema.json` and `resources.json` files with
+    `./generate-schemas` (it's in the `ConArtist` directory)
 
 Please note that the iOS project is currently pointing at the production server (Heroku), not the
 local one, so you don't need to install or run the server locally. Adding another configuration to

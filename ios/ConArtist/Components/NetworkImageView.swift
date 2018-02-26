@@ -12,10 +12,10 @@ import RxSwift
 class NetworkImageView: UIImageView {
     private let disposeBag = DisposeBag()
 
-    private let øimageURL = Variable<String?>(nil)
-    @IBInspectable var imageURL: String? {
-        get { return øimageURL.value }
-        set { øimageURL.value = imageURL }
+    private let øimageId = Variable<String?>(nil)
+    @IBInspectable var imageId: String? {
+        get { return øimageId.value }
+        set { øimageId.value = newValue }
     }
 
     override init(frame: CGRect) {
@@ -29,9 +29,8 @@ class NetworkImageView: UIImageView {
     }
 
     private func doInit() {
-        øimageURL.asObservable()
-            .bindMap(URL.init(string:))
-            .flatBindMap(ConArtist.API.Images.load(url:))
+        øimageId.asObservable()
+            .flatBindMap(ConArtist.API.Images.load(imageId:))
             .asDriver(onErrorJustReturn: nil)
             .drive(rx.image)
             .disposed(by: disposeBag)

@@ -37,11 +37,3 @@ The URL for the production server is this: `https://con--artist.herokuapp.com`.
 
 Currently the production build is running with all CORS origins enabled. This should
 be removed when convenient, as it is not secure at all.
-
-## The GraphQL file
-
-The GraphQL file here (`schema.graphql`) serves more as documentation of the API than anything else.
-It is completely unused. Hopefully someday this file and the GraphQL file in the iOS directory will
-be consolidated and shared between all 3 clients.
-
-Despite being unused, please keep the GraphQL file up to date with any API changes.

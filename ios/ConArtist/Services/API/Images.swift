@@ -12,8 +12,12 @@ import Alamofire
 
 extension ConArtist.API {
     struct Images {
-        static func load(url: URL) -> Observable<UIImage?> {
-            return Observable.empty()
+        static func load(imageId: String) -> Observable<UIImage?> {
+            return ConArtist.API.Resources
+                .observe(query: ImageQuery(imageId: imageId))
+                .map { $0.image }
+                .map(UIImage.init(base64:))
+                .catchErrorJustReturn(nil)
         }
     }
 }

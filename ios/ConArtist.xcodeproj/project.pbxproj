@@ -48,6 +48,11 @@
 		32B36EDF204202DB00DA4593 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EDE204202DB00DA4593 /* Keychain.swift */; };
 		32B36EE22042086500DA4593 /* Monad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EE12042086500DA4593 /* Monad.swift */; };
 		32B36EE4204226B100DA4593 /* ConventionUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EE3204226B100DA4593 /* ConventionUserInfo.swift */; };
+		32B9100F20439F75002F9C94 /* generate-schemas in Resources */ = {isa = PBXBuildFile; fileRef = 32B9100C20439F73002F9C94 /* generate-schemas */; };
+		32B9101020439F75002F9C94 /* resources.json in Resources */ = {isa = PBXBuildFile; fileRef = 32B9100D20439F74002F9C94 /* resources.json */; };
+		32B9101120439F75002F9C94 /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 32B9100E20439F74002F9C94 /* schema.json */; };
+		32B9101320439F97002F9C94 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B9101220439F97002F9C94 /* Resources.swift */; };
+		32B910152043A0EB002F9C94 /* UIImage+Base64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B910142043A0EB002F9C94 /* UIImage+Base64.swift */; };
 		32BC33DD1FEEED030006256A /* ProductListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33DC1FEEED030006256A /* ProductListViewController.swift */; };
 		32BC33E21FEEF17E0006256A /* ProductType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33E11FEEF17E0006256A /* ProductType.swift */; };
 		32BC33E41FEEF1B80006256A /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33E31FEEF1B80006256A /* Product.swift */; };
@@ -118,6 +123,11 @@
 		32B36EDE204202DB00DA4593 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		32B36EE12042086500DA4593 /* Monad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monad.swift; sourceTree = "<group>"; };
 		32B36EE3204226B100DA4593 /* ConventionUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConventionUserInfo.swift; sourceTree = "<group>"; };
+		32B9100C20439F73002F9C94 /* generate-schemas */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "generate-schemas"; sourceTree = "<group>"; };
+		32B9100D20439F74002F9C94 /* resources.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = resources.json; sourceTree = "<group>"; };
+		32B9100E20439F74002F9C94 /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
+		32B9101220439F97002F9C94 /* Resources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
+		32B910142043A0EB002F9C94 /* UIImage+Base64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Base64.swift"; sourceTree = "<group>"; };
 		32BC33DC1FEEED030006256A /* ProductListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
 		32BC33E11FEEF17E0006256A /* ProductType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductType.swift; sourceTree = "<group>"; };
 		32BC33E31FEEF1B80006256A /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
@@ -183,9 +193,12 @@
 				321B75E81F9BAD320055EBC4 /* Info.plist */,
 				321B75E31F9BAD320055EBC4 /* Assets.xcassets */,
 				32F6F6431FF706AA00935554 /* Images.xcassets */,
+				32B9100C20439F73002F9C94 /* generate-schemas */,
+				32B9100D20439F74002F9C94 /* resources.json */,
+				32B9100E20439F74002F9C94 /* schema.json */,
 				321B75D91F9BAD320055EBC4 /* AppDelegate.swift */,
-				32B36ED92041FFD600DA4593 /* Services */,
 				32AE416620253D5C0061EB64 /* RootNavigationController.swift */,
+				32B36ED92041FFD600DA4593 /* Services */,
 				32892C3E20352CFB00F1AD9C /* Components */,
 				32C39C37201EA9E400071E26 /* Model */,
 				32C39C25201EA52800071E26 /* Scenes */,
@@ -272,17 +285,18 @@
 				324592AD1FEC314900DE89BB /* Date+String.swift */,
 				32B36EE02042085400DA4593 /* Functional */,
 				321FDE832027D14B002DF04B /* Observable+Helpers.swift */,
+				32B36ED52040F57000DA4593 /* Optional+Helpers.swift */,
 				32C39C1F201E99A100071E26 /* Sequence+Helpers.swift */,
 				32F12C1120354E550045D0BC /* String+Attributes.swift */,
 				32E80BD6201700EB0008EC27 /* String+Money.swift */,
 				32B36EBC203BD2F000DA4593 /* UIButton+ConArtist.swift */,
 				3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */,
 				32F12C0F203544E60045D0BC /* UIFont+Features.swift */,
+				32B910142043A0EB002F9C94 /* UIImage+Base64.swift */,
 				32B36EBE203BD67800DA4593 /* UIView+Customizable.swift */,
 				32B36EC4203E5E7D00DA4593 /* UIView+Shadows.swift */,
 				32C39C1D201E870600071E26 /* UIView+Tooltip.swift */,
 				32BE32BA201E786B00BFEB16 /* UIViewController+Instantiate.swift */,
-				32B36ED52040F57000DA4593 /* Optional+Helpers.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -336,9 +350,10 @@
 			isa = PBXGroup;
 			children = (
 				32B36EDA2041FFF100DA4593 /* API.swift */,
-				32B36EDC2042010D00DA4593 /* Images.swift */,
-				3245929B1FEB19DA00DE89BB /* GraphQL.swift */,
 				3245929F1FEB230600DE89BB /* Auth.swift */,
+				3245929B1FEB19DA00DE89BB /* GraphQL.swift */,
+				32B36EDC2042010D00DA4593 /* Images.swift */,
+				32B9101220439F97002F9C94 /* Resources.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -442,10 +457,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32B9101120439F75002F9C94 /* schema.json in Resources */,
 				321B75E71F9BAD320055EBC4 /* LaunchScreen.storyboard in Resources */,
 				32F6F6441FF706AA00935554 /* Images.xcassets in Resources */,
 				321B75E41F9BAD320055EBC4 /* Assets.xcassets in Resources */,
+				32B9101020439F75002F9C94 /* resources.json in Resources */,
 				321B75DF1F9BAD320055EBC4 /* Main.storyboard in Resources */,
+				32B9100F20439F75002F9C94 /* generate-schemas in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,7 +482,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "APOLLO_FRAMEWORK_PATH=\"$(eval find $FRAMEWORK_SEARCH_PATHS -name \"Apollo.framework\" -maxdepth 1)\"\n\nif [ -z \"$APOLLO_FRAMEWORK_PATH\" ]; then\necho \"error: Couldn't find Apollo.framework in FRAMEWORK_SEARCH_PATHS; make sure to add the framework to your project.\"\nexit 1\nfi\n\ncd \"${SRCROOT}/${TARGET_NAME}\"\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-codegen.sh generate $(find . -name '*.graphql') --schema schema.json --output Services/API/GraphQL.swift";
+			shellScript = "APOLLO_FRAMEWORK_PATH=\"$(eval find $FRAMEWORK_SEARCH_PATHS -name \"Apollo.framework\" -maxdepth 1)\"\n\nif [ -z \"$APOLLO_FRAMEWORK_PATH\" ]; then\necho \"error: Couldn't find Apollo.framework in FRAMEWORK_SEARCH_PATHS; make sure to add the framework to your project.\"\nexit 1\nfi\n\ncd \"${SRCROOT}/${TARGET_NAME}\"\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-codegen.sh generate ../../shared/graphql/{schema,fragments,mutations,queries}.graphql --schema schema.json --output Services/API/GraphQL.swift\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-codegen.sh generate ../../shared/resources.graphql --schema resources.json --output Services/API/Resources.swift";
 		};
 		693BFD9862FF5ADE35690E83 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -557,6 +575,7 @@
 				32B36EDB2041FFF100DA4593 /* API.swift in Sources */,
 				32B36EDF204202DB00DA4593 /* Keychain.swift in Sources */,
 				32F12C10203544E60045D0BC /* UIFont+Features.swift in Sources */,
+				32B9101320439F97002F9C94 /* Resources.swift in Sources */,
 				324592951FEAFA6000DE89BB /* ConArtist.swift in Sources */,
 				32B36EBD203BD2F000DA4593 /* UIButton+ConArtist.swift in Sources */,
 				32AE416720253D5C0061EB64 /* RootNavigationController.swift in Sources */,
@@ -599,6 +618,7 @@
 				32B36EC9203E7A5800DA4593 /* TableHeaderView.swift in Sources */,
 				32C9F9B920264BE00004566E /* ProductTableViewCell.swift in Sources */,
 				32C39C1E201E870600071E26 /* UIView+Tooltip.swift in Sources */,
+				32B910152043A0EB002F9C94 /* UIImage+Base64.swift in Sources */,
 				32B36EDD2042010D00DA4593 /* Images.swift in Sources */,
 				324592AE1FEC314900DE89BB /* Date+String.swift in Sources */,
 				321FDE8220269E67002DF04B /* SettingsActionTableViewCell.swift in Sources */,

@@ -14,6 +14,8 @@ extension ConArtist {
     struct API {
         static let BaseURL = "https://con--artist.herokuapp.com"
         static let GraphQLURL = URL(string: BaseURL + "/api/v2")!
+        static let ResourcesURL = URL(string: BaseURL + "/resource")!
         static var GraphQL = ApolloClient(url: ConArtist.API.GraphQLURL)
+        static let Resources = ApolloClient(url: ConArtist.API.ResourcesURL)
     }
 }

@@ -77,8 +77,7 @@ extension ConventionDetailsViewController {
         salesAmountLabel.font = salesAmountLabel.font.usingFeatures([.tabularFigures])
         expensesAmountLabel.font = expensesAmountLabel.font.usingFeatures([.tabularFigures])
         netRevenueAmountLabel.font = netRevenueAmountLabel.font.usingFeatures([.tabularFigures])
-
-        headerImage.imageURL = convention.imageURL
+        headerImage.imageId = convention.images.first
         infoTableView.reloadData()
         updateViewConstraints()
     }

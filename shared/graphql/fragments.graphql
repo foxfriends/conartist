@@ -24,9 +24,9 @@ fragment PriceRowFragment on PriceRow {
 fragment MetaConventionFragment on FullUserConvention {
   id
   name
+  images
   start
   end
-  images
   extraInfo {
     title
     info

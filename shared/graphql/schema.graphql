@@ -151,11 +151,12 @@ type Mutation {
   modUserExpense(userId: Int, expense: ExpenseMod!): Expense!
   delUserExpense(userId: Int, expense: ExpenseDel!): Expense!
 
-  updateSettings(userId: Int) {
-    currency(currency: Currency!): Currency!
-  }
+  updateSettings(userId: Int): SettingsMutation!
 }
 
+type SettingsMutation {
+  currency(currency: Currency!): Currency!
+}
 input ProductTypeAdd {
   name: String!
   color: Int!

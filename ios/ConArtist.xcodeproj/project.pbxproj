@@ -53,6 +53,8 @@
 		32B9101120439F75002F9C94 /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 32B9100E20439F74002F9C94 /* schema.json */; };
 		32B9101320439F97002F9C94 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B9101220439F97002F9C94 /* Resources.swift */; };
 		32B910152043A0EB002F9C94 /* UIImage+Base64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B910142043A0EB002F9C94 /* UIImage+Base64.swift */; };
+		32B910172044F80B002F9C94 /* NewExpenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B910162044F80B002F9C94 /* NewExpenseViewController.swift */; };
+		32B910192047C821002F9C94 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B910182047C821002F9C94 /* Settings.swift */; };
 		32BC33DD1FEEED030006256A /* ProductListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33DC1FEEED030006256A /* ProductListViewController.swift */; };
 		32BC33E21FEEF17E0006256A /* ProductType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33E11FEEF17E0006256A /* ProductType.swift */; };
 		32BC33E41FEEF1B80006256A /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33E31FEEF1B80006256A /* Product.swift */; };
@@ -128,6 +130,8 @@
 		32B9100E20439F74002F9C94 /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		32B9101220439F97002F9C94 /* Resources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
 		32B910142043A0EB002F9C94 /* UIImage+Base64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Base64.swift"; sourceTree = "<group>"; };
+		32B910162044F80B002F9C94 /* NewExpenseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewExpenseViewController.swift; sourceTree = "<group>"; };
+		32B910182047C821002F9C94 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		32BC33DC1FEEED030006256A /* ProductListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
 		32BC33E11FEEF17E0006256A /* ProductType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductType.swift; sourceTree = "<group>"; };
 		32BC33E31FEEF1B80006256A /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
@@ -261,8 +265,8 @@
 		32B36ED92041FFD600DA4593 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				324592941FEAFA6000DE89BB /* ConArtist.swift */,
 				32C39C38201EA9F800071E26 /* API */,
+				324592941FEAFA6000DE89BB /* ConArtist.swift */,
 				32B36EDE204202DB00DA4593 /* Keychain.swift */,
 			);
 			path = Services;
@@ -306,6 +310,7 @@
 			children = (
 				32B36ECF203FB91000DA4593 /* Convention Details */,
 				32F0B41420425D8500ADF209 /* Convention List */,
+				32B910162044F80B002F9C94 /* NewExpenseViewController.swift */,
 				32BC33DC1FEEED030006256A /* ProductListViewController.swift */,
 				32AE4168202553CF0061EB64 /* ProductTypeListViewController.swift */,
 				32AE416A202554AD0061EB64 /* RecordListViewController.swift */,
@@ -342,6 +347,7 @@
 				32BC33E31FEEF1B80006256A /* Product.swift */,
 				32BC33E11FEEF17E0006256A /* ProductType.swift */,
 				32BC33E51FEEF1E40006256A /* Record.swift */,
+				32B910182047C821002F9C94 /* Settings.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -610,6 +616,7 @@
 				321B75E21F9BAD320055EBC4 /* ConArtist.xcdatamodeld in Sources */,
 				32892C44203530C800F1AD9C /* Array+Safe.swift in Sources */,
 				32B36EB720371BC700DA4593 /* FakeNavBar.swift in Sources */,
+				32B910172044F80B002F9C94 /* NewExpenseViewController.swift in Sources */,
 				32E80BD7201700EB0008EC27 /* String+Money.swift in Sources */,
 				32892C4020352D1500F1AD9C /* FancyTextField.swift in Sources */,
 				32B36EE4204226B100DA4593 /* ConventionUserInfo.swift in Sources */,
@@ -623,6 +630,7 @@
 				324592AE1FEC314900DE89BB /* Date+String.swift in Sources */,
 				321FDE8220269E67002DF04B /* SettingsActionTableViewCell.swift in Sources */,
 				32BE32BB201E786B00BFEB16 /* UIViewController+Instantiate.swift in Sources */,
+				32B910192047C821002F9C94 /* Settings.swift in Sources */,
 				32B36ED82041FF3200DA4593 /* NetworkImageView.swift in Sources */,
 				32C39C33201EA5B400071E26 /* ProductTypeTableViewCell.swift in Sources */,
 				32B36EE22042086500DA4593 /* Monad.swift in Sources */,

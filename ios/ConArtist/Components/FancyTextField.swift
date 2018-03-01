@@ -15,6 +15,9 @@ class FancyTextField: UITextField {
     private let underlineView = HighlightableView()
     private let titleLabel = UILabel()
 
+    let isValid = Variable<Bool>(true)
+    private let isUnderlineHighlighted = Variable<Bool>(false)
+
     @IBInspectable var title: String? {
         didSet {
             titleLabel.text = title?.lowercased()
@@ -44,6 +47,26 @@ class FancyTextField: UITextField {
             .map { $0 ? 0 : 1 }
             .subscribe(onNext: { [titleLabel] alpha in UIView.animate(withDuration: 0.1) { titleLabel.alpha = alpha } })
             .disposed(by: disposeBag)
+
+        Observable
+            .combineLatest(
+                isValid.asObservable(),
+                isUnderlineHighlighted.asObservable(),
+                rx.text.map { $0 ?? "" }
+            )
+            .subscribe(onNext: { [underlineView, titleLabel] valid, highlighted, text in
+                UIView.animate(withDuration: 0.1) {
+                    if valid || text.isEmpty {
+                        underlineView.highlightColor = ConArtist.Color.Brand
+                        titleLabel.textColor = ConArtist.Color.TextPlaceholder
+                    } else {
+                        underlineView.highlightColor = ConArtist.Color.Warn
+                        titleLabel.textColor = ConArtist.Color.Warn
+                    }
+                    underlineView.isHighlighted = highlighted || (!valid && !text.isEmpty)
+                }
+            })
+            .disposed(by: disposeBag)
     }
 
     override init(frame: CGRect) {
@@ -67,14 +90,14 @@ class FancyTextField: UITextField {
     @discardableResult
     override func becomeFirstResponder() -> Bool {
         let success = super.becomeFirstResponder()
-        underlineView.isHighlighted = success
+        isUnderlineHighlighted.value = success
         return success
     }
 
     @discardableResult
     override func resignFirstResponder() -> Bool {
         let success = super.resignFirstResponder()
-        underlineView.isHighlighted = false
+        isUnderlineHighlighted.value = false
         return success
     }
 }

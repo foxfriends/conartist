@@ -2,6 +2,9 @@ query User($id: Int) {
   user(id: $id) {
     name
     email
+    settings {
+      ...SettingsFragment
+    }
     conventions {
       ...MetaConventionFragment
     }

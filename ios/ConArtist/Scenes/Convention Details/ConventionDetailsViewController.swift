@@ -38,6 +38,9 @@ class ConventionDetailsViewController : UIViewController {
     @IBOutlet weak var expensesAmountLabel: UILabel!
     @IBOutlet weak var netRevenueAmountLabel: UILabel!
 
+    @IBOutlet weak var newSaleButton: UIButton!
+    @IBOutlet weak var newExpenseButton: UIButton!
+
     @IBOutlet var smallCapsLabels: [UILabel]!
 
     var convention: Convention!
@@ -92,7 +95,21 @@ extension ConventionDetailsViewController {
             .disposed(by: disposeBag)
 
         seeAllRecordsButton.rx.tap
-            .subscribe(onNext: { [convention] in convention.map(RecordListViewController.show(for:)) })
+            .subscribe(onNext: { [convention] in RecordListViewController.show(for: convention!) })
+            .disposed(by: disposeBag)
+
+        newSaleButton.rx.tap
+            .flatMap { [convention] _ in ProductTypeListViewController.show(for: convention!) }
+            .subscribe(onNext: { products, price in
+                // record the sale!
+            })
+            .disposed(by: disposeBag)
+
+        newExpenseButton.rx.tap
+            .flatMap { _ in NewExpenseViewController.show() }
+            .subscribe(onNext: { category, description, price in
+                // record the expense!
+            })
             .disposed(by: disposeBag)
 
         let salesTotal = convention.records

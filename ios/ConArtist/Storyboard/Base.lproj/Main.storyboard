@@ -36,26 +36,28 @@
                                             <constraint firstAttribute="height" constant="180" id="dd9-25-7oX"/>
                                         </constraints>
                                     </imageView>
-                                    <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AMZ-uh-Pve" customClass="FancyTextField" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="48" y="299" width="279" height="50"/>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="AMZ-uh-Pve" customClass="FancyTextField" customModule="ConArtist" customModuleProvider="target">
+                                        <rect key="frame" x="48" y="302" width="279" height="50"/>
+                                        <color key="tintColor" red="0.85490196080000003" green="0.28235294119999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="Zb1-Dc-rla"/>
                                         </constraints>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="email"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" keyboardAppearance="alert" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="email"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="string" keyPath="title" value="Email"/>
                                         </userDefinedRuntimeAttributes>
                                     </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VJ9-2q-zrw" customClass="FancyTextField" customModule="ConArtist" customModuleProvider="target">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="VJ9-2q-zrw" customClass="FancyTextField" customModule="ConArtist" customModuleProvider="target">
                                         <rect key="frame" x="48" y="382" width="279" height="50"/>
+                                        <color key="tintColor" red="0.85490196080000003" green="0.28235294119999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="y4M-Uc-t0G"/>
                                         </constraints>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" secureTextEntry="YES" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="password"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="alert" returnKeyType="done" secureTextEntry="YES" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="password"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="string" keyPath="title" value="Password"/>
                                         </userDefinedRuntimeAttributes>
@@ -924,7 +926,7 @@ Toronto, ON, Canada</string>
                                     <constraint firstItem="2yz-i0-Vsn" firstAttribute="leading" secondItem="mJN-DV-Wfe" secondAttribute="leading" id="KUl-LD-wQs"/>
                                     <constraint firstAttribute="trailing" secondItem="2yz-i0-Vsn" secondAttribute="trailing" id="WD2-jX-LT1"/>
                                     <constraint firstItem="2yz-i0-Vsn" firstAttribute="top" secondItem="3KB-K6-ehw" secondAttribute="bottom" id="lRk-9X-ydd"/>
-                                    <constraint firstAttribute="bottom" secondItem="2yz-i0-Vsn" secondAttribute="bottom" constant="60" id="stE-97-adY"/>
+                                    <constraint firstAttribute="bottom" secondItem="2yz-i0-Vsn" secondAttribute="bottom" constant="90" id="stE-97-adY"/>
                                 </constraints>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LcN-nw-TDv" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
@@ -935,17 +937,45 @@ Toronto, ON, Canada</string>
                                     <userDefinedRuntimeAttribute type="string" keyPath="leftButtonTitle" value="Back"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YDd-oq-Qx0" customClass="FancyButton" customModule="ConArtist" customModuleProvider="target">
+                                <rect key="frame" x="195" y="597" width="160" height="50"/>
+                                <color key="backgroundColor" red="0.26666666666666666" green="0.26666666666666666" blue="0.26666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="wrF-3K-ZCX"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                <state key="normal" title="NEW EXPENSE">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SAV-tf-BZI" customClass="FancyButton" customModule="ConArtist" customModuleProvider="target">
+                                <rect key="frame" x="20" y="597" width="160" height="50"/>
+                                <color key="backgroundColor" red="0.85490196078431369" green="0.28235294117647058" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="AFA-Wz-2Xu"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                <state key="normal" title="NEW SALE">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="mJN-DV-Wfe" firstAttribute="top" secondItem="LcN-nw-TDv" secondAttribute="bottom" id="0WF-Gf-s2G"/>
                             <constraint firstItem="mJN-DV-Wfe" firstAttribute="leading" secondItem="A5L-fR-5ZQ" secondAttribute="leading" id="0dn-tR-h82"/>
+                            <constraint firstItem="NWD-h0-TBJ" firstAttribute="top" secondItem="SAV-tf-BZI" secondAttribute="bottom" constant="20" id="3qu-9I-aRa"/>
+                            <constraint firstItem="SAV-tf-BZI" firstAttribute="leading" secondItem="A5L-fR-5ZQ" secondAttribute="leading" constant="20" id="3yG-0E-77H"/>
+                            <constraint firstItem="YDd-oq-Qx0" firstAttribute="leading" secondItem="SAV-tf-BZI" secondAttribute="trailing" constant="15" id="99w-7B-bRo"/>
                             <constraint firstAttribute="trailing" secondItem="LcN-nw-TDv" secondAttribute="trailing" id="J1K-yG-HfN"/>
+                            <constraint firstItem="SAV-tf-BZI" firstAttribute="width" secondItem="YDd-oq-Qx0" secondAttribute="width" id="ZES-Og-POY"/>
                             <constraint firstItem="LcN-nw-TDv" firstAttribute="leading" secondItem="A5L-fR-5ZQ" secondAttribute="leading" id="flQ-Vd-xBq"/>
+                            <constraint firstAttribute="trailing" secondItem="YDd-oq-Qx0" secondAttribute="trailing" constant="20" id="jUa-Xh-OiK"/>
                             <constraint firstAttribute="trailing" secondItem="mJN-DV-Wfe" secondAttribute="trailing" id="jkU-xN-fs9"/>
                             <constraint firstAttribute="bottom" secondItem="mJN-DV-Wfe" secondAttribute="bottom" id="om0-Iw-eGl"/>
                             <constraint firstItem="LcN-nw-TDv" firstAttribute="top" secondItem="A5L-fR-5ZQ" secondAttribute="top" id="qWM-jP-QWc"/>
                             <constraint firstItem="LcN-nw-TDv" firstAttribute="bottom" secondItem="MVK-Kl-Rvj" secondAttribute="bottom" constant="44" id="wPE-zF-Ry0"/>
+                            <constraint firstItem="NWD-h0-TBJ" firstAttribute="top" secondItem="YDd-oq-Qx0" secondAttribute="bottom" constant="20" id="zdb-h7-ikl"/>
                         </constraints>
                     </view>
                     <connections>
@@ -955,6 +985,8 @@ Toronto, ON, Canada</string>
                         <outlet property="infoTableViewHeightConstraint" destination="Zlj-g9-C4H" id="YVt-09-TH2"/>
                         <outlet property="navBar" destination="LcN-nw-TDv" id="nj9-cK-a9c"/>
                         <outlet property="netRevenueAmountLabel" destination="cgj-IM-dBj" id="Ppr-1Z-lbK"/>
+                        <outlet property="newExpenseButton" destination="YDd-oq-Qx0" id="F5Q-yL-vWe"/>
+                        <outlet property="newSaleButton" destination="SAV-tf-BZI" id="dc7-Gw-1gd"/>
                         <outlet property="revenueSection" destination="vZ7-vn-xbc" id="vlF-PB-9Ao"/>
                         <outlet property="salesAmountLabel" destination="dbs-lv-nnK" id="saU-g9-VfD"/>
                         <outlet property="seeAllInfoButton" destination="J7q-CC-j98" id="aR9-A8-F8r"/>
@@ -970,6 +1002,119 @@ Toronto, ON, Canada</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ovz-xr-nsK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1448.8" y="398.95052473763121"/>
+        </scene>
+        <!--New Expense View Controller-->
+        <scene sceneID="Jhz-3B-8lQ">
+            <objects>
+                <viewController storyboardIdentifier="NewExpense" id="UAT-f5-Iam" customClass="NewExpenseViewController" customModule="ConArtist" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="TXC-mS-ZVK"/>
+                        <viewControllerLayoutGuide type="bottom" id="khv-aH-TCc"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="i5y-An-TNF">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dHf-zs-gxP" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <color key="backgroundColor" red="0.066666666669999999" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="title" value="New Expense"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="leftButtonTitle" value="Back"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="rightButtonTitle" value="Save"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tAh-fl-8Mw">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="vm1-Rh-k46">
+                                        <rect key="frame" x="20" y="184.5" width="335" height="128"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" red="0.85490196080000003" green="0.28235294119999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="128" id="rVx-LX-6KJ"/>
+                                        </constraints>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </textView>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Amount" textAlignment="natural" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="1Jq-pj-tfd" customClass="FancyTextField" customModule="ConArtist" customModuleProvider="target">
+                                        <rect key="frame" x="10" y="90" width="355" height="50"/>
+                                        <color key="tintColor" red="0.85490196080000003" green="0.28235294119999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="eTY-Z6-qvZ"/>
+                                        </constraints>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad" keyboardAppearance="alert" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="title" value="Amount"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Category" textAlignment="natural" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="8pF-5v-8Wa" customClass="FancyTextField" customModule="ConArtist" customModuleProvider="target">
+                                        <rect key="frame" x="10" y="20" width="355" height="50"/>
+                                        <color key="tintColor" red="0.87058823529999996" green="0.28235294119999998" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="xzC-BA-jbx"/>
+                                        </constraints>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" spellCheckingType="yes" keyboardAppearance="alert" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="title" value="Category"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="1Jq-pj-tfd" secondAttribute="trailing" constant="10" id="54v-PK-FDe"/>
+                                    <constraint firstItem="8pF-5v-8Wa" firstAttribute="width" secondItem="tAh-fl-8Mw" secondAttribute="width" constant="-20" id="JaR-Kq-PgC"/>
+                                    <constraint firstItem="1Jq-pj-tfd" firstAttribute="leading" secondItem="tAh-fl-8Mw" secondAttribute="leading" constant="10" id="T9H-DG-ole"/>
+                                    <constraint firstAttribute="bottom" secondItem="vm1-Rh-k46" secondAttribute="bottom" constant="20" id="UpJ-vK-sVD"/>
+                                    <constraint firstItem="1Jq-pj-tfd" firstAttribute="top" secondItem="8pF-5v-8Wa" secondAttribute="bottom" constant="20" id="Vst-B9-AbV"/>
+                                    <constraint firstAttribute="trailing" secondItem="vm1-Rh-k46" secondAttribute="trailing" constant="20" id="dSB-3f-GGc"/>
+                                    <constraint firstItem="vm1-Rh-k46" firstAttribute="leading" secondItem="tAh-fl-8Mw" secondAttribute="leading" constant="20" id="gaz-mw-vff"/>
+                                    <constraint firstAttribute="trailing" secondItem="8pF-5v-8Wa" secondAttribute="trailing" constant="10" id="jnQ-tk-x2R"/>
+                                    <constraint firstItem="8pF-5v-8Wa" firstAttribute="top" secondItem="tAh-fl-8Mw" secondAttribute="top" constant="20" id="kML-KF-lt9"/>
+                                    <constraint firstItem="8pF-5v-8Wa" firstAttribute="leading" secondItem="tAh-fl-8Mw" secondAttribute="leading" constant="10" id="sFQ-w6-230"/>
+                                </constraints>
+                            </scrollView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Note" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xXu-ch-Tox">
+                                <rect key="frame" x="30" y="224" width="27.5" height="14.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="khv-aH-TCc" firstAttribute="top" secondItem="tAh-fl-8Mw" secondAttribute="bottom" id="2hG-Je-34S"/>
+                            <constraint firstItem="vm1-Rh-k46" firstAttribute="top" secondItem="xXu-ch-Tox" secondAttribute="bottom" constant="10" id="4H7-I0-jhB"/>
+                            <constraint firstItem="dHf-zs-gxP" firstAttribute="leading" secondItem="i5y-An-TNF" secondAttribute="leading" id="DB3-Yu-s3b"/>
+                            <constraint firstAttribute="trailing" secondItem="dHf-zs-gxP" secondAttribute="trailing" id="EqC-iK-WI8"/>
+                            <constraint firstItem="xXu-ch-Tox" firstAttribute="top" secondItem="1Jq-pj-tfd" secondAttribute="bottom" constant="20" id="Gaq-WH-cf9"/>
+                            <constraint firstItem="xXu-ch-Tox" firstAttribute="leading" secondItem="i5y-An-TNF" secondAttribute="leading" constant="30" id="THs-o0-4jc"/>
+                            <constraint firstItem="dHf-zs-gxP" firstAttribute="top" secondItem="i5y-An-TNF" secondAttribute="top" id="edr-TB-DdP"/>
+                            <constraint firstItem="dHf-zs-gxP" firstAttribute="bottom" secondItem="TXC-mS-ZVK" secondAttribute="bottom" constant="44" id="emb-Ie-Vx6"/>
+                            <constraint firstItem="tAh-fl-8Mw" firstAttribute="leading" secondItem="i5y-An-TNF" secondAttribute="leading" id="gob-yg-Ir2"/>
+                            <constraint firstItem="tAh-fl-8Mw" firstAttribute="top" secondItem="dHf-zs-gxP" secondAttribute="bottom" id="noT-EE-Lm8"/>
+                            <constraint firstAttribute="trailing" secondItem="tAh-fl-8Mw" secondAttribute="trailing" id="pIO-7Y-Ehj"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="amountTextField" destination="1Jq-pj-tfd" id="3he-5t-kyn"/>
+                        <outlet property="categoryTextField" destination="8pF-5v-8Wa" id="Q3U-DQ-6lZ"/>
+                        <outlet property="descriptionTextView" destination="vm1-Rh-k46" id="tWU-yu-2Bo"/>
+                        <outlet property="fakeNavBar" destination="dHf-zs-gxP" id="wdp-Op-tQd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="icj-0a-CXe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1449" y="1075"/>
         </scene>
         <!--Records-->
         <scene sceneID="gn1-tS-sge">

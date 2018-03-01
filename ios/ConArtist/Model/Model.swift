@@ -31,12 +31,14 @@ class Model {
     let email = Variable<String?>(nil)
     let conventions = Variable<[Convention]>([])
     let page = Variable<[Presentation]>([])
+    let settings = Variable<Settings>(Settings.default)
 
     func setUser(graphQL user: UserQuery.Data.User?) {
         guard let user = user else { return }
         name.value = user.name
         email.value = user.email
         conventions.value = user.conventions.filterMap(Convention.init)
+        settings.value = Settings(graphQL: user.settings) ?? Settings.default
     }
 
     func navigate(replace vc: UIViewController) {

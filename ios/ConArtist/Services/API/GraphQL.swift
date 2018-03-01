@@ -385,9 +385,9 @@ public final class AddExpenseMutation: GraphQLMutation {
 
 public final class UserQuery: GraphQLQuery {
   public static let operationString =
-    "query User($id: Int) {\n  user(id: $id) {\n    __typename\n    name\n    email\n    conventions {\n      __typename\n      ...MetaConventionFragment\n    }\n  }\n}"
+    "query User($id: Int) {\n  user(id: $id) {\n    __typename\n    name\n    email\n    settings {\n      __typename\n      ...SettingsFragment\n    }\n    conventions {\n      __typename\n      ...MetaConventionFragment\n    }\n  }\n}"
 
-  public static var requestString: String { return operationString.appending(MetaConventionFragment.fragmentString) }
+  public static var requestString: String { return operationString.appending(SettingsFragment.fragmentString).appending(MetaConventionFragment.fragmentString) }
 
   public var id: Int?
 
@@ -433,6 +433,7 @@ public final class UserQuery: GraphQLQuery {
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("name", type: .nonNull(.scalar(String.self))),
         GraphQLField("email", type: .nonNull(.scalar(String.self))),
+        GraphQLField("settings", type: .nonNull(.object(Setting.selections))),
         GraphQLField("conventions", type: .nonNull(.list(.nonNull(.object(Convention.selections))))),
       ]
 
@@ -442,8 +443,8 @@ public final class UserQuery: GraphQLQuery {
         self.snapshot = snapshot
       }
 
-      public init(name: String, email: String, conventions: [Convention]) {
-        self.init(snapshot: ["__typename": "User", "name": name, "email": email, "conventions": conventions.map { $0.snapshot }])
+      public init(name: String, email: String, settings: Setting, conventions: [Convention]) {
+        self.init(snapshot: ["__typename": "User", "name": name, "email": email, "settings": settings.snapshot, "conventions": conventions.map { $0.snapshot }])
       }
 
       public var __typename: String {
@@ -473,12 +474,81 @@ public final class UserQuery: GraphQLQuery {
         }
       }
 
+      public var settings: Setting {
+        get {
+          return Setting(snapshot: snapshot["settings"]! as! Snapshot)
+        }
+        set {
+          snapshot.updateValue(newValue.snapshot, forKey: "settings")
+        }
+      }
+
       public var conventions: [Convention] {
         get {
           return (snapshot["conventions"] as! [Snapshot]).map { Convention(snapshot: $0) }
         }
         set {
           snapshot.updateValue(newValue.map { $0.snapshot }, forKey: "conventions")
+        }
+      }
+
+      public struct Setting: GraphQLSelectionSet {
+        public static let possibleTypes = ["Settings"]
+
+        public static let selections: [GraphQLSelection] = [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("currency", type: .nonNull(.scalar(String.self))),
+        ]
+
+        public var snapshot: Snapshot
+
+        public init(snapshot: Snapshot) {
+          self.snapshot = snapshot
+        }
+
+        public init(currency: String) {
+          self.init(snapshot: ["__typename": "Settings", "currency": currency])
+        }
+
+        public var __typename: String {
+          get {
+            return snapshot["__typename"]! as! String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        public var currency: String {
+          get {
+            return snapshot["currency"]! as! String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "currency")
+          }
+        }
+
+        public var fragments: Fragments {
+          get {
+            return Fragments(snapshot: snapshot)
+          }
+          set {
+            snapshot += newValue.snapshot
+          }
+        }
+
+        public struct Fragments {
+          public var snapshot: Snapshot
+
+          public var settingsFragment: SettingsFragment {
+            get {
+              return SettingsFragment(snapshot: snapshot)
+            }
+            set {
+              snapshot += newValue.snapshot
+            }
+          }
         }
       }
 
@@ -3148,6 +3218,46 @@ public struct FullConventionFragment: GraphQLFragment {
           snapshot += newValue.snapshot
         }
       }
+    }
+  }
+}
+
+public struct SettingsFragment: GraphQLFragment {
+  public static let fragmentString =
+    "fragment SettingsFragment on Settings {\n  __typename\n  currency\n}"
+
+  public static let possibleTypes = ["Settings"]
+
+  public static let selections: [GraphQLSelection] = [
+    GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+    GraphQLField("currency", type: .nonNull(.scalar(String.self))),
+  ]
+
+  public var snapshot: Snapshot
+
+  public init(snapshot: Snapshot) {
+    self.snapshot = snapshot
+  }
+
+  public init(currency: String) {
+    self.init(snapshot: ["__typename": "Settings", "currency": currency])
+  }
+
+  public var __typename: String {
+    get {
+      return snapshot["__typename"]! as! String
+    }
+    set {
+      snapshot.updateValue(newValue, forKey: "__typename")
+    }
+  }
+
+  public var currency: String {
+    get {
+      return snapshot["currency"]! as! String
+    }
+    set {
+      snapshot.updateValue(newValue, forKey: "currency")
     }
   }
 }

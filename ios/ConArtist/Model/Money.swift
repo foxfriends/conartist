@@ -21,14 +21,15 @@ struct Money {
         switch currency {
         case .AUTO: return nil // cannot parse a currency as auto
         case .CAD, .USD:
-            let pieces = (string.starts(with: "$") ? string.dropFirst() : string.dropFirst(0)).split(separator: ".")
+            let pieces = (string.starts(with: "$") ? string.dropFirst() : string.dropFirst(0)).split(separator: ".",  maxSplits: 1)
+            let centString = (pieces.nth(1) ?? "")
             guard
+                centString.count <= 2,
                 let dollarString = pieces.nth(0),
-                let centString = pieces.nth(1),
                 let dollars = Int(dollarString),
-                let cents = Int(centString)
+                let cents = Int(centString.padding(toLength: 2, withPad: "0", startingAt: 0))
             else { return nil }
-            return Money(currency: .CAD, amount: dollars * 100 + cents)
+            return Money(currency: currency, amount: dollars * 100 + cents)
         }
     }
 }

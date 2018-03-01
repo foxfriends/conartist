@@ -28,6 +28,7 @@ struct ConArtist {
         static let BrandVariant = UIColor(hex: 0xD9991E)
         static let Text = UIColor.white
         static let TextPlaceholder = UIColor.white.withAlphaComponent(0.5)
+        static let Warn = UIColor.red
     }
 
     /// Handles universal URLs and deep links

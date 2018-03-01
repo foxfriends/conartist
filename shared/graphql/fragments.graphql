@@ -65,3 +65,6 @@ fragment FullConventionFragment on FullUserConvention {
   expenses { ...ExpenseFragment }
 }
 
+fragment SettingsFragment on Settings {
+  currency
+}

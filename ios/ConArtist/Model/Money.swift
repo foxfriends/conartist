@@ -10,6 +10,12 @@ import Foundation
 
 enum CurrencyCode: String {
     case AUTO, CAD, USD
+
+    static var variants: [CurrencyCode] {
+        return  [ .CAD
+                , .USD
+                ]
+    }
 }
 
 struct Money {

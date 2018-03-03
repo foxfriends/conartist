@@ -101,14 +101,14 @@ extension ConventionDetailsViewController {
         newSaleButton.rx.tap
             .flatMap { [convention] _ in ProductTypeListViewController.show(for: convention!) }
             .subscribe(onNext: { products, price in
-                // record the sale!
+                // TODO: record the sale!
             })
             .disposed(by: disposeBag)
 
         newExpenseButton.rx.tap
             .flatMap { _ in NewExpenseViewController.show() }
             .subscribe(onNext: { category, description, price in
-                // record the expense!
+                // TODO: record the expense!
             })
             .disposed(by: disposeBag)
 

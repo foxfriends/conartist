@@ -11,10 +11,11 @@ import RxSwift
 
 class SettingsViewController: UIViewController {
     static let ID = "Settings"
-    
+
     enum Setting {
         case Action(String, () -> Void)
         case Boolean(String, Variable<Bool>)
+        case Select(String, Variable<String>, [String])
     }
     
     struct Group {
@@ -46,7 +47,7 @@ extension SettingsViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return settings.count
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return settings[section].items.count
     }
@@ -54,7 +55,7 @@ extension SettingsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return settings[section].title
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = settings[indexPath.section].items[indexPath.row]
         switch item {
@@ -66,6 +67,10 @@ extension SettingsViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsBooleanTableViewCell.ID, for: indexPath) as! SettingsBooleanTableViewCell
             cell.setup(title: title, value: value)
             return cell
+        case .Select(let title, let value, _):
+            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsSelectTableViewCell.ID, for: indexPath) as! SettingsSelectTableViewCell
+            cell.setup(title: title, value: value)
+            return cell
         }
     }
 }
@@ -75,19 +80,25 @@ extension SettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return self.tableView(tableView, titleForHeaderInSection: section).map { TableHeaderView(title: $0, showBar: false, showMore: false) }
     }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = settings[indexPath.section].items[indexPath.row]
-        if case .Action(_, let action) = item {
+        switch item {
+        case .Action(_, let action):
             action()
+        case .Select(let title, let value, let options):
+            SettingsSelectViewController.show(title: title, value: value, options: options)
+        default: break
         }
     }
-    
+
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         let item = settings[indexPath.section].items[indexPath.row]
-        if case .Action = item {
-            return indexPath
+        switch item {
+        case .Action,
+             .Select:   return indexPath
+        default:        return nil
         }
-        return nil
     }
 }
 

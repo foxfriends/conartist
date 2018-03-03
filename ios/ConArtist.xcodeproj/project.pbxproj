@@ -55,6 +55,10 @@
 		32B910152043A0EB002F9C94 /* UIImage+Base64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B910142043A0EB002F9C94 /* UIImage+Base64.swift */; };
 		32B910172044F80B002F9C94 /* NewExpenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B910162044F80B002F9C94 /* NewExpenseViewController.swift */; };
 		32B910192047C821002F9C94 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B910182047C821002F9C94 /* Settings.swift */; };
+		32B9101B2048F049002F9C94 /* SettingsSelectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B9101A2048F049002F9C94 /* SettingsSelectTableViewCell.swift */; };
+		32B9101D2048F113002F9C94 /* SettingsSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B9101C2048F113002F9C94 /* SettingsSelectViewController.swift */; };
+		32B9101F2048F282002F9C94 /* SettingsSelectOptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B9101E2048F282002F9C94 /* SettingsSelectOptionTableViewCell.swift */; };
+		32B91021204A3746002F9C94 /* RxNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B91020204A3746002F9C94 /* RxNavigationController.swift */; };
 		32BC33DD1FEEED030006256A /* ProductListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33DC1FEEED030006256A /* ProductListViewController.swift */; };
 		32BC33E21FEEF17E0006256A /* ProductType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33E11FEEF17E0006256A /* ProductType.swift */; };
 		32BC33E41FEEF1B80006256A /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33E31FEEF1B80006256A /* Product.swift */; };
@@ -132,6 +136,10 @@
 		32B910142043A0EB002F9C94 /* UIImage+Base64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Base64.swift"; sourceTree = "<group>"; };
 		32B910162044F80B002F9C94 /* NewExpenseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewExpenseViewController.swift; sourceTree = "<group>"; };
 		32B910182047C821002F9C94 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		32B9101A2048F049002F9C94 /* SettingsSelectTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSelectTableViewCell.swift; sourceTree = "<group>"; };
+		32B9101C2048F113002F9C94 /* SettingsSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSelectViewController.swift; sourceTree = "<group>"; };
+		32B9101E2048F282002F9C94 /* SettingsSelectOptionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSelectOptionTableViewCell.swift; sourceTree = "<group>"; };
+		32B91020204A3746002F9C94 /* RxNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxNavigationController.swift; sourceTree = "<group>"; };
 		32BC33DC1FEEED030006256A /* ProductListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
 		32BC33E11FEEF17E0006256A /* ProductType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductType.swift; sourceTree = "<group>"; };
 		32BC33E31FEEF1B80006256A /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
@@ -202,6 +210,7 @@
 				32B9100E20439F74002F9C94 /* schema.json */,
 				321B75D91F9BAD320055EBC4 /* AppDelegate.swift */,
 				32AE416620253D5C0061EB64 /* RootNavigationController.swift */,
+				32B91020204A3746002F9C94 /* RxNavigationController.swift */,
 				32B36ED92041FFD600DA4593 /* Services */,
 				32892C3E20352CFB00F1AD9C /* Components */,
 				32C39C37201EA9E400071E26 /* Model */,
@@ -247,8 +256,11 @@
 			isa = PBXGroup;
 			children = (
 				321FDE7F20269E43002DF04B /* SettingsBooleanTableViewCell.swift */,
+				32B9101A2048F049002F9C94 /* SettingsSelectTableViewCell.swift */,
 				321FDE8120269E67002DF04B /* SettingsActionTableViewCell.swift */,
 				321FDE7C20269AB0002DF04B /* SettingsViewController.swift */,
+				32B9101E2048F282002F9C94 /* SettingsSelectOptionTableViewCell.swift */,
+				32B9101C2048F113002F9C94 /* SettingsSelectViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -582,6 +594,7 @@
 				32B36EDF204202DB00DA4593 /* Keychain.swift in Sources */,
 				32F12C10203544E60045D0BC /* UIFont+Features.swift in Sources */,
 				32B9101320439F97002F9C94 /* Resources.swift in Sources */,
+				32B9101B2048F049002F9C94 /* SettingsSelectTableViewCell.swift in Sources */,
 				324592951FEAFA6000DE89BB /* ConArtist.swift in Sources */,
 				32B36EBD203BD2F000DA4593 /* UIButton+ConArtist.swift in Sources */,
 				32AE416720253D5C0061EB64 /* RootNavigationController.swift in Sources */,
@@ -598,6 +611,8 @@
 				32C39C1C201E812D00071E26 /* ApolloClient+Rx.swift in Sources */,
 				32BC33E21FEEF17E0006256A /* ProductType.swift in Sources */,
 				32C9F9BC20264DB70004566E /* ChipCollectionViewCell.swift in Sources */,
+				32B9101F2048F282002F9C94 /* SettingsSelectOptionTableViewCell.swift in Sources */,
+				32B9101D2048F113002F9C94 /* SettingsSelectViewController.swift in Sources */,
 				32C9F9BE20265A840004566E /* Prices.swift in Sources */,
 				32BC33DD1FEEED030006256A /* ProductListViewController.swift in Sources */,
 				32B36ED62040F57000DA4593 /* Optional+Helpers.swift in Sources */,
@@ -626,6 +641,7 @@
 				32C9F9B920264BE00004566E /* ProductTableViewCell.swift in Sources */,
 				32C39C1E201E870600071E26 /* UIView+Tooltip.swift in Sources */,
 				32B910152043A0EB002F9C94 /* UIImage+Base64.swift in Sources */,
+				32B91021204A3746002F9C94 /* RxNavigationController.swift in Sources */,
 				32B36EDD2042010D00DA4593 /* Images.swift in Sources */,
 				324592AE1FEC314900DE89BB /* Date+String.swift in Sources */,
 				321FDE8220269E67002DF04B /* SettingsActionTableViewCell.swift in Sources */,

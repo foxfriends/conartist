@@ -63,10 +63,17 @@ class ConventionListViewController: UIViewController {
 // MARK: - Settings
 extension ConventionListViewController {
     fileprivate func openSettings() {
+        let øcurrency = Variable(ConArtist.model.settings.value.currency.rawValue)
         let settings = [
             SettingsViewController.Group(
-                // TODO: localized strings
                 title: "General",
+                items: [
+                    .Select("Currency", øcurrency, CurrencyCode.variants.map { $0.rawValue })
+                ]
+            ),
+            SettingsViewController.Group(
+                // TODO: localized strings
+                title: "Support",
                 items: [
                     .Action("Sign out", { [weak self] in self?.signOut() }),
                     .Action("Report a bug/Request a feature", { [weak self] in self?.contactSupport() }),

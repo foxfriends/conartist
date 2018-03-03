@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 
 class Model {
-    enum Presentation {
+    enum Presentation: Equatable {
         case Appear(UIViewController)
         case Modal(UIViewController)
         case Push(UIViewController)
@@ -25,6 +25,15 @@ class Model {
                 return vc
             }
         }
+
+        var animated: Bool {
+            switch self {
+            case .Appear:   return false
+            default:        return true
+            }
+        }
+
+        static func ==(_ a: Presentation, _ b: Presentation) -> Bool { return a.viewController == b.viewController }
     }
 
     let name = Variable<String?>(nil)

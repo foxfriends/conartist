@@ -8,18 +8,27 @@
 
 import UIKit
 import RxSwift
+import SVGKit
 import MaterialComponents.MaterialSnackbar
 
 class ProductTypeListViewController: UIViewController {
     fileprivate static let ID = "ProductTypeList"
-    @IBOutlet weak var productTypesTableView: UITableView!
-    @IBOutlet weak var backButton: UIButton!
-    @IBOutlet weak var titleLabel: UILabel!
-    fileprivate var convention: Convention!
+    @IBOutlet weak var navBar: FakeNavBar!
+    @IBOutlet weak var productTypeTableView: UITableView!
+    @IBOutlet weak var priceField: FancyTextField!
+    @IBOutlet weak var infoTextView: UITextView!
+    @IBOutlet weak var infoExpandButton: UIButton!
+    @IBOutlet weak var infoExpandButtonImage: SVGKImageView!
+    @IBOutlet weak var infoViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var noteLabel: UILabel!
+
+    fileprivate let disposeBag = DisposeBag()
     fileprivate let øproductTypes = Variable<[ProductType]>([])
     fileprivate let øproducts = Variable<[Product]>([])
     fileprivate let øprices = Variable<[Price]>([])
-    fileprivate let disposeBag = DisposeBag()
+    fileprivate let øselected = Variable<[Product]>([])
+
+    fileprivate var convention: Convention!
 
     fileprivate let results = PublishSubject<([Product], Money)>()
 }
@@ -28,17 +37,35 @@ class ProductTypeListViewController: UIViewController {
 extension ProductTypeListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        øproductTypes
-            .asDriver()
-            .map(const(()))
-            .drive(onNext: productTypesTableView.reloadData)
+        setupSubscriptions()
+        navBar.title = convention.name
+        infoExpandButtonImage.image = ConArtist.Images.SVG.Chevron.Down
+        noteLabel.font = noteLabel.font.usingFeatures([.smallCaps])
+    }
+}
+
+// MARK: - Subscriptions
+extension ProductTypeListViewController {
+    fileprivate func setupSubscriptions() {
+        øproductTypes.asDriver()
+            .drive(onNext: { [productTypeTableView] _ in productTypeTableView?.reloadData() })
             .disposed(by: disposeBag)
-        
-        titleLabel.text = convention.name
-        
-        backButton.rx.tap
-            .filter { [tabBarController] _ in tabBarController?.selectedViewController == self }
+
+        navBar.leftButton.rx.tap
             .subscribe(onNext: { _ in ConArtist.model.navigate(back: 1) })
+            .disposed(by: disposeBag)
+
+        navBar.rightButton.rx.tap
+            .subscribe(onNext: { _ in ConArtist.model.navigate(back: 1) })
+            .disposed(by: disposeBag)
+
+        infoExpandButton.rx.tap
+            .subscribe(onNext: { [view, infoViewBottomConstraint, infoExpandButtonImage] _ in
+                guard let expanded = (infoViewBottomConstraint?.constant).map((==) <- 0) else { return }
+                infoViewBottomConstraint?.constant = expanded ? -150 : 0
+                infoExpandButtonImage?.image = expanded ? ConArtist.Images.SVG.Chevron.Down : ConArtist.Images.SVG.Chevron.Up
+                UIView.animate(withDuration: 0.25) { view?.layoutIfNeeded() }
+            })
             .disposed(by: disposeBag)
     }
 }
@@ -57,7 +84,7 @@ extension ProductTypeListViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProductTypeTableViewCell.ID, for: indexPath) as! ProductTypeTableViewCell
         if indexPath.row < øproductTypes.value.count {
             let item = øproductTypes.value[indexPath.row]
-            cell.fill(with: item)
+            cell.fill(with: item, selected: øselected.value)
         }
         return cell
     }
@@ -71,11 +98,11 @@ extension ProductTypeListViewController: UITableViewDelegate {
         let prices = øprices.value.filter { $0.typeId == productType.id }
         ProductListViewController.show(for: productType, products, and: prices)
             .flatMap { [unowned self] (products, price) -> Observable<Void> in
-                let newRecord = Record(id: nil, products: products.map { $0.id }, price: price, time: Date())
+                let newRecord = Record(id: nil, products: products.map { $0.id }, price: price, time: Date(), info: "")
                 self.convention.addRecord(newRecord)
                 return self.convention.save()
                     .catchError { _ in
-                        MDCSnackbarManager.show(MDCSnackbarMessage(text: "Some data could not be saved... Check your network status"))
+                        MDCSnackbarManager.show(MDCSnackbarMessage(text: "Some data could not be saved… Check your network status"))
                         return Observable.empty()
                     }
             }

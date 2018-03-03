@@ -14,5 +14,6 @@ target 'ConArtist' do
   pod 'RxCocoa'
   pod 'RxAlamofire'
   pod 'SexyTooltip'
-  pod 'MaterialComponents/Snackbar'
+  pod 'MaterialComponents/Snackbar' # I'd like to not use this one soon!
+  pod 'SVGKit', :git => 'https://github.com/SVGKit/SVGKit.git', :branch => '2.x'
 end

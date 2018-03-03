@@ -46,6 +46,7 @@ fragment RecordFragment on Record {
   products
   price
   time
+  info
 }
 
 fragment ExpenseFragment on Expense {

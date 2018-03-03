@@ -55,7 +55,7 @@ extension ProductListViewController {
             }
             var newPrice = price
             while count > 0 {
-                let price = prices.reduce((key: 0, value: Money(currency: .CAD, amount: 0))) { best, price in
+                let price = prices.reduce((key: 0, value: Money(currency: .AUTO, amount: 0))) { best, price in
                     if price.key <= count && price.key > best.key {
                         return price
                     } else {

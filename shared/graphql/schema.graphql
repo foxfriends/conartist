@@ -69,6 +69,7 @@ type Record {
   products: [Int]!
   price: Money!
   time: DateTimeUtc!
+  info: String!
 }
 
 type Expense {
@@ -151,12 +152,17 @@ type Mutation {
   modUserExpense(userId: Int, expense: ExpenseMod!): Expense!
   delUserExpense(userId: Int, expense: ExpenseDel!): Expense!
 
+  addConventionInfo(userId: Int, info: String!): ConventionUserInfo!
+  upvoteConventionInfo(userId: Int, infoId: Int!): ConventionUserInfo!
+  downvoteConventionInfo(userId: Int, infoId: Int!): ConventionUserInfo!
+
   updateSettings(userId: Int): SettingsMutation!
 }
 
 type SettingsMutation {
   currency(currency: Currency!): Currency!
 }
+
 input ProductTypeAdd {
   name: String!
   color: Int!
@@ -199,11 +205,13 @@ input RecordAdd {
   products: [Int]!
   price: Money!
   time: DateTimeFixedOffset!
+  info: String!
 }
 input RecordMod {
   recordId: Int!
   products: [Int]
   price: Money
+  info: String
 }
 input RecordDel {
   recordId: Int!

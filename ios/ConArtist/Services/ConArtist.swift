@@ -5,9 +5,9 @@
 //  Created by Cameron Eldridge on 2017-12-20.
 //  Copyright © 2017 Cameron Eldridge. All rights reserved.
 //
-
 import Foundation
 import UIKit
+import SVGKit
 
 struct ConArtist {
     static let model = Model()
@@ -29,6 +29,16 @@ struct ConArtist {
         static let Text = UIColor.white
         static let TextPlaceholder = UIColor.white.withAlphaComponent(0.5)
         static let Warn = UIColor.red
+    }
+
+    struct Images {
+        struct SVG {
+            struct Chevron {
+                static let Down: SVGKImage = SVGKImage(named: "chevron_down.svg")
+                static let Up: SVGKImage = SVGKImage(named: "chevron_up.svg")
+                static let Right: SVGKImage = SVGKImage(named: "chevron_right.svg")
+            }
+        }
     }
 
     /// Handles universal URLs and deep links

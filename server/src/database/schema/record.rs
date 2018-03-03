@@ -10,6 +10,7 @@ pub struct Record {
     pub user_con_id: i32,
     pub price: Money,
     pub products: Vec<i32>,
+    pub info: String,
     pub sale_time: NaiveDateTime,
 }
 impl Record {
@@ -20,6 +21,7 @@ impl Record {
                 user_con_id: row.get("user_con_id"),
                 price: row.get("price"),
                 products: row.get("products"),
+                info: row.get("info"),
                 sale_time: row.get("sale_time"),
             }
         }).map_err(|_| "Tried to create a Record from a non-Record row".to_string())

@@ -9,3 +9,34 @@ mutation AddExpense($id: Int, $expense: ExpenseAdd!) {
     ...ExpenseFragment
   }
 }
+
+mutation UpdateCurrency($id: Int, $currency: Currency!) {
+  updateSettings(userId: $id) {
+    currency(currency: $currency)
+  }
+}
+
+mutation ContributeConventionInfo($id: Int, $info: String!) {
+  addConventionInfo(userId: $id, info: $info) {
+    id
+    info
+    upvotes
+    downvotes
+  }
+}
+
+mutation UpvoteConventionInfo($userId: Int, $infoId: Int!) {
+  upvoteConventionInfo(userId: $userId, infoId: $infoId) {
+    id
+    upvotes
+    downvotes
+  }
+}
+
+mutation DownvoteConventionInfo($userId: Int, $infoId: Int!) {
+  downvoteConventionInfo(userId: $userId, infoId: $infoId) {
+    id
+    upvotes
+    downvotes
+  }
+}

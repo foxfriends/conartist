@@ -32,7 +32,7 @@ graphql_object!(Query: Client |&self| {
             .and_then(|mut res| {
                 if res.status == StatusCode::Ok {
                     let mut bytes = vec![];
-                    res.read_to_end(&mut bytes);
+                    res.read_to_end(&mut bytes)?;
                     Ok(Image::new(bytes))
                 } else {
                     Err(FieldError::new("Could not load image", Value::String("".to_string())))

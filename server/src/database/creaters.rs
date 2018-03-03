@@ -126,6 +126,7 @@ impl Database {
         products: Vec<i32>,
         price: Money,
         time: NaiveDateTime,
+        info: String,
     ) -> Result<Record, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
 
@@ -150,11 +151,11 @@ impl Database {
 
         let record = query!(trans, "
             INSERT INTO Records
-                (user_con_id, products, price, sale_time)
+                (user_con_id, products, price, sale_time, info)
             VALUES
-                ($1, $2, $3, $4)
+                ($1, $2, $3, $4, $5)
             RETURNING *"
-        , user_con_id, products, price, time)
+        , user_con_id, products, price, time, info)
             .into_iter()
             .nth(0)
             .ok_or_else(|| format!("Failed to create new record for usercon {}", user_con_id))

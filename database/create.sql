@@ -166,6 +166,7 @@ CREATE TABLE Records (
   user_con_id INT NOT NULL REFERENCES User_Conventions (user_con_id) ON DELETE CASCADE,
   price       CHAR(23) NOT NULL,
   products    INT[] NOT NULL,
+  info        TEXT NOT NULL DEFAULT '',
   sale_time   TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP)
 );
 CREATE INDEX index_Records ON Records (user_con_id);
@@ -175,8 +176,8 @@ CREATE TABLE Expenses (
   expense_id  SERIAL PRIMARY KEY,
   user_con_id INT NOT NULL REFERENCES User_Conventions (user_con_id) ON DELETE CASCADE,
   price       CHAR(23) NOT NULL,
-  category    VARCHAR(32),
-  description VARCHAR(512),
+  category    VARCHAR(32) NOT NULL,
+  description TEXT NOT NULL DEFAULT '',
   spend_time  TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP)
 );
 CREATE INDEX index_Expenses ON Expenses (user_con_id);

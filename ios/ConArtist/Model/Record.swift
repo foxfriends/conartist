@@ -13,12 +13,14 @@ struct Record {
     let products: [Int]
     let price: Money
     let time: Date
+    let info: String
 
-    init(id: Int?, products: [Int], price: Money, time: Date) {
+    init(id: Int?, products: [Int], price: Money, time: Date, info: String) {
         self.id = id
         self.products = products
         self.price = price
         self.time = time
+        self.info = info
     }
 
     init?(graphQL maybeRecord: FullConventionQuery.Data.UserConvention.Record?) {
@@ -27,9 +29,10 @@ struct Record {
         products = record.products
         price = record.price.toMoney()! // TODO: is ! bad?
         time = record.time.toDate()! // TODO: is ! bad?
+        info = record.info
     }
     
     func add(to con: Convention) -> RecordAdd {
-        return RecordAdd(conId: con.id, products: products, price: price.toJSON(), time: time.toJSON())
+        return RecordAdd(conId: con.id, products: products, price: price.toJSON(), time: time.toJSON(), info: info)
     }
 }

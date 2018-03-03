@@ -15,6 +15,7 @@ class NewExpenseViewController: UIViewController {
     @IBOutlet weak var categoryTextField: FancyTextField!
     @IBOutlet weak var amountTextField: FancyTextField!
     @IBOutlet weak var descriptionTextView: UITextView!
+    @IBOutlet weak var noteLabel: UILabel!
 
     fileprivate let disposeBag = DisposeBag()
     fileprivate let results = PublishSubject<(String, String, Money)>()
@@ -23,13 +24,14 @@ class NewExpenseViewController: UIViewController {
 // MARK: - Lifecycle
 extension NewExpenseViewController {
     override func viewDidLoad() {
-        setupObservers()
+        setupSubscriptions()
+        noteLabel.font = noteLabel.font.usingFeatures([.smallCaps])
     }
 }
 
-// MARK: - Observers
+// MARK: - Subscriptions
 extension NewExpenseViewController {
-    fileprivate func setupObservers() {
+    fileprivate func setupSubscriptions() {
         fakeNavBar.leftButton.rx.tap
             .subscribe(onNext: { [view] _ in
                 view?.endEditing(true)

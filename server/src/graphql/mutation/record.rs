@@ -9,6 +9,7 @@ pub struct RecordAdd {
     pub products: Vec<i32>,
     pub price: Money,
     pub time: DateTime<FixedOffset>,
+    pub info: String,
 }
 
 #[derive(Clone, GraphQLInputObject)]
@@ -17,6 +18,7 @@ pub struct RecordMod {
     pub record_id: i32,
     pub products: Option<Vec<i32>>,
     pub price: Option<Money>,
+    pub info: Option<String>,
 }
 
 #[derive(Clone, GraphQLInputObject)]

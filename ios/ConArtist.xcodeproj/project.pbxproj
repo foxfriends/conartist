@@ -59,6 +59,9 @@
 		32B9101D2048F113002F9C94 /* SettingsSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B9101C2048F113002F9C94 /* SettingsSelectViewController.swift */; };
 		32B9101F2048F282002F9C94 /* SettingsSelectOptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B9101E2048F282002F9C94 /* SettingsSelectOptionTableViewCell.swift */; };
 		32B91021204A3746002F9C94 /* RxNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B91020204A3746002F9C94 /* RxNavigationController.swift */; };
+		32B9102B204B32C4002F9C94 /* chevron_up.svg in Resources */ = {isa = PBXBuildFile; fileRef = 32B91028204B32C4002F9C94 /* chevron_up.svg */; };
+		32B9102C204B32C4002F9C94 /* chevron_down.svg in Resources */ = {isa = PBXBuildFile; fileRef = 32B91029204B32C4002F9C94 /* chevron_down.svg */; };
+		32B9102D204B32C4002F9C94 /* chevron_right.svg in Resources */ = {isa = PBXBuildFile; fileRef = 32B9102A204B32C4002F9C94 /* chevron_right.svg */; };
 		32BC33DD1FEEED030006256A /* ProductListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33DC1FEEED030006256A /* ProductListViewController.swift */; };
 		32BC33E21FEEF17E0006256A /* ProductType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33E11FEEF17E0006256A /* ProductType.swift */; };
 		32BC33E41FEEF1B80006256A /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33E31FEEF1B80006256A /* Product.swift */; };
@@ -140,6 +143,9 @@
 		32B9101C2048F113002F9C94 /* SettingsSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSelectViewController.swift; sourceTree = "<group>"; };
 		32B9101E2048F282002F9C94 /* SettingsSelectOptionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSelectOptionTableViewCell.swift; sourceTree = "<group>"; };
 		32B91020204A3746002F9C94 /* RxNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxNavigationController.swift; sourceTree = "<group>"; };
+		32B91028204B32C4002F9C94 /* chevron_up.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = chevron_up.svg; sourceTree = "<group>"; };
+		32B91029204B32C4002F9C94 /* chevron_down.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = chevron_down.svg; sourceTree = "<group>"; };
+		32B9102A204B32C4002F9C94 /* chevron_right.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = chevron_right.svg; sourceTree = "<group>"; };
 		32BC33DC1FEEED030006256A /* ProductListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
 		32BC33E11FEEF17E0006256A /* ProductType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductType.swift; sourceTree = "<group>"; };
 		32BC33E31FEEF1B80006256A /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
@@ -215,6 +221,7 @@
 				32C39C37201EA9E400071E26 /* Model */,
 				32C39C25201EA52800071E26 /* Scenes */,
 				32C39C24201EA4F600071E26 /* Util */,
+				32B91026204B3278002F9C94 /* Resources */,
 				32B36ED42040E47E00DA4593 /* Storyboard */,
 			);
 			path = ConArtist;
@@ -295,6 +302,8 @@
 		32B91022204B1461002F9C94 /* New Sale */ = {
 			isa = PBXGroup;
 			children = (
+				32C9F9B820264BE00004566E /* ProductTableViewCell.swift */,
+				32C39C30201EA5B400071E26 /* ProductTypeTableViewCell.swift */,
 				32BC33DC1FEEED030006256A /* ProductListViewController.swift */,
 				32AE4168202553CF0061EB64 /* ProductTypeListViewController.swift */,
 			);
@@ -312,6 +321,7 @@
 		32B91024204B1484002F9C94 /* Record List */ = {
 			isa = PBXGroup;
 			children = (
+				32C39C2E201EA5B300071E26 /* RecordTableViewCell.swift */,
 				32AE416A202554AD0061EB64 /* RecordListViewController.swift */,
 			);
 			path = "Record List";
@@ -324,6 +334,24 @@
 				32B91020204A3746002F9C94 /* RxNavigationController.swift */,
 			);
 			path = Navigation;
+			sourceTree = "<group>";
+		};
+		32B91026204B3278002F9C94 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				32B91027204B3289002F9C94 /* SVG */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		32B91027204B3289002F9C94 /* SVG */ = {
+			isa = PBXGroup;
+			children = (
+				32B91029204B32C4002F9C94 /* chevron_down.svg */,
+				32B9102A204B32C4002F9C94 /* chevron_right.svg */,
+				32B91028204B32C4002F9C94 /* chevron_up.svg */,
+			);
+			path = SVG;
 			sourceTree = "<group>";
 		};
 		32C39C24201EA4F600071E26 /* Util */ = {
@@ -368,9 +396,6 @@
 		32C39C27201EA54E00071E26 /* Table */ = {
 			isa = PBXGroup;
 			children = (
-				32C9F9B820264BE00004566E /* ProductTableViewCell.swift */,
-				32C39C30201EA5B400071E26 /* ProductTypeTableViewCell.swift */,
-				32C39C2E201EA5B300071E26 /* RecordTableViewCell.swift */,
 				32B36EC8203E7A5800DA4593 /* TableHeaderView.swift */,
 			);
 			path = Table;
@@ -508,11 +533,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				32B9101120439F75002F9C94 /* schema.json in Resources */,
+				32B9102D204B32C4002F9C94 /* chevron_right.svg in Resources */,
 				321B75E71F9BAD320055EBC4 /* LaunchScreen.storyboard in Resources */,
 				32F6F6441FF706AA00935554 /* Images.xcassets in Resources */,
 				321B75E41F9BAD320055EBC4 /* Assets.xcassets in Resources */,
 				32B9101020439F75002F9C94 /* resources.json in Resources */,
+				32B9102B204B32C4002F9C94 /* chevron_up.svg in Resources */,
 				321B75DF1F9BAD320055EBC4 /* Main.storyboard in Resources */,
+				32B9102C204B32C4002F9C94 /* chevron_down.svg in Resources */,
 				32B9100F20439F75002F9C94 /* generate-schemas in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -543,6 +571,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-ConArtist/Pods-ConArtist-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Apollo/Apollo.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
 				"${BUILT_PRODUCTS_DIR}/Gloss/Gloss.framework",
 				"${BUILT_PRODUCTS_DIR}/MDFInternationalization/MDFInternationalization.framework",
 				"${BUILT_PRODUCTS_DIR}/MDFTextAccessibility/MDFTextAccessibility.framework",
@@ -550,6 +579,7 @@
 				"${BUILT_PRODUCTS_DIR}/RxAlamofire/RxAlamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SVGKit/SVGKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SexyTooltip/SexyTooltip.framework",
 				"${BUILT_PRODUCTS_DIR}/Strongbox/Strongbox.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftMoment/SwiftMoment.framework",
@@ -559,6 +589,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Apollo.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Gloss.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MDFInternationalization.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MDFTextAccessibility.framework",
@@ -566,6 +597,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAlamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVGKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SexyTooltip.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Strongbox.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftMoment.framework",

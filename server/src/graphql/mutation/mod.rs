@@ -9,7 +9,7 @@ mod settings;
 
 use juniper::{FieldResult, FieldError, Value};
 use serde_json;
-use database::{Database, User, ProductType, ProductInInventory, Price, Convention, Record, Expense};
+use database::{Database, User, ProductType, ProductInInventory, Price, Convention, ConventionUserInfo, Record, Expense};
 use money::Money;
 use self::product::*;
 use self::product_type::*;
@@ -153,7 +153,7 @@ graphql_object!(Mutation: Database |&self| {
         dbtry! {
             executor
                 .context()
-                .create_user_record(user_id, record.con_id, record.products, record.price, record.time.naive_utc())
+                .create_user_record(user_id, record.con_id, record.products, record.price, record.time.naive_utc(), record.info)
         }
     }
     field mod_user_record(&executor, user_id: Option<i32>, record: RecordMod) -> FieldResult<Record> { Err(FieldError::new("Unimplemented", Value::null())) }
@@ -173,6 +173,10 @@ graphql_object!(Mutation: Database |&self| {
     }
     field mod_user_expense(&executor, user_id: Option<i32>, expense: ExpenseMod) -> FieldResult<Expense> { Err(FieldError::new("Unimplemented", Value::null())) }
     field del_user_expense(&executor, user_id: Option<i32>, expense: ExpenseDel) -> FieldResult<()> { Err(FieldError::new("Unimplemented", Value::null())) }
+
+    field add_convention_info(&executor, user_id: Option<i32>, info: String) -> FieldResult<ConventionUserInfo> { Err(FieldError::new("Unimplemented", Value::null())) }
+    field upvote_convention_info(&executor, user_id: Option<i32>, info_id: i32) -> FieldResult<ConventionUserInfo> { Err(FieldError::new("Unimplemented", Value::null())) }
+    field downvote_convention_info(&executor, user_id: Option<i32>, info_id: i32) -> FieldResult<ConventionUserInfo> { Err(FieldError::new("Unimplemented", Value::null())) }
 
     field update_settings(&executor, user_id: Option<i32>) -> FieldResult<SettingsMutation> {
         Ok(SettingsMutation(user_id))

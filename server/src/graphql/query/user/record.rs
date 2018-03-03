@@ -9,5 +9,6 @@ graphql_object!(Record: Database |&self| {
     field id() -> i32 { self.record_id }
     field products() -> &Vec<i32> { &self.products }
     field price() -> Money { self.price }
+    field info() -> &String { &self.info }
     field time() -> DateTime<Utc> { DateTime::from_utc(self.sale_time, Utc) }
 });

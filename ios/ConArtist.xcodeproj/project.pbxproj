@@ -209,8 +209,7 @@
 				32B9100D20439F74002F9C94 /* resources.json */,
 				32B9100E20439F74002F9C94 /* schema.json */,
 				321B75D91F9BAD320055EBC4 /* AppDelegate.swift */,
-				32AE416620253D5C0061EB64 /* RootNavigationController.swift */,
-				32B91020204A3746002F9C94 /* RxNavigationController.swift */,
+				32B91025204B14A3002F9C94 /* Navigation */,
 				32B36ED92041FFD600DA4593 /* Services */,
 				32892C3E20352CFB00F1AD9C /* Components */,
 				32C39C37201EA9E400071E26 /* Model */,
@@ -293,6 +292,40 @@
 			path = Functional;
 			sourceTree = "<group>";
 		};
+		32B91022204B1461002F9C94 /* New Sale */ = {
+			isa = PBXGroup;
+			children = (
+				32BC33DC1FEEED030006256A /* ProductListViewController.swift */,
+				32AE4168202553CF0061EB64 /* ProductTypeListViewController.swift */,
+			);
+			path = "New Sale";
+			sourceTree = "<group>";
+		};
+		32B91023204B1470002F9C94 /* New Expense */ = {
+			isa = PBXGroup;
+			children = (
+				32B910162044F80B002F9C94 /* NewExpenseViewController.swift */,
+			);
+			path = "New Expense";
+			sourceTree = "<group>";
+		};
+		32B91024204B1484002F9C94 /* Record List */ = {
+			isa = PBXGroup;
+			children = (
+				32AE416A202554AD0061EB64 /* RecordListViewController.swift */,
+			);
+			path = "Record List";
+			sourceTree = "<group>";
+		};
+		32B91025204B14A3002F9C94 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				32AE416620253D5C0061EB64 /* RootNavigationController.swift */,
+				32B91020204A3746002F9C94 /* RxNavigationController.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
 		32C39C24201EA4F600071E26 /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -322,10 +355,9 @@
 			children = (
 				32B36ECF203FB91000DA4593 /* Convention Details */,
 				32F0B41420425D8500ADF209 /* Convention List */,
-				32B910162044F80B002F9C94 /* NewExpenseViewController.swift */,
-				32BC33DC1FEEED030006256A /* ProductListViewController.swift */,
-				32AE4168202553CF0061EB64 /* ProductTypeListViewController.swift */,
-				32AE416A202554AD0061EB64 /* RecordListViewController.swift */,
+				32B91023204B1470002F9C94 /* New Expense */,
+				32B91022204B1461002F9C94 /* New Sale */,
+				32B91024204B1484002F9C94 /* Record List */,
 				32B36ED32040E37300DA4593 /* Settings */,
 				321B75DB1F9BAD320055EBC4 /* SignInViewController.swift */,
 				32B36ECA203F97EF00DA4593 /* SplashScreenViewController.swift */,

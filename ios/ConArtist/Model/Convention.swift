@@ -27,8 +27,8 @@ class Convention {
     fileprivate let øaddedRecords = Variable<[Record]>([])
     fileprivate let øaddedExpenses = Variable<[Expense]>([])
 
-    fileprivate let øconvention = PublishSubject<FullConventionFragment>()
-    fileprivate var loadedConvention = false
+    fileprivate let øconvention = Variable<FullConventionFragment?>(nil)
+
     fileprivate let disposeBag = DisposeBag()
 
     init?(graphQL con: MetaConventionFragment) {
@@ -42,6 +42,8 @@ class Convention {
         end = endDate
         images = con.images
 
+        let øconvention = self.øconvention.asObservable().filterMap(identity)
+
         extraInfo = con.extraInfo
             .map { $0.fragments.extraInfoFragment }
             .filterMap(ConventionExtraInfo.init(graphQL:))
@@ -52,7 +54,7 @@ class Convention {
                     .map { $0.fragments.userInfoFragment }
                     .filterMap(ConventionUserInfo.init(graphQL:))
             ),
-            øconvention.asObservable()
+            øconvention
                 .map {
                     $0.userInfo
                         .map{ $0.fragments.userInfoFragment }
@@ -60,21 +62,21 @@ class Convention {
                 }
         )
 
-        productTypes = øconvention.asObservable()
+        productTypes = øconvention
             .map {
                 $0.productTypes
                     .map { $0.fragments.productTypeFragment }
                     .filterMap(ProductType.init(graphQL:))
             }
 
-        products = øconvention.asObservable()
+        products = øconvention
             .map {
                 $0.products
                     .map { $0.fragments.productFragment }
                     .filterMap(Product.init(graphQL:))
             }
 
-        prices = øconvention.asObservable()
+        prices = øconvention
             .map {
                 $0.prices
                     .map { $0.fragments.priceRowFragment }
@@ -82,7 +84,7 @@ class Convention {
             }
 
         records = Observable.combineLatest(
-            øconvention.asObservable()
+            øconvention
                 .map {
                     $0.records
                         .map { $0.fragments.recordFragment }
@@ -92,7 +94,7 @@ class Convention {
         ).map({ ($0 + $1).sorted { $0.time < $1.time } })
 
         expenses = Observable.combineLatest(
-            øconvention.asObservable()
+            øconvention
                 .map {
                     $0.expenses
                         .map { $0.fragments.expenseFragment }
@@ -100,8 +102,6 @@ class Convention {
                 },
             øaddedExpenses.asObservable()
         ).map({ ($0 + $1).sorted { $0.time < $1.time } })
-
-        let _ = øconvention.asObservable().take(1).subscribe(onNext: { [weak self] _ in self?.loadedConvention = true })
     }
 }
 
@@ -137,10 +137,12 @@ extension Convention {
             .catchError(const(Observable.empty()))
     }
 
-    func fill(_ force: Bool = false) {
-        if !loadedConvention || force {
+    func fill(_ force: Bool = false) -> Observable<Void> {
+        if øconvention.value == nil || force {
+            øconvention.value = nil
             let _ = full(force).bind(to: øconvention)
         }
+        return øconvention.asObservable().filterMap(identity).discard()
     }
 
     func save() -> Observable<Bool> {
@@ -190,7 +192,7 @@ extension Convention {
                     throw Convention.SaveErrors(errors: allErrors)
                 }
             }
-            .flatMap({ [weak self] in self?.full(true) ?? Observable.empty() })
+            .flatMap({ [weak self] in self?.fill(true) ?? Observable.empty() })
             .map(const(true))
     }
 }

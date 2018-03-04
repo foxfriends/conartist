@@ -17,46 +17,50 @@ extension ApolloClient {
     }
 
     func observe<Query: GraphQLQuery>(query: Query, cachePolicy: CachePolicy = .returnCacheDataElseFetch, queue: DispatchQueue = DispatchQueue.main) -> Observable<Query.Data> {
-        return Observable.create { observer in
-            self.fetch(query: query, cachePolicy: cachePolicy, queue: queue) { result, error in
-                if let error = error {
-                    observer.onError(error)
-                    return
+        return Observable
+            .create { observer in
+                self.fetch(query: query, cachePolicy: cachePolicy, queue: queue) { result, error in
+                    if let error = error {
+                        observer.onError(error)
+                        return
+                    }
+                    guard let result = result else {
+                        observer.onError(RxError.noResult)
+                        return
+                    }
+                    guard let data = result.data else {
+                        observer.onError(RxError.errors(result.errors ?? []))
+                        return
+                    }
+                    observer.onNext(data)
+                    observer.onCompleted()
                 }
-                guard let result = result else {
-                    observer.onError(RxError.noResult)
-                    return
-                }
-                guard let data = result.data else {
-                    observer.onError(RxError.errors(result.errors ?? []))
-                    return
-                }
-                observer.onNext(data)
-                observer.onCompleted()
+                return Disposables.create()
             }
-            return Disposables.create()
-        }
+            .catchError { error in print(error); throw error }
     }
 
     func observe<Mutation: GraphQLMutation>(mutation: Mutation, queue: DispatchQueue = DispatchQueue.main) -> Observable<Mutation.Data> {
-        return Observable.create { observer in
-            self.perform(mutation: mutation, queue: queue) { result, error in
-                if let error = error {
-                    observer.onError(error)
-                    return
+        return Observable
+            .create { observer in
+                self.perform(mutation: mutation, queue: queue) { result, error in
+                    if let error = error {
+                        observer.onError(error)
+                        return
+                    }
+                    guard let result = result else {
+                        observer.onError(RxError.noResult)
+                        return
+                    }
+                    guard let data = result.data else {
+                        observer.onError(RxError.errors(result.errors ?? []))
+                        return
+                    }
+                    observer.onNext(data)
+                    observer.onCompleted()
                 }
-                guard let result = result else {
-                    observer.onError(RxError.noResult)
-                    return
-                }
-                guard let data = result.data else {
-                    observer.onError(RxError.errors(result.errors ?? []))
-                    return
-                }
-                observer.onNext(data)
-                observer.onCompleted()
+                return Disposables.create()
             }
-            return Disposables.create()
-        }
+            .catchError { error in print(error); throw error }
     }
 }

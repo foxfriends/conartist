@@ -357,10 +357,10 @@
 		32C39C24201EA4F600071E26 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				32B36EE02042085400DA4593 /* Functional */,
 				32C39C1B201E812D00071E26 /* ApolloClient+Rx.swift */,
 				32892C43203530C800F1AD9C /* Array+Safe.swift */,
 				324592AD1FEC314900DE89BB /* Date+String.swift */,
-				32B36EE02042085400DA4593 /* Functional */,
 				321FDE832027D14B002DF04B /* Observable+Helpers.swift */,
 				32B36ED52040F57000DA4593 /* Optional+Helpers.swift */,
 				32C39C1F201E99A100071E26 /* Sequence+Helpers.swift */,

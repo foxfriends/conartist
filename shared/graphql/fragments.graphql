@@ -1,3 +1,14 @@
+fragment UserFragment on User {
+  name
+  email
+  settings { 
+    ...SettingsFragment 
+  }
+  conventions {
+    ...MetaConventionFragment
+  }
+}
+
 fragment ProductTypeFragment on ProductType {
   id
   name
@@ -21,23 +32,21 @@ fragment PriceRowFragment on PriceRow {
   price
 }
 
-fragment MetaConventionFragment on FullUserConvention {
+fragment ConventionBasicInfoFragment on FullUserConvention {
   id
   name
   images
   start
   end
+}
+
+fragment MetaConventionFragment on FullUserConvention {
+  ...ConventionBasicInfoFragment
   extraInfo {
-    title
-    info
-    action
-    actionText
+    ...ExtraInfoFragment
   }
   userInfo {
-    id
-    info
-    upvotes
-    downvotes
+    ...UserInfoFragment
   }
 }
 
@@ -55,6 +64,24 @@ fragment ExpenseFragment on Expense {
   description
   price
   time
+}
+
+fragment ExtraInfoFragment on ConventionExtraInfo {
+  title
+  info
+  action
+  actionText
+}
+
+fragment UserInfoFragment on ConventionUserInfo {
+  id
+  info
+  ...VotesFragment
+}
+
+fragment VotesFragment on ConventionUserInfo {
+  upvotes
+  downvotes
 }
 
 fragment FullConventionFragment on FullUserConvention {

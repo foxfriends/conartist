@@ -10,59 +10,6 @@ PODS:
   - CocoaLumberjack/Extensions (3.3.0):
     - CocoaLumberjack/Default
   - Gloss (2.0.0)
-  - MaterialComponents/AnimationTiming (43.0.0)
-  - MaterialComponents/Buttons (43.0.0):
-    - MaterialComponents/Buttons/ColorThemer (= 43.0.0)
-    - MaterialComponents/Buttons/Component (= 43.0.0)
-    - MaterialComponents/Buttons/TitleColorAccessibilityMutator (= 43.0.0)
-    - MaterialComponents/private/Math
-  - MaterialComponents/Buttons/ColorThemer (43.0.0):
-    - MaterialComponents/Buttons/Component
-    - MaterialComponents/private/Math
-    - MaterialComponents/Themes
-  - MaterialComponents/Buttons/Component (43.0.0):
-    - MaterialComponents/Ink
-    - MaterialComponents/private/Math
-    - MaterialComponents/ShadowElevations
-    - MaterialComponents/ShadowLayer
-    - MaterialComponents/Typography
-    - MDFInternationalization
-    - MDFTextAccessibility
-  - MaterialComponents/Buttons/TitleColorAccessibilityMutator (43.0.0):
-    - MaterialComponents/Buttons/Component
-    - MaterialComponents/private/Math
-    - MDFTextAccessibility
-  - MaterialComponents/Ink (43.0.0):
-    - MaterialComponents/Ink/ColorThemer (= 43.0.0)
-    - MaterialComponents/Ink/Component (= 43.0.0)
-  - MaterialComponents/Ink/ColorThemer (43.0.0):
-    - MaterialComponents/Ink/Component
-    - MaterialComponents/Themes
-  - MaterialComponents/Ink/Component (43.0.0):
-    - MaterialComponents/private/Math
-  - MaterialComponents/OverlayWindow (43.0.0):
-    - MaterialComponents/private/Application
-  - MaterialComponents/private/Application (43.0.0)
-  - MaterialComponents/private/KeyboardWatcher (43.0.0):
-    - MaterialComponents/private/Application
-  - MaterialComponents/private/Math (43.0.0)
-  - MaterialComponents/private/Overlay (43.0.0)
-  - MaterialComponents/ShadowElevations (43.0.0)
-  - MaterialComponents/ShadowLayer (43.0.0):
-    - MaterialComponents/ShadowElevations
-  - MaterialComponents/Snackbar (43.0.0):
-    - MaterialComponents/AnimationTiming
-    - MaterialComponents/Buttons
-    - MaterialComponents/OverlayWindow
-    - MaterialComponents/private/Application
-    - MaterialComponents/private/KeyboardWatcher
-    - MaterialComponents/private/Overlay
-    - MaterialComponents/Typography
-  - MaterialComponents/Themes (43.0.0)
-  - MaterialComponents/Typography (43.0.0):
-    - MaterialComponents/private/Application
-  - MDFInternationalization (1.0.4)
-  - MDFTextAccessibility (1.2.0)
   - pop (1.0.10)
   - RxAlamofire (4.0.0):
     - RxAlamofire/Core (= 4.0.0)
@@ -83,7 +30,6 @@ DEPENDENCIES:
   - Alamofire (~> 4.5)
   - Apollo (~> 0.7.0)
   - Gloss (~> 2.0)
-  - MaterialComponents/Snackbar
   - RxAlamofire
   - RxCocoa
   - RxSwift
@@ -107,9 +53,6 @@ SPEC CHECKSUMS:
   Apollo: d6649ac06168660e70c6226c4eadfc0770791ba5
   CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
   Gloss: b67617f327406adfd47adf20172d00680a3a31bd
-  MaterialComponents: dc77450aafa8639522bb15aa9440a1a3b6946cd3
-  MDFInternationalization: e355b0cebecf53d60233bd267084e49366c82513
-  MDFTextAccessibility: 94098925e0853551c5a311ce7c1ecefbe297cdb6
   pop: 82ca6b068ce9278fd350fd9dd09482a0ce9492e6
   RxAlamofire: 6ea579ac53bf14cb4bc7049a3866e5a769989b1d
   RxCocoa: d62846ca96495d862fa4c59ea7d87e5031d7340e
@@ -119,6 +62,6 @@ SPEC CHECKSUMS:
   SVGKit: 4055d9e809b5db8633755979cfb3b02dc5a8c20d
   SwiftMoment: dc6dd27012e267819104cbb03f74ff9192dd0b42
 
-PODFILE CHECKSUM: c01bdc68ba917459fa7140c0e50e8658f2e5f306
+PODFILE CHECKSUM: a4039caee8b0a950f308fd251b40b716f9fb7106
 
 COCOAPODS: 1.4.0.rc.1

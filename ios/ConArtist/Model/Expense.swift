@@ -15,11 +15,23 @@ struct Expense {
     let category: String
     let description: String
 
-    init?(graphQL maybeExpense: FullConventionQuery.Data.UserConvention.Expense?) {
-        guard let expense = maybeExpense else { return nil }
+    init(category: String, description: String, price: Money) {
+        id = ConArtist.NoID
+        self.price = price
+        self.category = category
+        self.description = description
+        time = Date()
+    }
+
+    init?(graphQL maybeExpense: ExpenseFragment?) {
+        guard
+            let expense = maybeExpense,
+            let price = expense.price.toMoney(),
+            let time = expense.time.toDate()
+            else { return nil }
         id = expense.id
-        price = expense.price.toMoney()! // TODO: is ! bad?
-        time = expense.time.toDate()! // TODO: is ! bad?
+        self.price = price
+        self.time = time
         category = expense.category
         description = expense.description
     }

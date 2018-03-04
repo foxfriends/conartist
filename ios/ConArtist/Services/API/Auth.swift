@@ -48,7 +48,7 @@ extension ConArtist.API {
                 .map(handleConRequest)
                 .map(setAuthToken)
                 .flatMap(loadUser)
-                .map(storeUser)
+                .map(ConArtist.model.setUser(graphQL:))
         }
 
         /// Refreshes the provided authorization token, then retrieves the user data again
@@ -61,7 +61,7 @@ extension ConArtist.API {
                 .map(handleConRequest)
                 .map(setAuthToken)
                 .flatMap(loadUser)
-                .map(storeUser)
+                .map(ConArtist.model.setUser(graphQL:))
         }
 
         private static func handleConRequest<T>(_ response: (HTTPURLResponse, Any)) throws -> T {
@@ -80,15 +80,11 @@ extension ConArtist.API {
             ConArtist.API.Auth.authToken = authToken
         }
 
-        private static func loadUser() throws -> Observable<UserQuery.Data.User> {
+        private static func loadUser() throws -> Observable<UserFragment> {
             return
                 ConArtist.API.GraphQL
                     .observe(query: UserQuery(id: nil))
-                    .map { $0.user }
-        }
-
-        private static func storeUser(_ user: UserQuery.Data.User) -> Void {
-            ConArtist.model.setUser(graphQL: user)
+                    .map { $0.user.fragments.userFragment }
         }
     }
 }

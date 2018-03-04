@@ -89,7 +89,7 @@ extension ConventionDetailsViewController {
 // MARK: - Subscriptions
 extension ConventionDetailsViewController {
     fileprivate func setupSubscriptions() {
-        let _ = convention.fill().subscribe()
+        convention.fill()
         navBar.leftButton.rx.tap
             .subscribe(onNext: { ConArtist.model.navigate(back: 1) })
             .disposed(by: disposeBag)
@@ -107,8 +107,17 @@ extension ConventionDetailsViewController {
 
         newExpenseButton.rx.tap
             .flatMap { _ in NewExpenseViewController.show() }
-            .subscribe(onNext: { category, description, price in
-                // TODO: record the expense!
+            .map(Expense.init)
+            .do(onNext: convention.addExpense)
+            .flatMap { [convention] _ in convention!.save() }
+            .catchError { errors in
+                print(errors)
+                return Observable.just(false)
+            }
+            .subscribe(onNext: { saved in
+                // TODO: show the user something?
+                if saved { print("SAVED") }
+                else { print("FAILED TO SAVE") }
             })
             .disposed(by: disposeBag)
 

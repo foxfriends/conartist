@@ -13,8 +13,7 @@ struct Product {
     let quantity: Int
     let discontinued: Bool
     
-    init?(graphQL maybeProduct: FullConventionQuery.Data.UserConvention.Product?) {
-        guard let product = maybeProduct else { return nil }
+    init?(graphQL product: ProductFragment) {
         id = product.id
         typeId = product.typeId
         name = product.name

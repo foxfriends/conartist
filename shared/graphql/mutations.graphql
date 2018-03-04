@@ -18,25 +18,20 @@ mutation UpdateCurrency($id: Int, $currency: Currency!) {
 
 mutation ContributeConventionInfo($id: Int, $info: String!) {
   addConventionInfo(userId: $id, info: $info) {
-    id
-    info
-    upvotes
-    downvotes
+    ...UserInfoFragment
   }
 }
 
 mutation UpvoteConventionInfo($userId: Int, $infoId: Int!) {
   upvoteConventionInfo(userId: $userId, infoId: $infoId) {
     id
-    upvotes
-    downvotes
+    ...VotesFragment
   }
 }
 
 mutation DownvoteConventionInfo($userId: Int, $infoId: Int!) {
   downvoteConventionInfo(userId: $userId, infoId: $infoId) {
     id
-    upvotes
-    downvotes
+    ...VotesFragment
   }
 }

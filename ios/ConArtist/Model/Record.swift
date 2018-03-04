@@ -23,8 +23,7 @@ struct Record {
         self.info = info
     }
 
-    init?(graphQL maybeRecord: FullConventionQuery.Data.UserConvention.Record?) {
-        guard let record = maybeRecord else { return nil }
+    init?(graphQL record: RecordFragment) {
         id = record.id
         products = record.products
         price = record.price.toMoney()! // TODO: is ! bad?

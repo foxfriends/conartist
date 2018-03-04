@@ -12,12 +12,11 @@ struct Price {
     let quantity: Int
     let price: Money
     
-    init?(graphQL maybePrice: FullConventionQuery.Data.UserConvention.Price?) {
-        guard let price = maybePrice else { return nil }
-
+    init?(graphQL price: PriceRowFragment) {
+        guard let money = price.price.toMoney() else { return nil }
         typeId = price.typeId
         productId = price.productId
         quantity = price.quantity
-        self.price = price.price.toMoney()!
+        self.price = money
     }
 }

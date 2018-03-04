@@ -15,6 +15,7 @@ extension ApolloClient {
         case errors([Error])
         case noResult
     }
+
     func observe<Query: GraphQLQuery>(query: Query, cachePolicy: CachePolicy = .returnCacheDataElseFetch, queue: DispatchQueue = DispatchQueue.main) -> Observable<Query.Data> {
         return Observable.create { observer in
             self.fetch(query: query, cachePolicy: cachePolicy, queue: queue) { result, error in
@@ -31,10 +32,12 @@ extension ApolloClient {
                     return
                 }
                 observer.onNext(data)
+                observer.onCompleted()
             }
             return Disposables.create()
         }
     }
+
     func observe<Mutation: GraphQLMutation>(mutation: Mutation, queue: DispatchQueue = DispatchQueue.main) -> Observable<Mutation.Data> {
         return Observable.create { observer in
             self.perform(mutation: mutation, queue: queue) { result, error in
@@ -51,6 +54,7 @@ extension ApolloClient {
                     return
                 }
                 observer.onNext(data)
+                observer.onCompleted()
             }
             return Disposables.create()
         }

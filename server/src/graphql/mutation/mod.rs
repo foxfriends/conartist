@@ -163,7 +163,6 @@ graphql_object!(Mutation: Database |&self| {
         ensure!(expense.con_id > 0);
         ensure!(expense.price >= Money::new(0i64, expense.price.cur()));
         ensure!(expense.category.len() > 0 && expense.category.len() < 32);
-        ensure!(expense.description.len() > 0 && expense.description.len() < 512);
 
         dbtry! {
             executor

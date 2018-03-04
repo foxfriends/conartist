@@ -13,18 +13,20 @@ struct ConventionUserInfo {
     let info: String
     let rating: Int
 
-    init?(graphQL maybeInfo: UserQuery.Data.User.Convention.UserInfo?) {
-        guard let userInfo = maybeInfo else { return nil }
+    private init(id: Int, info: String, rating: Int) {
+        self.id = id
+        self.info = info
+        self.rating = rating
+    }
+
+    init?(graphQL userInfo: UserInfoFragment) {
         id = userInfo.id
         info = userInfo.info
         rating = userInfo.upvotes - userInfo.downvotes
     }
 
-    init?(graphQL maybeInfo: FullConventionQuery.Data.UserConvention.UserInfo?) {
-        guard let userInfo = maybeInfo else { return nil }
-        id = userInfo.id
-        info = userInfo.info
-        rating = userInfo.upvotes - userInfo.downvotes
+    func adjustVotes(_ votes: VotesFragment) -> ConventionUserInfo {
+        return ConventionUserInfo(id: id, info: info, rating: votes.upvotes - votes.downvotes)
     }
 }
 

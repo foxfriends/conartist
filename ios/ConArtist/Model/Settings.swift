@@ -15,8 +15,7 @@ struct Settings {
         currency = .CAD
     }
 
-    init?(graphQL maybeSettings: UserQuery.Data.User.Setting?) {
-        guard let settings = maybeSettings else { return nil }
+    init?(graphQL settings: SettingsFragment) {
         currency = CurrencyCode(rawValue: settings.currency) ?? Settings.default.currency
     }
 }

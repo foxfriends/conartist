@@ -49,8 +49,7 @@ enum ConventionExtraInfo {
         }
     }
 
-    init?(graphQL maybeInfo: UserQuery.Data.User.Convention.ExtraInfo?) {
-        guard let conventionInfo = maybeInfo else { return nil }
+    init?(graphQL conventionInfo: ExtraInfoFragment) {
         if let info = conventionInfo.info, let action = conventionInfo.action, let actionText = conventionInfo.actionText {
             self = .SecondaryAction(title: conventionInfo.title, info: info, actionText: actionText, action: action)
         } else if let action = conventionInfo.action, let actionText = conventionInfo.actionText {

@@ -12,8 +12,7 @@ struct ProductType {
     let color: Int
     let discontinued: Bool
     
-    init?(graphQL maybeType: FullConventionQuery.Data.UserConvention.ProductType?) {
-        guard let type = maybeType else { return nil }
+    init?(graphQL type: ProductTypeFragment) {
         id = type.id
         name = type.name
         color = type.color

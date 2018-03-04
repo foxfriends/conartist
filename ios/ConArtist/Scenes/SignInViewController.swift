@@ -32,24 +32,25 @@ class SignInViewController: UIViewController {
     fileprivate let øerrorState = PublishSubject<ErrorState>()
     
     let disposeBag = DisposeBag()
-
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
 }
 
 // MARK: - Lifecycle
 extension SignInViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        startAdjustingForKeyboard()
         setupSubscriptions()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        startAdjustingForKeyboard()
         emailTextField.text = nil
         passwordTextField.text = nil
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
     }
 }
 

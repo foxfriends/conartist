@@ -55,6 +55,7 @@ class FancyTextField: UITextField {
         titleLabel.font = UIFont.systemFont(ofSize: 12).usingFeatures([.smallCaps])
         titleLabel.textColor = ConArtist.Color.TextPlaceholder
         formattedLabel.frame = editingRect(forBounds: bounds.offsetBy(dx: 0, dy: -0.5)) // NOTE: not sure why this has to be -0.5, but it works...
+        attributedPlaceholder = placeholder?.withColor(ConArtist.Color.TextPlaceholder)
 
         rx.text
             .map { $0?.isEmpty ?? true }

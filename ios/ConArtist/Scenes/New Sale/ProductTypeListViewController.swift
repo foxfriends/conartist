@@ -28,8 +28,9 @@ class ProductTypeListViewController: UIViewController {
     fileprivate let øselected = Variable<[Product]>([])
 
     fileprivate var convention: Convention!
-
     fileprivate let results = PublishSubject<([Product], Money, String)>()
+
+    fileprivate let øexpectedInfoViewBottomConstraintConstant = Variable<CGFloat>(-150)
 }
 
 // MARK: - Lifecycle
@@ -37,10 +38,19 @@ extension ProductTypeListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSubscriptions()
-        navBar.title = convention.name
         infoExpandButtonImage.image = ConArtist.Images.SVG.Chevron.Down
         noteLabel.font = noteLabel.font.usingFeatures([.smallCaps])
         priceField.format = { Money.parse(as: ConArtist.model.settings.value.currency, $0)?.toString() ?? $0 }
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        startAdjustingForKeyboard()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -57,7 +67,7 @@ extension ProductTypeListViewController {
 
         let ømoney = priceField.rx.text
             .map { [weak self] text -> Money? in
-                guard let text = text else { return self?.calculatePrice(self!.øselected.value) }
+                guard let text = text, !text.isEmpty else { return self?.calculatePrice(self!.øselected.value) }
                 return Money.parse(as: ConArtist.model.settings.value.currency, text)
             }
 
@@ -101,13 +111,41 @@ extension ProductTypeListViewController {
             .disposed(by: disposeBag)
 
         infoExpandButton.rx.tap
-            .subscribe(onNext: { [view, infoViewBottomConstraint, infoExpandButtonImage] _ in
-                guard let expanded = (infoViewBottomConstraint?.constant).map((==) <- 0) else { return }
-                infoViewBottomConstraint?.constant = expanded ? -150 : 0
-                infoExpandButtonImage?.image = expanded ? ConArtist.Images.SVG.Chevron.Down : ConArtist.Images.SVG.Chevron.Up
+            .subscribe(onNext: { [view, øexpectedInfoViewBottomConstraintConstant] _ in
+                view?.endEditing(true)
+                øexpectedInfoViewBottomConstraintConstant.value = øexpectedInfoViewBottomConstraintConstant.value >= 0 ? -150 : 0
+            })
+            .disposed(by: disposeBag)
+
+        øexpectedInfoViewBottomConstraintConstant
+            .asObservable()
+            .subscribe(onNext: { [view, infoViewBottomConstraint, infoExpandButtonImage] amount in
+                infoViewBottomConstraint?.constant = amount
+                infoExpandButtonImage?.image = amount == 0 ? ConArtist.Images.SVG.Chevron.Down : ConArtist.Images.SVG.Chevron.Up
                 UIView.animate(withDuration: 0.25) { view?.layoutIfNeeded() }
             })
             .disposed(by: disposeBag)
+    }
+}
+
+// MARK: - Keyboard handling
+extension ProductTypeListViewController {
+    fileprivate func startAdjustingForKeyboard() {
+        NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
+    }
+
+    @objc func adjustForKeyboard(notification: Notification) {
+        let keyboardScreenEndFrame = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        let duration = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+
+        if notification.name == Notification.Name.UIKeyboardWillHide {
+            infoViewBottomConstraint.constant = øexpectedInfoViewBottomConstraintConstant.value
+        } else {
+            infoViewBottomConstraint.constant = øexpectedInfoViewBottomConstraintConstant.value + keyboardViewEndFrame.height
+        }
+        UIView.animate(withDuration: duration) { self.view.layoutIfNeeded() }
     }
 }
 

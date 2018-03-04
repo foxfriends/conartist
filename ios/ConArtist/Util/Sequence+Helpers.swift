@@ -18,8 +18,15 @@ extension Sequence {
     }
 }
 
+extension Array {
+    mutating func removeFirst(where predicate: (Element) -> Bool) {
+        guard let index = index(where: predicate) else { return }
+        remove(at: index)
+    }
+}
+
 extension Sequence where Self.Element: Equatable {
-    func count(ocurrencesOf instance: Element) -> Int {
+    func count(occurrencesOf instance: Element) -> Int {
         return count { $0 == instance }
     }
 }

@@ -42,7 +42,7 @@ struct Money {
 
 // MARK: - Formatters
 extension Money {
-    // Formats this value to a human readable localized format
+    /// Formats this value to a human readable localized format
     func toString() -> String {
         switch currency {
         case .AUTO: return "\(amount)"
@@ -51,9 +51,19 @@ extension Money {
         }
     }
     
-    // Serializes this value to a valid Money string, according to the ConArtist API format
+    /// Serializes this value to a valid Money string, according to the ConArtist API format
     func toJSON() -> String {
         return "\(currency)\(amount)"
+    }
+
+    /// Approximates this value as a float
+    func numericValue() -> Float {
+        switch currency {
+        case .CAD, .USD:
+            return Float(amount) / 100.0
+        default:
+            return Float(amount)
+        }
     }
 }
 

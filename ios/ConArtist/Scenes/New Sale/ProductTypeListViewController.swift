@@ -29,7 +29,7 @@ class ProductTypeListViewController: UIViewController {
 
     fileprivate var convention: Convention!
 
-    fileprivate let results = PublishSubject<([Product], Money)>()
+    fileprivate let results = PublishSubject<([Product], Money, String)>()
 }
 
 // MARK: - Lifecycle
@@ -40,6 +40,7 @@ extension ProductTypeListViewController {
         navBar.title = convention.name
         infoExpandButtonImage.image = ConArtist.Images.SVG.Chevron.Down
         noteLabel.font = noteLabel.font.usingFeatures([.smallCaps])
+        priceField.format = { Money.parse(as: ConArtist.model.settings.value.currency, $0)?.toString() ?? $0 }
     }
 }
 
@@ -54,8 +55,49 @@ extension ProductTypeListViewController {
             .subscribe(onNext: { _ in ConArtist.model.navigate(back: 1) })
             .disposed(by: disposeBag)
 
+        let ømoney = priceField.rx.text
+            .map { [weak self] text -> Money? in
+                guard let text = text else { return self?.calculatePrice(self!.øselected.value) }
+                return Money.parse(as: ConArtist.model.settings.value.currency, text)
+            }
+
+        Observable
+            .combineLatest(
+                øselected.asObservable().map { !$0.isEmpty },
+                ømoney.map { $0 != nil }
+            )
+            .map { $0 && $1 }
+            .bind(to: navBar.rightButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+
         navBar.rightButton.rx.tap
-            .subscribe(onNext: { _ in ConArtist.model.navigate(back: 1) })
+            .withLatestFrom(
+                Observable.combineLatest(
+                    øselected.asObservable(),
+                    ømoney.filterMap(identity),
+                    infoTextView.rx.text.map { $0 ?? "" }
+                )
+            )
+            .subscribe(onNext: { [results] products, money, note in
+                results.onNext((products, money, note))
+                ConArtist.model.navigate(back: 1)
+            })
+            .disposed(by: disposeBag)
+
+        øselected
+            .asObservable()
+            .map(calculatePrice)
+            .map { [placeholder = priceField.placeholder] money in
+                if money == Money.zero { return placeholder }
+                return money.toString()
+            }
+            .asDriver(onErrorJustReturn: priceField.placeholder)
+            .drive(onNext: { [priceField] text in priceField?.placeholder = text })
+            .disposed(by: disposeBag)
+
+        øselected
+            .asObservable()
+            .subscribe(onNext: { [productTypeTableView] _ in productTypeTableView?.reloadData() })
             .disposed(by: disposeBag)
 
         infoExpandButton.rx.tap
@@ -74,11 +116,11 @@ extension ProductTypeListViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return section == 0 ? øproductTypes.value.count : 0
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProductTypeTableViewCell.ID, for: indexPath) as! ProductTypeTableViewCell
         if indexPath.row < øproductTypes.value.count {
@@ -94,14 +136,70 @@ extension ProductTypeListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let productType = øproductTypes.value[indexPath.row]
         let products = øproducts.value.filter { $0.typeId == productType.id }
-        let prices = øprices.value.filter { $0.typeId == productType.id }
-        let _ = ProductListViewController.show(for: productType, products, and: prices)
+        ProductListViewController.show(for: productType, and: products, selected: øselected)
+    }
+}
+
+// MARK: - Price calculation
+extension ProductTypeListViewController {
+    enum Key: Equatable, Hashable {
+        case Product(Int)
+        case ProductType(Int)
+
+        static func ==(a: Key, b: Key) -> Bool {
+            switch (a, b) {
+            case (.Product(let a), .Product(let b)),
+                 (.ProductType(let a), .ProductType(let b)): return a == b
+            default: return false
+            }
+        }
+
+        var hashValue: Int {
+            switch self {
+            case .Product(let id): return id
+            case .ProductType(let id): return -id
+            }
+        }
+    }
+
+    fileprivate func calculatePrice(_ selected: [Product]) -> Money {
+        let prices = øprices.value
+        guard prices.count > 0 else { return Money.zero }
+        let matters = prices.filterMap { $0.productId }
+        let items: [Key: Int] = selected.reduce([:]) { counts, product in
+            let id: Key = matters.contains(product.id) ? .Product(product.id) : .ProductType(product.typeId)
+            var updated = counts
+            updated[id] = 1 + (counts[id] ?? 0)
+            return updated
+        }
+        return items.reduce(Money.zero) { price, item in
+            let key = item.key
+            var count = item.value
+            let relevantPrices = prices
+                .filter { price in price.productId.map(Key.Product).map((==) <- key) ?? (Key.ProductType(price.typeId) == key) }
+                .sorted { $0.quantity < $1.quantity }
+            var newPrice = price
+            while count > 0 {
+                let price = relevantPrices
+                    .reduce(nil) { best, price -> Price? in
+                        if price.quantity <= count && price.quantity > best?.quantity ?? 0 {
+                            return price
+                        } else {
+                            return best
+                        }
+                }
+                guard let bestPrice = price else { return newPrice }
+                count -= bestPrice.quantity
+                newPrice = newPrice + bestPrice.price
+            }
+            return newPrice
+        }
     }
 }
 
 // MARK: Navigation
 extension ProductTypeListViewController {
-    class func show(for convention: Convention) -> Observable<([Product], Money)> {
+    class func show(for convention: Convention) -> Observable<([Product], Money, String)> {
         let controller: ProductTypeListViewController = ProductTypeListViewController.instantiate(withId: ProductTypeListViewController.ID)
 
         controller.convention = convention

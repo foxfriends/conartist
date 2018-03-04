@@ -34,6 +34,12 @@ class FancyTextField: UITextField {
         }
     }
 
+    override var placeholder: String? {
+        didSet {
+            attributedPlaceholder = placeholder?.withColor(ConArtist.Color.TextPlaceholder)
+        }
+    }
+
     private func onInit() {
         addSubview(underlineView)
         addSubview(titleLabel)
@@ -48,8 +54,7 @@ class FancyTextField: UITextField {
         titleLabel.alpha = 0
         titleLabel.font = UIFont.systemFont(ofSize: 12).usingFeatures([.smallCaps])
         titleLabel.textColor = ConArtist.Color.TextPlaceholder
-        attributedPlaceholder = placeholder?.withColor(ConArtist.Color.TextPlaceholder)
-        formattedLabel.frame = editingRect(forBounds: bounds.offsetBy(dx: 0, dy: -0.5))
+        formattedLabel.frame = editingRect(forBounds: bounds.offsetBy(dx: 0, dy: -0.5)) // NOTE: not sure why this has to be -0.5, but it works...
 
         rx.text
             .map { $0?.isEmpty ?? true }
@@ -102,6 +107,10 @@ class FancyTextField: UITextField {
 
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.insetBy(dx: 20, dy: 0).offsetBy(dx: 0, dy: 5)
+    }
+
+    override func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
+        return CGRect(x: bounds.width - 40, y: bounds.minY, width: 20, height: bounds.height)
     }
 
     @discardableResult

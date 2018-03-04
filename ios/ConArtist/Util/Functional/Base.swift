@@ -12,6 +12,11 @@ func °<A, B, C>(f: @escaping (B) -> C, g: @escaping (A) -> B) -> (A) -> C {
     return { f(g($0)) }
 }
 
+// Calls the provided function
+func call<T>(f: () -> T) -> T {
+    return f()
+}
+
 // Ignore parameter and always return a value
 func const<T, U>(_ it: T) -> (U) -> T {
     return { _ in it }

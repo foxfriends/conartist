@@ -11,9 +11,13 @@ import UIKit
 class ProductTableViewCell: UITableViewCell {
     static let ID = "ProductCell"
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var quantityLabel: UILabel!
-    func setup(with product: Product) {
+    @IBOutlet weak var countView: UIView!
+    @IBOutlet weak var countLabel: UILabel!
+    @IBOutlet weak var inventoryLabel: UILabel!
+    func setup(with product: Product, count: Int) {
         nameLabel.text = product.name
-        quantityLabel.text = "\(product.quantity)"
+        countLabel.text = "\(count)"
+        countView.isHidden = count == 0
+        inventoryLabel.text = "\(product.quantity)"
     }
 }

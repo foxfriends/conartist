@@ -21,3 +21,9 @@ struct Product {
         discontinued = product.discontinued
     }
 }
+
+extension Product: Equatable {
+    static func ==(a: Product, b: Product) -> Bool {
+        return a.id == b.id
+    }
+}

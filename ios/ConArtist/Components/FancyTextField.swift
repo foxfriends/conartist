@@ -14,9 +14,12 @@ class FancyTextField: UITextField {
     private let disposeBag = DisposeBag()
     private let underlineView = HighlightableView()
     private let titleLabel = UILabel()
+    private let formattedLabel = UILabel()
 
     let isValid = Variable<Bool>(true)
     private let isUnderlineHighlighted = Variable<Bool>(false)
+
+    var format: ((String) -> String)?
 
     @IBInspectable var title: String? {
         didSet {
@@ -34,6 +37,11 @@ class FancyTextField: UITextField {
     private func onInit() {
         addSubview(underlineView)
         addSubview(titleLabel)
+        addSubview(formattedLabel)
+
+        formattedLabel.font = font
+        formattedLabel.textColor = textColor
+        formattedLabel.textAlignment = textAlignment
 
         underlineView.frame = CGRect(x: 10, y: frame.height - 1, width: frame.width - 20, height: 1)
         titleLabel.frame = CGRect(x: 20, y: 0, width: frame.width - 20, height: frame.height)
@@ -41,11 +49,18 @@ class FancyTextField: UITextField {
         titleLabel.font = UIFont.systemFont(ofSize: 12).usingFeatures([.smallCaps])
         titleLabel.textColor = ConArtist.Color.TextPlaceholder
         attributedPlaceholder = placeholder?.withColor(ConArtist.Color.TextPlaceholder)
+        formattedLabel.frame = editingRect(forBounds: bounds.offsetBy(dx: 0, dy: -0.5))
 
         rx.text
             .map { $0?.isEmpty ?? true }
             .map { $0 ? 0 : 1 }
             .subscribe(onNext: { [titleLabel] alpha in UIView.animate(withDuration: 0.1) { titleLabel.alpha = alpha } })
+            .disposed(by: disposeBag)
+
+        rx.text
+            .map { $0 ?? "" }
+            .map({ [weak self] text in text.isEmpty ? text : self?.format?(text) ?? text })
+            .bind(to: formattedLabel.rx.text)
             .disposed(by: disposeBag)
 
         Observable
@@ -54,7 +69,7 @@ class FancyTextField: UITextField {
                 isUnderlineHighlighted.asObservable(),
                 rx.text.map { $0 ?? "" }
             )
-            .subscribe(onNext: { [underlineView, titleLabel] valid, highlighted, text in
+            .subscribe(onNext: { [weak self, underlineView, titleLabel, formattedLabel] valid, highlighted, text in
                 UIView.animate(withDuration: 0.1) {
                     if valid || text.isEmpty {
                         underlineView.highlightColor = ConArtist.Color.Brand
@@ -64,6 +79,8 @@ class FancyTextField: UITextField {
                         titleLabel.textColor = ConArtist.Color.Warn
                     }
                     underlineView.isHighlighted = highlighted || (!valid && !text.isEmpty)
+                    formattedLabel.isHidden = underlineView.isHighlighted
+                    self?.textColor = underlineView.isHighlighted ? self!.textColor?.withAlphaComponent(1) : self!.textColor?.withAlphaComponent(0)
                 }
             })
             .disposed(by: disposeBag)

@@ -26,6 +26,7 @@ extension NewExpenseViewController {
     override func viewDidLoad() {
         setupSubscriptions()
         noteLabel.font = noteLabel.font.usingFeatures([.smallCaps])
+        amountTextField.format = { Money.parse(as: ConArtist.model.settings.value.currency, $0)?.toString() ?? $0 }
     }
 }
 

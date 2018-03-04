@@ -157,6 +157,7 @@ extension Convention {
                             .catchError { Observable.just($0) }
                     }
             )
+
         let expenses: Observable<[Error?]> = øaddedExpenses.value.isEmpty
             ? Observable.just([])
             : Observable.zip(
@@ -168,6 +169,7 @@ extension Convention {
                             .catchError { Observable.just($0) }
                     }
             )
+
         return Observable.zip(records, expenses)
             .map { [weak self] errors in
                 guard let `self` = self else { return }

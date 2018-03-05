@@ -18,8 +18,5 @@
     "style-loader": "^0.18.2",
     "uglifyjs-webpack-plugin": "^1.0.0-beta.2",
     "webpack": "^3.6.0"
-  },
-  "dependencies": {
-    "reset-css": "^2.2.1"
   }
 }

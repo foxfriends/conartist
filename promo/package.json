@@ -5,7 +5,8 @@
   "main": "index.html",
   "scripts": {
     "start": "http-server .",
-    "build": "webpack --watch"
+    "build": "webpack --watch",
+    "build-once": "webpack"
   },
   "author": "Cameron Eldridge",
   "license": "ISC",

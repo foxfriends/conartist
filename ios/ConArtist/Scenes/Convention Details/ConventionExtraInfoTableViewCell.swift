@@ -14,10 +14,10 @@ class ConventionExtraInfoTableViewCell: UITableViewCell {
     @IBOutlet weak var actionLabel: UILabel?
 
     func setup(with info: ConventionExtraInfo) {
-        titleLabel?.text = info.title
+        titleLabel?.text = info.title¡
         titleLabel?.font = titleLabel!.font.usingFeatures([.smallCaps])
 
-        actionLabel?.text = info.actionText
+        actionLabel?.text = info.actionText?¡
 
         infoLabel?.text = info.info
         infoLabel?.numberOfLines = 1 + (info.info?.count(occurrencesOf: "\n") ?? 0)

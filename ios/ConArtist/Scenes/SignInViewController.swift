@@ -19,7 +19,7 @@ class SignInViewController: UIViewController {
         func message() -> String {
             switch self {
             case .IncorrectCredentials:
-                return "Your email or password is incorrect"
+                return "Your email or password is incorrect"¡
             }
         }
     }
@@ -38,6 +38,7 @@ class SignInViewController: UIViewController {
 extension SignInViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupLocalization()
         setupSubscriptions()
     }
 
@@ -51,6 +52,17 @@ extension SignInViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
+    }
+}
+
+// MARK: - Localization
+extension SignInViewController {
+    fileprivate func setupLocalization() {
+        emailTextField.title = "Email"¡
+        emailTextField.placeholder = "Email"¡
+        passwordTextField.title = "Password"¡
+        passwordTextField.placeholder = "Password"¡
+        signInButton.setTitle("Sign in"¡, for: .normal)
     }
 }
 
@@ -84,7 +96,7 @@ extension SignInViewController {
 
         øerrorState
             .map { $0.message() }
-            .asDriver(onErrorJustReturn: "An unknown error has occurred")
+            .asDriver(onErrorJustReturn: "An unknown error has occurred"¡)
             .drive(onNext: { [emailTextField] in emailTextField?.showTooltip(text: $0) })
             .disposed(by: disposeBag)
     }

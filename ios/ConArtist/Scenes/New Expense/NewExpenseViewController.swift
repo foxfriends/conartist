@@ -11,7 +11,7 @@ import RxSwift
 
 class NewExpenseViewController: UIViewController {
     fileprivate static let ID = "NewExpense"
-    @IBOutlet weak var fakeNavBar: FakeNavBar!
+    @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var categoryTextField: FancyTextField!
     @IBOutlet weak var amountTextField: FancyTextField!
     @IBOutlet weak var descriptionTextView: UITextView!
@@ -25,15 +25,29 @@ class NewExpenseViewController: UIViewController {
 extension NewExpenseViewController {
     override func viewDidLoad() {
         setupSubscriptions()
+        setupLocalization()
         noteLabel.font = noteLabel.font.usingFeatures([.smallCaps])
         amountTextField.format = { Money.parse(as: ConArtist.model.settings.value.currency, $0)?.toString() ?? $0 }
+    }
+}
+
+// MARK: - Localization
+extension NewExpenseViewController {
+    fileprivate func setupLocalization() {
+        navBar.title = "New Expense"¡
+        navBar.leftButtonTitle = "Back"¡
+        navBar.rightButtonTitle = "Save"¡
+        amountTextField.title = "Amount"¡
+        amountTextField.placeholder = "Amount"¡
+        categoryTextField.title = "Category"¡
+        categoryTextField.placeholder = "Category"¡
     }
 }
 
 // MARK: - Subscriptions
 extension NewExpenseViewController {
     fileprivate func setupSubscriptions() {
-        fakeNavBar.leftButton.rx.tap
+        navBar.leftButton.rx.tap
             .subscribe(onNext: { [view] _ in
                 view?.endEditing(true)
                 ConArtist.model.navigate(back: 1)
@@ -50,7 +64,7 @@ extension NewExpenseViewController {
             ømoney.filterMap(identity)
         )
 
-        fakeNavBar.rightButton.rx.tap
+        navBar.rightButton.rx.tap
             .withLatestFrom(øform)
             .subscribe(onNext: { [results, view] result in
                 results.onNext(result)
@@ -84,7 +98,7 @@ extension NewExpenseViewController {
                 amountTextField.isValid.asObservable()
             )
             .map { $0 && $1 }
-            .bind(to: fakeNavBar.rightButton.rx.isEnabled)
+            .bind(to: navBar.rightButton.rx.isEnabled)
             .disposed(by: disposeBag)
     }
 }

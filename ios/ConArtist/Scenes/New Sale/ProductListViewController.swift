@@ -26,7 +26,8 @@ extension ProductListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navBar.title = productType.name
-        navBar.rightButton.rx.tap
+        navBar.leftButtonTitle = "Continue"¡
+        navBar.leftButton.rx.tap
             .subscribe({ _ in ConArtist.model.navigate(back: 1) })
             .disposed(by: disposeBag)
     }
@@ -62,7 +63,7 @@ extension ProductListViewController: UITableViewDelegate {
         let product = products[indexPath.row]
         var actions: [UIContextualAction] = []
         if øselected.value.count(occurrencesOf: product) > 0 {
-            let removeAllAction = UIContextualAction(style: .normal, title: "Remove all") { [øselected, products, productsTableView] _, _, reset in
+            let removeAllAction = UIContextualAction(style: .normal, title: "Remove all"¡) { [øselected, products, productsTableView] _, _, reset in
                 øselected?.value = øselected!.value.filter((!=) <- products![indexPath.row])
                 (productsTableView?.cellForRow(at: indexPath) as? ProductTableViewCell)?.countView.isHidden = true
                 reset(true)

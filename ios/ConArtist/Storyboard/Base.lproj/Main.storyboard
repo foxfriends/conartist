@@ -916,7 +916,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cdf-VL-DIQ">
-                                                            <rect key="frame" x="75.5" y="10" width="279.5" height="57.5"/>
+                                                            <rect key="frame" x="75.5" y="10" width="504.5" height="57.5"/>
                                                             <string key="text">Metro Toronto Convention Center
 222 Bremner Blvd
 Toronto, ON, Canada</string>
@@ -925,7 +925,7 @@ Toronto, ON, Canada</string>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="View on map" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dNf-Yo-FYE">
-                                                            <rect key="frame" x="20" y="67.5" width="335" height="9.5"/>
+                                                            <rect key="frame" x="20" y="67.5" width="560" height="9.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" red="0.85490196080000003" green="0.28235294119999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -964,7 +964,7 @@ Toronto, ON, Canada</string>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="fanexpocanada.com" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qyD-am-v5q">
-                                                            <rect key="frame" x="72.5" y="10" width="282.5" height="24"/>
+                                                            <rect key="frame" x="72.5" y="10" width="507.5" height="24"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                             <color key="textColor" red="0.85490196078431369" green="0.28235294117647058" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -999,7 +999,7 @@ Toronto, ON, Canada</string>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Aug 30 - Sep 2, 2018" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hzy-px-iXO">
-                                                            <rect key="frame" x="57.5" y="10" width="297.5" height="24"/>
+                                                            <rect key="frame" x="57.5" y="10" width="522.5" height="24"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -1219,7 +1219,7 @@ Toronto, ON, Canada</string>
                         <outlet property="amountTextField" destination="1Jq-pj-tfd" id="3he-5t-kyn"/>
                         <outlet property="categoryTextField" destination="8pF-5v-8Wa" id="Q3U-DQ-6lZ"/>
                         <outlet property="descriptionTextView" destination="vm1-Rh-k46" id="tWU-yu-2Bo"/>
-                        <outlet property="fakeNavBar" destination="dHf-zs-gxP" id="wdp-Op-tQd"/>
+                        <outlet property="navBar" destination="dHf-zs-gxP" id="wdp-Op-tQd"/>
                         <outlet property="noteLabel" destination="xXu-ch-Tox" id="sB5-Ej-sy2"/>
                     </connections>
                 </viewController>
@@ -1663,7 +1663,7 @@ Toronto, ON, Canada</string>
                                 <color key="backgroundColor" red="0.066666666669999999" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="11x17 Print"/>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="rightButtonTitle" value="Continue"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="leftButtonTitle" value="Continue"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>

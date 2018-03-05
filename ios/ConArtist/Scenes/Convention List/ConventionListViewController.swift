@@ -13,7 +13,6 @@ import RxSwift
 class ConventionListViewController: UIViewController {
     static let MaxConventionsPerSection = 2
     fileprivate enum Section {
-        // TODO: localized strings? here?
         case Past
         case Present
         case PresentEmpty
@@ -30,9 +29,9 @@ class ConventionListViewController: UIViewController {
 
         var title: String {
             switch self {
-            case .Present, .PresentEmpty:   return "Today"
-            case .Past:                     return "Completed"
-            case .Future:                   return "Upcoming"
+            case .Present, .PresentEmpty:   return "Today"¡
+            case .Past:                     return "Completed"¡
+            case .Future:                   return "Upcoming"¡
             }
         }
 
@@ -48,8 +47,7 @@ class ConventionListViewController: UIViewController {
 
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var conventionsTableView: UITableView!
-    weak var settingsButton: UIButton!
-    
+
     fileprivate let øconventions = ConArtist.model.conventions
     fileprivate let øsections = Variable<[Section]>([])
     fileprivate let disposeBag = DisposeBag()
@@ -66,24 +64,23 @@ extension ConventionListViewController {
         let øcurrency = Variable(ConArtist.model.settings.value.currency.rawValue)
         let settings = [
             SettingsViewController.Group(
-                title: "General",
+                title: "General"¡,
                 items: [
-                    .Select("Currency", øcurrency, CurrencyCode.variants.map { $0.rawValue })
+                    .Select("Currency"¡, øcurrency, CurrencyCode.variants.map { $0.rawValue })
                 ]
             ),
             SettingsViewController.Group(
-                // TODO: localized strings
-                title: "Support",
+                title: "Support"¡,
                 items: [
-                    .Action("Sign out", { [weak self] in self?.signOut() }),
-                    .Action("Report a bug/Request a feature", { [weak self] in self?.contactSupport() }),
-                    .Action("Help", { [weak self] in self?.showHelp() })
+                    .Action("Sign out"¡, { [weak self] in self?.signOut() }),
+                    .Action("Report a bug/Request a feature"¡, { [weak self] in self?.contactSupport() }),
+                    .Action("Help"¡, { [weak self] in self?.showHelp() })
                 ]
             ),
         ]
         SettingsViewController.show(for: settings)
     }
-    
+
     private func signOut() {
         ConArtist.model.navigate(backTo: SignInViewController.self)
         ConArtist.API.Auth.authToken = ConArtist.API.Auth.Unauthorized
@@ -102,17 +99,30 @@ extension ConventionListViewController {
 extension ConventionListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupLocalization()
+        setupSubscriptions()
+    }
+}
 
-        settingsButton = navBar.rightButton
+// MARK: - Localization
+extension ConventionListViewController {
+    fileprivate func setupLocalization() {
+        navBar.title = "Conventions"¡
+        navBar.rightButtonTitle = "Settings"¡
+    }
+}
 
+// MARK: - Subscriptions
+extension ConventionListViewController {
+    fileprivate func setupSubscriptions() {
         let øpast = øconventions.asObservable().map { cons in cons.filter { $0.end < Date.today() } }
         let øpresent = øconventions.asObservable().map { cons in cons.filter { $0.start <= Date.today() && $0.end >= Date.today() } }
         let øfuture = øconventions.asObservable().map { cons in cons.filter { $0.start > Date.today() } }
-        
+
         øpast.subscribe(onNext: { [weak self] in self?.past = $0 }).disposed(by: disposeBag)
         øfuture.subscribe(onNext: { [weak self] in self?.future = $0 }).disposed(by: disposeBag)
         øpresent.subscribe(onNext: { [weak self] in self?.present = $0 }).disposed(by: disposeBag)
-        
+
         Observable.combineLatest([øpresent, øfuture, øpast])
             .map { $0.map { $0.count > 0 } }
             .map { zip($0, [Section.Present, .Future, .Past]) }
@@ -129,8 +139,8 @@ extension ConventionListViewController {
                 self?.conventionsTableView.reloadData()
             })
             .disposed(by: disposeBag)
-        
-        settingsButton.rx.tap
+
+        navBar.rightButton.rx.tap
             .subscribe(onNext: { [unowned self] _ in self.openSettings() })
             .disposed(by: disposeBag)
     }
@@ -146,20 +156,20 @@ extension ConventionListViewController: UITableViewDataSource {
         case .Future:       return future
         }
     }
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return sectionTitles.count
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let section = øsections.value.nth(section) else { return 0 }
         return min(ConventionListViewController.MaxConventionsPerSection, max(conventions(for: section).count, 1))
     }
-    
+
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sectionTitles.nth(section)
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let section = øsections.value.nth(indexPath.section) {
             let cell = tableView.dequeueReusableCell(withIdentifier: section.cellIdentifier, for: indexPath) as! ConventionTableViewCell

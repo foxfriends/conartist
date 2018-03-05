@@ -35,7 +35,8 @@ class SettingsViewController: UIViewController {
 extension SettingsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navBar.title = "Settings"¡
+        navBar.leftButtonTitle = "Back"¡
         navBar.leftButton.rx.tap
             .subscribe(onNext: { _ in ConArtist.model.navigate(back: 1) })
             .disposed(by: disposeBag)

@@ -17,6 +17,9 @@
 		321FDE8020269E43002DF04B /* SettingsBooleanTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321FDE7F20269E43002DF04B /* SettingsBooleanTableViewCell.swift */; };
 		321FDE8220269E67002DF04B /* SettingsActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321FDE8120269E67002DF04B /* SettingsActionTableViewCell.swift */; };
 		321FDE842027D14B002DF04B /* Observable+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321FDE832027D14B002DF04B /* Observable+Helpers.swift */; };
+		322C6A0B204CC2170021A2D9 /* localization in Resources */ = {isa = PBXBuildFile; fileRef = 322C6A0A204CC2170021A2D9 /* localization */; };
+		322C6A0D204CC2810021A2D9 /* String+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322C6A0C204CC2810021A2D9 /* String+Localization.swift */; };
+		322C6A0F204CC8B40021A2D9 /* String+Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322C6A0E204CC8B40021A2D9 /* String+Display.swift */; };
 		324592951FEAFA6000DE89BB /* ConArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592941FEAFA6000DE89BB /* ConArtist.swift */; };
 		324592971FEAFEE000DE89BB /* ConRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592961FEAFEE000DE89BB /* ConRequest.swift */; };
 		3245929C1FEB19DA00DE89BB /* GraphQL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3245929B1FEB19DA00DE89BB /* GraphQL.swift */; };
@@ -101,6 +104,9 @@
 		321FDE7F20269E43002DF04B /* SettingsBooleanTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBooleanTableViewCell.swift; sourceTree = "<group>"; };
 		321FDE8120269E67002DF04B /* SettingsActionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsActionTableViewCell.swift; sourceTree = "<group>"; };
 		321FDE832027D14B002DF04B /* Observable+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+Helpers.swift"; sourceTree = "<group>"; };
+		322C6A0A204CC2170021A2D9 /* localization */ = {isa = PBXFileReference; lastKnownFileType = folder; name = localization; path = ../../../shared/localization; sourceTree = "<group>"; };
+		322C6A0C204CC2810021A2D9 /* String+Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Localization.swift"; sourceTree = "<group>"; };
+		322C6A0E204CC8B40021A2D9 /* String+Display.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Display.swift"; sourceTree = "<group>"; };
 		324592941FEAFA6000DE89BB /* ConArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConArtist.swift; sourceTree = "<group>"; };
 		324592961FEAFEE000DE89BB /* ConRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConRequest.swift; sourceTree = "<group>"; };
 		3245929B1FEB19DA00DE89BB /* GraphQL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphQL.swift; sourceTree = "<group>"; };
@@ -339,6 +345,7 @@
 		32B91026204B3278002F9C94 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				322C6A0A204CC2170021A2D9 /* localization */,
 				32B91027204B3289002F9C94 /* SVG */,
 			);
 			path = Resources;
@@ -365,6 +372,9 @@
 				32B36ED52040F57000DA4593 /* Optional+Helpers.swift */,
 				32C39C1F201E99A100071E26 /* Sequence+Helpers.swift */,
 				32F12C1120354E550045D0BC /* String+Attributes.swift */,
+				322C6A0E204CC8B40021A2D9 /* String+Display.swift */,
+				322C6A0C204CC2810021A2D9 /* String+Localization.swift */,
+				32BE32BA201E786B00BFEB16 /* UIViewController+Instantiate.swift */,
 				32E80BD6201700EB0008EC27 /* String+Money.swift */,
 				32B36EBC203BD2F000DA4593 /* UIButton+ConArtist.swift */,
 				3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */,
@@ -373,7 +383,6 @@
 				32B36EBE203BD67800DA4593 /* UIView+Customizable.swift */,
 				32B36EC4203E5E7D00DA4593 /* UIView+Shadows.swift */,
 				32C39C1D201E870600071E26 /* UIView+Tooltip.swift */,
-				32BE32BA201E786B00BFEB16 /* UIViewController+Instantiate.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -540,6 +549,7 @@
 				32B9101020439F75002F9C94 /* resources.json in Resources */,
 				32B9102B204B32C4002F9C94 /* chevron_up.svg in Resources */,
 				321B75DF1F9BAD320055EBC4 /* Main.storyboard in Resources */,
+				322C6A0B204CC2170021A2D9 /* localization in Resources */,
 				32B9102C204B32C4002F9C94 /* chevron_down.svg in Resources */,
 				32B9100F20439F75002F9C94 /* generate-schemas in Resources */,
 			);
@@ -654,6 +664,7 @@
 				32B9101320439F97002F9C94 /* Resources.swift in Sources */,
 				32B9101B2048F049002F9C94 /* SettingsSelectTableViewCell.swift in Sources */,
 				324592951FEAFA6000DE89BB /* ConArtist.swift in Sources */,
+				322C6A0D204CC2810021A2D9 /* String+Localization.swift in Sources */,
 				32B36EBD203BD2F000DA4593 /* UIButton+ConArtist.swift in Sources */,
 				32AE416720253D5C0061EB64 /* RootNavigationController.swift in Sources */,
 				32C39C31201EA5B400071E26 /* RecordTableViewCell.swift in Sources */,
@@ -674,6 +685,7 @@
 				32C9F9BE20265A840004566E /* Prices.swift in Sources */,
 				32BC33DD1FEEED030006256A /* ProductListViewController.swift in Sources */,
 				32B36ED62040F57000DA4593 /* Optional+Helpers.swift in Sources */,
+				322C6A0F204CC8B40021A2D9 /* String+Display.swift in Sources */,
 				32C39C36201EA66800071E26 /* ConventionDetailsViewController.swift in Sources */,
 				324592971FEAFEE000DE89BB /* ConRequest.swift in Sources */,
 				32AE4169202553CF0061EB64 /* ProductTypeListViewController.swift in Sources */,

@@ -30,4 +30,8 @@ class FancyButton: UIButton {
         super.init(coder: coder)
         onInit()
     }
+
+    override func setTitle(_ title: String?, for state: UIControlState) {
+        super.setTitle(title?.uppercased(), for: state)
+    }
 }

@@ -37,6 +37,7 @@ class ProductTypeListViewController: UIViewController {
 extension ProductTypeListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupLocalization()
         setupSubscriptions()
         infoExpandButtonImage.image = ConArtist.Images.SVG.Chevron.Down
         noteLabel.font = noteLabel.font.usingFeatures([.smallCaps])
@@ -51,6 +52,17 @@ extension ProductTypeListViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
+    }
+}
+
+// MARK: - Localization
+extension ProductTypeListViewController {
+    fileprivate func setupLocalization() {
+        navBar.leftButtonTitle = "Cancel"¡
+        navBar.rightButtonTitle = "Save"¡
+        priceField.title = "Price"¡
+        priceField.placeholder = "Price"¡
+        noteLabel.text = "Note"¡
     }
 }
 

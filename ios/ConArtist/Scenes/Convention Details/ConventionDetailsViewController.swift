@@ -51,6 +51,7 @@ extension ConventionDetailsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupLocalization()
         setupSubscriptions()
     }
 
@@ -61,6 +62,7 @@ extension ConventionDetailsViewController {
             .map { infoTableView.cellForRow(at: IndexPath(row: $0, section: 0))!.frame.height }
             .reduce(0, +)
     }
+
     override func updateViewConstraints() {
         super.updateViewConstraints()
         infoTableViewHeightConstraint.constant = tableViewHeight + infoTableView.tableHeaderView!.frame.height
@@ -83,6 +85,18 @@ extension ConventionDetailsViewController {
         headerImage.imageId = convention.images.first
         infoTableView.reloadData()
         updateViewConstraints()
+    }
+}
+
+// MARK: - Localization
+extension ConventionDetailsViewController {
+    fileprivate func setupLocalization() {
+        navBar.leftButtonTitle = "Back"¡
+        seeAllRecordsButton.setTitle("View records"¡, for: .normal)
+        newSaleButton.setTitle("New sale"¡, for: .normal)
+        newSaleButton.setTitle("New expense"¡, for: .normal)
+        seeAllInfoButton.setTitle("See all"¡, for: .normal)
+        smallCapsLabels.forEach { $0.text = $0.text?¡ }
     }
 }
 
@@ -172,7 +186,7 @@ extension ConventionDetailsViewController {
                     label.textAlignment = .center
                     label.font = UIFont.systemFont(ofSize: 15).usingFeatures([.smallCaps])
                     label.textColor = ConArtist.Color.TextPlaceholder.withAlphaComponent(0.25)
-                    label.text = "There's nothing here…" // TODO: localized string
+                    label.text = "There's nothing here…"¡
                     userSuppliedInfoPreview.addArrangedSubview(label)
                 }
             })

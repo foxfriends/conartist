@@ -11,7 +11,7 @@ should be processed together.
 
 ## Resources
 
-There is a separate GraphQL API for the resources API, which is stored outside of the GraphQL
+There is a separate GraphQL API for the resources API which is stored outside of the GraphQL
 folder so that the code generators do not compile this in with the other schema.
 
 ## Colors

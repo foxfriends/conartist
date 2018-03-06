@@ -77,7 +77,12 @@ extension ProductTypeListViewController {
             .subscribe(onNext: { _ in ConArtist.model.navigate(back: 1) })
             .disposed(by: disposeBag)
 
-        let ømoney = priceField.rx.text
+        let ømoney = Observable
+            .merge(
+                øselected.asObservable().discard(),
+                priceField.rx.text.discard()
+            )
+            .withLatestFrom(priceField.rx.text)
             .map { [weak self] text -> Money? in
                 guard let text = text, !text.isEmpty else { return self?.calculatePrice(self!.øselected.value) }
                 return Money.parse(as: ConArtist.model.settings.value.currency, text)
@@ -96,7 +101,7 @@ extension ProductTypeListViewController {
             .withLatestFrom(
                 Observable.combineLatest(
                     øselected.asObservable(),
-                    ømoney.filterMap(identity),
+                    ømoney.filterMap { [weak self] in $0 ?? self?.calculatePrice(self!.øselected.value) },
                     infoTextView.rx.text.map { $0 ?? "" }
                 )
             )
@@ -133,7 +138,7 @@ extension ProductTypeListViewController {
             .asObservable()
             .subscribe(onNext: { [view, infoViewBottomConstraint, infoExpandButtonImage] amount in
                 infoViewBottomConstraint?.constant = amount
-                infoExpandButtonImage?.image = amount == 0 ? ConArtist.Images.SVG.Chevron.Down : ConArtist.Images.SVG.Chevron.Up
+                infoExpandButtonImage?.image = amount == 0 ? ConArtist.Images.SVG.Chevron.Up : ConArtist.Images.SVG.Chevron.Down
                 UIView.animate(withDuration: 0.25) { view?.layoutIfNeeded() }
             })
             .disposed(by: disposeBag)

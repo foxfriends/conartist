@@ -15,7 +15,7 @@ struct Record {
     let time: Date
     let info: String
 
-    init(id: Int?, products: [Int], price: Money, time: Date, info: String) {
+    init(id: Int = ConArtist.NoID, products: [Int], price: Money, time: Date = Date(), info: String) {
         self.id = id
         self.products = products
         self.price = price

@@ -76,6 +76,7 @@ fragment ExtraInfoFragment on ConventionExtraInfo {
 fragment UserInfoFragment on ConventionUserInfo {
   id
   info
+  vote
   ...VotesFragment
 }
 

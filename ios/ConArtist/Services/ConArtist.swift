@@ -29,14 +29,20 @@ struct ConArtist {
         static let Text = UIColor.white
         static let TextPlaceholder = UIColor.white.withAlphaComponent(0.5)
         static let Warn = UIColor.red
+        static let Success = UIColor(hex: 0x3e803e)
     }
 
     struct Images {
         struct SVG {
             struct Chevron {
-                static let Down: SVGKImage = SVGKImage(named: "chevron_down.svg")
-                static let Up: SVGKImage = SVGKImage(named: "chevron_up.svg")
-                static let Right: SVGKImage = SVGKImage(named: "chevron_right.svg")
+                static let Down     = SVGKImage(named: "chevron_down.svg")
+                static let Up       = SVGKImage(named: "chevron_up.svg")
+                static let Right    = SVGKImage(named: "chevron_right.svg")
+            }
+
+            struct Thumb {
+                static let Down     = SVGKImage(named: "thumb_down.svg")
+                static let Up       = SVGKImage(named: "thumb_up.svg")
             }
         }
     }

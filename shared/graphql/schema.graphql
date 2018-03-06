@@ -118,6 +118,7 @@ type ConventionUserInfo {
   info: String!
   upvotes: Int!
   downvotes: Int!
+  vote(userId: Int): Int!
 }
 
 type ConventionPage {

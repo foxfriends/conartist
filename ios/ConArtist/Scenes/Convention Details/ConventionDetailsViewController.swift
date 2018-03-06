@@ -94,7 +94,7 @@ extension ConventionDetailsViewController {
         navBar.leftButtonTitle = "Back"¡
         seeAllRecordsButton.setTitle("View records"¡, for: .normal)
         newSaleButton.setTitle("New sale"¡, for: .normal)
-        newSaleButton.setTitle("New expense"¡, for: .normal)
+        newExpenseButton.setTitle("New expense"¡, for: .normal)
         seeAllInfoButton.setTitle("See all"¡, for: .normal)
         smallCapsLabels.forEach { $0.text = $0.text?¡ }
     }
@@ -115,8 +115,14 @@ extension ConventionDetailsViewController {
 
         newSaleButton.rx.tap
             .flatMap { [convention] _ in ProductTypeListViewController.show(for: convention!) }
-            .subscribe(onNext: { products, price, note in
-                // TODO: record the sale!
+            .map { products, price, info in Record(products: products.map { $0.id }, price: price, info: info) }
+            .do(onNext: { print($0) })
+            .do(onNext: convention.addRecord)
+            .flatMap { [convention] _ in convention!.save() }
+            .catchErrorJustReturn(false)
+            .subscribe(onNext: { saved in
+                if saved { print ("SAVED") }
+                else { print("FAILED TO SAVE") }
             })
             .disposed(by: disposeBag)
 
@@ -125,15 +131,15 @@ extension ConventionDetailsViewController {
             .map(Expense.init)
             .do(onNext: convention.addExpense)
             .flatMap { [convention] _ in convention!.save() }
-            .catchError { errors in
-                print(errors)
-                return Observable.just(false)
-            }
+            .catchErrorJustReturn(false)
             .subscribe(onNext: { saved in
-                // TODO: show the user something?
                 if saved { print("SAVED") }
                 else { print("FAILED TO SAVE") }
             })
+            .disposed(by: disposeBag)
+
+        seeAllInfoButton.rx.tap
+            .subscribe(onNext: { [convention] _ in ConventionUserInfoListViewController.show(for: convention!) })
             .disposed(by: disposeBag)
 
         let salesTotal = convention.records

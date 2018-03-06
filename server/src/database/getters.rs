@@ -228,6 +228,23 @@ impl Database {
         )
     }
 
+    pub fn get_user_vote_for_convention_user_info(&self, maybe_user_id: Option<i32>, con_info_id: i32) -> Result<i32, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let conn = self.pool.get().unwrap();
+        Ok (
+            query!(conn, "
+                    SELECT (CASE rating WHEN true THEN 1 WHEN false THEN -1 ELSE 0 END) AS vote
+                      FROM ConventionInfoRatings
+                     WHERE user_id = $1 
+                       AND con_info_id = $2
+            ", user_id, con_info_id)
+            .iter()
+            .map(|row| row.get("vote"))
+            .nth(0)
+            .unwrap_or(0)
+        )
+    }
+
     pub fn get_images_for_convention(&self, con_id: i32) -> Result<Vec<String>, String> {
         let conn = self.pool.get().unwrap();
         Ok (

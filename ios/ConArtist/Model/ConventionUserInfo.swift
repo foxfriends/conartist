@@ -9,20 +9,28 @@
 import Foundation
 
 struct ConventionUserInfo {
+    enum Vote { case none, up, down }
     let id: Int
     let info: String
     let rating: Int
+    let vote: Vote
 
     private init(id: Int, info: String, rating: Int) {
         self.id = id
         self.info = info
         self.rating = rating
+        self.vote = .none
     }
 
     init?(graphQL userInfo: UserInfoFragment) {
         id = userInfo.id
         info = userInfo.info
         rating = userInfo.upvotes - userInfo.downvotes
+        switch userInfo.vote {
+        case  1: vote = .up
+        case -1: vote = .down
+        default: vote = .none
+        }
     }
 
     func adjustVotes(_ votes: VotesFragment) -> ConventionUserInfo {

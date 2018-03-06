@@ -20,6 +20,10 @@
 		322C6A0B204CC2170021A2D9 /* localization in Resources */ = {isa = PBXBuildFile; fileRef = 322C6A0A204CC2170021A2D9 /* localization */; };
 		322C6A0D204CC2810021A2D9 /* String+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322C6A0C204CC2810021A2D9 /* String+Localization.swift */; };
 		322C6A0F204CC8B40021A2D9 /* String+Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322C6A0E204CC8B40021A2D9 /* String+Display.swift */; };
+		322C6A13204E1D070021A2D9 /* ConventionUserInfoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322C6A12204E1D070021A2D9 /* ConventionUserInfoListViewController.swift */; };
+		322C6A15204E20570021A2D9 /* ConventionUserInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322C6A14204E20570021A2D9 /* ConventionUserInfoTableViewCell.swift */; };
+		322C6A18204E231B0021A2D9 /* thumb_down.svg in Resources */ = {isa = PBXBuildFile; fileRef = 322C6A16204E231A0021A2D9 /* thumb_down.svg */; };
+		322C6A19204E231B0021A2D9 /* thumb_up.svg in Resources */ = {isa = PBXBuildFile; fileRef = 322C6A17204E231B0021A2D9 /* thumb_up.svg */; };
 		324592951FEAFA6000DE89BB /* ConArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592941FEAFA6000DE89BB /* ConArtist.swift */; };
 		324592971FEAFEE000DE89BB /* ConRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592961FEAFEE000DE89BB /* ConRequest.swift */; };
 		3245929C1FEB19DA00DE89BB /* GraphQL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3245929B1FEB19DA00DE89BB /* GraphQL.swift */; };
@@ -107,6 +111,10 @@
 		322C6A0A204CC2170021A2D9 /* localization */ = {isa = PBXFileReference; lastKnownFileType = folder; name = localization; path = ../../../shared/localization; sourceTree = "<group>"; };
 		322C6A0C204CC2810021A2D9 /* String+Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Localization.swift"; sourceTree = "<group>"; };
 		322C6A0E204CC8B40021A2D9 /* String+Display.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Display.swift"; sourceTree = "<group>"; };
+		322C6A12204E1D070021A2D9 /* ConventionUserInfoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConventionUserInfoListViewController.swift; sourceTree = "<group>"; };
+		322C6A14204E20570021A2D9 /* ConventionUserInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConventionUserInfoTableViewCell.swift; sourceTree = "<group>"; };
+		322C6A16204E231A0021A2D9 /* thumb_down.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = thumb_down.svg; sourceTree = "<group>"; };
+		322C6A17204E231B0021A2D9 /* thumb_up.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = thumb_up.svg; sourceTree = "<group>"; };
 		324592941FEAFA6000DE89BB /* ConArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConArtist.swift; sourceTree = "<group>"; };
 		324592961FEAFEE000DE89BB /* ConRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConRequest.swift; sourceTree = "<group>"; };
 		3245929B1FEB19DA00DE89BB /* GraphQL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphQL.swift; sourceTree = "<group>"; };
@@ -251,6 +259,8 @@
 			children = (
 				32C39C35201EA66800071E26 /* ConventionDetailsViewController.swift */,
 				32B36ECC203FB8DD00DA4593 /* ConventionExtraInfoTableViewCell.swift */,
+				322C6A12204E1D070021A2D9 /* ConventionUserInfoListViewController.swift */,
+				322C6A14204E20570021A2D9 /* ConventionUserInfoTableViewCell.swift */,
 			);
 			path = "Convention Details";
 			sourceTree = "<group>";
@@ -354,6 +364,8 @@
 		32B91027204B3289002F9C94 /* SVG */ = {
 			isa = PBXGroup;
 			children = (
+				322C6A16204E231A0021A2D9 /* thumb_down.svg */,
+				322C6A17204E231B0021A2D9 /* thumb_up.svg */,
 				32B91029204B32C4002F9C94 /* chevron_down.svg */,
 				32B9102A204B32C4002F9C94 /* chevron_right.svg */,
 				32B91028204B32C4002F9C94 /* chevron_up.svg */,
@@ -544,6 +556,7 @@
 				32B9101120439F75002F9C94 /* schema.json in Resources */,
 				32B9102D204B32C4002F9C94 /* chevron_right.svg in Resources */,
 				321B75E71F9BAD320055EBC4 /* LaunchScreen.storyboard in Resources */,
+				322C6A19204E231B0021A2D9 /* thumb_up.svg in Resources */,
 				32F6F6441FF706AA00935554 /* Images.xcassets in Resources */,
 				321B75E41F9BAD320055EBC4 /* Assets.xcassets in Resources */,
 				32B9101020439F75002F9C94 /* resources.json in Resources */,
@@ -552,6 +565,7 @@
 				322C6A0B204CC2170021A2D9 /* localization in Resources */,
 				32B9102C204B32C4002F9C94 /* chevron_down.svg in Resources */,
 				32B9100F20439F75002F9C94 /* generate-schemas in Resources */,
+				322C6A18204E231B0021A2D9 /* thumb_down.svg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -682,6 +696,7 @@
 				32C9F9BC20264DB70004566E /* ChipCollectionViewCell.swift in Sources */,
 				32B9101F2048F282002F9C94 /* SettingsSelectOptionTableViewCell.swift in Sources */,
 				32B9101D2048F113002F9C94 /* SettingsSelectViewController.swift in Sources */,
+				322C6A13204E1D070021A2D9 /* ConventionUserInfoListViewController.swift in Sources */,
 				32C9F9BE20265A840004566E /* Prices.swift in Sources */,
 				32BC33DD1FEEED030006256A /* ProductListViewController.swift in Sources */,
 				32B36ED62040F57000DA4593 /* Optional+Helpers.swift in Sources */,
@@ -716,6 +731,7 @@
 				324592AE1FEC314900DE89BB /* Date+String.swift in Sources */,
 				321FDE8220269E67002DF04B /* SettingsActionTableViewCell.swift in Sources */,
 				32BE32BB201E786B00BFEB16 /* UIViewController+Instantiate.swift in Sources */,
+				322C6A15204E20570021A2D9 /* ConventionUserInfoTableViewCell.swift in Sources */,
 				32B910192047C821002F9C94 /* Settings.swift in Sources */,
 				32B36ED82041FF3200DA4593 /* NetworkImageView.swift in Sources */,
 				32C39C33201EA5B400071E26 /* ProductTypeTableViewCell.swift in Sources */,

@@ -18,9 +18,11 @@ class ConventionUserInfoTableViewCell: UITableViewCell {
     func setup(for info: ConventionUserInfo) {
         ratingLabel.text = "\(info.rating)"
         thumbIcon.image = info.vote == .down ? ConArtist.Images.SVG.Thumb.Down : ConArtist.Images.SVG.Thumb.Up
-        thumbIcon.tintColor = info.vote == .down    ? ConArtist.Color.Warn
-                            : info.vote == .up      ? ConArtist.Color.Success
-                            :                         ConArtist.Color.Text
+        // kind of hacky but is there really any other way?
+        (thumbIcon.image.caLayerTree.sublayers?[1] as? CAShapeLayer)?.fillColor
+            = info.vote == .down    ? ConArtist.Color.Warn.cgColor
+            : info.vote == .up      ? ConArtist.Color.Success.cgColor
+            :                         ConArtist.Color.Text.cgColor
         infoLabel.text = info.info
     }
 }

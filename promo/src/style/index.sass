@@ -1,100 +1,91 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300|Quicksand:300')
-@import ~reset-css/reset.css
-// TODO: move the helpers somewhere better
-@import ../web-elm/style/helper
+@import url('https://fonts.googleapis.com/css?family=Alegreya:400,700|Alegreya+SC:500')
 
-=image-stub
-  position: relative
-  &::after
-    content: 'Insert image here'
-    position: absolute
-    left: 50%
-    top: 50%
-    transform: translate(-50%, -50%) rotate(-30deg) scale(5)
-    color: rgba(0, 0, 0, 0.12)
+$color__brand: #da4800
+$color__brand--variant: #d9991e
+$color__text: #ffffff
+$color__text--placeholder: transparentize($color__text, 0.5)
+$color__divider: transparentize($color__text, 0.8)
+$color__background: #333333
+$color__background--variant: #444444
 
-.header, .main, .footer
-  color: rgba(0, 0, 0, 0.8)
+$font__copy: "Alegreya"
+$font__heading: "Alegreya SC"
 
-.header, .footer
-  font-family: $font--title
-.main
-  font-family: $font--body
+*
+  :margin 0
+  :padding 0
+
+body
+  :background-color $color__background
+  :overflow-x hidden
+
+section, p, div, body, h1, h2, h3, h4, h5, h6
+  :color $color__text
+  :font-weight normal
+
+p
+  :margin 1pc 0
+
+section, p, div, body
+  :font
+    :size 24pt
+    :family $font__copy
+  :line-height 1.2
+  :letter-spacing 1px
+
+header, footer, section
+  :box-sizing border-box
+  :height 100vh
+  :width 100vw
+  :padding 5vh 0
+
+header, footer, section
+  :display flex
+  :flex-direction column
+
+header
+  :align-items center
+  :justify-content center
+
+h1
+  :font
+    :family $font__heading
+    :size 44pt
+    :weight bold
+  :letter-spacing 3px
+
+a
+  :font-family $font__heading
+  &:link, &:visited
+    :text-decoration none
+    :color $color__brand
+  &:hover
+    :color $color__brand--variant
 
 .header
-  display: flex
-  height: 100vh
-  align-items: flex-end
-  justify-content: flex-end
-  &__content
-    padding: 40px
-  &__text
-    text-align: left
-    &--subtitle
-      @extend .header__text
-      font-size: 18pt
-    &--title
-      @extend .header__text
-      font-size: 80pt
-  +image-stub
-
-.main
-  margin: 40px 0
-  padding: 40px
-
-.section
-  margin: 0 auto
-  display: flex
-  align-items: center
-  justify-content: space-around
-  overflow-y: visible
-  flex-wrap: wrap
-  &:nth-of-type(2n)
-    flex-direction: row-reverse
-  &__content
-    font-size: 18pt
-    padding: 32px
-    flex-basis: 600px
-  &__image
-    flex-shrink: 0
-    &--stub
-      @extend .section__image
-      border: 1px solid black
-      width: 700px
-      height: 500px
-      +image-stub
+  &__indicator, &__title
+    :margin-top auto
 
 .footer
-  height: 50vh
-  display: flex
-  align-items: center
-  justify-content: center
-  &__content
-    display: flex
-    flex-direction: column
-    align-items: center
-    justify-content: center
+  &__links, &__action
+    :margin-top auto
+  &__action
+    :text-align center
+
+.indicator
+  :margin-top auto
+  :text-align center
   &__text
-    &--headline
-      font-size: 32pt
-      margin: 16px
-  &__form
-  &__field, &__button
-    border: none
-    background: none
-    height: 40px
-    font-size: 14pt
-    margin: 16px
-  &__field
-    border-bottom: 1px dotted
-  &__button
-    +natural-light($color--conartist)
-    padding: 0 16px
-    color: transparentize(white, 0.1)
-    border-radius: 4px
-    border-top: 1px solid lighter($color--conartist, 40%, 40%)
-    box-shadow: 0 4px 0 0 darker($color--conartist, 20%, 20%), 0 4px 3px 0 darker($color--conartist, 40%, 40%)
-    transform: translateY(-2px)
-    &:active
-      transform: translateY(2px)
-      box-shadow: none
+    :font-size 16pt
+
+.section
+  &__title
+    :margin
+      :left 10vw
+      :top 10vh
+  &__info
+    :margin
+      :left calc(10vw + 3pc)
+      :top 1pc
+  &__copy
+    :font-size 18pt

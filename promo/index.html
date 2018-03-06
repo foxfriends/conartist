@@ -4,54 +4,69 @@
     <meta charset="utf-8">
     <title>ConArtist</title>
     <script src="./index.min.js"></script>
+    <link rel="shortcut icon" href="static/logo/favicon.ico" />
   </head>
   <body>
-    <header class="header">
-      <hgroup class="header__content">
-        <h1 class="header__text--title">ConArtist</h1>
-        <h2 class="header__text--subtitle">This is a cool subtitle</h2>
-      </hgroup>
+    <header>
+      <h1 class="header__title">ConArtist</h1>
+      <p>The ultimate solution for con(vention) artists</p>
+      <div class="header__indicator indicator">
+        <p class="indicator__text">Tell me more</p>
+        <p>︾</p>
+      </div>
     </header>
-    <main class="main">
-      <!-- TODO: get real images -->
-      <section class="section">
-        <div class="section__image--stub"></div>
-        <div class="section__content">
-          Keep track of sales, prices, inventory and more
-        </div>
-      </section>
-      <section class="section">
-        <div class="section__image--stub"></div>
-        <div class="section__content">
-          Use the mobile app for on-site, instant sales records
-        </div>
-      </section>
-      <section class="section">
-        <div class="section__image--stub"></div>
-        <div class="section__content">
-          No connection? No problem. Just sync when you get home
-        </div>
-      </section>
-      <section class="section">
-        <div class="section__image--stub"></div>
-        <div class="section__content">
-          Automatic graphs show inventory and sales in real time
-        </div>
-      </section>
-      <section class="section">
-        <div class="section__image--stub"></div>
-        <div class="section__content">
-          Keep track of everything you've ever sold, all in one place
-        </div>
-      </section>
-    </main>
-    <footer class="footer">
-      <div class="footer__content">
-        <h3 class="footer__text--headline">Coming soon</h3>
-        <div class="footer__form">
-          <input type="email" placeholder="Enter your email" class="footer__field" />
-          <button class="footer__button">Keep me informed</button>
-        </div>
+    <section>
+      <p class="section__title">
+        All the information you need, in your pocket.
+      </p>
+      <div class="section__info">
+        <p class="section__copy">Search for conventions.</p>
+        <p class="section__copy">Pick the ones you like.</p>
+        <p class="section__copy">They've all been researched already.</p>
+      </div>
+      <div class="indicator">
+        <p class="indicator__text">Found one</p>
+        <p>︾</p>
+      </div>
+    </section>
+    <section>
+      <p class="section__title">
+        Set up your inventory. Track your sales.
+      </p>
+      <div class="section__info">
+        <p class="section__copy">Never miscount.</p>
+        <p class="section__copy">You barely even need to think about it.</p>
+      </div>
+      <div class="indicator">
+        <p class="indicator__text">Now what</p>
+        <p>︾</p>
+      </div>
+    </section>
+    <section>
+      <p class="section__title">
+        Look at all your money.
+      </p>
+      <div class="section__info">
+        <p class="section__copy">Every dollar you earned is accounted for.</p>
+        <p class="section__copy">Every item you sold is recorded.</p>
+        <p class="section__copy">It's even on this cool graph.</p>
+      </div>
+      <div class="indicator">
+        <p class="indicator__text">Sign me up</p>
+        <p>︾</p>
+      </div>
+    </section>
+    <footer>
+      <p class="section__title">
+        Get set up now.
+      </p>
+      <div class="section__info">
+        <a href="https://con--artist.herokuapp.com/">early access</a>
+        <p class="section__copy">Try the beta at Ottawa Comiccon, 2018</p>
+      </div>
+      <div class="footer__links indicator">
+        <p class="indicator__text">Contribute</p>
+        <a href="https://github.com/oinkiguana/conartist"><img src="static/github.svg" width="40" height="40" /></a>
       </div>
     </footer>
   </body>

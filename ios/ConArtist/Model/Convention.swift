@@ -131,6 +131,19 @@ extension Convention {
         øaddedExpenses.value.append(expense)
     }
 
+    func addUserInfo(_ info: String) {
+        let newInfo = ConventionUserInfo(info: info)
+        øuserInfo.value.append(newInfo)
+        let _ = ConArtist.API.GraphQL
+            .observe(mutation: ContributeConventionInfoMutation(info: info))
+            .map { $0.addConventionInfo.fragments.userInfoFragment }
+            .filterMap(ConventionUserInfo.init(graphQL:))
+            .catchError { _ in Observable.empty() }
+            .subscribe(onNext: { [øuserInfo] info in
+                øuserInfo.value = øuserInfo.value.replace(with: info) { $0.info == info.info }
+            })
+    }
+
     func setVote(for info: ConventionUserInfo, to vote: ConventionUserInfo.Vote) {
         let updatedInfo = info.setVote(to: vote)
         let request: Observable<VotesFragment>
@@ -147,9 +160,11 @@ extension Convention {
         case .none: request = Observable.empty()
         }
         øuserInfo.value = øuserInfo.value.replace(with: updatedInfo) { $0.id == info.id }
-        let _ = request.subscribe(onNext: { [øuserInfo] votes in
-            øuserInfo.value = øuserInfo.value.map { info in info.id == updatedInfo.id ? info.adjustVotes(votes) : info }
-        })
+        let _ = request
+            .catchError { _ in Observable.empty() }
+            .subscribe(onNext: { [øuserInfo] votes in
+                øuserInfo.value = øuserInfo.value.map { info in info.id == updatedInfo.id ? info.adjustVotes(votes) : info }
+            })
     }
 }
 
@@ -163,7 +178,7 @@ extension Convention {
         return ConArtist.API.GraphQL
             .observe(query: FullConventionQuery(userId: nil, conId: id), cachePolicy: force ? .fetchIgnoringCacheData : .returnCacheDataElseFetch)
             .map { $0.userConvention.fragments.fullConventionFragment }
-            .catchError(const(Observable.empty()))
+            .catchError { _ in Observable.empty() }
     }
 
     func fill(_ force: Bool = false) -> Observable<Void> {

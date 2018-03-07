@@ -50,7 +50,8 @@ extension ConventionUserInfoListViewController {
             .disposed(by: disposeBag)
 
         navBar.rightButton.rx.tap
-            .subscribe(onNext: { _ in /* todo */ })
+            .flatMap { NewConventionUserInfoViewController.show() }
+            .subscribe(onNext: { [convention] info in convention?.addUserInfo(info) })
             .disposed(by: disposeBag)
     }
 }

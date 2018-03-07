@@ -15,6 +15,10 @@ struct ConventionUserInfo {
     let rating: Int
     let vote: Vote
 
+    init(info: String) {
+        self.init(id: ConArtist.NoID, info: info, rating: 0)
+    }
+
     private init(id: Int, info: String, rating: Int, vote: Vote = .none) {
         self.id = id
         self.info = info

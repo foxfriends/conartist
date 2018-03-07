@@ -477,6 +477,77 @@
             </objects>
             <point key="canvasLocation" x="1425" y="-260"/>
         </scene>
+        <!--New Convention User Info View Controller-->
+        <scene sceneID="KkE-gu-y2t">
+            <objects>
+                <viewController storyboardIdentifier="NewConventionUserInfo" id="0EJ-Ap-Wi9" customClass="NewConventionUserInfoViewController" customModule="ConArtist" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wiH-Sm-Myw"/>
+                        <viewControllerLayoutGuide type="bottom" id="Ax9-rW-Jnw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="vey-ka-jO8">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w3h-Dz-iHT" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <color key="backgroundColor" red="0.066666666669999999" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="title" value="Share Info"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="leftButtonTitle" value="Cancel"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="rightButtonTitle" value="Save"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="FyX-IB-qHA">
+                                <rect key="frame" x="10" y="74" width="355" height="128"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="tintColor" red="0.85490196080000003" green="0.28235294119999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="n72-Lq-efj"/>
+                                </constraints>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h4i-nF-ELM">
+                                <rect key="frame" x="36" y="222" width="303" height="115"/>
+                                <string key="text">Your identity is not shared with the other artists when you contribute information. Please respect that people of all ages can read this information, and any incorrect or offensive information may be removed without notice.
+
+Once submitted, you cannot edit this information, so make sure it’s correct!</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="w3h-Dz-iHT" secondAttribute="trailing" id="5JF-eI-eeU"/>
+                            <constraint firstItem="w3h-Dz-iHT" firstAttribute="leading" secondItem="vey-ka-jO8" secondAttribute="leading" id="QPP-rD-uuh"/>
+                            <constraint firstItem="w3h-Dz-iHT" firstAttribute="top" secondItem="vey-ka-jO8" secondAttribute="top" id="Xmr-is-he1"/>
+                            <constraint firstItem="FyX-IB-qHA" firstAttribute="top" secondItem="w3h-Dz-iHT" secondAttribute="bottom" constant="10" id="fRt-eN-tTa"/>
+                            <constraint firstItem="w3h-Dz-iHT" firstAttribute="bottom" secondItem="wiH-Sm-Myw" secondAttribute="bottom" constant="44" id="jLz-fw-jW9"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="h4i-nF-ELM" secondAttribute="trailing" constant="20" id="k3w-Ay-vq5"/>
+                            <constraint firstItem="h4i-nF-ELM" firstAttribute="top" secondItem="FyX-IB-qHA" secondAttribute="bottom" constant="20" id="nJS-1z-FGc"/>
+                            <constraint firstItem="FyX-IB-qHA" firstAttribute="leading" secondItem="vey-ka-jO8" secondAttribute="leading" constant="10" id="roM-Xo-M7D"/>
+                            <constraint firstItem="h4i-nF-ELM" firstAttribute="leading" secondItem="vey-ka-jO8" secondAttribute="leadingMargin" constant="20" id="w5q-EG-ZsG"/>
+                            <constraint firstAttribute="trailing" secondItem="FyX-IB-qHA" secondAttribute="trailing" constant="10" id="wlc-s0-xBQ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="disclaimerLabel" destination="h4i-nF-ELM" id="laq-r9-xda"/>
+                        <outlet property="infoTextView" destination="FyX-IB-qHA" id="sUA-Yv-bvL"/>
+                        <outlet property="navBar" destination="w3h-Dz-iHT" id="Fnp-xf-C6x"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wCK-Z9-RzX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2100" y="-260"/>
+        </scene>
         <!--Convention List View Controller-->
         <scene sceneID="fUX-KW-KBa">
             <objects>

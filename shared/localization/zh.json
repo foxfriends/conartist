@@ -20,6 +20,7 @@
   "New expense": "添加费用",
   "New Expense": "新的费用",
   "New sale": "添加销售",
+  "New Sale": "新的销售",
   "No conventions today": "今天没有览会",
   "Note": "注意",
   "Password": "密码",
@@ -30,6 +31,7 @@
   "Save": "存储",
   "See all": "查看全部",
   "Settings": "设置",
+  "Share Info": "提供信息",
   "Sign in": "登录",
   "Sign out": "登出",
   "Support": "联系支持",
@@ -41,4 +43,6 @@
   "View records": "查看记录",
   "Website": "网站",
   "Your email or password is incorrect": "您的电子邮件或密码不正确"
+  "New sale": "添加销售",
+  "<Convention info contribution disclaimer>": "Too many words for me to translate with Google translate oops"
 }

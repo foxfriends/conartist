@@ -20,6 +20,7 @@
   "New Expense": "New Expense",
   "New expense": "New expense",
   "New sale": "New sale",
+  "New Sale": "New Sale",
   "No conventions today": "No conventions today",
   "Note": "Note",
   "Password": "Password",
@@ -30,6 +31,7 @@
   "Save": "Save",
   "See all": "See all",
   "Settings": "Settings",
+  "Share Info": "Share Info",
   "Sign in": "Sign in",
   "Sign out": "Sign out",
   "Support": "Support",
@@ -40,5 +42,6 @@
   "View on map": "View on map",
   "View records": "View records",
   "Website": "Website",
-  "Your email or password is incorrect": "Your email or password is incorrect"
+  "Your email or password is incorrect": "Your email or password is incorrect",
+  "<Convention info contribution disclaimer>": "Your identity is not shared with the other artists when you contribute information. Please respect that people of all ages can read this information, and any incorrect or offensive information may be removed without notice.\n\nOnce submitted, you cannot edit this information, so make sure it’s correct!"
 }

@@ -79,7 +79,7 @@ impl Database {
                 (user_id, con_info_id, rating)
             VALUES
                 ($1, $2, $3)
-            ON CONFLICT ON con_info_id, user_id DO UPDATE
+            ON CONFLICT ON (con_info_id, user_id) DO UPDATE
                SET rating = $3
             RETURNING *
         ", user_id, info_id, approved)

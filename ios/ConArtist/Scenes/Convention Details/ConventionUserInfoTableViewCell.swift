@@ -10,19 +10,24 @@ import UIKit
 import SVGKit
 
 class ConventionUserInfoTableViewCell: UITableViewCell {
+    private static let ThumbsUpImage = ConArtist.Images.SVG.Thumb.Up!.uiImage.withRenderingMode(.alwaysTemplate)
+    private static let ThumbsDownImage = ConArtist.Images.SVG.Thumb.Down!.uiImage.withRenderingMode(.alwaysTemplate)
+
     static let ID = "ConventionUserInfo"
     @IBOutlet weak var ratingLabel: UILabel!
-    @IBOutlet weak var thumbIcon: SVGKImageView!
+    @IBOutlet weak var thumbIcon: UIImageView!
     @IBOutlet weak var infoLabel: UILabel!
 
     func setup(for info: ConventionUserInfo) {
         ratingLabel.text = "\(info.rating)"
-        thumbIcon.image = info.vote == .down ? ConArtist.Images.SVG.Thumb.Down : ConArtist.Images.SVG.Thumb.Up
-        // kind of hacky but is there really any other way?
-        (thumbIcon.image.caLayerTree.sublayers?[1] as? CAShapeLayer)?.fillColor
-            = info.vote == .down    ? ConArtist.Color.Warn.cgColor
-            : info.vote == .up      ? ConArtist.Color.Success.cgColor
-            :                         ConArtist.Color.Text.cgColor
+        thumbIcon.image = info.vote == .down
+            ? ConventionUserInfoTableViewCell.ThumbsDownImage
+            : ConventionUserInfoTableViewCell.ThumbsUpImage
+        switch info.vote {
+        case .down: thumbIcon.tintColor = ConArtist.Color.Warn
+        case .up:   thumbIcon.tintColor = ConArtist.Color.Success
+        default:    thumbIcon.tintColor = ConArtist.Color.Text
+        }
         infoLabel.text = info.info
     }
 }

@@ -132,6 +132,7 @@ extension Convention {
     }
 
     func addUserInfo(_ info: String) {
+        guard !øuserInfo.value.contains(where: { $0.info == info }) else { return }
         let newInfo = ConventionUserInfo(info: info)
         øuserInfo.value.append(newInfo)
         let _ = ConArtist.API.GraphQL

@@ -235,7 +235,7 @@ impl Database {
             query!(conn, "
                     SELECT (CASE rating WHEN true THEN 1 WHEN false THEN -1 ELSE 0 END) AS vote
                       FROM ConventionInfoRatings
-                     WHERE user_id = $1 
+                     WHERE user_id = $1
                        AND con_info_id = $2
             ", user_id, con_info_id)
             .iter()

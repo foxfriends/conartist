@@ -42,7 +42,7 @@ extension ConventionUserInfoListViewController {
     fileprivate func setupSubscriptions() {
         øinformation
             .asDriver()
-            .drive(onNext: { [infoTableView] _ in infoTableView?.reloadData() })
+            .drive(onNext: { [infoTableView] _ in infoTableView?.reloadData(); print(self.øinformation.value) })
             .disposed(by: disposeBag)
 
         navBar.leftButton.rx.tap
@@ -84,7 +84,7 @@ extension ConventionUserInfoListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension ConventionUserInfoListViewController: UITableViewDelegate {
     @available(iOS 11.0, *)
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let information = øinformation.value[indexPath.row]
         var actions: [UIContextualAction] = []
         if information.vote != .up {
@@ -101,7 +101,7 @@ extension ConventionUserInfoListViewController: UITableViewDelegate {
     }
 
     @available(iOS 11.0, *)
-    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let information = øinformation.value[indexPath.row]
         var actions: [UIContextualAction] = []
         if information.vote != .down {
@@ -125,7 +125,7 @@ extension ConventionUserInfoListViewController {
 
         controller.convention = convention
         convention.userInfo
-            .map { $0.sorted() }
+            .map { $0.sorted().reversed() }
             .bind(to: controller.øinformation)
             .disposed(by: controller.disposeBag)
 

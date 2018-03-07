@@ -83,13 +83,37 @@ extension ConventionUserInfoListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension ConventionUserInfoListViewController: UITableViewDelegate {
     @available(iOS 11.0, *)
-    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        return nil
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let information = øinformation.value[indexPath.row]
+        var actions: [UIContextualAction] = []
+        if information.vote != .up {
+            let upvoteAction = UIContextualAction(style: .normal, title: "Upvote"¡) { [convention] _, _, reset in
+                convention?.setVote(for: information, to: .up)
+                reset(true)
+            }
+            upvoteAction.backgroundColor = ConArtist.Color.Success
+            actions.append(upvoteAction)
+        }
+        let config = UISwipeActionsConfiguration(actions: actions)
+        config.performsFirstActionWithFullSwipe = true
+        return config
     }
 
     @available(iOS 11.0, *)
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        return nil
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let information = øinformation.value[indexPath.row]
+        var actions: [UIContextualAction] = []
+        if information.vote != .down {
+            let downvoteAction = UIContextualAction(style: .normal, title: "Downvote"¡) { [convention] _, _, reset in
+                convention?.setVote(for: information, to: .down)
+                reset(true)
+            }
+            downvoteAction.backgroundColor = ConArtist.Color.Warn
+            actions.append(downvoteAction)
+        }
+        let config = UISwipeActionsConfiguration(actions: actions)
+        config.performsFirstActionWithFullSwipe = true
+        return config
     }
 }
 

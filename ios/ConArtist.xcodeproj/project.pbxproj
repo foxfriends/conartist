@@ -318,10 +318,10 @@
 		32B91022204B1461002F9C94 /* New Sale */ = {
 			isa = PBXGroup;
 			children = (
-				32C9F9B820264BE00004566E /* ProductTableViewCell.swift */,
-				32C39C30201EA5B400071E26 /* ProductTypeTableViewCell.swift */,
 				32BC33DC1FEEED030006256A /* ProductListViewController.swift */,
+				32C9F9B820264BE00004566E /* ProductTableViewCell.swift */,
 				32AE4168202553CF0061EB64 /* ProductTypeListViewController.swift */,
+				32C39C30201EA5B400071E26 /* ProductTypeTableViewCell.swift */,
 			);
 			path = "New Sale";
 			sourceTree = "<group>";

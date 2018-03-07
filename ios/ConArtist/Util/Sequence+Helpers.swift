@@ -13,6 +13,10 @@ extension Sequence {
         return map(transform).filter { $0 != nil } as! [T]
     }
 
+    func replace(with element: Element, where predicate: (Element) -> Bool) -> [Element] {
+        return map { predicate($0) ? element : $0 }
+    }
+
     func count(where predicate: (Element) -> Bool) -> Int {
         return reduce(0) { count, element in count + (predicate(element) ? 1 : 0) }
     }

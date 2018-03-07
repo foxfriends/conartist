@@ -15,11 +15,11 @@ struct ConventionUserInfo {
     let rating: Int
     let vote: Vote
 
-    private init(id: Int, info: String, rating: Int) {
+    private init(id: Int, info: String, rating: Int, vote: Vote = .none) {
         self.id = id
         self.info = info
         self.rating = rating
-        self.vote = .none
+        self.vote = vote
     }
 
     init?(graphQL userInfo: UserInfoFragment) {
@@ -35,6 +35,23 @@ struct ConventionUserInfo {
 
     func adjustVotes(_ votes: VotesFragment) -> ConventionUserInfo {
         return ConventionUserInfo(id: id, info: info, rating: votes.upvotes - votes.downvotes)
+    }
+
+    func setVote(to vote: Vote) -> ConventionUserInfo {
+        let rating: Int
+        switch (self.vote, vote) {
+        case (.down, .none), (.none, .up): rating = self.rating + 1
+        case (.up, .none), (.none, .down): rating = self.rating - 1
+        case (.up, .down): rating = self.rating - 2
+        case (.down, .up): rating = self.rating + 2
+        default: rating = self.rating
+        }
+        return ConventionUserInfo(
+            id: id,
+            info: info,
+            rating: rating,
+            vote: vote
+        )
     }
 }
 

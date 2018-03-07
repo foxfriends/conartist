@@ -16,7 +16,7 @@ class Convention {
     let end: Date
     let images: [String]
     let extraInfo: [ConventionExtraInfo]
-    let userInfo: Observable<[ConventionUserInfo]>
+    var userInfo: Observable<[ConventionUserInfo]> { return øuserInfo.asObservable() }
 
     let productTypes: Observable<[ProductType]>
     let products: Observable<[Product]>
@@ -26,6 +26,7 @@ class Convention {
     
     fileprivate let øaddedRecords = Variable<[Record]>([])
     fileprivate let øaddedExpenses = Variable<[Expense]>([])
+    fileprivate let øuserInfo = Variable<[ConventionUserInfo]>([])
 
     fileprivate let øconvention = Variable<FullConventionFragment?>(nil)
 
@@ -48,19 +49,22 @@ class Convention {
             .map { $0.fragments.extraInfoFragment }
             .filterMap(ConventionExtraInfo.init(graphQL:))
 
-        userInfo = Observable.merge(
-            Observable.just(
-                con.userInfo
-                    .map { $0.fragments.userInfoFragment }
-                    .filterMap(ConventionUserInfo.init(graphQL:))
-            ),
-            øconvention
-                .map {
-                    $0.userInfo
-                        .map{ $0.fragments.userInfoFragment }
+        Observable
+            .merge(
+                Observable.just(
+                    con.userInfo
+                        .map { $0.fragments.userInfoFragment }
                         .filterMap(ConventionUserInfo.init(graphQL:))
-                }
-        )
+                ),
+                øconvention
+                    .map {
+                        $0.userInfo
+                            .map{ $0.fragments.userInfoFragment }
+                            .filterMap(ConventionUserInfo.init(graphQL:))
+                    }
+            )
+            .bind(to: øuserInfo)
+            .disposed(by: disposeBag)
 
         productTypes = øconvention
             .map {
@@ -83,25 +87,29 @@ class Convention {
                     .filterMap(Price.init(graphQL:))
             }
 
-        records = Observable.combineLatest(
-            øconvention
-                .map {
-                    $0.records
-                        .map { $0.fragments.recordFragment }
-                        .filterMap(Record.init(graphQL:))
-                },
-            øaddedRecords.asObservable()
-        ).map({ ($0 + $1).sorted { $0.time < $1.time } })
+        records = Observable
+            .combineLatest(
+                øconvention
+                    .map {
+                        $0.records
+                            .map { $0.fragments.recordFragment }
+                            .filterMap(Record.init(graphQL:))
+                    },
+                øaddedRecords.asObservable()
+            )
+            .map { ($0 + $1).sorted { $0.time < $1.time } }
 
-        expenses = Observable.combineLatest(
-            øconvention
-                .map {
-                    $0.expenses
-                        .map { $0.fragments.expenseFragment }
-                        .filterMap(Expense.init(graphQL:))
-                },
-            øaddedExpenses.asObservable()
-        ).map({ ($0 + $1).sorted { $0.time < $1.time } })
+        expenses = Observable
+            .combineLatest(
+                øconvention
+                    .map {
+                        $0.expenses
+                            .map { $0.fragments.expenseFragment }
+                            .filterMap(Expense.init(graphQL:))
+                    },
+                øaddedExpenses.asObservable()
+            )
+            .map { ($0 + $1).sorted { $0.time < $1.time } }
     }
 }
 
@@ -121,6 +129,27 @@ extension Convention {
     
     func addExpense(_ expense: Expense) {
         øaddedExpenses.value.append(expense)
+    }
+
+    func setVote(for info: ConventionUserInfo, to vote: ConventionUserInfo.Vote) {
+        let updatedInfo = info.setVote(to: vote)
+        let request: Observable<VotesFragment>
+        switch vote {
+        case .up:
+            request = ConArtist.API.GraphQL
+                .observe(mutation: UpvoteConventionInfoMutation(infoId: info.id))
+                .map { $0.upvoteConventionInfo.fragments.votesFragment }
+        case .down:
+            request = ConArtist.API.GraphQL
+                .observe(mutation: DownvoteConventionInfoMutation(infoId: info.id))
+                .map { $0.downvoteConventionInfo.fragments.votesFragment }
+        // should not be able to set vote to .none
+        case .none: request = Observable.empty()
+        }
+        øuserInfo.value = øuserInfo.value.replace(with: updatedInfo) { $0.id == info.id }
+        let _ = request.subscribe(onNext: { [øuserInfo] votes in
+            øuserInfo.value = øuserInfo.value.map { info in info.id == updatedInfo.id ? info.adjustVotes(votes) : info }
+        })
     }
 }
 

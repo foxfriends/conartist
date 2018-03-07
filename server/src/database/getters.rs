@@ -217,7 +217,7 @@ impl Database {
                        SUM(CASE rating WHEN true THEN 1 ELSE 0 END)::INT as upvotes,
                        SUM(CASE rating WHEN false THEN 1 ELSE 0 END)::INT as downvotes
                   FROM ConventionInfo i
-            INNER JOIN ConventionInfoRatings r
+       LEFT OUTER JOIN ConventionInfoRatings r
                     ON i.con_info_id = r.con_info_id
                  WHERE con_id = $1
               GROUP BY i.con_info_id

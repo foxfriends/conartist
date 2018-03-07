@@ -16,7 +16,7 @@ extension ApolloClient {
         case noResult
     }
 
-    func observe<Query: GraphQLQuery>(query: Query, cachePolicy: CachePolicy = .returnCacheDataElseFetch, queue: DispatchQueue = DispatchQueue.main) -> Observable<Query.Data> {
+    func observe<Query: GraphQLQuery>(query: Query, cachePolicy: CachePolicy = .fetchIgnoringCacheData, queue: DispatchQueue = DispatchQueue.main) -> Observable<Query.Data> {
         return Observable
             .create { observer in
                 self.fetch(query: query, cachePolicy: cachePolicy, queue: queue) { result, error in

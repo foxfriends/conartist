@@ -485,27 +485,29 @@ public final class UpdateCurrencyMutation: GraphQLMutation {
 
 public final class ContributeConventionInfoMutation: GraphQLMutation {
   public static let operationString =
-    "mutation ContributeConventionInfo($id: Int, $info: String!) {\n  addConventionInfo(userId: $id, info: $info) {\n    __typename\n    ...UserInfoFragment\n  }\n}"
+    "mutation ContributeConventionInfo($userId: Int, $conId: Int!, $info: String!) {\n  addConventionInfo(userId: $userId, conId: $conId, info: $info) {\n    __typename\n    ...UserInfoFragment\n  }\n}"
 
   public static var requestString: String { return operationString.appending(UserInfoFragment.fragmentString).appending(VotesFragment.fragmentString) }
 
-  public var id: Int?
+  public var userId: Int?
+  public var conId: Int
   public var info: String
 
-  public init(id: Int? = nil, info: String) {
-    self.id = id
+  public init(userId: Int? = nil, conId: Int, info: String) {
+    self.userId = userId
+    self.conId = conId
     self.info = info
   }
 
   public var variables: GraphQLMap? {
-    return ["id": id, "info": info]
+    return ["userId": userId, "conId": conId, "info": info]
   }
 
   public struct Data: GraphQLSelectionSet {
     public static let possibleTypes = ["Mutation"]
 
     public static let selections: [GraphQLSelection] = [
-      GraphQLField("addConventionInfo", arguments: ["userId": GraphQLVariable("id"), "info": GraphQLVariable("info")], type: .nonNull(.object(AddConventionInfo.selections))),
+      GraphQLField("addConventionInfo", arguments: ["userId": GraphQLVariable("userId"), "conId": GraphQLVariable("conId"), "info": GraphQLVariable("info")], type: .nonNull(.object(AddConventionInfo.selections))),
     ]
 
     public var snapshot: Snapshot

@@ -135,7 +135,7 @@ extension Convention {
         let newInfo = ConventionUserInfo(info: info)
         øuserInfo.value.append(newInfo)
         let _ = ConArtist.API.GraphQL
-            .observe(mutation: ContributeConventionInfoMutation(info: info))
+            .observe(mutation: ContributeConventionInfoMutation(conId: id, info: info))
             .map { $0.addConventionInfo.fragments.userInfoFragment }
             .filterMap(ConventionUserInfo.init(graphQL:))
             .catchError { _ in Observable.empty() }

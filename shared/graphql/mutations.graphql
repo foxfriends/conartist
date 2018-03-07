@@ -16,8 +16,8 @@ mutation UpdateCurrency($id: Int, $currency: Currency!) {
   }
 }
 
-mutation ContributeConventionInfo($id: Int, $info: String!) {
-  addConventionInfo(userId: $id, info: $info) {
+mutation ContributeConventionInfo($userId: Int, $conId: Int!, $info: String!) {
+  addConventionInfo(userId: $userId, conId: $conId, info: $info) {
     ...UserInfoFragment
   }
 }

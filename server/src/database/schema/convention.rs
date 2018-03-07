@@ -32,6 +32,17 @@ impl ConventionUserInfo {
             }
         }).map_err(|_| "Tried to create a ConventionUserInfo from a non-ConventionInfo row".to_string())
     }
+
+    pub fn without_votes(row: Row) -> Result<Self, String> {
+        catch_unwind(|| {
+            Self {
+                con_info_id: row.get("con_info_id"),
+                info: row.get("information"),
+                upvotes: 0,
+                downvotes: 0,
+            }
+        }).map_err(|_| "Tried to create a ConventionUserInfo from a non-ConventionInfo row".to_string())
+    }
 }
 
 #[derive(Clone)]

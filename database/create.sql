@@ -64,7 +64,8 @@ CREATE TABLE ConventionInfo (
   con_info_id SERIAL PRIMARY KEY,
   con_id      INT NOT NULL REFERENCES Conventions (con_id) ON DELETE CASCADE,
   user_id     INT NOT NULL REFERENCES Users       (user_id) ON DELETE SET NULL,
-  information TEXT NOT NULL
+  information TEXT NOT NULL,
+  CONSTRAINT no_duplicate_info UNIQUE (con_id, information)
 );
 CREATE INDEX index_ConventionInfo ON ConventionInfo (con_id);
 COMMENT ON TABLE ConventionInfo IS 'User contributed information about a convention';

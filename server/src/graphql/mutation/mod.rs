@@ -173,9 +173,28 @@ graphql_object!(Mutation: Database |&self| {
     field mod_user_expense(&executor, user_id: Option<i32>, expense: ExpenseMod) -> FieldResult<Expense> { Err(FieldError::new("Unimplemented", Value::null())) }
     field del_user_expense(&executor, user_id: Option<i32>, expense: ExpenseDel) -> FieldResult<()> { Err(FieldError::new("Unimplemented", Value::null())) }
 
-    field add_convention_info(&executor, user_id: Option<i32>, info: String) -> FieldResult<ConventionUserInfo> { Err(FieldError::new("Unimplemented", Value::null())) }
-    field upvote_convention_info(&executor, user_id: Option<i32>, info_id: i32) -> FieldResult<ConventionUserInfo> { Err(FieldError::new("Unimplemented", Value::null())) }
-    field downvote_convention_info(&executor, user_id: Option<i32>, info_id: i32) -> FieldResult<ConventionUserInfo> { Err(FieldError::new("Unimplemented", Value::null())) }
+    field add_convention_info(&executor, user_id: Option<i32>, con_id: i32, info: String) -> FieldResult<ConventionUserInfo> {
+        ensure!(info.len() > 0);
+        dbtry! {
+            executor
+                .context()
+                .create_convention_user_info(user_id, con_id, info)
+        }
+    }
+    field upvote_convention_info(&executor, user_id: Option<i32>, info_id: i32) -> FieldResult<ConventionUserInfo> {
+        dbtry! {
+            executor
+                .context()
+                .update_convention_user_info_vote(user_id, info_id, true)
+        }
+    }
+    field downvote_convention_info(&executor, user_id: Option<i32>, info_id: i32) -> FieldResult<ConventionUserInfo> {
+        dbtry! {
+            executor
+                .context()
+                .update_convention_user_info_vote(user_id, info_id, false)
+        }
+    }
 
     field update_settings(&executor, user_id: Option<i32>) -> FieldResult<SettingsMutation> {
         Ok(SettingsMutation(user_id))

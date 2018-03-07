@@ -67,4 +67,40 @@ impl Database {
             .ok_or("Could not retrieve updated product".to_string())
             .and_then(|r| ProductInInventory::from(r))
     }
+
+    pub fn update_convention_user_info_vote(&self, maybe_user_id: Option<i32>, info_id: i32, approved: bool) -> Result<ConventionUserInfo, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+
+        let conn = self.pool.get().unwrap();
+        let trans = conn.transaction().unwrap();
+
+        execute!(trans, "
+            INSERT INTO ConventionInfoRatings
+                (user_id, con_info_id, rating)
+            VALUES
+                ($1, $2, $3)
+            ON CONFLICT ON con_info_id, user_id DO UPDATE
+               SET rating = $3
+            RETURNING *
+        ", user_id, info_id, approved)
+            .or(Err(format!("Could not set the rating for info {}", info_id)))?;
+
+        let info = query!(trans, "
+                SELECT i.con_info_id, 
+                       information, 
+                       SUM(CASE rating WHEN true THEN 1 ELSE 0 END)::INT as upvotes,
+                       SUM(CASE rating WHEN false THEN 1 ELSE 0 END)::INT as downvotes
+                  FROM ConventionInfo i
+            INNER JOIN ConventionInfoRatings r
+                    ON i.con_info_id = r.con_info_id
+                 WHERE con_info_id = $1
+              GROUP BY i.con_info_id
+            ", info_id)
+            .into_iter()
+            .nth(0)
+            .ok_or_else(|| format!("No convention info exists with id {}", info_id))
+            .and_then(|r| ConventionUserInfo::without_votes(r))?;
+        trans.commit().unwrap();
+        Ok(info)
+    }
 }

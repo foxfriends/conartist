@@ -208,4 +208,30 @@ impl Database {
         trans.commit().unwrap();
         Ok(record)
     }
+
+    pub fn create_convention_user_info(&self, maybe_user_id: Option<i32>, con_id: i32, info: String) -> Result<ConventionUserInfo, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+        
+        let conn = self.pool.get().unwrap();
+        let trans = conn.transaction().unwrap();
+
+        let convention_exists = query!(trans, "SELECT 1 FROM Conventions WHERE con_id = $1", con_id).len() == 1;
+        if !convention_exists {
+            return Err(format!("No convention exists with id {}", con_id))
+        }
+
+        let con_info = query!(trans, "
+            INSERT INTO ConventionInfo
+                (user_id, con_id, information)
+            VALUES
+                ($1, $2, $3)
+            RETURNING *
+        ", user_id, con_id, info)
+            .into_iter()
+            .nth(0)
+            .ok_or_else(|| format!("Failed to add new info for convention {}", con_id))
+            .and_then(|r| ConventionUserInfo::without_votes(r))?;
+        trans.commit().unwrap();
+        Ok(con_info)
+    }
 }

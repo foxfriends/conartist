@@ -37,7 +37,7 @@ header, footer, section
   :box-sizing border-box
   :height 100vh
   :width 100vw
-  :padding 5vh 0
+  :padding 5vh 2pc
 
 header, footer, section
   :display flex
@@ -65,6 +65,8 @@ a
 .header
   &__indicator, &__title
     :margin-top auto
+  &__title, &__subtitle
+    :text-align center
 
 .footer
   &__links, &__action
@@ -79,24 +81,43 @@ a
     :font-size 16pt
 
 .section
-  &__title
-    :margin
-      :left 10vw
-      :top 10vh
-  &__info
-    :margin
-      :left calc(10vw + 3pc)
-      :top 1pc
   &__copy
     :font-size 18pt
 
-.container
-  :position fixed
-  :left 0
-  :top 0
-  :transition transform 0.4s
-  :transform translateY(0)
-  &__heightbox
+@media only screen and (max-width: 599px)
+  .section
+    &__title
+      :margin
+        :left 1pc
+        :top 1pc
+    &__info
+      :margin
+        :left 2pc
+
+
+@media only screen and (min-width: 600px)
+  .section
+    &__title
+      :margin
+        :left 10vw
+        :top 10vh
+    &__info
+      :margin
+        :left calc(10vw + 3pc)
+        :top 1pc
+
+@media only screen and (min-width: 600px)
+  .heightbox
     z-index: 100
     pointer-events: none
     opacity: 0
+  .heightbox + .container
+    :position fixed
+    :left 0
+    :top 0
+    :transition transform 0.4s
+    :transform translateY(0)
+
+@media only screen and (max-width: 599px)
+  .heightbox
+    :display none

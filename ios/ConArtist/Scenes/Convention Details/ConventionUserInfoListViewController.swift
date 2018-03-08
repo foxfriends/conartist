@@ -42,7 +42,7 @@ extension ConventionUserInfoListViewController {
     fileprivate func setupSubscriptions() {
         øinformation
             .asDriver()
-            .drive(onNext: { [infoTableView] _ in infoTableView?.reloadData(); print(self.øinformation.value) })
+            .drive(onNext: { [infoTableView] _ in infoTableView?.reloadData(); })
             .disposed(by: disposeBag)
 
         navBar.leftButton.rx.tap

@@ -225,9 +225,6 @@
 			children = (
 				321B75E01F9BAD320055EBC4 /* ConArtist.xcdatamodeld */,
 				321B75E81F9BAD320055EBC4 /* Info.plist */,
-				321B75E31F9BAD320055EBC4 /* Assets.xcassets */,
-				32B302692050B8B5000F7F2A /* Colors.xcassets */,
-				32F6F6431FF706AA00935554 /* Images.xcassets */,
 				32B9100C20439F73002F9C94 /* generate-schemas */,
 				32B9100D20439F74002F9C94 /* resources.json */,
 				32B9100E20439F74002F9C94 /* schema.json */,
@@ -247,12 +244,12 @@
 		32892C3E20352CFB00F1AD9C /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				32B36ED22040E35A00DA4593 /* Cell */,
 				32B36EB620371BC700DA4593 /* FakeNavBar.swift */,
 				32F12C0D20353E840045D0BC /* FancyButton.swift */,
 				32892C3F20352D1500F1AD9C /* FancyTextField.swift */,
 				32892C4120352E9D00F1AD9C /* HighlightableView.swift */,
 				32B36ED72041FF3200DA4593 /* NetworkImageView.swift */,
+				32B36EC8203E7A5800DA4593 /* TableHeaderView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -267,14 +264,6 @@
 				321F9006204F8CB700E2BA57 /* NewConventionUserInfoViewController.swift */,
 			);
 			path = "Convention Details";
-			sourceTree = "<group>";
-		};
-		32B36ED22040E35A00DA4593 /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				32C39C27201EA54E00071E26 /* Table */,
-			);
-			path = Cell;
 			sourceTree = "<group>";
 		};
 		32B36ED32040E37300DA4593 /* Settings */ = {
@@ -358,6 +347,9 @@
 		32B91026204B3278002F9C94 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				321B75E31F9BAD320055EBC4 /* Assets.xcassets */,
+				32B302692050B8B5000F7F2A /* Colors.xcassets */,
+				32F6F6431FF706AA00935554 /* Images.xcassets */,
 				322C6A0A204CC2170021A2D9 /* localization */,
 				32B91027204B3289002F9C94 /* SVG */,
 			);
@@ -415,14 +407,6 @@
 				32B36ECA203F97EF00DA4593 /* SplashScreenViewController.swift */,
 			);
 			path = Scenes;
-			sourceTree = "<group>";
-		};
-		32C39C27201EA54E00071E26 /* Table */ = {
-			isa = PBXGroup;
-			children = (
-				32B36EC8203E7A5800DA4593 /* TableHeaderView.swift */,
-			);
-			path = Table;
 			sourceTree = "<group>";
 		};
 		32C39C37201EA9E400071E26 /* Model */ = {

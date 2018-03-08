@@ -116,7 +116,6 @@ extension ConventionDetailsViewController {
         newSaleButton.rx.tap
             .flatMap { [convention] _ in ProductTypeListViewController.show(for: convention!) }
             .map { products, price, info in Record(products: products.map { $0.id }, price: price, info: info) }
-            .do(onNext: { print($0) })
             .do(onNext: convention.addRecord)
             .flatMap { [convention] _ in convention!.save() }
             .catchErrorJustReturn(false)

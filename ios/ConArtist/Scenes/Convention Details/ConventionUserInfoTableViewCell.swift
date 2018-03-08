@@ -10,8 +10,8 @@ import UIKit
 import SVGKit
 
 class ConventionUserInfoTableViewCell: UITableViewCell {
-    private static let ThumbsUpImage = ConArtist.Images.SVG.Thumb.Up!.uiImage.withRenderingMode(.alwaysTemplate)
-    private static let ThumbsDownImage = ConArtist.Images.SVG.Thumb.Down!.uiImage.withRenderingMode(.alwaysTemplate)
+    private static let ThumbsUpImage = ConArtist.Images.SVG.Thumb.Up.uiImage.withRenderingMode(.alwaysTemplate)
+    private static let ThumbsDownImage = ConArtist.Images.SVG.Thumb.Down.uiImage.withRenderingMode(.alwaysTemplate)
 
     static let ID = "ConventionUserInfo"
     @IBOutlet weak var ratingLabel: UILabel!

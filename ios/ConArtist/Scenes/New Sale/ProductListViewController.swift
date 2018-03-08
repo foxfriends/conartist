@@ -58,7 +58,6 @@ extension ProductListViewController: UITableViewDelegate {
         tableView.reloadRows(at: [indexPath], with: .none)
     }
 
-    @available(iOS 11.0, *)
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let product = products[indexPath.row]
         var actions: [UIContextualAction] = []

@@ -19,30 +19,30 @@ struct ConArtist {
     static let NoID = 0
 
     struct Color {
-        static let Shadow = UIColor.black
-        static let Background = UIColor(hex: 0x333333)
-        static let BackgroundVariant = UIColor(hex: 0x444444)
-        static let BackgroundNavBar = UIColor(hex: 0x111111)
-        static let Divider = UIColor.white.withAlphaComponent(0.12)
-        static let Brand = UIColor(hex: 0xDA4800)
-        static let BrandVariant = UIColor(hex: 0xD9991E)
-        static let Text = UIColor.white
-        static let TextPlaceholder = UIColor.white.withAlphaComponent(0.5)
-        static let Warn = UIColor.red
-        static let Success = UIColor(hex: 0x3e803e)
+        static let Shadow = UIColor(named: "Shadow")!
+        static let Background = UIColor(named: "Background")!
+        static let BackgroundVariant = UIColor(named: "BackgroundVariant")!
+        static let BackgroundNavBar = UIColor(named: "BackgroundNavBar")!
+        static let Divider = UIColor(named: "Divider")!
+        static let Brand = UIColor(named: "Brand")!
+        static let BrandVariant = UIColor(named: "BrandVariant")!
+        static let Text = UIColor(named: "Text")!
+        static let TextPlaceholder = UIColor(named: "TextPlaceholder")!
+        static let Warn = UIColor(named: "Warn")!
+        static let Success = UIColor(named: "Success")!
     }
 
     struct Images {
         struct SVG {
             struct Chevron {
-                static let Down     = SVGKImage(named: "chevron_down.svg")
-                static let Up       = SVGKImage(named: "chevron_up.svg")
-                static let Right    = SVGKImage(named: "chevron_right.svg")
+                static let Down     = SVGKImage(named: "chevron_down.svg")!
+                static let Up       = SVGKImage(named: "chevron_up.svg")!
+                static let Right    = SVGKImage(named: "chevron_right.svg")!
             }
 
             struct Thumb {
-                static let Down     = SVGKImage(named: "thumb_down.svg")
-                static let Up       = SVGKImage(named: "thumb_up.svg")
+                static let Down     = SVGKImage(named: "thumb_down.svg")!
+                static let Up       = SVGKImage(named: "thumb_up.svg")!
             }
         }
     }

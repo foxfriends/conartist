@@ -8,6 +8,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -38,11 +39,11 @@
                                     </imageView>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="AMZ-uh-Pve" customClass="FancyTextField" customModule="ConArtist" customModuleProvider="target">
                                         <rect key="frame" x="48" y="302" width="279" height="50"/>
-                                        <color key="tintColor" red="0.85490196080000003" green="0.28235294119999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" name="Brand"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="Zb1-Dc-rla"/>
                                         </constraints>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" name="Text"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" keyboardAppearance="alert" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="email"/>
                                         <userDefinedRuntimeAttributes>
@@ -51,11 +52,11 @@
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="VJ9-2q-zrw" customClass="FancyTextField" customModule="ConArtist" customModuleProvider="target">
                                         <rect key="frame" x="48" y="382" width="279" height="50"/>
-                                        <color key="tintColor" red="0.85490196080000003" green="0.28235294119999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" name="Brand"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="y4M-Uc-t0G"/>
                                         </constraints>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" name="Text"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="alert" returnKeyType="done" secureTextEntry="YES" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="password"/>
                                         <userDefinedRuntimeAttributes>
@@ -64,14 +65,14 @@
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ry9-iF-0mD" customClass="FancyButton" customModule="ConArtist" customModuleProvider="target">
                                         <rect key="frame" x="48" y="462" width="279" height="50"/>
-                                        <color key="backgroundColor" red="0.85490196078431369" green="0.28235294117647058" blue="0.0" alpha="0.84999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" name="Brand"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="t5J-o1-78H"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <state key="normal" title="SIGN IN">
-                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" name="Text"/>
                                         </state>
                                     </button>
                                 </subviews>
@@ -94,7 +95,7 @@
                                 </constraints>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="Background"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="OkM-Vc-wV4" secondAttribute="bottom" id="S2d-ku-R8Y"/>
                             <constraint firstItem="Xpn-RP-goK" firstAttribute="top" secondItem="OkM-Vc-wV4" secondAttribute="top" id="WGM-F6-Of5"/>
@@ -140,7 +141,7 @@
                     <view key="view" contentMode="scaleToFill" id="eoF-QL-vFg">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="Background"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vbf-3A-6J2" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -159,10 +160,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="50" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="NfX-Yc-4ji">
-                                <rect key="frame" x="0.0" y="32" width="375" height="603"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jgW-5e-FMq" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <color key="backgroundColor" name="BackgroundNavBar"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="title" value="Settings"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="rightButtonTitle" value="Done"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="50" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="NfX-Yc-4ji">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" name="Background"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="SettingsSelectOptionCell" id="obe-Pc-tfp" customClass="SettingsSelectOptionTableViewCell" customModule="ConArtist" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="55.5" width="375" height="50"/>
@@ -174,7 +182,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Press me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="asX-yA-qms">
                                                     <rect key="frame" x="20" y="16.5" width="296" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
-                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -184,8 +192,8 @@
                                                 <constraint firstItem="asX-yA-qms" firstAttribute="leading" secondItem="DS5-eg-BTo" secondAttribute="leading" constant="20" id="zp2-KV-fZP"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <color key="tintColor" red="0.85490196080000003" green="0.28235294119999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" name="Background"/>
+                                        <color key="tintColor" name="Brand"/>
                                         <connections>
                                             <outlet property="titleLabel" destination="asX-yA-qms" id="uXV-cV-sbo"/>
                                         </connections>
@@ -196,20 +204,16 @@
                                     <outlet property="delegate" destination="gPy-mC-Un3" id="nNp-RQ-14F"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jgW-5e-FMq" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
-                                <color key="backgroundColor" red="0.066666666669999999" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="title" value="Settings"/>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="rightButtonTitle" value="Done"/>
-                                </userDefinedRuntimeAttributes>
-                            </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="Background"/>
                         <constraints>
                             <constraint firstItem="jgW-5e-FMq" firstAttribute="leading" secondItem="fAz-sv-F4q" secondAttribute="leading" id="JdM-IT-Kgk"/>
+                            <constraint firstItem="NfX-Yc-4ji" firstAttribute="top" secondItem="jgW-5e-FMq" secondAttribute="bottom" id="L8U-m5-sz5"/>
                             <constraint firstAttribute="trailing" secondItem="jgW-5e-FMq" secondAttribute="trailing" id="Mx3-Zo-LwA"/>
                             <constraint firstItem="jgW-5e-FMq" firstAttribute="top" secondItem="fAz-sv-F4q" secondAttribute="top" id="Rtt-4a-2xI"/>
+                            <constraint firstItem="NfX-Yc-4ji" firstAttribute="leading" secondItem="fAz-sv-F4q" secondAttribute="leading" id="azL-eN-fUb"/>
+                            <constraint firstAttribute="bottom" secondItem="NfX-Yc-4ji" secondAttribute="bottom" id="jHz-32-mXR"/>
+                            <constraint firstAttribute="trailing" secondItem="NfX-Yc-4ji" secondAttribute="trailing" id="s21-Gd-oYW"/>
                             <constraint firstItem="jgW-5e-FMq" firstAttribute="bottom" secondItem="qKO-iQ-Yyp" secondAttribute="bottom" constant="44" id="yhC-N1-8K2"/>
                         </constraints>
                     </view>
@@ -236,7 +240,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="50" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="xkF-T5-skV">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="Background"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="SettingsBooleanCell" id="FZU-Uf-rVK" customClass="SettingsBooleanTableViewCell" customModule="ConArtist" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="55.5" width="375" height="50"/>
@@ -248,12 +252,12 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yes or no" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZVL-Ln-CgD">
                                                     <rect key="frame" x="20" y="16.5" width="266" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
-                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qCr-8M-KvU">
                                                     <rect key="frame" x="306" y="9.5" width="51" height="31"/>
-                                                    <color key="onTintColor" red="0.85490196078431369" green="0.28235294117647058" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="onTintColor" name="Brand"/>
                                                 </switch>
                                             </subviews>
                                             <constraints>
@@ -264,7 +268,7 @@
                                                 <constraint firstItem="qCr-8M-KvU" firstAttribute="leading" secondItem="ZVL-Ln-CgD" secondAttribute="trailing" constant="20" id="i1M-A5-VLE"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" name="Background"/>
                                         <connections>
                                             <outlet property="titleLabel" destination="ZVL-Ln-CgD" id="dm7-fj-iGs"/>
                                             <outlet property="valueSwitch" destination="qCr-8M-KvU" id="Vfl-ik-48N"/>
@@ -280,7 +284,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Press me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LRN-ml-b9X">
                                                     <rect key="frame" x="20" y="16.5" width="335" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
-                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -290,7 +294,7 @@
                                                 <constraint firstItem="LRN-ml-b9X" firstAttribute="leading" secondItem="GpY-pg-fAw" secondAttribute="leading" constant="20" id="veP-iB-OhT"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" name="Background"/>
                                         <connections>
                                             <outlet property="titleLabel" destination="LRN-ml-b9X" id="iuP-Mg-SY0"/>
                                         </connections>
@@ -305,13 +309,13 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Currency" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bt3-sU-39j">
                                                     <rect key="frame" x="20" y="16.5" width="269" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
-                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="CAD" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kIf-8N-kjo">
                                                     <rect key="frame" x="289" y="16" width="33" height="19.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" name="TextPlaceholder"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -323,7 +327,7 @@
                                                 <constraint firstAttribute="trailing" secondItem="kIf-8N-kjo" secondAttribute="trailing" constant="20" id="zf2-MQ-tvn"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" name="Background"/>
                                         <connections>
                                             <outlet property="titleLabel" destination="bt3-sU-39j" id="x88-xI-3lE"/>
                                             <outlet property="valueLabel" destination="kIf-8N-kjo" id="YVL-hu-CgK"/>
@@ -337,7 +341,7 @@
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ELo-qK-h0y" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
-                                <color key="backgroundColor" red="0.066666666669999999" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="Settings"/>
                                     <userDefinedRuntimeAttribute type="string" keyPath="leftButtonTitle" value="Back"/>
@@ -379,7 +383,7 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q7c-fV-2OY" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
-                                <color key="backgroundColor" red="0.066666666669999999" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="Fanexpo"/>
                                     <userDefinedRuntimeAttribute type="string" keyPath="leftButtonTitle" value="Back"/>
@@ -388,7 +392,7 @@
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FWM-Ta-rCy">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="Background"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ConventionUserInfo" rowHeight="50" id="Nef-be-Z4i" customClass="ConventionUserInfoTableViewCell" customModule="ConArtist" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="50"/>
@@ -400,7 +404,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Underground parking is available" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="100" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dxx-by-T9M">
                                                     <rect key="frame" x="20" y="15" width="307" height="19.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4qC-6K-9bh">
@@ -419,7 +423,7 @@
                                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="18" id="dcG-jk-7MJ"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                                            <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="textColor" name="TextPlaceholder"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
@@ -443,7 +447,7 @@
                                                 <constraint firstAttribute="bottom" secondItem="dxx-by-T9M" secondAttribute="bottom" constant="15" id="vEr-XD-pQh"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" name="Background"/>
                                         <connections>
                                             <outlet property="infoLabel" destination="dxx-by-T9M" id="S6E-Dh-7xl"/>
                                             <outlet property="ratingLabel" destination="RYV-aL-sB7" id="KjR-ya-MuJ"/>
@@ -492,7 +496,7 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w3h-Dz-iHT" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
-                                <color key="backgroundColor" red="0.066666666669999999" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="Share Info"/>
                                     <userDefinedRuntimeAttribute type="string" keyPath="leftButtonTitle" value="Cancel"/>
@@ -501,12 +505,12 @@
                             </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="FyX-IB-qHA">
                                 <rect key="frame" x="10" y="74" width="355" height="128"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="tintColor" red="0.85490196080000003" green="0.28235294119999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="BackgroundOverlay"/>
+                                <color key="tintColor" name="Brand"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="n72-Lq-efj"/>
                                 </constraints>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" name="Text"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
                                 <userDefinedRuntimeAttributes>
@@ -521,7 +525,7 @@
 
 Once submitted, you cannot edit this information, so make sure it’s correct!</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" name="TextPlaceholder"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -563,7 +567,7 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="a87-la-fNK">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="Background"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="TodayConventionCell" rowHeight="90" id="7lN-ml-6k2" customClass="ConventionTableViewCell" customModule="ConArtist" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="55.5" width="375" height="90"/>
@@ -578,31 +582,31 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Fanexpo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JFe-cy-Hh9">
                                                             <rect key="frame" x="16" y="13" width="64" height="19.5"/>
                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="textColor" name="Text"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.75" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Jan. 2, 2018" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pUZ-6w-F00">
                                                             <rect key="frame" x="16" y="32.5" width="79" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="textColor" name="Text"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.75" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Th 8:00-6:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Moo-Cq-uPG">
                                                             <rect key="frame" x="95" y="32.5" width="239" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="textColor" name="Text"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="$1200.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gK2-bl-zme">
                                                             <rect key="frame" x="16" y="57" width="317.5" height="19.5"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="textColor" name="Text"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Toronto, ON" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lh5-EV-4zN">
                                                             <rect key="frame" x="80" y="13" width="254" height="19.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="textColor" name="Text"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
@@ -645,7 +649,7 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                                 <constraint firstItem="Zt7-Oc-hur" firstAttribute="top" secondItem="Kve-vy-zVD" secondAttribute="top" id="ndy-TQ-txl"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" name="BackgroundVariant"/>
                                         <connections>
                                             <outlet property="cardView" destination="Zt7-Oc-hur" id="r6e-TR-QQ5"/>
                                             <outlet property="dateLabel" destination="pUZ-6w-F00" id="oZo-VW-tXJ"/>
@@ -668,11 +672,11 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.25" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No conventions today" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Amj-YK-DJN">
                                                             <rect key="frame" x="109" y="36" width="149" height="18"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="textColor" name="Text"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" red="0.1803921568627451" green="0.1803921568627451" blue="0.1803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" name="BackgroundOverlay"/>
                                                     <constraints>
                                                         <constraint firstItem="Amj-YK-DJN" firstAttribute="centerY" secondItem="uBr-IF-1p7" secondAttribute="centerY" id="1cV-Ih-UIS"/>
                                                         <constraint firstItem="Amj-YK-DJN" firstAttribute="centerX" secondItem="uBr-IF-1p7" secondAttribute="centerX" id="g31-v4-vBw"/>
@@ -710,13 +714,13 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Fanexpo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n5d-Ur-Zii">
                                                             <rect key="frame" x="0.0" y="0.0" width="251.5" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
-                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="textColor" name="Text"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.75" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jan. 2, 2018" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xr9-dV-RvP">
                                                             <rect key="frame" x="0.0" y="17" width="251.5" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="textColor" name="Text"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
@@ -733,7 +737,7 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="$1200.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l1n-Bl-6J9">
                                                     <rect key="frame" x="271.5" y="21.5" width="66.5" height="17"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -745,7 +749,7 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                                 <constraint firstItem="ucK-Db-HdQ" firstAttribute="leading" secondItem="he4-Fx-EBN" secondAttribute="leading" constant="20" id="lkN-9f-5eO"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" name="Background"/>
                                         <connections>
                                             <outlet property="dateLabel" destination="Xr9-dV-RvP" id="4ia-Z6-bKr"/>
                                             <outlet property="moneyLabel" destination="l1n-Bl-6J9" id="Ywg-cO-692"/>
@@ -765,13 +769,13 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Fanexpo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aVy-kI-Vnz">
                                                             <rect key="frame" x="0.0" y="0.0" width="79" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
-                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="textColor" name="Text"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.75" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jan. 2, 2018" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MqK-5H-gSg">
                                                             <rect key="frame" x="0.0" y="17" width="79" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="textColor" name="Text"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
@@ -791,7 +795,7 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                                 <constraint firstItem="xNt-Lq-JNs" firstAttribute="centerY" secondItem="Eek-DD-nlM" secondAttribute="centerY" id="oSR-Wr-bvk"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" name="Background"/>
                                         <connections>
                                             <outlet property="dateLabel" destination="MqK-5H-gSg" id="TPn-ky-vLt"/>
                                             <outlet property="titleLabel" destination="aVy-kI-Vnz" id="Iwp-qy-CUR"/>
@@ -805,7 +809,7 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mMd-hu-uhP" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
-                                <color key="backgroundColor" red="0.066666666666666666" green="0.066666666666666666" blue="0.066666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="Conventions"/>
                                     <userDefinedRuntimeAttribute type="string" keyPath="rightButtonTitle" value="Settings"/>
@@ -860,13 +864,13 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Info" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sXQ-WL-BrF">
                                                                 <rect key="frame" x="20" y="6.5" width="289" height="17"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <color key="textColor" name="Text"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J7q-CC-j98">
                                                                 <rect key="frame" x="309" y="0.0" width="46" height="30"/>
                                                                 <state key="normal" title="See all">
-                                                                    <color key="titleColor" red="0.85601526498794556" green="0.28337395191192627" blue="0.0031710471957921982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <color key="titleColor" name="Brand"/>
                                                                 </state>
                                                             </button>
                                                         </subviews>
@@ -884,7 +888,7 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="MBz-NE-Nbk">
                                                                 <rect key="frame" x="10" y="0.0" width="335" height="70"/>
-                                                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <color key="backgroundColor" name="BackgroundOverlay"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="70" id="3CJ-VJ-WkO"/>
                                                                 </constraints>
@@ -923,13 +927,13 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Revenue" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b5b-Fh-URM">
                                                                 <rect key="frame" x="20" y="6.5" width="245" height="17"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <color key="textColor" name="Text"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ssB-Mw-Bfo">
                                                                 <rect key="frame" x="265" y="0.0" width="90" height="30"/>
                                                                 <state key="normal" title="View records">
-                                                                    <color key="titleColor" red="0.85601526500000003" green="0.28337395189999998" blue="0.0031710471959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <color key="titleColor" name="Brand"/>
                                                                 </state>
                                                             </button>
                                                         </subviews>
@@ -954,13 +958,13 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$358.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dbs-lv-nnK">
                                                                                 <rect key="frame" x="35" y="8" width="300" height="17"/>
                                                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                <color key="textColor" name="Text"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Sales" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MCT-Me-KzX">
                                                                                 <rect key="frame" x="0.0" y="8.5" width="35" height="17"/>
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                <color key="textColor" name="Text"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                         </subviews>
@@ -978,13 +982,13 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$358.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="433-Ng-bYs">
                                                                                 <rect key="frame" x="62" y="8" width="273" height="17"/>
                                                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                <color key="textColor" name="Text"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Expenses" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nL1-5a-TlR">
                                                                                 <rect key="frame" x="0.0" y="8" width="62" height="17"/>
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                <color key="textColor" name="Text"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                         </subviews>
@@ -1007,13 +1011,13 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$358.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cgj-IM-dBj">
                                                                                 <rect key="frame" x="62" y="8.5" width="273" height="17"/>
                                                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                <color key="textColor" name="Text"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Net Profit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7DP-vf-aS4">
                                                                                 <rect key="frame" x="0.0" y="8.5" width="62" height="17"/>
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                                <color key="textColor" name="Text"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                         </subviews>
@@ -1031,13 +1035,12 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                                                         </userDefinedRuntimeAttributes>
                                                                     </view>
                                                                 </subviews>
-                                                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="100" id="AI8-ey-BHw"/>
                                                                 </constraints>
                                                             </stackView>
                                                         </subviews>
-                                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="backgroundColor" name="BackgroundOverlay"/>
                                                         <constraints>
                                                             <constraint firstAttribute="bottom" secondItem="Wyf-yd-APe" secondAttribute="bottom" id="3aS-gW-Cb1"/>
                                                             <constraint firstItem="Wyf-yd-APe" firstAttribute="leading" secondItem="dXQ-De-s9Y" secondAttribute="leading" constant="10" id="Hed-Wk-MNf"/>
@@ -1074,7 +1077,7 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                     </view>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="323" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3KB-K6-ehw">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="323"/>
-                                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" name="Background"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="323" id="Zlj-g9-C4H"/>
                                         </constraints>
@@ -1115,7 +1118,6 @@ Toronto, ON, Canada</string>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="cdf-VL-DIQ" secondAttribute="trailing" constant="20" id="0jc-dr-Lkb"/>
                                                         <constraint firstItem="cdf-VL-DIQ" firstAttribute="leading" secondItem="XJt-hZ-J26" secondAttribute="trailing" id="2ii-HZ-cGU"/>
@@ -1128,6 +1130,7 @@ Toronto, ON, Canada</string>
                                                         <constraint firstItem="cdf-VL-DIQ" firstAttribute="bottom" secondItem="dNf-Yo-FYE" secondAttribute="top" id="ig2-iA-zC1"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
+                                                <color key="backgroundColor" name="Background"/>
                                                 <connections>
                                                     <outlet property="actionLabel" destination="dNf-Yo-FYE" id="7gj-Vx-mRY"/>
                                                     <outlet property="infoLabel" destination="cdf-VL-DIQ" id="DWV-4W-mFC"/>
@@ -1154,7 +1157,6 @@ Toronto, ON, Canada</string>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstItem="f4G-dj-PvO" firstAttribute="leading" secondItem="AQW-1d-pAN" secondAttribute="leading" constant="20" id="EVE-rd-Xpg"/>
                                                         <constraint firstItem="qyD-am-v5q" firstAttribute="top" secondItem="AQW-1d-pAN" secondAttribute="top" constant="10" id="l15-9B-H9r"/>
@@ -1164,6 +1166,7 @@ Toronto, ON, Canada</string>
                                                         <constraint firstItem="qyD-am-v5q" firstAttribute="leading" secondItem="f4G-dj-PvO" secondAttribute="trailing" id="xuA-7j-Hpe"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
+                                                <color key="backgroundColor" name="Background"/>
                                                 <connections>
                                                     <outlet property="actionLabel" destination="qyD-am-v5q" id="7C0-T9-sep"/>
                                                     <outlet property="titleLabel" destination="f4G-dj-PvO" id="C8J-Dv-MzX"/>
@@ -1189,7 +1192,6 @@ Toronto, ON, Canada</string>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstItem="qzf-Rf-iI2" firstAttribute="top" secondItem="Gp4-7T-DqD" secondAttribute="top" constant="10" id="5eb-75-eUe"/>
                                                         <constraint firstAttribute="bottom" secondItem="Hzy-px-iXO" secondAttribute="bottom" constant="10" id="Ma7-6E-i16"/>
@@ -1199,6 +1201,7 @@ Toronto, ON, Canada</string>
                                                         <constraint firstItem="qzf-Rf-iI2" firstAttribute="leading" secondItem="Gp4-7T-DqD" secondAttribute="leading" constant="20" id="tYo-Qo-xzE"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
+                                                <color key="backgroundColor" name="Background"/>
                                                 <connections>
                                                     <outlet property="infoLabel" destination="Hzy-px-iXO" id="IqJ-n2-r43"/>
                                                     <outlet property="titleLabel" destination="qzf-Rf-iI2" id="y9E-gS-xCo"/>
@@ -1224,7 +1227,7 @@ Toronto, ON, Canada</string>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LcN-nw-TDv" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
-                                <color key="backgroundColor" red="0.066666666669999999" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="Fanexpo"/>
                                     <userDefinedRuntimeAttribute type="string" keyPath="leftButtonTitle" value="Back"/>
@@ -1232,7 +1235,7 @@ Toronto, ON, Canada</string>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YDd-oq-Qx0" customClass="FancyButton" customModule="ConArtist" customModuleProvider="target">
                                 <rect key="frame" x="195" y="597" width="160" height="50"/>
-                                <color key="backgroundColor" red="0.26666666666666666" green="0.26666666666666666" blue="0.26666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="BackgroundVariant"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="wrF-3K-ZCX"/>
                                 </constraints>
@@ -1243,7 +1246,7 @@ Toronto, ON, Canada</string>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SAV-tf-BZI" customClass="FancyButton" customModule="ConArtist" customModuleProvider="target">
                                 <rect key="frame" x="20" y="597" width="160" height="50"/>
-                                <color key="backgroundColor" red="0.85490196078431369" green="0.28235294117647058" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="Brand"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="AFA-Wz-2Xu"/>
                                 </constraints>
@@ -1253,7 +1256,7 @@ Toronto, ON, Canada</string>
                                 </state>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="Background"/>
                         <constraints>
                             <constraint firstItem="mJN-DV-Wfe" firstAttribute="top" secondItem="LcN-nw-TDv" secondAttribute="bottom" id="0WF-Gf-s2G"/>
                             <constraint firstItem="mJN-DV-Wfe" firstAttribute="leading" secondItem="A5L-fR-5ZQ" secondAttribute="leading" id="0dn-tR-h82"/>
@@ -1319,12 +1322,12 @@ Toronto, ON, Canada</string>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="vm1-Rh-k46">
                                         <rect key="frame" x="20" y="184.5" width="335" height="128"/>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <color key="tintColor" red="0.85490196080000003" green="0.28235294119999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" name="BackgroundOverlay"/>
+                                        <color key="tintColor" name="Brand"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="128" id="rVx-LX-6KJ"/>
                                         </constraints>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" name="Text"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
                                         <userDefinedRuntimeAttributes>
@@ -1335,11 +1338,11 @@ Toronto, ON, Canada</string>
                                     </textView>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Amount" textAlignment="natural" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="1Jq-pj-tfd" customClass="FancyTextField" customModule="ConArtist" customModuleProvider="target">
                                         <rect key="frame" x="10" y="90" width="355" height="50"/>
-                                        <color key="tintColor" red="0.85490196080000003" green="0.28235294119999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" name="Brand"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="eTY-Z6-qvZ"/>
                                         </constraints>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" name="Text"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad" keyboardAppearance="alert" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                                         <userDefinedRuntimeAttributes>
@@ -1348,11 +1351,11 @@ Toronto, ON, Canada</string>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Category" textAlignment="natural" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="8pF-5v-8Wa" customClass="FancyTextField" customModule="ConArtist" customModuleProvider="target">
                                         <rect key="frame" x="10" y="20" width="355" height="50"/>
-                                        <color key="tintColor" red="0.87058823529999996" green="0.28235294119999998" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="tintColor" name="Brand"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="xzC-BA-jbx"/>
                                         </constraints>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" name="Text"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="yes" spellCheckingType="yes" keyboardAppearance="alert" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                                         <userDefinedRuntimeAttributes>
@@ -1379,7 +1382,7 @@ Toronto, ON, Canada</string>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dHf-zs-gxP" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
-                                <color key="backgroundColor" red="0.066666666669999999" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="New Expense"/>
                                     <userDefinedRuntimeAttribute type="string" keyPath="leftButtonTitle" value="Back"/>
@@ -1387,7 +1390,7 @@ Toronto, ON, Canada</string>
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="Background"/>
                         <constraints>
                             <constraint firstItem="khv-aH-TCc" firstAttribute="top" secondItem="tAh-fl-8Mw" secondAttribute="bottom" id="2hG-Je-34S"/>
                             <constraint firstItem="dHf-zs-gxP" firstAttribute="leading" secondItem="i5y-An-TNF" secondAttribute="leading" id="DB3-Yu-s3b"/>
@@ -1582,7 +1585,7 @@ Toronto, ON, Canada</string>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4Va-JC-ojd">
                                 <rect key="frame" x="0.0" y="64" width="375" height="533"/>
-                                <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="Background"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ProductTypeCell" rowHeight="50" id="NhN-Km-hRX" customClass="ProductTypeTableViewCell" customModule="ConArtist" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="50"/>
@@ -1597,11 +1600,11 @@ Toronto, ON, Canada</string>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vFo-Zn-pYY">
                                                             <rect key="frame" x="7" y="1.5" width="10.5" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="textColor" name="Background"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" name="Text"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="24" id="Mb8-MJ-1Cp"/>
                                                         <constraint firstItem="vFo-Zn-pYY" firstAttribute="centerY" secondItem="ccz-iR-kLC" secondAttribute="centerY" id="Q8P-6R-on4"/>
@@ -1617,7 +1620,7 @@ Toronto, ON, Canada</string>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="11x17 Print" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CvA-Ly-G7Z">
                                                     <rect key="frame" x="20" y="16" width="278" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
-                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -1629,7 +1632,7 @@ Toronto, ON, Canada</string>
                                                 <constraint firstItem="ccz-iR-kLC" firstAttribute="leading" secondItem="CvA-Ly-G7Z" secondAttribute="trailing" id="ox6-M5-ehL"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" name="Background"/>
                                         <connections>
                                             <outlet property="nameLabel" destination="CvA-Ly-G7Z" id="X3W-2O-AU0"/>
                                             <outlet property="quantityLabel" destination="vFo-Zn-pYY" id="sgT-SU-KKc"/>
@@ -1644,7 +1647,7 @@ Toronto, ON, Canada</string>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vey-CQ-XiF" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
-                                <color key="backgroundColor" red="0.066666666669999999" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="New Sale"/>
                                     <userDefinedRuntimeAttribute type="string" keyPath="rightButtonTitle" value="Save"/>
@@ -1656,11 +1659,11 @@ Toronto, ON, Canada</string>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Price" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="fW1-7w-Gkw" customClass="FancyTextField" customModule="ConArtist" customModuleProvider="target">
                                         <rect key="frame" x="10" y="10" width="301" height="50"/>
-                                        <color key="tintColor" red="0.85490196080000003" green="0.28235294119999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" name="Brand"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="JOf-yJ-Mgf"/>
                                         </constraints>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="textColor" name="Text"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" keyboardType="decimalPad" keyboardAppearance="alert" returnKeyType="done"/>
                                         <userDefinedRuntimeAttributes>
@@ -1669,7 +1672,7 @@ Toronto, ON, Canada</string>
                                     </textField>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gGR-Z8-9f5" customClass="SVGKFastImageView">
                                         <rect key="frame" x="331" y="20" width="24" height="24"/>
-                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" name="Text"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="24" id="8md-Xf-X8Q"/>
                                             <constraint firstAttribute="height" constant="24" id="eiL-o0-u3u"/>
@@ -1689,17 +1692,17 @@ Toronto, ON, Canada</string>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Note" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hpl-cw-GYI">
                                         <rect key="frame" x="30" y="68.5" width="315" height="14.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="textColor" name="TextPlaceholder"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="RoI-5X-iSX">
                                         <rect key="frame" x="10" y="93" width="355" height="117"/>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <color key="tintColor" red="0.85490196080000003" green="0.28235294119999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" name="BackgroundOverlay"/>
+                                        <color key="tintColor" name="Brand"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="117" id="LDD-jK-9RU"/>
                                         </constraints>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" name="Text"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
                                         <userDefinedRuntimeAttributes>
@@ -1709,7 +1712,7 @@ Toronto, ON, Canada</string>
                                         </userDefinedRuntimeAttributes>
                                     </textView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" name="BackgroundVariant"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="RoI-5X-iSX" secondAttribute="trailing" constant="10" id="1Km-op-3jb"/>
                                     <constraint firstAttribute="height" constant="220" id="Bx4-6K-6L7"/>
@@ -1728,7 +1731,7 @@ Toronto, ON, Canada</string>
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="Background"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="5Oy-Dl-qGY" secondAttribute="trailing" id="4dg-RV-lY8"/>
                             <constraint firstAttribute="trailing" secondItem="Vey-CQ-XiF" secondAttribute="trailing" id="Aun-Gp-uzi"/>
@@ -1772,7 +1775,7 @@ Toronto, ON, Canada</string>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="CHh-98-Yvf">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                                <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="Background"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="ProductCell" rowHeight="50" id="h3E-gD-cGc" customClass="ProductTableViewCell" customModule="ConArtist" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="50"/>
@@ -1784,13 +1787,13 @@ Toronto, ON, Canada</string>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Miyazaki" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Am-iq-g69">
                                                     <rect key="frame" x="20" y="16" width="270" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
-                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="83" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XXg-yy-2y3">
                                                     <rect key="frame" x="334" y="14.5" width="21" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" name="TextPlaceholder"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OlM-1b-eYv">
@@ -1799,11 +1802,11 @@ Toronto, ON, Canada</string>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qAz-DM-JEr">
                                                             <rect key="frame" x="7" y="1.5" width="10.5" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="textColor" name="Background"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" name="Text"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="24" id="BYl-NT-RjZ"/>
                                                         <constraint firstAttribute="height" constant="24" id="Q8S-Ph-IJY"/>
@@ -1828,7 +1831,7 @@ Toronto, ON, Canada</string>
                                                 <constraint firstItem="OlM-1b-eYv" firstAttribute="centerY" secondItem="ltU-zH-dq0" secondAttribute="centerY" id="y8o-xj-0Iq"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" name="Background"/>
                                         <connections>
                                             <outlet property="countLabel" destination="qAz-DM-JEr" id="GWa-pF-NNB"/>
                                             <outlet property="countView" destination="OlM-1b-eYv" id="Rj5-xv-G3W"/>
@@ -1844,14 +1847,14 @@ Toronto, ON, Canada</string>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pYY-R7-feo" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
-                                <color key="backgroundColor" red="0.066666666669999999" green="0.066666666669999999" blue="0.066666666669999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="11x17 Print"/>
                                     <userDefinedRuntimeAttribute type="string" keyPath="leftButtonTitle" value="Continue"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="Background"/>
                         <constraints>
                             <constraint firstItem="CHh-98-Yvf" firstAttribute="leading" secondItem="rui-x8-Yo5" secondAttribute="leading" id="3oM-9W-DB5"/>
                             <constraint firstItem="CHh-98-Yvf" firstAttribute="top" secondItem="pYY-R7-feo" secondAttribute="bottom" id="JbT-vB-zrg"/>
@@ -1875,5 +1878,26 @@ Toronto, ON, Canada</string>
     </scenes>
     <resources>
         <image name="Logo" width="310" height="310"/>
+        <namedColor name="Background">
+            <color red="0.20000000298023224" green="0.20000000298023224" blue="0.20000000298023224" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="BackgroundNavBar">
+            <color red="0.067000001668930054" green="0.067000001668930054" blue="0.067000001668930054" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="BackgroundOverlay">
+            <color red="0.0" green="0.0" blue="0.0" alpha="0.20000000298023224" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="BackgroundVariant">
+            <color red="0.2669999897480011" green="0.2669999897480011" blue="0.2669999897480011" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="Brand">
+            <color red="0.85500001907348633" green="0.28200000524520874" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Text">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="TextPlaceholder">
+            <color red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

@@ -76,6 +76,7 @@ extension ConventionUserInfoListViewController: UITableViewDataSource {
         return 1
     }
 
+    // TODO: the heights sometimes change randomly?? gotta fix that
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
@@ -83,7 +84,6 @@ extension ConventionUserInfoListViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension ConventionUserInfoListViewController: UITableViewDelegate {
-    @available(iOS 11.0, *)
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let information = øinformation.value[indexPath.row]
         var actions: [UIContextualAction] = []
@@ -100,7 +100,6 @@ extension ConventionUserInfoListViewController: UITableViewDelegate {
         return config
     }
 
-    @available(iOS 11.0, *)
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let information = øinformation.value[indexPath.row]
         var actions: [UIContextualAction] = []

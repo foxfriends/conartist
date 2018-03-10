@@ -49,6 +49,7 @@ class FancyTextField: UITextField {
         formattedLabel.textColor = textColor
         formattedLabel.textAlignment = textAlignment
 
+        // TODO: should this be done with autolayout instead?
         underlineView.frame = CGRect(x: 10, y: frame.height - 1, width: frame.width - 20, height: 1)
         titleLabel.frame = CGRect(x: 20, y: 0, width: frame.width - 20, height: frame.height)
         titleLabel.alpha = 0

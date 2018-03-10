@@ -12,39 +12,40 @@ import RxSwift
 class RecordListViewController: UIViewController {
     fileprivate static let ID = "RecordList"
     @IBOutlet weak var recordsTableView: UITableView!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var backButton: UIButton!
-    
+    @IBOutlet weak var navBar: FakeNavBar!
+
     fileprivate var convention: Convention!
-    fileprivate var ørecords: Observable<[Record]>!
-    fileprivate var øproductTypes: Observable<[ProductType]>!
-    fileprivate var øproducts: Observable<[Product]>!
-    
-    fileprivate var records: [Record] = []
-    fileprivate var productTypes: [ProductType] = []
-    fileprivate var products: [Product] = []
-    
+    fileprivate let ørecords = Variable<[Record]>([])
+    fileprivate let øproducts = Variable<[Product]>([])
+
+    fileprivate var after: Date?
+    fileprivate var before: Date?
+
     fileprivate let disposeBag = DisposeBag()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        Observable
-            .combineLatest(
-                ørecords.map { [weak self] in self?.records = $0 },
-                øproductTypes.map { [weak self] in self?.productTypes = $0 },
-                øproducts.map { [weak self] in self?.products = $0 }
-            )
-            .discard()
+
+        convention.records
+            .map { [after, before] records in records.filter { record in (after.map { record.time >= $0 } ?? true) && (before.map { record.time <= $0 } ?? true) } }
+            .bind(to: ørecords)
+            .disposed(by: disposeBag)
+
+        convention.products
+            .bind(to: øproducts)
+            .disposed(by: disposeBag)
+
+        navBar.leftButton.rx.tap
+            .subscribe(onNext: { ConArtist.model.navigate(back: 1) })
+            .disposed(by: disposeBag)
+
+        Observable.merge(øproducts.asObservable().discard(), ørecords.asObservable().discard())
             .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [recordsTableView] in recordsTableView?.reloadData() })
             .disposed(by: disposeBag)
-        
-        backButton.rx.tap
-            .subscribe(onNext: { ConArtist.model.navigate(back: 1) })
-            .disposed(by: disposeBag)
-        
-        titleLabel.text = convention.name
+
+        navBar.title = convention.name
+        navBar.subtitle = after?.roundToDay().toString("MMM. d, yyyy"¡)
     }
 }
 
@@ -55,26 +56,37 @@ extension RecordListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? records.count : 0
+        return section == 0 ? ørecords.value.count : 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RecordTableViewCell.ID, for: indexPath) as! RecordTableViewCell
-        if let record = records.nth(indexPath.row) {
-            cell.fill(with: record, using: productTypes, and: products)
+        if let record = ørecords.value.nth(indexPath.row) {
+            cell.setup(for: record, with: øproducts.value)
         }
         return cell
     }
 }
 
+// MARK: - UITableViewDelegate
+extension RecordListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // show record info popup
+    }
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        // delete button
+        return UISwipeActionsConfiguration()
+    }
+}
+
 // MARK: - Navigation
 extension RecordListViewController {
-    class func show(for convention: Convention) {
+    class func show(for convention: Convention, after: Date, before: Date) {
         let controller: RecordListViewController = RecordListViewController.instantiate(withId: RecordListViewController.ID)
         controller.convention = convention
-        controller.ørecords = convention.records
-        controller.øproductTypes = convention.productTypes
-        controller.øproducts = convention.products
+        controller.after = after
+        controller.before = before
 
         ConArtist.model.navigate(push: controller)
     }

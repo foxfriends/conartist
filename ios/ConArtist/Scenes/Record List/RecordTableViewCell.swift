@@ -10,18 +10,12 @@ import UIKit
 
 class RecordTableViewCell: UITableViewCell {
     static let ID = "RecordCell"
-    @IBOutlet weak var typeSymbolLabel: UILabel!
     @IBOutlet weak var productsListLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var modifiedMarkView: UIView!
-    
-    func fill(with item: Record, using types: [ProductType], and products: [Product]) {
-        let productId = item.products.first ?? ConArtist.NoID // having no product should be impossible, but defaulting this can't hurt
-        let typeId = products.first { $0.id == productId }?.typeId ?? ConArtist.NoID
-        let type = types.first { $0.id == typeId }
-        typeSymbolLabel.text = String(type?.name.first ?? "?")
-        typeSymbolLabel.backgroundColor = UIColor(hex: type?.color ?? 0xFFFFFF)
+
+    func setup(for item: Record, with products: [Product]) {
         productsListLabel.text = item.products
             .reduce([:]) { (prev: [Int: Int], next) in
                 // count up the products of each name
@@ -35,15 +29,16 @@ class RecordTableViewCell: UITableViewCell {
                     // can just ignore invalid products since they shouldn't happen anyway
                     return prev
                 }
-                let result = "\(product.name)\(quantity > 1 ? "( \(quantity))" : "")"
+                let result = "\(product.name)\(quantity > 1 ? " (\(quantity))" : "")"
                 if prev == "" {
                     return result
                 } else {
                     return "\(prev), \(result)"
                 }
         }
+        priceLabel.font = priceLabel.font.usingFeatures([.tabularFigures])
         priceLabel.text = item.price.toString()
         timeLabel.text = item.time.toString("E h:mm")
-        modifiedMarkView.isHidden = item.id != nil
+        modifiedMarkView.backgroundColor = item.id == nil ? ConArtist.Color.BrandVariant : ConArtist.Color.BackgroundVariant
     }
 }

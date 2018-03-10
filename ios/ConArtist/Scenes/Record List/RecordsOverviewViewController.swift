@@ -189,8 +189,7 @@ extension RecordsOverviewViewController: UITableViewDelegate {
         guard let item = item(for: indexPath) else { return }
         switch item {
         case .Records(let records):
-            // TODO: show records list
-            break
+            RecordListViewController.show(for: convention, after: records.first!.time, before: records.last!.time)
         case .Expense(let expense):
             // TODO: show expense popup
             break

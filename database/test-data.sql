@@ -17,7 +17,10 @@ INSERT INTO Conventions (title, start_date, end_date) VALUES
   ('Gatecon', DATE '2018-09-14', DATE '2018-09-16'),
   ('PAX South', DATE '2018-01-12', DATE '2018-01-14'),
   ('Desucon Frostbite', DATE '2018-01-26', DATE '2018-01-28'),
-  ('Mini-Mini Con', DATE '2018-05-05', DATE '2018-05-05');
+  ('Mini-Mini Con', DATE '2018-05-05', DATE '2018-05-05'),
+  ('Ottawa Comic-Con', DATE '2018-05-11', DATE '2018-05-13'),
+  ('Fan Expo', DATE '2018-08-30', DATE '2018-09-02'),
+  ('Anime North', DATE '2018-05-25', DATE '2018-05-27');
 
 UPDATE Conventions 
    SET extra_info = '[
@@ -38,3 +41,25 @@ INSERT INTO ConventionInfoRatings (con_info_id, user_id, rating) VALUES
 
 INSERT INTO ConventionImages (con_id, image_uuid) VALUES
   (5, 'deea166f-5984-4481-9759-b465f7312c78');
+
+UPDATE Conventions
+   SET extra_info = 
+  '[
+    { "title": "Address", "info": "EY Centre\n 4899 Uplands Dr.\nOttawa, ON, Canada", "actionText": "View on map", "action": "conartist://map?coords=[45.3322119,-75.6563272]" },
+    { "title": "Website", "actionText": "ottawacomiccon.com", "action": "https://ottawacomiccon.com" },
+    { "title": "Hours", "info": [["2018-05-11T12:00:00Z", "2018-05-11T20:00:00Z"], ["2018-05-12T10:00:00Z", "2018-05-12T19:00:00Z"], ["2018-05-13T10:30:00Z", "2018-05-13T17:00:00Z"]] }
+  ]'::JSON
+ WHERE title = 'Ottawa Comic-Con';
+
+UPDATE Conventions
+   SET extra_info = 
+  '[
+    { "title": "Address", "info": "Toronto Congress Center\n650 Dixon Rd.\nEtobicoke, ON, Canada", "actionText": "View on map", "action": "conartist://map?coords=[43.6910669,-79.580327]" },
+    { "title": "Website", "actionText": "animenorth.com", "action": "http://animenorth.com" },
+    { "title": "Hours", "info": [["2018-05-25T17:00:00Z", "2018-05-26T01:00:00Z"], ["2018-05-26T10:00:00Z", "2018-05-27T01:00:00Z"], ["2018-05-27T10:00:00Z", "2018-05-27T17:00:00Z"]] }
+  ]'::JSON
+ WHERE title = 'Anime North';
+
+UPDATE Conventions
+   SET extra_info = '[]'::JSON
+ WHERE title = 'Fan Expo';

@@ -110,7 +110,7 @@ extension ConventionDetailsViewController {
             .disposed(by: disposeBag)
 
         seeAllRecordsButton.rx.tap
-            .subscribe(onNext: { [convention] in RecordListViewController.show(for: convention!) })
+            .subscribe(onNext: { [convention] in RecordsOverviewViewController.show(for: convention!) })
             .disposed(by: disposeBag)
 
         newSaleButton.rx.tap

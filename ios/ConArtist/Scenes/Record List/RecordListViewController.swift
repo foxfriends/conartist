@@ -48,16 +48,16 @@ class RecordListViewController: UIViewController {
     }
 }
 
-// MARK: - TableView
+// MARK: - UITableViewDataSource
 extension RecordListViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return section == 0 ? records.count : 0
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RecordTableViewCell.ID, for: indexPath) as! RecordTableViewCell
         if let record = records.nth(indexPath.row) {

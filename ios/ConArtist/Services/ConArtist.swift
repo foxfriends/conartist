@@ -24,6 +24,7 @@ struct ConArtist {
         static let BackgroundVariant = UIColor(named: "BackgroundVariant")!
         static let BackgroundNavBar = UIColor(named: "BackgroundNavBar")!
         static let Divider = UIColor(named: "Divider")!
+        static let DividerDark = UIColor(named: "DividerDark")!
         static let Brand = UIColor(named: "Brand")!
         static let BrandVariant = UIColor(named: "BrandVariant")!
         static let Text = UIColor(named: "Text")!

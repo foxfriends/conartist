@@ -27,6 +27,19 @@ extension Array {
         guard let index = index(where: predicate) else { return }
         remove(at: index)
     }
+
+    func split(where predicate: (Element, Element) -> Bool) -> [[Element]] {
+        guard let first = first else { return [] }
+        var output: [[Element]] = [[first]]
+        for element: Element in self.dropFirst() {
+            if predicate(output.last!.last!, element) {
+                output += [[element]]
+            } else {
+                output[output.count - 1] += [element]
+            }
+        }
+        return output
+    }
 }
 
 extension Sequence where Self.Element: Equatable {

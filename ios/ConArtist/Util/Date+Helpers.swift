@@ -10,9 +10,13 @@ import Foundation
 import SwiftMoment
 
 extension Date {
-    static func today() -> Date {
-        let components = Calendar.current.dateComponents([.day, .month, .year], from: Date())
+    func roundToDay() -> Date {
+        let components = Calendar.current.dateComponents([.day, .month, .year], from: self)
         return Calendar.current.date(from: components)!
+    }
+
+    static func today() -> Date {
+        return Date().roundToDay()
     }
     
     // Formats the date according to the provided format string

@@ -32,7 +32,11 @@
 		324592A21FEB4B4D00DE89BB /* ConventionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592A11FEB4B4D00DE89BB /* ConventionListViewController.swift */; };
 		324592AA1FEC2E7900DE89BB /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592A91FEC2E7900DE89BB /* Model.swift */; };
 		324592AC1FEC2EA500DE89BB /* Convention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592AB1FEC2EA500DE89BB /* Convention.swift */; };
-		324592AE1FEC314900DE89BB /* Date+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592AD1FEC314900DE89BB /* Date+String.swift */; };
+		324592AE1FEC314900DE89BB /* Date+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592AD1FEC314900DE89BB /* Date+Helpers.swift */; };
+		325EAB1D205247E900B1BE3E /* RecordSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EAB1C205247E900B1BE3E /* RecordSummaryTableViewCell.swift */; };
+		325EAB1F2052481200B1BE3E /* ExpenseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EAB1E2052481200B1BE3E /* ExpenseTableViewCell.swift */; };
+		325EAB212052493300B1BE3E /* RecordsOverviewDateHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EAB202052493300B1BE3E /* RecordsOverviewDateHeaderView.swift */; };
+		325EAB2320524C5500B1BE3E /* RecordsOverviewTotalFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EAB2220524C5500B1BE3E /* RecordsOverviewTotalFooterView.swift */; };
 		3266CEF720017E2C0016D5E6 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */; };
 		32892C4020352D1500F1AD9C /* FancyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32892C3F20352D1500F1AD9C /* FancyTextField.swift */; };
 		32892C4220352E9D00F1AD9C /* HighlightableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32892C4120352E9D00F1AD9C /* HighlightableView.swift */; };
@@ -41,6 +45,7 @@
 		32AE4169202553CF0061EB64 /* ProductTypeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AE4168202553CF0061EB64 /* ProductTypeListViewController.swift */; };
 		32AE416B202554AD0061EB64 /* RecordListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AE416A202554AD0061EB64 /* RecordListViewController.swift */; };
 		32B3026A2050B8B5000F7F2A /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 32B302692050B8B5000F7F2A /* Colors.xcassets */; };
+		32B3026C2050E09B000F7F2A /* RecordsOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B3026B2050E09B000F7F2A /* RecordsOverviewViewController.swift */; };
 		32B36EB720371BC700DA4593 /* FakeNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EB620371BC700DA4593 /* FakeNavBar.swift */; };
 		32B36EBD203BD2F000DA4593 /* UIButton+ConArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EBC203BD2F000DA4593 /* UIButton+ConArtist.swift */; };
 		32B36EBF203BD67800DA4593 /* UIView+Customizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EBE203BD67800DA4593 /* UIView+Customizable.swift */; };
@@ -124,7 +129,11 @@
 		324592A11FEB4B4D00DE89BB /* ConventionListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConventionListViewController.swift; sourceTree = "<group>"; };
 		324592A91FEC2E7900DE89BB /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		324592AB1FEC2EA500DE89BB /* Convention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convention.swift; sourceTree = "<group>"; };
-		324592AD1FEC314900DE89BB /* Date+String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+String.swift"; sourceTree = "<group>"; };
+		324592AD1FEC314900DE89BB /* Date+Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Helpers.swift"; sourceTree = "<group>"; };
+		325EAB1C205247E900B1BE3E /* RecordSummaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordSummaryTableViewCell.swift; sourceTree = "<group>"; };
+		325EAB1E2052481200B1BE3E /* ExpenseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseTableViewCell.swift; sourceTree = "<group>"; };
+		325EAB202052493300B1BE3E /* RecordsOverviewDateHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsOverviewDateHeaderView.swift; sourceTree = "<group>"; };
+		325EAB2220524C5500B1BE3E /* RecordsOverviewTotalFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsOverviewTotalFooterView.swift; sourceTree = "<group>"; };
 		3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		32892C3F20352D1500F1AD9C /* FancyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyTextField.swift; sourceTree = "<group>"; };
 		32892C4120352E9D00F1AD9C /* HighlightableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightableView.swift; sourceTree = "<group>"; };
@@ -133,6 +142,7 @@
 		32AE4168202553CF0061EB64 /* ProductTypeListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductTypeListViewController.swift; sourceTree = "<group>"; };
 		32AE416A202554AD0061EB64 /* RecordListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordListViewController.swift; sourceTree = "<group>"; };
 		32B302692050B8B5000F7F2A /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		32B3026B2050E09B000F7F2A /* RecordsOverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsOverviewViewController.swift; sourceTree = "<group>"; };
 		32B36EB620371BC700DA4593 /* FakeNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeNavBar.swift; sourceTree = "<group>"; };
 		32B36EBC203BD2F000DA4593 /* UIButton+ConArtist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+ConArtist.swift"; sourceTree = "<group>"; };
 		32B36EBE203BD67800DA4593 /* UIView+Customizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Customizable.swift"; sourceTree = "<group>"; };
@@ -331,6 +341,11 @@
 			children = (
 				32C39C2E201EA5B300071E26 /* RecordTableViewCell.swift */,
 				32AE416A202554AD0061EB64 /* RecordListViewController.swift */,
+				32B3026B2050E09B000F7F2A /* RecordsOverviewViewController.swift */,
+				325EAB1C205247E900B1BE3E /* RecordSummaryTableViewCell.swift */,
+				325EAB1E2052481200B1BE3E /* ExpenseTableViewCell.swift */,
+				325EAB202052493300B1BE3E /* RecordsOverviewDateHeaderView.swift */,
+				325EAB2220524C5500B1BE3E /* RecordsOverviewTotalFooterView.swift */,
 			);
 			path = "Record List";
 			sourceTree = "<group>";
@@ -374,7 +389,7 @@
 				32B36EE02042085400DA4593 /* Functional */,
 				32C39C1B201E812D00071E26 /* ApolloClient+Rx.swift */,
 				32892C43203530C800F1AD9C /* Array+Safe.swift */,
-				324592AD1FEC314900DE89BB /* Date+String.swift */,
+				324592AD1FEC314900DE89BB /* Date+Helpers.swift */,
 				321FDE832027D14B002DF04B /* Observable+Helpers.swift */,
 				32B36ED52040F57000DA4593 /* Optional+Helpers.swift */,
 				32C39C1F201E99A100071E26 /* Sequence+Helpers.swift */,
@@ -646,6 +661,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				325EAB1F2052481200B1BE3E /* ExpenseTableViewCell.swift in Sources */,
 				32AE416B202554AD0061EB64 /* RecordListViewController.swift in Sources */,
 				32BC33E81FEEF2070006256A /* Expense.swift in Sources */,
 				321F9007204F8CB700E2BA57 /* NewConventionUserInfoViewController.swift in Sources */,
@@ -670,7 +686,9 @@
 				321FDE842027D14B002DF04B /* Observable+Helpers.swift in Sources */,
 				321B75DC1F9BAD320055EBC4 /* SignInViewController.swift in Sources */,
 				324592AC1FEC2EA500DE89BB /* Convention.swift in Sources */,
+				32B3026C2050E09B000F7F2A /* RecordsOverviewViewController.swift in Sources */,
 				324592AA1FEC2E7900DE89BB /* Model.swift in Sources */,
+				325EAB2320524C5500B1BE3E /* RecordsOverviewTotalFooterView.swift in Sources */,
 				32C39C32201EA5B400071E26 /* ConventionTableViewCell.swift in Sources */,
 				32C39C1C201E812D00071E26 /* ApolloClient+Rx.swift in Sources */,
 				32BC33E21FEEF17E0006256A /* ProductType.swift in Sources */,
@@ -701,14 +719,16 @@
 				32892C4020352D1500F1AD9C /* FancyTextField.swift in Sources */,
 				32B36EE4204226B100DA4593 /* ConventionUserInfo.swift in Sources */,
 				32B36EC1203BE0E600DA4593 /* ConventionExtraInfo.swift in Sources */,
+				325EAB1D205247E900B1BE3E /* RecordSummaryTableViewCell.swift in Sources */,
 				32B36ECB203F97EF00DA4593 /* SplashScreenViewController.swift in Sources */,
 				32B36EC9203E7A5800DA4593 /* TableHeaderView.swift in Sources */,
 				32C9F9B920264BE00004566E /* ProductTableViewCell.swift in Sources */,
+				325EAB212052493300B1BE3E /* RecordsOverviewDateHeaderView.swift in Sources */,
 				32C39C1E201E870600071E26 /* UIView+Tooltip.swift in Sources */,
 				32B910152043A0EB002F9C94 /* UIImage+Base64.swift in Sources */,
 				32B91021204A3746002F9C94 /* RxNavigationController.swift in Sources */,
 				32B36EDD2042010D00DA4593 /* Images.swift in Sources */,
-				324592AE1FEC314900DE89BB /* Date+String.swift in Sources */,
+				324592AE1FEC314900DE89BB /* Date+Helpers.swift in Sources */,
 				321FDE8220269E67002DF04B /* SettingsActionTableViewCell.swift in Sources */,
 				32BE32BB201E786B00BFEB16 /* UIViewController+Instantiate.swift in Sources */,
 				322C6A15204E20570021A2D9 /* ConventionUserInfoTableViewCell.swift in Sources */,

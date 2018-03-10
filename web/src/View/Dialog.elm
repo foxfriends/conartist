@@ -84,8 +84,9 @@ conventionRow keys con =
     , span [] [ text <| (Convention.formatDate start) ++ "–" ++ (Convention.formatDate end) ]
     , centered <|
         -- TODO: transition button to close on hover?
-        let button = Fancy.button Icon "check" [ disabled (keys <= 0) , onClick <| Batch [AddConvention con, CloseDialog] ]
-        in if keys <= 0 then
-          Fancy.tooltip "Buy more keys first!" button
-        else
+        let button = Fancy.button Icon "check" [ disabled False {- (keys <= 0) -} , onClick <| Batch [AddConvention con, CloseDialog] ]
+        in
+        --if keys <= 0 then
+          --Fancy.tooltip "Buy more keys first!" button
+        --else
           button ]

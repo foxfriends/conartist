@@ -344,7 +344,7 @@ addConvention conId =
     <| mutationDocument
     <| extract
     <| field "addUserConvention"
-        [ ("conCode", Arg.variable (Var.required "conId" .conId Var.int)) ]
+        [ ("conId", Arg.variable (Var.required "conId" .conId Var.int)) ]
         metaConvention
 
 updateSettings : Settings -> Request Mutation Settings

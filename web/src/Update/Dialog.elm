@@ -28,7 +28,7 @@ update msg model = case msg of
       _ -> model ! []
   AddConvention con ->
     let user = model.user in
-    if user.keys > 0 then
+    --if user.keys > 0 then
       { model
       | user =
         { user
@@ -36,7 +36,7 @@ update msg model = case msg of
         , keys = user.keys - 1
         }
       } ! [ purchaseConvention con.id model ]
-    else model ! [] -- silent fail because the button should be disabled
+    --else model ! [] -- silent fail because the button should be disabled
   _ -> model ! []
 
 focusClose : Cmd Msg

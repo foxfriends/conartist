@@ -21,7 +21,8 @@ view model =
     sorted = splitByDate model.now (map Convention.asMeta model.user.conventions)
     cardHeader =
       [ text "Conventions"
-      , span [ class "dashboard__keys" ] [ Fancy.buttonWithContent Flat [ icon "vpn_key" [], text << toString <| model.user.keys ] [] ] ]
+      -- , span [ class "dashboard__keys" ] [ Fancy.buttonWithContent Flat [ icon "vpn_key" [], text << toString <| model.user.keys ] [] ] 
+      ]
   in
     div
       [ class "dashboard" ]
@@ -34,8 +35,9 @@ view model =
             [ titledList "Current" conListRow sorted.current
             , titledList "Upcoming" conListRow sorted.upcoming
             , titledList "Previous" conListRow sorted.previous ] )
-        [ Fancy.button Primary "Buy a key" [ onClick OpenKeyPurchase ]
-        , Fancy.button Primary "Add a convention" [ onClick OpenChooseConvention ] ] ]
+        [ --Fancy.button Primary "Buy a key" [ onClick OpenKeyPurchase ]
+        Fancy.button Primary "Add a convention" [ onClick OpenChooseConvention ] ] 
+        ]
 
 type alias SortedConventions =
   { previous: List MetaConvention

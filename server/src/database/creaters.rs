@@ -107,10 +107,10 @@ impl Database {
             .nth(0)
             .ok_or_else(|| format!("No upcoming convention exists with id {}", con_id))
             .and_then(|r| Convention::from(r))?;
-        execute!(trans, "UPDATE Users SET keys = keys - 1 WHERE user_id = $1 AND keys > 0", user_id)
-            .map_err(|r| r.to_string())
-            .and_then(|r| if r == 1 { Ok(()) } else { Err("".to_string()) })
-            .map_err(|_| format!("User {} does not have enough keys to sign up for a convention", user_id))?;
+        //execute!(trans, "UPDATE Users SET keys = keys - 1 WHERE user_id = $1 AND keys > 0", user_id)
+            //.map_err(|r| r.to_string())
+            //.and_then(|r| if r == 1 { Ok(()) } else { Err("".to_string()) })
+            //.map_err(|_| format!("User {} does not have enough keys to sign up for a convention", user_id))?;
         execute!(trans, "INSERT INTO User_Conventions (user_id, con_id) VALUES ($1, $2) RETURNING *", user_id, convention.con_id)
             .map_err(|r| r.to_string())
             .and_then(|r| if r == 1 { Ok(()) } else { Err("unknown".to_string()) })

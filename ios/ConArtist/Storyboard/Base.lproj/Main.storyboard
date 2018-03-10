@@ -1416,7 +1416,7 @@ Toronto, ON, Canada</string>
         <!--Records Overview View Controller-->
         <scene sceneID="m9x-BM-zmQ">
             <objects>
-                <viewController id="ydl-1s-Wjb" customClass="RecordsOverviewViewController" customModule="ConArtist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RecordsOverview" id="ydl-1s-Wjb" customClass="RecordsOverviewViewController" customModule="ConArtist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="n9u-xp-G2Q"/>
                         <viewControllerLayoutGuide type="bottom" id="Lqe-7d-Pia"/>
@@ -1433,24 +1433,24 @@ Toronto, ON, Canada</string>
                                     <userDefinedRuntimeAttribute type="string" keyPath="leftButtonTitle" value="Back"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Xeq-x0-NDa">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Xeq-x0-NDa">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" name="Background"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="yYe-zq-xWR">
-                                    <rect key="frame" x="0.0" y="128" width="375" height="50"/>
+                                    <rect key="frame" x="0.0" y="173.5" width="375" height="50"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PUc-DK-o8a">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" text="Net profit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tze-2K-qwG">
-                                                    <rect key="frame" x="20" y="16.5" width="62" height="17"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <rect key="frame" x="20" y="16.5" width="64.5" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                                     <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$72.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Af3-gC-QTD">
-                                                    <rect key="frame" x="82" y="16.5" width="241" height="17"/>
+                                                    <rect key="frame" x="84.5" y="16.5" width="238.5" height="17"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                     <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
@@ -1486,7 +1486,7 @@ Toronto, ON, Canada</string>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="RecordSummaryCell" id="yRS-Fd-ydU" customClass="RecordSummaryTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yRS-Fd-ydU" id="S83-HE-Aa0">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="50"/>
@@ -1539,7 +1539,7 @@ Toronto, ON, Canada</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="ExpenseCell" id="akY-dv-ukV" customClass="ExpenseTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="78" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="105.5" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="akY-dv-ukV" id="vJO-Vu-hKv">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
@@ -1583,6 +1583,10 @@ Toronto, ON, Canada</string>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="ydl-1s-Wjb" id="AIM-3n-Y6B"/>
+                                    <outlet property="delegate" destination="ydl-1s-Wjb" id="w8O-58-Prx"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" name="Background"/>
@@ -1598,8 +1602,10 @@ Toronto, ON, Canada</string>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="navBar" destination="OqY-8t-bcf" id="R3X-af-cek"/>
                         <outlet property="netProfitAmountLabel" destination="Af3-gC-QTD" id="DWc-bL-dH8"/>
                         <outlet property="netProfitLabel" destination="tze-2K-qwG" id="gjo-aY-6Xs"/>
+                        <outlet property="recordsTableView" destination="Xeq-x0-NDa" id="KpO-jK-ehE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W3e-c3-McR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2090,9 +2096,6 @@ Toronto, ON, Canada</string>
         </namedColor>
         <namedColor name="DividerDark">
             <color red="0.0" green="0.0" blue="0.0" alpha="0.18000000715255737" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="Text">
-            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Text">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

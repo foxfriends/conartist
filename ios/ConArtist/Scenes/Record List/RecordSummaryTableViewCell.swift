@@ -18,7 +18,7 @@ class RecordSummaryTableViewCell: UITableViewCell {
     func setup(for price: Money, and count: Int) {
         priceLabel.text = price.toString()
         priceLabel.font = priceLabel.font.usingFeatures([.tabularFigures])
-        countLabel.text = "\(count)"
+        countLabel.text = "(\(count))"
         titleLabel.text = "Sales"¡
     }
 }

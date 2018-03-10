@@ -22,6 +22,7 @@ struct ConArtist {
         static let Shadow = UIColor(named: "Shadow")!
         static let Background = UIColor(named: "Background")!
         static let BackgroundVariant = UIColor(named: "BackgroundVariant")!
+        static let BackgroundOverlay = UIColor(named: "BackgroundOverlay")!
         static let BackgroundNavBar = UIColor(named: "BackgroundNavBar")!
         static let Divider = UIColor(named: "Divider")!
         static let DividerDark = UIColor(named: "DividerDark")!

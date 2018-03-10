@@ -115,8 +115,8 @@ extension RecordsOverviewViewController {
             .map { (items: [ItemType]) -> [ItemType] in items.sorted { $0.time < $1.time } }
             .map { (items: [ItemType]) -> [[ItemType]] in items.split { $0.time.roundToDay() < $1.time.roundToDay() } }
             .map { (itemss: [[ItemType]]) -> [[[ItemType]]] in itemss.map { (items: [ItemType]) -> [[ItemType]] in items.split { $0.isExpense || $1.isExpense } } }
-            .map { (itemsss: [[[ItemType]]]) -> [Section] in
-                itemsss.map { (itemss: [[ItemType]]) -> Section in
+            .map { [øsections] (itemsss: [[[ItemType]]]) -> [Section] in
+                itemsss.enumerated().map { (index: Int, itemss: [[ItemType]]) -> Section in
                     let date = itemss.first!.first!.time.roundToDay()
                     let items = itemss.map { (items: [ItemType]) -> Item in
                         switch items.first! {
@@ -124,7 +124,7 @@ extension RecordsOverviewViewController {
                         case .Record: return .Records(items.map { $0.record! })
                         }
                     }
-                    return Section(date: date, items: items, expanded: true)
+                    return Section(date: date, items: items, expanded: øsections.value.nth(index)?.expanded ?? true)
                 }
             }
             .bind(to: øsections)
@@ -141,6 +141,10 @@ extension RecordsOverviewViewController {
         øsections
             .asDriver()
             .drive(onNext: { [recordsTableView] _ in recordsTableView?.reloadData() })
+            .disposed(by: disposeBag)
+
+        navBar.leftButton.rx.tap
+            .subscribe(onNext: { ConArtist.model.navigate(back: 1) })
             .disposed(by: disposeBag)
     }
 }
@@ -160,7 +164,8 @@ extension RecordsOverviewViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return øsections.value[section].items.count
+        guard let section = self.section(at: section) else { return 0 }
+        return section.expanded ? section.items.count : 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

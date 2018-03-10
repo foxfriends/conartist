@@ -15,7 +15,7 @@ class RecordsOverviewTotalFooterView: UIView {
     func setup(with total: Money) {
         buildSubviews()
 
-        titleLabel.text = "Total:"¡
+        titleLabel.text = "Total"¡
         amountLabel.text = total.toString()
     }
 
@@ -32,7 +32,7 @@ class RecordsOverviewTotalFooterView: UIView {
         titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
         titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo: amountLabel.leadingAnchor, constant: 0).isActive = true
-        amountLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 52).isActive = true
+        amountLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -52).isActive = true
         amountLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         lineView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         lineView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
@@ -40,9 +40,13 @@ class RecordsOverviewTotalFooterView: UIView {
         lineView.heightAnchor.constraint(equalToConstant: 1).isActive = true
         lineView.backgroundColor = ConArtist.Color.DividerDark
 
-        titleLabel.font = UIFont.systemFont(ofSize: 14)
+        titleLabel.font = UIFont.systemFont(ofSize: 14, weight: UIFontWeightSemibold)
+        titleLabel.textColor = ConArtist.Color.Text
         amountLabel.font = UIFont.systemFont(ofSize: 14, weight: UIFontWeightBold).usingFeatures([.tabularFigures])
+        amountLabel.textColor = ConArtist.Color.Text
         amountLabel.textAlignment = .right
+
+        backgroundColor = ConArtist.Color.BackgroundOverlay
 
         self.titleLabel = titleLabel
         self.amountLabel = amountLabel

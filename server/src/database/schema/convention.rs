@@ -9,7 +9,7 @@ use serde_json;
 #[serde(rename_all = "camelCase")]
 pub struct ConventionExtraInfo {
     pub title: String,
-    pub info: Option<String>,
+    pub info: Option<serde_json::Value>,
     pub action: Option<String>,
     pub action_text: Option<String>,
 }

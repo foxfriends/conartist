@@ -92,9 +92,9 @@ impl Database {
                   FROM ConventionInfo i
             INNER JOIN ConventionInfoRatings r
                     ON i.con_info_id = r.con_info_id
-                 WHERE con_info_id = $1
+                 WHERE i.con_info_id = $1
               GROUP BY i.con_info_id
-            ", info_id)
+        ", info_id)
             .into_iter()
             .nth(0)
             .ok_or_else(|| format!("No convention info exists with id {}", info_id))

@@ -7,7 +7,8 @@ use money::Money;
 #[derive(Clone)]
 pub struct Record {
     pub record_id: i32,
-    pub user_con_id: i32,
+    pub user_id: i32,
+    pub con_id: i32,
     pub price: Money,
     pub products: Vec<i32>,
     pub info: String,
@@ -18,7 +19,8 @@ impl Record {
         catch_unwind(|| {
             Self {
                 record_id: row.get("record_id"),
-                user_con_id: row.get("user_con_id"),
+                user_id: row.get("user_id"),
+                con_id: row.get("con_id"),
                 price: row.get("price"),
                 products: row.get("products"),
                 info: row.get("info"),

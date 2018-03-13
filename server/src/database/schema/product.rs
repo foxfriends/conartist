@@ -4,9 +4,6 @@ use postgres::rows::Row;
 
 #[derive(Clone, Copy)]
 pub struct InventoryItem {
-    pub inv_id: i32,
-    pub user_id: Option<i32>,
-    pub user_con_id: Option<i32>,
     pub product_id: i32,
     pub quantity: i32,
 }
@@ -14,9 +11,6 @@ impl InventoryItem {
     pub fn from(row: Row) -> Result<Self, String> {
         catch_unwind(|| {
             Self {
-                inv_id: row.get("inv_id"),
-                user_id: row.get("user_id"),
-                user_con_id: row.get("user_con_id"),
                 product_id: row.get("product_id"),
                 quantity: row.get("quantity"),
             }
@@ -70,13 +64,20 @@ impl ProductInInventory {
                     discontinued: row.get("discontinued"),
                 },
                 inventory: InventoryItem {
-                    inv_id: row.get("inv_id"),
-                    user_id: row.get("user_id"),
-                    user_con_id: row.get("user_con_id"),
                     product_id: row.get("product_id"),
                     quantity: row.get("quantity"),
                 }
             }
         }).map_err(|_| "Tried to create a ProductInInventory from a non-ProductInInventory row".to_string())
+    }
+
+    pub fn sold(self, amount: i32) -> Self {
+        Self {
+            product: self.product,
+            inventory: InventoryItem {
+                product_id: self.inventory.product_id,
+                quantity: self.inventory.quantity - amount,
+            },
+        }
     }
 }

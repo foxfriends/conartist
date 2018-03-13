@@ -143,22 +143,16 @@ impl Database {
             return Err(format!("Convention '{}' ({}) has ended", convention.title, con_id));
         }
 
-        let user_con_id = query!(trans, "SELECT user_con_id FROM User_Conventions WHERE user_id = $1 AND con_id = $2", user_id, con_id)
-            .into_iter()
-            .nth(0)
-            .ok_or_else(|| format!("User {} is not signed up for convention {}", user_id, con_id))?
-            .get::<usize, i32>(0);
-
         let record = query!(trans, "
             INSERT INTO Records
-                (user_con_id, products, price, sale_time, info)
+                (user_id, con_id, products, price, sale_time, info)
             VALUES
-                ($1, $2, $3, $4, $5)
-            RETURNING *"
-        , user_con_id, products, price, time, info)
+                ($1, $2, $3, $4, $5, $6)
+            RETURNING *
+        ", user_id, con_id, products, price, time, info)
             .into_iter()
             .nth(0)
-            .ok_or_else(|| format!("Failed to create new record for usercon {}", user_con_id))
+            .ok_or_else(|| format!("Failed to create new record for user {} con {}", user_id, con_id))
             .and_then(|r| Record::from(r))?;
         trans.commit().unwrap();
         Ok(record)
@@ -188,22 +182,16 @@ impl Database {
             return Err(format!("Convention '{}' ({}) has ended", convention.title, con_id));
         }
 
-        let user_con_id = query!(trans, "SELECT user_con_id FROM User_Conventions WHERE user_id = $1 AND con_id = $2", user_id, con_id)
-            .into_iter()
-            .nth(0)
-            .ok_or_else(|| format!("User {} is not signed up for convention {}", user_id, con_id))?
-            .get::<usize, i32>(0);
-
         let record = query!(trans, "
             INSERT INTO Expenses
-                (user_con_id, price, category, description, spend_time)
+                (user_id, con_id, price, category, description, spend_time)
             VALUES
-                ($1, $2, $3, $4, $5)
+                ($1, $2, $3, $4, $5, $6)
             RETURNING *"
-        , user_con_id, price, category, description, time)
+        , user_id, con_id, price, category, description, time)
             .into_iter()
             .nth(0)
-            .ok_or_else(|| format!("Failed to create new expense for usercon {}", user_con_id))
+            .ok_or_else(|| format!("Failed to create new expense for user {} con {}", user_id, con_id))
             .and_then(|r| Expense::from(r))?;
         trans.commit().unwrap();
         Ok(record)

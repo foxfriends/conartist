@@ -48,7 +48,43 @@ impl Database {
                 .or(Err(format!("Could not set name of product {} to {}", product_id, name)))?;
         }
         if let Some(quantity) = quantity {
-            execute!(trans, "UPDATE Inventory SET quantity = $1 WHERE user_id = $2 AND product_id = $3", quantity, user_id, product_id)
+            let sold: i32 = query!(conn, "
+                  SELECT SUM(sold) as sold
+                    FROM (
+                    SELECT UNNEST(products) AS product_id,
+                           1 AS sold
+                      FROM Records
+                     WHERE user_id = $1
+                    ) a
+                  WHERE product_id = $2
+               GROUP BY product_id
+            ", user_id, product_id)
+                .into_iter()
+                .map(|r| r.get::<&'static str, i32>("sold"))
+                .nth(0)
+                .unwrap_or(0);
+
+            let total: i32 = query!(conn, "
+                    SELECT SUM(COALESCE(quantity, 0)) as quantity
+                      FROM Products p 
+           LEFT OUTER JOIN Inventory i 
+                        ON p.product_id = i.product_id
+                     WHERE user_id = $1
+                       AND p.product_id = $2
+                  GROUP BY p.product_id
+                ", user_id, product_id)
+                    .into_iter()
+                    .map(|r| r.get::<&'static str, i32>("quantity"))
+                    .nth(0)
+                    .unwrap_or(0);
+
+            let quantity_delta = quantity - (total - sold);
+            execute!(trans, "
+                INSERT INTO Inventory 
+                    (user_id, product_id, quantity) 
+                VALUES
+                    ($1, $2, $3)
+            ", user_id, product_id, quantity_delta)
                 .or(Err(format!("Could not set quantity of product {} to {}", product_id, quantity)))?;
         }
         if let Some(discontinued) = discontinued {

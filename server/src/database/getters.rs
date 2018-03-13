@@ -1,4 +1,5 @@
 use super::*;
+use std::collections::HashMap;
 
 // TODO: do some caching here for efficiency
 // TODO: handle errors more properly, returning Result<_, Error> instead of String
@@ -44,16 +45,43 @@ impl Database {
     pub fn get_products_for_user(&self, user_id: i32) -> Result<Vec<ProductInInventory>, String> {
         assert_authorized!(self, user_id);
         let conn = self.pool.get().unwrap();
-        Ok (
-            query!(conn, "
-                SELECT *
-                FROM Products p INNER JOIN Inventory i ON p.product_id = i.product_id
-                WHERE i.user_id = $1
+        let items_sold: HashMap<i32, i32> = query!(conn, "
+                  SELECT product_id,
+                         SUM(sold) as sold
+                    FROM (
+                    SELECT UNNEST(products) AS product_id,
+                           1 AS sold
+                      FROM Records
+                     WHERE user_id = $1
+                    ) a
+               GROUP BY product_id
+        ", user_id)
+            .into_iter()
+            .map(|r| (r.get("product_id"), r.get("sold")))
+            .collect();
+        let products: Vec<ProductInInventory> = query!(conn, "
+                SELECT p.product_id,
+                       type_id,
+                       user_id,
+                       name,
+                       discontinued,
+                       SUM(COALESCE(quantity, 0)) as quantity
+                  FROM Products p 
+       LEFT OUTER JOIN Inventory i 
+                    ON p.product_id = i.product_id
+                 WHERE i.user_id = $1
+              GROUP BY p.product_id
             ", user_id)
                 .into_iter()
                 .filter_map(|row| ProductInInventory::from(row).ok())
-                .collect()
-        )
+                .collect();
+        Ok(products
+            .into_iter()
+            .map(|product| {
+                 let sold_amount = *items_sold.get(&product.product.product_id).unwrap_or(&0i32);
+                 product.sold(sold_amount)
+            })
+            .collect())
     }
 
     pub fn get_prices_for_user(&self, user_id: i32) -> Result<Vec<Price>, String> {
@@ -95,7 +123,7 @@ impl Database {
         let conn = self.pool.get().unwrap();
         query!(conn, "
             SELECT user_con_id,
-                   user_id,
+s                  user_id,
                    c.con_id,
                    title,
                    start_date,
@@ -113,26 +141,8 @@ impl Database {
             .ok_or(format!("User {} is not signed up for convention {}", user_id, con_id))
     }
 
-    pub fn get_products_for_user_con(&self, user_id: i32, user_con_id: i32, include_all: bool) -> Result<Vec<ProductInInventory>, String> {
-        assert_authorized!(self, user_id);
-        let conn = self.pool.get().unwrap();
-        Ok(
-            if include_all {
-                query!(conn, "
-                    SELECT *
-                    FROM Products p INNER JOIN Inventory i ON p.product_id = i.product_id
-                    WHERE i.user_id = $1
-                ", user_id)
-            } else {
-                query!(conn, "
-                    SELECT *
-                    FROM Products p INNER JOIN Inventory i ON p.product_id = i.product_id
-                    WHERE user_con_id = $1
-                ", user_con_id)
-            }   .into_iter()
-                .filter_map(|row| ProductInInventory::from(row).ok())
-                .collect()
-        )
+    pub fn get_products_for_user_con(&self, user_id: i32, _con_id: i32) -> Result<Vec<ProductInInventory>, String> {
+        self.get_products_for_user(user_id)
     }
 
     pub fn get_prices_for_user_con(&self, user_id: i32, user_con_id: i32, include_all: bool) -> Result<Vec<Price>, String> {
@@ -149,22 +159,22 @@ impl Database {
         )
     }
 
-    pub fn get_records_for_user_con(&self, user_id: i32, user_con_id: i32) -> Result<Vec<Record>, String> {
+    pub fn get_records_for_user_con(&self, user_id: i32, con_id: i32) -> Result<Vec<Record>, String> {
         assert_authorized!(self, user_id);
         let conn = self.pool.get().unwrap();
         Ok (
-            query!(conn, "SELECT * FROM Records WHERE user_con_id = $1", user_con_id)
+            query!(conn, "SELECT * FROM Records WHERE user_id = $1 AND con_id = $2", user_id, con_id)
                 .iter()
                 .filter_map(|row| Record::from(row).ok())
                 .collect()
         )
     }
 
-    pub fn get_expenses_for_user_con(&self, user_id: i32, user_con_id: i32) -> Result<Vec<Expense>, String> {
+    pub fn get_expenses_for_user_con(&self, user_id: i32, con_id: i32) -> Result<Vec<Expense>, String> {
         assert_authorized!(self, user_id);
         let conn = self.pool.get().unwrap();
         Ok (
-            query!(conn, "SELECT * FROM Expenses WHERE user_con_id = $1", user_con_id)
+            query!(conn, "SELECT * FROM Expenses WHERE user_id = $1 AND con_id = $2", user_id, con_id)
                 .iter()
                 .filter_map(|row| Expense::from(row).ok())
                 .collect()

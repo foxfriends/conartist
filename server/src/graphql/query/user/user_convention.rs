@@ -40,11 +40,11 @@ graphql_object!(FullUserConvention: Database |&self| {
         }
     }
 
-    field products(&executor, include_all = false: bool) -> FieldResult<Vec<ProductInInventory>> {
+    field products(&executor) -> FieldResult<Vec<ProductInInventory>> {
         dbtry! {
             executor
                 .context()
-                .get_products_for_user_con(self.user_id, self.user_con_id, include_all)
+                .get_products_for_user_con(self.user_id, self.con_id)
         }
     }
 
@@ -75,7 +75,7 @@ graphql_object!(FullUserConvention: Database |&self| {
         dbtry! {
             executor
                 .context()
-                .get_records_for_user_con(self.user_id, self.user_con_id)
+                .get_records_for_user_con(self.user_id, self.con_id)
         }
     }
 
@@ -83,7 +83,7 @@ graphql_object!(FullUserConvention: Database |&self| {
         dbtry! {
             executor
                 .context()
-                .get_expenses_for_user_con(self.user_id, self.user_con_id)
+                .get_expenses_for_user_con(self.user_id, self.con_id)
         }
     }
 });

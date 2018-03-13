@@ -120,24 +120,14 @@ CREATE TABLE Products (
 CREATE INDEX index_Products ON Products (user_id, type_id);
 COMMENT ON TABLE Products IS 'The specific products that a user produces';
 
--- TODO: would this be better as user-inventory and con-inventory?
--- TODO: figure out how inventory changes will actually be tracked
 CREATE TABLE Inventory (
-  inv_id      SERIAL PRIMARY KEY,
-  user_id     INT          REFERENCES Users             (user_id)     ON DELETE CASCADE,
-  user_con_id INT          REFERENCES User_Conventions  (user_con_id) ON DELETE CASCADE,
   product_id  INT NOT NULL REFERENCES Products          (product_id)  ON DELETE CASCADE,
   quantity    INT NOT NULL,
-  CONSTRAINT user_or_con CHECK (
-    (user_id IS NOT NULL AND user_con_id IS NULL) OR
-    (user_id IS NULL AND user_con_id IS NOT NULL)
-  ),
-  CONSTRAINT unique_inventory UNIQUE (product_id, user_con_id),
-  CONSTRAINT inventory_positive_quantity CHECK (quantity >= 0)
+  mod_date    TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP),
+  PRIMARY KEY (product_id)
 );
-CREATE INDEX index_Inventory_con ON Inventory (user_con_id);
-CREATE INDEX index_Inventory_user ON Inventory (user_id);
-COMMENT ON TABLE Inventory IS 'Keeps track of how many of each item a user has, or how many were in existence during a specific convention';
+CREATE INDEX index_Inventory_user ON Inventory (product_id);
+COMMENT ON TABLE Inventory IS 'Keeps track of how many of each item a user has by recording modifications over time';
 
 -- TODO: would this be better as user-prices and con-prices?
 -- TODO: history of price changes? or something at least to allow changing prices
@@ -164,22 +154,26 @@ COMMENT ON TABLE Prices IS 'Records how much each product or product type should
 -- e.g. CAD-9223372036854775808 to CAD9223372036854775807
 CREATE TABLE Records (
   record_id   SERIAL PRIMARY KEY,
-  user_con_id INT NOT NULL REFERENCES User_Conventions (user_con_id) ON DELETE CASCADE,
+  user_id     INT NOT NULL,
+  con_id      INT NOT NULL,
   price       CHAR(23) NOT NULL,
   products    INT[] NOT NULL,
   info        TEXT NOT NULL DEFAULT '',
-  sale_time   TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP)
+  sale_time   TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP),
+  FOREIGN KEY (user_id, con_id) REFERENCES User_Conventions (user_id, con_id)
 );
-CREATE INDEX index_Records ON Records (user_con_id);
+CREATE INDEX index_Records ON Records (user_id, con_id);
 COMMENT ON TABLE Records IS 'Represents a sale of one or more products to one customer';
 
 CREATE TABLE Expenses (
   expense_id  SERIAL PRIMARY KEY,
-  user_con_id INT NOT NULL REFERENCES User_Conventions (user_con_id) ON DELETE CASCADE,
+  user_id     INT NOT NULL,
+  con_id      INT NOT NULL,
   price       CHAR(23) NOT NULL,
   category    VARCHAR(32) NOT NULL,
   description TEXT NOT NULL DEFAULT '',
-  spend_time  TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP)
+  spend_time  TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP),
+  FOREIGN KEY (user_id, con_id) REFERENCES User_Conventions (user_id, con_id)
 );
-CREATE INDEX index_Expenses ON Expenses (user_con_id);
+CREATE INDEX index_Expenses ON Expenses (user_id, con_id);
 COMMENT ON TABLE Expenses IS 'Represents something that was purchased by a user to facilitate their attendence at a convention';

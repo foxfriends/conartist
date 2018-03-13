@@ -7,7 +7,8 @@ use money::Money;
 #[derive(Clone)]
 pub struct Expense {
     pub expense_id: i32,
-    pub user_con_id: i32,
+    pub user_id: i32,
+    pub con_id: i32,
     pub price: Money,
     pub category: String,
     pub description: String,
@@ -18,7 +19,8 @@ impl Expense {
         catch_unwind(|| {
             Self {
                 expense_id: row.get("expense_id"),
-                user_con_id: row.get("user_con_id"),
+                user_id: row.get("user_id"),
+                con_id: row.get("con_id"),
                 price: row.get("price"),
                 category: row.get("category"),
                 description: row.get("description"),

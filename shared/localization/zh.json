@@ -12,12 +12,10 @@
   "Currency": "货币",
   "Downvote": "没有帮助",
   "Email": "电子邮件",
-  "EEEE MMMM d, yyyy": "yyyy年MMMd日EEE",
   "Expenses": "费用",
   "General": "通用",
   "Help": "帮助",
   "Info": "信息",
-  "MMM. d, yyyy": "yyyy年MMMd日",
   "Net profit": "净利",
   "New expense": "添加费用",
   "New Expense": "新的费用",
@@ -40,6 +38,7 @@
   "There's nothing here…": "这里什么都没有",
   "Today": "今天",
   "Total": "总收入",
+  "Unknown": "未知",
   "Upcoming": "即将到来",
   "Upvote": "有帮助",
   "View on map": "看地图",
@@ -47,5 +46,11 @@
   "Website": "网站",
   "Your email or password is incorrect": "您的电子邮件或密码不正确"
   "New sale": "添加销售",
-  "<Convention info contribution disclaimer>": "Too many words for me to translate with Google translate oops"
+  "EEE": "EEE",
+  "h:mma": "H:mm",
+  "EEEE MMMM d, yyyy": "yyyy年MMMd日EEE",
+  "MMM. d, yyyy": "yyyy年MMMd日",
+  "{} – {}": "{} – {}",
+  "<No convention user info>": "TODO: get translation",
+  "<Convention info contribution disclaimer>": "TODO: Too many words for me to translate with Google translate oops"
 }

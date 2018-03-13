@@ -20,6 +20,7 @@ class ConventionExtraInfoTableViewCell: UITableViewCell {
         actionLabel?.text = info.actionText?¡
 
         infoLabel?.text = info.info
-        infoLabel?.numberOfLines = 1 + (info.info?.count(occurrencesOf: "\n") ?? 0)
+        infoLabel?.font = infoLabel!.font.usingFeatures([.tabularFigures])
+        infoLabel?.numberOfLines = 0
     }
 }

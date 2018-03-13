@@ -45,7 +45,7 @@ class Convention {
 
         let øconvention = self.øconvention.asObservable().filterMap(identity)
 
-        extraInfo = con.extraInfo
+        extraInfo = [.Dates(start, end)] + con.extraInfo
             .map { $0.fragments.extraInfoFragment }
             .filterMap(ConventionExtraInfo.init(graphQL:))
 
@@ -115,9 +115,14 @@ class Convention {
 
 // MARK: - Date formatting
 extension Convention {
-    private static let DateFormat: String = "MMM dd, yyyy"
+    static var DateFormat: String { return "MMM. d, yyyy"¡ }
+
     var dateString: String {
-        get { return "\(self.start.toString(Convention.DateFormat)) - \(self.end.toString(Convention.DateFormat))" }
+        get { return Convention.formatDateRange(start: self.start, end: self.end) }
+    }
+
+    static func formatDateRange(start: Date, end: Date) -> String {
+        return "{} – {}"¡ % start.toString(Convention.DateFormat) % end.toString(Convention.DateFormat)
     }
 }
 

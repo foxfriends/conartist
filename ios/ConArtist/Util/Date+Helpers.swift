@@ -21,7 +21,7 @@ extension Date {
     
     // Formats the date according to the provided format string
     func toString(_ format: String) -> String {
-        return moment(self).format(format)
+        return moment(self, timeZone: TimeZone.current, locale: Locale(identifier: ConArtist.model.settings.value.language.first!)).format(format)
     }
     
     // Formats the date as an RFC-3339 date string

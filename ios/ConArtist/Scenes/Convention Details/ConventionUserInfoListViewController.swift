@@ -13,6 +13,8 @@ class ConventionUserInfoListViewController: UIViewController {
     static let ID = "ConventionUserInfoList"
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var infoTableView: UITableView!
+    @IBOutlet weak var emptyStateView: UIView!
+    @IBOutlet weak var emptyStateLabel: UILabel!
 
     fileprivate let disposeBag = DisposeBag()
     fileprivate var convention: Convention!
@@ -34,6 +36,7 @@ extension ConventionUserInfoListViewController {
         navBar.title = convention.name
         navBar.leftButtonTitle = "Back"¡
         navBar.rightButtonTitle = "Add"¡
+        emptyStateLabel.text = "<No convention user info>"¡
     }
 }
 
@@ -42,7 +45,7 @@ extension ConventionUserInfoListViewController {
     fileprivate func setupSubscriptions() {
         øinformation
             .asDriver()
-            .drive(onNext: { [infoTableView] _ in infoTableView?.reloadData(); })
+            .drive(onNext: reloadView)
             .disposed(by: disposeBag)
 
         navBar.leftButton.rx.tap
@@ -53,6 +56,17 @@ extension ConventionUserInfoListViewController {
             .flatMap { NewConventionUserInfoViewController.show() }
             .subscribe(onNext: { [convention] info in convention?.addUserInfo(info) })
             .disposed(by: disposeBag)
+    }
+
+    private func reloadView(infos: [ConventionUserInfo]) {
+        if infos.isEmpty {
+            emptyStateView.isHidden = false
+            infoTableView.isHidden = true
+        } else {
+            emptyStateView.isHidden = true
+            infoTableView.isHidden = false
+            infoTableView.reloadData()
+        }
     }
 }
 

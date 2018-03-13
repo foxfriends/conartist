@@ -18,6 +18,9 @@
 		321FDE8020269E43002DF04B /* SettingsBooleanTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321FDE7F20269E43002DF04B /* SettingsBooleanTableViewCell.swift */; };
 		321FDE8220269E67002DF04B /* SettingsActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321FDE8120269E67002DF04B /* SettingsActionTableViewCell.swift */; };
 		321FDE842027D14B002DF04B /* Observable+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321FDE832027D14B002DF04B /* Observable+Helpers.swift */; };
+		322AFB3F20574622005E56C8 /* String+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AFB3E20574622005E56C8 /* String+JSON.swift */; };
+		322AFB41205763C0005E56C8 /* String+Escape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AFB40205763C0005E56C8 /* String+Escape.swift */; };
+		322AFB45205769DE005E56C8 /* Tuple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AFB44205769DE005E56C8 /* Tuple.swift */; };
 		322C6A0B204CC2170021A2D9 /* localization in Resources */ = {isa = PBXBuildFile; fileRef = 322C6A0A204CC2170021A2D9 /* localization */; };
 		322C6A0D204CC2810021A2D9 /* String+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322C6A0C204CC2810021A2D9 /* String+Localization.swift */; };
 		322C6A0F204CC8B40021A2D9 /* String+Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322C6A0E204CC8B40021A2D9 /* String+Display.swift */; };
@@ -115,6 +118,9 @@
 		321FDE7F20269E43002DF04B /* SettingsBooleanTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBooleanTableViewCell.swift; sourceTree = "<group>"; };
 		321FDE8120269E67002DF04B /* SettingsActionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsActionTableViewCell.swift; sourceTree = "<group>"; };
 		321FDE832027D14B002DF04B /* Observable+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+Helpers.swift"; sourceTree = "<group>"; };
+		322AFB3E20574622005E56C8 /* String+JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+JSON.swift"; sourceTree = "<group>"; };
+		322AFB40205763C0005E56C8 /* String+Escape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Escape.swift"; sourceTree = "<group>"; };
+		322AFB44205769DE005E56C8 /* Tuple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tuple.swift; sourceTree = "<group>"; };
 		322C6A0A204CC2170021A2D9 /* localization */ = {isa = PBXFileReference; lastKnownFileType = folder; name = localization; path = ../../../shared/localization; sourceTree = "<group>"; };
 		322C6A0C204CC2810021A2D9 /* String+Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Localization.swift"; sourceTree = "<group>"; };
 		322C6A0E204CC8B40021A2D9 /* String+Display.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Display.swift"; sourceTree = "<group>"; };
@@ -395,9 +401,11 @@
 				32C39C1F201E99A100071E26 /* Sequence+Helpers.swift */,
 				32F12C1120354E550045D0BC /* String+Attributes.swift */,
 				322C6A0E204CC8B40021A2D9 /* String+Display.swift */,
+				322AFB40205763C0005E56C8 /* String+Escape.swift */,
+				322AFB3E20574622005E56C8 /* String+JSON.swift */,
 				322C6A0C204CC2810021A2D9 /* String+Localization.swift */,
-				32BE32BA201E786B00BFEB16 /* UIViewController+Instantiate.swift */,
 				32E80BD6201700EB0008EC27 /* String+Money.swift */,
+				322AFB44205769DE005E56C8 /* Tuple.swift */,
 				32B36EBC203BD2F000DA4593 /* UIButton+ConArtist.swift */,
 				3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */,
 				32F12C0F203544E60045D0BC /* UIFont+Features.swift */,
@@ -405,6 +413,7 @@
 				32B36EBE203BD67800DA4593 /* UIView+Customizable.swift */,
 				32B36EC4203E5E7D00DA4593 /* UIView+Shadows.swift */,
 				32C39C1D201E870600071E26 /* UIView+Tooltip.swift */,
+				32BE32BA201E786B00BFEB16 /* UIViewController+Instantiate.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -662,6 +671,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				325EAB1F2052481200B1BE3E /* ExpenseTableViewCell.swift in Sources */,
+				322AFB41205763C0005E56C8 /* String+Escape.swift in Sources */,
 				32AE416B202554AD0061EB64 /* RecordListViewController.swift in Sources */,
 				32BC33E81FEEF2070006256A /* Expense.swift in Sources */,
 				321F9007204F8CB700E2BA57 /* NewConventionUserInfoViewController.swift in Sources */,
@@ -669,6 +679,7 @@
 				32F12C0E20353E840045D0BC /* FancyButton.swift in Sources */,
 				32B36ECD203FB8DD00DA4593 /* ConventionExtraInfoTableViewCell.swift in Sources */,
 				3245929C1FEB19DA00DE89BB /* GraphQL.swift in Sources */,
+				322AFB3F20574622005E56C8 /* String+JSON.swift in Sources */,
 				32B36EDB2041FFF100DA4593 /* API.swift in Sources */,
 				32B36EDF204202DB00DA4593 /* Keychain.swift in Sources */,
 				32F12C10203544E60045D0BC /* UIFont+Features.swift in Sources */,
@@ -723,6 +734,7 @@
 				32B36ECB203F97EF00DA4593 /* SplashScreenViewController.swift in Sources */,
 				32B36EC9203E7A5800DA4593 /* TableHeaderView.swift in Sources */,
 				32C9F9B920264BE00004566E /* ProductTableViewCell.swift in Sources */,
+				322AFB45205769DE005E56C8 /* Tuple.swift in Sources */,
 				325EAB212052493300B1BE3E /* RecordsOverviewDateHeaderView.swift in Sources */,
 				32C39C1E201E870600071E26 /* UIView+Tooltip.swift in Sources */,
 				32B910152043A0EB002F9C94 /* UIImage+Base64.swift in Sources */,

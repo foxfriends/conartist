@@ -389,6 +389,22 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="rightButtonTitle" value="Add"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ekR-KH-GX0">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No one has contributed any information about this convention yet. You could be the first!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q2G-Ub-SED">
+                                        <rect key="frame" x="40" y="180" width="295" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" name="TextPlaceholder"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="q2G-Ub-SED" secondAttribute="trailing" constant="40" id="AUv-UG-hf9"/>
+                                    <constraint firstItem="q2G-Ub-SED" firstAttribute="leading" secondItem="ekR-KH-GX0" secondAttribute="leading" constant="40" id="Kam-ig-Fy4"/>
+                                    <constraint firstItem="q2G-Ub-SED" firstAttribute="top" secondItem="ekR-KH-GX0" secondAttribute="top" constant="180" id="Wo8-P4-yag"/>
+                                </constraints>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FWM-Ta-rCy">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" name="Background"/>
@@ -462,17 +478,23 @@
                         </subviews>
                         <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="Z7z-te-0YH" firstAttribute="top" secondItem="ekR-KH-GX0" secondAttribute="bottom" id="BKg-Ts-d42"/>
                             <constraint firstItem="Z7z-te-0YH" firstAttribute="top" secondItem="FWM-Ta-rCy" secondAttribute="bottom" id="HTR-Z8-EOH"/>
                             <constraint firstItem="q7c-fV-2OY" firstAttribute="leading" secondItem="T6W-eI-ghc" secondAttribute="leading" id="Hpf-Ly-ubL"/>
                             <constraint firstItem="q7c-fV-2OY" firstAttribute="top" secondItem="T6W-eI-ghc" secondAttribute="top" id="Ijc-gT-7PM"/>
+                            <constraint firstAttribute="trailing" secondItem="ekR-KH-GX0" secondAttribute="trailing" id="Kf9-nR-SES"/>
                             <constraint firstAttribute="trailing" secondItem="FWM-Ta-rCy" secondAttribute="trailing" id="Pt2-FD-tPd"/>
+                            <constraint firstItem="ekR-KH-GX0" firstAttribute="leading" secondItem="T6W-eI-ghc" secondAttribute="leading" id="V3D-Hm-iPR"/>
                             <constraint firstItem="FWM-Ta-rCy" firstAttribute="leading" secondItem="T6W-eI-ghc" secondAttribute="leading" id="cij-0i-j2Q"/>
                             <constraint firstItem="FWM-Ta-rCy" firstAttribute="top" secondItem="q7c-fV-2OY" secondAttribute="bottom" id="huG-TF-Ov5"/>
+                            <constraint firstItem="ekR-KH-GX0" firstAttribute="top" secondItem="q7c-fV-2OY" secondAttribute="bottom" id="oal-Ca-pr2"/>
                             <constraint firstAttribute="trailing" secondItem="q7c-fV-2OY" secondAttribute="trailing" id="t9w-wr-uuU"/>
                             <constraint firstItem="q7c-fV-2OY" firstAttribute="bottom" secondItem="mMa-A5-oA4" secondAttribute="bottom" constant="44" id="tuX-hh-eHQ"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="emptyStateLabel" destination="q2G-Ub-SED" id="NIv-B6-NL2"/>
+                        <outlet property="emptyStateView" destination="ekR-KH-GX0" id="NNd-9w-BP9"/>
                         <outlet property="infoTableView" destination="FWM-Ta-rCy" id="4SH-f1-MeH"/>
                         <outlet property="navBar" destination="q7c-fV-2OY" id="G3a-mv-kCR"/>
                     </connections>

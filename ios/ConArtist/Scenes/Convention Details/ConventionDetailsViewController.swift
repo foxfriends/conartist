@@ -9,16 +9,6 @@
 import UIKit
 import RxSwift
 
-extension ConventionExtraInfo {
-    var cellIdentifier: String {
-        switch self {
-        case .PrimaryAction: return "PrimaryAction"
-        case .SecondaryAction: return "SecondaryAction"
-        case .NoAction: return "NoAction"
-        }
-    }
-}
-
 class ConventionDetailsViewController : UIViewController {
     fileprivate static let ID = "ConventionDetails"
     fileprivate let disposeBag = DisposeBag()

@@ -9,55 +9,68 @@
 import Foundation
 
 enum ConventionExtraInfo {
-    case NoAction(title: String, info: String)
-    case PrimaryAction(title: String, actionText: String, action: String)
-    case SecondaryAction(title: String, info: String, actionText: String, action: String)
+    static var HourFormat: String { return "h:mma"¡ }
+    static var ShortDayFormat: String { return "EEE"¡ }
+
+    case Hours([(Date, Date)])
+    case Dates(Date, Date)
+    case Website(display: String, url: String)
+    case Address(display: String, url: String)
 
     var title: String {
         switch self {
-        case .NoAction(let title, _),
-             .PrimaryAction(let title, _, _),
-             .SecondaryAction(let title, _, _, _):
-            return title
+        case .Hours: return "Hours"¡
+        case .Dates: return "Dates"¡
+        case .Website: return "Website"¡
+        case .Address: return "Address"¡
         }
     }
+
     var info: String? {
         switch self {
-        case .NoAction(_, let info),
-             .SecondaryAction(_, let info, _, _):
-            return info
-        default:
-            return nil
+        case .Hours(let hours):
+            return hours
+                .map { open, close in "{} {} – {}"¡ % open.toString(ConventionExtraInfo.ShortDayFormat) % open.toString(ConventionExtraInfo.HourFormat) % close.toString(ConventionExtraInfo.HourFormat) }
+                .joined(separator: "\n")
+        case .Dates(let dates): return Convention.formatDateRange(start: dates.0, end: dates.1)
+        case .Address(let display, _): return display
+        default: return nil
         }
     }
+
     var actionText: String? {
         switch self {
-        case .PrimaryAction(_, let actionText, _),
-             .SecondaryAction(_, _, let actionText, _):
-            return actionText
-        default:
-            return nil
+        case .Address: return "View on map"¡
+        case .Website(let display, _): return display
+        default: return nil
         }
     }
+
     var action: String? {
+        // TODO: rethink how this action is going to work, since it never worked anyway
+        return nil
+    }
+
+    var cellIdentifier: String {
         switch self {
-        case .PrimaryAction(_, _, let action),
-             .SecondaryAction(_, _, _, let action):
-            return action
-        default:
-            return nil
+        case .Website: return "PrimaryAction"
+        case .Address: return "SecondaryAction"
+        default: return "NoAction"
         }
     }
 
     init?(graphQL conventionInfo: ExtraInfoFragment) {
-        if let info = conventionInfo.info, let action = conventionInfo.action, let actionText = conventionInfo.actionText {
-            self = .SecondaryAction(title: conventionInfo.title, info: info, actionText: actionText, action: action)
-        } else if let action = conventionInfo.action, let actionText = conventionInfo.actionText {
-            self = .PrimaryAction(title: conventionInfo.title, actionText: actionText, action: action)
-        } else if let info = conventionInfo.info {
-            self = .NoAction(title: conventionInfo.title, info: info)
-        } else {
-            return nil
+        switch conventionInfo.title {
+        case "Hours":
+            guard let hours: [Pair<Date>] = conventionInfo.info?.parseJSON() else { return nil }
+            self = .Hours(hours.map { $0.raw })
+        case "Address":
+            guard let info: String = conventionInfo.info?.parseJSON(), let url = conventionInfo.action else { return nil }
+            self = .Address(display: info, url: url)
+        case "Website":
+            guard let info = conventionInfo.actionText, let url = conventionInfo.action else { return nil }
+            self = .Website(display: info, url: url)
+        default: return nil
         }
     }
 }

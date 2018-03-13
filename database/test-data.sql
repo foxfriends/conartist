@@ -47,7 +47,7 @@ UPDATE Conventions
   '[
     { "title": "Address", "info": "EY Centre\n 4899 Uplands Dr.\nOttawa, ON, Canada", "actionText": "View on map", "action": "conartist://map?coords=[45.3322119,-75.6563272]" },
     { "title": "Website", "actionText": "ottawacomiccon.com", "action": "https://ottawacomiccon.com" },
-    { "title": "Hours", "info": [["2018-05-11T12:00:00Z", "2018-05-11T20:00:00Z"], ["2018-05-12T10:00:00Z", "2018-05-12T19:00:00Z"], ["2018-05-13T10:30:00Z", "2018-05-13T17:00:00Z"]] }
+    { "title": "Hours", "info": [["2018-05-11T12:00:00-04:00", "2018-05-11T20:00:00-04:00"], ["2018-05-12T10:00:00-04:00", "2018-05-12T19:00:00-04:00"], ["2018-05-13T10:30:00-04:00", "2018-05-13T17:00:00-04:00"]] }
   ]'::JSON
  WHERE title = 'Ottawa Comic-Con';
 
@@ -56,7 +56,7 @@ UPDATE Conventions
   '[
     { "title": "Address", "info": "Toronto Congress Center\n650 Dixon Rd.\nEtobicoke, ON, Canada", "actionText": "View on map", "action": "conartist://map?coords=[43.6910669,-79.580327]" },
     { "title": "Website", "actionText": "animenorth.com", "action": "http://animenorth.com" },
-    { "title": "Hours", "info": [["2018-05-25T17:00:00Z", "2018-05-26T01:00:00Z"], ["2018-05-26T10:00:00Z", "2018-05-27T01:00:00Z"], ["2018-05-27T10:00:00Z", "2018-05-27T17:00:00Z"]] }
+    { "title": "Hours", "info": [["2018-05-25T17:00:00-04:00", "2018-05-26T01:00:00-04:00"], ["2018-05-26T10:00:00-04:00", "2018-05-27T01:00:00-04:00"], ["2018-05-27T10:00:00-04:00", "2018-05-27T17:00:00-04:00"]] }
   ]'::JSON
  WHERE title = 'Anime North';
 

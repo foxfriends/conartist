@@ -121,10 +121,10 @@ CREATE INDEX index_Products ON Products (user_id, type_id);
 COMMENT ON TABLE Products IS 'The specific products that a user produces';
 
 CREATE TABLE Inventory (
-  product_id  INT NOT NULL REFERENCES Products          (product_id)  ON DELETE CASCADE,
-  quantity    INT NOT NULL,
-  mod_date    TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP),
-  PRIMARY KEY (product_id)
+  inventory_id SERIAL PRIMARY KEY,
+  product_id   INT NOT NULL REFERENCES Products          (product_id)  ON DELETE CASCADE,
+  quantity     INT NOT NULL,
+  mod_date     TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP)
 );
 COMMENT ON TABLE Inventory IS 'Keeps track of how many of each item a user has by recording modifications over time';
 

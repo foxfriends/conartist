@@ -49,15 +49,13 @@ impl Database {
         }
         if let Some(quantity) = quantity {
             let sold: i32 = query!(conn, "
-                  SELECT SUM(sold)::INT as sold
+                  SELECT COUNT(1) as sold
                     FROM (
-                    SELECT UNNEST(products) AS product_id,
-                           1::INT AS sold
+                    SELECT UNNEST(products) AS product_id
                       FROM Records
                      WHERE user_id = $1
                     ) a
                   WHERE product_id = $2
-               GROUP BY product_id
             ", user_id, product_id)
                 .into_iter()
                 .map(|r| r.get::<&'static str, i32>("sold"))

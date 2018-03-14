@@ -49,7 +49,7 @@ impl Database {
         }
         if let Some(quantity) = quantity {
             let sold: i32 = query!(conn, "
-                  SELECT COUNT(1) as sold
+                  SELECT COUNT(1)::INT as sold
                     FROM (
                     SELECT UNNEST(products) AS product_id
                       FROM Records
@@ -63,7 +63,7 @@ impl Database {
                 .unwrap_or(0);
 
             let total: i32 = query!(conn, "
-                    SELECT SUM(COALESCE(quantity, 0)) as quantity
+                    SELECT SUM(COALESCE(quantity, 0))::INT as quantity
                       FROM Products p
            LEFT OUTER JOIN Inventory i
                         ON p.product_id = i.product_id
@@ -80,10 +80,10 @@ impl Database {
             let quantity_delta = quantity - (total - sold);
             execute!(trans, "
                 INSERT INTO Inventory
-                    (user_id, product_id, quantity)
+                    (product_id, quantity)
                 VALUES
-                    ($1, $2, $3)
-            ", user_id, product_id, quantity_delta)
+                    ($1, $2)
+            ", product_id, quantity_delta)
                 .or(Err(format!("Could not set quantity of product {} to {}", product_id, quantity)))?;
         }
         if let Some(discontinued) = discontinued {

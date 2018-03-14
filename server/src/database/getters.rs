@@ -47,7 +47,7 @@ impl Database {
         let conn = self.pool.get().unwrap();
         let items_sold: HashMap<i32, i32> = query!(conn, "
                   SELECT product_id,
-                         SUM(sold) as sold
+                         SUM(sold) AS sold
                     FROM (
                     SELECT UNNEST(products) AS product_id,
                            1 AS sold
@@ -123,7 +123,7 @@ impl Database {
         let conn = self.pool.get().unwrap();
         query!(conn, "
             SELECT user_con_id,
-s                  user_id,
+                   user_id,
                    c.con_id,
                    title,
                    start_date,

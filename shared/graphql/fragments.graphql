@@ -87,7 +87,7 @@ fragment VotesFragment on ConventionUserInfo {
 
 fragment FullConventionFragment on FullUserConvention {
   ...MetaConventionFragment
-  products(includeAll: true) { ...ProductFragment }
+  products { ...ProductFragment }
   productTypes { ...ProductTypeFragment }
   prices(includeAll: true) { ...PriceRowFragment }
   records { ...RecordFragment }

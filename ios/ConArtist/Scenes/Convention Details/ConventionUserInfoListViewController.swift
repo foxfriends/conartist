@@ -87,7 +87,7 @@ extension ConventionUserInfoListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 1
+        return 50
     }
 
     // TODO: the heights sometimes change randomly?? gotta fix that

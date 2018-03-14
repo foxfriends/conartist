@@ -2000,18 +2000,7 @@
             {
               "name": "products",
               "description": null,
-              "args": [
-                {
-                  "name": "includeAll",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Boolean",
-                    "ofType": null
-                  },
-                  "defaultValue": "false"
-                }
-              ],
+              "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,

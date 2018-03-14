@@ -76,7 +76,8 @@ impl ProductInInventory {
             product: self.product,
             inventory: InventoryItem {
                 product_id: self.inventory.product_id,
-                quantity: self.inventory.quantity - amount,
+                // never show the user that they have negative of something
+                quantity: i32::max(0, self.inventory.quantity - amount),
             },
         }
     }

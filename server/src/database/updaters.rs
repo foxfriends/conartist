@@ -64,8 +64,8 @@ impl Database {
 
             let total: i32 = query!(conn, "
                     SELECT SUM(COALESCE(quantity, 0)) as quantity
-                      FROM Products p 
-           LEFT OUTER JOIN Inventory i 
+                      FROM Products p
+           LEFT OUTER JOIN Inventory i
                         ON p.product_id = i.product_id
                      WHERE user_id = $1
                        AND p.product_id = $2
@@ -75,11 +75,12 @@ impl Database {
                     .map(|r| r.get::<&'static str, i32>("quantity"))
                     .nth(0)
                     .unwrap_or(0);
-
+            // Allow (total-sold) here to be negative to compensate for overselling miscounted
+            // items
             let quantity_delta = quantity - (total - sold);
             execute!(trans, "
-                INSERT INTO Inventory 
-                    (user_id, product_id, quantity) 
+                INSERT INTO Inventory
+                    (user_id, product_id, quantity)
                 VALUES
                     ($1, $2, $3)
             ", user_id, product_id, quantity_delta)
@@ -119,8 +120,8 @@ impl Database {
             .or(Err(format!("Could not set the rating for info {}", info_id)))?;
 
         let info = query!(trans, "
-                SELECT i.con_info_id, 
-                       information, 
+                SELECT i.con_info_id,
+                       information,
                        SUM(CASE rating WHEN true THEN 1 ELSE 0 END)::INT as upvotes,
                        SUM(CASE rating WHEN false THEN 1 ELSE 0 END)::INT as downvotes
                   FROM ConventionInfo i

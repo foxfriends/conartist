@@ -43,25 +43,25 @@ impl Database {
 
         let conn = self.pool.get().unwrap();
         let trans = conn.transaction().unwrap();
+        let sold: i32 = query!(conn, "
+              SELECT COUNT(1)::INT as sold
+                FROM (
+                SELECT UNNEST(products) AS product_id
+                  FROM Records
+                 WHERE user_id = $1
+                ) a
+              WHERE product_id = $2
+        ", user_id, product_id)
+            .into_iter()
+            .map(|r| r.get::<&'static str, i32>("sold"))
+            .nth(0)
+            .unwrap_or(0);
+
         if let Some(name) = name {
             execute!(trans, "UPDATE Products SET name = $1 WHERE product_id = $2", name, product_id)
                 .or(Err(format!("Could not set name of product {} to {}", product_id, name)))?;
         }
         if let Some(quantity) = quantity {
-            let sold: i32 = query!(conn, "
-                  SELECT COUNT(1)::INT as sold
-                    FROM (
-                    SELECT UNNEST(products) AS product_id
-                      FROM Records
-                     WHERE user_id = $1
-                    ) a
-                  WHERE product_id = $2
-            ", user_id, product_id)
-                .into_iter()
-                .map(|r| r.get::<&'static str, i32>("sold"))
-                .nth(0)
-                .unwrap_or(0);
-
             let total: i32 = query!(conn, "
                     SELECT SUM(COALESCE(quantity, 0))::INT as quantity
                       FROM Products p
@@ -92,15 +92,23 @@ impl Database {
         }
         trans.commit().unwrap();
         query!(conn, "
-            SELECT *
-            FROM Products p INNER JOIN Inventory i ON p.product_id = i.product_id
+           SELECT p.product_id,
+                  type_id,
+                  user_id,
+                  name,
+                  discontinued,
+                  SUM(COALESCE(quantity, 0))::INT as quantity
+             FROM Products p
+  LEFT OUTER JOIN Inventory i
+               ON p.product_id = i.product_id
             WHERE p.user_id = $1
               AND p.product_id = $2
+         GROUP BY p.product_id
             ", user_id, product_id)
             .into_iter()
             .nth(0)
             .ok_or("Could not retrieve updated product".to_string())
-            .and_then(|r| ProductInInventory::from(r))
+            .and_then(|r| Ok(ProductInInventory::from(r)?.sold(sold)))
     }
 
     pub fn update_convention_user_info_vote(&self, maybe_user_id: Option<i32>, info_id: i32, approved: bool) -> Result<ConventionUserInfo, String> {

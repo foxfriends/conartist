@@ -126,7 +126,6 @@ CREATE TABLE Inventory (
   mod_date    TIMESTAMP NOT NULL DEFAULT (NOW()::TIMESTAMP),
   PRIMARY KEY (product_id)
 );
-CREATE INDEX index_Inventory_user ON Inventory (product_id);
 COMMENT ON TABLE Inventory IS 'Keeps track of how many of each item a user has by recording modifications over time';
 
 -- TODO: would this be better as user-prices and con-prices?

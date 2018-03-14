@@ -47,10 +47,10 @@ impl Database {
         let conn = self.pool.get().unwrap();
         let items_sold: HashMap<i32, i32> = query!(conn, "
                   SELECT product_id,
-                         SUM(sold) AS sold
+                         SUM(sold)::INT AS sold
                     FROM (
                     SELECT UNNEST(products) AS product_id,
-                           1 AS sold
+                           1::INT AS sold
                       FROM Records
                      WHERE user_id = $1
                     ) a
@@ -69,7 +69,7 @@ impl Database {
                   FROM Products p 
        LEFT OUTER JOIN Inventory i 
                     ON p.product_id = i.product_id
-                 WHERE i.user_id = $1
+                 WHERE p.user_id = $1
               GROUP BY p.product_id
             ", user_id)
                 .into_iter()

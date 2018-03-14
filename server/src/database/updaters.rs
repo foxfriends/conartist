@@ -49,10 +49,10 @@ impl Database {
         }
         if let Some(quantity) = quantity {
             let sold: i32 = query!(conn, "
-                  SELECT SUM(sold) as sold
+                  SELECT SUM(sold)::INT as sold
                     FROM (
                     SELECT UNNEST(products) AS product_id,
-                           1 AS sold
+                           1::INT AS sold
                       FROM Records
                      WHERE user_id = $1
                     ) a

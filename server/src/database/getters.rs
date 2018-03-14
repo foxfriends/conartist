@@ -65,7 +65,7 @@ impl Database {
                        user_id,
                        name,
                        discontinued,
-                       SUM(COALESCE(quantity, 0)) as quantity
+                       SUM(COALESCE(quantity, 0))::INT as quantity
                   FROM Products p 
        LEFT OUTER JOIN Inventory i 
                     ON p.product_id = i.product_id

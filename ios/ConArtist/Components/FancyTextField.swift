@@ -86,8 +86,8 @@ class FancyTextField: UITextField {
                         titleLabel.textColor = ConArtist.Color.Warn
                     }
                     underlineView.isHighlighted = highlighted || (!valid && !text.isEmpty)
-                    formattedLabel.isHidden = underlineView.isHighlighted
-                    self?.textColor = underlineView.isHighlighted ? self!.textColor?.withAlphaComponent(1) : self!.textColor?.withAlphaComponent(0)
+                    formattedLabel.isHidden = underlineView.isHighlighted || self?.format == nil || self?.isSecureTextEntry != false
+                    self?.textColor = formattedLabel.isHidden ? self!.textColor?.withAlphaComponent(1) : self!.textColor?.withAlphaComponent(0)
                 }
             })
             .disposed(by: disposeBag)

@@ -26,10 +26,18 @@ class Model {
             }
         }
 
-        var animated: Bool {
+        var animatedEntry: Bool {
             switch self {
-            case .Appear:   return false
+            case .Appear,
+                 .Over:     return false
             default:        return true
+            }
+        }
+
+        var animatedExit: Bool {
+            switch self {
+            case .Over:     return false
+            default: 	    return true
             }
         }
 

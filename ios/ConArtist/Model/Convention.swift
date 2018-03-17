@@ -113,6 +113,27 @@ class Convention {
     }
 }
 
+// MARK: - Getters
+extension Convention {
+    func product(withId id: Int) -> Product? {
+        return øconvention
+            .value?
+            .products
+            .first { $0.id == id }
+            .map { $0.fragments.productFragment }
+            .flatMap(Product.init)
+    }
+
+    func productType(withId id: Int) -> ProductType? {
+        return øconvention
+            .value?
+            .productTypes
+            .first { $0.id == id }
+            .map { $0.fragments.productTypeFragment }
+            .flatMap(ProductType.init)
+    }
+}
+
 // MARK: - Date formatting
 extension Convention {
     static var DateFormat: String { return "MMM. d, yyyy"¡ }

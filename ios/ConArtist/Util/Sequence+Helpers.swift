@@ -42,7 +42,13 @@ extension Array {
     }
 }
 
-extension Sequence where Self.Element: Equatable {
+extension Sequence where Element: Hashable {
+    func unique() -> [Element] {
+        return Array(Set(self))
+    }
+}
+
+extension Sequence where Element: Equatable {
     func count(occurrencesOf instance: Element) -> Int {
         return count { $0 == instance }
     }

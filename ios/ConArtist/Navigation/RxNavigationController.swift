@@ -18,9 +18,15 @@ class RxNavigationController: UINavigationController {
         isNavigationBarHidden = true
 
         øviews
-            .asObservable()
             .asDriver(onErrorJustReturn: [])
-            .drive(onNext: { [unowned self] views in
+            .scan(([], [])) { previous, next in
+                return (next, previous.0)
+            }
+            .map { views, previous in (views, views.count < previous.count ? previous.last : nil) }
+            .drive(onNext: { [unowned self] views, toDismiss in
+                // to ensure the main thread is not asleep at this time? or something?
+                // there were some cases where the views would not appear on time
+                CFRunLoopWakeUp(CFRunLoopGetCurrent())
                 let myViews = views
                     .enumerated()
                     .prefix { index, item in
@@ -31,15 +37,14 @@ class RxNavigationController: UINavigationController {
                         }
                     }
                     .map { _, item in item }
-
                 let hasPresentedView = myViews.count < views.count
                 let dismiss = !hasPresentedView && self.viewControllers.last?.presentedViewController != nil
                 let viewControllers = myViews.map { $0.viewController }
                 if dismiss {
-                    self.viewControllers.last?.dismiss(animated: true)
+                    self.viewControllers.last?.dismiss(animated: toDismiss?.animatedExit ?? true)
                 }
                 if self.viewControllers != viewControllers {
-                    self.setViewControllers(viewControllers, animated: !dismiss && (viewControllers.count < self.viewControllers.count || (!hasPresentedView && myViews.last?.animated ?? false)))
+                    self.setViewControllers(viewControllers, animated: !dismiss && (viewControllers.count < self.viewControllers.count || (!hasPresentedView && myViews.last?.animatedEntry ?? false)))
                 }
                 if hasPresentedView {
                     if viewControllers.last?.presentedViewController == nil {
@@ -47,7 +52,12 @@ class RxNavigationController: UINavigationController {
                             .map { $0.dropFirst(myViews.count) }
                             .map(Array.init)
                             .filter { !$0.isEmpty }
-                        viewControllers.last?.present(RxNavigationController.create(basedOn: øtheirViews), animated: true)
+                        let controller = RxNavigationController.create(basedOn: øtheirViews)
+                        let item = views[myViews.count]
+                        if case .Over = item {
+                            controller.modalPresentationStyle = .overFullScreen
+                        }
+                        viewControllers.last?.present(controller, animated: item.animatedEntry)
                     }
                 }
             })

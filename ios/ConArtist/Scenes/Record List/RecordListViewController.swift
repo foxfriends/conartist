@@ -45,7 +45,7 @@ class RecordListViewController: UIViewController {
             .disposed(by: disposeBag)
 
         navBar.title = convention.name
-        navBar.subtitle = after?.roundToDay().toString("MMM. d, yyyy"¡)
+        navBar.subtitle = after?.toString("MMM. d, yyyy"¡)
     }
 }
 
@@ -71,11 +71,13 @@ extension RecordListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension RecordListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // show record info popup
+        if let record = ørecords.value.nth(indexPath.row) {
+            RecordDetailsOverlayViewController.show(for: record, in: convention, after: after)
+        }
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        // delete button
+        // TODO: delete button
         return UISwipeActionsConfiguration()
     }
 }

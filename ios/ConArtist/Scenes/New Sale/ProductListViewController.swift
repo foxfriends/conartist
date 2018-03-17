@@ -28,7 +28,7 @@ extension ProductListViewController {
         navBar.title = productType.name
         navBar.leftButtonTitle = "Continue"¡
         navBar.leftButton.rx.tap
-            .subscribe({ _ in ConArtist.model.navigate(back: 1) })
+            .subscribe(onNext: { _ in ConArtist.model.navigate(back: 1) })
             .disposed(by: disposeBag)
     }
 }

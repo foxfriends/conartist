@@ -10,6 +10,8 @@ import UIKit
 
 @IBDesignable
 class FakeNavBar: UIView {
+    private static let NavBarHeight: CGFloat = 44.0
+
     private let navView = UIView().customizable()
     private let titleLabel = UILabel().customizable()
     private let subtitleLabel = UILabel().customizable()
@@ -55,14 +57,16 @@ class FakeNavBar: UIView {
 
         NSLayoutConstraint.activate([
             // TODO: would be nice to make this consistent...
-            NSLayoutConstraint(item: navView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: -44),
+            NSLayoutConstraint(item: navView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: -FakeNavBar.NavBarHeight),
             NSLayoutConstraint(item: navView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: navView, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: navView, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: leftButton, attribute: .leading, relatedBy: .equal, toItem: navView, attribute: .leading, multiplier: 1, constant: 20),
-            NSLayoutConstraint(item: leftButton, attribute: .centerY, relatedBy: .equal, toItem: navView, attribute: .centerY, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: rightButton, attribute: .trailing, relatedBy: .equal, toItem: navView, attribute: .trailing, multiplier: 1, constant: -20),
-            NSLayoutConstraint(item: rightButton, attribute: .centerY, relatedBy: .equal, toItem: navView, attribute: .centerY, multiplier: 1, constant: 0),
+            leftButton.leadingAnchor.constraint(equalTo: navView.leadingAnchor),
+            leftButton.topAnchor.constraint(equalTo: navView.topAnchor),
+            leftButton.bottomAnchor.constraint(equalTo: navView.bottomAnchor),
+            rightButton.trailingAnchor.constraint(equalTo: navView.trailingAnchor),
+            rightButton.topAnchor.constraint(equalTo: navView.topAnchor),
+            rightButton.bottomAnchor.constraint(equalTo: navView.bottomAnchor),
             NSLayoutConstraint(item: titleView, attribute: .centerY, relatedBy: .equal, toItem: navView, attribute: .centerY, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: titleView, attribute: .centerX, relatedBy: .equal, toItem: navView, attribute: .centerX, multiplier: 1, constant: 0),
             titleLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor),
@@ -75,7 +79,9 @@ class FakeNavBar: UIView {
         ])
 
         leftButton.isHidden = true
+        leftButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         rightButton.isHidden = true
+        rightButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         titleLabel.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold)
         titleLabel.textColor = ConArtist.Color.Text
         titleLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, for: .horizontal)

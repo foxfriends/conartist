@@ -28,6 +28,7 @@ class ProductTypeListViewController: UIViewController {
     fileprivate let øselected = Variable<[Product]>([])
 
     fileprivate var convention: Convention!
+    fileprivate var editingRecord: Record?
     fileprivate let results = PublishSubject<([Product], Money, String)>()
 
     fileprivate let øexpectedInfoViewBottomConstraintConstant = Variable<CGFloat>(-150)
@@ -42,6 +43,11 @@ extension ProductTypeListViewController {
         infoExpandButtonImage.image = ConArtist.Images.SVG.Chevron.Down
         noteLabel.font = noteLabel.font.usingFeatures([.smallCaps])
         priceField.format = { Money.parse(as: ConArtist.model.settings.value.currency, $0)?.toString() ?? $0 }
+        if let record = editingRecord {
+            noteLabel.text = record.info
+            priceField.text = "\(record.price.numericValue())"
+            øselected.value = record.products.filterMap(convention.product(withId:))
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -255,9 +261,10 @@ extension ProductTypeListViewController {
 
 // MARK: Navigation
 extension ProductTypeListViewController {
-    class func show(for convention: Convention) -> Observable<([Product], Money, String)> {
+    class func show(for convention: Convention, editing record: Record? = nil) -> Observable<([Product], Money, String)> {
         let controller: ProductTypeListViewController = ProductTypeListViewController.instantiate(withId: ProductTypeListViewController.ID)
 
+        controller.editingRecord = record
         controller.convention = convention
         convention.products
             .bind(to: controller.øproducts)

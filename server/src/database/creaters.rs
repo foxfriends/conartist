@@ -39,13 +39,12 @@ impl Database {
             .and_then(|r| Product::from(r))?;
         for row in &query!(trans, "
                 INSERT INTO Inventory
-                    (user_id, product_id, quantity)
+                    (product_id, quantity)
                 VALUES
-                    ($1, $2, $3)
+                    ($1, $2)
                 RETURNING *
-            ", user_id, product.product_id, quantity) {
+            ", product.product_id, quantity) {
             trans.set_commit();
-            // Bad time for unwrap, but should be ok
             return InventoryItem::from(row).map(|inv| product.in_inventory(inv));
         }
         Err(format!("Failed to create product {}", name))

@@ -33,6 +33,7 @@ graphql_object!(Mutation: Database |&self| {
                 .set_user_email(user_id, email)
         }
     }
+
     field change_user_password(&executor, user_id: Option<i32>, orig_password: String, password: String) -> FieldResult<User> {
         ensure!(password.len() > 0);
 
@@ -42,6 +43,7 @@ graphql_object!(Mutation: Database |&self| {
                 .set_user_password(user_id, orig_password, password)
         }
     }
+
     field change_user_name(&executor, user_id: Option<i32>, name: String) -> FieldResult<User> {
         ensure!(name.len() > 0 && name.len() <= 512);
 
@@ -51,6 +53,7 @@ graphql_object!(Mutation: Database |&self| {
                 .set_user_name(user_id, name)
         }
     }
+
     field add_user_keys(&executor, user_id: Option<i32>, quantity: i32) -> FieldResult<User> {
         ensure!(quantity > 0);
 
@@ -72,6 +75,7 @@ graphql_object!(Mutation: Database |&self| {
                 .create_product_type(user_id, product_type.name, product_type.color)
         }
     }
+
     field mod_user_product_type(&executor, user_id: Option<i32>, product_type: ProductTypeMod) -> FieldResult<ProductType> {
         ensure!(product_type.type_id > 0);
         let name_length = product_type.name.as_ref().map(|s| s.len()).unwrap_or(1);
@@ -97,6 +101,7 @@ graphql_object!(Mutation: Database |&self| {
                 .create_product(user_id, product.type_id, product.name, product.quantity)
         }
     }
+
     field mod_user_product(&executor, user_id: Option<i32>, product: ProductMod) -> FieldResult<ProductInInventory> {
         ensure!(product.product_id > 0);
         let name_length = product.name.as_ref().map(|s| s.len()).unwrap_or(1);
@@ -121,6 +126,7 @@ graphql_object!(Mutation: Database |&self| {
                 .create_or_update_price(user_id, price.type_id, price.product_id, prices)
         }
     }
+
     field del_user_price(&executor, user_id: Option<i32>, price: PriceDel) -> FieldResult<bool> {
         dbtry! {
             executor
@@ -137,6 +143,7 @@ graphql_object!(Mutation: Database |&self| {
                 .create_user_convention(user_id, con_id)
         }
     }
+
     field del_user_convention(&executor, user_id: Option<i32>, con_id: i32) -> FieldResult<bool> {
          dbtry! {
              executor
@@ -156,8 +163,27 @@ graphql_object!(Mutation: Database |&self| {
                 .create_user_record(user_id, record.con_id, record.products, record.price, record.time.naive_utc(), record.info)
         }
     }
-    field mod_user_record(&executor, user_id: Option<i32>, record: RecordMod) -> FieldResult<Record> { Err(FieldError::new("Unimplemented", Value::null())) }
-    field del_user_record(&executor, user_id: Option<i32>, record: RecordDel) -> FieldResult<()> { Err(FieldError::new("Unimplemented", Value::null())) }
+
+    // Records
+    field mod_user_record(&executor, user_id: Option<i32>, record: RecordMod) -> FieldResult<Record> { 
+        ensure!(record.record_id > 0);
+        ensure!(record.products.as_ref().map(|products| products.len() > 0).unwrap_or(true)); 
+        ensure!(record.price.map(|price| price >= Money::new(0i64, price.cur())).unwrap_or(true));
+
+        dbtry! {
+            executor
+                .context()
+                .update_record(user_id, record.record_id, record.products, record.price, record.info)
+        }
+    }
+
+    field del_user_record(&executor, user_id: Option<i32>, record: RecordDel) -> FieldResult<bool> {
+        dbtry! {
+            executor
+                .context()
+                .delete_record(user_id, record.record_id)
+        }
+    }
 
     field add_user_expense(&executor, user_id: Option<i32>, expense: ExpenseAdd) -> FieldResult<Expense> {
         ensure!(expense.con_id > 0);
@@ -170,7 +196,9 @@ graphql_object!(Mutation: Database |&self| {
                 .create_user_expense(user_id, expense.con_id, expense.price, expense.category, expense.description, expense.time.naive_utc())
         }
     }
+
     field mod_user_expense(&executor, user_id: Option<i32>, expense: ExpenseMod) -> FieldResult<Expense> { Err(FieldError::new("Unimplemented", Value::null())) }
+
     field del_user_expense(&executor, user_id: Option<i32>, expense: ExpenseDel) -> FieldResult<()> { Err(FieldError::new("Unimplemented", Value::null())) }
 
     field add_convention_info(&executor, user_id: Option<i32>, con_id: i32, info: String) -> FieldResult<ConventionUserInfo> {
@@ -181,6 +209,7 @@ graphql_object!(Mutation: Database |&self| {
                 .create_convention_user_info(user_id, con_id, info)
         }
     }
+
     field upvote_convention_info(&executor, user_id: Option<i32>, info_id: i32) -> FieldResult<ConventionUserInfo> {
         dbtry! {
             executor
@@ -188,6 +217,7 @@ graphql_object!(Mutation: Database |&self| {
                 .update_convention_user_info_vote(user_id, info_id, true)
         }
     }
+
     field downvote_convention_info(&executor, user_id: Option<i32>, info_id: i32) -> FieldResult<ConventionUserInfo> {
         dbtry! {
             executor

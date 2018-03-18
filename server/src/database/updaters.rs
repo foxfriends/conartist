@@ -1,4 +1,5 @@
 use super::*;
+use money::Money;
 
 impl Database {
     pub fn update_product_type(&self,
@@ -111,6 +112,42 @@ impl Database {
             .and_then(|r| Ok(ProductInInventory::from(r)?.sold(sold)))
     }
 
+    pub fn update_record(&self, maybe_user_id: Option<i32>, record_id: i32, products: Option<Vec<i32>>, price: Option<Money>, info: Option<String>) -> Result<Record, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let conn = self.pool.get().unwrap();
+        let trans = conn.transaction().unwrap();
+        let record = query!(trans, "
+            SELECT * 
+              FROM Records
+             WHERE record_id = $1
+               AND user_id = $2
+        ", record_id, user_id)
+            .into_iter()
+            .nth(0)
+            .ok_or_else(|| format!("User {} does not own a record with id {}", user_id, record_id))
+            .and_then(Record::from)?;
+        let new_record = Record {
+            products: products.unwrap_or(record.products),
+            price: price.unwrap_or(record.price),
+            info: info.unwrap_or(record.info),
+            ..record
+        };
+        let updated_record = query!(trans, "
+            UPDATE Records
+               SET products = $1,
+                   price = $2,
+                   info = $3
+             WHERE record_id = $4
+         RETURNING *
+        ", new_record.products, new_record.price, new_record.info, record_id)
+            .into_iter()
+            .nth(0)
+            .ok_or("Could not retrieve updated record".to_string())
+            .and_then(Record::from)?;
+        trans.commit().unwrap();
+        Ok(updated_record)
+    }
+
     pub fn update_convention_user_info_vote(&self, maybe_user_id: Option<i32>, info_id: i32, approved: bool) -> Result<ConventionUserInfo, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
 
@@ -141,7 +178,7 @@ impl Database {
             .into_iter()
             .nth(0)
             .ok_or_else(|| format!("No convention info exists with id {}", info_id))
-            .and_then(|r| ConventionUserInfo::without_votes(r))?;
+            .and_then(ConventionUserInfo::without_votes)?;
         trans.commit().unwrap();
         Ok(info)
     }

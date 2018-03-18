@@ -23,6 +23,7 @@ class RecordDetailsOverlayViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
 
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var itemsTableViewHeightConstraint: NSLayoutConstraint!
 
     @IBOutlet var smallCapsLabels: [UILabel]!
 
@@ -51,6 +52,7 @@ extension RecordDetailsOverlayViewController {
         super.viewDidLoad()
         setupLocalization()
         setupSubscriptions()
+        bottomConstraint.constant = -view.frame.height
         setupUI()
     }
 
@@ -84,8 +86,18 @@ extension RecordDetailsOverlayViewController {
             .disposed(by: disposeBag)
 
         navBar.rightButton.rx.tap
-            .flatMap { [convention, record] _ in ProductTypeListViewController.show(for: convention!, editing: record!) }
-            .subscribe()
+            .flatMap { [convention, unowned self] _ in ProductTypeListViewController.show(for: convention!, editing: self.record) }
+            .map { [unowned self] products, price, info in
+                let newRecord = Record(id: self.record.id, products: products.map { $0.id }, price: price, time: self.record.time, info: info)
+                self.record = newRecord
+                DispatchQueue.main.async { self.setupUI() }
+                return newRecord
+            }
+            .flatMap(convention.updateRecord)
+            .subscribe(
+                onNext: { print("SAVED") },
+                onError: { print("FAILED TO SAVE: \($0)") }
+            )
             .disposed(by: disposeBag)
     }
 }
@@ -103,16 +115,16 @@ extension RecordDetailsOverlayViewController {
         timeLabel.text = record.time.toString("EEEE MMMM d, yyyy. h:mm a"¡)
         noteLabel.text = record.info.isEmpty ? "Nothing to say…"¡ : record.info
         noteLabel.textColor = record.info.isEmpty ? ConArtist.Color.TextPlaceholder : ConArtist.Color.Text
-        bottomConstraint.constant = -view.frame.height
         backgroundButton.alpha = 0
         let height = productTypes
             .map { productType in self.products.filter { $0.typeId == productType.id }.count }
             .map(RecordDetailsItemsTableViewCell.height)
             .reduce(0, +)
-        itemsTableView.heightAnchor.constraint(equalToConstant: CGFloat(height)).isActive = true
+        itemsTableViewHeightConstraint.constant = height
         navBar.title = convention.name
         navBar.subtitle = after?.toString("MMM. d, yyyy"¡)
         navBar.layer.shadowOpacity = 0
+        itemsTableView.reloadData()
     }
 
     fileprivate func animateEntry() {
@@ -160,7 +172,8 @@ extension RecordDetailsOverlayViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension RecordDetailsOverlayViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        let typeId = productTypes[indexPath.row].id
+        return RecordDetailsItemsTableViewCell.height(with: products.filter { $0.typeId == typeId }.count)
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {

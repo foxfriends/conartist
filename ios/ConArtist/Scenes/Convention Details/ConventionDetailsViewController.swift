@@ -106,25 +106,21 @@ extension ConventionDetailsViewController {
         newSaleButton.rx.tap
             .flatMap { [convention] _ in ProductTypeListViewController.show(for: convention!) }
             .map { products, price, info in Record(products: products.map { $0.id }, price: price, info: info) }
-            .do(onNext: convention.addRecord)
-            .flatMap { [convention] _ in convention!.save() }
-            .catchErrorJustReturn(false)
-            .subscribe(onNext: { saved in
-                if saved { print ("SAVED") }
-                else { print("FAILED TO SAVE") }
-            })
+            .flatMap(convention.addRecord)
+            .subscribe(
+                onNext: { print("SAVED") },
+                onError: { print("FAILED TO SAVE: \($0)") }
+            )
             .disposed(by: disposeBag)
 
         newExpenseButton.rx.tap
             .flatMap { _ in NewExpenseViewController.show() }
             .map(Expense.init)
-            .do(onNext: convention.addExpense)
-            .flatMap { [convention] _ in convention!.save() }
-            .catchErrorJustReturn(false)
-            .subscribe(onNext: { saved in
-                if saved { print("SAVED") }
-                else { print("FAILED TO SAVE") }
-            })
+            .flatMap(convention.addExpense)
+            .subscribe(
+                onNext: { print("SAVED") },
+                onError: { print("FAILED TO SAVE: \($0)") }
+            )
             .disposed(by: disposeBag)
 
         seeAllInfoButton.rx.tap

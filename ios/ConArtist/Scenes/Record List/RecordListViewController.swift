@@ -77,8 +77,19 @@ extension RecordListViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        // TODO: delete button
-        return UISwipeActionsConfiguration()
+        let record = ørecords.value[indexPath.row]
+        let deleteAction = UIContextualAction(style: .normal, title: "Delete"¡) { [convention] _, _, reset in
+            let _ = convention?.deleteRecord(record)
+                .subscribe(
+                    onNext: { print("SAVED") },
+                    onError: { print("FAILED TO SAVE \($0)") }
+                )
+            reset(true)
+        }
+        deleteAction.backgroundColor = ConArtist.Color.Warn
+        let config = UISwipeActionsConfiguration(actions: [deleteAction])
+        config.performsFirstActionWithFullSwipe = false
+        return config
     }
 }
 

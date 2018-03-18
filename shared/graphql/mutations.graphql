@@ -4,8 +4,28 @@ mutation AddRecord($id: Int, $record: RecordAdd!) {
   }
 }
 
+mutation DeleteRecord($id: Int, $record: RecordDel!) {
+  delUserRecord(userId: $id, record: $record)
+}
+
+mutation UpdateRecord($id: Int, $record: RecordMod!) {
+  modUserRecord(userId: $id, record: $record) {
+    ...RecordFragment
+  }
+}
+
 mutation AddExpense($id: Int, $expense: ExpenseAdd!) {
   addUserExpense(userId: $id, expense: $expense) {
+    ...ExpenseFragment
+  }
+}
+
+mutation DeleteExpense($id: Int, $expense: ExpenseDel!) {
+  delUserExpense(userId: $id, expense: $expense)
+}
+
+mutation UpdateExpense($id: Int, $expense: ExpenseMod!) {
+  modUserExpense(userId: $id, expense: $expense) {
     ...ExpenseFragment
   }
 }

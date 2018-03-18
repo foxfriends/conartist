@@ -21,12 +21,11 @@ class RecordDetailsItemsTableViewCell: UITableViewCell {
         typeLabel.text = productType.name
         productsCollectionView.dataSource = self
         productsCollectionView.delegate = self
-        productsCollectionView.heightAnchor.constraint(equalToConstant: ceil(CGFloat(items.count) / 2.0) * 20.0).isActive = true
         productsCollectionView.reloadData()
     }
 
-    static func height(with count: Int) -> Int {
-        return Int(20 + ceil(Float(count) / 2.0) * 20.0)
+    static func height(with count: Int) -> CGFloat {
+        return ceil(20 + ceil(CGFloat(count) / 2.0) * 20)
     }
 }
 

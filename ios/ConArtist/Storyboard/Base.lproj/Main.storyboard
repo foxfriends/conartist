@@ -1800,6 +1800,9 @@ Toronto, ON, Canada</string>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" placeholderIntrinsicWidth="355" placeholderIntrinsicHeight="88" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="bAk-vK-ZpE">
                                         <rect key="frame" x="10" y="89" width="355" height="88"/>
                                         <color key="backgroundColor" name="BackgroundBottomSheet"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="88" id="Le0-h3-VLb"/>
+                                        </constraints>
                                         <color key="separatorColor" name="BackgroundBottomSheet"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RecordDetailsItemsCell" rowHeight="60" id="v9l-ez-S3a" customClass="RecordDetailsItemsTableViewCell" customModule="ConArtist" customModuleProvider="target">
@@ -1984,6 +1987,7 @@ Toronto, ON, Canada</string>
                         <outlet property="backgroundButton" destination="iX7-Yr-sSr" id="wmL-n6-Klb"/>
                         <outlet property="bottomConstraint" destination="OBD-tD-VtI" id="AWb-Nm-dac"/>
                         <outlet property="itemsTableView" destination="bAk-vK-ZpE" id="Jir-1T-EKW"/>
+                        <outlet property="itemsTableViewHeightConstraint" destination="Le0-h3-VLb" id="tsv-om-9gj"/>
                         <outlet property="navBar" destination="c6g-cp-o4C" id="nob-Cn-oOi"/>
                         <outlet property="noteLabel" destination="dJp-UJ-gQf" id="DR0-Pw-IDt"/>
                         <outlet property="sheetView" destination="3Z2-Tl-jiF" id="Nfh-al-sSW"/>

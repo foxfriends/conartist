@@ -31,6 +31,9 @@ class FancyTextField: UITextField {
     override var text: String? {
         didSet {
             titleLabel.alpha = (text?.isEmpty ?? true) ? 0 : 1
+            formattedLabel.text = format?(text ?? "") ?? text
+            formattedLabel.isHidden = underlineView.isHighlighted || format == nil || isSecureTextEntry != false
+            textColor = formattedLabel.isHidden ? textColor?.withAlphaComponent(1) : textColor?.withAlphaComponent(0)
         }
     }
 

@@ -26,6 +26,7 @@ class ProductTypeListViewController: UIViewController {
     fileprivate let øproducts = Variable<[Product]>([])
     fileprivate let øprices = Variable<[Price]>([])
     fileprivate let øselected = Variable<[Product]>([])
+    fileprivate let ømoney = Variable<Money?>(nil)
 
     fileprivate var convention: Convention!
     fileprivate var editingRecord: Record?
@@ -44,9 +45,10 @@ extension ProductTypeListViewController {
         noteLabel.font = noteLabel.font.usingFeatures([.smallCaps])
         priceField.format = { Money.parse(as: ConArtist.model.settings.value.currency, $0)?.toString() ?? $0 }
         if let record = editingRecord {
-            noteLabel.text = record.info
-            priceField.text = "\(record.price.numericValue())"
+            infoTextView.text = record.info
             øselected.value = record.products.filterMap(convention.product(withId:))
+            priceField.text = "\(record.price.numericValue())"
+            ømoney.value = record.price
         }
     }
 
@@ -84,7 +86,7 @@ extension ProductTypeListViewController {
             .subscribe(onNext: { _ in ConArtist.model.navigate(back: 1) })
             .disposed(by: disposeBag)
 
-        let ømoney = Observable
+        Observable
             .merge(
                 øselected.asObservable().discard(),
                 priceField.rx.text.discard()
@@ -94,11 +96,13 @@ extension ProductTypeListViewController {
                 guard let text = text, !text.isEmpty else { return self?.calculatePrice(self!.øselected.value) }
                 return Money.parse(as: ConArtist.model.settings.value.currency, text)
             }
+            .bind(to: ømoney)
+            .disposed(by: disposeBag)
 
         Observable
             .combineLatest(
                 øselected.asObservable().map { !$0.isEmpty },
-                ømoney.map { $0 != nil }
+                ømoney.asObservable().map { $0 != nil }
             )
             .map { $0 && $1 }
             .bind(to: navBar.rightButton.rx.isEnabled)
@@ -108,7 +112,7 @@ extension ProductTypeListViewController {
             .withLatestFrom(
                 Observable.combineLatest(
                     øselected.asObservable(),
-                    ømoney.filterMap { [weak self] in $0 ?? self?.calculatePrice(self!.øselected.value) },
+                    ømoney.asObservable().filterMap { [weak self] in $0 ?? self?.calculatePrice(self!.øselected.value) },
                     infoTextView.rx.text.map { $0 ?? "" }
                 )
             )
@@ -121,10 +125,7 @@ extension ProductTypeListViewController {
         øselected
             .asObservable()
             .map(calculatePrice)
-            .map { [placeholder = priceField.placeholder] money in
-                if money == Money.zero { return placeholder }
-                return money.toString()
-            }
+            .map { [placeholder = priceField.placeholder] money in money?.toString() ?? placeholder }
             .asDriver(onErrorJustReturn: priceField.placeholder)
             .drive(onNext: { [priceField] text in priceField?.placeholder = text })
             .disposed(by: disposeBag)
@@ -224,9 +225,9 @@ extension ProductTypeListViewController {
         }
     }
 
-    fileprivate func calculatePrice(_ selected: [Product]) -> Money {
+    fileprivate func calculatePrice(_ selected: [Product]) -> Money? {
         let prices = øprices.value
-        guard prices.count > 0 else { return Money.zero }
+        guard prices.count > 0 else { return nil }
         let matters = prices.filterMap { $0.productId }
         let items: [Key: Int] = selected.reduce([:]) { counts, product in
             let id: Key = matters.contains(product.id) ? .Product(product.id) : .ProductType(product.typeId)
@@ -234,7 +235,7 @@ extension ProductTypeListViewController {
             updated[id] = 1 + (counts[id] ?? 0)
             return updated
         }
-        return items.reduce(Money.zero) { price, item in
+        let newPrice = items.reduce(Money.zero) { price, item in
             let key = item.key
             var count = item.value
             let relevantPrices = prices
@@ -256,6 +257,7 @@ extension ProductTypeListViewController {
             }
             return newPrice
         }
+        return newPrice == Money.zero ? nil : newPrice
     }
 }
 

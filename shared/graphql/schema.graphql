@@ -147,11 +147,11 @@ type Mutation {
 
   addUserRecord(userId: Int, record: RecordAdd!): Record!
   modUserRecord(userId: Int, record: RecordMod!): Record!
-  delUserRecord(userId: Int, record: RecordDel!): Record!
+  delUserRecord(userId: Int, record: RecordDel!): Boolean!
 
   addUserExpense(userId: Int, expense: ExpenseAdd!): Expense!
   modUserExpense(userId: Int, expense: ExpenseMod!): Expense!
-  delUserExpense(userId: Int, expense: ExpenseDel!): Expense!
+  delUserExpense(userId: Int, expense: ExpenseDel!): Boolean!
 
   addConventionInfo(userId: Int, conId: Int, info: String!): ConventionUserInfo!
   upvoteConventionInfo(userId: Int, infoId: Int!): ConventionUserInfo!

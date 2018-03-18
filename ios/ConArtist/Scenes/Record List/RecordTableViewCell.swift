@@ -39,6 +39,6 @@ class RecordTableViewCell: UITableViewCell {
         priceLabel.font = priceLabel.font.usingFeatures([.tabularFigures])
         priceLabel.text = item.price.toString()
         timeLabel.text = item.time.toString("E h:mm")
-        modifiedMarkView.backgroundColor = item.id == nil ? ConArtist.Color.BrandVariant : ConArtist.Color.BackgroundVariant
+        modifiedMarkView.backgroundColor = item.id == ConArtist.NoID ? ConArtist.Color.BrandVariant : ConArtist.Color.BackgroundVariant
     }
 }

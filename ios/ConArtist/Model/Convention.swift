@@ -25,7 +25,9 @@ class Convention {
     let expenses: Observable<[Expense]>
     
     fileprivate let øaddedRecords = Variable<[Record]>([])
+    fileprivate let øremovedRecords = Variable<[Int]>([])
     fileprivate let øaddedExpenses = Variable<[Expense]>([])
+    fileprivate let øremovedExpenses = Variable<[Int]>([])
     fileprivate let øuserInfo = Variable<[ConventionUserInfo]>([])
 
     fileprivate let øconvention = Variable<FullConventionFragment?>(nil)
@@ -95,9 +97,13 @@ class Convention {
                             .map { $0.fragments.recordFragment }
                             .filterMap(Record.init(graphQL:))
                     },
-                øaddedRecords.asObservable()
+                øaddedRecords.asObservable(),
+                øremovedRecords.asObservable()
             )
-            .map { ($0 + $1).sorted { $0.time < $1.time } }
+            .map { records, added, removed in
+                (records.filter { record in !removed.contains(record.id) } + added)
+                    .sorted { $0.time < $1.time }
+            }
 
         expenses = Observable
             .combineLatest(
@@ -107,9 +113,13 @@ class Convention {
                             .map { $0.fragments.expenseFragment }
                             .filterMap(Expense.init(graphQL:))
                     },
-                øaddedExpenses.asObservable()
+                øaddedExpenses.asObservable(),
+                øremovedExpenses.asObservable()
             )
-            .map { ($0 + $1).sorted { $0.time < $1.time } }
+            .map { expenses, added, removed in
+                (expenses.filter { expense in !removed.contains(expense.id) } + added)
+                    .sorted { $0.time < $1.time }
+            }
     }
 }
 
@@ -149,26 +159,68 @@ extension Convention {
 
 // MARK: - Modifications
 extension Convention {
-    func addRecord(_ record: Record) {
+    func addRecord(_ record: Record) -> Observable<Void> {
+        let index = øaddedRecords.value.count
         øaddedRecords.value.append(record)
+        return ConArtist.API.GraphQL
+            .observe(mutation: AddRecordMutation(record: record.add(to: self)))
+            .map { $0.addUserRecord.fragments.recordFragment }
+            .filterMap(Record.init(graphQL:))
+            .map { [øaddedRecords] in øaddedRecords.value[index] = $0 }
+    }
+
+    func updateRecord(_ record: Record) -> Observable<Void> {
+        øremovedRecords.value.append(record.id)
+        let index: Int
+        if let existingIndex = øaddedRecords.value.index(where: { $0.id == record.id }) {
+            index = existingIndex
+            øaddedRecords.value[index] = record
+        } else {
+            index = øaddedRecords.value.count
+            øaddedRecords.value.append(record)
+        }
+        return ConArtist.API.GraphQL
+            .observe(mutation: UpdateRecordMutation(record: record.modifications))
+            .map { $0.modUserRecord.fragments.recordFragment }
+            .filterMap(Record.init(graphQL:))
+            .map { [øaddedRecords] in øaddedRecords.value[index] = $0 }
+    }
+
+    func deleteRecord(_ record: Record) -> Observable<Void> {
+        if øaddedRecords.value.contains(where: { $0.id == record.id }) {
+            øaddedRecords.value.removeFirst { $0.id == record.id }
+            return Observable.just(())
+        } else {
+            øremovedRecords.value.append(record.id)
+            return ConArtist.API.GraphQL
+                .observe(mutation: DeleteRecordMutation(record: RecordDel(recordId: record.id)))
+                .map { $0.delUserRecord }
+                .filter(identity)
+                .discard()
+        }
     }
     
-    func addExpense(_ expense: Expense) {
+    func addExpense(_ expense: Expense) -> Observable<Void> {
+        let index = øaddedExpenses.value.count
         øaddedExpenses.value.append(expense)
+        return ConArtist.API.GraphQL
+            .observe(mutation: AddExpenseMutation(expense: expense.add(to: self)))
+            .map { $0.addUserExpense.fragments.expenseFragment }
+            .filterMap(Expense.init(graphQL:))
+            .map { [øaddedExpenses] in øaddedExpenses.value[index] = $0 }
     }
 
     func addUserInfo(_ info: String) {
         guard !øuserInfo.value.contains(where: { $0.info == info }) else { return }
         let newInfo = ConventionUserInfo(info: info)
+        let index = øuserInfo.value.count
         øuserInfo.value.append(newInfo)
         let _ = ConArtist.API.GraphQL
             .observe(mutation: ContributeConventionInfoMutation(conId: id, info: info))
             .map { $0.addConventionInfo.fragments.userInfoFragment }
             .filterMap(ConventionUserInfo.init(graphQL:))
             .catchError { _ in Observable.empty() }
-            .subscribe(onNext: { [øuserInfo] info in
-                øuserInfo.value = øuserInfo.value.replace(with: info) { $0.info == info.info }
-            })
+            .subscribe(onNext: { [øuserInfo] info in øuserInfo.value[index] = info })
     }
 
     func setVote(for info: ConventionUserInfo, to vote: ConventionUserInfo.Vote) {
@@ -216,56 +268,68 @@ extension Convention {
         return øconvention.asObservable().filterMap(identity).discard()
     }
 
-    func save() -> Observable<Bool> {
-        let records: Observable<[Error?]> = øaddedRecords.value.isEmpty
-            ? Observable.just([])
-            : Observable.zip(
-                øaddedRecords.value
-                    .map { record in record.add(to: self) }
-                    .map {
-                        ConArtist.API.GraphQL.observe(mutation: AddRecordMutation(record: $0))
-                            .map(const(nil as Error?))
-                            .catchError { Observable.just($0) }
-                    }
-            )
-
-        let expenses: Observable<[Error?]> = øaddedExpenses.value.isEmpty
-            ? Observable.just([])
-            : Observable.zip(
-                øaddedExpenses.value
-                    .map { expense in expense.add(to: self) }
-                    .map {
-                        ConArtist.API.GraphQL.observe(mutation: AddExpenseMutation(expense: $0))
-                            .map(const(nil as Error?))
-                            .catchError { Observable.just($0) }
-                    }
-            )
-
-        return Observable.zip(records, expenses)
-            .map { [weak self] errors in
-                guard let `self` = self else { return }
-                let (recordErrors, expenseErrors) = errors
-                var allErrors: [Error] = []
-                self.øaddedRecords.value = zip(self.øaddedRecords.value, recordErrors)
-                    .filterMap { record, error in
-                        if let error = error {
-                            allErrors.append(error)
-                            return record
-                        }
-                        return nil
-                    }
-                self.øaddedExpenses.value = zip(self.øaddedExpenses.value, expenseErrors).filterMap { expense, error in
-                    if let error = error {
-                        allErrors.append(error)
-                        return expense
-                    }
-                    return nil
-                }
-                if !allErrors.isEmpty {
-                    throw Convention.SaveErrors(errors: allErrors)
-                }
-            }
-            .flatMap({ [weak self] in self?.fill(true) ?? Observable.empty() })
-            .map(const(true))
-    }
+//    func save() -> Observable<Bool> {
+//        let records: Observable<[Error?]> = øaddedRecords.value.isEmpty
+//            ? Observable.just([])
+//            : Observable.zip(
+//                øaddedRecords.value
+//                    .map { record in record.add(to: self) }
+//                    .map {
+//                        ConArtist.API.GraphQL.observe(mutation: AddRecordMutation(record: $0))
+//                            .map(const(nil as Error?))
+//                            .catchError { Observable.just($0) }
+//                    }
+//            )
+//
+//        let deletedRecords: Observable<[Error?]> = øremovedRecords.value.isEmpty
+//            ? Observable.just([])
+//            : Observable.zip(
+//                øremovedRecords.value
+//                    .map(RecordDel.init)
+//                    .map {
+//                        ConArtist.API.GraphQL.observe(mutation: DeleteRecordMutation(record: $0))
+//                            .map(const(nil as Error?))
+//                            .catchError { Observable.just($0) }
+//                    }
+//            )
+//
+//        let expenses: Observable<[Error?]> = øaddedExpenses.value.isEmpty
+//            ? Observable.just([])
+//            : Observable.zip(
+//                øaddedExpenses.value
+//                    .map { expense in expense.add(to: self) }
+//                    .map {
+//                        ConArtist.API.GraphQL.observe(mutation: AddExpenseMutation(expense: $0))
+//                            .map(const(nil as Error?))
+//                            .catchError { Observable.just($0) }
+//                    }
+//            )
+//
+//        return Observable.zip(records, expenses)
+//            .map { [weak self] errors in
+//                guard let `self` = self else { return }
+//                let (recordErrors, expenseErrors) = errors
+//                var allErrors: [Error] = []
+//                self.øaddedRecords.value = zip(self.øaddedRecords.value, recordErrors)
+//                    .filterMap { record, error in
+//                        if let error = error {
+//                            allErrors.append(error)
+//                            return record
+//                        }
+//                        return nil
+//                    }
+//                self.øaddedExpenses.value = zip(self.øaddedExpenses.value, expenseErrors).filterMap { expense, error in
+//                    if let error = error {
+//                        allErrors.append(error)
+//                        return expense
+//                    }
+//                    return nil
+//                }
+//                if !allErrors.isEmpty {
+//                    throw Convention.SaveErrors(errors: allErrors)
+//                }
+//            }
+//            .flatMap({ [weak self] in self?.fill(true) ?? Observable.empty() })
+//            .map(const(true))
+//    }
 }

@@ -199,6 +199,7 @@ graphql_object!(Mutation: Database |&self| {
 
     field mod_user_expense(&executor, user_id: Option<i32>, expense: ExpenseMod) -> FieldResult<Expense> {
         ensure!(expense.expense_id > 0);
+        ensure!(expense.category.as_ref().map(|category| category.len() > 0 && category.len() < 32).unwrap_or(true));
         ensure!(expense.price.map(|price| price >= Money::new(0i64, price.cur())).unwrap_or(true));
 
         dbtry! {

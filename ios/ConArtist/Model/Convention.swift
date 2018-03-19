@@ -211,7 +211,7 @@ extension Convention {
     }
 
     func updateExpense(_ expense: Expense) -> Observable<Void> {
-        øremovedRecords.value.append(expense.id)
+        øremovedExpenses.value.append(expense.id)
         let index: Int
         if let existingIndex = øaddedExpenses.value.index(where: { $0.id == expense.id }) {
             index = existingIndex

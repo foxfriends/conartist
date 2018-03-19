@@ -31,7 +31,6 @@ class ExpenseDetailsOverlayViewController: UIViewController {
 
     fileprivate var expense: Expense!
     fileprivate var convention: Convention!
-    fileprivate var after: Date?
 }
 
 // MARK: - Lifecycle
@@ -40,13 +39,16 @@ extension ExpenseDetailsOverlayViewController {
         super.viewDidLoad()
         setupLocalization()
         setupSubscriptions()
-        bottomConstraint.constant = -view.frame.height
         setupUI()
+        bottomConstraint.constant = -sheetView.frame.height
+        view.layoutIfNeeded()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        animateEntry()
+        DispatchQueue.main.async {
+            self.animateEntry()
+        }
     }
 }
 
@@ -98,6 +100,7 @@ extension ExpenseDetailsOverlayViewController {
         for label in smallCapsLabels {
             label.font = label.font.usingFeatures([.smallCaps])
         }
+        categoryLabel.text = expense.category
         amountLabel.font = amountLabel.font.usingFeatures([.tabularFigures])
         amountLabel.text = expense.price.toString()
         timeLabel.text = expense.time.toString("EEEE MMMM d, yyyy. h:mm a"¡)
@@ -105,7 +108,6 @@ extension ExpenseDetailsOverlayViewController {
         noteLabel.textColor = expense.description.isEmpty ? ConArtist.Color.TextPlaceholder : ConArtist.Color.Text
         backgroundButton.alpha = 0
         navBar.title = convention.name
-        navBar.subtitle = after?.toString("MMM. d, yyyy"¡)
         navBar.layer.shadowOpacity = 0
     }
 
@@ -118,7 +120,7 @@ extension ExpenseDetailsOverlayViewController {
     }
 
     fileprivate func animateExit() {
-        bottomConstraint.constant = -view.frame.height
+        bottomConstraint.constant = -sheetView.frame.height
         UIView.animate(
             withDuration: ExpenseDetailsOverlayViewController.AnimationDuration,
             animations: {
@@ -127,7 +129,7 @@ extension ExpenseDetailsOverlayViewController {
             },
             completion: { _ in
                 ConArtist.model.navigate(back: 1)
-        }
+            }
         )
     }
 }

@@ -16,7 +16,7 @@ struct Expense {
     let description: String
 
     init(category: String, description: String, price: Money) {
-        self.init(ConArtist.NoID, category: category, description: description, price: price, time: Date())
+        self.init(id: ConArtist.NoID, category: category, description: description, price: price, time: Date())
     }
 
     init(id: Int, category: String, description: String, price: Money, time: Date) {

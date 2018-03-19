@@ -52,13 +52,16 @@ extension RecordDetailsOverlayViewController {
         super.viewDidLoad()
         setupLocalization()
         setupSubscriptions()
-        bottomConstraint.constant = -view.frame.height
         setupUI()
+        bottomConstraint.constant = -sheetView.frame.height
+        view.layoutIfNeeded()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        animateEntry()
+        DispatchQueue.main.async {
+            self.animateEntry()
+        }
     }
 }
 
@@ -136,7 +139,7 @@ extension RecordDetailsOverlayViewController {
     }
 
     fileprivate func animateExit() {
-        bottomConstraint.constant = -view.frame.height
+        bottomConstraint.constant = -sheetView.frame.height
         UIView.animate(
             withDuration: RecordDetailsOverlayViewController.AnimationDuration,
             animations: {

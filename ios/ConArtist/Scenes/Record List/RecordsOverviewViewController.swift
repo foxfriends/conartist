@@ -191,8 +191,7 @@ extension RecordsOverviewViewController: UITableViewDelegate {
         case .Records(let records):
             RecordListViewController.show(for: convention, after: records.first!.time, before: records.last!.time)
         case .Expense(let expense):
-            // TODO: show expense popup
-            break
+            ExpenseDetailsOverlayViewController.show(for: expense, in: convention)
         }
     }
 
@@ -218,6 +217,22 @@ extension RecordsOverviewViewController: UITableViewDelegate {
         let view = RecordsOverviewTotalFooterView()
         view.setup(with: total)
         return view
+    }
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard case .Expense(let expense)? = item(for: indexPath) else { return UISwipeActionsConfiguration(actions: []) }
+        let deleteAction = UIContextualAction(style: .normal, title: "Delete"¡) { [convention] _, _, reset in
+            let _ = convention?.deleteExpense(expense)
+                .subscribe(
+                    onNext: { print("SAVED") },
+                    onError: { print("FAILED TO SAVE \($0)") }
+            )
+            reset(true)
+        }
+        deleteAction.backgroundColor = ConArtist.Color.Warn
+        let config = UISwipeActionsConfiguration(actions: [deleteAction])
+        config.performsFirstActionWithFullSwipe = false
+        return config
     }
 
     private func toggleSectionExpanded(_ index: Int) {

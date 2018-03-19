@@ -2436,6 +2436,7 @@ Toronto, ON, Canada</string>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="rightButtonTitle" value="Edit"/>
                                     <userDefinedRuntimeAttribute type="string" keyPath="leftButtonTitle" value="Back"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="title" value="Fan Expo"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
@@ -2454,19 +2455,19 @@ Toronto, ON, Canada</string>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="amountLabel" destination="HGr-jM-l6h" id="Ljf-LZ-J5M"/>
-                        <outlet property="backgroundButton" destination="pez-VQ-9rj" id="TtI-9M-uXI"/>
-                        <outlet property="bottomConstraint" destination="fud-Xd-Nzu" id="ZKG-Zg-ew6"/>
-                        <outlet property="categoryLabel" destination="oiI-za-dwK" id="Pri-p1-KIN"/>
-                        <outlet property="navBar" destination="UOI-OP-uLe" id="frG-C3-a4q"/>
-                        <outlet property="noteLabel" destination="CWQ-Q2-FTG" id="vpb-al-Ejb"/>
-                        <outlet property="sheetView" destination="Qrb-1k-fdV" id="0I1-Uk-Qvn"/>
-                        <outlet property="timeLabel" destination="Vyq-96-nXq" id="mF5-pq-P4v"/>
-                        <outlet property="titleLabel" destination="a7V-ha-MMh" id="FEo-U3-TyZ"/>
-                        <outletCollection property="smallCapsLabels" destination="Kg6-Kt-S8X" collectionClass="NSMutableArray" id="l6Z-I3-0wg"/>
-                        <outletCollection property="smallCapsLabels" destination="DgN-Jn-mWi" collectionClass="NSMutableArray" id="eKx-2g-G21"/>
-                        <outletCollection property="smallCapsLabels" destination="hRF-3g-rGg" collectionClass="NSMutableArray" id="XO6-fU-lkn"/>
-                        <outletCollection property="smallCapsLabels" destination="gGS-wm-D15" collectionClass="NSMutableArray" id="bSG-jh-64Y"/>
+                        <outlet property="amountLabel" destination="HGr-jM-l6h" id="W2g-oR-wxN"/>
+                        <outlet property="backgroundButton" destination="pez-VQ-9rj" id="v4t-QI-KYP"/>
+                        <outlet property="bottomConstraint" destination="fud-Xd-Nzu" id="jm4-pf-AM4"/>
+                        <outlet property="categoryLabel" destination="oiI-za-dwK" id="pdQ-LD-DSn"/>
+                        <outlet property="navBar" destination="UOI-OP-uLe" id="2Ee-QA-HFY"/>
+                        <outlet property="noteLabel" destination="CWQ-Q2-FTG" id="Ajk-1C-xbv"/>
+                        <outlet property="sheetView" destination="Qrb-1k-fdV" id="mem-kY-9RV"/>
+                        <outlet property="timeLabel" destination="Vyq-96-nXq" id="EQf-Wj-Lo1"/>
+                        <outlet property="titleLabel" destination="a7V-ha-MMh" id="Xo2-zL-W9a"/>
+                        <outletCollection property="smallCapsLabels" destination="hRF-3g-rGg" collectionClass="NSMutableArray" id="MRg-gt-bTx"/>
+                        <outletCollection property="smallCapsLabels" destination="DgN-Jn-mWi" collectionClass="NSMutableArray" id="Prx-ZA-DNd"/>
+                        <outletCollection property="smallCapsLabels" destination="Kg6-Kt-S8X" collectionClass="NSMutableArray" id="meV-VP-Tw5"/>
+                        <outletCollection property="smallCapsLabels" destination="gGS-wm-D15" collectionClass="NSMutableArray" id="fqB-Z7-ode"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="foJ-BU-5zW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2479,17 +2480,8 @@ Toronto, ON, Canada</string>
         <namedColor name="Background">
             <color red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="Background">
-            <color red="0.20000000298023224" green="0.20000000298023224" blue="0.20000000298023224" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="BackgroundBottomSheet">
             <color red="0.33300000429999999" green="0.33300000429999999" blue="0.33300000429999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="BackgroundBottomSheet">
-            <color red="0.33300000429153442" green="0.33300000429153442" blue="0.33300000429153442" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="BackgroundNavBar">
-            <color red="0.067000001670000003" green="0.067000001670000003" blue="0.067000001670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="BackgroundNavBar">
             <color red="0.067000001670000003" green="0.067000001670000003" blue="0.067000001670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -2506,17 +2498,8 @@ Toronto, ON, Canada</string>
         <namedColor name="Divider">
             <color red="1" green="1" blue="1" alpha="0.11999999731779099" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="Divider">
-            <color red="1" green="1" blue="1" alpha="0.11999999729999999" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="DividerDark">
             <color red="0.0" green="0.0" blue="0.0" alpha="0.18000000715255737" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="Text">
-            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="Text">
-            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Text">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -20,6 +20,8 @@ class NewExpenseViewController: UIViewController {
     fileprivate let disposeBag = DisposeBag()
     fileprivate var editingExpense: Expense?
     fileprivate let results = PublishSubject<(String, String, Money)>()
+    fileprivate let øcategory = Variable<String>("")
+    fileprivate let ødescription = Variable<String>("")
     fileprivate let ømoney = Variable<Money?>(nil)
 }
 
@@ -31,10 +33,16 @@ extension NewExpenseViewController {
         noteLabel.font = noteLabel.font.usingFeatures([.smallCaps])
         amountTextField.format = { Money.parse(as: ConArtist.model.settings.value.currency, $0)?.toString() ?? $0 }
         if let expense = editingExpense {
-            descriptionTextView.text = expense.description
-            categoryTextField.text = expense.category
-            amountTextField.text = "\(expense.price.numericValue())"
+            øcategory.value = expense.category
+            ødescription.value = expense.description
             ømoney.value = expense.price
+            DispatchQueue.main.async {
+                self.descriptionTextView.text = expense.description
+                self.categoryTextField.text = expense.category
+                self.categoryTextField.isValid.value = true
+                self.amountTextField.text = "\(expense.price.numericValue())"
+                self.amountTextField.isValid.value = true
+            }
         }
     }
 }
@@ -68,9 +76,19 @@ extension NewExpenseViewController {
             .bind(to: ømoney)
             .disposed(by: disposeBag)
 
+        categoryTextField.rx.text
+            .map { $0 ?? "" }
+            .bind(to: øcategory)
+            .disposed(by: disposeBag)
+
+        descriptionTextView.rx.text
+            .map { $0 ?? "" }
+            .bind(to: ødescription)
+            .disposed(by: disposeBag)
+
         let øform = Observable.combineLatest(
-            categoryTextField.rx.text.map { $0 ?? "" },
-            descriptionTextView.rx.text.map { $0 ?? "" },
+            øcategory.asObservable(),
+            ødescription.asObservable(),
             ømoney.asObservable().filterMap(identity)
         )
 

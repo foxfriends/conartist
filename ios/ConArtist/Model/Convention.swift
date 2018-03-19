@@ -210,6 +210,37 @@ extension Convention {
             .map { [øaddedExpenses] in øaddedExpenses.value[index] = $0 }
     }
 
+    func updateExpense(_ expense: Expense) -> Observable<Void> {
+        øremovedRecords.value.append(expense.id)
+        let index: Int
+        if let existingIndex = øaddedExpenses.value.index(where: { $0.id == expense.id }) {
+            index = existingIndex
+            øaddedExpenses.value[index] = expense
+        } else {
+            index = øaddedExpenses.value.count
+            øaddedExpenses.value.append(expense)
+        }
+        return ConArtist.API.GraphQL
+            .observe(mutation: UpdateExpenseMutation(expense: expense.modifications))
+            .map { $0.modUserExpense.fragments.expenseFragment }
+            .filterMap(Expense.init(graphQL:))
+            .map { [øaddedExpenses] in øaddedExpenses.value[index] = $0 }
+    }
+
+    func deleteExpense(_ expense: Expense) -> Observable<Void> {
+        if øaddedExpenses.value.contains(where: { $0.id == expense.id }) {
+            øaddedExpenses.value.removeFirst { $0.id == expense.id }
+            return Observable.just(())
+        } else {
+            øremovedExpenses.value.append(expense.id)
+            return ConArtist.API.GraphQL
+                .observe(mutation: DeleteExpenseMutation(expense: ExpenseDel(expenseId: expense.id)))
+                .map { $0.delUserExpense }
+                .filter(identity)
+                .discard()
+        }
+    }
+
     func addUserInfo(_ info: String) {
         guard !øuserInfo.value.contains(where: { $0.info == info }) else { return }
         let newInfo = ConventionUserInfo(info: info)

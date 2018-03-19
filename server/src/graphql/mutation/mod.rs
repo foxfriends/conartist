@@ -7,7 +7,7 @@ mod record;
 mod expense;
 mod settings;
 
-use juniper::{FieldResult, FieldError, Value};
+use juniper::FieldResult;
 use serde_json;
 use database::{Database, User, ProductType, ProductInInventory, Price, Convention, ConventionUserInfo, Record, Expense};
 use money::Money;
@@ -197,9 +197,24 @@ graphql_object!(Mutation: Database |&self| {
         }
     }
 
-    field mod_user_expense(&executor, user_id: Option<i32>, expense: ExpenseMod) -> FieldResult<Expense> { Err(FieldError::new("Unimplemented", Value::null())) }
+    field mod_user_expense(&executor, user_id: Option<i32>, expense: ExpenseMod) -> FieldResult<Expense> {
+        ensure!(expense.expense_id > 0);
+        ensure!(expense.price.map(|price| price >= Money::new(0i64, price.cur())).unwrap_or(true));
 
-    field del_user_expense(&executor, user_id: Option<i32>, expense: ExpenseDel) -> FieldResult<()> { Err(FieldError::new("Unimplemented", Value::null())) }
+        dbtry! {
+            executor
+                .context()
+                .update_expense(user_id, expense.expense_id, expense.category, expense.price, expense.description)
+        }
+    }
+
+    field del_user_expense(&executor, user_id: Option<i32>, expense: ExpenseDel) -> FieldResult<bool> { 
+        dbtry! {
+            executor
+                .context()
+                .delete_expense(user_id, expense.expense_id)
+        }
+    }
 
     field add_convention_info(&executor, user_id: Option<i32>, con_id: i32, info: String) -> FieldResult<ConventionUserInfo> {
         ensure!(info.len() > 0);

@@ -18,6 +18,7 @@
 		321FDE8020269E43002DF04B /* SettingsBooleanTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321FDE7F20269E43002DF04B /* SettingsBooleanTableViewCell.swift */; };
 		321FDE8220269E67002DF04B /* SettingsActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321FDE8120269E67002DF04B /* SettingsActionTableViewCell.swift */; };
 		321FDE842027D14B002DF04B /* Observable+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321FDE832027D14B002DF04B /* Observable+Helpers.swift */; };
+		32254DDF205F4CDD003E021F /* ExpenseDetailsOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32254DDE205F4CDD003E021F /* ExpenseDetailsOverlayViewController.swift */; };
 		322AFB3F20574622005E56C8 /* String+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AFB3E20574622005E56C8 /* String+JSON.swift */; };
 		322AFB41205763C0005E56C8 /* String+Escape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AFB40205763C0005E56C8 /* String+Escape.swift */; };
 		322AFB45205769DE005E56C8 /* Tuple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AFB44205769DE005E56C8 /* Tuple.swift */; };
@@ -122,6 +123,7 @@
 		321FDE7F20269E43002DF04B /* SettingsBooleanTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBooleanTableViewCell.swift; sourceTree = "<group>"; };
 		321FDE8120269E67002DF04B /* SettingsActionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsActionTableViewCell.swift; sourceTree = "<group>"; };
 		321FDE832027D14B002DF04B /* Observable+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+Helpers.swift"; sourceTree = "<group>"; };
+		32254DDE205F4CDD003E021F /* ExpenseDetailsOverlayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseDetailsOverlayViewController.swift; sourceTree = "<group>"; };
 		322AFB3E20574622005E56C8 /* String+JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+JSON.swift"; sourceTree = "<group>"; };
 		322AFB40205763C0005E56C8 /* String+Escape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Escape.swift"; sourceTree = "<group>"; };
 		322AFB44205769DE005E56C8 /* Tuple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tuple.swift; sourceTree = "<group>"; };
@@ -481,6 +483,7 @@
 				32D4BB10205B3E5500B0A397 /* RecordDetailsOverlayViewController.swift */,
 				32D4BB12205B446600B0A397 /* RecordDetailsItemsTableViewCell.swift */,
 				32D4BB14205B44E000B0A397 /* RecordDetailsItemCollectionViewCell.swift */,
+				32254DDE205F4CDD003E021F /* ExpenseDetailsOverlayViewController.swift */,
 			);
 			path = Overlays;
 			sourceTree = "<group>";
@@ -726,6 +729,7 @@
 				32BC33E21FEEF17E0006256A /* ProductType.swift in Sources */,
 				32B9101F2048F282002F9C94 /* SettingsSelectOptionTableViewCell.swift in Sources */,
 				32B9101D2048F113002F9C94 /* SettingsSelectViewController.swift in Sources */,
+				32254DDF205F4CDD003E021F /* ExpenseDetailsOverlayViewController.swift in Sources */,
 				322C6A13204E1D070021A2D9 /* ConventionUserInfoListViewController.swift in Sources */,
 				32C9F9BE20265A840004566E /* Prices.swift in Sources */,
 				32BC33DD1FEEED030006256A /* ProductListViewController.swift in Sources */,

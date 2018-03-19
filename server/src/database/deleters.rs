@@ -25,6 +25,18 @@ impl Database {
             .map(|r| r == 1)
     }
 
+    pub fn delete_expense(&self, maybe_user_id: Option<i32>, expense_id: i32) -> Result<bool, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let conn = self.pool.get().unwrap();
+        execute!(conn, "
+         DELETE FROM Expenses
+               WHERE expense_id = $1
+                 AND user_id = $2
+        ", expense_id, user_id)
+            .map_err(|r| format!("Failed to delete expense with id {}. Reason: {}", expense_id, r))
+            .map(|r| r == 1)
+    }
+
     pub fn delete_user_convention(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<bool, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();

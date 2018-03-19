@@ -738,7 +738,7 @@ public final class DeleteExpenseMutation: GraphQLMutation {
     public static let possibleTypes = ["Mutation"]
 
     public static let selections: [GraphQLSelection] = [
-      GraphQLField("delUserExpense", arguments: ["userId": GraphQLVariable("id"), "expense": GraphQLVariable("expense")], type: .nonNull(.scalar(String.self))),
+      GraphQLField("delUserExpense", arguments: ["userId": GraphQLVariable("id"), "expense": GraphQLVariable("expense")], type: .nonNull(.scalar(Bool.self))),
     ]
 
     public var snapshot: Snapshot
@@ -747,13 +747,13 @@ public final class DeleteExpenseMutation: GraphQLMutation {
       self.snapshot = snapshot
     }
 
-    public init(delUserExpense: String) {
+    public init(delUserExpense: Bool) {
       self.init(snapshot: ["__typename": "Mutation", "delUserExpense": delUserExpense])
     }
 
-    public var delUserExpense: String {
+    public var delUserExpense: Bool {
       get {
-        return snapshot["delUserExpense"]! as! String
+        return snapshot["delUserExpense"]! as! Bool
       }
       set {
         snapshot.updateValue(newValue, forKey: "delUserExpense")

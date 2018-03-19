@@ -18,7 +18,9 @@ class NewExpenseViewController: UIViewController {
     @IBOutlet weak var noteLabel: UILabel!
 
     fileprivate let disposeBag = DisposeBag()
+    fileprivate var editingExpense: Expense?
     fileprivate let results = PublishSubject<(String, String, Money)>()
+    fileprivate let ømoney = Variable<Money?>(nil)
 }
 
 // MARK: - Lifecycle
@@ -28,13 +30,19 @@ extension NewExpenseViewController {
         setupLocalization()
         noteLabel.font = noteLabel.font.usingFeatures([.smallCaps])
         amountTextField.format = { Money.parse(as: ConArtist.model.settings.value.currency, $0)?.toString() ?? $0 }
+        if let expense = editingExpense {
+            descriptionTextView.text = expense.description
+            categoryTextField.text = expense.category
+            amountTextField.text = "\(expense.price.numericValue())"
+            ømoney.value = expense.price
+        }
     }
 }
 
 // MARK: - Localization
 extension NewExpenseViewController {
     fileprivate func setupLocalization() {
-        navBar.title = "New Expense"¡
+        navBar.title = editingExpense == nil ? "New Expense"¡ : "Editing Expense"¡
         navBar.leftButtonTitle = "Back"¡
         navBar.rightButtonTitle = "Save"¡
         amountTextField.title = "Amount"¡
@@ -54,14 +62,16 @@ extension NewExpenseViewController {
             })
             .disposed(by: disposeBag)
 
-        let ømoney = amountTextField.rx.text
+        amountTextField.rx.text
             .map { $0 ?? "" }
             .map { Money.parse(as: ConArtist.model.settings.value.currency, $0) }
+            .bind(to: ømoney)
+            .disposed(by: disposeBag)
 
         let øform = Observable.combineLatest(
             categoryTextField.rx.text.map { $0 ?? "" },
             descriptionTextView.rx.text.map { $0 ?? "" },
-            ømoney.filterMap(identity)
+            ømoney.asObservable().filterMap(identity)
         )
 
         navBar.rightButton.rx.tap
@@ -88,6 +98,7 @@ extension NewExpenseViewController {
             .disposed(by: disposeBag)
 
         ømoney
+            .asObservable()
             .map { $0 != nil }
             .bind(to: amountTextField.isValid)
             .disposed(by: disposeBag)
@@ -105,8 +116,9 @@ extension NewExpenseViewController {
 
 // MARK: - Navigation
 extension NewExpenseViewController {
-    class func show() -> Observable<(String, String, Money)> {
+    class func show(editing expense: Expense? = nil) -> Observable<(String, String, Money)> {
         let controller: NewExpenseViewController = NewExpenseViewController.instantiate(withId: NewExpenseViewController.ID)
+        controller.editingExpense = expense
         ConArtist.model.navigate(present: controller)
         return controller.results.asObservable()
     }

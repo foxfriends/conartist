@@ -759,7 +759,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "__Unit",
+                  "name": "Boolean",
                   "ofType": null
                 }
               },
@@ -1579,7 +1579,7 @@
         },
         {
           "kind": "SCALAR",
-          "name": "__Unit",
+          "name": "Int",
           "description": null,
           "fields": null,
           "inputFields": null,
@@ -1651,16 +1651,6 @@
           ],
           "inputFields": null,
           "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "SCALAR",
-          "name": "Int",
-          "description": null,
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
           "enumValues": null,
           "possibleTypes": null
         },

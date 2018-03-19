@@ -68,7 +68,7 @@ extension ProductTypeListViewController {
     fileprivate func setupLocalization() {
         navBar.leftButtonTitle = "Cancel"¡
         navBar.rightButtonTitle = "Save"¡
-        navBar.title = "New Sale"¡
+        navBar.title = editingRecord == nil ? "New Sale"¡ : "Editing Sale"¡
         priceField.title = "Price"¡
         priceField.placeholder = "Price"¡
         noteLabel.text = "Note"¡

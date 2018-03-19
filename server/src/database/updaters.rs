@@ -148,6 +148,42 @@ impl Database {
         Ok(updated_record)
     }
 
+    pub fn update_expense(&self, maybe_user_id: Option<i32>, expense_id: i32, category: Option<String>, price: Option<Money>, description: Option<String>) -> Result<Expense, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let conn = self.pool.get().unwrap();
+        let trans = conn.transaction().unwrap();
+        let expense = query!(trans, "
+            SELECT * 
+              FROM Expenses
+             WHERE expense_id = $1
+               AND user_id = $2
+        ", expense_id, user_id)
+            .into_iter()
+            .nth(0)
+            .ok_or_else(|| format!("Use {} does not own an expense with id {}", user_id, expense_id))
+            .and_then(Expense::from)?;
+        let new_expense = Expense {
+            category: category.unwrap_or(expense.category),
+            price: price.unwrap_or(expense.price),
+            description: description.unwrap_or(expense.description),
+            ..expense
+        };
+        let updated_expense = query!(trans, "
+            UPDATE Expenses
+               SET category = $1,
+                   price = $2,
+                   description = $3
+             WHERE expense_id = $4
+         RETURNING *
+        ", new_expense.category, new_expense.price, new_expense.description, expense_id)
+            .into_iter()
+            .nth(0)
+            .ok_or("Could not retrieve updated expense".to_string())
+            .and_then(Expense::from)?;
+        trans.commit().unwrap();
+        Ok(updated_expense)
+    }
+
     pub fn update_convention_user_info_vote(&self, maybe_user_id: Option<i32>, info_id: i32, approved: bool) -> Result<ConventionUserInfo, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
 

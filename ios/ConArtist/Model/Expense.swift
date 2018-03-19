@@ -16,11 +16,15 @@ struct Expense {
     let description: String
 
     init(category: String, description: String, price: Money) {
-        id = ConArtist.NoID
+        self.init(ConArtist.NoID, category: category, description: description, price: price, time: Date())
+    }
+
+    init(id: Int, category: String, description: String, price: Money, time: Date) {
+        self.id = id
         self.price = price
         self.category = category
         self.description = description
-        time = Date()
+        self.time = time
     }
 
     init?(graphQL maybeExpense: ExpenseFragment?) {
@@ -38,5 +42,9 @@ struct Expense {
     
     func add(to con: Convention) -> ExpenseAdd {
         return ExpenseAdd(conId: con.id, price: price.toJSON(), category: category, description: description, time: time.toJSON())
+    }
+
+    var modifications: ExpenseMod {
+        return ExpenseMod(expenseId: id, price: price.toJSON(), category: category, description: description)
     }
 }

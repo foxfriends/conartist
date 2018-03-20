@@ -1,5 +1,6 @@
 use super::*;
 use money::Money;
+use chrono::Utc;
 
 impl Database {
     pub fn update_product_type(&self,
@@ -126,6 +127,16 @@ impl Database {
             .nth(0)
             .ok_or_else(|| format!("User {} does not own a record with id {}", user_id, record_id))
             .and_then(Record::from)?;
+        let convention = query!(trans, "SELECT * FROM Conventions WHERE con_id = $1", record.con_id)
+            .into_iter()
+            .nth(0)
+            .ok_or_else(|| format!("No convention exists with id {}", record.con_id))
+            .and_then(|r| Convention::from(r))?;
+
+        if convention.end_date.and_hms(23, 59, 59) < Utc::now().naive_utc() {
+            return Err(format!("Convention '{}' ({}) has ended", convention.title, record.con_id));
+        }
+
         let new_record = Record {
             products: products.unwrap_or(record.products),
             price: price.unwrap_or(record.price),
@@ -162,6 +173,15 @@ impl Database {
             .nth(0)
             .ok_or_else(|| format!("Use {} does not own an expense with id {}", user_id, expense_id))
             .and_then(Expense::from)?;
+        let convention = query!(trans, "SELECT * FROM Conventions WHERE con_id = $1", expense.con_id)
+            .into_iter()
+            .nth(0)
+            .ok_or_else(|| format!("No convention exists with id {}", expense.con_id))
+            .and_then(|r| Convention::from(r))?;
+
+        if convention.end_date.and_hms(23, 59, 59) < Utc::now().naive_utc() {
+            return Err(format!("Convention '{}' ({}) has ended", convention.title, expense.con_id));
+        }
         let new_expense = Expense {
             category: category.unwrap_or(expense.category),
             price: price.unwrap_or(expense.price),

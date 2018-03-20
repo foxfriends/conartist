@@ -198,7 +198,7 @@ impl Database {
 
     pub fn create_convention_user_info(&self, maybe_user_id: Option<i32>, con_id: i32, info: String) -> Result<ConventionUserInfo, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
-        
+
         let conn = self.pool.get().unwrap();
         let trans = conn.transaction().unwrap();
 

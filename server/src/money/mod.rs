@@ -2,6 +2,7 @@
 use error::MoneyError;
 use std::str::FromStr;
 use std::fmt::{Display, Formatter};
+use std::ops::Add;
 use serde_json;
 use serde::{Serialize, Deserialize, Serializer, Deserializer};
 
@@ -73,6 +74,18 @@ impl<'a> Deserialize<'a> for Money {
 impl Display for Money {
     fn fmt(&self, _f: &mut Formatter) -> ::std::fmt::Result {
         unimplemented!() // TODO: currency symbols and proper locale formatting
+    }
+}
+
+impl Add for Money {
+    type Output = Money;
+
+    fn add(self, b: Money) -> Money {
+        if self.cur == b.cur {
+            Money::new(self.amt + b.amt, self.cur)
+        } else {
+            self
+        }
     }
 }
 

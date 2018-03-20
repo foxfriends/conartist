@@ -48,6 +48,8 @@ fragment MetaConventionFragment on FullUserConvention {
   userInfo {
     ...UserInfoFragment
   }
+  recordTotal
+  expenseTotal
 }
 
 fragment RecordFragment on Record {

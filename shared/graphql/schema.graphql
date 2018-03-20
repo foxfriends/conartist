@@ -94,6 +94,8 @@ type FullUserConvention {
   prices(includeAll: Boolean): [PriceRow]!
   records: [Record]!
   expenses: [Expense]!
+  recordTotal: Int
+  expenseTotal: Int
 }
 
 type Convention {

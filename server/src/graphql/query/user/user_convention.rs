@@ -3,6 +3,7 @@ use database::Database;
 use chrono::{DateTime, Utc};
 use juniper::FieldResult;
 use database::{ProductType, ProductInInventory, Price, PriceRow, FullUserConvention, ConventionExtraInfo, ConventionUserInfo, Record, Expense};
+use money::Money;
 
 graphql_object!(FullUserConvention: Database |&self| {
     description: "Holds information about a convention and a user's products, prices, and records during that convention"
@@ -84,6 +85,34 @@ graphql_object!(FullUserConvention: Database |&self| {
             executor
                 .context()
                 .get_expenses_for_user_con(self.user_id, self.con_id)
+        }
+    }
+
+    field record_total(&executor) -> FieldResult<Option<Money>> {
+        dbtry! {
+            executor
+                .context()
+                .get_records_for_user_con(self.user_id, self.con_id)
+                .map(|records| {
+                    records
+                        .into_iter()
+                        .map(|record| record.price)
+                        .fold(None, |b, a| { b.map(|b| { a + b }).or(Some(a)) })
+                })
+        }
+    }
+
+    field expense_total(&executor) -> FieldResult<Option<Money>> {
+        dbtry! {
+            executor
+                .context()
+                .get_expenses_for_user_con(self.user_id, self.con_id)
+                .map(|expenses| {
+                    expenses
+                        .into_iter()
+                        .map(|expense| expense.price)
+                        .fold(None, |b, a| { b.map(|b| { a + b }).or(Some(a)) })
+                })
         }
     }
 });

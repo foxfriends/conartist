@@ -238,4 +238,19 @@ impl Database {
         trans.commit().unwrap();
         Ok(info)
     }
+
+    pub fn change_password(&self, user_id: i32, hashed_password: String) -> Result<(), String> {
+        let conn = self.pool.get().unwrap();
+        let trans = conn.transaction().unwrap();
+        execute!(trans, "
+            UPDATE Users
+               SET password = $2
+             WHERE user_id = $1
+        ", user_id, hashed_password)
+            .map_err(|r| r.to_string())
+            .and_then(|r| if r == 1 { Ok(()) } else { Err("unknown".to_string()) })
+            .map_err(|r| format!("Failed to change password. Reason: {}", r))?;
+        trans.commit().unwrap();
+        Ok(())
+    }
 }

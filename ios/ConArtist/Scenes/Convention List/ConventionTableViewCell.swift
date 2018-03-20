@@ -9,7 +9,6 @@
 import UIKit
 
 class ConventionTableViewCell: UITableViewCell {
-    static let ID = "ConventionCell"
     @IBOutlet weak var dateLabel: UILabel?
     @IBOutlet weak var titleLabel: UILabel?
     @IBOutlet weak var moneyLabel: UILabel?
@@ -20,7 +19,9 @@ class ConventionTableViewCell: UITableViewCell {
     func fill(with item: Convention) {
         titleLabel?.text = item.name
         dateLabel?.text = item.dateString
-        // TODO: extra info and money label needs real values
+        let recordTotal = item.recordTotal ?? Money.zero
+        let expenseTotal = item.expenseTotal ?? Money.zero
+        moneyLabel?.text = recordTotal != Money.zero || expenseTotal != Money.zero ? (recordTotal - expenseTotal).toString() : nil
         cardView?.layer.cornerRadius = 10
         cardView?.addShadow()
     }

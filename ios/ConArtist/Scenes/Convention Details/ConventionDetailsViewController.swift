@@ -127,31 +127,43 @@ extension ConventionDetailsViewController {
             .subscribe(onNext: { [convention] _ in ConventionUserInfoListViewController.show(for: convention!) })
             .disposed(by: disposeBag)
 
-        let salesTotal = convention.records
+        let øcalculatedSalesTotal = convention.records
             .map { $0.map { $0.price } }
             .map { $0.reduce(Money.zero, +) }
 
-        let expensesTotal = convention.expenses
+        let øcalculatedExpensesTotal = convention.expenses
             .map { $0.map { $0.price } }
             .map { $0.reduce(Money.zero, +) }
 
-        salesTotal
+        let øsalesTotal = Observable
+            .merge(
+                Observable.just(convention.recordTotal ?? Money.zero),
+                øcalculatedSalesTotal
+            )
+
+        øsalesTotal
             .map { $0.toString() }
             .bind(to: salesAmountLabel.rx.text)
             .disposed(by: disposeBag)
 
-        expensesTotal
+        let øexpenseTotal = Observable
+            .merge(
+                Observable.just(convention.expenseTotal ?? Money.zero),
+                øcalculatedExpensesTotal
+            )
+
+        øexpenseTotal
             .map { $0.toString() }
             .bind(to: expensesAmountLabel.rx.text)
             .disposed(by: disposeBag)
 
-        Observable.combineLatest(salesTotal, expensesTotal)
+        Observable.combineLatest(øsalesTotal, øexpenseTotal)
             .map(-)
             .map { $0.toString() }
             .bind(to: netRevenueAmountLabel.rx.text)
             .disposed(by: disposeBag)
 
-        Observable.combineLatest(salesTotal, expensesTotal)
+        Observable.combineLatest(øsalesTotal, øexpenseTotal)
             .map { $0.0 == Money.zero && $0.1 == Money.zero }
             .bind(to: revenueSection.rx.isHidden)
             .disposed(by: disposeBag)

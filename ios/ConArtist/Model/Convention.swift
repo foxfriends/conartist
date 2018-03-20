@@ -23,6 +23,9 @@ class Convention {
     let prices: Observable<[Price]>
     let records: Observable<[Record]>
     let expenses: Observable<[Expense]>
+
+    let recordTotal: Money?
+    let expenseTotal: Money?
     
     fileprivate let øaddedRecords = Variable<[Record]>([])
     fileprivate let øremovedRecords = Variable<[Int]>([])
@@ -39,11 +42,14 @@ class Convention {
             let startDate = con.start.toDate(),
             let endDate = con.end.toDate()
         else { return nil }
+        print(con)
         id = con.id
         name = con.name
         start = startDate
         end = endDate
         images = con.images
+        recordTotal = con.recordTotal?.toMoney()
+        expenseTotal = con.expenseTotal?.toMoney()
 
         let øconvention = self.øconvention.asObservable().filterMap(identity)
 

@@ -74,11 +74,14 @@ type alias SignInPageState =
   }
 
 type alias SettingsPageState =
-  { currencySelectorOpen : Bool
+  { currencySelectorOpen: Bool
+  , oldPassword: String
+  , newPassword: String
+  , confirmPassword: String
   }
 
 settingsPage : Page
-settingsPage = Settings { currencySelectorOpen = False }
+settingsPage = Settings <| SettingsPageState False "" "" "" 
 
 signIn : Page
 signIn = SignIn <| validateSignInForm <| SignInPageState (Valid "") (Valid "") (Valid "") (Valid "") (Valid "") (Valid False) True (Success "")

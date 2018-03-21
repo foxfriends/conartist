@@ -142,16 +142,18 @@ checkExistingEmail email =
 doSignIn : String -> String -> Cmd Msg
 doSignIn email password =
   Http.send DidSignIn <| post "/api/auth"
-      (Http.jsonBody <| Json.object
-        [ ("usr", Json.string email)
-        , ("psw", Json.string password) ] )
-      (ConRequest.decode Decode.string)
+    (Http.jsonBody <| Json.object
+      [ ("usr", Json.string email)
+      , ("psw", Json.string password) ] )
+    (ConRequest.decode Decode.string)
 
 createAccount : String -> String -> String -> Cmd Msg
 createAccount email name password =
   Http.send DidCreateAccount <| post "/api/account/new"
-      (Http.jsonBody <| Json.object
-        [ ("email", Json.string email)
-        , ("name", Json.string name)
-        , ("password", Json.string password) ] )
-      (ConRequest.decode <| Decode.succeed ())
+    (Http.jsonBody <| Json.object
+      [ ("email", Json.string email)
+      , ("name", Json.string name)
+      , ("password", Json.string password) 
+      ] 
+    )
+    (ConRequest.decode <| Decode.succeed ())

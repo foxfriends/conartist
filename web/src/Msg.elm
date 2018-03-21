@@ -85,6 +85,11 @@ type Msg
   | SelectCurrency (Maybe Currency)
   | SaveSettings
   | DidSaveSettings (Result Error Settings)
+  | SettingsChangeOldPassword String
+  | SettingsChangeNewPassword String
+  | SettingsChangeConfirmPassword String
+  | ChangePassword
+  | DidChangePassword (Result Http.Error (ConRequest ()))
   -- loading
   | DidLoadUser (Result Error User)
   | DidLoadChooseConvention (Result Error (Pagination MetaConvention))

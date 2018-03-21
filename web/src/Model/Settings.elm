@@ -20,4 +20,6 @@ type alias Settings =
     settings
 -}
 settings : Settings
-settings = { currency = CAD }
+settings = 
+  { currency = CAD 
+  }

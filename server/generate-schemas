@@ -1,0 +1,1 @@
+diesel print-schema > src/database/schema.rs

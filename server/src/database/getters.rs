@@ -1,5 +1,9 @@
-use super::*;
 use std::collections::HashMap;
+use diesel::prelude::*;
+use chrono::NaiveDate;
+
+use super::Database;
+use super::models::*;
 
 // TODO: do some caching here for efficiency
 // TODO: handle errors more properly, returning Result<_, Error> instead of String
@@ -7,28 +11,37 @@ use std::collections::HashMap;
 // TODO: make this somehow typesafe/error safe instead of runtime checked. Use Diesel
 impl Database {
     pub fn get_user_for_email(&self, email: &str) -> Result<User, String> {
-        let conn = self.pool.get().unwrap();
-        for row in &query!(conn, "SELECT * FROM Users WHERE email = $1", email) {
-            return User::from(row);
-        }
-        Err(format!("No user with email {} exists", email))
+        let conn = *self.pool.get().unwrap();
+        use database::schema::users;
+        users::table
+            .filter(users::email.eq(email))
+            .limit(1)
+            .load::<User>(&conn)
+            .map_err(|reason| format!("User with email {} could not be retrieved. Reason: {}", email, reason))
+            .and_then(|rows| rows.get(0).cloned().ok_or(format!("No user with email {} exists", email)))
     }
 
     pub fn get_user_by_id(&self, maybe_user_id: Option<i32>) -> Result<User, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
-        for row in &query!(conn, "SELECT * FROM Users WHERE user_id = $1", user_id) {
-            return User::from(row);
-        }
-        Err(format!("No user {} exists", user_id))
+        let conn = *self.pool.get().unwrap();
+        use database::schema::users;
+        users::table
+            .filter(users::user_id.eq(user_id))
+            .limit(1)
+            .load::<User>(&conn)
+            .map_err(|reason| format!("User with id {} could not be retrieved. Reason: {}", user_id, reason))
+            .and_then(|rows| rows.get(0).cloned().ok_or(format!("No user with id {} exists", user_id)))
     }
 
     pub fn get_settings_for_user(&self, user_id: i32) -> Result<Settings, String> {
-        let conn = self.pool.get().unwrap();
-        for row in &query!(conn, "SELECT * FROM UserSettings WHERE user_id = $1", user_id) {
-            return Settings::from(row);
-        }
-        Ok(Settings::default(user_id))
+        let conn = *self.pool.get().unwrap();
+        use database::schema::usersettings;
+        usersettings::table
+            .filter(usersettings::user_id.eq(user_id))
+            .limit(1)
+            .load::<Settings>(&conn)
+            .map_err(|reason| format!("Settings for user with id {} could not be retrieved. Reason: {}", user_id, reason))
+            .map(|rows| rows.get(0).cloned().unwrap_or(Settings::default(user_id)))
     }
 
     pub fn get_product_types_for_user(&self, user_id: i32) -> Result<Vec<ProductType>, String> {
@@ -85,13 +98,11 @@ impl Database {
 
     pub fn get_prices_for_user(&self, user_id: i32) -> Result<Vec<Price>, String> {
         assert_authorized!(self, user_id);
-        let conn = self.pool.get().unwrap();
-        Ok (
-            query!(conn, "SELECT * FROM Prices WHERE user_id = $1", user_id)
-                .iter()
-                .filter_map(|row| Price::from(row).ok())
-                .collect()
-        )
+        let conn = *self.pool.get().unwrap();
+        use database::schema::prices;
+        prices::table
+            .filter(prices::user_id.eq(user_id))
+            .load::<Price>(&conn)
     }
 
     pub fn get_conventions_for_user(&self, user_id: i32) -> Result<Vec<FullUserConvention>, String> {

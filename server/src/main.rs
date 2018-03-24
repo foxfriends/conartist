@@ -1,10 +1,7 @@
 extern crate serde;
 #[macro_use] extern crate serde_derive;
 #[macro_use] extern crate serde_json;
-#[macro_use] extern crate postgres;
-extern crate postgres_array;
-extern crate r2d2;
-extern crate r2d2_postgres;
+#[macro_use] extern crate diesel;
 #[macro_use] extern crate juniper;
 #[macro_use] extern crate juniper_codegen;
 extern crate juniper_iron;
@@ -21,6 +18,8 @@ extern crate colored;
 extern crate iron_cors;
 extern crate hyper;
 extern crate base64;
+extern crate r2d2;
+extern crate r2d2_diesel;
 
 #[macro_use] mod macros;
 mod web;
@@ -40,9 +39,10 @@ use iron::prelude::*;
 use iron_cors::CorsMiddleware;
 use juniper::EmptyMutation;
 use juniper_iron::GraphQLHandler;
-use r2d2_postgres::{TlsMode, PostgresConnectionManager};
 use colored::*;
 use hyper::client::Client;
+use diesel::pg::PgConnection;
+use r2d2_diesel::ConnectionManager;
 
 const DATABASE_URL: &'static str = "postgresql://conartist_app:temporary-password@localhost/conartist";
 const DEFAULT_PORT: &'static str = "8080";
@@ -52,9 +52,9 @@ fn main() {
     println!("Starting ConArtist server...");
 
     let conn_str = env::var("DATABASE_URL").unwrap_or(DATABASE_URL.to_string());
-    let manager = PostgresConnectionManager::new(conn_str, TlsMode::None).unwrap();
-    let pool = r2d2::Pool::new(manager).unwrap();
-    let database = database::DatabaseFactory::new(pool.clone());
+    let manager = ConnectionManager::<PgConnection>::new(conn_str);
+    let pool = r2d2::Pool::builder().build(manager).expect("Failed to create pool");
+    let database = database::DatabaseFactory::new(pool);
     let privileged = database.create_privileged();
     let mut mount = Mount::new();
     let cors =

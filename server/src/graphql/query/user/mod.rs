@@ -1,4 +1,10 @@
 //! Holds information about a user and their products, prices, and conventions
+use juniper::FieldResult;
+use chrono::{DateTime, Utc};
+
+use database::Database;
+use database::models::*;
+
 mod product_type;
 mod product;
 mod price;
@@ -6,10 +12,6 @@ mod record;
 mod expense;
 mod user_convention;
 mod settings;
-
-use database::{Database, User, ProductType, ProductInInventory, PriceRow, FullUserConvention, Settings};
-use juniper::FieldResult;
-use chrono::{DateTime, Utc};
 
 graphql_object!(User: Database |&self| {
     description: "Holds information about a user and their products, prices, and conventions"
@@ -36,18 +38,11 @@ graphql_object!(User: Database |&self| {
         }
     }
 
-    field prices(&executor) -> FieldResult<Vec<PriceRow>> {
+    field prices(&executor) -> FieldResult<Vec<Price>> {
         dbtry! {
             executor
                 .context()
                 .get_prices_for_user(self.user_id)
-                .map(|prices| prices
-                    .into_iter()
-                    .fold(vec![], |prev, price| {
-                        let len = prev.len() as i32;
-                        prev.into_iter().chain(price.spread(len)).collect()
-                    })
-                )
         }
     }
 

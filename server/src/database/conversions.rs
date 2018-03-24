@@ -1,9 +1,12 @@
-use postgres::types::{FromSql, ToSql, BPCHAR, Type, IsNull};
+use std::io::Write;
+use diesel::pg::Pg;
+use diesel::sql_types::Text;
+use diesel::deserialize::{self, FromSql};
+use diesel::serialize::{self, Output, ToSql};
 use juniper::Value;
 use std::error::Error;
 use std::str::FromStr;
 use money::{Money, Currency};
-use error::MoneyError;
 
 graphql_scalar!(Money {
     // TODO: improve when proper currency support is added
@@ -25,22 +28,17 @@ impl Into<i64> for Money {
     }
 }
 
-impl FromSql for Money {
-    fn from_sql(_: &Type, raw: &[u8]) -> Result<Money, Box<Error + Sync + Send>> {
-        <String as FromSql>::from_sql(&BPCHAR, raw).and_then(|s| FromStr::from_str(&s).map_err(|e: MoneyError| Box::new(e).into()))
+impl FromSql<Text, Pg> for Money {
+    fn from_sql(bytes: Option<&[u8]>) -> deserialize::Result<Self> {
+        let string: String = FromSql::<Text, Pg>::from_sql(bytes)?;
+        FromStr::from_str(&string).map_err(|_| format!("Could not parse Money from {}", string).into())
     }
-
-    accepts!(BPCHAR);
 }
 
-impl ToSql for Money {
-    fn to_sql(&self, _: &Type, out: &mut Vec<u8>) -> Result<IsNull, Box<Error + 'static + Sync + Send>> {
-        self.to_string().to_sql(&BPCHAR, out)
+impl ToSql<Text, Pg> for Money {
+    fn to_sql<W: Write>(&self, w: &mut Output<W, Pg>) -> serialize::Result {
+        self.to_string().to_sql(w)
     }
-
-    accepts!(BPCHAR);
-
-    to_sql_checked!();
 }
 
 graphql_scalar!(Currency {
@@ -57,21 +55,16 @@ graphql_scalar!(Currency {
     }
 });
 
-impl FromSql for Currency {
-    fn from_sql(_: &Type, raw: &[u8]) -> Result<Currency, Box<Error + Sync + Send>> {
-        <String as FromSql>::from_sql(&BPCHAR, raw).and_then(|s| FromStr::from_str(&s).map_err(|e: MoneyError| Box::new(e).into()))
+impl FromSql<Text, Pg> for Currency {
+    fn from_sql(bytes: Option<&[u8]>) -> deserialize::Result<Self> {
+        let string: String = FromSql::<Text, Pg>::from_sql(bytes)?;
+        FromStr::from_str(&string).map_err(|_| format!("Could not parse Currency from {}", string).into())
     }
-
-    accepts!(BPCHAR);
 }
 
-impl ToSql for Currency {
-    fn to_sql(&self, _: &Type, out: &mut Vec<u8>) -> Result<IsNull, Box<Error + 'static + Sync + Send>> {
-        self.to_string().to_sql(&BPCHAR, out)
+impl ToSql<Text, Pg> for Currency {
+    fn to_sql<W: Write>(&self, w: &mut Output<W, Pg>) -> serialize::Result {
+        self.to_string().to_sql(w)
     }
-
-    accepts!(BPCHAR);
-
-    to_sql_checked!();
 }
 

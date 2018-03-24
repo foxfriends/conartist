@@ -1,6 +1,8 @@
 //! Provides a wrapper for paginated results
-use database::{Database, Convention};
 use juniper::GraphQLType;
+
+use database::Database;
+use database::models::*;
 
 #[derive(Clone)]
 pub struct Pagination<T: GraphQLType + Clone> {

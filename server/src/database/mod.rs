@@ -1,7 +1,9 @@
 //! Abstraction layer around database access.
 
-mod schema;
 pub mod factory;
+pub mod models;
+
+mod schema;
 mod creaters;
 mod updaters;
 mod getters;
@@ -10,25 +12,24 @@ mod deleters;
 mod conversions;
 
 use juniper::Context;
-use chrono::NaiveDate;
+use diesel::PgConnection;
 use r2d2::Pool;
-use r2d2_postgres::PostgresConnectionManager;
+use r2d2_diesel::ConnectionManager;
 
-pub use self::schema::*;
 pub use self::factory::*;
 pub use self::conversions::*;
 
 #[derive(Clone)]
 pub struct Database {
-    pool: Pool<PostgresConnectionManager>,
+    pool: Pool<ConnectionManager<PgConnection>>,
     user_id: Option<i32>,
     privileged: bool,
 }
 
 impl Database {
-    fn new(pool: Pool<PostgresConnectionManager>, id: i32) -> Self { Self{ pool, user_id: Some(id), privileged: false } }
+    fn new(pool: Pool<ConnectionManager<PgConnection>>, id: i32) -> Self { Self{ pool, user_id: Some(id), privileged: false } }
 
-    fn privileged(pool: Pool<PostgresConnectionManager>) -> Self { Self{ pool, user_id: None, privileged: true } }
+    fn privileged(pool: Pool<ConnectionManager<PgConnection>>) -> Self { Self{ pool, user_id: None, privileged: true } }
 
     fn resolve_user_id(&self, maybe_user_id: Option<i32>) -> Result<i32, String> {
         let user_id = maybe_user_id.unwrap_or_else(|| self.user_id.expect("Cannot get user id for self when in privileged mode!"));

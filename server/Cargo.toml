@@ -5,8 +5,6 @@ authors = ["Cameron Eldridge <cameldridge+git@gmail.com>"]
 
 # TODO: solidify dependency versions before entering production?
 [dependencies]
-postgres = { version = "*", features = ["with-chrono", "with-serde_json"] }
-postgres_array = "*"
 juniper = { git = "https://github.com/oinkiguana/juniper" }
 juniper_codegen = { git = "https://github.com/oinkiguana/juniper" }
 juniper_iron = { git = "https://github.com/oinkiguana/juniper" }
@@ -23,8 +21,9 @@ serde_derive = "*"
 jsonwebtoken = "*"
 bcrypt = "*"
 r2d2 = "*"
-r2d2_postgres = "*"
+r2d2-diesel = "*"
 chrono = "*"
 colored = "*"
 hyper = "*"
 base64 = "*"
+diesel = { version = "*", features = ["postgres", "chrono"] }

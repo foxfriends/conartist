@@ -1,8 +1,9 @@
 //! Holds information about a convention
 use chrono::{DateTime, Utc};
-use database::Database;
 use juniper::FieldResult;
-pub use database::{Convention, ConventionExtraInfo, ConventionUserInfo};
+
+use database::models::*;
+use database::Database;
 
 graphql_object!(Convention: Database |&self| {
     description: "Holds information about a convention"
@@ -42,9 +43,9 @@ graphql_object!(ConventionUserInfo: Database |&self| {
     description: "Extra information about the convention, provided by users and ranked for trustworthiness"
 
     field id() -> i32 { self.con_info_id }
-    field info() -> &String { &self.info }
-    field upvotes() -> i32 { self.upvotes }
-    field downvotes() -> i32 { self.downvotes }
+    field info() -> &String { &self.information }
+    field upvotes() -> i32 { 0 } //self.upvotes }
+    field downvotes() -> i32 { 0 } //self.downvotes }
     field vote(&executor, user_id: Option<i32>) -> FieldResult<i32> {
         dbtry! {
             executor

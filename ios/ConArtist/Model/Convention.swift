@@ -148,6 +148,10 @@ extension Convention {
             .map { $0.fragments.productTypeFragment }
             .flatMap(ProductType.init)
     }
+
+    var isEnded: Bool {
+        return end.roundToDay() < Date().roundToDay()
+    }
 }
 
 // MARK: - Date formatting

@@ -95,6 +95,11 @@ extension ConventionDetailsViewController {
     fileprivate func setupSubscriptions() {
         let _ = convention.fill().subscribe()
 
+        if convention.isEnded {
+            newSaleButton.isHidden = true
+            newExpenseButton.isHidden = true
+        }
+
         navBar.leftButton.rx.tap
             .subscribe(onNext: { ConArtist.model.navigate(back: 1) })
             .disposed(by: disposeBag)

@@ -95,6 +95,9 @@ extension ExpenseDetailsOverlayViewController {
 // MARK: - UI
 extension ExpenseDetailsOverlayViewController {
     fileprivate func setupUI() {
+        if convention.isEnded {
+            navBar.rightButton.isHidden = true
+        }
         sheetView.layer.cornerRadius = 35
         sheetView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         for label in smallCapsLabels {

@@ -99,6 +99,9 @@ extension ConventionDetailsViewController {
             newSaleButton.isHidden = true
             newExpenseButton.isHidden = true
         }
+        if !convention.isStarted {
+            newSaleButton.isHidden = true
+        }
 
         navBar.leftButton.rx.tap
             .subscribe(onNext: { ConArtist.model.navigate(back: 1) })

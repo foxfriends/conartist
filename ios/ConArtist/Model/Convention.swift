@@ -149,6 +149,10 @@ extension Convention {
             .flatMap(ProductType.init)
     }
 
+    var isStarted: Bool {
+        return start.roundToDay() <= Date().roundToDay()
+    }
+
     var isEnded: Bool {
         return end.roundToDay() < Date().roundToDay()
     }

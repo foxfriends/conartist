@@ -221,16 +221,20 @@ extension RecordsOverviewViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         guard case .Expense(let expense)? = item(for: indexPath) else { return UISwipeActionsConfiguration(actions: []) }
-        let deleteAction = UIContextualAction(style: .normal, title: "Delete"¡) { [convention] _, _, reset in
-            let _ = convention?.deleteExpense(expense)
-                .subscribe(
-                    onNext: { print("SAVED") },
-                    onError: { print("FAILED TO SAVE \($0)") }
-            )
-            reset(true)
+        var actions: [UIContextualAction] = []
+        if !convention.isEnded {
+            let deleteAction = UIContextualAction(style: .normal, title: "Delete"¡) { [convention] _, _, reset in
+                let _ = convention?.deleteExpense(expense)
+                    .subscribe(
+                        onNext: { print("SAVED") },
+                        onError: { print("FAILED TO SAVE \($0)") }
+                )
+                reset(true)
+            }
+            deleteAction.backgroundColor = ConArtist.Color.Warn
+            actions.append(deleteAction)
         }
-        deleteAction.backgroundColor = ConArtist.Color.Warn
-        let config = UISwipeActionsConfiguration(actions: [deleteAction])
+        let config = UISwipeActionsConfiguration(actions: actions)
         config.performsFirstActionWithFullSwipe = false
         return config
     }

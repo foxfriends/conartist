@@ -1,6 +1,7 @@
 //! Holds information about a user's settings
-use database::{Database, Settings};
 use money::Currency;
+use database::Database;
+use database::models::*;
 
 graphql_object!(Settings: Database |&self| {
     description: "Holds information about a user's settings"

@@ -1,4 +1,5 @@
 //! The entry point of a GraphQL mutation
+use juniper::FieldResult;
 
 mod product;
 mod product_type;
@@ -7,9 +8,8 @@ mod record;
 mod expense;
 mod settings;
 
-use juniper::FieldResult;
-use serde_json;
-use database::{Database, User, ProductType, ProductInInventory, Price, Convention, ConventionUserInfo, Record, Expense};
+use database::Database;
+use database::models::*;
 use money::Money;
 use self::product::*;
 use self::product_type::*;
@@ -90,7 +90,7 @@ graphql_object!(Mutation: Database |&self| {
     }
 
     // Products
-    field add_user_product(&executor, user_id: Option<i32>, product: ProductAdd) -> FieldResult<ProductInInventory> {
+    field add_user_product(&executor, user_id: Option<i32>, product: ProductAdd) -> FieldResult<ProductWithQuantity> {
         ensure!(product.name.len() > 0 && product.name.len() <= 512);
         ensure!(product.type_id > 0);
         ensure!(product.quantity >= 0);
@@ -102,7 +102,7 @@ graphql_object!(Mutation: Database |&self| {
         }
     }
 
-    field mod_user_product(&executor, user_id: Option<i32>, product: ProductMod) -> FieldResult<ProductInInventory> {
+    field mod_user_product(&executor, user_id: Option<i32>, product: ProductMod) -> FieldResult<ProductWithQuantity> {
         ensure!(product.product_id > 0);
         let name_length = product.name.as_ref().map(|s| s.len()).unwrap_or(1);
         ensure!(name_length > 0 && name_length <= 512);
@@ -117,13 +117,12 @@ graphql_object!(Mutation: Database |&self| {
 
     // Prices
     field add_user_price(&executor, user_id: Option<i32>, price: PriceAdd) -> FieldResult<Price> {
-        ensure!(price.prices.iter().all(|p| p.quantity > 0 && p.price > Money::new(0i64, p.price.cur())));
-
-        let prices: serde_json::Value = price.prices.into();
+        ensure!(price.price > Money::new(0i64, price.price.cur()));
+        ensure!(price.quantity > 0);
         dbtry! {
             executor
                 .context()
-                .create_or_update_price(user_id, price.type_id, price.product_id, prices)
+                .create_price(user_id, price.type_id, price.product_id, price.quantity, price.price)
         }
     }
 
@@ -131,7 +130,7 @@ graphql_object!(Mutation: Database |&self| {
         dbtry! {
             executor
                 .context()
-                .delete_price(user_id, price.type_id, price.product_id)
+                .delete_price(user_id, price.type_id, price.product_id, price.quantity)
         }
     }
 

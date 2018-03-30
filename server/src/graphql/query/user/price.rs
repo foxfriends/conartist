@@ -8,5 +8,5 @@ graphql_object!(Price: Database |&self| {
     field type_id() -> i32 { self.type_id }
     field product_id() -> Option<i32> { self.product_id }
     field quantity() -> i32 { self.quantity }
-    field price() -> Money { self.price }
+    field price() -> Money { self.price.unwrap() }
 });

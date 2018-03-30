@@ -5,8 +5,9 @@ mod user;
 mod pagination;
 
 use chrono::{DateTime, Utc, FixedOffset};
-use juniper::{FieldResult, FieldError, Value};
-use database::{Database, User, Convention, FullUserConvention};
+use juniper::FieldResult;
+use database::Database;
+use database::models::*;
 use self::pagination::Pagination;
 
 pub struct Query;
@@ -18,21 +19,23 @@ graphql_object!(Query: Database |&self| {
         &executor,
         id: Option<i32> as "The ID of the user to retrieve. Leave out to request self",
     ) -> FieldResult<User> as "Retrieves one user, corresponding to the provided ID" {
-        executor
-            .context()
-            .get_user_by_id(id)
-            .map_err(|s| FieldError::new(s, Value::null()))
+        dbtry! {
+            executor
+                .context()
+                .get_user_by_id(id)
+        }
     }
 
     field user_convention(
         &executor,
         user_id: Option<i32> as "The ID of the user to retrieve. Leave out to request self",
         con_id: i32 as "The ID of the convention to retrieve",
-    ) -> FieldResult<FullUserConvention> as "Retrieves the full information of one user's convention" {
-        executor
-            .context()
-            .get_convention_for_user(user_id, con_id)
-            .map_err(|s| FieldError::new(s, Value::null()))
+    ) -> FieldResult<Convention> as "Retrieves the full information of one user's convention" {
+        dbtry! {
+            executor
+                .context()
+                .get_convention_for_user(user_id, con_id)
+        }
     }
 
     field convention(
@@ -47,12 +50,13 @@ graphql_object!(Query: Database |&self| {
             .get_conventions_after(date.map(|r| r.naive_utc().date()).unwrap_or(Utc::today().naive_utc()), exclude_mine)
             .map(|cons| (
                 cons.len(),
+                // TODO: do this in SQL
                 cons.into_iter()
                     .skip((page * limit) as usize)
                     .take(limit as usize)
                     .collect(),
             ))
             .map(|(total, cons)| Pagination::new(cons, page, total, limit))
-            .unwrap_or(Pagination::new(vec![], 0, 0, 1))
+            .unwrap_or(Pagination::new(vec![], 0, 0, limit))
     }
 });

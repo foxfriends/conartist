@@ -10,7 +10,6 @@ mod product;
 mod price;
 mod record;
 mod expense;
-mod user_convention;
 mod settings;
 
 graphql_object!(User: Database |&self| {
@@ -26,15 +25,15 @@ graphql_object!(User: Database |&self| {
         dbtry! {
             executor
                 .context()
-                .get_product_types_for_user(self.user_id)
+                .get_product_types_for_user(Some(self.user_id))
         }
     }
 
-    field products(&executor) -> FieldResult<Vec<ProductInInventory>> {
+    field products(&executor) -> FieldResult<Vec<ProductWithQuantity>> {
         dbtry! {
             executor
                 .context()
-                .get_products_for_user(self.user_id)
+                .get_products_for_user(Some(self.user_id))
         }
     }
 
@@ -42,15 +41,15 @@ graphql_object!(User: Database |&self| {
         dbtry! {
             executor
                 .context()
-                .get_prices_for_user(self.user_id)
+                .get_prices_for_user(Some(self.user_id))
         }
     }
 
-    field conventions(&executor) -> FieldResult<Vec<FullUserConvention>> {
+    field conventions(&executor) -> FieldResult<Vec<Convention>> {
         dbtry! {
             executor
                 .context()
-                .get_conventions_for_user(self.user_id)
+                .get_conventions_for_user(Some(self.user_id))
         }
     }
 
@@ -58,7 +57,7 @@ graphql_object!(User: Database |&self| {
         dbtry! {
             executor
                 .context()
-                .get_settings_for_user(self.user_id)
+                .get_settings_for_user(Some(self.user_id))
         }
     }
 });

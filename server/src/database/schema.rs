@@ -75,12 +75,13 @@ table! {
 }
 
 table! {
-    prices (user_id, type_id, product_id, quantity) {
+    prices (price_id) {
+        price_id -> Int4,
         user_id -> Int4,
         type_id -> Int4,
-        product_id -> Int4,
+        product_id -> Nullable<Int4>,
         quantity -> Int4,
-        price -> Bpchar,
+        price -> Nullable<Bpchar>,
         mod_date -> Timestamp,
     }
 }

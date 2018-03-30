@@ -2,24 +2,6 @@
 // TODO: should these be placed in meaningful locations? Or is just "around" ok because they are
 //       macros
 
-macro_rules! query {
-    ($conn:expr, $query:expr) => {
-        $conn.query($query, &[]).unwrap()
-    };
-    ($conn:expr, $query:expr, $($var:expr),* ) => {
-        $conn.query($query, &[$(&$var, )*]).unwrap()
-    };
-}
-
-macro_rules! execute {
-    ($conn:expr, $query:expr) => {
-        $conn.execute($query, &[])
-    };
-    ($conn:expr, $query:expr, $($var:expr),* ) => {
-        $conn.execute($query, &[$(&$var, )*])
-    };
-}
-
 macro_rules! chain {
     ($($before:expr),+ ; #[ $($around:expr),* ] $handler:expr ; $($after:expr),+) => {{
         let mut chain = ::iron::Chain::new($handler);

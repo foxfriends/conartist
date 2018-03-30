@@ -2,7 +2,6 @@
 
 mod query;
 mod mutation;
-mod common;
 
 pub use self::query::Query;
 pub use self::mutation::Mutation;

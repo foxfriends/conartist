@@ -1,27 +1,38 @@
-//! Holds information about a convention and a user's products, prices, and records during that convention
-use database::Database;
+//! Holds information about a convention
 use chrono::{DateTime, Utc};
 use juniper::FieldResult;
-use database::{ProductType, ProductInInventory, Price, PriceRow, FullUserConvention, ConventionExtraInfo, ConventionUserInfo, Record, Expense};
-use money::Money;
 
-graphql_object!(FullUserConvention: Database |&self| {
-    description: "Holds information about a convention and a user's products, prices, and records during that convention"
+mod extra_info;
+mod user_info;
+mod image;
+
+use money::Money;
+use database::models::*;
+use database::Database;
+
+graphql_object!(Convention: Database |&self| {
+    description: "Holds information about a convention and a user's records at that convention"
 
     field id() -> i32 { self.con_id }
-    field user_id() -> i32 { self.user_id }
-    field con_id() -> i32 { self.con_id }
     field name() -> &String { &self.title }
-    field images(&executor) -> FieldResult<Vec<String>> { 
+    field start() -> DateTime<Utc> { DateTime::from_utc(self.start_date.and_hms(0, 0, 0), Utc) }
+    field end() -> DateTime<Utc> { DateTime::from_utc(self.end_date.and_hms(23, 59, 59), Utc) }
+
+    field images(&executor) -> FieldResult<Vec<ConventionImage>> { 
         dbtry! {
             executor
                 .context()
                 .get_images_for_convention(self.con_id)
         }
     }
-    field start() -> DateTime<Utc> { DateTime::from_utc(self.start_date.and_hms(0, 0, 0), Utc) }
-    field end() -> DateTime<Utc> { DateTime::from_utc(self.end_date.and_hms(0, 0, 0), Utc) }
-    field extra_info() -> &Vec<ConventionExtraInfo> { &self.extra_info }
+
+    field extra_info(&executor) -> FieldResult<Vec<ConventionExtraInfo>> { 
+        dbtry! {
+            executor
+                .context()
+                .get_convention_extra_info_for_convention(self.con_id)
+        }
+    }
 
     field user_info(&executor) -> FieldResult<Vec<ConventionUserInfo>> {
         dbtry! {
@@ -31,8 +42,6 @@ graphql_object!(FullUserConvention: Database |&self| {
         }
     }
 
-    // TODO: Option to retrieve all non-discontinued products instead of just products attached to
-    //       this convention
     field product_types(&executor) -> FieldResult<Vec<ProductType>> {
         dbtry! {
             executor
@@ -41,7 +50,7 @@ graphql_object!(FullUserConvention: Database |&self| {
         }
     }
 
-    field products(&executor) -> FieldResult<Vec<ProductInInventory>> {
+    field products(&executor) -> FieldResult<Vec<ProductWithQuantity>> {
         dbtry! {
             executor
                 .context()
@@ -49,26 +58,11 @@ graphql_object!(FullUserConvention: Database |&self| {
         }
     }
 
-    field condensedPrices(&executor, include_all = false: bool) ->  FieldResult<Vec<Price>> {
+    field prices(&executor) -> FieldResult<Vec<Price>> {
         dbtry! {
             executor
                 .context()
-                .get_prices_for_user_con(self.user_id, self.user_con_id, include_all)
-        }
-    }
-
-    field prices(&executor, include_all = false: bool) -> FieldResult<Vec<PriceRow>> {
-        dbtry! {
-            executor
-                .context()
-                .get_prices_for_user_con(self.user_id, self.user_con_id, include_all)
-                .map(|prices| prices
-                    .into_iter()
-                    .fold(vec![], |prev, price| {
-                        let len = prev.len() as i32;
-                        prev.into_iter().chain(price.spread(len)).collect()
-                    })
-                )
+                .get_prices_for_user_con(self.user_id, self.con_id)
         }
     }
 
@@ -116,3 +110,4 @@ graphql_object!(FullUserConvention: Database |&self| {
         }
     }
 });
+

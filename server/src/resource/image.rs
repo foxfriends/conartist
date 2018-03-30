@@ -9,7 +9,8 @@ impl Image {
         Image(data)
     }
 
-    pub fn resized_to_fit(self, max_width: Option<i32>, max_height: Option<i32>) -> Self {
+    pub fn resized_to_fit(self, _max_width: Option<i32>, _max_height: Option<i32>) -> Self {
+        // TODO: implement this!
         self
     }
 

@@ -26,4 +26,4 @@ chrono = "*"
 colored = "*"
 hyper = "*"
 base64 = "*"
-diesel = { version = "*", features = ["postgres", "chrono"] }
+diesel = { version = "*", features = ["postgres", "chrono", "serde_json"] }

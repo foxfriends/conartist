@@ -16,7 +16,7 @@ fragment ProductTypeFragment on ProductType {
   discontinued
 }
 
-fragment ProductFragment on ProductInInventory {
+fragment ProductFragment on Product {
   id
   typeId
   name
@@ -24,7 +24,7 @@ fragment ProductFragment on ProductInInventory {
   discontinued
 }
 
-fragment PriceRowFragment on PriceRow {
+fragment PriceFragment on Price {
   index
   typeId
   productId
@@ -32,22 +32,27 @@ fragment PriceRowFragment on PriceRow {
   price
 }
 
-fragment ConventionBasicInfoFragment on FullUserConvention {
-  id
-  name
-  images
-  start
-  end
+fragment ConventionImageFragment on ConventionImage {  id
 }
 
-fragment MetaConventionFragment on FullUserConvention {
-  ...ConventionBasicInfoFragment
+fragment ConventionBasicInfoFragment on Convention {
+  id
+  name
+  images {
+    ...ConventionImageFragment
+  }
+  start
+  end
   extraInfo {
     ...ExtraInfoFragment
   }
   userInfo {
     ...UserInfoFragment
   }
+}
+
+fragment MetaConventionFragment on Convention {
+  ...ConventionBasicInfoFragment
   recordTotal
   expenseTotal
 }
@@ -87,11 +92,11 @@ fragment VotesFragment on ConventionUserInfo {
   downvotes
 }
 
-fragment FullConventionFragment on FullUserConvention {
+fragment FullConventionFragment on Convention {
   ...MetaConventionFragment
   products { ...ProductFragment }
   productTypes { ...ProductTypeFragment }
-  prices(includeAll: true) { ...PriceRowFragment }
+  prices { ...PriceFragment }
   records { ...RecordFragment }
   expenses { ...ExpenseFragment }
 }

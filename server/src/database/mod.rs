@@ -10,6 +10,7 @@ mod getters;
 mod setters;
 mod deleters;
 mod conversions;
+mod dsl;
 
 use juniper::Context;
 use diesel::PgConnection;

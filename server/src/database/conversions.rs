@@ -1,15 +1,15 @@
 use std::io::Write;
 use diesel::pg::Pg;
 use diesel::sql_types::Text;
-use diesel::deserialize::{self, FromSql};
+use diesel::deserialize::{self, FromSql, FromSqlRow};
 use diesel::serialize::{self, Output, ToSql};
+use diesel::Queryable;
 use juniper::Value;
 use std::error::Error;
 use std::str::FromStr;
 use money::{Money, Currency};
 
 graphql_scalar!(Money {
-    // TODO: improve when proper currency support is added
     description: "Represents a monetary value and a currency as a string, such as CAD150 for $1.50 in CAD"
 
     resolve(&self) -> Value {
@@ -37,12 +37,24 @@ impl FromSql<Text, Pg> for Money {
 
 impl ToSql<Text, Pg> for Money {
     fn to_sql<W: Write>(&self, w: &mut Output<W, Pg>) -> serialize::Result {
-        self.to_string().to_sql(w)
+        ToSql::<Text, Pg>::to_sql(&self.to_string(), w)
+    }
+}
+
+impl FromSqlRow<Text, Pg> for Money {
+    fn build_from_row<R: ::diesel::row::Row<Pg>>(row: &mut R) -> Result<Self, Box<Error+Send+Sync>> {
+        FromSql::<Text, Pg>::from_sql(row.take())
+    }
+}
+
+impl Queryable<Text, Pg> for Money {
+    type Row = Self;
+    fn build(row: Self) -> Self {
+        row
     }
 }
 
 graphql_scalar!(Currency {
-    // TODO: improve when proper currency support is added
     description: "Represents a type of currency"
 
     resolve(&self) -> Value {
@@ -64,7 +76,19 @@ impl FromSql<Text, Pg> for Currency {
 
 impl ToSql<Text, Pg> for Currency {
     fn to_sql<W: Write>(&self, w: &mut Output<W, Pg>) -> serialize::Result {
-        self.to_string().to_sql(w)
+        ToSql::<Text, Pg>::to_sql(&self.to_string(), w)
     }
 }
 
+impl FromSqlRow<Text, Pg> for Currency {
+    fn build_from_row<R: ::diesel::row::Row<Pg>>(row: &mut R) -> Result<Self, Box<Error+Send+Sync>> {
+        FromSql::<Text, Pg>::from_sql(row.take())
+    }
+}
+
+impl Queryable<Text, Pg> for Currency {
+    type Row = Self;
+    fn build(row: Self) -> Self {
+        row
+    }
+}

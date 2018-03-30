@@ -1,7 +1,3 @@
-# TODO: use this to generate the GraphQL functions and replace the custom
-#       GraphQL stuff in the clients.
-#       Probably use Apollo, and have to patch jahewson or port ApolloJS for Elm
-
 scalar NaiveDate
 scalar DateTimeUtc
 scalar DateTimeFixedOffset
@@ -10,7 +6,7 @@ scalar Currency
 
 type Query {
   user(id: Int): User!
-  userConvention(id: Int, conId: Int!): FullUserConvention!
+  userConvention(id: Int, conId: Int!): Convention!
   convention(date: Date, page: Int, limit: Int): ConventionPage!
 }
 
@@ -21,9 +17,9 @@ type User {
   keys: Int!
   joinDate: DateTimeUtc!
   productTypes: [ProductType]!
-  products: [ProductInInventory]!
-  prices: [PriceRow]!
-  conventions: [FullUserConvention]!
+  products: [Product]!
+  prices: [Price]!
+  conventions: [Convention]!
   settings: Settings!
 }
 
@@ -38,7 +34,7 @@ type ProductType {
   discontinued: Boolean!
 }
 
-type ProductInInventory {
+type Product {
   id: Int!
   name: String!
   quantity: Int!
@@ -51,12 +47,6 @@ type PricePairOut {
 }
 
 type Price {
-  typeId: Int!
-  productId: Int
-  prices: [PricePairOut]!
-}
-
-type PriceRow {
   index: Int!
   typeId: Int!
   productId: Int
@@ -80,32 +70,25 @@ type Expense {
   time: DateTimeUtc!
 }
 
-type FullUserConvention {
+type Convention {
   id: Int!
   conId: Int!
   name: String!
-  images: [String]!
+  images: [ConventionImage]!
   start: DateTimeUtc!
   end: DateTimeUtc!
   extraInfo: String!
   productTypes: [ProductType]!
-  products(includeAll: Boolean): [ProductInInventory]!
-  condensedPrices(includeAll: Boolean): [Price]!
-  prices(includeAll: Boolean): [PriceRow]!
+  products(includeAll: Boolean): [Product]!
+  prices: [Price]!
   records: [Record]!
   expenses: [Expense]!
   recordTotal: Int
   expenseTotal: Int
 }
 
-type Convention {
-  id: Int!
-  name: String!
-  images: [String]!
-  start: DateTimeUtc!
-  end: DateTimeUtc!
-  extraInfo: ConventionExtraInfo!
-  userInfo: ConventionUserInfo!
+type ConventionImage {
+  id: String!
 }
 
 type ConventionExtraInfo {
@@ -138,8 +121,8 @@ type Mutation {
   addUserProductType(userId: Int, productType: ProductTypeAdd!): ProductType!
   modUserProductType(userId: Int, productType: ProductTypeMod!): ProductType!
 
-  addUserProduct(userId: Int, product: ProductAdd!): ProductInInventory!
-  modUserProduct(userId: Int, product: ProductMod!): ProductInInventory!
+  addUserProduct(userId: Int, product: ProductAdd!): Product!
+  modUserProduct(userId: Int, product: ProductMod!): Product!
 
   addUserPrice(userId: Int, price: PriceAdd!): Price!
   delUserPrice(userId: Int, price: PriceDel!): Boolean!

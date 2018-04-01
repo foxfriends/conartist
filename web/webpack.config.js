@@ -12,21 +12,14 @@ module.exports = {
   },
   module: {
     rules: [
-      {
-        test: /\.elm$/,
-        loader: 'elm-webpack-loader',
-        exclude: /(elm-stuff|node_modules)/,
-        options: { cwd: '.' }
-      },
       { test: /\.(png|svg|gif|jpe?g)$/, loader: 'file-loader?name=images/[hash].[ext]!img-loader' },
       { test: /\.(sass|s?css)$/,
-        exclude: /(elm-stuff|node_modules)/,
+        exclude: /node_modules/,
         use: ExtractTextPlugin.extract({
           use: 'css-loader?minimize=true!postcss-loader!fast-sass-loader',
         }),
       },
     ],
-    noParse: /\.elm$/,
   },
   plugins: [
     new UglifyJSPlugin(),

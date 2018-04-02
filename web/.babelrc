@@ -1,0 +1,4 @@
+{
+  "presets": ["flow"],
+  "plugins": [ [ "transform-react-jsx", { "useBuiltIns": true } ] ]
+}

@@ -1,4 +1,3 @@
 {
-  "presets": ["flow"],
-  "plugins": [ [ "transform-react-jsx", { "useBuiltIns": true } ] ]
+  "presets": ["flow", "@babel/preset-react"],
 }

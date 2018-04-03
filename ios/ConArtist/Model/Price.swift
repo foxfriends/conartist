@@ -12,7 +12,7 @@ struct Price {
     let quantity: Int
     let price: Money
     
-    init?(graphQL price: PriceRowFragment) {
+    init?(graphQL price: PriceFragment) {
         guard let money = price.price.toMoney() else { return nil }
         typeId = price.typeId
         productId = price.productId

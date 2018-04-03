@@ -25,14 +25,15 @@ fragment ProductFragment on Product {
 }
 
 fragment PriceFragment on Price {
-  index
+  priceId
   typeId
   productId
   quantity
   price
 }
 
-fragment ConventionImageFragment on ConventionImage {  id
+fragment ConventionImageFragment on ConventionImage {
+  id
 }
 
 fragment ConventionBasicInfoFragment on Convention {

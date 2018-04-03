@@ -47,7 +47,7 @@ class Convention {
         name = con.name
         start = startDate
         end = endDate
-        images = con.images
+        images = con.images.map { $0.fragments.conventionImageFragment.id }
         recordTotal = con.recordTotal?.toMoney()
         expenseTotal = con.expenseTotal?.toMoney()
 
@@ -91,7 +91,7 @@ class Convention {
         prices = øconvention
             .map {
                 $0.prices
-                    .map { $0.fragments.priceRowFragment }
+                    .map { $0.fragments.priceFragment }
                     .filterMap(Price.init(graphQL:))
             }
 

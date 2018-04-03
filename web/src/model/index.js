@@ -1,6 +1,6 @@
 /* @flow */
 import { List } from 'immutable'
-import { BehaviorSubject } from 'rxjs/Observable'
+import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import * as page from './page'
 import type { Page } from './page'
 import type { Dialog } from './dialog'
@@ -25,11 +25,11 @@ export type Model = {|
 type Currency = 'CAD' | 'USD'
 
 export type Settings = {
-  language: String,
+  language: string,
   currency: Currency,
 }
 
-export const model: BehaviorSubject<$ReadOnly<Model>> = BehaviorSubject({
+export const model: BehaviorSubject<$ReadOnly<Model>> = new BehaviorSubject({
   email: null,
   name: null,
   prices: List(),
@@ -38,4 +38,8 @@ export const model: BehaviorSubject<$ReadOnly<Model>> = BehaviorSubject({
   conventions: List(),
   page: page.splash,
   dialog: null,
+  settings: {
+    language: 'en',
+    currency: 'CAD',
+  },
 })

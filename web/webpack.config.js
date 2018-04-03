@@ -5,9 +5,11 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 
 module.exports = {
+  mode: 'development',
   entry: './index.jsx',
   output: {
     path: path.resolve('.', 'static'),
+    publicPath: 'static/',
     filename: 'conartist.min.js',
   },
   module: {
@@ -26,7 +28,7 @@ module.exports = {
     extensions: ['.js', '.jsx', '.json'],
   },
   plugins: [
-    new UglifyJSPlugin(),
+    // new UglifyJSPlugin(),
     new ExtractTextPlugin({
       filename: 'conartist.min.css',
     }),

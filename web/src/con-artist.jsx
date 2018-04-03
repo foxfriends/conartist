@@ -1,9 +1,7 @@
 /* @flow */
 import * as React from 'react'
-import { Record } from 'immutable'
-import type { RecordOf } from 'immutable'
 import { Toolbar } from './toolbar'
-import * as toolbar from './toolbar'
+import * as toolbarAction from './toolbar/action'
 import { Navigation } from './navigation'
 import { Content } from './content'
 import { Dialog } from './dialog'
@@ -16,6 +14,8 @@ import type { Props as ContentProps } from './content'
 import type { Props as DialogProps } from './dialog'
 import l from './localization'
 
+import 'rxjs/add/operator/map'
+
 type Props = {}
 type State = {
   toolbar: ToolbarProps,
@@ -24,47 +24,60 @@ type State = {
   dialog: ?DialogProps,
 }
 
-const StateFactory = Record({
-  toolbar: { primary: null, secondary: null },
-  navigation: null,
-  content: null,
-  dialog: null,
-})
-
-export class ConArtist extends React.Component<Props, RecordOf<State>> {
+export class ConArtist extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
-    this.state = StateFactory()
+    this.state = {
+      toolbar: { primary: null, secondary: null },
+      navigation: null,
+      content: null,
+      dialog: null,
+    }
+  }
 
+  componentDidMount() {
     model
-      .map((model: Model): Record<State> => {
-        let state = this.state
+      .map((model: $ReadOnly<Model>): State => {
+        // TODO: copy the object so that mutation doesn't actually happen
+        //       or figure out why immutable wasn't working at all here...
+        const state = this.state
+
         switch(model.page.name) {
           case 'splash':
-            state = state.merge({
-              toolbar: {
-                primary: toolbar.action.SignUp,
-                secondary: toolbar.action.LogIn,
-              },
-              navigation: null,
-              content: null,
-            })
+            state.toolbar = { primary: toolbarAction.SignUp, secondary: toolbarAction.LogIn }
+            state.navigation = null
+            state.content = null
+            break
           default:
-            console.error("Unhandled page name! Ignoring")
+            console.error(`Unhandled page name: ${model.page.name}! Ignoring`)
         }
+
+        if (model.dialog) {
+          switch (model.dialog.name) {
+            case 'signup':
+              break
+            case 'login':
+              break
+            default:
+              state.dialog = null
+              break
+          }
+        }
+
         return state
       })
-      .subscribe(this.setState.bind(this))
+      .subscribe(newState => this.setState(newState))
   }
 
   render() {
+    let { toolbar, navigation, content, dialog } = this.state
     return (
       <>
-        <Toolbar {...this.state.toolbar} />
+        <Toolbar {...toolbar} />
         <div>
-          { this.state.navigation ? <Navigation {...this.state.navigation} /> : null }
-          { this.state.content ? <Content {...this.state.content} /> : null }
-          { this.state.dialog ? <Dialog {...this.state.dialog} /> : null }
+          { navigation ? <Navigation {...navigation} /> : null }
+          { content ? <Content {...content} /> : null }
+          { dialog ? <Dialog {...dialog} /> : null }
         </div>
       </>
     )

@@ -1,0 +1,19 @@
+@import url("//brick.a.ssl.fastly.net/Fira+Sans:400,500,700");
+
+:global(:root) {
+  --color--brand: #da4800;
+  --color--brand-variant: #d9991e;
+  --color--background: #333333;
+  --color--background-variant: #444444;
+  --color--background-highlight: #555555;
+  --color--background-toolbar: #111111;
+  --color--background-overlay: rgba(0, 0, 0, 0.6);
+  --color--text: #ffffff;
+  --color--text-placeholder: rgba(255, 255, 255, 0.5);
+  --coior--shadow: rgba(0, 0, 0, 0.25);
+
+  --font--body: 'Fira Sans', sans-serif;
+  --font-weight--regular: 400;
+  --font-weight--semiboold: 500;
+  --font-weight--bold: 700;
+}

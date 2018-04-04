@@ -1,3 +1,4 @@
 {
   "presets": ["flow", "@babel/preset-react"],
+  "plugins": ["react-css-modules"]
 }

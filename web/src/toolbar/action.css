@@ -1,0 +1,30 @@
+.primary, .secondary {
+  height: 44px;
+  width: 152px;
+  border: none;
+  border-radius: 2px;
+  font-family: var(--font--body);
+  font-weight: var(--font-weight--semibold);
+  font-variant: small-caps;
+  text-transform: lowercase;
+  cursor: pointer;
+  transition: 0.1s background-color;
+  margin-right: 20px;
+}
+
+.primary {
+  background-color: var(--color--brand);
+  color: var(--color--text);
+  font-size: 16px;
+}
+
+.secondary {
+  background-color: transparent;
+  color: var(--color--brand);
+  font-size: 18px;
+  margin-left: auto;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+  }
+}

@@ -4,3 +4,4 @@ static
 *.js.map
 *.min.js
 *.min.css
+*.css.flow

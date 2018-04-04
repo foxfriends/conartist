@@ -53,14 +53,13 @@ export class ConArtist extends React.Component<Props, State> {
         }
 
         if (model.dialog) {
-          switch (model.dialog.name) {
+          switch ((model.dialog || {}).name) {
             case 'signup':
               break
             case 'login':
               break
             default:
               state.dialog = null
-              break
           }
         }
 

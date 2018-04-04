@@ -1,6 +1,5 @@
 'use strict';
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const path = require('path');
 
@@ -16,11 +15,10 @@ module.exports = {
     rules: [
       { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader' },
       { test: /\.(png|svg|gif|jpe?g)$/, loader: 'file-loader?name=images/[hash].[ext]!img-loader' },
-      { test: /\.(sass|s?css)$/,
+      { 
+        test: /\.css$/,
         exclude: /node_modules/,
-        use: ExtractTextPlugin.extract({
-          use: 'css-loader?minimize=true!postcss-loader!fast-sass-loader',
-        }),
+        loader: 'style-loader!css-modules-flow-types-loader!css-loader?modules=true&minimize=true!postcss-loader',
       },
     ],
   },
@@ -29,8 +27,5 @@ module.exports = {
   },
   plugins: [
     // new UglifyJSPlugin(),
-    new ExtractTextPlugin({
-      filename: 'conartist.min.css',
-    }),
   ]
 };

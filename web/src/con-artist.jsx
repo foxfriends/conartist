@@ -2,14 +2,13 @@
 import * as React from 'react'
 import { Toolbar } from './toolbar'
 import * as toolbarAction from './toolbar/action'
-import { Navigation } from './navigation'
+import { Navigation, Props as NavigationProps} from './navigation'
 import { Content } from './content'
 import { Dialog } from './dialog'
 import { model } from './model'
 import * as page from './model/page'
 import type { Model } from './model'
 import type { Props as ToolbarProps } from './toolbar'
-import type { Props as NavigationProps } from './navigation'
 import type { Props as ContentProps } from './content'
 import type { Props as DialogProps } from './dialog'
 import S from './con-artist.css'
@@ -45,7 +44,7 @@ export class ConArtist extends React.Component<Props, State> {
         switch(model.page.name) {
           case 'splash':
             state.toolbar = { primary: toolbarAction.SignUp, secondary: toolbarAction.LogIn }
-            state.navigation = Navigation.default
+            state.navigation = NavigationProps.default.select('Dashboard')
             state.content = { cards: [] }
             break
           default:

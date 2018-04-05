@@ -12,7 +12,7 @@ import type { Props as ToolbarProps } from './toolbar'
 import type { Props as NavigationProps } from './navigation'
 import type { Props as ContentProps } from './content'
 import type { Props as DialogProps } from './dialog'
-import l from './localization'
+import S from './con-artist.css'
 
 import 'rxjs/add/operator/map'
 
@@ -45,8 +45,8 @@ export class ConArtist extends React.Component<Props, State> {
         switch(model.page.name) {
           case 'splash':
             state.toolbar = { primary: toolbarAction.SignUp, secondary: toolbarAction.LogIn }
-            state.navigation = null
-            state.content = null
+            state.navigation = Navigation.default
+            state.content = { cards: [] }
             break
           default:
             console.error(`Unhandled page name: ${model.page.name}! Ignoring`)
@@ -73,7 +73,7 @@ export class ConArtist extends React.Component<Props, State> {
     return (
       <>
         <Toolbar {...toolbar} />
-        <div>
+        <div className={S.container}>
           { navigation ? <Navigation {...navigation} /> : null }
           { content ? <Content {...content} /> : null }
           { dialog ? <Dialog {...dialog} /> : null }

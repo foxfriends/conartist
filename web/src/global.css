@@ -1,4 +1,5 @@
 @import url("//brick.a.ssl.fastly.net/Fira+Sans:400,500,700");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
 :global(:root) {
   --color--brand: #da4800;
@@ -8,12 +9,24 @@
   --color--background-highlight: #555555;
   --color--background-toolbar: #111111;
   --color--background-overlay: rgba(0, 0, 0, 0.6);
+  --color--background-hover-highlight: rgba(255, 255, 255, 0.03);
   --color--text: #ffffff;
   --color--text-placeholder: rgba(255, 255, 255, 0.5);
   --coior--shadow: rgba(0, 0, 0, 0.25);
 
   --font--body: 'Fira Sans', sans-serif;
+  --font--icon: 'Material Icons';
+
   --font-weight--regular: 400;
   --font-weight--semiboold: 500;
   --font-weight--bold: 700;
+
+  --height--toolbar: 60px;
+}
+
+:global(body), :global(#root) {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color--background);
+  font-family: var(--font--body);
 }

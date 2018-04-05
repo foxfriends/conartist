@@ -1,0 +1,40 @@
+.item {
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: var(--color--text);
+  transition: 0.1s background-color;
+  user-select: none;
+  &:hover:not(.disabled) {
+    cursor: pointer;
+    background-color: var(--color--background-hover-highlight);
+  }
+}
+
+.disabled {
+  opacity: 0.5;
+}
+
+.indent {
+  display: inline-block;
+}
+
+.title {
+  margin-left: 10px;
+}
+
+.indicatorSelected, .indicatorDefault {
+  display: inline-block;
+  height: 100%;
+  width: 4px;
+  margin-right: 12px;
+}
+
+.indicatorSelected {
+  background-color: var(--color--brand);
+}
+
+.indicatorDefault {
+  background-color: var(--color--background-variant)
+}

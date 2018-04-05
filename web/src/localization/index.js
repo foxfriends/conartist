@@ -18,7 +18,7 @@ export function localize(key: string, locale: ?(string | string[])): string {
 }
 
 /// Template tag that loocalizes the given string, with placeholders filled in
-export function l(strings: string[], ...args: String[]): string {
+export function l(strings: string[], ...args: string[]): string {
   const key = strings.join('{}')
   const lang = model.getValue().settings.language
   let localized = localize(key, lang.split('-', 1))

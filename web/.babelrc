@@ -1,4 +1,4 @@
 {
   "presets": ["flow", "@babel/preset-react"],
-  "plugins": ["react-css-modules"]
+  "plugins": ["react-css-modules", "transform-object-rest-spread"]
 }

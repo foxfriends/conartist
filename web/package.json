@@ -23,6 +23,7 @@
     "autoprefixer": "^8.2.0",
     "babel-loader": "^8.0.0-beta.2",
     "babel-plugin-react-css-modules": "^3.3.3",
+    "babel-plugin-transform-object-rest-spread": "^7.0.0-beta.3",
     "babel-preset-flow": "^7.0.0-beta.3",
     "css-loader": "^0.28.11",
     "css-modules-flow-types-loader": "^1.1.0",

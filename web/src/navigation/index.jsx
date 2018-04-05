@@ -4,6 +4,7 @@ import * as React from 'react'
 import { Item } from './item'
 import type { Props as ItemProps } from './item'
 import S from './index.css'
+import * as navigate from '../update/navigate'
 
 function itemToProps({ title, icon, selected, children, enabled, action }: ItemInfo): ItemProps[] {
   return (
@@ -13,6 +14,10 @@ function itemToProps({ title, icon, selected, children, enabled, action }: ItemI
           .map(child => itemToProps(child).map(props => { props.depth += 1; return props }))
       )
     )
+}
+
+export type Props = {
+  items: ItemInfo[]
 }
 
 export function Navigation({ items }: Props) {
@@ -32,13 +37,13 @@ export class ItemInfo {
   enabled: boolean
   action: () => void
 
-  constructor(title: string, icon: string) {
+  constructor(title: string, icon: string, action: () => void) {
     this.title = title
     this.icon = icon
     this.children = null
     this.selected = false
     this.enabled = true
-    this.action = () => {}
+    this.action = action
   }
 
   /**
@@ -78,16 +83,19 @@ export class ItemInfo {
   }
 }
 
-export class Props {
+export class NavInfo {
   items: ItemInfo[]
 
-  static get default() {
-    return new Props([
-      new ItemInfo('Dashboard', 'dashboard'),
-      new ItemInfo('Products', 'shopping_basket'),
-      new ItemInfo('Prices', 'attach_money'),
-      new ItemInfo('Conventions', 'event'),
-      new ItemInfo('Settings', 'settings'),
+  /**
+   * The standard all deselected options
+   */
+  static get default(): NavInfo {
+    return new NavInfo([
+      new ItemInfo('Dashboard', 'dashboard', navigate.dashboard),
+      new ItemInfo('Products', 'shopping_basket', navigate.products),
+      new ItemInfo('Prices', 'attach_money', navigate.prices),
+      new ItemInfo('Conventions', 'event', navigate.conventions),
+      new ItemInfo('Settings', 'settings', navigate.settings),
     ])
   }
 
@@ -101,7 +109,7 @@ export class Props {
    * @param option {string} The title of the item to select
    * @param children {?ItemInfo[]} Any children to add to this node
    */
-  select(option: string, children: ?ItemInfo[]): Props {
+  select(option: string, children: ?ItemInfo[]): NavInfo {
     this.items = this.items.map(item => item.select(item.title === option).withChildren(item.title === option ? children : null))
     return this
   }
@@ -111,7 +119,7 @@ export class Props {
    *
    * @param option {?string} The option to leave enabled. Set to null to enable all
    */
-  enable(option: string): Props {
+  enable(option: string): NavInfo {
     this.items = this.items.map(item => item.enable(!option || item.title === option))
     return this
   }

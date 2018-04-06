@@ -1,0 +1,38 @@
+.dialog {
+  width: 640px;
+  height: 395px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color--background-variant);
+}
+
+.header, .footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-basis: 50px;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.header {
+  background-color: var(--color--background-highlight);
+  font-variant-caps: all-small-caps;
+  font-size: 16px;
+  color: var(--color--text);
+  padding: 0 16px;
+}
+
+.contents {
+  flex-basis: 0;
+  flex-grow: 1;
+}
+
+.footer {
+  padding: 0 9px;
+}
+
+.footerButton {
+  height: 34px;
+  width: 100px;
+}

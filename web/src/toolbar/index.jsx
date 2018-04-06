@@ -1,13 +1,15 @@
 /* @flow */
 import * as React from 'react'
-import { Action } from './action'
-import type { Definition as ActionDefinition } from './action'
+
 import LOGO from '../../icons/apple-icon-180x180.png'
 import S from './index.css'
 
+import { Button } from '../common/button'
+import type { Action } from '../common/button'
+
 export type Props = {
-  primary: ?ActionDefinition,
-  secondary: ?ActionDefinition,
+  primary: ?Action,
+  secondary: ?Action,
 }
 
 export function Toolbar({ primary, secondary }: Props) {
@@ -16,8 +18,8 @@ export function Toolbar({ primary, secondary }: Props) {
       <div className={S.inner}>
         <img src={LOGO} height="44" />
         <span className={S.title}>ConArtist</span>
-        { secondary ? <Action {...secondary} priority="secondary" /> : null }
-        { primary ? <Action {...primary} priority="primary" /> : null }
+        { secondary ? <Button {...secondary} priority="tertiary" style={{ marginRight: 20 }}/> : null }
+        { primary ? <Button {...primary} priority="primary" /> : null }
       </div>
     </div>
   )

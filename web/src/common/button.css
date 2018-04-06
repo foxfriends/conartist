@@ -1,4 +1,4 @@
-.primary, .secondary {
+.primary, .secondary, .tertiary {
   height: 44px;
   width: 152px;
   border: none;
@@ -7,24 +7,37 @@
   font-weight: var(--font-weight--semibold);
   font-variant: small-caps;
   text-transform: lowercase;
-  cursor: pointer;
-  transition: 0.1s background-color;
-  margin-right: 20px;
+
+  &:not(:disabled) {
+    cursor: pointer;
+    transition: 0.1s background-color;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
 }
 
-.primary {
-  background-color: var(--color--brand);
+.primary, .secondary {
   color: var(--color--text);
   font-size: 16px;
 }
 
+.primary {
+  background-color: var(--color--brand);
+}
+
 .secondary {
+  background-color: var(--color--background);
+}
+
+.tertiary {
   background-color: transparent;
   color: var(--color--brand);
   font-size: 18px;
   margin-left: auto;
 
-  &:hover {
+  &:not(:disabled):hover {
     background-color: var(--color--background-hover-highlight);
   }
 }

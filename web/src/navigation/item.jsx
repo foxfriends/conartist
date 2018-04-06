@@ -21,7 +21,7 @@ export function Item({ title, action, icon, depth, selected, enabled }: Props) {
   return (
     <div className={`${S.item} ${enabled ? '' : S.disabled}`} onClick={action}>
       <div className={selected ? S.indicatorSelected : S.indicatorDefault} />
-      <div className={S.indent} style={{ width: `${depth * DEPTH_INDENT}px`}} />
+      <div className={S.indent} style={{ width: depth * DEPTH_INDENT}} />
       <Icon name={icon} />
       <span className={S.title}>{ localize(title) }</span>
     </div>

@@ -8,6 +8,7 @@ import type { Step } from '../../model/dialog/signup'
 import type { Props as BasicProps } from '../basic'
 import type { Props as FormProps } from './form'
 import type { Props as ButtonProps } from '../../common/button'
+
 export type Props = BasicProps & {
   name: 'signup',
   step: Step,
@@ -16,6 +17,11 @@ export type Props = BasicProps & {
 type State = {
   isValid: bool,
   formValue: string,
+}
+
+export type FormDelegate = {
+  onValidate: (boolean) => void,
+  onChange: (string) => void,
 }
 
 export class SignUp extends React.Component<Props, State> {
@@ -35,14 +41,14 @@ export class SignUp extends React.Component<Props, State> {
   render() {
     const { step, ...basicProps } = this.props
     const { isValid } = this.state
-    const formProps: FormProps = {
+    const formDelegate: FormDelegate = {
       onValidate: isValid => this.setState({ isValid }),
       onChange: formValue => this.setState({ formValue }),
     }
     let form: React.Node
     switch (step.name) {
       case 'name':
-        form = <NameForm {...formProps} />
+        form = <NameForm {...formDelegate} />
         break
       case 'email':
         break

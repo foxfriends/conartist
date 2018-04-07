@@ -7,7 +7,7 @@ export type Action = {
   title: string,
   action: () => void,
   className?: string,
-  style?: { [string]: string }
+  style?: { [string]: string | number }
 }
 
 type Priority = 'primary' | 'secondary' | 'tertiary'

@@ -1,0 +1,55 @@
+.container {
+  position: relative;
+  display: inline-block;
+  height: 50px;
+}
+
+.input {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  margin: 0;
+  width: 100%;
+  height: ;
+  font-family: var(--font--body);
+  font-size: 16px;
+  color: var(--color--text);
+  background-color: transparent;
+  border: none;
+}
+
+.title, .placeholder {
+  position: absolute;
+  bottom: 10px;
+  font-size: 16px;
+  margin-left: 10px;
+  color: var(--color--text-placeholder);
+  transition: 0.2s transform, 0.2s font-size;
+}
+
+.input:focus ~ .title {
+  color: var(--color--brand);
+  transform: translateY(-20px);
+  font-size: 12px;
+}
+
+.underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--color--divider);
+
+  &.error {
+    background-color: var(--color--warn);
+  }
+}
+
+.input:focus ~ .underline {
+  background-color: var(--color--brand)
+}
+
+.errorMessage {}

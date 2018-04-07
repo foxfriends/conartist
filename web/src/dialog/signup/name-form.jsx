@@ -20,8 +20,7 @@ function validator(name: string): InputValidation {
 }
 
 export function NameForm({ onValidate, onChange }: Props) {
-  function handleChange(event: SyntheticEvent<HTMLInputElement>) {
-    const { currentTarget: { value } } = event
+  function handleChange(value: string) {
     const trimmed = value.replace(/(^\s+|\s+$)/g, "")
     onChange(trimmed)
     onValidate(validator(trimmed).state === 'valid')
@@ -34,7 +33,7 @@ export function NameForm({ onValidate, onChange }: Props) {
           <Icon className={S.info} name="info_outline" />
         </Tooltip>
       </div>
-      <Input placeholder={l`Your name`} onChange={onChange} validator={validator} />
+      <Input className={S.input} placeholder={l`Your name`} onChange={onChange} validator={validator} />
       <span className={S.hint}>{ l`You can change this later` }</span>
     </Form>
   )

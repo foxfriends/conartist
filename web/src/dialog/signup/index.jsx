@@ -6,6 +6,7 @@ import { NameForm } from './name-form'
 import { EmailForm } from './email-form'
 import { PasswordForm } from './password-form'
 import { progressToNextStep } from '../../update/signup'
+import { closeDialog } from '../action'
 import type { Step } from '../../model/dialog/signup'
 import type { Props as BasicProps } from '../basic'
 import type { Props as FormProps } from './form'
@@ -104,7 +105,7 @@ export class SignUp extends React.Component<Props, State> {
     }
 
     return (
-      <Basic title={l`Sign up`} onContinue={onContinue} onBack={onBack} pager={pagerProps}>
+      <Basic title={l`Sign up`} onContinue={onContinue} onBack={onBack} onClose={closeDialog} pager={pagerProps}>
         { form }
       </Basic>
     )

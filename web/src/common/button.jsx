@@ -6,8 +6,6 @@ import S from './button.css'
 export type Action = {
   title: string,
   action: () => void,
-  className?: string,
-  style?: { [string]: string | number }
 }
 
 type Priority = 'primary' | 'secondary' | 'tertiary'
@@ -15,12 +13,15 @@ type Priority = 'primary' | 'secondary' | 'tertiary'
 export type Props = Action & {
   priority: Priority,
   enabled?: boolean,
+  className?: string,
+  style?: { [string]: string | number },
+  children?: React.Node,
 }
 
-export function Button({ title, action, priority, enabled, className, style }: Props) {
+export function Button({ children, title, action, priority, enabled, className, style }: Props) {
   return (
     <button disabled={enabled === false} onClick={action} className={`${S[priority]} ${className || ''}`} style={style || {}}>
-      {localize(title)}
+      { children || localize(title) }
     </button>
   )
 }

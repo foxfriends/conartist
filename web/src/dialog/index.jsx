@@ -6,9 +6,7 @@ import type { Props as BasicProps } from './basic'
 
 import S from './index.css'
 
-type ExtraProps = SignUpProps
-
-export type Props = BasicProps & ExtraProps
+export type Props = SignUpProps
 
 export function Dialog(props: Props) {
   let dialog: React.Node;

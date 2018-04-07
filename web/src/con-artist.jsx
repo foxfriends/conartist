@@ -78,7 +78,6 @@ export class ConArtist extends React.Component<Props, State> {
             case 'signup':
               state.dialog = {
                 name: 'signup',
-                title: l`Sign up`,
                 step: model.dialog.step,
               }
               break
@@ -90,6 +89,8 @@ export class ConArtist extends React.Component<Props, State> {
                 console.error(`Unhandled dialog name: ${model.dialog.name}! Ignoring`)
               }
           }
+        } else {
+          state.dialog = null
         }
 
         return state

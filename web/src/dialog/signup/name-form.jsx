@@ -33,7 +33,7 @@ export function NameForm({ onValidate, onChange }: Props) {
           <Icon className={S.info} name="info_outline" />
         </Tooltip>
       </div>
-      <Input className={S.input} placeholder={l`Your name`} onChange={onChange} validator={validator} />
+      <Input className={S.input} placeholder={l`Your name`} onChange={handleChange} validator={validator} />
       <span className={S.hint}>{ l`You can change this later` }</span>
     </Form>
   )

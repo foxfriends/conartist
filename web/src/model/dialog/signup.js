@@ -1,11 +1,12 @@
 /* @flow */
 export type SignUp = { name: 'signup', step: Step }
 
-interface NextStep {
-  next(string): ?Step
+interface Steppable {
+  next(string): ?Step,
+  previous(): ?Step,
 }
 
-export type Step = (Name | Email | Password | Terms | Completed) & NextStep
+export type Step = (Name | Email | Password | Terms | Completed) & Steppable
 
 export type Name = {
   name: 'name',
@@ -36,38 +37,54 @@ export type Completed = {
   password: string,
 }
 
-function email(username: string): ?Step {
-  return {
-    name: 'email',
-    username,
-    next(email: string) { password.call(this, email) },
-  }
-}
-
-function password(email: string): ?Step {
-  return {
-    name: 'password',
-    username: this.username,
-    email,
-    next(password: string) { terms.call(this, password) }
-  }
-}
-
-function terms(password: string): ?Step {
-  return {
-    name: 'completed',
-    username: this.username,
-    email: this.email,
-    password,
-    next: () => null
-  }
+const nameStep: Step = {
+  name: 'name',
+  next(username: string) { return emailStep.call(this, username) },
+  previous: () => null,
 }
 
 export const signup: SignUp = {
   name: 'signup',
-  step: {
-    name: 'name',
-    next: email,
-  },
+  step: nameStep,
 }
 
+function emailStep(username: string): ?Step {
+  return {
+    name: 'email',
+    username,
+    next(email: string) { return passwordStep.call(this, email) },
+    previous() { return nameStep },
+  }
+}
+
+function passwordStep(email: string): ?Step {
+  return {
+    name: 'password',
+    username: this.username,
+    email,
+    next(password: string) { return termsStep.call(this, password) },
+    previous() { return emailStep.call(this, this.username) },
+  }
+}
+
+function termsStep(password: string): ?Step {
+  return {
+    name: 'terms',
+    username: this.username,
+    email: this.email,
+    password,
+    next: () => completedStep.call(this),
+    previous: () => passwordStep.call(this, this.email),
+  }
+}
+
+function completedStep(): ?Step {
+  return {
+    name: 'completed',
+    username: this.username,
+    email: this.email,
+    password: this.password,
+    next: () => null,
+    previous: () => null,
+  }
+}

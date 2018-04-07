@@ -3,6 +3,7 @@ import * as React from 'react'
 import { l } from '../../localization'
 import { Basic } from '../basic'
 import { NameForm } from './name-form'
+import { EmailForm } from './email-form'
 import { progressToNextStep } from '../../update/signup'
 import type { Step } from '../../model/dialog/signup'
 import type { Props as BasicProps } from '../basic'
@@ -62,13 +63,21 @@ export class SignUp extends React.Component<Props, State> {
       page: 0,
     }
 
+    let onBack: ?ButtonProps = {
+      title: l`Back`,
+      action: () => this.handleBack(),
+      priority: 'secondary',
+    }
+
     switch (step.name) {
       case 'name':
-        form = <NameForm {...this.formDelegate} />;
         pagerProps.page = 0
+        onBack = null
+        form = <NameForm {...this.formDelegate} />
         break
       case 'email':
         pagerProps.page = 1
+        form = <EmailForm {...this.formDelegate} />
         break
       case 'password':
         pagerProps.page = 2
@@ -86,12 +95,6 @@ export class SignUp extends React.Component<Props, State> {
       action: () => this.handleContinue(),
       priority: 'primary',
       enabled: isValid,
-    }
-
-    const onBack: ButtonProps = {
-      title: l`Back`,
-      action: () => this.handleBack(),
-      priority: 'secondary',
     }
 
     return (

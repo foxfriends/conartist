@@ -14,6 +14,7 @@
   --color--text-placeholder: rgba(255, 255, 255, 0.5);
   --coior--shadow: rgba(0, 0, 0, 0.25);
   --color--divider: rgba(255, 255, 255, 0.12);
+  --color--warn: #ff0000;
 
   --font--body: 'Fira Sans', sans-serif;
   --font--icon: 'Material Icons';

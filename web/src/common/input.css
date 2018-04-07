@@ -42,14 +42,22 @@
   right: 0;
   height: 1px;
   background-color: var(--color--divider);
-
-  &.error {
-    background-color: var(--color--warn);
-  }
 }
 
 .input:focus ~ .underline {
-  background-color: var(--color--brand)
+  background-color: var(--color--brand);
 }
 
-.errorMessage {}
+.input:focus ~ .errorMessage {
+  display: none;
+}
+
+.errorMessage ~ .underline {
+  background-color: var(--color--warn);
+}
+
+.errorMessage {
+  color: var(--color--warn);
+  font-size: 12px;
+}
+

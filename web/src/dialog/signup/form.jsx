@@ -13,7 +13,9 @@ export function Form({ image, children }: Props) {
     <div className={S.container}>
       <img src={image} className={S.image} />
       <div className={S.form}>
-        { children || null }
+        <div className={S.formContent}>
+          { children || null }
+        </div>
       </div>
     </div>
   )

@@ -10,8 +10,8 @@ import S from './basic.css'
 
 export type Props = {
   title: string,
-  onContinue?: ButtonProps,
-  onBack?: ButtonProps,
+  onContinue?: ?ButtonProps,
+  onBack?: ?ButtonProps,
   pager?: PagerProps,
   children?: React.Node,
 }

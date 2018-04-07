@@ -25,6 +25,7 @@ type State = {
 export type FormDelegate = {
   onValidate: (boolean) => void,
   onChange: (string) => void,
+  onSubmit: () => void,
 }
 
 export class SignUp extends React.Component<Props, State> {
@@ -39,6 +40,7 @@ export class SignUp extends React.Component<Props, State> {
     this.formDelegate = {
       onValidate: isValid => this.setState({ isValid }),
       onChange: formValue => this.setState({ formValue }),
+      onSubmit: () => this.handleContinue(),
     }
   }
 
@@ -49,9 +51,11 @@ export class SignUp extends React.Component<Props, State> {
   }
 
   handleContinue() {
-    const { step } = this.props
-    this.setState({ isValid: false, formValue: '' })
-    progressToNextStep(step.next(this.state.formValue))
+    if (this.state.isValid) {
+      const { step } = this.props
+      this.setState({ isValid: false, formValue: '' })
+      progressToNextStep(step.next(this.state.formValue))
+    }
   }
 
   render() {

@@ -21,8 +21,13 @@ type State = {
 const MIN_PASSWORD_LENGTH = 8
 
 export class PasswordForm extends React.Component<Props, State> {
+  // $FlowIgnore: Flow definitions not up to date
+  confirmInput: React.Ref<Input>
+
   constructor(props: Props) {
     super(props)
+    // $FlowIgnore: Flow definitions not up to date
+    this.confirmInput = React.createRef()
     this.state = {
       password: '',
       confirmPassword: '',
@@ -60,14 +65,15 @@ export class PasswordForm extends React.Component<Props, State> {
   }
 
   render() {
+    const { onSubmit } = this.props
     const { validation } = this.state
     return (
       <Form image={LOGO}>
         <div className={S.question}>
           { l`Pick a password. I'm not looking.` }
         </div>
-        <Input className={S.input} type="password" placeholder={l`Password`} onChange={password => this.handlePasswordChange(password)} />
-        <Input className={S.input} type="password" placeholder={l`And again`} onChange={password => this.handleConfirmPasswordChange(password)} />
+        <Input className={S.input} type="password" placeholder={l`Password`} onChange={password => this.handlePasswordChange(password)} onSubmit={() => this.confirmInput.current.focus()} key="password" autoFocus />
+        <Input className={S.input} type="password" placeholder={l`And again`} onChange={password => this.handleConfirmPasswordChange(password)} ref={this.confirmInput} onSubmit={onSubmit} />
         { validation.state === 'error' ? <span className={S.error}>{ validation.message }</span> : null }
       </Form>
     )

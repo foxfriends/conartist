@@ -13,6 +13,7 @@ export type Props = {
   placeholder?: string,
   defaultValue?: string,
   onChange: (string) => void,
+  onSubmit?: () => void,
   validator?: Validator,
   validation?: Validation,
   className?: string,
@@ -26,13 +27,30 @@ type State = {
 }
 
 export class Input extends React.Component<Props, State> {
+  // $FlowIgnore: Flow definitions not up to date
+  inputElement: React.Ref<HTMLInputElement>
+
   constructor(props: Props) {
     super(props)
+    // $FlowIgnore: Flow definitions not up to date
+    this.inputElement = React.createRef()
     this.state = {
       // TODO: if necessary, add a thing that ensures only the last
       //       emitted value from the validator can effect the state
       validation: { state: 'empty' },
       value: props.defaultValue || '',
+    }
+  }
+
+  focus() {
+    this.inputElement.current.focus()
+  }
+
+  handleKeyDown(event: SyntheticKeyboardEvent<HTMLInputElement>) {
+    if (event.key === 'Enter') {
+      if (this.props.onSubmit) {
+        this.props.onSubmit()
+      }
     }
   }
 
@@ -53,7 +71,7 @@ export class Input extends React.Component<Props, State> {
     const validation = pValidation || sValidation
     return (
       <div className={`${S.container} ${className || ''}`}>
-        <input className={S.input} autoFocus={autoFocus} tabIndex={tabIndex} defaultValue={defaultValue || ''} onChange={event => this.handleChange(event)} type={type || 'text'} />
+        <input className={S.input} autoFocus={autoFocus} tabIndex={tabIndex} defaultValue={defaultValue || ''} onChange={event => this.handleChange(event)} type={type || 'text'} onKeyDown={event => this.handleKeyDown(event)} ref={this.inputElement} />
         { title ? <span className={S.title}>{ title || '' }</span> : null }
         { validation.state === 'error' ? <span className={S.errorMessage}>{ validation.message }</span> : null }
         { placeholder && !title && !value ? <span className={S.placeholder}>{ placeholder || '' }</span> : null }

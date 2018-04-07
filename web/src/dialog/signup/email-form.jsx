@@ -21,8 +21,13 @@ type State = {
 const EMAIL_FORMAT = /^[^@]+@[^@]+\.[^@]+$/
 
 export class EmailForm extends React.Component<Props, State> {
+  // $FlowIgnore: Flow definitions not up to date
+  confirmInput: React.Ref<Input>
+
   constructor(props: Props) {
     super(props)
+    // $FlowIgnore: Flow definitions not up to date
+    this.confirmInput = React.createRef()
     this.state = {
       email: '',
       confirmEmail: '',
@@ -62,6 +67,7 @@ export class EmailForm extends React.Component<Props, State> {
   }
 
   render() {
+    const { onSubmit } = this.props
     const { validation } = this.state
     return (
       <Form image={LOGO}>
@@ -71,8 +77,8 @@ export class EmailForm extends React.Component<Props, State> {
             <Icon className={S.info} name="info_outline" />
           </Tooltip>
         </div>
-        <Input className={S.input} tabIndex={1} placeholder={l`Email`} onChange={email => this.handleEmailChange(email)} />
-        <Input className={S.input} tabIndex={2} placeholder={l`And again`} onChange={email => this.handleConfirmEmailChange(email)} />
+        <Input className={S.input} placeholder={l`Email`} onChange={email => this.handleEmailChange(email)} onSubmit={() => this.confirmInput.current.focus()} key="email" autoFocus />
+        <Input className={S.input} placeholder={l`And again`} onChange={email => this.handleConfirmEmailChange(email)} ref={this.confirmInput} onSubmit={onSubmit} />
         <span className={S.hint}>{ l`We won't send you anything.` }<br />{ l`Promise.` }</span>
         { validation.state === 'error' ? <span className={S.error}>{ validation.message }</span> : null }
       </Form>

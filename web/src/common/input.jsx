@@ -16,6 +16,8 @@ export type Props = {
   validator?: Validator,
   validation?: Validation,
   className?: string,
+  tabIndex?: number,
+  autoFocus?: boolean,
 }
 
 type State = {
@@ -46,12 +48,12 @@ export class Input extends React.Component<Props, State> {
   }
 
   render() {
-    const { title, placeholder, type, className, defaultValue, validation: pValidation } = this.props
+    const { tabIndex, autoFocus, title, placeholder, type, className, defaultValue, validation: pValidation } = this.props
     const { validation: sValidation, value } = this.state
     const validation = pValidation || sValidation
     return (
       <div className={`${S.container} ${className || ''}`}>
-        <input className={S.input} defaultValue={defaultValue || ''} onChange={event => this.handleChange(event)} type={type || 'text'} />
+        <input className={S.input} autoFocus={autoFocus} tabIndex={tabIndex} defaultValue={defaultValue || ''} onChange={event => this.handleChange(event)} type={type || 'text'} />
         { title ? <span className={S.title}>{ title || '' }</span> : null }
         { validation.state === 'error' ? <span className={S.errorMessage}>{ validation.message }</span> : null }
         { placeholder && !title && !value ? <span className={S.placeholder}>{ placeholder || '' }</span> : null }

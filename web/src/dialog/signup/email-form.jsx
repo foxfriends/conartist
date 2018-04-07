@@ -71,8 +71,8 @@ export class EmailForm extends React.Component<Props, State> {
             <Icon className={S.info} name="info_outline" />
           </Tooltip>
         </div>
-        <Input className={S.input} placeholder={l`Email`} onChange={email => this.handleEmailChange(email)} />
-        <Input className={S.input} placeholder={l`And again`} onChange={email => this.handleConfirmEmailChange(email)} />
+        <Input className={S.input} tabIndex={1} placeholder={l`Email`} onChange={email => this.handleEmailChange(email)} />
+        <Input className={S.input} tabIndex={2} placeholder={l`And again`} onChange={email => this.handleConfirmEmailChange(email)} />
         <span className={S.hint}>{ l`We won't send you anything.` }<br />{ l`Promise.` }</span>
         { validation.state === 'error' ? <span className={S.error}>{ validation.message }</span> : null }
       </Form>

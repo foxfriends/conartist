@@ -4,6 +4,7 @@ import { l } from '../../localization'
 import { Basic } from '../basic'
 import { NameForm } from './name-form'
 import { EmailForm } from './email-form'
+import { PasswordForm } from './password-form'
 import { progressToNextStep } from '../../update/signup'
 import type { Step } from '../../model/dialog/signup'
 import type { Props as BasicProps } from '../basic'
@@ -81,6 +82,7 @@ export class SignUp extends React.Component<Props, State> {
         break
       case 'password':
         pagerProps.page = 2
+        form = <PasswordForm {...this.formDelegate} />
         break
       case 'terms':
         pagerProps.page = 3

@@ -20,6 +20,11 @@
   border: none;
 }
 
+.title, .placeholder, .errorMessage {
+  user-select: none;
+  pointer-events: none;
+}
+
 .title, .placeholder {
   position: absolute;
   bottom: 10px;

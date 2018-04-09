@@ -30,10 +30,11 @@
 }
 
 .footer {
+  flex-direction: row-reverse;
   padding: 0 9px;
 }
 
-.footerButton {
+.footerButton, .fakeButton {
   height: 34px;
   width: 100px;
 }

@@ -5,6 +5,7 @@ import { Basic } from '../basic'
 import { NameForm } from './name-form'
 import { EmailForm } from './email-form'
 import { PasswordForm } from './password-form'
+import { TermsForm } from './terms-form'
 import { progressToNextStep } from '../../update/signup'
 import { closeDialog } from '../action'
 import type { Step } from '../../model/dialog/signup'
@@ -91,6 +92,7 @@ export class SignUp extends React.Component<Props, State> {
         break
       case 'terms':
         pagerProps.page = 3
+        form = <TermsForm {...this.formDelegate} />
         break
       case 'completed':
         pagerProps.page = 4

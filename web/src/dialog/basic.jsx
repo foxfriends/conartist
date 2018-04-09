@@ -31,9 +31,10 @@ export function Basic({ title, onContinue, onBack, onClose, pager, children }: P
         { children }
       </div>
       <footer className={S.footer}>
-        { onBack ? <Button className={S.footerButton} {...onBack} /> : <span /> }
+        {/* backwards using row-reverse so the tab index works as expected */}
+        { onContinue ? <Button className={S.footerButton} {...onContinue} /> : <div className={S.fakeButton}/> }
         { pager ? <Pager {...pager} /> : <span /> }
-        { onContinue ? <Button className={S.footerButton} {...onContinue} /> : null }
+        { onBack ? <Button className={S.footerButton} {...onBack} /> : <div className={S.fakeButton}/> }
       </footer>
     </div>
   )

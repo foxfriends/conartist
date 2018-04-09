@@ -19,7 +19,7 @@ import 'rxjs/add/operator/map'
 
 type Props = {}
 type State = {
-  toolbar: ToolbarProps,
+  toolbar: ?ToolbarProps,
   navigation: ?NavigationProps,
   content: ?ContentProps,
   dialog: ?DialogProps,
@@ -69,6 +69,14 @@ export class ConArtist extends React.Component<Props, State> {
             state.toolbar = { primary: null, secondary: null }
             state.navigation = NavInfo.default.select('Settings')
             break
+          case 'terms-of-service':
+            state.navigation = null
+            state.content = { name: 'static', content: 'terms-of-service' }
+            break
+          case 'privacy-policy':
+            state.navigation = null
+            state.content = { name: 'static', content: 'privacy-policy' }
+            break
           default:
             console.error(`Unhandled page name: ${model.page.name}! Ignoring`)
         }
@@ -102,10 +110,12 @@ export class ConArtist extends React.Component<Props, State> {
     let { toolbar, navigation, content, dialog } = this.state
     return (
       <>
-        <Toolbar {...toolbar} />
+        { toolbar ? <Toolbar {...toolbar} /> : null }
         <div className={S.container}>
           { navigation ? <Navigation {...navigation} /> : null }
+          {/* $FlowIgnore: Flow doesn't understand enums properly */}
           { content ? <Content {...content} /> : null }
+          {/* $FlowIgnore: Flow doesn't understand enums properly */}
           { dialog ? <Dialog {...dialog} /> : null }
         </div>
       </>

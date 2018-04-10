@@ -5,11 +5,11 @@ import LOGO from '../../../icons/apple-icon-180x180.png'
 import { l } from '../../localization'
 import { Input } from '../../common/input'
 import { Tooltip } from '../../common/tooltip'
-import { Form } from './form'
-import type { Props as FormProps } from './form'
+import { Form } from '../form'
+import type { Props as FormProps } from '../form'
 import type { Validation as InputValidation } from '../../common/input'
 import type { FormDelegate as Props } from './index'
-import S from './form.css'
+import S from '../form.css'
 
 type State = {
   password: string,

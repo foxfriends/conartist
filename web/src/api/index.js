@@ -1,14 +1,15 @@
 /* @flow */
-
 export type Response<T> = Unsent | Sent | Failed | Retrieved<T>
 export type Unsent = { state: 'unsent' }
 export type Sent = { state: 'sent', progress: number }
 export type Failed = { state: 'failed', error: string }
 export type Retrieved<T> = { state: 'retrieved', value: T }
 
-export type Method = 'GET' | 'POST' | 'GraphQL'
+export const unsent = { state: 'unsent' }
 
-class _Request<Params: Object, T> {
+export type Method = 'GET' | 'POST'
+
+class _Request<Params, T> {
   route: string
   method: Method
   authorization: ?string
@@ -29,34 +30,46 @@ class _Request<Params: Object, T> {
     }
     return fetch(new Request(request, { method: this.method, headers }))
       .then(response => response.ok 
-        ? response.json().then(value => ({ state: 'retrieved', value }))
+        ? response
+            .json()
+            .then(result => result.status === 'Success' 
+              ? { state: 'retrieved', value: result.data }
+              : { state: 'failed', error: result.error }
+            )
         : { state: 'failed', error: response.statusText })
       .catch(error => ({ state: 'failed', error }))
   }
 }
 
-export class PostRequest<Params: Object, T> extends _Request<Params, T> {
+export class PostRequest<Params, T> extends _Request<Params, T> {
   constructor(route: string, authorization?: ?string) {
     super('POST', route, authorization)
   }
 
   send(params: Params): Promise<Response<T>> {
-    let body = JSON.stringify(params)
+    const body = JSON.stringify(params)
     return super._send(new Request(this.route, { method: 'POST', body }))
   }
 }
 
-export class GetRequest<Params: Object, T> extends _Request<Params, T> {
+export class GetRequest<Params, T> extends _Request<Params, T> {
   constructor(route: string, authorization?: ?string) {
     super('GET', route, authorization)
   }
 
   send(params: Params): Promise<Response<T>> {
-    let query = '?' + Object.entries(params)
-      // $FlowIgnore: Poorly typed implementation of Object.entries...
-      .map(([key, value]) => [key, `${value}`])
-      .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-      .join('&')
+    let query: string = '' 
+    if (typeof params === 'string') {
+      query = `/${params}`
+    } else if (params instanceof Array) {
+      query = '/' + params.join('/')
+    } else if (params instanceof Object) {
+      query = '?' + Object.entries(params)
+        // $FlowIgnore: Poorly typed implementation of Object.entries...
+        .map(([key, value]) => [key, `${value}`])
+        .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+        .join('&')
+    }
     return super._send(new Request(`${this.route}${query.length > 1 ? query : ''}`))
   }
 }

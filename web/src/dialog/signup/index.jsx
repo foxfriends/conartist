@@ -11,7 +11,6 @@ import { progressToNextStep } from '../../update/signup'
 import { closeDialog } from '../action'
 import type { Step } from '../../model/dialog/signup'
 import type { Props as BasicProps } from '../basic'
-import type { Props as FormProps } from './form'
 import type { Props as ButtonProps } from '../../common/button'
 import type { Props as PagerProps } from '../../common/pager'
 

@@ -2,6 +2,7 @@
 import * as React from 'react'
 
 import LOGO from '../../../icons/apple-icon-180x180.png'
+import * as API from '../../api'
 import { SignUpRequest } from '../../api/sign-up'
 import { l } from '../../localization'
 import type { FormDelegate } from './index'
@@ -12,11 +13,11 @@ const { Fragment } = React
 import S from './completed.css'
 
 export type Props = FormDelegate & {
-  account: {
+  account: {|
     name: string,
     email: string,
     password: string,
-  },
+  |},
 }
 
 type State = {
@@ -27,7 +28,7 @@ export class Completed extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = {
-      response: { state: 'unsent' },
+      response: API.unsent,
     }
   }
 

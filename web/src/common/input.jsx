@@ -71,7 +71,7 @@ export class Input extends React.Component<Props, State> {
     const validation = pValidation || sValidation
     return (
       <div className={`${S.container} ${className || ''}`}>
-        <input className={S.input} autoFocus={autoFocus} tabIndex={tabIndex} defaultValue={defaultValue || ''} onChange={event => this.handleChange(event)} type={type || 'text'} onKeyDown={event => this.handleKeyDown(event)} ref={this.inputElement} />
+        <input className={`${S.input} ${value === '' ? S.empty : ''}`} autoFocus={autoFocus} tabIndex={tabIndex} defaultValue={defaultValue || ''} onChange={event => this.handleChange(event)} type={type || 'text'} onKeyDown={event => this.handleKeyDown(event)} ref={this.inputElement} />
         { title ? <span className={S.title}>{ title || '' }</span> : null }
         { validation.state === 'error' ? <span className={S.errorMessage}>{ validation.message }</span> : null }
         { placeholder && !title && !value ? <span className={S.placeholder}>{ placeholder || '' }</span> : null }

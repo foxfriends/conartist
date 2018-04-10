@@ -34,10 +34,13 @@
   transition: 0.2s transform, 0.2s font-size;
 }
 
-.input:focus ~ .title {
-  color: var(--color--brand);
+.input:focus ~ .title, .input:not(.empty) ~ .title {
   transform: translateY(-20px);
   font-size: 12px;
+}
+
+.input:focus ~ .title {
+  color: var(--color--brand);
 }
 
 .underline {

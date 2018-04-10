@@ -2,11 +2,11 @@
 
 import { PostRequest } from './index'
 
-type Params = {
+type Params = {|
   name: string,
   email: string,
   password: string,
-}
+|}
 
 export class SignUpRequest extends PostRequest<Params, string> {
   constructor() {

@@ -90,6 +90,9 @@ export class ConArtist extends React.Component<Props, State> {
               }
               break
             case 'signin':
+              state.dialog = {
+                name: 'signin'
+              }
               break
             default:
               state.dialog = null

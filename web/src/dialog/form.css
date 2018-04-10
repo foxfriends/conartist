@@ -30,9 +30,23 @@
   width: 100%;
 }
 
-.input {
+.titledInput, .input {
   width: 100%;
+}
+
+.input {
   height: 44px;
+}
+
+.titledInput {
+  margin: 5px 0;
+}
+
+.button {
+  margin-top: 10px;
+  height: 34px;
+  width: 100px;
+  align-self: center;
 }
 
 .question {

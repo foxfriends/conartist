@@ -6,11 +6,11 @@ import { l } from '../../localization'
 import { Input } from '../../common/input'
 import { Icon } from '../../common/icon'
 import { Tooltip } from '../../common/tooltip'
-import { Form } from './form'
-import type { Props as FormProps } from './form'
+import { Form } from '../form'
+import type { Props as FormProps } from '../form'
 import type { Validation as InputValidation } from '../../common/input'
 import type { FormDelegate as Props } from './index'
-import S from './form.css'
+import S from '../form.css'
 
 type State = {
   email: string,

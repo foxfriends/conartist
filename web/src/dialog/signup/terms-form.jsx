@@ -3,15 +3,15 @@ import * as React from 'react'
 
 import LOGO from '../../../icons/apple-icon-180x180.png'
 import { l, lx } from '../../localization'
-import { Form } from './form'
+import { Form } from '../form'
 import { Link } from '../../common/link'
 import { Checkbox } from '../../common/checkbox'
 import { TermsOfService } from '../../content/static/terms-of-service'
 import { PrivacyPolicy } from '../../content/static/privacy-policy'
-import type { Props as FormProps } from './form'
+import type { Props as FormProps } from '../form'
 import type { Validation as InputValidation } from '../../common/input'
 import type { FormDelegate as Props } from './index'
-import S from './form.css'
+import S from '../form.css'
 
 const URLS = [ '/terms-of-service', '/privacy-privacy' ]
 function link(text: string, i: number): React.Node {

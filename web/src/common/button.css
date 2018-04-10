@@ -21,6 +21,7 @@
 .primary, .secondary {
   color: var(--color--text);
   font-size: 16px;
+  box-shadow: 0 4px 4px 0px var(--color--shadow);
 }
 
 .primary {

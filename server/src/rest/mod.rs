@@ -2,6 +2,7 @@
 
 pub mod auth;
 pub mod account;
+pub mod authtoken;
 
 use mount::Mount;
 use database::Database;

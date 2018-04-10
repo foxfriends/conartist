@@ -6,7 +6,7 @@ interface Steppable {
   previous(): ?Step,
 }
 
-export type Step = (Name | Email | Password | Terms | Completed) & Steppable
+export type Step = ((Name | Email | Password | Terms | Completed) & Steppable) | SignedIn
 
 export type Name = {
   name: 'name',
@@ -35,6 +35,11 @@ export type Completed = {
   username: string,
   email: string,
   password: string,
+}
+
+export type SignedIn = {
+  name: 'signed-in',
+  authtoken: string,
 }
 
 const nameStep: Step = {
@@ -73,8 +78,8 @@ function termsStep(password: string): ?Step {
     username: this.username,
     email: this.email,
     password,
-    next: () => completedStep.call(this),
-    previous: () => passwordStep.call(this, this.email),
+    next() { return completedStep.call(this) },
+    previous() { return passwordStep.call(this, this.email) },
   }
 }
 
@@ -84,7 +89,12 @@ function completedStep(): ?Step {
     username: this.username,
     email: this.email,
     password: this.password,
-    next: () => null,
+    next(authtoken: string): ?Step {
+      return { 
+        name: 'signed-in',
+        authtoken,
+      }
+    },
     previous: () => null,
   }
 }

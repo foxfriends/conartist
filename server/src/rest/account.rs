@@ -8,6 +8,7 @@ use bcrypt;
 use bodyparser;
 use database::Database;
 use cr;
+use super::authtoken;
 
 #[derive(Clone, Deserialize)]
 struct CreateAccountData {
@@ -26,8 +27,10 @@ impl Handler for Create {
             return cr::fail("Invalid request");
         }
         let hashed = itry!{ bcrypt::hash(&body.password, bcrypt::DEFAULT_COST) };
+
         self.database.create_user(body.email, body.name, hashed)
-            .map(|_| cr::ok(()))
+            .and_then(|user| authtoken::new(user.user_id).map_err(|reason| format!("Failed to generate JWT: {}", reason)))
+            .map(|authtoken| cr::ok(authtoken))
             .unwrap_or_else(|s| cr::fail(&s))
     }
 }

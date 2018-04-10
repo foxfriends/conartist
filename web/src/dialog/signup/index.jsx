@@ -6,6 +6,7 @@ import { NameForm } from './name-form'
 import { EmailForm } from './email-form'
 import { PasswordForm } from './password-form'
 import { TermsForm } from './terms-form'
+import { Completed } from './completed'
 import { progressToNextStep } from '../../update/signup'
 import { closeDialog } from '../action'
 import type { Step } from '../../model/dialog/signup'
@@ -48,6 +49,7 @@ export class SignUp extends React.Component<Props, State> {
 
   handleBack() {
     const { step } = this.props
+    if (step.name === 'signed-in') { return }
     this.setState({ isValid: false, formValue: '' })
     progressToNextStep(step.previous())
   }
@@ -55,6 +57,7 @@ export class SignUp extends React.Component<Props, State> {
   handleContinue() {
     if (this.state.isValid) {
       const { step } = this.props
+      if (step.name === 'signed-in') { return }
       this.setState({ isValid: false, formValue: '' })
       progressToNextStep(step.next(this.state.formValue))
     }
@@ -68,6 +71,13 @@ export class SignUp extends React.Component<Props, State> {
     let pagerProps: PagerProps = {
       pages: 5,
       page: 0,
+    }
+
+    const onContinue: ButtonProps = {
+      title: l`Continue`,
+      action: () => this.handleContinue(),
+      priority: 'primary',
+      enabled: isValid,
     }
 
     let onBack: ?ButtonProps = {
@@ -96,15 +106,19 @@ export class SignUp extends React.Component<Props, State> {
         break
       case 'completed':
         pagerProps.page = 4
+        onBack = null
+        onContinue.title = l`Finish`
+        const account = {
+          // $FlowIgnore: Flow failing at enums again
+          name: step.username,
+          // $FlowIgnore: Flow failing at enums again
+          email: step.email,
+          // $FlowIgnore: Flow failing at enums again
+          password: step.password,
+        }
+        form = <Completed {...this.formDelegate} account={account} />
         break
     } 
-
-    const onContinue: ButtonProps = {
-      title: l`Continue`,
-      action: () => this.handleContinue(),
-      priority: 'primary',
-      enabled: isValid,
-    }
 
     return (
       <Basic title={l`Sign up`} onContinue={onContinue} onBack={onBack} onClose={closeDialog} pager={pagerProps}>

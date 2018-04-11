@@ -9,7 +9,6 @@
   "author": "Cameron Eldridge",
   "license": "MIT",
   "dependencies": {
-    "immutable": "^4.0.0-rc.9",
     "postcss-custom-properties": "^7.0.0",
     "postcss-nesting": "^4.2.1",
     "react": "^16.3.0",

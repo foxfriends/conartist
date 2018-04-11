@@ -37,10 +37,10 @@ export class SignIn extends React.Component<Props, State> {
 
   trySignIn() {
     const { email: usr, password: psw } = this.state
-    new SignInRequest().send({ usr, psw })
-      .then(response => 
+    new SignInRequest()
+      .send({ usr, psw })
+      .subscribe(response => 
         this.setState({ response }, () => {
-          console.log(this.state.response)
           if (this.state.response.state === 'retrieved') {
             completeSignIn()
           }

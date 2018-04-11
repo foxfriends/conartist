@@ -35,7 +35,7 @@ export class Completed extends React.Component<Props, State> {
   componentDidMount() {
     new SignUpRequest()
       .send(this.props.account)
-      .then(response => this.setState({ response }, () => {
+      .subscribe(response => this.setState({ response }, () => {
         if (this.state.response.state === 'retrieved') {
           this.props.onChange(this.state.response.value)
         }

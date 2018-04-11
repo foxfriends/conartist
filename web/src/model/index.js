@@ -1,9 +1,11 @@
 /* @flow */
-import { List } from 'immutable'
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
-import * as page from './page'
+import { Storage } from '../storage'
+import { splash, dashboard } from './page'
+import { ReauthorizeRequest } from '../api/reauthorize'
 import type { Page } from './page'
 import type { Dialog } from './dialog'
+import 'rxjs/add/operator/filter'
 
 export type ProductType = {}
 export type Price = {}
@@ -13,10 +15,10 @@ export type Convention = {}
 export type Model = {|
   email: ?string,
   name: ?string,
-  prices: List<Price>,
-  productTypes: List<ProductType>,
-  products: List<Product>,
-  conventions: List<Convention>,
+  prices: Price[],
+  productTypes: ProductType[],
+  products: Product[],
+  conventions: Convention[],
   page: Page,
   dialog: ?Dialog,
   settings: Settings,
@@ -29,17 +31,40 @@ export type Settings = {
   currency: Currency,
 }
 
-export const model: BehaviorSubject<$ReadOnly<Model>> = new BehaviorSubject({
+const defaultModel: Model = {
   email: null,
   name: null,
-  prices: List(),
-  productTypes: List(),
-  products: List(),
-  conventions: List(),
-  page: page.splash,
+  prices: [],
+  productTypes: [],
+  products: [],
+  conventions: [],
+  page: splash,
   dialog: null,
   settings: {
     language: 'en',
     currency: 'CAD',
   },
-})
+}
+
+function init(): Model {
+  const page = Storage.retrieve(Storage.Auth)
+    ? dashboard
+    : splash
+  if (page.name === 'dashboard') {
+    new ReauthorizeRequest()
+      .send()
+      .filter(response => response.state === 'failed')
+      .subscribe(_ => {
+        // TODO: include an error dialog when this happens
+        // $FlowIgnore: not good enough at spread
+        model.next({ ...model.getValue(), page: splash })
+      })
+  }
+  // $FlowIgnore: not good enough at spread
+  return {
+    ...defaultModel,
+    page,
+  }
+}
+
+export const model: BehaviorSubject<$ReadOnly<Model>> = new BehaviorSubject(init())

@@ -14,6 +14,7 @@ import type { Props as ContentProps } from './content'
 import type { Props as DialogProps } from './dialog'
 import { l } from './localization'
 import S from './con-artist.css'
+import { Storage } from './storage'
 
 import 'rxjs/add/operator/map'
 
@@ -39,9 +40,7 @@ export class ConArtist extends React.Component<Props, State> {
   componentDidMount() {
     model
       .map((model: $ReadOnly<Model>): State => {
-        // TODO: copy the object so that mutation doesn't actually happen
-        //       or figure out why immutable wasn't working at all here...
-        const state = this.state
+        const state = { ...this.state }
 
         switch(model.page.name) {
           case 'splash':
@@ -51,22 +50,27 @@ export class ConArtist extends React.Component<Props, State> {
             break
           case 'dashboard':
             state.toolbar = { primary: null, secondary: null }
+            state.content = { name: 'card-view', cards: [] }
             state.navigation = NavInfo.default.select('Dashboard')
             break
           case 'products':
             state.toolbar = { primary: null, secondary: null }
+            state.content = { name: 'card-view', cards: [] }
             state.navigation = NavInfo.default.select('Products')
             break
           case 'prices':
             state.toolbar = { primary: null, secondary: null }
+            state.content = { name: 'card-view', cards: [] }
             state.navigation = NavInfo.default.select('Prices')
             break
           case 'conventions':
             state.toolbar = { primary: null, secondary: null }
+            state.content = { name: 'card-view', cards: [] }
             state.navigation = NavInfo.default.select('Conventions')
             break
           case 'settings':
             state.toolbar = { primary: null, secondary: null }
+            state.content = { name: 'card-view', cards: [] }
             state.navigation = NavInfo.default.select('Settings')
             break
           case 'terms-of-service':

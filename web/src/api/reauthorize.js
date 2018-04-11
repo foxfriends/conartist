@@ -1,23 +1,17 @@
 /* @flow */
-import { PostRequest } from './index'
+import { GetRequest } from './index'
 import type { Observable } from 'rxjs/Observable'
 import type { Response } from './index'
-import { Storage } from '../storage' 
+import { Storage } from '../storage'
 import 'rxjs/add/operator/do'
 
-type Params = {|
-  name: string,
-  email: string,
-  password: string,
-|}
-
-export class SignUpRequest extends PostRequest<Params, string> {
+export class ReauthorizeRequest extends GetRequest<'', string> {
   constructor() {
-    super('/api/account/new')
+    super('/api/auth')
   }
 
-  send(params: Params): Observable<Response<string>> {
-    return super.send(params)
+  send(params: '' = ''): Observable<Response<string>> {
+    return super.send('')
       .do(response => {
         if (response.state === 'retrieved') {
           Storage.store(Storage.Auth, response.value)

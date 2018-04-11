@@ -1,43 +1,50 @@
 /* @flow */
-export type Response<T> = Unsent | Sent | Failed | Retrieved<T>
+import { Observable } from 'rxjs/Observable'
+import { Storage } from '../storage'
+
+export type Response<T> = Unsent | Sending | Failed | Retrieved<T>
 export type Unsent = { state: 'unsent' }
-export type Sent = { state: 'sent', progress: number }
+export type Sending = { state: 'sending', progress: number }
 export type Failed = { state: 'failed', error: string }
 export type Retrieved<T> = { state: 'retrieved', value: T }
-
-export const unsent = { state: 'unsent' }
-
 export type Method = 'GET' | 'POST'
+export const unsent = { state: 'unsent' }
 
 class _Request<Params, T> {
   route: string
   method: Method
-  authorization: ?string
 
   constructor(method: Method, route: string, authorization?: ?string) {
     this.route = route
     this.method = method
-    this.authorization = authorization
   }
 
-  _send(request: Request): Promise<Response<T>> {
+  _send(request: Request): Observable<Response<T>> {
     const headers = new Headers({
       'Content-Type': 'application/json',
       'Accept-Charset': 'utf-8',
     })
-    if (this.authorization) {
-      headers.append('Authorization', `Bearer: ${this.authorization}`)
+    const authorization = Storage.retrieve(Storage.Auth)
+    if (authorization) {
+      headers.append('Authorization', `Bearer ${authorization}`)
     }
-    return fetch(new Request(request, { method: this.method, headers }))
-      .then(response => response.ok 
-        ? response
-            .json()
-            .then(result => result.status === 'Success' 
-              ? { state: 'retrieved', value: result.data }
-              : { state: 'failed', error: result.error }
-            )
-        : { state: 'failed', error: response.statusText })
-      .catch(error => ({ state: 'failed', error }))
+    return Observable.create(observer => {
+      (async () => {
+        observer.next({ state: 'sending', progress: 0 })
+        const result = await fetch(new Request(request, { method: this.method, headers }))
+          .then(response => response.ok 
+            ? response
+              .json()
+              .then(result => result.status === 'Success' 
+                ? { state: 'retrieved', value: result.data }
+                : { state: 'failed', error: result.error }
+              )
+            : { state: 'failed', error: response.statusText })
+          .catch(error => ({ state: 'failed', error }))
+        observer.next(result)
+        observer.complete()
+      })()
+    })
   }
 }
 
@@ -46,7 +53,7 @@ export class PostRequest<Params, T> extends _Request<Params, T> {
     super('POST', route, authorization)
   }
 
-  send(params: Params): Promise<Response<T>> {
+  send(params: Params): Observable<Response<T>> {
     const body = JSON.stringify(params)
     return super._send(new Request(this.route, { method: 'POST', body }))
   }
@@ -57,7 +64,7 @@ export class GetRequest<Params, T> extends _Request<Params, T> {
     super('GET', route, authorization)
   }
 
-  send(params: Params): Promise<Response<T>> {
+  send(params: Params): Observable<Response<T>> {
     let query: string = '' 
     if (typeof params === 'string') {
       query = `/${params}`

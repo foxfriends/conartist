@@ -2,11 +2,13 @@
 import * as React from 'react'
 
 import LOGO from '../../../icons/apple-icon-180x180.png'
-import * as API from '../../api'
-import { SignUpRequest } from '../../api/sign-up'
 import { l } from '../../localization'
+import * as API from '../../api'
+import { SignUpRequest } from '../../api/signup'
+import { setUser } from '../../update/signin'
 import type { FormDelegate } from './index'
 import type { Response } from '../../api'
+import type { User } from '../../model/user'
 
 const { Fragment } = React
 
@@ -21,7 +23,7 @@ export type Props = FormDelegate & {
 }
 
 type State = {
-  response: Response<string>,
+  response: Response<User>,
 }
 
 export class Completed extends React.Component<Props, State> {
@@ -37,7 +39,7 @@ export class Completed extends React.Component<Props, State> {
       .send(this.props.account)
       .subscribe(response => this.setState({ response }, () => {
         if (this.state.response.state === 'retrieved') {
-          this.props.onChange(this.state.response.value)
+          setUser(this.state.response.value)
         }
         this.props.onValidate(this.state.response.state === 'retrieved')
       }))

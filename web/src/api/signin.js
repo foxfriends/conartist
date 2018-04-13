@@ -1,26 +1,28 @@
 /* @flow */
-import { PostRequest, GraphQLQuery } from './index'
 import { Observable } from 'rxjs/Observable'
-import type { Response } from './index'
-import { Storage } from '../storage' 
 import 'rxjs/add/operator/switchMap'
 import 'rxjs/add/operator/filter'
 import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/do'
+import { PostRequest, GraphQLQuery } from './index'
+import { Storage } from '../storage'
+import type { Response } from './index'
+import type { User } from '../model/user'
 import Query from './graphql/queries.graphql'
 
+console.log(Query)
+
 type Params = {|
-  name: string,
-  email: string,
-  password: string,
+  usr: string,
+  psw: string,
 |}
 
-export class SignUpRequest extends PostRequest<Params, string> {
+export class SignInRequest extends PostRequest<Params, User> {
   constructor() {
-    super('/api/account/new')
+    super('/api/auth')
   }
 
-  send(params: Params): Observable<Response<string>> {
+  send(params: Params): Observable<Response<User>> {
     return super.send(params)
       .do(response => {
         if (response.state === 'retrieved') {

@@ -1,5 +1,5 @@
 // @flow
-declare module.exports: {|
+declare export default {|
   +User: Query<?{ userId: ?number }, User>,
   +FullConvention: Query<{ userId: ?number, conId: number }, Convention>,
   +ConventionPage: Query<?{ date: ?Date, limit: ?number, page: ?number }, Pagination<BasicConvention>,

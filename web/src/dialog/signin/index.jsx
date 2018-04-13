@@ -1,11 +1,12 @@
 /* @flow */
 import * as React from 'react'
+import { Observable } from 'rxjs/Observable'
 
 import * as API from '../../api'
 const { GraphQLQuery } = API
 import LOGO from '../../../icons/apple-icon-180x180.png'
 import { l } from '../../localization'
-import { SignInRequest } from '../../api/sign-in'
+import { SignInRequest } from '../../api/signin'
 import { closeDialog } from '../action'
 import { completeSignIn } from '../../update/signin'
 import { Form } from '../form'
@@ -14,9 +15,8 @@ import { Input } from '../../common/input'
 import { Button } from '../../common/button'
 import type { Props as ButtonProps } from '../../common/button'
 import type { Response } from '../../api'
+import type { User } from '../../model/user'
 import S from '../form.css'
-
-import { Observable } from 'rxjs/Observable'
 
 export type Props = {
   name: 'signin',
@@ -25,7 +25,7 @@ export type Props = {
 type State = {
   email: string,
   password: string,
-  response: Response<string>
+  response: Response<User>
 }
 
 export class SignIn extends React.Component<Props, State> {

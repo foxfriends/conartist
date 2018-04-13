@@ -5,12 +5,13 @@ import { splash, dashboard } from './page'
 import { ReauthorizeRequest } from '../api/reauthorize'
 import type { Page } from './page'
 import type { Dialog } from './dialog'
+import type { Product } from './product'
+import type { ProductType } from './product-type'
+import type { Convention } from './convention'
+import type { Price } from './price'
+import type { Settings } from './settings'
 import 'rxjs/add/operator/filter'
 
-export type ProductType = {}
-export type Price = {}
-export type Product = {}
-export type Convention = {}
 
 export type Model = {|
   email: ?string,
@@ -24,14 +25,7 @@ export type Model = {|
   settings: Settings,
 |}
 
-type Currency = 'CAD' | 'USD'
-
-export type Settings = {
-  language: string,
-  currency: Currency,
-}
-
-const defaultModel: Model = {
+export const defaultModel: Model = {
   email: null,
   name: null,
   prices: [],

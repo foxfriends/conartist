@@ -1,0 +1,7 @@
+#import '../fragment/expense.graphql'
+
+mutation UpdateExpense($id: Int, $expense: ExpenseMod!) {
+  modUserExpense(userId: $id, expense: $expense) {
+    ...ExpenseFragment
+  }
+}

@@ -1,0 +1,4 @@
+mutation DeleteExpense($id: Int, $expense: ExpenseDel!) {
+  delUserExpense(userId: $id, expense: $expense)
+}
+

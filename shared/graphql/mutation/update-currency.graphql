@@ -1,0 +1,6 @@
+mutation UpdateCurrency($id: Int, $currency: Currency!) {
+  updateSettings(userId: $id) {
+    currency(currency: $currency)
+  }
+}
+

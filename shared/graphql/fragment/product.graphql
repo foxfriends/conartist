@@ -1,0 +1,7 @@
+fragment ProductFragment on Product {
+  id
+  typeId
+  name
+  quantity
+  discontinued
+}

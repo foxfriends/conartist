@@ -1,0 +1,3 @@
+fragment SettingsFragment on Settings {
+  currency
+}

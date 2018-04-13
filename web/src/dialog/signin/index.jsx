@@ -45,7 +45,7 @@ export class SignIn extends React.Component<Props, State> {
       .subscribe(response => 
         this.setState({ response }, () => {
           if (this.state.response.state === 'retrieved') {
-            completeSignIn()
+            completeSignIn(this.state.response.value)
           }
         })
       )

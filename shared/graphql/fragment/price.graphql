@@ -1,0 +1,7 @@
+fragment PriceFragment on Price {
+  priceId
+  typeId
+  productId
+  quantity
+  price
+}

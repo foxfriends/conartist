@@ -1,0 +1,7 @@
+fragment ExtraInfoFragment on ConventionExtraInfo {
+  title
+  info
+  action
+  actionText
+}
+

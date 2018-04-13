@@ -1,0 +1,8 @@
+#import './votes.graphql'
+fragment UserInfoFragment on ConventionUserInfo {
+  id
+  info
+  vote
+  ...VotesFragment
+}
+

@@ -8,7 +8,7 @@ import { PostRequest, GraphQLQuery } from './index'
 import { Storage } from '../storage' 
 import type { Response } from './index'
 import type { User } from '../model/user'
-import Query from './graphql/queries.graphql'
+import UserQuery from './graphql/query/user.graphql'
 
 type Params = {|
   name: string,
@@ -32,7 +32,7 @@ export class SignUpRequest extends PostRequest<Params, User> {
         }
       })
       .filter(({ state }) => state === 'retrieved')
-      .switchMap(() => new GraphQLQuery(Query.User).send())
+      .switchMap(() => new GraphQLQuery(UserQuery).send())
       .catch(error => Observable.of(error))
   }
 }

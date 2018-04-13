@@ -3,9 +3,16 @@ import { defaultModel, model } from '../model'
 import { dashboard } from '../model/page'
 import type { User } from '../model/user'
 
-export function completeSignIn() {
+export function completeSignIn({ email, name, settings, conventions }: User) {
   model.next({
     ...model.getValue(),
+    email,
+    name,
+    settings: {
+      ...defaultModel.settings,
+      ...settings,
+    },
+    conventions,
     dialog: null,
     page: dashboard,
   })

@@ -1,0 +1,13 @@
+#import './settings.graphql'
+#import './meta-convention.graphql'
+
+fragment UserFragment on User {
+  name
+  email
+  settings { 
+    ...SettingsFragment 
+  }
+  conventions {
+    ...MetaConventionFragment
+  }
+}

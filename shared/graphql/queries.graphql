@@ -1,11 +1,3 @@
-#import "./fragments.graphql"
-
-query User($id: Int) {
-  user(id: $id) {
-    ...UserFragment
-  }
-}
-
 query FullConvention($userId: Int, $conId: Int!) {
   userConvention(userId: $userId, conId: $conId) {
     ...FullConventionFragment

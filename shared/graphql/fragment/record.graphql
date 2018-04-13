@@ -1,0 +1,7 @@
+fragment RecordFragment on Record {
+  id
+  products
+  price
+  time
+  info
+}

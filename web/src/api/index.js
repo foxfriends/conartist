@@ -109,8 +109,12 @@ export class GraphQLQuery<Variables, T> {
           const result = await graphql.query({ query: this.query, variables })
           observer.next({ state: 'retrieved', value: result.data })
         } catch(result) {
-          const error = 'GraphQL error:\n' + result.networkError.result.errors.map(error => error.message).join(',\n')
-          observer.next({ state: 'failed', error })
+          if (result.networkError) {
+            const error = 'GraphQL error:\n' + result.networkError.result.errors.map(error => error.message).join(',\n')
+            observer.next({ state: 'failed', error })
+          } else {
+            console.error(result)
+          }
         } finally {
           observer.complete()
         }

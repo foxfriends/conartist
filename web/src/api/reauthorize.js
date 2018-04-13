@@ -8,7 +8,9 @@ import 'rxjs/add/operator/switchMap'
 import 'rxjs/add/operator/filter'
 import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/do'
-import Query from './graphql/queries.graphql'
+import UserQuery from './graphql/query/user.graphql'
+
+console.log(UserQuery)
 
 export class ReauthorizeRequest extends GetRequest<'', User> {
   constructor() {
@@ -26,7 +28,7 @@ export class ReauthorizeRequest extends GetRequest<'', User> {
         }
       })
       .filter(({ state }) => state === 'retrieved')
-      .switchMap(() => new GraphQLQuery(Query.User).send())
+      .switchMap(() => new GraphQLQuery(UserQuery).send())
       .catch(error => Observable.of(error))
   }
 }

@@ -10,8 +10,9 @@ import type { ProductType } from './product-type'
 import type { Convention } from './convention'
 import type { Price } from './price'
 import type { Settings } from './settings'
+import * as navigate from '../update/navigate'
+import { setUser } from '../update/signin'
 import 'rxjs/add/operator/filter'
-
 
 export type Model = {|
   email: ?string,
@@ -47,11 +48,16 @@ function init(): Model {
   if (page.name === 'dashboard') {
     new ReauthorizeRequest()
       .send()
-      .filter(response => response.state === 'failed')
-      .subscribe(_ => {
-        // TODO: include an error dialog when this happens
-        // $FlowIgnore: not good enough at spread
-        model.next({ ...model.getValue(), page: splash })
+      .subscribe(response => {
+        switch (response.state) {
+          case 'failed':
+            // TODO: include an error dialog when this happens
+            // $FlowIgnore: not good enough at spread
+            navigate.splash()
+            break
+          case 'retrieved':
+            setUser(response.value)
+        }
       })
   }
   // $FlowIgnore: not good enough at spread

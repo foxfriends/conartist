@@ -2,6 +2,10 @@
 import { model } from '../model'
 import * as page from '../model/page'
 
+export function splash() {
+  model.next({ ...model.getValue(), page: page.splash })
+}
+
 export function dashboard() {
   model.next({ ...model.getValue(), page: page.dashboard })
 }

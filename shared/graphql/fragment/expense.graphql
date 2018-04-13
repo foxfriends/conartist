@@ -1,0 +1,7 @@
+fragment ExpenseFragment on Expense {
+  id
+  category
+  description
+  price
+  time
+}

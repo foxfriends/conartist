@@ -20,6 +20,7 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'style-loader!css-modules-flow-types-loader!css-loader?modules=true&minimize=true!postcss-loader',
       },
+      { test: /\.graphql$/, loader: 'graphql-tag/loader' },
     ],
   },
   resolve: {

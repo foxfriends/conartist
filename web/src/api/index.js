@@ -1,5 +1,7 @@
 /* @flow */
 import { Observable } from 'rxjs/Observable'
+import ApolloClient from 'apollo-boost'
+import type { Operation, Query, Mutation } from 'apollo-boost'
 import { Storage } from '../storage'
 
 export type Response<T> = Unsent | Sending | Failed | Retrieved<T>
@@ -78,5 +80,66 @@ export class GetRequest<Params, T> extends _Request<Params, T> {
         .join('&')
     }
     return super._send(new Request(`${this.route}${query.length > 1 ? query : ''}`))
+  }
+}
+
+const graphql = new ApolloClient({
+  uri: '/api/v2/',
+  async request(operation: Operation) {
+    const authorization = Storage.retrieve(Storage.Auth)
+    if (authorization) {
+      const headers = { Authorization: `Bearer ${authorization}` }
+      operation.setContext({ headers })
+    }
+  },
+})
+
+export class GraphQLQuery<Variables, T> {
+  query: Query<Variables, T>
+
+  constructor(query: Query<Variables, T>) {
+    this.query = query
+  }
+
+  send(variables: Variables): Observable<Response<T>> {
+    return Observable.create(observer => {
+      (async () => {
+        observer.next({ state: 'sending', progress: 0 })
+        try {
+          const result = await graphql.query({ query: this.query, variables })
+          observer.next({ state: 'retrieved', value: result.data })
+        } catch(result) {
+          const error = 'GraphQL error:\n' + result.networkError.result.errors.map(error => error.message).join(',\n')
+          observer.next({ state: 'failed', error })
+        } finally {
+          observer.complete()
+        }
+      })()
+    })
+  }
+}
+
+export class GraphQLMutation<Variables, T> {
+  mutation: Mutation<Variables, T>
+
+  constructor(mutation: Mutation<Variables, T>) {
+    this.mutation = mutation
+  }
+
+  send(variables: Variables): Observable<Response<T>> {
+    return Observable.create(observer => {
+      (async () => {
+        observer.next({ state: 'sending', progress: 0 })
+        try {
+          const result = await graphql.mutation({ mutation: this.mutation, variables })
+          observer.next({ state: 'retrieved', value: result.data })
+        } catch(result) {
+          const error = 'GraphQL error:\n' + result.errors.map(error => error.message).join(',\n')
+          observer.next({ state: 'failed', error })
+        } finally {
+          observer.complete()
+        }
+      })()
+    })
   }
 }

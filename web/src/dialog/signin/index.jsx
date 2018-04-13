@@ -2,6 +2,7 @@
 import * as React from 'react'
 
 import * as API from '../../api'
+const { GraphQLQuery } = API
 import LOGO from '../../../icons/apple-icon-180x180.png'
 import { l } from '../../localization'
 import { SignInRequest } from '../../api/sign-in'
@@ -14,6 +15,8 @@ import { Button } from '../../common/button'
 import type { Props as ButtonProps } from '../../common/button'
 import type { Response } from '../../api'
 import S from '../form.css'
+
+import { Observable } from 'rxjs/Observable'
 
 export type Props = {
   name: 'signin',

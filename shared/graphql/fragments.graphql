@@ -1,3 +1,5 @@
+#import "./schema.graphql"
+
 fragment UserFragment on User {
   name
   email

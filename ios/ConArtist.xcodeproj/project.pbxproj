@@ -400,7 +400,6 @@
 				32B302692050B8B5000F7F2A /* Colors.xcassets */,
 				32F6F6431FF706AA00935554 /* Images.xcassets */,
 				322C6A0A204CC2170021A2D9 /* localization */,
-				32B91027204B3289002F9C94 /* SVG */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -443,6 +442,7 @@
 				32C39C1D201E870600071E26 /* UIView+Tooltip.swift */,
 				32BE32BA201E786B00BFEB16 /* UIViewController+Instantiate.swift */,
 				32DD973A205B803E0045DF41 /* OptionSet+Operators.swift */,
+				32B91027204B3289002F9C94 /* SVG */,
 			);
 			path = Util;
 			sourceTree = "<group>";

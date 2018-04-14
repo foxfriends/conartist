@@ -12,15 +12,19 @@ import RxSwift
 
 class ConventionListViewController: UIViewController {
     static let MaxConventionsPerSection = 2
-    fileprivate enum Section {
+    enum Section {
         case Past
+        case PastEmpty
         case Present
         case PresentEmpty
         case Future
+        case FutureEmpty
 
         var cellIdentifier: String {
             switch self {
             case .PresentEmpty: return "NothingTodayConventionCell"
+            case .PastEmpty:    return "NothingCompletedConventionCell"
+            case .FutureEmpty:  return "NothingUpcomingConventionCell"
             case .Past:         return "ConventionCell"
             case .Present:      return "TodayConventionCell"
             case .Future:       return "FutureConventionCell"
@@ -30,15 +34,27 @@ class ConventionListViewController: UIViewController {
         var title: String {
             switch self {
             case .Present, .PresentEmpty:   return "Today"¡
-            case .Past:                     return "Completed"¡
-            case .Future:                   return "Upcoming"¡
+            case .Past, .PastEmpty:         return "Completed"¡
+            case .Future, .FutureEmpty:     return "Upcoming"¡
             }
         }
 
         var cellHeight: CGFloat {
             switch self {
-            case .Present, .PresentEmpty:   return 90
-            case .Past, .Future:            return 60
+            case .Present,
+                 .PresentEmpty,
+                 .PastEmpty,
+                 .FutureEmpty:  return 90
+            case .Past,
+                 .Future:       return 60
+            }
+        }
+
+        var empty: Section {
+            switch self {
+            case .Past, .PastEmpty:         return .PastEmpty
+            case .Present, .PresentEmpty:   return .PresentEmpty
+            case .Future, .FutureEmpty:     return .FutureEmpty
             }
         }
     }
@@ -72,9 +88,9 @@ extension ConventionListViewController {
             SettingsViewController.Group(
                 title: "Support"¡,
                 items: [
-                    .Action("Sign out"¡, { [weak self] in self?.signOut() }),
-                    .Action("Report a bug/Request a feature"¡, { [weak self] in self?.contactSupport() }),
-                    .Action("Help"¡, { [weak self] in self?.showHelp() })
+                    .Action("Sign out"¡, signOut),
+                    .Action("Report a bug/Request a feature"¡, contactSupport),
+                    .Action("Help"¡, showHelp)
                 ]
             ),
         ]
@@ -87,11 +103,11 @@ extension ConventionListViewController {
     }
 
     private func contactSupport() {
-
+        // TODO: make a contact page
     }
 
     private func showHelp() {
-
+        // TODO: make a help page
     }
 }
 
@@ -124,11 +140,9 @@ extension ConventionListViewController {
         øpresent.subscribe(onNext: { [weak self] in self?.present = $0 }).disposed(by: disposeBag)
 
         Observable.combineLatest([øpresent, øfuture, øpast])
-            .map { $0.map { $0.count > 0 } }
-            .map { zip($0, [Section.Present, .Future, .Past]) }
-            .map { $0.filter { $0.0 }.map { $0.1 } }
-            // if there is no Today section, add the empty Today section
-            .map { $0.contains(.Present) ? $0 : [.PresentEmpty] + $0 }
+            .map { conventionss in conventionss.map { conventions in conventions.isEmpty } }
+            .map { empty in zip(empty, [Section.Present, .Future, .Past]) }
+            .map { sections in sections.map { empty, section in empty ? section.empty : section } }
             .bind(to: øsections)
             .disposed(by: disposeBag)
 
@@ -150,7 +164,9 @@ extension ConventionListViewController {
 extension ConventionListViewController: UITableViewDataSource {
     fileprivate func conventions(for section: Section) -> [Convention] {
         switch section {
-        case .PresentEmpty: return []
+        case .PresentEmpty,
+             .PastEmpty,
+             .FutureEmpty:  return []
         case .Present:      return present
         case .Past:         return past
         case .Future:       return future
@@ -176,7 +192,7 @@ extension ConventionListViewController: UITableViewDataSource {
             if let convention = conventions(for: section).nth(indexPath.row) {
                 cell.fill(with: convention)
             } else {
-                cell.emptyState()
+                cell.emptyState(for: section)
             }
             return cell
         }

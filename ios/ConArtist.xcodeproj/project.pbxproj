@@ -42,6 +42,9 @@
 		325EAB212052493300B1BE3E /* RecordsOverviewDateHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EAB202052493300B1BE3E /* RecordsOverviewDateHeaderView.swift */; };
 		325EAB2320524C5500B1BE3E /* RecordsOverviewTotalFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EAB2220524C5500B1BE3E /* RecordsOverviewTotalFooterView.swift */; };
 		3266CEF720017E2C0016D5E6 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */; };
+		327C5D7920817A81007EEF71 /* Debug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 327C5D7820817A81007EEF71 /* Debug.plist */; };
+		327C5D7B20817AD1007EEF71 /* Release.plist in Resources */ = {isa = PBXBuildFile; fileRef = 327C5D7A20817AD1007EEF71 /* Release.plist */; };
+		327C5D7F2081845F007EEF71 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327C5D7E2081845F007EEF71 /* Config.swift */; };
 		32892C4020352D1500F1AD9C /* FancyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32892C3F20352D1500F1AD9C /* FancyTextField.swift */; };
 		32892C4220352E9D00F1AD9C /* HighlightableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32892C4120352E9D00F1AD9C /* HighlightableView.swift */; };
 		32892C44203530C800F1AD9C /* Array+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32892C43203530C800F1AD9C /* Array+Safe.swift */; };
@@ -147,6 +150,9 @@
 		325EAB202052493300B1BE3E /* RecordsOverviewDateHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsOverviewDateHeaderView.swift; sourceTree = "<group>"; };
 		325EAB2220524C5500B1BE3E /* RecordsOverviewTotalFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsOverviewTotalFooterView.swift; sourceTree = "<group>"; };
 		3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
+		327C5D7820817A81007EEF71 /* Debug.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Debug.plist; sourceTree = "<group>"; };
+		327C5D7A20817AD1007EEF71 /* Release.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Release.plist; sourceTree = "<group>"; };
+		327C5D7E2081845F007EEF71 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		32892C3F20352D1500F1AD9C /* FancyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyTextField.swift; sourceTree = "<group>"; };
 		32892C4120352E9D00F1AD9C /* HighlightableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightableView.swift; sourceTree = "<group>"; };
 		32892C43203530C800F1AD9C /* Array+Safe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Safe.swift"; sourceTree = "<group>"; };
@@ -249,6 +255,7 @@
 		321B75D81F9BAD320055EBC4 /* ConArtist */ = {
 			isa = PBXGroup;
 			children = (
+				327C5D77208179D7007EEF71 /* Config */,
 				321B75E01F9BAD320055EBC4 /* ConArtist.xcdatamodeld */,
 				321B75E81F9BAD320055EBC4 /* Info.plist */,
 				32B9100C20439F73002F9C94 /* generate-schemas */,
@@ -265,6 +272,15 @@
 				32B36ED42040E47E00DA4593 /* Storyboard */,
 			);
 			path = ConArtist;
+			sourceTree = "<group>";
+		};
+		327C5D77208179D7007EEF71 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				327C5D7820817A81007EEF71 /* Debug.plist */,
+				327C5D7A20817AD1007EEF71 /* Release.plist */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 		32892C3E20352CFB00F1AD9C /* Components */ = {
@@ -320,6 +336,7 @@
 				32C39C38201EA9F800071E26 /* API */,
 				324592941FEAFA6000DE89BB /* ConArtist.swift */,
 				32B36EDE204202DB00DA4593 /* Keychain.swift */,
+				327C5D7E2081845F007EEF71 /* Config.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -526,6 +543,7 @@
 				321B75D21F9BAD320055EBC4 /* Sources */,
 				321B75D31F9BAD320055EBC4 /* Frameworks */,
 				321B75D41F9BAD320055EBC4 /* Resources */,
+				327C5D7D20818371007EEF71 /* Copy Configuration Files */,
 				693BFD9862FF5ADE35690E83 /* [CP] Embed Pods Frameworks */,
 				75DEED44157E6BF6D92E3F3E /* [CP] Copy Pods Resources */,
 			);
@@ -580,12 +598,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				32B9101120439F75002F9C94 /* schema.json in Resources */,
+				327C5D7920817A81007EEF71 /* Debug.plist in Resources */,
 				32B9102D204B32C4002F9C94 /* chevron_right.svg in Resources */,
 				321B75E71F9BAD320055EBC4 /* LaunchScreen.storyboard in Resources */,
 				322C6A19204E231B0021A2D9 /* thumb_up.svg in Resources */,
 				32F6F6441FF706AA00935554 /* Images.xcassets in Resources */,
 				321B75E41F9BAD320055EBC4 /* Assets.xcassets in Resources */,
 				32B9101020439F75002F9C94 /* resources.json in Resources */,
+				327C5D7B20817AD1007EEF71 /* Release.plist in Resources */,
 				32B9102B204B32C4002F9C94 /* chevron_up.svg in Resources */,
 				321B75DF1F9BAD320055EBC4 /* Main.storyboard in Resources */,
 				322C6A0B204CC2170021A2D9 /* localization in Resources */,
@@ -611,7 +631,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "APOLLO_FRAMEWORK_PATH=\"$(eval find $FRAMEWORK_SEARCH_PATHS -name \"Apollo.framework\" -maxdepth 1)\"\n\nif [ -z \"$APOLLO_FRAMEWORK_PATH\" ]; then\necho \"error: Couldn't find Apollo.framework in FRAMEWORK_SEARCH_PATHS; make sure to add the framework to your project.\"\nexit 1\nfi\n\ncd \"${SRCROOT}/${TARGET_NAME}\"\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-codegen.sh generate ../../shared/graphql/{schema,fragments,mutations,queries}.graphql --schema schema.json --output Services/API/GraphQL.swift\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-codegen.sh generate ../../shared/resources.graphql --schema resources.json --output Services/API/Resources.swift";
+			shellScript = "APOLLO_FRAMEWORK_PATH=\"$(eval find $FRAMEWORK_SEARCH_PATHS -name \"Apollo.framework\" -maxdepth 1)\"\n\nif [ -z \"$APOLLO_FRAMEWORK_PATH\" ]; then\necho \"error: Couldn't find Apollo.framework in FRAMEWORK_SEARCH_PATHS; make sure to add the framework to your project.\"\nexit 1\nfi\n\ncd \"${SRCROOT}/${TARGET_NAME}\"\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-codegen.sh generate ../../shared/graphql/schema.graphql fragment/*.graphql query/*.graphql mutation/*.graphql --schema schema.json --output Services/API/GraphQL.swift\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-codegen.sh generate ../../shared/resources.graphql --schema resources.json --output Services/API/Resources.swift";
+		};
+		327C5D7D20818371007EEF71 /* Copy Configuration Files */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Configuration Files";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "CONFIG_FILE=\"${SRCROOT}/${PRODUCT_NAME}/Config/${CONFIGURATION}.plist\"\nBUILD_APP_DIR=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\"\necho \"Copying ${CONFIG_FILE} to ${BUILD_APP_DIR}/Config.plist\"\ncp -v \"${CONFIG_FILE}\" \"${BUILD_APP_DIR}/Config.plist\"";
 		};
 		693BFD9862FF5ADE35690E83 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -704,6 +738,7 @@
 				3245929C1FEB19DA00DE89BB /* GraphQL.swift in Sources */,
 				322AFB3F20574622005E56C8 /* String+JSON.swift in Sources */,
 				32B36EDB2041FFF100DA4593 /* API.swift in Sources */,
+				327C5D7F2081845F007EEF71 /* Config.swift in Sources */,
 				32B36EDF204202DB00DA4593 /* Keychain.swift in Sources */,
 				32F12C10203544E60045D0BC /* UIFont+Features.swift in Sources */,
 				32B9101320439F97002F9C94 /* Resources.swift in Sources */,

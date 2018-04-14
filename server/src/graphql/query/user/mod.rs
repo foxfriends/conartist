@@ -53,11 +53,10 @@ graphql_object!(User: Database |&self| {
         }
     }
 
-    field settings(&executor) -> FieldResult<Settings> {
-        dbtry! {
-            executor
-                .context()
-                .get_settings_for_user(Some(self.user_id))
-        }
+    field settings(&executor) -> Settings {
+        executor
+            .context()
+            .get_settings_for_user(Some(self.user_id))
+            .unwrap_or(Settings::default(self.user_id))
     }
 });

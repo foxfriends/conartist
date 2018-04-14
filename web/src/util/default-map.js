@@ -10,4 +10,8 @@ export default class DefaultMap<K, V> extends Map<K, V> {
   get(key: K): V {
     return super.get(key) || this.default
   }
+
+  set(key: K, value: V): self {
+    return super.set(key, value)
+  }
 }

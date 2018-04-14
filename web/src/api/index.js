@@ -94,26 +94,29 @@ const graphql = new ApolloClient({
   },
 })
 
-export class GraphQLQuery<Variables, T> {
+export class GraphQLQuery<Variables, T: Object, K: $Keys<T>> {
   query: Query<Variables, T>
+  root: K
 
-  constructor(query: Query<Variables, T>) {
+  constructor(query: Query<Variables, T>, root: K) {
     this.query = query
+    this.root = root
   }
 
-  send(variables: Variables): Observable<Response<T>> {
+  send(variables: Variables): Observable<Response<$ElementType<T, K>>> {
     return Observable.create(observer => {
       (async () => {
         observer.next({ state: 'sending', progress: 0 })
         try {
           const result = await graphql.query({ query: this.query, variables })
-          observer.next({ state: 'retrieved', value: result.data })
+          observer.next({ state: 'retrieved', value: result.data[this.root] })
         } catch(result) {
           if (result.networkError) {
             const error = 'GraphQL error:\n' + result.networkError.result.errors.map(error => error.message).join(',\n')
             observer.next({ state: 'failed', error })
-          } else {
-            console.error(result)
+          } else if (result.graphQLErrors) {
+            const error = 'GraphQL error:\n' + result.graphQLErrors.map(error => error.message).join(',\n')
+            observer.next({ state: 'failed', error })
           }
         } finally {
           observer.complete()
@@ -138,8 +141,13 @@ export class GraphQLMutation<Variables, T> {
           const result = await graphql.mutation({ mutation: this.mutation, variables })
           observer.next({ state: 'retrieved', value: result.data })
         } catch(result) {
-          const error = 'GraphQL error:\n' + result.errors.map(error => error.message).join(',\n')
-          observer.next({ state: 'failed', error })
+          if (result.networkError) {
+            const error = 'GraphQL error:\n' + result.networkError.result.errors.map(error => error.message).join(',\n')
+            observer.next({ state: 'failed', error })
+          } else if (result.graphQLErrors) {
+            const error = 'GraphQL error:\n' + result.graphQLErrors.map(error => error.message).join(',\n')
+            observer.next({ state: 'failed', error })
+          }
         } finally {
           observer.complete()
         }

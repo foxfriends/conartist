@@ -45,32 +45,32 @@ export class ConArtist extends React.Component<Props, State> {
         switch(model.page.name) {
           case 'splash':
             state.toolbar = { primary: toolbarAction.SignUp, secondary: toolbarAction.LogIn }
-            state.navigation = null 
-            state.content = null 
+            state.navigation = null
+            state.content = null
             break
           case 'dashboard':
             state.toolbar = { primary: null, secondary: null }
-            state.content = { name: 'card-view', cards: [] }
+            state.content = { name: 'placeholder' }
             state.navigation = NavInfo.default.select('Dashboard')
             break
           case 'products':
             state.toolbar = { primary: null, secondary: null }
-            state.content = { name: 'card-view', cards: [] }
+            state.content = { name: 'products', productTypes: model.productTypes, products: model.products }
             state.navigation = NavInfo.default.select('Products')
             break
           case 'prices':
             state.toolbar = { primary: null, secondary: null }
-            state.content = { name: 'card-view', cards: [] }
+            state.content = { name: 'placeholder' }
             state.navigation = NavInfo.default.select('Prices')
             break
           case 'conventions':
             state.toolbar = { primary: null, secondary: null }
-            state.content = { name: 'card-view', cards: [] }
+            state.content = { name: 'placeholder' }
             state.navigation = NavInfo.default.select('Conventions')
             break
           case 'settings':
             state.toolbar = { primary: null, secondary: null }
-            state.content = { name: 'card-view', cards: [] }
+            state.content = { name: 'placeholder' }
             state.navigation = NavInfo.default.select('Settings')
             break
           case 'terms-of-service':

@@ -4,11 +4,11 @@ import 'rxjs/add/operator/switchMap'
 import 'rxjs/add/operator/filter'
 import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/do'
-import { PostRequest, GraphQLQuery } from './index'
+import { PostRequest } from './index'
 import { Storage } from '../storage' 
 import type { Response } from './index'
 import type { User } from '../model/user'
-import UserQuery from './graphql/query/user.graphql'
+import { UserQuery } from './user-query'
 
 type Params = {|
   name: string,
@@ -32,7 +32,7 @@ export class SignUpRequest extends PostRequest<Params, User> {
         }
       })
       .filter(({ state }) => state === 'retrieved')
-      .switchMap(() => new GraphQLQuery(UserQuery).send())
+      .switchMap(() => new UserQuery().send())
       .catch(error => Observable.of(error))
   }
 }

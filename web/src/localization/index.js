@@ -1,13 +1,13 @@
 /* @flow */
 import * as React from 'react'
 import { model } from '../model'
-import Map from '../util/default-map'
-const en = require('./lang/en')
-const zh =require('./lang/zh')
+import DefaultMap from '../util/default-map'
+import en from './lang/en'
+import zh from './lang/zh'
 
 const { Fragment } = React
 
-const languages = new Map([['en', en], ['zh', zh]], {})
+const languages = new DefaultMap([['en', en], ['zh', zh]], {})
 
 function doLocalize(key: string, locale: string | string[]): ?string {
   return locale instanceof Array

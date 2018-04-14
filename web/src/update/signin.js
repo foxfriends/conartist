@@ -18,11 +18,14 @@ export function completeSignIn({ email, name, settings, conventions }: User) {
   })
 }
 
-export function setUser({ email, name, settings, conventions }: User) {
+export function setUser({ email, name, settings, conventions, prices, products, productTypes }: User) {
   model.next({
     ...model.getValue(),
     email,
     name,
+    prices,
+    products,
+    productTypes,
     settings: {
       ...defaultModel.settings,
       ...settings,

@@ -5,6 +5,7 @@ import { Item } from './item'
 import type { Props as ItemProps } from './item'
 import S from './index.css'
 import * as navigate from '../update/navigate'
+import { l } from '../localization'
 
 function itemToProps({ title, icon, selected, children, enabled, action }: ItemInfo): ItemProps[] {
   return (
@@ -91,11 +92,11 @@ export class NavInfo {
    */
   static get default(): NavInfo {
     return new NavInfo([
-      new ItemInfo('Dashboard', 'dashboard', navigate.dashboard),
-      new ItemInfo('Products', 'shopping_basket', navigate.products),
-      new ItemInfo('Prices', 'attach_money', navigate.prices),
-      new ItemInfo('Conventions', 'event', navigate.conventions),
-      new ItemInfo('Settings', 'settings', navigate.settings),
+      new ItemInfo(l`Dashboard`, 'dashboard', navigate.dashboard),
+      new ItemInfo(l`Products`, 'shopping_basket', navigate.products),
+      new ItemInfo(l`Prices`, 'attach_money', navigate.prices),
+      new ItemInfo(l`Conventions`, 'event', navigate.conventions),
+      new ItemInfo(l`Settings`, 'settings', navigate.settings),
     ])
   }
 

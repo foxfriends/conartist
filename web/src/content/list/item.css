@@ -1,0 +1,12 @@
+.title, .value, .detail {
+  align-self: center;
+}
+
+.value {
+  color: var(--color--text-placeholder);
+}
+
+.detail {
+  justify-self: end;
+  font-variant-numeric: tabular-nums;
+}

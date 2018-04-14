@@ -114,9 +114,9 @@ impl Database {
         let conn = self.pool.get().unwrap();
         use database::schema::prices;
         prices::table
-            .distinct_on((prices::type_id, prices::product_id, prices::quantity))
+            .distinct_on((prices::type_id, prices::product_id, prices::quantity, prices::mod_date))
             .filter(prices::user_id.eq(user_id))
-            .order(prices::mod_date.desc())
+            .order((prices::type_id, prices::product_id, prices::quantity, prices::mod_date.desc()))
             .load::<Price>(&*conn)
             .map_err(|reason| format!("Prices for user with id {} could not be retrieved. Reason: {}", user_id, reason))
             .map(|prices| prices.into_iter().filter(|price| price.price.is_some()).collect())

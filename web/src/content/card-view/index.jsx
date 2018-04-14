@@ -2,17 +2,17 @@
 import * as React from 'react'
 import { Card } from './card'
 import type { Props as CardProps } from './card'
+const { Fragment } = React
 
-export type Props = { 
-  name: 'card-view', 
-  cards: CardProps[] 
+export type Props<T> = { 
+  dataSource: Iterable<T>,
+  children: (T) => React.Node,
 }
 
-export function CardView({ cards }: Props) {
-  const { Fragment } = React
+export function CardView<T>({ dataSource, children }: Props<T>) {
   return (
     <Fragment>
-      { cards.map((card, key) => <Card { ...card } key={`content_card_${key}`}/>) }
+      { [...dataSource].map(children) }
     </Fragment>
   )
 }

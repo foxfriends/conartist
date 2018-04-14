@@ -5,7 +5,7 @@
   border-radius: 2px;
   font-family: var(--font--body);
   font-weight: var(--font-weight--semibold);
-  font-variant: small-caps;
+  font-variant-caps: small-caps;
   text-transform: lowercase;
 
   &:not(:disabled) {

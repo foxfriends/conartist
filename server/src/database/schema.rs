@@ -141,6 +141,7 @@ table! {
     usersettings (user_id) {
         user_id -> Int4,
         currency -> Bpchar,
+        language -> Bpchar,
     }
 }
 

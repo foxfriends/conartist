@@ -8,4 +8,5 @@ graphql_object!(Settings: Database |&self| {
 
     field user_id() -> i32 { self.user_id }
     field currency() -> Currency { self.currency }
+    field language() -> &String { &self.language }
 });

@@ -12,6 +12,7 @@ import type { Price } from './price'
 import type { Settings } from './settings'
 import * as navigate from '../update/navigate'
 import { setUser } from '../update/signin'
+import { resolveRoute } from '../routing'
 import 'rxjs/add/operator/filter'
 
 export type Model = {|
@@ -42,10 +43,8 @@ export const defaultModel: Model = {
 }
 
 function init(): Model {
-  const page = Storage.retrieve(Storage.Auth)
-    ? dashboard
-    : splash
-  if (page.name === 'dashboard') {
+  const page = resolveRoute()
+  if (page.name !== 'splash') {
     new ReauthorizeRequest()
       .send()
       .subscribe(response => {

@@ -32,13 +32,29 @@ export function l(strings: string[], ...args: string[]): string {
   return localized
 }
 
+function newlinesToReact(text: string): React.Node {
+  function insert<T>(item: React.Node, [...array]: React.Node[]): React.Node[] {
+    let position = array.length
+    while (position --> 1) {
+      array.splice(position, 0, <Fragment key={`newline_${position}`}>{ item }</Fragment>)
+    }
+    return array
+  }
+  return insert(
+    <br />,
+    text
+      .split('\n')
+      .map((part, i) => <Fragment key={`text_${i}`}>{ part }</Fragment>)
+  )
+}
+
 const SUBSECTION_PATTERN = /\{([^{}]+)\}/g
 /// Template tag that produces a function that allows the localized string to be stylized
 export function lx(strings: string[], ...args: string[]): ((string, number) => React.Node) => React.Node {
   const localized = l(strings, ...args)
   return formatter => localized.split(SUBSECTION_PATTERN).map((text, i) =>
     <Fragment key={`localized_${localized}_${i}`}>
-      { i % 2 ? formatter(text, (i - 1) / 2) : text }
+      { i % 2 ? formatter(text, (i - 1) / 2) : newlinesToReact(text) }
     </Fragment>
   )
 }

@@ -24,6 +24,7 @@
   "Finish": "Finish",
   "General": "General",
   "Help": "Help",
+  "Huh?": "Huh?",
   "Info": "Info",
   "It seems something went wrong.": "It seems something went wrong.",
   "Let's get started!": "Let's get started!",
@@ -70,11 +71,12 @@
   "Working...": "Working…",
   "You can change this later": "You can change this later",
   "You don't have any conventions starred... Why don't you go find one you like?": "You don't have any conventions starred…\nWhy don't you go find one you like?",
+  "You don't have any of these yet!": "You don't have any of these yet!",
+  "You haven't been to any conventions yet...": "You haven't been to any conventions yet…",
   "You'll have to try again later... Sorry for the inconvenience.": "You'll have to try again later… Sorry for the inconvenience.",
   "Your email looks wrong": "Your email looks wrong",
   "Your email or password is incorrect": "Your email or password is incorrect",
   "Your emails don't match": "Your emails don't match",
-  "You haven't been to any conventions yet...": "You haven't been to any conventions yet…",
   "Your name": "Your name",
   "Your password is too short": "Your password is too short",
   "Your passwords don't match": "Your passwords don't match",
@@ -84,6 +86,7 @@
   "MMM. d, yyyy": "MMM. d, yyyy",
   "h:mma": "h:mma",
   "{} – {}": "{} – {}",
-  "<No convention user info>": "No one has shared any information about this convention yet…\nYou could be the first!",
-  "<Convention info contribution disclaimer>": "Your identity is not shared with the other artists when you contribute information. Please respect that people of all ages can read this information, and any incorrect or offensive information may be removed without notice.\n\nOnce submitted, you cannot edit this information, so make sure it’s correct!"
+  "<Convention info contribution disclaimer>": "Your identity is not shared with the other artists when you contribute information. Please respect that people of all ages can read this information, and any incorrect or offensive information may be removed without notice.\n\nOnce submitted, you cannot edit this information, so make sure it’s correct!",
+  "<Empty products list message>": "Looks like you don't have anything for sale yet!\nWhat kind of things do you sell?",
+  "<No convention user info>": "No one has shared any information about this convention yet…\nYou could be the first!"
 }

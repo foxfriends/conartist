@@ -8,7 +8,7 @@ import type { Expense } from './expense'
 
 export type Convention = MetaConvention | FullConvention
 
-export type MetaConvention = {|
+export type MetaConvention = {
   id: number,
   name: string,
   images: Image[],
@@ -18,32 +18,32 @@ export type MetaConvention = {|
   userInfo: UserInfo,
   recordTotal: Money,
   expenseTotal: Money,
-|}
+}
 
-export type FullConvention = MetaConvention & {|
+export type FullConvention = MetaConvention & {
   products: Product[],
   productTypes: ProductType[],
   prices: Price[],
   records: Record[],
   expenses: Expense[],
-|}
+}
 
-export type Image = {|
+export type Image = {
   id: string,
-|}
+}
 
-export type ExtraInfo = {|
+export type ExtraInfo = {
   title: string,
   info: string,
   action: string,
   actionText: string,
-|}
+}
 
-export type UserInfo = {|
+export type UserInfo = {
   id: number,
   info: string,
   vote: boolean,
   upvotes: number,
   downvotes: number,
-|}
+}
 

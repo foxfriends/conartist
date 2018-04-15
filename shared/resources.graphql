@@ -1,9 +1,0 @@
-scalar Image
-
-type Query {
-  image(imageId: String!): Image
-}
-
-query Image($imageId: String!) {
-  image(imageId: $imageId)
-}

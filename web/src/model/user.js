@@ -5,7 +5,7 @@ import type { ProductType } from './product-type'
 import type { Product } from './product'
 import type { Price } from './price'
 
-export type User = {|
+export type User = {
   name: string,
   email: string,
   settings: Settings,
@@ -13,4 +13,4 @@ export type User = {|
   products: Product[],
   prices: Price[],
   conventions: MetaConvention[],
-|}
+}

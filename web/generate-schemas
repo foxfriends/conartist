@@ -1,0 +1,4 @@
+#! /bin/bash
+apollo-codegen introspect-schema http://localhost:8080/api/v2 --output schema.json
+apollo-codegen generate ../shared/graphql/**/*.graphql --schema schema.json --target flow --output ./src/api/schema.js --add-typename
+rm schema.json

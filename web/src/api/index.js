@@ -94,22 +94,24 @@ const graphql = new ApolloClient({
   },
 })
 
-export class GraphQLQuery<Variables, T: Object, K: $Keys<T>> {
+export class GraphQLQuery<Variables, T: Object, K: $Keys<T>, O> {
   query: Query<Variables, T>
   root: K
+  resolver: ($ElementType<T, K>) => O
 
-  constructor(query: Query<Variables, T>, root: K) {
+  constructor(query: Query<Variables, T>, root: K, resolver: ($ElementType<T, K>) => O) {
     this.query = query
     this.root = root
+    this.resolver = resolver
   }
 
-  send(variables: Variables): Observable<Response<$ElementType<T, K>>> {
+  send(variables: Variables): Observable<Response<O>> {
     return Observable.create(observer => {
       (async () => {
         observer.next({ state: 'sending', progress: 0 })
         try {
           const result = await graphql.query({ query: this.query, variables })
-          observer.next({ state: 'retrieved', value: result.data[this.root] })
+          observer.next({ state: 'retrieved', value: this.resolver(result.data[this.root]) })
         } catch(result) {
           if (result.networkError) {
             const error = 'GraphQL error:\n' + result.networkError.result.errors.map(error => error.message).join(',\n')

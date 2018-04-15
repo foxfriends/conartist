@@ -4,6 +4,8 @@ import { Card } from './card'
 import type { Props as CardProps } from './card'
 const { Fragment } = React
 
+import S from './index.css'
+
 export type Props<T> = { 
   dataSource: Iterable<T>,
   children: (T) => React.Node,
@@ -11,8 +13,8 @@ export type Props<T> = {
 
 export function CardView<T>({ dataSource, children }: Props<T>) {
   return (
-    <Fragment>
+    <div className={S.container}>
       { [...dataSource].map(children) }
-    </Fragment>
+    </div>
   )
 }

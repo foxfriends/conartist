@@ -1,5 +1,6 @@
 .title, .value, .detail {
   align-self: center;
+  padding: 0 16px;
 }
 
 .value {

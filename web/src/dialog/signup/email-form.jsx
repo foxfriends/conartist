@@ -1,5 +1,10 @@
 /* @flow */
 import * as React from 'react'
+import { BehaviorSubject } from 'rxjs/BehaviorSubject'
+import { Observable } from 'rxjs/Observable'
+import 'rxjs/add/observable/combineLatest'
+import 'rxjs/add/observable/fromPromise'
+import 'rxjs/add/operator/skip'
 
 import LOGO from '../../../icons/apple-icon-180x180.png'
 import { l } from '../../localization'
@@ -7,6 +12,7 @@ import { Input } from '../../common/input'
 import { Icon } from '../../common/icon'
 import { Tooltip } from '../../common/tooltip'
 import { Form } from '../form'
+import { EmailInUseRequest } from '../../api/email-in-use'
 import type { Props as FormProps } from '../form'
 import type { Validation as InputValidation } from '../../common/input'
 import type { FormDelegate as Props } from './index'
@@ -23,46 +29,65 @@ const EMAIL_FORMAT = /^[^@]+@[^@]+\.[^@]+$/
 export class EmailForm extends React.Component<Props, State> {
   // $FlowIgnore: Flow definitions not up to date
   confirmInput: React.Ref<Input>
+  email: BehaviorSubject<string>
+  confirmEmail: BehaviorSubject<string>
 
   constructor(props: Props) {
     super(props)
     // $FlowIgnore: Flow definitions not up to date
     this.confirmInput = React.createRef()
+    this.email = new BehaviorSubject('')
+    this.confirmEmail = new BehaviorSubject('')
     this.state = {
       email: '',
       confirmEmail: '',
       validation: { state: 'empty' },
     }
+
+    this.email.skip(1).subscribe(email => this.setState({ email }))
+    this.confirmEmail.skip(1).subscribe(confirmEmail => this.setState({ confirmEmail }))
+
+    Observable
+      .combineLatest(
+        this.email,
+        this.confirmEmail,
+      )
+      .skip(1)
+      .switchMap(([email, confirmEmail]) => Observable.fromPromise(this.validate(email, confirmEmail)))
+      .subscribe(validation => this.setState({ validation }, () => {
+        this.props.onValidate(this.state.validation.state === 'valid')
+      }))
+  }
+
+  componentWillUnmount() {
+    this.email.complete()
+    this.confirmEmail.complete()
   }
 
   handleEmailChange(value: string) {
     const { onChange, onValidate } = this.props
     const trimmed = value.replace(/(^\s+|\s+$)/g, "")
     onChange(trimmed)
-    this.validate(trimmed, this.state.confirmEmail)
-    this.setState({ email: trimmed })
+    this.email.next(trimmed)
   }
 
   handleConfirmEmailChange(value: string) {
     const { onChange, onValidate } = this.props
     const trimmed = value.replace(/(^\s+|\s+$)/g, "")
-    this.validate(this.state.email, trimmed)
-    this.setState({ confirmEmail: trimmed })
+    this.confirmEmail.next(trimmed)
   }
 
-  validate(email: string, confirmEmail: string) {
+  async validate(email: string, confirmEmail: string): Promise<InputValidation> {
     if (email === '' || confirmEmail === '') {
-      this.setState({ validation: { state: 'empty' }})
-      this.props.onValidate(false)
+      return { state: 'empty' }
     } else if (!EMAIL_FORMAT.test(email)) {
-      this.setState({ validation: { state: 'error', message: l`Your email looks wrong` }})
-      this.props.onValidate(false)
+      return { state: 'error', message: l`Your email looks wrong` }
     } else if (email !== confirmEmail) {
-      this.setState({ validation: { state: 'error', message: l`Your emails don't match` }})
-      this.props.onValidate(false)
+      return { state: 'error', message: l`Your emails don't match` }
+    } else if(await new EmailInUseRequest().send(email)) {
+      return { state: 'error', message: l`That email is already being used` }
     } else {
-      this.setState({ validation: { state: 'valid' }})
-      this.props.onValidate(true)
+      return { state: 'valid' }
     }
   }
 

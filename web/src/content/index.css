@@ -1,5 +1,4 @@
 .container {
   box-sizing: border-box;
-  padding: 16px;
   width: calc(600px + ((100vw - 600px - 280px) / 2));
 }

@@ -67,6 +67,8 @@ export class SignIn extends React.Component<Props, State> {
       enabled: this.state.response.state !== 'sending',
     }
 
+    const { response } = this.state
+
     return (
       <Basic title={l`Sign in`} onClose={closeDialog}>
         <Form image={LOGO}>
@@ -74,7 +76,7 @@ export class SignIn extends React.Component<Props, State> {
             {l`Welcome back`}
           </div>
           <Input className={S.titledInput} title={l`Email`} key="email" onChange={email => this.handleEmailChange(email)} autoFocus/>
-          <Input className={S.titledInput} type="password" title={l`Password`} key="password" onChange={password => this.handlePasswordChange(password)} />
+          <Input className={S.titledInput} enabled={response.state !== 'sending'} type="password" title={l`Password`} key="password" onChange={password => this.handlePasswordChange(password)} onSubmit={() => this.trySignIn()}/>
           <Button className={S.button} {...onContinue} />
         </Form>
       </Basic>

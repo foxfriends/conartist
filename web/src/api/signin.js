@@ -1,5 +1,6 @@
 /* @flow */
 import { Observable } from 'rxjs/Observable'
+import 'rxjs/add/observable/of'
 import 'rxjs/add/operator/switchMap'
 import 'rxjs/add/operator/filter'
 import 'rxjs/add/operator/catch'
@@ -30,8 +31,9 @@ export class SignInRequest extends PostRequest<Params, User> {
           throw response
         }
       })
-      .filter(({ state }) => state === 'retrieved')
-      .switchMap(() => new UserQuery().send())
+      .switchMap(response => response.state === 'retrieved' 
+        ? new UserQuery().send()
+        : Observable.of(response))
       .catch(error => Observable.of(error))
   }
 }

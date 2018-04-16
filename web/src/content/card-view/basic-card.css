@@ -1,0 +1,11 @@
+.title {
+  margin-left: 16px;
+  font-weight: var(--font-weight--semibold);
+}
+
+.rightAction {
+  margin-left: auto;
+  padding: 16px;
+  cursor: pointer;
+}
+

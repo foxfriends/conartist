@@ -118,10 +118,18 @@ export class NavInfo {
   /**
    * Enables a specific option, disabling the rest
    *
-   * @param option {?string} The option to leave enabled. Set to null to enable all
+   * @param option {?string} The option to leave enabled. Leave out to enable all
    */
-  enable(option: string): NavInfo {
+  enable(option?: string): NavInfo {
     this.items = this.items.map(item => item.enable(!option || item.title === option))
+    return this
+  }
+
+  /** 
+   * Disables all the options
+   */
+  disable(): NavInfo {
+    this.items = this.items.map(item => item.enable(false))
     return this
   }
 }

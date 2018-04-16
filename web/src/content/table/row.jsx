@@ -1,6 +1,6 @@
 /* @flow */
 import * as React from 'react'
-import S from './item.css'
+import S from './row.css'
 const { Fragment } = React
 
 export type Props = {
@@ -9,7 +9,7 @@ export type Props = {
   detail?: React.Node,
 }
 
-export function Item({ title, value, detail }: Props) {
+export function Row({ title, value, detail }: Props) {
   return (
     <Fragment>
       { title ? <div className={S.title}>{ title }</div> : <span/>}

@@ -23,4 +23,9 @@
   color: white;
   letter-spacing: 1px;
   margin-left: 8px;
+  margin-right: auto;
+}
+
+.action {
+  margin: 0 16px;
 }

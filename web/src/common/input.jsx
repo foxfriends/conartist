@@ -12,8 +12,8 @@ export type Props = {
   title?: string,
   placeholder?: string,
   defaultValue?: string,
-  onChange: (string) => void,
-  onSubmit?: () => void,
+  onChange?: (string) => void,
+  onSubmit?: (string) => void,
   validator?: Validator,
   validation?: Validation,
   className?: string,
@@ -49,7 +49,7 @@ export class Input extends React.Component<Props, State> {
   handleKeyDown(event: SyntheticKeyboardEvent<HTMLInputElement>) {
     if (event.key === 'Enter') {
       if (this.props.onSubmit) {
-        this.props.onSubmit()
+        this.props.onSubmit(this.state.value)
       }
     }
   }
@@ -57,7 +57,9 @@ export class Input extends React.Component<Props, State> {
   async handleChange(event: SyntheticEvent<HTMLInputElement>) {
     const { currentTarget: { value } } = event
     const { validator, validation, onChange } = this.props
-    onChange(value)
+    if (onChange) {
+      onChange(value)
+    }
     this.setState({ value })
     if (validator) {
       const validation = await validator(value)

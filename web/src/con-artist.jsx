@@ -48,39 +48,53 @@ export class ConArtist extends React.Component<Props, State> {
             state.navigation = null
             state.content = null
             break
+
           case 'dashboard':
             state.toolbar = { primary: null, secondary: null }
             state.content = { name: 'placeholder' }
             state.navigation = NavInfo.default.select('Dashboard')
             break
+
           case 'products':
-            state.toolbar = { primary: null, secondary: null }
+            state.toolbar = { primary: toolbarAction.EditProducts, secondary: null }
             state.content = { name: 'products', productTypes: model.productTypes, products: model.products }
             state.navigation = NavInfo.default.select('Products')
             break
+
+          case 'edit-products':
+            state.toolbar = { primary: toolbarAction.Save, secondary: toolbarAction.Discard }
+            state.content = { name: 'edit-products', productTypes: model.productTypes, products: model.products }
+            state.navigation = NavInfo.default.select('Products').disable()
+            break
+
           case 'prices':
             state.toolbar = { primary: null, secondary: null }
             state.content = { name: 'placeholder' }
             state.navigation = NavInfo.default.select('Prices')
             break
+
           case 'conventions':
             state.toolbar = { primary: null, secondary: null }
             state.content = { name: 'placeholder' }
             state.navigation = NavInfo.default.select('Conventions')
             break
+
           case 'settings':
             state.toolbar = { primary: null, secondary: null }
             state.content = { name: 'placeholder' }
             state.navigation = NavInfo.default.select('Settings')
             break
+
           case 'terms-of-service':
             state.navigation = null
             state.content = { name: 'static', content: 'terms-of-service' }
             break
+
           case 'privacy-policy':
             state.navigation = null
             state.content = { name: 'static', content: 'privacy-policy' }
             break
+
           default:
             console.error(`Unhandled page name: ${model.page.name}! Ignoring`)
         }

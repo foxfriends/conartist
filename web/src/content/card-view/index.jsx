@@ -10,21 +10,18 @@ type Transformer<T> = (T) => React.Node
 
 export type Props<T> = { 
   dataSource: Iterable<T>,
-  children: [React.Node, Transformer<T>] | Transformer<T>
+  children: Transformer<T> | [React.Node, Transformer<T>] | [React.Node, Transformer<T>, React.Node]
 }
 
 export function CardView<T>({ dataSource, children }: Props<T>) {
-  const [emptyState, transformer] = children instanceof Array
-    ? children
-    : [, children]
+  const [emptyState, transformer, footer] = children instanceof Array
+    ? [...children]
+    : [, children, ]
   const data = [...dataSource]
-  if (data.length === 0) {
-    return emptyState || null
-  } else {
-    return (
-      <div className={S.container}>
-        { data.map(transformer) }
-      </div>
-    )
-  }
+  return (
+    <div className={S.container}>
+      { data.length === 0 ? emptyState || null : data.map(transformer) }
+      { footer || null }
+    </div>
+  )
 }

@@ -17,6 +17,13 @@ export function dashboard() {
   model.next({ ...model.getValue(), page: page.dashboard })
 }
 
+export function editProducts() {
+  if (model.getValue().page !== page.editProducts) {
+    window.history.pushState({}, '', '/products/edit')
+  }
+  model.next({ ...model.getValue(), page: page.editProducts })
+}
+
 export function products() {
   if (model.getValue().page !== page.products) {
     window.history.pushState({}, '', '/products')

@@ -18,8 +18,8 @@ export function Toolbar({ primary, secondary }: Props) {
       <div className={S.inner}>
         <img src={LOGO} height="44" />
         <span className={S.title}>ConArtist</span>
-        { secondary ? <Button {...secondary} priority="tertiary" style={{ marginRight: 20 }}/> : null }
-        { primary ? <Button {...primary} priority="primary" /> : null }
+        { secondary ? <Button {...secondary} priority="tertiary" className={S.action} /> : null }
+        { primary ? <Button {...primary} priority="primary" className={S.action} /> : null }
       </div>
     </div>
   )

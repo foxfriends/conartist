@@ -20,3 +20,9 @@
   padding: 0;
   overflow: visible;
 }
+
+.rightAction {
+  margin-left: auto;
+  padding: 16px;
+  cursor: pointer;
+}

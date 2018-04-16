@@ -11,41 +11,15 @@ export type Props = {
   children?: React.Node,
 }
 
-type State = {
-  collapsed: boolean,
-}
-
-export class BasicCard extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.state = {
-      collapsed: false,
-    }
-  }
-
-  handleToggleCollapsed() {
-    this.setState({ collapsed: !this.state.collapsed })
-  }
-
-  render() {
-    const { children, title, collapsible } = this.props
-    const { collapsed } = this.state
-
-    return (
-      <Card>
-        <Fragment>
-          { title ? <div className={S.title}>{ title }</div> : null }
-          { collapsible 
-            ? <div className={S.rightAction} onClick={() => this.handleToggleCollapsed()}>
-                <Icon name={collapsed ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}/>
-              </div>
-            : null
-          }
-        </Fragment>
-        <Fragment>
-          { !(collapsed && collapsible) ? children : null }
-        </Fragment>
-      </Card>
-    )
-  }
+export function BasicCard({ children, title, collapsible }: Props) {
+  return (
+    <Card collapsible={collapsible || false}>
+      <Fragment>
+        { title ? <div className={S.title}>{ title }</div> : null }
+      </Fragment>
+      <Fragment>
+        { children }
+      </Fragment>
+    </Card>
+  )
 }

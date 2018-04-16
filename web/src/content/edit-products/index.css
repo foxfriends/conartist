@@ -1,3 +1,19 @@
+.productTypeName, .productName, .productQuantity {
+  margin: 0 10px 0 6px;
+}
+
 .productTypeName {
   flex-basis: 280px;
+}
+
+.productName, .productQuantity {
+  flex-basis: 0;
+}
+
+.productName {
+  flex-grow: 346;
+}
+
+.productQuantity {
+  flex-grow: 120;
 }

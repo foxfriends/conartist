@@ -73,7 +73,18 @@ export class EditProducts extends React.Component<Props, State> {
         discontinued: false,
       }
       const productTypes = [...this.state.productTypes, newProductType]
-      this.setState({ productTypes })
+  
+      const newProduct: EditableProduct = {
+        product: null,
+        id: uniqueId(),
+        typeId: newProductType.id,
+        name: '',
+        quantity: 0,
+        discontinued: false,
+      }
+      const products = [...this.state.products, newProduct]
+
+      this.setState({ productTypes, products })
     }
   }
 

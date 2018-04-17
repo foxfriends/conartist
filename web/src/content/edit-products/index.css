@@ -1,4 +1,4 @@
-.productTypeName, .productName, .productQuantity {
+.productTypeName, .productName, .productQuantity, .discontinueButton {
   margin: 0 10px 0 6px;
 }
 
@@ -16,4 +16,23 @@
 
 .productQuantity {
   flex-grow: 120;
+}
+
+.discontinueButton {
+  color: var(--color--brand);
+  font-size: 16px;
+  align-self: flex-end;
+  margin-bottom: 8px;
+
+  &:hover {
+    color: var(--color--brand-variant);
+  }
+}
+
+.newProductType {
+  opacity: 0.5;
+}
+
+.placeholder {
+  composes: placeholder from '../../common/styles.css'
 }

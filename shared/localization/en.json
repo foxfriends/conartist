@@ -36,6 +36,7 @@
   "New sale": "New sale",
   "New Sale": "New Sale",
   "No conventions today": "No conventions today",
+  "No products yet... add one!": "No products yet… add one!",
   "Note": "Note",
   "Nothing to say…": "Nothing to say…",
   "Oh no...": "Oh no…",
@@ -89,6 +90,7 @@
   "h:mma": "h:mma",
   "{} – {}": "{} – {}",
   "<Convention info contribution disclaimer>": "Your identity is not shared with the other artists when you contribute information. Please respect that people of all ages can read this information, and any incorrect or offensive information may be removed without notice.\n\nOnce submitted, you cannot edit this information, so make sure it’s correct!",
-  "<Empty products list message>": "Looks like you don't have anything for sale yet…\nEdit this page and write down what you plan to be selling!",
+  "<Empty products list message>": "You don't have anything for sale yet…\nEdit this page and write down what you plan to be selling!",
+  "<First product type message>": "Looks like this is your first time here…\nFirst, write down what type of product you will be selling,\nthen just add all your products!",
   "<No convention user info>": "No one has shared any information about this convention yet…\nYou could be the first!"
 }

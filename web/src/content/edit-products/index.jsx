@@ -34,7 +34,7 @@ export class EditProducts extends React.Component<Props, State> {
   }
 
   handleProductTypeNameChange(id: Id, name: string) {
-    const productTypes = 
+    const productTypes =
       this.state.productTypes.map(productType => productType.id === id
         ? { ...productType, name }
         : productType)
@@ -43,7 +43,7 @@ export class EditProducts extends React.Component<Props, State> {
   }
 
   handleProductNameChange(id: Id, name: string) {
-    const products = 
+    const products =
       this.state.products.map(product => product.id === id
         ? { ...product, name }
         : product)
@@ -54,11 +54,32 @@ export class EditProducts extends React.Component<Props, State> {
   handleProductQuantityChange(id: Id, quantityStr: string) {
     const quantity = parseInt(quantityStr, 10)
     if (!isNaN(quantity)) {
-      const products = 
+      const products =
         this.state.products.map(product => product.id === id
           ? { ...product, quantity }
           : product)
 
+      this.setState({ products })
+    }
+  }
+
+  handleProductTypeDiscontinue(id: Id) {
+    if (typeof id === 'string') {
+      const products = this.state.products.filter(product => product.typeId !== id)
+      const productTypes = this.state.productTypes.filter(productType => productType.id !== id)
+      this.setState({ products, productTypes })
+    } else {
+      const productTypes = this.state.productTypes.map(productType => productType.id === id ? { ...productType, discontinued: true } : productType)
+      this.setState({ productTypes })
+    }
+  }
+
+  handleProductDiscontinue(id: Id) {
+    if (typeof id === 'string') {
+      const products = this.state.products.filter(product => product.id !== id)
+      this.setState({ products })
+    } else {
+      const products = this.state.products.map(product => product.id === id ? { ...product, discontinued: true } : product)
       this.setState({ products })
     }
   }
@@ -73,18 +94,7 @@ export class EditProducts extends React.Component<Props, State> {
         discontinued: false,
       }
       const productTypes = [...this.state.productTypes, newProductType]
-  
-      const newProduct: EditableProduct = {
-        product: null,
-        id: uniqueId(),
-        typeId: newProductType.id,
-        name: '',
-        quantity: 0,
-        discontinued: false,
-      }
-      const products = [...this.state.products, newProduct]
-
-      this.setState({ productTypes, products })
+      this.setState({ productTypes })
     }
   }
 
@@ -102,19 +112,27 @@ export class EditProducts extends React.Component<Props, State> {
     return (
       <CardView dataSource={dataSource}>
         <Fragment />
-        {([ productType, products ]) => 
-            <EditProductCard 
-              productType={productType} 
-              products={products} 
+        {([ productType, products ]) =>
+            <EditProductCard
+              productType={productType}
+              products={products}
               onProductTypeNameChange={name => this.handleProductTypeNameChange(productType.id, name)}
-              onProductNameChange={(id, name) => this.handleProductNameChange(id, name)} 
-              onProductQuantityChange={(id, name) => this.handleProductQuantityChange(id, name)} 
+              onProductNameChange={(id, name) => this.handleProductNameChange(id, name)}
+              onProductQuantityChange={(id, name) => this.handleProductQuantityChange(id, name)}
+              onProductDiscontinue={id => this.handleProductDiscontinue(id)}
               key={`product_type_${productType.id}`}/> }
-        <Card>
+        <Card className={S.newProductType}>
           <Fragment key={`product_type_${peekId()}`}>
             <Input className={S.productTypeName} placeholder={l`New product type`} onSubmit={name => this.createProductType(name)} />
           </Fragment>
-          <Fragment />
+          <Fragment>
+            { productTypes.length === 0
+                ? <div className={S.placeholder}>
+                    {lx`<First product type message>`(_ => _)}
+                  </div>
+                : null
+            }
+          </Fragment>
         </Card>
       </CardView>
     )

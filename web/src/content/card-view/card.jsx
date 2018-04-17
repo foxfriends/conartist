@@ -1,9 +1,13 @@
 /* @flow */
 import * as React from 'react'
+import { IconButton } from '../../common/icon-button'
 import { Icon } from '../../common/icon'
+import type { Action } from '../../common/button'
 import S from './card.css'
 
 export type Props = { 
+  topAction?: ?Action,
+  bottomAction?: ?Action,
   className?: string,
   collapsible?: boolean,
   style?: { [string]: string | number },
@@ -28,22 +32,27 @@ export class Card extends React.Component<Props, State> {
   }
 
   render() {
-    const { children: [header, content], collapsible, className, style } = this.props
+    const { children: [header, content], collapsible, topAction, bottomAction, className, style } = this.props
     const { collapsed } = this.state
-
+    const isCollapsed = collapsed && collapsible
     return (
       <div className={`${S.card} ${className || ''}`} style={style || {}}>
         <div className={S.header}>
           { header }
           { collapsible 
-              ? <div className={S.rightAction} onClick={() => this.handleToggleCollapsed()}>
-                  <Icon name={collapsed ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}/>
-                </div>
+              ? <IconButton 
+                  title={collapsed ? 'keyboard_arrow_up' : 'keyboard_arrow_down'} 
+                  priority="secondary"
+                  className={S.rightAction} 
+                  action={() => this.handleToggleCollapsed()} 
+                  />
               : null
           }
+          { topAction ? <IconButton {...topAction} priority="tertiary" className={S.topAction} /> : null }
         </div>
         <div className={S.content}>
-          { !collapsed || !collapsible ? content : null }
+          { !isCollapsed ? content : null }
+          { !isCollapsed && bottomAction ? <IconButton {...bottomAction} priority="tertiary" className={S.bottomAction} /> : null }
         </div>
       </div>
     )

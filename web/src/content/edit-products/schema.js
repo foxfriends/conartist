@@ -21,10 +21,16 @@ export type EditableProduct = {
 
 export type Id = number | string
 
-let idCounter = 0
-export function uniqueId(): Id {
-  return `id_${idCounter++}`
+let typeIdCounter = 0
+export function uniqueTypeId(): Id {
+  return `id_${typeIdCounter++}`
 }
-export function peekId(): Id {
-  return `id_${idCounter}`
+
+let productIdCounter = 0
+export function uniqueProductId(): Id {
+  return `id_${productIdCounter++}`
+}
+
+export function peekTypeId(): Id {
+  return `id_${typeIdCounter}`
 }

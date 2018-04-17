@@ -6,7 +6,7 @@ import { CardView } from '../card-view'
 import { Card } from '../card-view/card'
 import { EditProductCard } from './edit-product-card'
 import { Input } from '../../common/input'
-import { uniqueId, peekId } from './schema'
+import { uniqueTypeId, uniqueProductId, peekTypeId } from './schema'
 import type { Product } from '../../model/product'
 import type { ProductType } from '../../model/product-type'
 import type { Id, EditableProduct, EditableProductType } from './schema'
@@ -88,7 +88,7 @@ export class EditProducts extends React.Component<Props, State> {
     if (name !== '' && !this.state.productTypes.some(existing => existing.name === name)) {
       const newProductType: EditableProductType = {
         productType: null,
-        id: uniqueId(),
+        id: uniqueTypeId(),
         name,
         color: 0xffffff,
         discontinued: false,
@@ -96,6 +96,19 @@ export class EditProducts extends React.Component<Props, State> {
       const productTypes = [...this.state.productTypes, newProductType]
       this.setState({ productTypes })
     }
+  }
+
+  createProduct(typeId: Id) {
+    const newProduct = {
+      product: null,
+      id: uniqueProductId(),
+      typeId,
+      name: '',
+      quantity: 0,
+      discontinued: false,
+    }
+    const products = [...this.state.products, newProduct]
+    this.setState({ products })
   }
 
   render() {
@@ -109,6 +122,16 @@ export class EditProducts extends React.Component<Props, State> {
     const dataSource = productTypes
       .map(productType => [ productType, sortedProducts.get(productType.id) ])
 
+    const removeProductType = typeId => ({
+      title: 'remove',
+      action: () => this.handleProductTypeDiscontinue(typeId),
+    })
+
+    const addProduct = typeId => ({
+      title: 'add',
+      action: () => this.createProduct(typeId),
+    })
+
     return (
       <CardView dataSource={dataSource}>
         <Fragment />
@@ -116,14 +139,16 @@ export class EditProducts extends React.Component<Props, State> {
             <EditProductCard
               productType={productType}
               products={products}
+              topAction={removeProductType(productType.id)}
+              bottomAction={addProduct(productType.id)}
               onProductTypeNameChange={name => this.handleProductTypeNameChange(productType.id, name)}
               onProductNameChange={(id, name) => this.handleProductNameChange(id, name)}
               onProductQuantityChange={(id, name) => this.handleProductQuantityChange(id, name)}
               onProductDiscontinue={id => this.handleProductDiscontinue(id)}
               key={`product_type_${productType.id}`}/> }
         <Card className={S.newProductType}>
-          <Fragment key={`product_type_${peekId()}`}>
-            <Input className={S.productTypeName} placeholder={l`New product type`} onSubmit={name => this.createProductType(name)} />
+          <Fragment key={`product_type_${peekTypeId()}`}>
+            <Input className={S.productTypeName} placeholder={l`New product type`} onSubmit={name => this.createProductType(name)} autoFocus />
           </Fragment>
           <Fragment>
             { productTypes.length === 0

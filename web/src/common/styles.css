@@ -8,3 +8,15 @@
   padding: 40px;
   color: var(--color--text-placeholder);
 }
+
+.outlinedIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  font-size: 20px;
+  border-radius: 100%;
+  border: 2px solid var(--color--divider);
+}

@@ -3,3 +3,19 @@
   border: none;
   cursor: pointer;
 }
+
+.primary {
+  color: var(--color--brand);
+
+  &:hover, &:focus {
+    color: var(--color--brand-variant);
+  }
+}
+
+.secondary {
+  color: var(--color--text);
+}
+
+.tertiary {
+  color: var(--color--divider);
+}

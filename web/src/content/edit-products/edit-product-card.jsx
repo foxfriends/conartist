@@ -6,6 +6,7 @@ import { Input } from '../../common/input'
 import { List } from '../list'
 import { Item } from '../list/item'
 import { IconButton } from '../../common/icon-button'
+import type { Action } from '../../common/button'
 import type { Id, EditableProduct, EditableProductType } from './schema'
 import S from './index.css'
 const { Fragment } = React
@@ -13,15 +14,17 @@ const { Fragment } = React
 export type Props = {
   productType: EditableProductType,
   products: EditableProduct[],
+  topAction?: ?Action,
+  bottomAction?: ?Action,
   onProductTypeNameChange: (string) => void,
   onProductNameChange: (Id, string) => void,
   onProductQuantityChange: (Id, string) => void,
   onProductDiscontinue: (Id) => void,
 }
 
-export function EditProductCard({ productType, products, onProductTypeNameChange, onProductNameChange, onProductQuantityChange, onProductDiscontinue }: Props) {
+export function EditProductCard({ productType, products, topAction, bottomAction, onProductTypeNameChange, onProductNameChange, onProductQuantityChange, onProductDiscontinue }: Props) {
   return (
-    <Card>
+    <Card collapsible={true} topAction={topAction} bottomAction={bottomAction}>
       <Fragment>
         <Input className={S.productTypeName} defaultValue={productType.name} onChange={onProductTypeNameChange} />
       </Fragment>
@@ -37,6 +40,7 @@ export function EditProductCard({ productType, products, onProductTypeNameChange
                 placeholder={l`New product`}
                 onChange={name => onProductNameChange(product.id, name)}
                 className={S.productName}
+                autoFocus
                 />
               <Input
                 defaultValue={`${product.name === '' ? '' : product.quantity}`}

@@ -59,6 +59,8 @@ impl Database {
 
                 let updated_product: Product =
                     diesel::update(products::table)
+                        .filter(products::product_id.eq(product_id))
+                        .filter(products::user_id.eq(user_id))
                         .set(&ProductChanges { name, discontinued })
                         .get_result(&*conn)?;
 

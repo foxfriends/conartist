@@ -31,12 +31,16 @@ export class SaveProductType implements APIRequest<EditableProductType, Editable
   send(productType: EditableProductType): Observable<Response<EditableProductType, APIError>> {
     const { productType: original } = productType;
     if (original && typeof productType.id === 'number') {
-      const variables: ModProductTypeMutationVariables = { productType: { typeId: productType.id } };
+      const variables: ModProductTypeMutationVariables = {
+        productType: {
+          typeId: productType.id
+        }
+      };
       if (productType.name !== original.name) {
-        variables.productType.name = productType.name;
+        variables.productType.name = productType.name
       }
       if (productType.color !== original.color) {
-        variables.productType.color = productType.color;
+        variables.productType.color = productType.color
       }
       if (productType.discontinued !== original.discontinued) {
         variables.productType.discontinued = productType.discontinued;
@@ -54,7 +58,7 @@ export class SaveProductType implements APIRequest<EditableProductType, Editable
           )
       }
     } else {
-      const variables = {
+      const variables: AddProductTypeMutationVariables = {
         productType: {
           name: productType.name,
           color: productType.color || 0xffffff,

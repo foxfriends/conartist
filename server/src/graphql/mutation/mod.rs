@@ -164,9 +164,9 @@ graphql_object!(Mutation: Database |&self| {
     }
 
     // Records
-    field mod_user_record(&executor, user_id: Option<i32>, record: RecordMod) -> FieldResult<Record> { 
+    field mod_user_record(&executor, user_id: Option<i32>, record: RecordMod) -> FieldResult<Record> {
         ensure!(record.record_id > 0);
-        ensure!(record.products.as_ref().map(|products| products.len() > 0).unwrap_or(true)); 
+        ensure!(record.products.as_ref().map(|products| products.len() > 0).unwrap_or(true));
         ensure!(record.price.map(|price| price >= Money::new(0i64, price.cur())).unwrap_or(true));
 
         dbtry! {
@@ -208,7 +208,7 @@ graphql_object!(Mutation: Database |&self| {
         }
     }
 
-    field del_user_expense(&executor, user_id: Option<i32>, expense: ExpenseDel) -> FieldResult<bool> { 
+    field del_user_expense(&executor, user_id: Option<i32>, expense: ExpenseDel) -> FieldResult<bool> {
         dbtry! {
             executor
                 .context()

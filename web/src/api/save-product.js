@@ -30,7 +30,7 @@ export class SaveProduct implements APIRequest<EditableProduct, EditableProduct>
 
   send(product: EditableProduct): Observable<Response<EditableProduct, string>> {
     const { product: original } = product;
-    if (original) {
+    if (original && typeof product.id === 'number') {
       const variables: ModProductMutationVariables = {
         product: {
           productId: product.id,

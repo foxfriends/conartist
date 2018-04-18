@@ -36,3 +36,7 @@
 .placeholder {
   composes: placeholder from '../../common/styles.css'
 }
+
+.discontinued {
+  opacity: 0.3;
+}

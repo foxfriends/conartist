@@ -5,8 +5,9 @@ import { Icon } from '../../common/icon'
 import type { Action } from '../../common/button'
 import S from './card.css'
 
-export type Props = { 
+export type Props = {
   topAction?: ?Action,
+  defaultCollapsed?: boolean,
   bottomAction?: ?Action,
   className?: string,
   collapsible?: boolean,
@@ -23,7 +24,7 @@ export class Card extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = {
-      collapsed: false,
+      collapsed: props.defaultCollapsed || false,
     }
   }
 
@@ -39,12 +40,12 @@ export class Card extends React.Component<Props, State> {
       <div className={`${S.card} ${className || ''}`} style={style || {}}>
         <div className={S.header}>
           { header }
-          { collapsible 
-              ? <IconButton 
-                  title={collapsed ? 'keyboard_arrow_up' : 'keyboard_arrow_down'} 
+          { collapsible
+              ? <IconButton
+                  title={collapsed ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}
                   priority="secondary"
-                  className={S.rightAction} 
-                  action={() => this.handleToggleCollapsed()} 
+                  className={S.rightAction}
+                  action={() => this.handleToggleCollapsed()}
                   />
               : null
           }

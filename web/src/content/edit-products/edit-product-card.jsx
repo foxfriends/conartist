@@ -24,7 +24,7 @@ export type Props = {
 
 export function EditProductCard({ productType, products, topAction, bottomAction, onProductTypeNameChange, onProductNameChange, onProductQuantityChange, onProductToggleDiscontinue }: Props) {
   return (
-    <Card collapsible={true} topAction={topAction} bottomAction={bottomAction}>
+    <Card collapsible={true} defaultCollapsed={productType.discontinued} topAction={topAction} bottomAction={bottomAction} className={productType.discontinued ? S.discontinued : ''}>
       <Fragment>
         <Input className={S.productTypeName} defaultValue={productType.name} onChange={onProductTypeNameChange} />
       </Fragment>

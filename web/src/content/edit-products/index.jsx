@@ -11,6 +11,7 @@ import { merge } from 'rxjs/observable/merge'
 import { tap, filter, pluck, map, mapTo, switchMap, takeUntil, share, partition } from 'rxjs/operators'
 
 import DefaultMap from '../../util/default-map'
+import { by, Asc, Desc } from '../../util/sort'
 import { l, lx } from '../../localization'
 import { CardView } from '../card-view'
 import { Card } from '../card-view/card'
@@ -210,13 +211,15 @@ export class EditProducts extends ReactX.Component<Props, State> {
 
   render() {
     const { products, productTypes, editingEnabled } = this.state
-    const sortedProducts = products
+    const sortedProducts = [...products]
+      .sort(by(['discontinued', Desc], ['id', Asc]))
       .reduce(
         (sortedProducts, product) => sortedProducts.set(product.typeId, [...sortedProducts.get(product.typeId), product]),
         new DefaultMap([], []),
       )
 
-    const dataSource = productTypes
+    const dataSource = [...productTypes]
+      .sort(by(['discontinued', Desc], ['id', Asc]))
       .map(productType => [ productType, sortedProducts.get(productType.id) ])
 
     const toggleDiscontinueProductType = ({ id, discontinued }) => ({

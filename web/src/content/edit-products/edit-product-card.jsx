@@ -34,7 +34,7 @@ export function EditProductCard({ productType, products, topAction, bottomAction
             {l`No products yet... add one!`}
           </div>
           {product =>
-            <Item key={`product_${product.id}`}>
+            <Item key={`product_${product.id}`} className={product.discontinued ? S.discontinued : ''}>
               <Input
                 defaultValue={product.name}
                 placeholder={l`New product`}
@@ -48,7 +48,7 @@ export function EditProductCard({ productType, products, topAction, bottomAction
                 className={S.productQuantity}
                 />
               <IconButton
-                title={product.discontinued ? 'remove_circle_outline' : 'add_circle_outline'}
+                title={product.discontinued ? 'add_circle_outline' : 'remove_circle_outline'}
                 action={() => onProductToggleDiscontinue(product.id)}
                 className={S.discontinueButton}
                 />

@@ -62,9 +62,9 @@ export function setProductTypeIds(products: EditableProduct[], productTypes: Edi
         return product
       } else {
         // product is of a new type, so replace its typeId with the retrieved value
-        const productType = productTypes.find(({ productType }) => !!productType && productType.id === product.typeId)
+        const productType = productTypes.find(({ productType }) => productType && productType.id === product.typeId)
         if (productType) {
-          return { ...product, product, typeId: productType.id }
+          return { ...product, typeId: productType.id }
         }
       }
       return product

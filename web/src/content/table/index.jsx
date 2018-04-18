@@ -10,15 +10,18 @@ export type Props<T> = {
 }
 
 export function Table<T>({ dataSource, children }: Props<T>) {
-  const [emptyState, transformer, footer] = children instanceof Array 
+  const [emptyState, transformer, footer] = children instanceof Array
     ? [...children]
     : [, children, ]
 
   const data = [...dataSource]
   return (
-    <div className={S.list}>
-      { data.length === 0 ? emptyState || null : data.map(transformer) }
+    <>
+      { data.length === 0 ? emptyState || null : null}
+      <div className={S.table}>
+        { data.map(transformer) }
+      </div>
       { footer || null }
-    </div>
+    </>
   )
 }

@@ -1,6 +1,7 @@
 /* @flow */
 import { showSignupDialog, showSigninDialog } from '../update/splash'
 import * as navigate from '../update/navigate'
+import { send, SaveProducts as SaveProductsEvent } from '../event'
 import type { Action } from '../common/button'
 
 export const LogIn: Action = {
@@ -23,7 +24,7 @@ export const Discard: Action = {
   action: navigate.products,
 }
 
-export const Save: Action = {
+export const SaveProducts: Action = {
   title: 'Save',
-  action: navigate.products,
+  action: () => send(SaveProductsEvent),
 }

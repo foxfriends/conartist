@@ -23,7 +23,7 @@ export type Props = FormDelegate & {
 }
 
 type State = {
-  response: Response<User>,
+  response: Response<User, string>,
 }
 
 export class Completed extends React.Component<Props, State> {

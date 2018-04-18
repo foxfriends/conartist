@@ -1,10 +1,9 @@
 /* @flow */
 import * as React from 'react'
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
-import { Observable } from 'rxjs/Observable'
-import 'rxjs/add/observable/combineLatest'
-import 'rxjs/add/observable/fromPromise'
-import 'rxjs/add/operator/skip'
+import { combineLatest } from 'rxjs/observable/combineLatest'
+import { fromPromise } from 'rxjs/observable/fromPromise'
+import { skip, switchMap } from 'rxjs/operators'
 
 import LOGO from '../../../icons/apple-icon-180x180.png'
 import { l } from '../../localization'
@@ -44,16 +43,18 @@ export class EmailForm extends React.Component<Props, State> {
       validation: { state: 'empty' },
     }
 
-    this.email.skip(1).subscribe(email => this.setState({ email }))
-    this.confirmEmail.skip(1).subscribe(confirmEmail => this.setState({ confirmEmail }))
+    this.email
+      .pipe(skip(1))
+      .subscribe(email => this.setState({ email }))
+    this.confirmEmail
+      .pipe(skip(1))
+      .subscribe(confirmEmail => this.setState({ confirmEmail }))
 
-    Observable
-      .combineLatest(
-        this.email,
-        this.confirmEmail,
+    combineLatest(this.email, this.confirmEmail)
+      .pipe(
+        skip(1),
+        switchMap(([email, confirmEmail]) => fromPromise(this.validate(email, confirmEmail))),
       )
-      .skip(1)
-      .switchMap(([email, confirmEmail]) => Observable.fromPromise(this.validate(email, confirmEmail)))
       .subscribe(validation => this.setState({ validation }, () => {
         this.props.onValidate(this.state.validation.state === 'valid')
       }))
@@ -110,4 +111,3 @@ export class EmailForm extends React.Component<Props, State> {
     )
   }
 }
-

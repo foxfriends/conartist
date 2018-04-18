@@ -36,7 +36,7 @@ declare module 'apollo-boost' {
   declare class ApolloClient {
     constructor(options: ApolloClientOptions): ApolloClient;
     query<Variables, Data>(options: QueryOptions<Variables, Data>): Promise<GraphQLResponse<Data>>;
-    mutation<Variables, Data>(options: MutationOptions<Variables, Data>): Promise<GraphQLResponse<Data>>;
+    mutate<Variables, Data>(options: MutationOptions<Variables, Data>): Promise<GraphQLResponse<Data>>;
   }
 
   declare export default typeof ApolloClient;

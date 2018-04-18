@@ -10,6 +10,17 @@ export type ExpenseAdd = {|
   time: any,
 |};
 
+export type ProductTypeAdd = {|
+  name: string,
+  color: number,
+|};
+
+export type ProductAdd = {|
+  typeId: number,
+  name: string,
+  quantity: number,
+|};
+
 export type RecordAdd = {|
   conId: number,
   products: Array< number >,
@@ -53,6 +64,37 @@ export type AddExpenseMutation = {|
     description: string,
     price: any,
     time: any,
+  |},
+|};
+
+export type AddProductTypeMutationVariables = {|
+  id?: ?number,
+  productType: ProductTypeAdd,
+|};
+
+export type AddProductTypeMutation = {|
+  addUserProductType: {|
+    __typename: "ProductType",
+    id: number,
+    name: string,
+    color: ?number,
+    discontinued: boolean,
+  |},
+|};
+
+export type AddProductMutationVariables = {|
+  id?: ?number,
+  product: ProductAdd,
+|};
+
+export type AddProductMutation = {|
+  addUserProduct: {|
+    __typename: "Product",
+    id: number,
+    typeId: number,
+    name: string,
+    quantity: number,
+    discontinued: boolean,
   |},
 |};
 

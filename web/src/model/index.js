@@ -1,5 +1,6 @@
 /* @flow */
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
+
 import { Storage } from '../storage'
 import { splash, dashboard } from './page'
 import { ReauthorizeRequest } from '../api/reauthorize'
@@ -13,7 +14,6 @@ import type { Settings } from './settings'
 import * as navigate from '../update/navigate'
 import { setUser } from '../update/signin'
 import { resolveRoute } from '../routing'
-import 'rxjs/add/operator/filter'
 
 export type Model = {|
   email: ?string,

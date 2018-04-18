@@ -1,6 +1,10 @@
 /* @flow */
 import * as React from 'react'
-import { Toolbar } from './toolbar'
+import type { Observable } from 'rxjs/Observable'
+import { combineLatest } from 'rxjs/observable/combineLatest'
+import { map } from 'rxjs/operators/map'
+
+import { Toolbar, status as toolbarStatus } from './toolbar'
 import * as toolbarAction from './toolbar/action'
 import { Navigation, NavInfo } from './navigation'
 import { Content } from './content'
@@ -15,8 +19,6 @@ import type { Props as DialogProps } from './dialog'
 import { l } from './localization'
 import S from './con-artist.css'
 import { Storage } from './storage'
-
-import 'rxjs/add/operator/map'
 
 type Props = {}
 type State = {
@@ -38,93 +40,95 @@ export class ConArtist extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    model
-      .map((model: $ReadOnly<Model>): State => {
-        const state = { ...this.state }
-
-        switch(model.page.name) {
-          case 'splash':
-            state.toolbar = { primary: toolbarAction.SignUp, secondary: toolbarAction.LogIn }
-            state.navigation = null
-            state.content = null
-            break
-
-          case 'dashboard':
-            state.toolbar = { primary: null, secondary: null }
-            state.content = { name: 'placeholder' }
-            state.navigation = NavInfo.default.select('Dashboard')
-            break
-
-          case 'products':
-            state.toolbar = { primary: toolbarAction.EditProducts, secondary: null }
-            state.content = { name: 'products', productTypes: model.productTypes, products: model.products }
-            state.navigation = NavInfo.default.select('Products')
-            break
-
-          case 'edit-products':
-            state.toolbar = { primary: toolbarAction.Save, secondary: toolbarAction.Discard }
-            state.content = { name: 'edit-products', productTypes: model.productTypes, products: model.products }
-            state.navigation = NavInfo.default.select('Products').disable()
-            break
-
-          case 'prices':
-            state.toolbar = { primary: null, secondary: null }
-            state.content = { name: 'placeholder' }
-            state.navigation = NavInfo.default.select('Prices')
-            break
-
-          case 'conventions':
-            state.toolbar = { primary: null, secondary: null }
-            state.content = { name: 'placeholder' }
-            state.navigation = NavInfo.default.select('Conventions')
-            break
-
-          case 'settings':
-            state.toolbar = { primary: null, secondary: null }
-            state.content = { name: 'placeholder' }
-            state.navigation = NavInfo.default.select('Settings')
-            break
-
-          case 'terms-of-service':
-            state.navigation = null
-            state.content = { name: 'static', content: 'terms-of-service' }
-            break
-
-          case 'privacy-policy':
-            state.navigation = null
-            state.content = { name: 'static', content: 'privacy-policy' }
-            break
-
-          default:
-            console.error(`Unhandled page name: ${model.page.name}! Ignoring`)
-        }
-
-        if (model.dialog) {
-          switch (model.dialog.name) {
-            case 'signup':
-              state.dialog = {
-                name: 'signup',
-                step: model.dialog.step,
-              }
-              break
-            case 'signin':
-              state.dialog = {
-                name: 'signin'
-              }
-              break
-            default:
-              state.dialog = null
-              if (model.dialog) {
-                console.error(`Unhandled dialog name: ${model.dialog.name}! Ignoring`)
-              }
-          }
-        } else {
-          state.dialog = null
-        }
-
-        return state
-      })
+    // don't care to dispose this observable because it is the app and should never be disposed!
+    combineLatest(model, toolbarStatus, this.computeState.bind(this))
       .subscribe(newState => this.setState(newState))
+  }
+
+  computeState(model: $ReadOnly<Model>, toolbar: ToolbarProps): State {
+    const state = { ...this.state }
+
+    switch(model.page.name) {
+      case 'splash':
+        state.toolbar = { primary: toolbarAction.SignUp, secondary: toolbarAction.LogIn }
+        state.navigation = null
+        state.content = null
+        break
+
+      case 'dashboard':
+        state.toolbar = { primary: null, secondary: null }
+        state.content = { name: 'placeholder' }
+        state.navigation = NavInfo.default.select('Dashboard')
+        break
+
+      case 'products':
+        state.toolbar = { primary: toolbarAction.EditProducts, secondary: null }
+        state.content = { name: 'products', productTypes: model.productTypes, products: model.products }
+        state.navigation = NavInfo.default.select('Products')
+        break
+
+      case 'edit-products':
+        state.toolbar = toolbar
+        state.content = { name: 'edit-products', productTypes: model.productTypes, products: model.products }
+        state.navigation = NavInfo.default.select('Products').disable()
+        break
+
+      case 'prices':
+        state.toolbar = { primary: null, secondary: null }
+        state.content = { name: 'placeholder' }
+        state.navigation = NavInfo.default.select('Prices')
+        break
+
+      case 'conventions':
+        state.toolbar = { primary: null, secondary: null }
+        state.content = { name: 'placeholder' }
+        state.navigation = NavInfo.default.select('Conventions')
+        break
+
+      case 'settings':
+        state.toolbar = { primary: null, secondary: null }
+        state.content = { name: 'placeholder' }
+        state.navigation = NavInfo.default.select('Settings')
+        break
+
+      case 'terms-of-service':
+        state.navigation = null
+        state.content = { name: 'static', content: 'terms-of-service' }
+        break
+
+      case 'privacy-policy':
+        state.navigation = null
+        state.content = { name: 'static', content: 'privacy-policy' }
+        break
+
+      default:
+        console.error(`Unhandled page name: ${model.page.name}! Ignoring`)
+    }
+
+    if (model.dialog) {
+      switch (model.dialog.name) {
+        case 'signup':
+          state.dialog = {
+            name: 'signup',
+            step: model.dialog.step,
+          }
+          break
+        case 'signin':
+          state.dialog = {
+            name: 'signin'
+          }
+          break
+        default:
+          state.dialog = null
+          if (model.dialog) {
+            console.error(`Unhandled dialog name: ${model.dialog.name}! Ignoring`)
+          }
+      }
+    } else {
+      state.dialog = null
+    }
+
+    return state
   }
 
   render() {

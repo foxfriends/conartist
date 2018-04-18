@@ -1,20 +1,27 @@
 /* @flow */
 import type { Observable } from 'rxjs/Observable'
-import type { Response } from './index'
+import { map } from 'rxjs/operators'
 
 import { GraphQLQuery } from './index'
 // $FlowIgnore: trouble importing graphql files
 import query from './graphql/query/full-user.graphql'
 import { parse } from '../model/user'
-import type { FullUserQueryVariables as Params, FullUserQuery as T } from './schema'
+import type { Response } from './index'
+import type { FullUserQueryVariables as Variables, FullUserQuery as Value } from './schema'
 import type { User } from '../model/user'
 
-export class UserQuery extends GraphQLQuery<Params, T, 'user', User> {
+export class UserQuery extends GraphQLQuery<Variables, Value, Variables, User> {
   constructor() {
-    super(query, 'user', parse)
+    super(query)
   }
 
-  send(params: Params = { id: null }): Observable<Response<User>> {
-    return super.send(params)
+  send(variables: Variables = { id: null }): Observable<Response<User, string>> {
+    return this._send(variables)
+      .pipe(
+        map(response => response.state === 'retrieved'
+          ? { state: 'retrieved', value: parse(response.value.user) }
+          : response
+        )
+      )
   }
 }

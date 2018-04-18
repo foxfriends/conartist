@@ -11,7 +11,7 @@ export type Action = {
 type Priority = 'primary' | 'secondary' | 'tertiary'
 
 export type Props = Action & {
-  priority: Priority,
+  priority?: Priority,
   enabled?: boolean,
   className?: string,
   style?: { [string]: string | number },
@@ -20,7 +20,7 @@ export type Props = Action & {
 
 export function Button({ children, title, action, priority, enabled, className, style }: Props) {
   return (
-    <button disabled={enabled === false} onClick={action} className={`${S[priority]} ${className || ''}`} style={style || {}}>
+    <button disabled={enabled === false} onClick={action} className={`${S[priority || 'primary']} ${className || ''}`} style={style || {}}>
       { children || localize(title) }
     </button>
   )

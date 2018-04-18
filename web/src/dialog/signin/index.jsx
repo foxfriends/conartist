@@ -25,7 +25,7 @@ export type Props = {
 type State = {
   email: string,
   password: string,
-  response: Response<User>
+  response: Response<User, string>
 }
 
 export class SignIn extends React.Component<Props, State> {

@@ -13,7 +13,13 @@ export type Retrieved<T> = { state: 'retrieved', value: T }
 export type Method = 'GET' | 'POST'
 export const unsent = { state: 'unsent' }
 
-class _Request<Params, T> {
+export interface APIRequest<Params, Result> {
+  send(params: Params): Observable<Response<Result, APIError>>
+}
+
+export type APIError = string
+
+class HttpRequest<Params, Result> {
   route: string
   method: Method
 
@@ -22,7 +28,7 @@ class _Request<Params, T> {
     this.method = method
   }
 
-  _send(request: Request): Observable<Response<T, string>> {
+  _send(request: Request): Observable<Response<Result, APIError>> {
     const headers = new Headers({
       'Content-Type': 'application/json',
       'Accept-Charset': 'utf-8',
@@ -51,23 +57,23 @@ class _Request<Params, T> {
   }
 }
 
-export class PostRequest<Params, T> extends _Request<Params, T> {
+export class PostRequest<Params, Result> extends HttpRequest<Params, Result> implements APIRequest<Params, Result> {
   constructor(route: string, authorization?: ?string) {
     super('POST', route, authorization)
   }
 
-  send(params: Params): Observable<Response<T, string>> {
+  send(params: Params): Observable<Response<Result, APIError>> {
     const body = JSON.stringify(params)
     return super._send(new Request(this.route, { method: 'POST', body }))
   }
 }
 
-export class GetRequest<Params, T> extends _Request<Params, T> {
+export class GetRequest<Params, Result> extends HttpRequest<Params, Result> implements APIRequest<Params, Result> {
   constructor(route: string, authorization?: ?string) {
     super('GET', route, authorization)
   }
 
-  send(params: Params): Observable<Response<T, string>> {
+  send(params: Params): Observable<Response<Result, APIError>> {
     let query: string = ''
     if (typeof params === 'string') {
       query = `/${params}`
@@ -97,14 +103,14 @@ const graphql = new ApolloClient({
   },
 })
 
-export class GraphQLQuery<Variables, Value, Input = Variables, Output = Value> {
+export class GraphQLQuery<Variables, Value> implements APIRequest<Variables, Value> {
   query: Query<Variables, Value>
 
   constructor(query: Query<Variables, Value>) {
     this.query = query
   }
 
-  _send(variables: Variables): Observable<Response<Value, string>> {
+  send(variables: Variables): Observable<Response<Value, APIError>> {
     return Observable.create(observer => {
       (async () => {
         observer.next({ state: 'sending', progress: 0 })
@@ -125,21 +131,16 @@ export class GraphQLQuery<Variables, Value, Input = Variables, Output = Value> {
       })()
     })
   }
-
-  send(input: Input): Observable<Response<Output, string>> {
-    // $FlowIgnore: no such thing as type constraints... but sometimes this is valid!
-    return this._send(input)
-  }
 }
 
-export class GraphQLMutation<Variables, Value, Input = Variables, Output = Value> {
+export class GraphQLMutation<Variables, Value> implements APIRequest<Variables, Value> {
   mutation: Mutation<Variables, Value>
 
   constructor(mutation: Mutation<Variables, Value>) {
     this.mutation = mutation
   }
 
-  _send(variables: Variables): Observable<Response<Value, string>> {
+  send(variables: Variables): Observable<Response<Value, APIError>> {
     return Observable.create(observer => {
       (async () => {
         observer.next({ state: 'sending', progress: 0 })
@@ -159,10 +160,5 @@ export class GraphQLMutation<Variables, Value, Input = Variables, Output = Value
         }
       })()
     })
-  }
-
-  send(input: Input): Observable<Response<Output, string>> {
-    // $FlowIgnore: no such thing as type constraints... but sometimes this is valid!
-    return this._send(input)
   }
 }

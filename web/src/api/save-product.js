@@ -2,19 +2,21 @@
 import type { Observable } from 'rxjs/Observable'
 import { of } from 'rxjs/observable/of'
 import { map } from 'rxjs/operators'
-import type { Response } from './index'
 
-import { GraphQLMutation } from './index'
-// $FlowIgnore: trouble importing graphql files
-import mutation from './graphql/mutation/add-product.graphql'
 import { parse } from '../model/product'
-import type { AddProductMutationVariables as Variables, AddProductMutation as Value } from './schema'
-
+import { GraphQLMutation } from './index'
+import type { Response, APIRequest, APIError } from './index'
+import type { AddProductMutationVariables, AddProductMutation } from './schema'
 import type { EditableProduct } from '../content/edit-products/schema'
 
-export class SaveProduct extends GraphQLMutation<Variables, Value, EditableProduct, EditableProduct> {
+// $FlowIgnore: trouble importing graphql files
+import addProduct from './graphql/mutation/add-product.graphql'
+
+export class SaveProduct implements APIRequest<EditableProduct, EditableProduct> {
+  addProduct: GraphQLMutation<AddProductMutationVariables, AddProductMutation>
+
   constructor() {
-    super(mutation)
+    this.addProduct = new GraphQLMutation(addProduct)
   }
 
   send(product: EditableProduct): Observable<Response<EditableProduct, string>> {
@@ -23,7 +25,7 @@ export class SaveProduct extends GraphQLMutation<Variables, Value, EditableProdu
       if (product.name === original.name && product.quantity === original.quantity && product.discontinued === original.discontinued) {
         return of({ state: 'retrieved', value: product })
       } else {
-        // TODO: save. will require changing API classes again...
+        // TODO: save
         return of({ state: 'retrieved', value: product })
       }
     } else if (typeof product.typeId === 'number') {
@@ -34,7 +36,7 @@ export class SaveProduct extends GraphQLMutation<Variables, Value, EditableProdu
           quantity: product.quantity,
         }
       }
-      return this._send(variables)
+      return this.addProduct.send(variables)
         .pipe(
           map(response => response.state === 'retrieved'
             ? { state: 'retrieved', value: { ...parse(response.value.addUserProduct), product } }

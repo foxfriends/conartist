@@ -1,29 +1,31 @@
 /* @flow */
 import type { Observable } from 'rxjs/Observable'
-import type { Response } from './index'
 import { of } from 'rxjs/observable/of'
 import { map } from 'rxjs/operators'
 
-import { GraphQLMutation } from './index'
-// $FlowIgnore: trouble importing graphql files
-import mutation from './graphql/mutation/add-product-type.graphql'
 import { parse } from '../model/product-type'
-import type { AddProductTypeMutationVariables as Variables, AddProductTypeMutation as Value } from './schema'
-
+import { GraphQLMutation } from './index'
+import type { Response, APIRequest, APIError } from './index'
+import type { AddProductTypeMutationVariables, AddProductTypeMutation } from './schema'
 import type { EditableProductType } from '../content/edit-products/schema'
 
-export class SaveProductType extends GraphQLMutation<Variables, Value, EditableProductType, EditableProductType> {
+// $FlowIgnore: trouble importing graphql files
+import addProductType from './graphql/mutation/add-product-type.graphql'
+
+export class SaveProductType implements APIRequest<EditableProductType, EditableProductType> {
+  addProductType: GraphQLMutation<AddProductTypeMutationVariables, AddProductTypeMutation>
+
   constructor() {
-    super(mutation)
+    this.addProductType = new GraphQLMutation(addProductType)
   }
 
-  send(productType: EditableProductType): Observable<Response<EditableProductType, string>> {
+  send(productType: EditableProductType): Observable<Response<EditableProductType, APIError>> {
     const { productType: original } = productType;
     if (original) {
       if (productType.name === original.name && productType.color === original.color && productType.discontinued === original.discontinued) {
         return of({ state: 'retrieved', value: productType })
       } else {
-        // TODO: save. will require changing API classes again...
+        // TODO: save
         return of({ state: 'retrieved', value: productType })
       }
     } else {
@@ -33,7 +35,7 @@ export class SaveProductType extends GraphQLMutation<Variables, Value, EditableP
           color: productType.color || 0xffffff,
         }
       }
-      return this._send(variables)
+      return this.addProductType.send(variables)
         .pipe(
           map(response => response.state === 'retrieved'
             ? { state: 'retrieved', value: { ...parse(response.value.addUserProductType), productType } }

@@ -40,7 +40,6 @@ export function EditProductCard({ productType, products, topAction, bottomAction
                 placeholder={l`New product`}
                 onChange={name => onProductNameChange(product.id, name)}
                 className={S.productName}
-                autoFocus
                 />
               <Input
                 defaultValue={`${product.name === '' ? '' : product.quantity}`}

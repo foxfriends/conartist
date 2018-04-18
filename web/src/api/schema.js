@@ -37,6 +37,20 @@ export type RecordDel = {|
   recordId: number,
 |};
 
+export type ProductTypeMod = {|
+  typeId: number,
+  name?: ?string,
+  color?: ?number,
+  discontinued?: ?boolean,
+|};
+
+export type ProductMod = {|
+  productId: number,
+  name?: ?string,
+  quantity?: ?number,
+  discontinued?: ?boolean,
+|};
+
 export type ExpenseMod = {|
   expenseId: number,
   price?: ?any,
@@ -160,6 +174,37 @@ export type DownvoteConventionInfoMutation = {|
     id: number,
     upvotes: number,
     downvotes: number,
+  |},
+|};
+
+export type ModProductTypeMutationVariables = {|
+  id?: ?number,
+  productType: ProductTypeMod,
+|};
+
+export type ModProductTypeMutation = {|
+  modUserProductType: {|
+    __typename: "ProductType",
+    id: number,
+    name: string,
+    color: ?number,
+    discontinued: boolean,
+  |},
+|};
+
+export type ModProductMutationVariables = {|
+  id?: ?number,
+  product: ProductMod,
+|};
+
+export type ModProductMutation = {|
+  modUserProduct: {|
+    __typename: "Product",
+    id: number,
+    typeId: number,
+    name: string,
+    quantity: number,
+    discontinued: boolean,
   |},
 |};
 

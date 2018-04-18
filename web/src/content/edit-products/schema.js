@@ -36,6 +36,9 @@ export function peekTypeId(): Id {
 }
 
 export function nonEditableProduct(product: EditableProduct): Product {
+  if (typeof product.id === 'string' || typeof product.typeId === 'string') {
+    throw new Error('Cannot convert an unsaved product to a Product');
+  }
   return {
     id: product.id,
     typeId: product.typeId,
@@ -46,6 +49,9 @@ export function nonEditableProduct(product: EditableProduct): Product {
 }
 
 export function nonEditableProductType(productType: EditableProductType): ProductType {
+  if (typeof productType.id === 'string') {
+    throw new Error('Cannot convert an unsaved product type to a ProductType');
+  }
   return {
     id: productType.id,
     name: productType.name,

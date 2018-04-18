@@ -39,7 +39,7 @@ export function Products({ products, productTypes }: Props) {
           <Table dataSource={products}>
             <Fragment>
               <div className={S.placeholder}>
-                {l`You don't have any of these yet!`}
+                {l`You aren't selling any of these`}
                 {/* TODO: get some images for this */}
               </div>
             </Fragment>

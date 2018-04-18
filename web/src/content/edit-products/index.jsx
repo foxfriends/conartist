@@ -248,7 +248,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
           }
           <Card className={S.newProductType}>
             <Fragment key={`product_type_${peekTypeId()}`}>
-              <Input className={S.productTypeName} placeholder={l`New product type`} onSubmit={name => this.createProductType(name)} autoFocus />
+              <Input className={S.productTypeName} placeholder={l`New product type`} onSubmit={name => this.createProductType(name)} />
             </Fragment>
             <Fragment>
               { productTypes.length === 0

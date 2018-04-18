@@ -19,10 +19,10 @@ export type Props = {
   onProductTypeNameChange: (string) => void,
   onProductNameChange: (Id, string) => void,
   onProductQuantityChange: (Id, string) => void,
-  onProductDiscontinue: (Id) => void,
+  onProductToggleDiscontinue: (Id) => void,
 }
 
-export function EditProductCard({ productType, products, topAction, bottomAction, onProductTypeNameChange, onProductNameChange, onProductQuantityChange, onProductDiscontinue }: Props) {
+export function EditProductCard({ productType, products, topAction, bottomAction, onProductTypeNameChange, onProductNameChange, onProductQuantityChange, onProductToggleDiscontinue }: Props) {
   return (
     <Card collapsible={true} topAction={topAction} bottomAction={bottomAction}>
       <Fragment>
@@ -48,8 +48,8 @@ export function EditProductCard({ productType, products, topAction, bottomAction
                 className={S.productQuantity}
                 />
               <IconButton
-                title={'remove_circle_outline'}
-                action={() => onProductDiscontinue(product.id)}
+                title={product.discontinued ? 'remove_circle_outline' : 'add_circle_outline'}
+                action={() => onProductToggleDiscontinue(product.id)}
                 className={S.discontinueButton}
                 />
             </Item>

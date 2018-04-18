@@ -160,23 +160,23 @@ export class EditProducts extends ReactX.Component<Props, State> {
     }
   }
 
-  handleProductTypeDiscontinue(id: Id) {
+  handleProductTypeDiscontinueToggled(id: Id) {
     if (typeof id === 'string') {
       const products = this.state.products.filter(product => product.typeId !== id)
       const productTypes = this.state.productTypes.filter(productType => productType.id !== id)
       this.setState({ products, productTypes })
     } else {
-      const productTypes = this.state.productTypes.map(productType => productType.id === id ? { ...productType, discontinued: true } : productType)
+      const productTypes = this.state.productTypes.map(productType => productType.id === id ? { ...productType, discontinued: !productType.discontinued } : productType)
       this.setState({ productTypes })
     }
   }
 
-  handleProductDiscontinue(id: Id) {
+  handleProductDiscontinueToggled(id: Id) {
     if (typeof id === 'string') {
       const products = this.state.products.filter(product => product.id !== id)
       this.setState({ products })
     } else {
-      const products = this.state.products.map(product => product.id === id ? { ...product, discontinued: true } : product)
+      const products = this.state.products.map(product => product.id === id ? { ...product, discontinued: !product.discontinued } : product)
       this.setState({ products })
     }
   }
@@ -219,14 +219,14 @@ export class EditProducts extends ReactX.Component<Props, State> {
     const dataSource = productTypes
       .map(productType => [ productType, sortedProducts.get(productType.id) ])
 
-    const removeProductType = typeId => ({
-      title: 'remove',
-      action: () => this.handleProductTypeDiscontinue(typeId),
+    const toggleDiscontinueProductType = ({ id, discontinued }) => ({
+      title: discontinued ? 'add' : 'remove',
+      action: () => this.handleProductTypeDiscontinueToggled(id),
     })
 
-    const addProduct = typeId => ({
+    const addProduct = ({ id }) => ({
       title: 'add',
-      action: () => this.createProduct(typeId),
+      action: () => this.createProduct(id),
     })
 
     return (
@@ -237,12 +237,12 @@ export class EditProducts extends ReactX.Component<Props, State> {
               <EditProductCard
                 productType={productType}
                 products={products}
-                topAction={removeProductType(productType.id)}
-                bottomAction={addProduct(productType.id)}
+                topAction={toggleDiscontinueProductType(productType)}
+                bottomAction={addProduct(productType)}
                 onProductTypeNameChange={name => this.handleProductTypeNameChange(productType.id, name)}
                 onProductNameChange={(id, name) => this.handleProductNameChange(id, name)}
                 onProductQuantityChange={(id, name) => this.handleProductQuantityChange(id, name)}
-                onProductDiscontinue={id => this.handleProductDiscontinue(id)}
+                onProductToggleDiscontinue={id => this.handleProductDiscontinueToggled(id)}
                 key={`product_type_${productType.id}`}
                 />
           }

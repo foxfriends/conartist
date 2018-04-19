@@ -6,7 +6,7 @@ import { fromPromise } from 'rxjs/observable/fromPromise'
 import { skip, switchMap } from 'rxjs/operators'
 
 import LOGO from '../../../icons/apple-icon-180x180.png'
-import { l } from '../../localization'
+import { l, lx } from '../../localization'
 import { Input } from '../../common/input'
 import { Icon } from '../../common/icon'
 import { Tooltip } from '../../common/tooltip'
@@ -103,7 +103,7 @@ export class EmailForm extends React.Component<Props, State> {
       <Form image={LOGO}>
         <div className={S.question}>
           { l`Can I get your email?` }
-          <Tooltip title={l``}>
+          <Tooltip title={lx`<Email usage disclaimer>`(_ => _)}>
             <Icon className={S.info} name="info_outline" />
           </Tooltip>
         </div>

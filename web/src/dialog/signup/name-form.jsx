@@ -2,7 +2,7 @@
 import * as React from 'react'
 
 import LOGO from '../../../icons/apple-icon-180x180.png'
-import { l } from '../../localization'
+import { l, lx } from '../../localization'
 import { Input } from '../../common/input'
 import { Icon } from '../../common/icon'
 import { Tooltip } from '../../common/tooltip'
@@ -29,7 +29,7 @@ export function NameForm({ onValidate, onChange, onSubmit }: Props) {
     <Form image={LOGO}>
       <div className={S.question}>
         { l`What do people call you?` }
-        <Tooltip title={l``}>
+        <Tooltip title={lx`<Name usage disclaimer>`(_ => _)}>
           <Icon className={S.info} name="info_outline" />
         </Tooltip>
       </div>

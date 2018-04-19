@@ -1,3 +1,44 @@
+.container {
+  position: relative;
+}
+
 .target {
   display: inline-block;
+  outline: none;
+}
+
+.tooltip {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  padding: 8px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  background-color: var(--color--background-backdrop);
+  opacity: 0;
+  transform: translateX(-50%) scale(0.8);
+  transform-origin: center bottom;
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+  text-align: center;
+  font-weight: var(--font-weight--regular);
+  white-space: nowrap;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: calc(50% - 4px);
+    top: 100%;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 8px;
+    border-color: transparent;
+    border-top-color: var(--color--background-backdrop);
+  }
+}
+
+.target:hover + .tooltip, .target:focus + .tooltip {
+  opacity: 1;
+  transform: translateX(-50%) scale(1) ;
 }

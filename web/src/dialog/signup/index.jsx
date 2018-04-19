@@ -117,7 +117,7 @@ export class SignUp extends React.Component<Props, State> {
         }
         form = <Completed {...this.formDelegate} account={account} />
         break
-    } 
+    }
 
     return (
       <Basic title={l`Sign up`} onContinue={onContinue} onBack={onBack} onClose={closeDialog} pager={pagerProps}>

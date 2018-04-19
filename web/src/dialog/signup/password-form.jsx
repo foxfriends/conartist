@@ -14,7 +14,8 @@ import S from '../form.css'
 type State = {
   password: string,
   confirmPassword: string,
-  validation: InputValidation,
+  passwordValidation: InputValidation,
+  mismatchValidation: InputValidation,
 }
 
 const MIN_PASSWORD_LENGTH = 8
@@ -30,7 +31,8 @@ export class PasswordForm extends React.Component<Props, State> {
     this.state = {
       password: '',
       confirmPassword: '',
-      validation: { state: EMPTY },
+      passwordValidation: { state: EMPTY },
+      mismatchValidation: { state: EMPTY },
     }
   }
 
@@ -48,32 +50,32 @@ export class PasswordForm extends React.Component<Props, State> {
   }
 
   validate(password: string, confirmPassword: string) {
-    if (password === '' || confirmPassword === '') {
-      this.setState({ validation: { state: EMPTY }})
-      this.props.onValidate(false)
+    let passwordValidation = { state: VALID }
+    let mismatchValidation = { state: VALID }
+    if (password === '') {
+      passwordValidation = { state: EMPTY }
     } else if (password.length < MIN_PASSWORD_LENGTH) {
-      this.setState({ validation: { state: INVALID, error: l`Your password is too short` }})
-      this.props.onValidate(false)
-    } else if (password !== confirmPassword) {
-      this.setState({ validation: { state: INVALID, error: l`Your passwords don't match` }})
-      this.props.onValidate(false)
-    } else {
-      this.setState({ validation: { state: VALID }})
-      this.props.onValidate(true)
+      passwordValidation = { state: INVALID, error: l`Your password is too short` }
     }
+    if (confirmPassword === '') {
+      mismatchValidation = { state: EMPTY }
+    } else if (password !== confirmPassword) {
+      mismatchValidation = { state: INVALID, error: l`Your passwords don't match` }
+    }
+    this.setState({ passwordValidation, mismatchValidation })
+    this.props.onValidate(passwordValidation.state === VALID && mismatchValidation.state === VALID)
   }
 
   render() {
     const { onSubmit } = this.props
-    const { validation } = this.state
+    const { passwordValidation, mismatchValidation } = this.state
     return (
       <Form image={LOGO}>
         <div className={S.question}>
           { l`Pick a password. I'm not looking.` }
         </div>
-        <Input className={S.input} type="password" placeholder={l`Password`} onChange={password => this.handlePasswordChange(password)} onSubmit={() => this.confirmInput.current.focus()} key="password" autoFocus />
-        <Input className={S.input} type="password" placeholder={l`And again`} onChange={password => this.handleConfirmPasswordChange(password)} ref={this.confirmInput} onSubmit={onSubmit} />
-        { validation.state === INVALID ? <span className={S.error}>{ validation.error }</span> : null }
+        <Input className={S.input} type="password" placeholder={l`Password`} onChange={password => this.handlePasswordChange(password)} onSubmit={() => this.confirmInput.current.focus()} validation={passwordValidation} key="password" autoFocus />
+        <Input className={S.input} type="password" placeholder={l`And again`} onChange={password => this.handleConfirmPasswordChange(password)} ref={this.confirmInput} onSubmit={onSubmit} validation={mismatchValidation}/>
       </Form>
     )
   }

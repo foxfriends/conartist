@@ -21,7 +21,8 @@ import S from '../form.css'
 type State = {
   email: string,
   confirmEmail: string,
-  validation: InputValidation,
+  emailValidation: InputValidation,
+  mismatchValidation: InputValidation,
 }
 
 const EMAIL_FORMAT = /^[^@]+@[^@]+\.[^@]+$/
@@ -44,7 +45,8 @@ export class EmailForm extends React.Component<Props, State> {
     this.state = {
       email: '',
       confirmEmail: '',
-      validation: { state: EMPTY },
+      emailValidation: { state: EMPTY },
+      mismatchValidation: { state: EMPTY },
     }
 
     this.email
@@ -59,8 +61,8 @@ export class EmailForm extends React.Component<Props, State> {
         skip(1),
         switchMap(([email, confirmEmail]) => fromPromise(this.validate(email, confirmEmail))),
       )
-      .subscribe(validation => this.setState({ validation }, () => {
-        this.props.onValidate(this.state.validation.state === VALID)
+      .subscribe(validations => this.setState({ ...validations }, () => {
+        this.props.onValidate(this.state.emailValidation.state === VALID && this.state.mismatchValidation.state === VALID)
       }))
   }
 
@@ -82,23 +84,27 @@ export class EmailForm extends React.Component<Props, State> {
     this.confirmEmail.next(trimmed)
   }
 
-  async validate(email: string, confirmEmail: string): Promise<InputValidation> {
+  async validate(email: string, confirmEmail: string): Promise<{ emailValidation: InputValidation, mismatchValidation: InputValidation }> {
+    let emailValidation = { state: VALID }
+    let mismatchValidation = { state: VALID }
     if (email !== '' && (await this.emailInUse.send(email).toPromise()).value) {
-      return { state: INVALID, error: l`That email is already being used` }
-    } else if (email === '' || confirmEmail === '') {
-      return { state: EMPTY }
+      emailValidation = { state: INVALID, error: l`That email is already being used` }
+    } else if (email === '') {
+      emailValidation = { state: EMPTY }
     } else if (!EMAIL_FORMAT.test(email)) {
-      return { state: INVALID, error: l`Your email looks wrong` }
-    } else if (email !== confirmEmail) {
-      return { state: INVALID, error: l`Your emails don't match` }
-    } else {
-      return { state: VALID }
+      emailValidation = { state: INVALID, error: l`Your email looks wrong` }
     }
+    if (confirmEmail === '') {
+      mismatchValidation = { state: EMPTY }
+    } else if (email !== confirmEmail) {
+      mismatchValidation = { state: INVALID, error: l`Your emails don't match` }
+    }
+    return { emailValidation, mismatchValidation }
   }
 
   render() {
     const { onSubmit } = this.props
-    const { validation } = this.state
+    const { emailValidation, mismatchValidation } = this.state
     return (
       <Form image={LOGO}>
         <div className={S.question}>
@@ -107,10 +113,9 @@ export class EmailForm extends React.Component<Props, State> {
             <Icon className={S.info} name="info_outline" />
           </Tooltip>
         </div>
-        <Input className={S.input} placeholder={l`Email`} onChange={email => this.handleEmailChange(email)} onSubmit={() => this.confirmInput.current.focus()} key="email" autoFocus />
-        <Input className={S.input} placeholder={l`And again`} onChange={email => this.handleConfirmEmailChange(email)} ref={this.confirmInput} onSubmit={onSubmit} />
+        <Input className={S.input} placeholder={l`Email`} onChange={email => this.handleEmailChange(email)} onSubmit={() => this.confirmInput.current.focus()} key="email" autoFocus validation={emailValidation}/>
+        <Input className={S.input} placeholder={l`And again`} onChange={email => this.handleConfirmEmailChange(email)} ref={this.confirmInput} onSubmit={onSubmit} validation={mismatchValidation}/>
         <span className={S.hint}>{ l`We won't send you anything.` }<br />{ l`Promise.` }</span>
-        { validation.state === INVALID ? <span className={S.error}>{ validation.error }</span> : null }
       </Form>
     )
   }

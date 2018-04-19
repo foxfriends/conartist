@@ -72,17 +72,6 @@
   color: var(--color--text-placeholder);
 }
 
-.error {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  margin-top: 10px;
-  text-align: center;
-  color: var(--color--warn);
-  font-size: 14px;
-}
-
 .scrollbox {
   box-sizing: border-box;
   height: 140px;

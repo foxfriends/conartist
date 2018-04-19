@@ -20,7 +20,7 @@
   border: none;
 }
 
-.title, .placeholder, .errorMessage {
+.title, .placeholder {
   user-select: none;
   pointer-events: none;
 }
@@ -56,16 +56,21 @@
   background-color: var(--color--brand);
 }
 
-.input:focus ~ .errorMessage {
+.input:focus ~ .error {
   display: none;
 }
 
-.errorMessage ~ .underline {
+.error ~ .underline {
   background-color: var(--color--warn);
 }
 
-.errorMessage {
-  color: var(--color--warn);
-  font-size: 12px;
+.error {
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
+  font-size: 14px;
 }
 
+.errorIcon {
+  color: var(--color--warn);
+}

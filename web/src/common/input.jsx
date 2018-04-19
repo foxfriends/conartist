@@ -1,5 +1,8 @@
 /* @flow */
 import * as React from 'react'
+
+import { Tooltip } from './tooltip'
+import { Icon } from './icon'
 import { INVALID, VALID, EMPTY } from '../model/validation'
 import type { Validation as GenericValidation } from '../model/validation'
 
@@ -77,7 +80,11 @@ export class Input extends React.Component<Props, State> {
       <div className={`${S.container} ${className || ''}`}>
         <input className={`${S.input} ${value === '' ? S.empty : ''}`} autoFocus={autoFocus} tabIndex={tabIndex} defaultValue={defaultValue || ''} onChange={event => this.handleChange(event)} type={type || 'text'} onKeyDown={event => this.handleKeyDown(event)} ref={this.inputElement} />
         { title ? <span className={S.title}>{ title || '' }</span> : null }
-        { validation.state === INVALID ? <span className={S.errorMessage}>{ validation.error }</span> : null }
+        { validation.state === INVALID
+          ? <Tooltip title={validation.error} className={S.error}>
+              <Icon name="error" className={S.errorIcon}/>
+            </Tooltip>
+          : null }
         { placeholder && !title && !value ? <span className={S.placeholder}>{ placeholder || '' }</span> : null }
         <div className={S.underline} />
       </div>

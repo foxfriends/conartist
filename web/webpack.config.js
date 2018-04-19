@@ -15,7 +15,7 @@ module.exports = {
     rules: [
       { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader' },
       { test: /\.(png|svg|gif|jpe?g)$/, loader: 'file-loader?name=images/[hash].[ext]!img-loader' },
-      { 
+      {
         test: /\.css$/,
         exclude: /node_modules/,
         loader: 'style-loader!css-modules-flow-types-loader!css-loader?modules=true&minimize=true!postcss-loader',
@@ -26,6 +26,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
   },
+  devtool: 'cheap-eval-source-map',
   plugins: [
     // new UglifyJSPlugin(),
   ]

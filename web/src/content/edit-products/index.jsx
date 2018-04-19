@@ -267,7 +267,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
       })
     })()
 
-    return { productTypes: validatedProductTypes, products: validatedProducts }
+    return { productTypes: validatedProductTypes || this.state.productTypes, products: validatedProducts || this.state.products }
   }
 
   render() {

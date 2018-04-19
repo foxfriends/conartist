@@ -64,13 +64,13 @@ export class ConArtist extends React.Component<Props, State> {
       case 'products':
         state.toolbar = { primary: toolbarAction.EditProducts, secondary: null }
         state.content = { name: 'products', productTypes: model.productTypes, products: model.products }
-        state.navigation = NavInfo.default.select('Products')
+        state.navigation = NavInfo.default.select('Products', [].concat(...model.productTypes.map(NavInfo.forProductType)))
         break
 
       case 'edit-products':
         state.toolbar = toolbar
         state.content = { name: 'edit-products', productTypes: model.productTypes, products: model.products }
-        state.navigation = NavInfo.default.select('Products').disable()
+        state.navigation = NavInfo.default.select('Products', [].concat(...model.productTypes.map(NavInfo.forProductType))).disable()
         break
 
       case 'prices':

@@ -52,6 +52,24 @@ export function settings() {
   model.next({ ...model.getValue(), page: page.settings })
 }
 
+export type ScrollTarget = 'product-type'
+
+export function scrollIdentifier(target: ScrollTarget, id: number | string) {
+  return `scroll-to-${target}-${id}`
+}
+
+export function scrollTo(target: ScrollTarget, id: number | string): () => void {
+  return () => {
+    const element = document.querySelector(`#${scrollIdentifier(target, id)}`)
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
+    }
+  }
+}
+
 export function to(page: Page) {
   model.next({ ...model.getValue(), page })
 }

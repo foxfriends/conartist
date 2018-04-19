@@ -6,6 +6,7 @@ import { CardView } from '../card-view'
 import { BasicCard } from '../card-view/basic-card'
 import { Table } from '../table'
 import { Row } from '../table/row'
+import { scrollIdentifier } from '../../update/navigate'
 import type { Product } from '../../model/product'
 import type { ProductType } from '../../model/product-type'
 import S from './index.css'
@@ -37,7 +38,7 @@ export function Products({ products, productTypes }: Props) {
         </div>
       </BasicCard>
       {([ productType, products ]) =>
-        <BasicCard title={productType.name} collapsible={true} key={`product_type_${productType.id}`}>
+        <BasicCard id={scrollIdentifier('product-type', productType.id)} title={productType.name} collapsible={true} key={`product_type_${productType.id}`}>
           <Table dataSource={products}>
             <Fragment>
               <div className={S.placeholder}>

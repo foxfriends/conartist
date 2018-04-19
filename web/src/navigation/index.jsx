@@ -2,10 +2,11 @@
 import * as React from 'react'
 
 import { Item } from './item'
+import { l } from '../localization'
+import * as navigate from '../update/navigate'
+import type { ProductType } from '../model/product-type'
 import type { Props as ItemProps } from './item'
 import S from './index.css'
-import * as navigate from '../update/navigate'
-import { l } from '../localization'
 
 function itemToProps({ title, icon, selected, children, enabled, action }: ItemInfo): ItemProps[] {
   return (
@@ -24,9 +25,11 @@ export type Props = {
 export function Navigation({ items }: Props) {
   const itemProps = [].concat(...items.map(itemToProps))
   return (
-    <nav className={S.container}>
-      { itemProps.map((item, key) => <Item {...item} key={`nav_item_${key}`} />) }
-    </nav>
+    <div className={S.container}>
+      <nav className={S.nav}>
+        { itemProps.map((item, key) => <Item {...item} key={`nav_item_${key}`} />) }
+      </nav>
+    </div>
   )
 }
 
@@ -62,7 +65,7 @@ export class ItemInfo {
 
   /**
    * Sets the children of this item
-   * 
+   *
    * @param children {?ItemInfo[]} The children to set
    */
   withChildren(children: ?ItemInfo[]): ItemInfo {
@@ -75,9 +78,9 @@ export class ItemInfo {
    *
    * @param enabled {boolean} Whether the item should be enabled
    */
-  enable(enabled: boolean): ItemInfo {
+  enable(enabled: boolean, nested: boolean = false): ItemInfo {
     this.enabled = enabled
-    if (this.children) {
+    if (nested && this.children) {
       this.children = this.children.map(child => child.enable(enabled))
     }
     return this
@@ -111,7 +114,7 @@ export class NavInfo {
    * @param children {?ItemInfo[]} Any children to add to this node
    */
   select(option: string, children: ?ItemInfo[]): NavInfo {
-    this.items = this.items.map(item => item.select(item.title === option).withChildren(item.title === option ? children : null))
+    this.items = this.items.map(item => item.withChildren(item.title === option ? children : null).select(item.title === option))
     return this
   }
 
@@ -120,16 +123,21 @@ export class NavInfo {
    *
    * @param option {?string} The option to leave enabled. Leave out to enable all
    */
-  enable(option?: string): NavInfo {
-    this.items = this.items.map(item => item.enable(!option || item.title === option))
+  enable(option?: string, nested: boolean = false): NavInfo {
+    this.items = this.items.map(item => item.enable(!option || item.title === option, nested))
     return this
   }
 
-  /** 
+  /**
    * Disables all the options
    */
-  disable(): NavInfo {
-    this.items = this.items.map(item => item.enable(false))
+  disable(nested: boolean = false): NavInfo {
+    this.items = this.items.map(item => item.enable(false, nested))
     return this
+  }
+
+  static forProductType({ id, name, discontinued }: ProductType): ItemInfo[] {
+    if (discontinued) { return [] }
+    return [new ItemInfo(name, 'remove', navigate.scrollTo('product-type', id))]
   }
 }

@@ -6,6 +6,7 @@ import type { Action } from '../../common/button'
 import S from './card.css'
 
 export type Props = {
+  id?: string,
   topAction?: ?Action,
   defaultCollapsed?: boolean,
   bottomAction?: ?Action,
@@ -33,11 +34,11 @@ export class Card extends React.Component<Props, State> {
   }
 
   render() {
-    const { children: [header, content], collapsible, topAction, bottomAction, className, style } = this.props
+    const { children: [header, content], collapsible, topAction, bottomAction, id, className, style } = this.props
     const { collapsed } = this.state
     const isCollapsed = collapsed && collapsible
     return (
-      <div className={`${S.card} ${className || ''}`} style={style || {}}>
+      <div className={`${S.card} ${className || ''}`} id={id || ''} style={style || {}}>
         <div className={S.header}>
           { header }
           { collapsible

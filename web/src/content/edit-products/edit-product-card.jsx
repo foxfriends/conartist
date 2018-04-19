@@ -6,6 +6,7 @@ import { Input } from '../../common/input'
 import { List } from '../list'
 import { Item } from '../list/item'
 import { IconButton } from '../../common/icon-button'
+import { scrollIdentifier } from '../../update/navigate'
 import type { Action } from '../../common/button'
 import type { Id, EditableProduct, EditableProductType } from './schema'
 import S from './index.css'
@@ -24,7 +25,7 @@ export type Props = {
 
 export function EditProductCard({ productType, products, topAction, bottomAction, onProductTypeNameChange, onProductNameChange, onProductQuantityChange, onProductToggleDiscontinue }: Props) {
   return (
-    <Card collapsible={true} defaultCollapsed={productType.discontinued} topAction={topAction} bottomAction={bottomAction} className={productType.discontinued ? S.discontinued : ''}>
+    <Card id={scrollIdentifier('product-type', productType.id)} collapsible={true} defaultCollapsed={productType.discontinued} topAction={topAction} bottomAction={bottomAction} className={productType.discontinued ? S.discontinued : ''}>
       <Fragment>
         <Input className={S.productTypeName} defaultValue={productType.name} onChange={onProductTypeNameChange} />
       </Fragment>

@@ -5,15 +5,16 @@ import { Card } from './card'
 import S from './basic-card.css'
 const { Fragment } = React
 
-export type Props = { 
+export type Props = {
   collapsible?: boolean,
   title?: React.Node,
   children?: React.Node,
+  id?: string,
 }
 
-export function BasicCard({ children, title, collapsible }: Props) {
+export function BasicCard({ children, title, collapsible, id }: Props) {
   return (
-    <Card collapsible={collapsible || false}>
+    <Card collapsible={collapsible || false} id={id}>
       <Fragment>
         { title ? <div className={S.title}>{ title }</div> : null }
       </Fragment>

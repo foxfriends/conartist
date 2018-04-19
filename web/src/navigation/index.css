@@ -5,3 +5,8 @@
   flex-grow: 0;
   flex-shrink: 0;
 }
+
+.nav {
+  position: fixed;
+  width: 280px;
+}

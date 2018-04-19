@@ -1,9 +1,18 @@
 /* @flow */
+import { VALID } from '../../model/validation'
 import type { ProductType } from '../../model/product-type'
 import type { Product } from '../../model/product'
+import type { Validation } from '../../model/validation'
+
+export opaque type ValidationError = Symbol
+export const DuplicateName: ValidationError = Symbol()
+export const NonNumberQuantity: ValidationError = Symbol()
+export const NegativeQuantity: ValidationError = Symbol()
+export const NonIntegerQuantity: ValidationError = Symbol()
 
 export type EditableProductType = {
   productType?: ?EditableProductType,
+  validation: Validation<ValidationError>,
   id: Id,
   name: string,
   color: ?number,
@@ -12,6 +21,7 @@ export type EditableProductType = {
 
 export type EditableProduct = {
   product?: ?EditableProduct,
+  validation: Validation<ValidationError>,
   id: Id,
   typeId: Id,
   name: string,
@@ -33,6 +43,24 @@ export function uniqueProductId(): Id {
 
 export function peekTypeId(): Id {
   return `product_type_id_${typeIdCounter}`
+}
+
+export function editableProduct(product: Product): EditableProduct {
+  // $FlowIgnore: some dirty hacks huehue
+  return {
+    ...product,
+    product,
+    validation: { state: VALID },
+  }
+}
+
+export function editableProductType(productType: ProductType): EditableProductType {
+  // $FlowIgnore: some dirty hacks huehue
+  return {
+    ...productType,
+    productType,
+    validation: { state: VALID },
+  }
 }
 
 export function nonEditableProduct(product: EditableProduct): Product {

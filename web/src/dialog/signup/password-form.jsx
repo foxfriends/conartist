@@ -8,6 +8,7 @@ import { Tooltip } from '../../common/tooltip'
 import { Form } from '../form'
 import type { Props as FormProps } from '../form'
 import type { Validation as InputValidation } from '../../common/input'
+import { VALID, EMPTY, INVALID } from '../../model/validation'
 import type { FormDelegate as Props } from './index'
 import S from '../form.css'
 
@@ -30,7 +31,7 @@ export class PasswordForm extends React.Component<Props, State> {
     this.state = {
       password: '',
       confirmPassword: '',
-      validation: { state: 'empty' },
+      validation: { state: EMPTY },
     }
   }
 
@@ -49,16 +50,16 @@ export class PasswordForm extends React.Component<Props, State> {
 
   validate(password: string, confirmPassword: string) {
     if (password === '' || confirmPassword === '') {
-      this.setState({ validation: { state: 'empty' }})
+      this.setState({ validation: { state: EMPTY }})
       this.props.onValidate(false)
     } else if (password.length < MIN_PASSWORD_LENGTH) {
-      this.setState({ validation: { state: 'error', message: l`Your password is too short` }})
+      this.setState({ validation: { state: INVALID, error: l`Your password is too short` }})
       this.props.onValidate(false)
     } else if (password !== confirmPassword) {
-      this.setState({ validation: { state: 'error', message: l`Your passwords don't match` }})
+      this.setState({ validation: { state: INVALID, error: l`Your passwords don't match` }})
       this.props.onValidate(false)
     } else {
-      this.setState({ validation: { state: 'valid' }})
+      this.setState({ validation: { state: VALID }})
       this.props.onValidate(true)
     }
   }
@@ -73,9 +74,8 @@ export class PasswordForm extends React.Component<Props, State> {
         </div>
         <Input className={S.input} type="password" placeholder={l`Password`} onChange={password => this.handlePasswordChange(password)} onSubmit={() => this.confirmInput.current.focus()} key="password" autoFocus />
         <Input className={S.input} type="password" placeholder={l`And again`} onChange={password => this.handleConfirmPasswordChange(password)} ref={this.confirmInput} onSubmit={onSubmit} />
-        { validation.state === 'error' ? <span className={S.error}>{ validation.message }</span> : null }
+        { validation.state === INVALID ? <span className={S.error}>{ validation.error }</span> : null }
       </Form>
     )
   }
 }
-

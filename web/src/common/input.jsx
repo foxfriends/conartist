@@ -1,9 +1,11 @@
 /* @flow */
 import * as React from 'react'
+import { INVALID, VALID, EMPTY } from '../model/validation'
+import type { Validation as GenericValidation } from '../model/validation'
 
 import S from './input.css'
 
-export type Validation = { state: 'valid' } | { state: 'empty' } | { state: 'error', message: string }
+export type Validation = GenericValidation<String>
 
 export type Validator = ((string) => Validation) | ((string) => Promise<Validation>)
 
@@ -37,7 +39,7 @@ export class Input extends React.Component<Props, State> {
     this.state = {
       // TODO: if necessary, add a thing that ensures only the last
       //       emitted value from the validator can effect the state
-      validation: { state: 'empty' },
+      validation: { state: EMPTY },
       value: props.defaultValue || '',
     }
   }
@@ -68,14 +70,14 @@ export class Input extends React.Component<Props, State> {
   }
 
   render() {
-    const { tabIndex, autoFocus, title, placeholder, type, className, defaultValue, validation: pValidation } = this.props
-    const { validation: sValidation, value } = this.state
-    const validation = pValidation || sValidation
+    const { tabIndex, autoFocus, title, placeholder, type, className, defaultValue, validation: propsValidation } = this.props
+    const { validation: stateValidation, value } = this.state
+    const validation = propsValidation || stateValidation
     return (
       <div className={`${S.container} ${className || ''}`}>
         <input className={`${S.input} ${value === '' ? S.empty : ''}`} autoFocus={autoFocus} tabIndex={tabIndex} defaultValue={defaultValue || ''} onChange={event => this.handleChange(event)} type={type || 'text'} onKeyDown={event => this.handleKeyDown(event)} ref={this.inputElement} />
         { title ? <span className={S.title}>{ title || '' }</span> : null }
-        { validation.state === 'error' ? <span className={S.errorMessage}>{ validation.message }</span> : null }
+        { validation.state === INVALID ? <span className={S.errorMessage}>{ validation.error }</span> : null }
         { placeholder && !title && !value ? <span className={S.placeholder}>{ placeholder || '' }</span> : null }
         <div className={S.underline} />
       </div>

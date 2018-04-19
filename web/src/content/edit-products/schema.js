@@ -21,7 +21,8 @@ export type EditableProductType = {
 
 export type EditableProduct = {
   product?: ?EditableProduct,
-  validation: Validation<ValidationError>,
+  nameValidation: Validation<ValidationError>,
+  quantityValidation: Validation<ValidationError>,
   id: Id,
   typeId: Id,
   name: string,
@@ -50,7 +51,8 @@ export function editableProduct(product: Product): EditableProduct {
   return {
     ...product,
     product,
-    validation: { state: VALID },
+    nameValidation: { state: VALID },
+    quantityValidation: { state: VALID },
   }
 }
 

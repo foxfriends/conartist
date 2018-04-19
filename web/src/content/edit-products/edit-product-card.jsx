@@ -7,10 +7,54 @@ import { List } from '../list'
 import { Item } from '../list/item'
 import { IconButton } from '../../common/icon-button'
 import { scrollIdentifier } from '../../update/navigate'
+import { INVALID, VALID } from '../../model/validation'
+import { DuplicateName, NonNumberQuantity, NonIntegerQuantity, NegativeQuantity } from './schema'
 import type { Action } from '../../common/button'
-import type { Id, EditableProduct, EditableProductType } from './schema'
+import type { Validation } from '../../model/validation'
+import type { Id, EditableProduct, EditableProductType, ValidationError } from './schema'
+import type { Validation as InputValidation } from '../../common/input'
 import S from './index.css'
 const { Fragment } = React
+
+function productTypeValidation(validation: Validation<ValidationError>): InputValidation {
+  if (validation.state !== INVALID) {
+    return validation
+  }
+  switch (validation.error) {
+    case DuplicateName:
+      return { state: INVALID, error: l`This name is used twice!` }
+    default:
+      return { state: VALID }
+  }
+}
+
+function productNameValidation(validation: Validation<ValidationError>): InputValidation {
+  if (validation.state !== INVALID) {
+    return validation
+  }
+  switch (validation.error) {
+    case DuplicateName:
+      return { state: INVALID, error: l`This name is used twice!` }
+    default:
+      return { state: VALID }
+  }
+}
+
+function productQuantityValidation(validation: Validation<ValidationError>): InputValidation {
+  if (validation.state !== INVALID) {
+    return validation
+  }
+  switch (validation.error) {
+    case NonNumberQuantity:
+      return { state: INVALID, error: l`This isn't a number!` }
+    case NonIntegerQuantity:
+      return { state: INVALID, error: l`This has to be a whole number!` }
+    case NegativeQuantity:
+      return { state: INVALID, error: l`You can't have less than none!` }
+    default:
+      return { state: VALID }
+  }
+}
 
 export type Props = {
   productType: EditableProductType,
@@ -27,7 +71,12 @@ export function EditProductCard({ productType, products, topAction, bottomAction
   return (
     <Card id={scrollIdentifier('product-type', productType.id)} collapsible={true} defaultCollapsed={productType.discontinued} topAction={topAction} bottomAction={bottomAction} className={productType.discontinued ? S.discontinued : ''}>
       <Fragment>
-        <Input className={S.productTypeName} defaultValue={productType.name} onChange={onProductTypeNameChange} />
+        <Input
+          className={S.productTypeName}
+          defaultValue={productType.name}
+          onChange={onProductTypeNameChange}
+          validation={productTypeValidation(productType.validation)}
+          />
       </Fragment>
       <Fragment>
         <List dataSource={products}>
@@ -41,12 +90,14 @@ export function EditProductCard({ productType, products, topAction, bottomAction
                 placeholder={l`New product`}
                 onChange={name => onProductNameChange(product.id, name)}
                 className={S.productName}
+                validation={productNameValidation(product.nameValidation)}
                 />
               <Input
                 defaultValue={`${product.name === '' ? '' : product.quantity}`}
                 placeholder={l`Quantity`}
                 onChange={quantity => onProductQuantityChange(product.id, quantity)}
                 className={S.productQuantity}
+                validation={productQuantityValidation(product.quantityValidation)}
                 />
               <IconButton
                 title={product.discontinued ? 'add_circle_outline' : 'remove_circle_outline'}

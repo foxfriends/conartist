@@ -218,7 +218,8 @@ export class EditProducts extends ReactX.Component<Props, State> {
   createProduct(typeId: Id) {
     const newProduct = {
       product: null,
-      validation: { state: EMPTY },
+      nameValidation: { state: EMPTY },
+      quantityValidation: { state: EMPTY },
       id: uniqueProductId(),
       typeId,
       name: '',
@@ -231,39 +232,41 @@ export class EditProducts extends ReactX.Component<Props, State> {
 
   validate({ productTypes, products }: Validatable): Validatable {
     const validatedProductTypes = productTypes && (() => {
-      const usedNames = new Set()
+      const usedNames = new DefaultMap([], 0)
+      productTypes.forEach(({ name }) => usedNames.set(name, usedNames.get(name) + 1))
       return productTypes.map(productType => {
         if (productType.name === '') {
           return { ...productType, validation: { state: EMPTY } }
         }
-        if (usedNames.has(productType.name)) {
+        if (usedNames.get(productType.name) > 1) {
           return { ...productType, validation: { state: INVALID, error: DuplicateName } }
         }
-        usedNames.add(productType.name)
         return { ...productType, validation: { state: VALID } }
       })
     })()
 
     const validatedProducts = products && (() => {
-      const usedNames = new Set()
+      const usedNames = new DefaultMap([], 0)
+      products.forEach(({ name }) => usedNames.set(name, usedNames.get(name) + 1))
       return products.map(product => {
+        let nameValidation = { state: VALID }
+        let quantityValidation = { state: VALID }
         if (product.name === '') {
-          return { ...product, validation: { state: EMPTY } }
+          nameValidation = { state: EMPTY }
         }
-        if (usedNames.has(product.name)) {
-          return { ...product, validation: { state: INVALID, error: DuplicateName } }
+        if (usedNames.get(product.name) > 1) {
+          nameValidation = { state: INVALID, error: DuplicateName }
         }
-        usedNames.add(product.name)
         if (isNaN(product.quantity)) {
-          return { ...product, validation: { state: INVALID, error: NonNumberQuantity } }
+          quantityValidation = { state: INVALID, error: NonNumberQuantity }
         }
         if (product.quantity !== Math.floor(product.quantity)) {
-          return { ...product, validation: { state: INVALID, error: NonIntegerQuantity } }
+          quantityValidation = { state: INVALID, error: NonIntegerQuantity }
         }
         if (product.quantity < 0) {
-          return { ...product, validation: { state: INVALID, error: NegativeQuantity } }
+          quantityValidation = { state: INVALID, error: NegativeQuantity }
         }
-        return { ...product, validation: { state: VALID } }
+        return { ...product, nameValidation, quantityValidation }
       })
     })()
 
@@ -312,7 +315,11 @@ export class EditProducts extends ReactX.Component<Props, State> {
           }
           <Card className={S.newProductType}>
             <Fragment key={`product_type_${peekTypeId()}`}>
-              <Input className={S.productTypeName} placeholder={l`New product type`} onSubmit={name => this.createProductType(name)} />
+              <Input
+                className={S.productTypeName}
+                placeholder={l`New product type`}
+                onSubmit={name => this.createProductType(name)}
+                />
             </Fragment>
             <Fragment>
               { productTypes.length === 0

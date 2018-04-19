@@ -74,9 +74,15 @@ export class ConArtist extends React.Component<Props, State> {
         break
 
       case 'prices':
-        state.toolbar = { primary: null, secondary: null }
-        state.content = { name: 'placeholder' }
-        state.navigation = NavInfo.default.select('Prices')
+        state.toolbar = { primary: toolbarAction.EditProducts, secondary: null }
+        state.content = { name: 'prices', prices: model.prices, productTypes: model.productTypes, products: model.products }
+        state.navigation = NavInfo.default.select('Prices', [].concat(...model.productTypes.map(NavInfo.forProductType)))
+        break
+
+      case 'edit-prices':
+        state.toolbar = toolbar
+        state.content = { name: 'edit-prices', prices: model.prices, productTypes: model.productTypes, products: model.products }
+        state.navigation = NavInfo.default.select('Prices', [].concat(...model.productTypes.map(NavInfo.forProductType))).disable()
         break
 
       case 'conventions':

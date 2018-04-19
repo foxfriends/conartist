@@ -4,4 +4,3 @@ mutation ContributeConventionInfo($userId: Int, $conId: Int!, $info: String!) {
     ...UserInfoFragment
   }
 }
-

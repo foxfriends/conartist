@@ -5,4 +5,3 @@ mutation AddExpense($id: Int, $expense: ExpenseAdd!) {
     ...ExpenseFragment
   }
 }
-

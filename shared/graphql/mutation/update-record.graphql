@@ -5,4 +5,3 @@ mutation UpdateRecord($id: Int, $record: RecordMod!) {
     ...RecordFragment
   }
 }
-

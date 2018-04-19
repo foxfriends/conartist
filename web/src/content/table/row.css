@@ -3,11 +3,7 @@
   padding: 0 16px;
 }
 
-.value {
-  color: var(--color--text-placeholder);
-}
-
-.detail {
+.value, .detail {
   justify-self: end;
   font-variant-numeric: tabular-nums;
 }

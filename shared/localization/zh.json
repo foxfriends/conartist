@@ -81,6 +81,7 @@
   "You can't have less than none!": "TODO: translate",
   "You don't have any conventions starred... Why don't you go find one you like?": "TODO: translate",
   "You haven't been to any conventions yet...": "TODO: translate",
+  "You haven't set any prices yet": "TODO: translate",
   "You'll have to try again later... Sorry for the inconvenience.": "TODO: translate",
   "Your email looks wrong": "你的邮件看起来不对",
   "Your email or password is incorrect": "您的电子邮件或密码不正确",
@@ -96,7 +97,7 @@
   "{} – {}": "{} – {}",
   "<Convention info contribution disclaimer>": "TODO: translate",
   "<Email usage disclaimer>": "TODO: translate",
-  "<Empty products list message>": "TODO: translate",
+  "<Empty prices list message>": "TODO: translate",
   "<First product type message>": "TODO: translate",
   "<Name usage disclaimer>": "TODO: translate",
   "<No convention user info>": "TODO: translate"

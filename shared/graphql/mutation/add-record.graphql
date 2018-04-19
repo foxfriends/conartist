@@ -5,4 +5,3 @@ mutation AddRecord($id: Int, $record: RecordAdd!) {
     ...RecordFragment
   }
 }
-

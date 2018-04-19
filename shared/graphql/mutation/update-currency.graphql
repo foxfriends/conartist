@@ -3,4 +3,3 @@ mutation UpdateCurrency($id: Int, $currency: Currency!) {
     currency(currency: $currency)
   }
 }
-

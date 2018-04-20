@@ -31,6 +31,13 @@ export function products() {
   model.next({ ...model.getValue(), page: page.products })
 }
 
+export function editPrices() {
+  if (model.getValue().page !== page.editPrices) {
+    window.history.pushState({}, '', '/prices/edit')
+  }
+  model.next({ ...model.getValue(), page: page.editPrices })
+}
+
 export function prices() {
   if (model.getValue().page !== page.prices) {
     window.history.pushState({}, '', '/prices')

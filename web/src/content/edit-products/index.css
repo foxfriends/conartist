@@ -19,14 +19,9 @@
 }
 
 .discontinueButton {
-  color: var(--color--brand);
   font-size: 16px;
   align-self: flex-end;
   margin-bottom: 8px;
-
-  &:hover {
-    color: var(--color--brand-variant);
-  }
 }
 
 .newProductType {

@@ -1,7 +1,0 @@
-#include '../fragment/price.graphql'
-
-mutation ModPriceMutation($userId: int, $price: PriceMod!) {
-  modUserPrice(userId: $userId, price: $price) {
-    ...PriceFragment
-  }
-}

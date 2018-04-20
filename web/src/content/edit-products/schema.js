@@ -66,6 +66,9 @@ export function editableProductType(productType: ProductType): EditableProductTy
 }
 
 export function nonEditableProduct(product: EditableProduct): Product {
+  if (isNaN(product.quantity)) {
+    throw new Error('Cannot make a Product with an invalid quantity')
+  }
   if (typeof product.id === 'string' || typeof product.typeId === 'string') {
     throw new Error('Cannot convert an unsaved product to a Product');
   }

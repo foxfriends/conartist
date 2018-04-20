@@ -15,7 +15,7 @@ export function parse({ id, category, description, price, time }: ExpenseFragmen
     id,
     category,
     description,
-    price: new Money(price),
+    price: Money.fromJSON(price),
     time: new Date(time),
   }
 }

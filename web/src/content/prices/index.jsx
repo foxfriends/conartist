@@ -1,6 +1,7 @@
 /* @flow */
 import * as React from 'react'
 import DefaultMap from '../../util/default-map'
+import { by, Asc } from '../../util/sort'
 import { l, lx } from '../../localization'
 import { CardView } from '../card-view'
 import { BasicCard } from '../card-view/basic-card'
@@ -29,6 +30,7 @@ export function Prices({ prices, products, productTypes }: Props) {
 
   const dataSource = productTypes
     .filter(({ discontinued }) => !discontinued)
+    .sort(by(['id', Asc]))
     .map(productType => [ productType, sortedPrices.get(productType.id) ])
 
   return (

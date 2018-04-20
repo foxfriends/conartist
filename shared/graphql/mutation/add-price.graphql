@@ -1,6 +1,6 @@
 #include '../fragment/price.graphql'
 
-mutation AddPriceMutation($userId: int, $price: PriceAdd!) {
+mutation AddPrice($userId: Int, $price: PriceAdd!) {
   addUserPrice(userId: $userId, price: $price) {
     ...PriceFragment
   }

@@ -14,7 +14,7 @@ export function parse({ id, products, price, time, info }: RecordFragmentFragmen
   return {
     id,
     products,
-    price: new Money(price),
+    price: Money.fromJSON(price),
     time: new Date(time),
     info,
   }

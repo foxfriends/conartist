@@ -3,8 +3,9 @@ import { Subject } from 'rxjs/Subject'
 import type { Observable } from 'rxjs/Observable'
 import { share, tap } from 'rxjs/operators'
 
-export type Event = typeof SaveProducts
-export const SaveProducts = Symbol()
+export opaque type Event = typeof SaveProducts
+export const SaveProducts: Event = Symbol()
+export const SavePrices: Event = Symbol()
 
 const subject = new Subject()
 

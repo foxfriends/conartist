@@ -4,6 +4,7 @@ import { CardView } from './card-view'
 import { Static } from './static'
 import { Products } from './products'
 import { EditProducts } from './edit-products'
+import { EditPrices } from './edit-prices'
 import { Prices } from './prices'
 import type { Props as CardViewProps } from './card-view'
 import type { Props as ProductsProps } from './products'
@@ -32,6 +33,9 @@ export function Content(props: Props) {
       break
     case 'prices':
       content = <Prices {...props} />
+      break
+    case 'edit-prices':
+      content = <EditPrices {...props} />
       break
   }
   return (

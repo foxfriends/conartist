@@ -64,7 +64,7 @@ type Validatable = {
   products?: EditableProduct[],
 }
 
-const defaultToolbar = { primary: toolbarAction.SaveProducts, secondary: toolbarAction.Discard }
+const defaultToolbar = { primary: toolbarAction.SaveProducts, secondary: toolbarAction.DiscardProducts }
 
 export class EditProducts extends ReactX.Component<Props, State> {
   static getDerivedStateFromProps({ products, productTypes }: Props, state: State) {
@@ -99,11 +99,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
     const [savedProductTypes, savingProductTypes] = saveButtonPressed
       .pipe(
         map(() => this.state.productTypes),
-        switchMap(productTypes =>
-          forkJoin(
-            ...productTypes.map(productType => new SaveProductType().send(productType)),
-          )
-        ),
+        switchMap(productTypes => forkJoin(...productTypes.map(productType => new SaveProductType().send(productType)))),
         map(batchResponses),
         share(),
         partition(({ state }) => state === 'retrieved'),
@@ -115,11 +111,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
         tap(productTypes => update.setProductTypes(productTypes.map(nonEditableProductType))),
         map(productTypes => setProductTypeIds(this.state.products, productTypes)),
         tap(products => this.setState({ products })),
-        switchMap(products =>
-          forkJoin(
-            ...products.map(product => new SaveProduct().send(product)),
-          )
-        ),
+        switchMap(products => forkJoin(...products.map(product => new SaveProduct().send(product)))),
         map(batchResponses),
         share(),
         partition(({ state }) => state === 'retrieved'),
@@ -138,7 +130,9 @@ export class EditProducts extends ReactX.Component<Props, State> {
         share(),
       )
 
-    saveFailed.pipe(mapTo(false)).subscribe(editingEnabled => this.setState({ editingEnabled }))
+    saveFailed
+      .pipe(mapTo(false))
+      .subscribe(editingEnabled => this.setState({ editingEnabled }))
 
     merge(saveButtonPressed.pipe(mapTo(false)), saveFailed.pipe(mapTo(true)))
       .pipe(

@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { Icon } from '../../common/icon'
 import { Card } from './card'
-import S from './basic-card.css'
+import { BasicHeader } from './basic-header'
 const { Fragment } = React
 
 export type Props = {
@@ -15,9 +15,7 @@ export type Props = {
 export function BasicCard({ children, title, collapsible, id }: Props) {
   return (
     <Card collapsible={collapsible || false} id={id}>
-      <Fragment>
-        { title ? <div className={S.title}>{ title }</div> : null }
-      </Fragment>
+      <BasicHeader title={title} />
       <Fragment>
         { children }
       </Fragment>

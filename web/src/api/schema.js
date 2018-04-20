@@ -10,6 +10,13 @@ export type ExpenseAdd = {|
   time: any,
 |};
 
+export type PriceAdd = {|
+  typeId: number,
+  productId?: ?number,
+  quantity: number,
+  price: any,
+|};
+
 export type ProductTypeAdd = {|
   name: string,
   color: number,
@@ -31,6 +38,12 @@ export type RecordAdd = {|
 
 export type ExpenseDel = {|
   expenseId: number,
+|};
+
+export type PriceDel = {|
+  typeId: number,
+  productId?: ?number,
+  quantity: number,
 |};
 
 export type RecordDel = {|
@@ -78,6 +91,21 @@ export type AddExpenseMutation = {|
     description: string,
     price: any,
     time: any,
+  |},
+|};
+
+export type AddPriceMutationVariables = {|
+  userId?: ?number,
+  price: PriceAdd,
+|};
+
+export type AddPriceMutation = {|
+  addUserPrice: {|
+    __typename: "Price",
+    typeId: number,
+    productId: ?number,
+    quantity: number,
+    price: any,
   |},
 |};
 
@@ -152,6 +180,15 @@ export type DeleteExpenseMutationVariables = {|
 
 export type DeleteExpenseMutation = {|
   delUserExpense: boolean,
+|};
+
+export type DeletePriceMutationVariables = {|
+  userId?: ?number,
+  price: PriceDel,
+|};
+
+export type DeletePriceMutation = {|
+  delUserPrice: boolean,
 |};
 
 export type DeleteRecordMutationVariables = {|
@@ -339,7 +376,6 @@ export type FullConventionQuery = {|
     |} >,
     prices:  Array< {|
       __typename: "Price",
-      priceId: number,
       typeId: number,
       productId: ?number,
       quantity: number,
@@ -424,7 +460,6 @@ export type FullUserQuery = {|
     |} >,
     prices:  Array< {|
       __typename: "Price",
-      priceId: number,
       typeId: number,
       productId: ?number,
       quantity: number,
@@ -572,7 +607,6 @@ export type FullConventionFragmentFragment = {|
   |} >,
   prices:  Array< {|
     __typename: "Price",
-    priceId: number,
     typeId: number,
     productId: ?number,
     quantity: number,
@@ -650,7 +684,6 @@ export type FullUserFragmentFragment = {|
   |} >,
   prices:  Array< {|
     __typename: "Price",
-    priceId: number,
     typeId: number,
     productId: ?number,
     quantity: number,
@@ -689,7 +722,6 @@ export type MetaConventionFragmentFragment = {|
 
 export type PriceFragmentFragment = {|
   __typename: "Price",
-  priceId: number,
   typeId: number,
   productId: ?number,
   quantity: number,

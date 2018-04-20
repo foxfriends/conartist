@@ -1,5 +1,5 @@
 /* @flow */
-import { splash, dashboard, products, editProducts, prices, conventions, settings } from '../model/page'
+import { splash, dashboard, products, editProducts, editPrices, prices, conventions, settings } from '../model/page'
 import { Storage } from '../storage'
 import type { Page } from '../model/page'
 
@@ -20,7 +20,7 @@ const matchUrl = match(
   [ /^\/products\/?$/i, () => products ],
   [ /^\/products\/edit\/?$/i, () => editProducts ],
   [ /^\/prices\/?$/i, () => prices ],
-  [ /^\/prices\/edit\/?$/i, () => prices ],
+  [ /^\/prices\/edit\/?$/i, () => editPrices ],
   [ /^\/conventions\/?$/i, () => conventions ],
   [ /^\/convention\/(\d+)\/?$/i, () => conventions ],
   [ /^\/convention\/(\d+)\/records\/?$/i, () => conventions ],

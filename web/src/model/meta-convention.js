@@ -29,7 +29,7 @@ export function parse({ id, name, images, start, end, extraInfo, userInfo, recor
     end: new Date(end),
     extraInfo: extraInfo.map(parseExtraInfo),
     userInfo: userInfo.map(parseUserInfo),
-    recordTotal: recordTotal && new Money(recordTotal),
-    expenseTotal: expenseTotal && new Money(expenseTotal),
+    recordTotal: recordTotal && Money.fromJSON(recordTotal),
+    expenseTotal: expenseTotal && Money.fromJSON(expenseTotal),
   }
 }

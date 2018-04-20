@@ -202,9 +202,9 @@ export class EditPrices extends ReactX.Component<Props, State> {
         quantityValidation = { state: INVALID, error: DuplicateQuantity }
       }
       if (!price.price) {
-        quantityValidation = { state: INVALID, error: NonNumberPrice }
+        priceValidation = { state: INVALID, error: NonNumberPrice }
       } else if (price.price.amount < 0) {
-        quantityValidation = { state: INVALID, error: NegativePrice }
+        priceValidation = { state: INVALID, error: NegativePrice }
       }
       return { ...price, priceValidation, quantityValidation }
     })

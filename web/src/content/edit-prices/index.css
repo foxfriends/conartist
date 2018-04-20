@@ -7,11 +7,11 @@
 }
 
 .productName {
-  flex-grow: 280;
+  flex-grow: 240;
 }
 
 .priceQuantity, .pricePrice {
-  flex-grow: 95;
+  flex-grow: 115;
 }
 
 .removeButton {

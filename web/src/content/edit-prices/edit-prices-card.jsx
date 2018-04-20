@@ -64,11 +64,12 @@ export type Props = {
 }
 
 export function EditPricesCard({ productType, products, prices, bottomAction, onPriceChange, onProductChange, onQuantityChange, onPriceRemove }: Props) {
+  const dataSource = prices.map(price => price.productId === null ? [price, null] : [price, products.find(product => product.id === price.productId)])
   return (
     <Card id={scrollIdentifier('product-type', productType.id)} collapsible={true} bottomAction={bottomAction}>
       <BasicHeader title={productType.name} />
       <Fragment>
-        <List dataSource={prices}>
+        <List dataSource={dataSource}>
           <div className={S.placeholder}>
             {l`How much do these cost?`}
           </div>
@@ -90,7 +91,7 @@ export function EditPricesCard({ productType, products, prices, bottomAction, on
                 validation={quantityValidation(price.quantityValidation)}
                 />
               <Input
-                defaultValue={`${price.price.equals(Money.zero) ? '' : product.price.toString()}`}
+                defaultValue={`${!price.price || price.price.equals(Money.zero) ? '' : price.price.toString()}`}
                 placeholder={l`Price`}
                 onChange={priceStr => onPriceChange(price.id, priceStr)}
                 className={S.pricePrice}

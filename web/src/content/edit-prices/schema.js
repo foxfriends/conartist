@@ -52,3 +52,7 @@ export function nonEditablePrice(price: EditablePrice): Price {
     price: price.price,
   }
 }
+
+export function hasher({ typeId, productId, quantity }: Price | EditablePrice): string {
+  return `${typeId}:${productId || 'any'}:${quantity}`
+}

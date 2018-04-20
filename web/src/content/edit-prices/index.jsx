@@ -12,6 +12,7 @@ import { of } from 'rxjs/observable/of'
 import { tap, filter, pluck, map, mapTo, switchMap, takeUntil, share, partition } from 'rxjs/operators'
 
 import DefaultMap from '../../util/default-map'
+import Set from '../../util/set'
 import { by, Asc, Desc } from '../../util/sort'
 import { l, lx } from '../../localization'
 import { CardView } from '../card-view'
@@ -30,6 +31,7 @@ import {
   priceId,
   editablePrice,
   nonEditablePrice,
+  hasher,
   DuplicateQuantity,
   NonNumberQuantity,
   NonIntegerQuantity,
@@ -63,7 +65,30 @@ type State = {
 const defaultToolbar = { primary: toolbarAction.SavePrices, secondary: toolbarAction.DiscardPrices }
 
 function diff(before: Price[], after: EditablePrice[]): [Price[], (Add | Delete)[]] {
-  return [[], []]
+  const initial: Map<string, Price> = new Map()
+  before.forEach(price => initial.set(hasher(price), price))
+
+  const final: Map<string, EditablePrice> = new Map()
+  after.forEach(price => final.set(hasher(price), price))
+
+  const deleted = new Set(initial.keys()).difference(final.keys())
+  const changed = new Set(
+    [...final]
+      .filter(([key, value]) => {
+        const base = initial.get(key)
+        return !(base && base.price.equals(value.price))
+      })
+      .map(([key, _]) => key)
+  )
+  const kept = new Set(initial.keys()).intersection(final.keys())
+  const unchanged = kept.difference(changed)
+  // $FlowIgnore: it's not null
+  const keeps: Price[] = [...unchanged].map(key => initial.get(key))
+  // $FlowIgnore: it's not null
+  const deletes: Delete[] = [...deleted].map(key => initial.get(key)).map(price => ({ operation: 'delete', price }))
+  // $FlowIgnore: it's not null
+  const adds: Add[] = [...changed].map(key => final.get(key)).map(price => ({ operation: 'add', price }))
+  return [keeps, [].concat(deletes, adds)]
 }
 
 export class EditPrices extends ReactX.Component<Props, State> {
@@ -183,7 +208,6 @@ export class EditPrices extends ReactX.Component<Props, State> {
   }
 
   validate(prices: EditablePrice[]): EditablePrice[] {
-    const hasher = ({ typeId, productId, quantity }) => `${typeId}:${productId || 'any'}:${quantity}`
     const existingPrices = new DefaultMap([], 0)
     prices
       .map(hasher)

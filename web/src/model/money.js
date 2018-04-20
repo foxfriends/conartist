@@ -59,7 +59,8 @@ export class Money {
     return new Money(this.currency, -this.amount)
   }
 
-  equals(other: Money): boolean {
+  equals(other: ?Money): boolean {
+    if (!other) { return false }
     const currency = this.currency === 'AUTO' ? other.currency : this.currency
     if (currency === other.currency || other.currency === 'AUTO') {
       return this.amount === other.amount

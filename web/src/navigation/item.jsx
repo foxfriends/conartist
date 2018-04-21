@@ -71,8 +71,8 @@ const DEPTH_INDENT = 34
 export function Item({ title, action, icon, depth, selected, enabled, children }: Props) {
   depth = depth || 0
   return (
-    <div className={`${S.container} ${enabled ? '' : S.disabled}`} onClick={() => enabled && action()}>
-      <div className={S.item}>
+    <div className={S.container} onClick={() => enabled && action()}>
+      <div className={`${S.item}  ${enabled ? '' : S.disabled}`}>
         <div className={selected ? S.indicatorSelected : S.indicatorDefault} />
         <div className={S.indent} style={{ width: depth * DEPTH_INDENT}} />
         <Icon name={icon} />

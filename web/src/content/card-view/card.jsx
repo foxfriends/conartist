@@ -1,5 +1,6 @@
 /* @flow */
 import * as React from 'react'
+import { Expand } from '../../common/animation/expand'
 import { IconButton } from '../../common/icon-button'
 import { Icon } from '../../common/icon'
 import type { Action } from '../../common/button'
@@ -53,7 +54,9 @@ export class Card extends React.Component<Props, State> {
           { topAction ? <IconButton {...topAction} priority="tertiary" className={S.topAction} /> : null }
         </div>
         <div className={S.content}>
-          { !isCollapsed ? content : null }
+          <Expand>
+            { !isCollapsed ? content : null }
+          </Expand>
           { !isCollapsed && bottomAction ? <IconButton {...bottomAction} priority="tertiary" className={S.bottomAction} /> : null }
         </div>
       </div>

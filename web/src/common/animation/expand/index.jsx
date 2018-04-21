@@ -43,13 +43,14 @@ export class Expand<E: React.ElementType> extends React.Component<Props<E>, Stat
     }
   }
 
-  shouldComponentUpdate(props: Props<E>, state: State<E>): boolean {
-    return state.previousChildren !== this.state.previousChildren || state.height !== this.state.height || props.children !== this.props.children
+  componentDidMount() {
+    const height = this.measurementDiv.current.clientHeight
+    this.setState({ height })
   }
 
   componentDidUpdate() {
     const height = this.measurementDiv.current.clientHeight
-    this.setState({ height }, () => {
+    if(height !== this.state.height) {
       if (this.animationTimer) {
         clearTimeout(this.animationTimer)
       }
@@ -60,16 +61,24 @@ export class Expand<E: React.ElementType> extends React.Component<Props<E>, Stat
         },
         200,
       )
-    })
+      this.setState({ height })
+    }
   }
 
   render() {
     const { className, children } = this.props
     const { height, previousChildren } = this.state
+    const style = {
+      height
+    }
+    if (this.animationTimer === null) {
+      style.transitionDuration = '0s'
+    }
+
     return (
-      <div className={`${S.expansionContainer} ${className || ''}`} style={{ height }}>
+      <div className={`${S.expansionContainer} ${className || ''}`} style={style}>
         <div>
-          { previousChildren }
+          { !children ? previousChildren : null }
         </div>
         <div ref={this.measurementDiv}>
           { children }

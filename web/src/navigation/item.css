@@ -1,15 +1,27 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 .item {
   height: 50px;
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   color: var(--color--text);
   transition: 0.1s background-color;
   user-select: none;
+
   &:hover:not(.disabled) {
     cursor: pointer;
     background-color: var(--color--background-hover-highlight);
   }
+}
+
+.childList, .childItem {
+  width: 100%;
 }
 
 .disabled {

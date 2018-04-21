@@ -8,26 +8,15 @@ import type { ProductType } from '../model/product-type'
 import type { Props as ItemProps } from './item'
 import S from './index.css'
 
-function itemToProps({ title, icon, selected, children, enabled, action }: ItemInfo): ItemProps[] {
-  return (
-      [].concat(
-        [{ title, icon, selected, depth: 0, enabled, action }],
-        ...(children || [])
-          .map(child => itemToProps(child).map(props => { props.depth += 1; return props }))
-      )
-    )
-}
-
 export type Props = {
   items: ItemInfo[]
 }
 
 export function Navigation({ items }: Props) {
-  const itemProps = [].concat(...items.map(itemToProps))
   return (
     <div className={S.container}>
       <nav className={S.nav}>
-        { itemProps.map((item, key) => <Item {...item} key={`nav_item_${key}`} />) }
+        { items.map((item, key) => <Item {...item} key={`nav_item_${key}`} />) }
       </nav>
     </div>
   )

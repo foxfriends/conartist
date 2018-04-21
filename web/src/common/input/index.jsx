@@ -1,12 +1,12 @@
 /* @flow */
 import * as React from 'react'
 
-import { Tooltip } from './tooltip'
-import { Icon } from './icon'
-import { INVALID, VALID, EMPTY } from '../model/validation'
-import type { Validation as GenericValidation } from '../model/validation'
+import { Tooltip } from '../tooltip'
+import { Icon } from '../icon'
+import { INVALID, VALID, EMPTY } from '../../model/validation'
+import type { Validation as GenericValidation } from '../../model/validation'
 
-import S from './input.css'
+import S from './index.css'
 
 export type Validation = GenericValidation<String>
 

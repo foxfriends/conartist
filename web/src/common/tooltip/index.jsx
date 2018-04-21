@@ -1,7 +1,7 @@
 /* @flow */
 import * as React from 'react'
 
-import S from './tooltip.css'
+import S from './index.css'
 
 export type Props = {
   title: React.Node,

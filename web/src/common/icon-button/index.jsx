@@ -1,9 +1,9 @@
 /* @flow */
 import * as React from 'react'
-import { Icon } from './icon'
-import type { Action } from './button'
+import { Icon } from '../icon'
+import type { Action } from '../button'
 
-import S from './icon-button.css'
+import S from './index.css'
 
 type Priority = 'primary' | 'secondary' | 'tertiary'
 

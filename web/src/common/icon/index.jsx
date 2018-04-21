@@ -1,7 +1,7 @@
 /* @flow */
 import * as React from 'react'
 
-import S from './icon.css'
+import S from './index.css'
 
 type Props = {
   name: string,

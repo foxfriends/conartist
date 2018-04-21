@@ -1,7 +1,7 @@
 /* @flow */
 import * as React from 'react'
-import { localize } from '../localization'
-import S from './button.css'
+import { localize } from '../../localization'
+import S from './index.css'
 
 export type Action = {
   title: string,

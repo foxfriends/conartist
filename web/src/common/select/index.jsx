@@ -1,9 +1,9 @@
 /* @flow */
 import * as React from 'react'
 
-import { Icon } from './icon'
-import { Cover } from './cover'
-import S from './select.css'
+import { Icon } from '../icon'
+import { Cover } from '../cover'
+import S from './index.css'
 
 type Transformer<T> = (T) => React.Node
 

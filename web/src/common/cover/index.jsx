@@ -1,6 +1,6 @@
 /* @flow */
 import * as React from 'react'
-import S from './cover.css'
+import S from './index.css'
 
 export type Props = {
   fixed?: boolean,

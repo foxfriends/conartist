@@ -1,7 +1,7 @@
 /* @flow */
 import * as React from 'react'
 
-import { Item } from './item'
+import { Item, ItemInfo } from './item'
 import { l } from '../localization'
 import * as navigate from '../update/navigate'
 import type { ProductType } from '../model/product-type'
@@ -16,64 +16,11 @@ export function Navigation({ items }: Props) {
   return (
     <div className={S.container}>
       <nav className={S.nav}>
+        {/* $FlowIgnore: apparently can't tell that ItemInfo is Props */}
         { items.map((item, key) => <Item {...item} key={`nav_item_${key}`} />) }
       </nav>
     </div>
   )
-}
-
-export class ItemInfo {
-  title: string
-  icon: string
-  children: ?ItemInfo[]
-  selected: boolean
-  enabled: boolean
-  action: () => void
-
-  constructor(title: string, icon: string, action: () => void) {
-    this.title = title
-    this.icon = icon
-    this.children = null
-    this.selected = false
-    this.enabled = true
-    this.action = action
-  }
-
-  /**
-   * Selects or deselects this item
-   *
-   * @param selected {boolean} Whether the item should be selected
-   */
-  select(selected: boolean): ItemInfo {
-    this.selected = selected
-    if (this.children) {
-      this.children = this.children.map(child => child.select(selected))
-    }
-    return this
-  }
-
-  /**
-   * Sets the children of this item
-   *
-   * @param children {?ItemInfo[]} The children to set
-   */
-  withChildren(children: ?ItemInfo[]): ItemInfo {
-    this.children = children
-    return this
-  }
-
-  /**
-   * Enables or disables this item
-   *
-   * @param enabled {boolean} Whether the item should be enabled
-   */
-  enable(enabled: boolean, nested: boolean = false): ItemInfo {
-    this.enabled = enabled
-    if (nested && this.children) {
-      this.children = this.children.map(child => child.enable(enabled))
-    }
-    return this
-  }
 }
 
 export class NavInfo {

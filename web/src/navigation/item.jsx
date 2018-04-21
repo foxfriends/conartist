@@ -30,9 +30,9 @@ export function Item({ title, action, icon, depth, selected, enabled, children }
         <span className={S.title}>{ localize(title) }</span>
       </div>
       { children && children.length
-          ? <List className={S.childList} dataSource={children}>
+          ? <List dataSource={children}>
               { (child, key) =>
-                  <ListItem key={`child_${key}`} className={S.childItem}>
+                  <ListItem key={`child_${key}`}>
                     <Item {...child} depth={depth + 1}/>
                   </ListItem>
               }

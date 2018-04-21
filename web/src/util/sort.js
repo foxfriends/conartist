@@ -2,10 +2,10 @@
 import { model } from '../model'
 
 type Direction = typeof Asc | typeof Desc
-export const Asc = Symbol()
-export const Desc = Symbol()
+export const Asc = Symbol('Asc')
+export const Desc = Symbol('Desc')
 
-type Order<T: Object> = [$Keys<T>, Direction]
+type Order<T: Object> = [$Keys<T>, Direction] | [$Keys<T>, Direction, Direction]
 type Sorter<T> = (T, T) => number
 
 /**
@@ -20,8 +20,9 @@ type Sorter<T> = (T, T) => number
  */
 export function by<T: Object>(...orders: Order<T>[]): Sorter<T> {
   return (a, b) => {
-    for (const [key, direction] of orders) {
-      const dir = redirect(direction, compute(key))(a, b)
+    // $FlowIgnore: not so good with defaulting optional values
+    for (const [key, direction, typeDirection] of orders) {
+      const dir = compute(key, direction, typeDirection)(a, b)
       if (dir === 0) {
         continue
       } else {
@@ -32,12 +33,12 @@ export function by<T: Object>(...orders: Order<T>[]): Sorter<T> {
   }
 }
 
-function compute<T: Object>(key: $Keys<T>): (T, T) => number {
-  return (a, b) => {
+function compute<T: Object>(key: $Keys<T>, direction: Direction = Asc, typeDirection: Direction = Asc): Sorter<T> {
+  return redirect(direction, (a, b) => {
     const lhs = a[key]
     const rhs = b[key]
     if (typeof lhs !== typeof rhs) {
-      return typeOrder(typeof lhs, typeof rhs)
+      return redirect(direction === typeDirection ? Asc : Desc, typeOrder)(typeof lhs, typeof rhs)
     }
     switch (typeof lhs) {
       case 'number':
@@ -51,7 +52,7 @@ function compute<T: Object>(key: $Keys<T>): (T, T) => number {
         return lhs ? -1 : 1
       default: return 0
     }
-  }
+  })
 }
 
 function typeOrder(lhs: string, rhs: string): number {
@@ -65,6 +66,6 @@ function typeOrder(lhs: string, rhs: string): number {
   return order.indexOf(lhs) - order.indexOf(rhs)
 }
 
-function redirect<T>(direction, fn: Sorter<T>): Sorter<T> {
+function redirect<T>(direction: Direction, fn: Sorter<T>): Sorter<T> {
   return direction === Asc ? fn : (a, b) => -fn(a, b)
 }

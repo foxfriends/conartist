@@ -1,7 +1,7 @@
 /* @flow */
 import * as React from 'react'
 import DefaultMap from '../../util/default-map'
-import { by, Asc } from '../../util/sort'
+import { by, Asc, Desc } from '../../util/sort'
 import { l, lx } from '../../localization'
 import { CardView } from '../card-view'
 import { BasicCard } from '../card-view/basic-card'
@@ -22,7 +22,8 @@ export type Props = {
 }
 
 export function Prices({ prices, products, productTypes }: Props) {
-  const sortedPrices = prices
+  const sortedPrices = [...prices]
+    .sort(by(['typeId', Asc], ['productId', Asc, Desc], ['quantity', Asc]))
     .reduce(
       (sortedPrices, price) => sortedPrices.set(price.typeId, [...sortedPrices.get(price.typeId), price]),
       new DefaultMap([], [])

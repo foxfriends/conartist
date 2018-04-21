@@ -103,7 +103,9 @@ export class EditPrices extends ReactX.Component<Props, State> {
   static getDerivedStateFromProps({ prices }: Props, state: State) {
     if (!state || state.prices.length === 0) {
       return {
-        prices: prices.map(editablePrice),
+        prices: prices
+          .sort(by(['typeId', Asc], ['productId', Asc, Desc], ['quantity', Asc]))
+          .map(editablePrice),
       }
     } else {
       return null
@@ -116,7 +118,9 @@ export class EditPrices extends ReactX.Component<Props, State> {
     toolbarStatus.next(defaultToolbar)
 
     this.state = {
-      prices: this.props.prices.map(editablePrice),
+      prices: this.props.prices
+        .sort(by(['typeId', Asc], ['productId', Asc, Desc], ['quantity', Asc]))
+        .map(editablePrice),
       editingEnabled: true,
     }
 

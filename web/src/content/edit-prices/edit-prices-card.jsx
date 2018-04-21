@@ -10,6 +10,7 @@ import { IconButton } from '../../common/icon-button'
 import { Select } from '../../common/select'
 import { scrollIdentifier } from '../../update/navigate'
 import { INVALID, VALID } from '../../model/validation'
+import { by, Asc, Desc } from '../../util/sort'
 import { Money } from '../../model/money'
 import { DuplicateQuantity, NonNumberQuantity, NonIntegerQuantity, NegativeQuantity, NonNumberPrice, NegativePrice } from './schema'
 import type { Action } from '../../common/button'
@@ -66,7 +67,8 @@ export type Props = {
 
 export function EditPricesCard({ productType, products, prices, bottomAction, onPriceChange, onProductChange, onQuantityChange, onPriceRemove }: Props) {
   const productIds: (?number)[] = [null, ...products.map(({ id }) => id)]
-  const dataSource = prices.map(price => price.productId === null ? [price, null] : [price, products.find(product => product.id === price.productId)])
+  const dataSource = prices
+    .map(price => price.productId === null ? [price, null] : [price, products.find(product => product.id === price.productId)])
   return (
     <Card id={scrollIdentifier('product-type', productType.id)} collapsible={true} bottomAction={bottomAction}>
       <BasicHeader title={productType.name} />

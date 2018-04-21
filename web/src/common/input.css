@@ -50,17 +50,30 @@
   right: 0;
   height: 1px;
   background-color: var(--color--divider);
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    transform-origin: center;
+    transform: scaleX(0);
+    transition: transform 0.1s;
+    background-color: var(--color--brand);
+  }
 }
 
-.input:focus ~ .underline {
-  background-color: var(--color--brand);
+.input:focus ~ .underline::after {
+  transform: scaleX(1);
 }
 
 .input:focus ~ .error {
   display: none;
 }
 
-.error ~ .underline {
+.error ~ .underline::after {
   background-color: var(--color--warn);
 }
 

@@ -49,14 +49,17 @@ export class Select<Value> extends React.Component<Props<Value>, State<Value>>  
             { children(value) }
             <Icon name='arrow_drop_down' className={S.arrow}/>
           </div>
-          <div className={S.options}>
+          <div className={`${S.optionsContainer} ${expanded ? S.expanded : ''}`} style={{ maxHeight: expanded ? Math.min(8, options.length) * 50 : 0 }}>
             { expanded
-              ? options.map((option, i) =>
-                  <div className={S.option} onClick={() => this.handleOptionClicked(option)} key={`option_${i}`}>
-                    { children(option) }
-                    { option === value ? <Icon name='check' className={S.check}/> : null }
-                  </div>
-                )
+              ? <div className={S.options}>
+                  { options.map((option, i) =>
+                      <div className={S.option} onClick={() => this.handleOptionClicked(option)} key={`option_${i}`}>
+                        { children(option) }
+                        { option === value ? <Icon name='check' className={S.check}/> : null }
+                      </div>
+                    )
+                  }
+                </div>
               : null
             }
           </div>

@@ -1,4 +1,4 @@
-#include '../fragment/price.graphql'
+#import '../fragment/price.graphql'
 
 mutation AddPrice($userId: Int, $price: PriceAdd!) {
   addUserPrice(userId: $userId, price: $price) {

@@ -25,6 +25,10 @@
   --font-weight--bold: 700;
 
   --height--toolbar: 60px;
+
+  --z-index--over-toolbar: 15;
+  --z-index--toolbar: 10;
+  --z-index--below-toolbar: 10;
 }
 
 :global(body), :global(#root) {

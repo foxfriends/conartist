@@ -35,6 +35,7 @@ import {
   editableProductType,
   nonEditableProduct,
   nonEditableProductType,
+  hasher,
   NonNumberQuantity,
   NonIntegerQuantity,
   NegativeQuantity,
@@ -60,11 +61,19 @@ type State = {
 }
 
 type Validatable = {
-  productTypes?: EditableProductType[],
-  products?: EditableProduct[],
+  productTypes: EditableProductType[],
+  products: EditableProduct[],
 }
 
 const defaultToolbar = { primary: toolbarAction.SaveProducts, secondary: toolbarAction.DiscardProducts }
+
+function enableSave() {
+  toolbarStatus.next(defaultToolbar)
+}
+
+function disableSave() {
+  toolbarStatus.next({ ...defaultToolbar, primary: { ...defaultToolbar.primary, enabled: false } })
+}
 
 export class EditProducts extends ReactX.Component<Props, State> {
   static getDerivedStateFromProps({ products, productTypes }: Props, state: State) {
@@ -125,19 +134,15 @@ export class EditProducts extends ReactX.Component<Props, State> {
       .subscribe(() => navigate.products())
 
     const saveFailed = merge(savingProductTypes, savingProducts)
-      .pipe(
-        filter(({ state }) => state === 'failed'),
-        share(),
-      )
+      .pipe(filter(({ state }) => state === 'failed'))
 
-    saveFailed
-      .pipe(mapTo(false))
-      .subscribe(editingEnabled => this.setState({ editingEnabled }))
+    const enabled = merge(saveButtonPressed.pipe(mapTo(false)), saveFailed.pipe(mapTo(true)))
+      .pipe(share())
 
-    merge(saveButtonPressed.pipe(mapTo(false)), saveFailed.pipe(mapTo(true)))
-      .pipe(
-        map(enabled => ({ ...defaultToolbar, primary: { ...defaultToolbar.primary, enabled } }))
-      )
+    enabled.subscribe(editingEnabled => this.setState({ editingEnabled }))
+
+    enabled
+      .pipe(map(enabled => ({ ...defaultToolbar, primary: { ...defaultToolbar.primary, enabled } })))
       .subscribe(status => toolbarStatus.next(status))
   }
 
@@ -148,7 +153,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
         : productType
       )
 
-    this.setState(this.validate({ productTypes }))
+    this.setState(this.validate({ products: this.state.products, productTypes }))
   }
 
   handleProductNameChange(id: Id, name: string) {
@@ -158,11 +163,11 @@ export class EditProducts extends ReactX.Component<Props, State> {
         : product
       )
 
-    this.setState(this.validate({ products }))
+    this.setState(this.validate({ products, productTypes: this.state.productTypes }))
   }
 
   handleProductQuantityChange(id: Id, quantityStr: string) {
-    const quantity = Number(quantityStr)
+    const quantity = quantityStr !== '' ? Number(quantityStr) : NaN
 
     const products =
       this.state.products.map(product => product.id === id
@@ -170,7 +175,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
         : product
       )
 
-    this.setState(this.validate({ products }))
+    this.setState(this.validate({ products, productTypes: this.state.productTypes }))
   }
 
   handleProductTypeDiscontinueToggled(id: Id) {
@@ -180,17 +185,17 @@ export class EditProducts extends ReactX.Component<Props, State> {
       this.setState(this.validate({ products, productTypes }))
     } else {
       const productTypes = this.state.productTypes.map(productType => productType.id === id ? { ...productType, discontinued: !productType.discontinued } : productType)
-      this.setState(this.validate({ productTypes }))
+      this.setState(this.validate({ products: this.state.products, productTypes }))
     }
   }
 
   handleProductDiscontinueToggled(id: Id) {
     if (typeof id === 'string') {
       const products = this.state.products.filter(product => product.id !== id)
-      this.setState(this.validate({ products }))
+      this.setState(this.validate({ products, productTypes: this.state.productTypes }))
     } else {
       const products = this.state.products.map(product => product.id === id ? { ...product, discontinued: !product.discontinued } : product)
-      this.setState(this.validate({ products }))
+      this.setState(this.validate({ products, productTypes: this.state.productTypes }))
     }
   }
 
@@ -217,38 +222,42 @@ export class EditProducts extends ReactX.Component<Props, State> {
       id: uniqueProductId(),
       typeId,
       name: '',
-      quantity: 0,
+      quantity: NaN,
       discontinued: false,
     }
     const products = [...this.state.products, newProduct]
     this.setState({ products })
+    disableSave()
   }
 
   validate({ productTypes, products }: Validatable): Validatable {
-    const validatedProductTypes = productTypes && (() => {
+    enableSave()
+    const validatedProductTypes = (() => {
       const usedNames = new DefaultMap([], 0)
       productTypes.forEach(({ name }) => usedNames.set(name, usedNames.get(name) + 1))
       return productTypes.map(productType => {
         if (productType.name === '') {
+          disableSave()
           return { ...productType, validation: { state: EMPTY } }
         }
         if (usedNames.get(productType.name) > 1) {
+          disableSave()
           return { ...productType, validation: { state: INVALID, error: DuplicateName } }
         }
         return { ...productType, validation: { state: VALID } }
       })
     })()
 
-    const validatedProducts = products && (() => {
+    const validatedProducts = (() => {
       const usedNames = new DefaultMap([], 0)
-      products.forEach(({ name }) => usedNames.set(name, usedNames.get(name) + 1))
+      products.map(hasher).forEach(product => usedNames.set(product, usedNames.get(product) + 1))
       return products.map(product => {
         let nameValidation = { state: VALID }
         let quantityValidation = { state: VALID }
         if (product.name === '') {
           nameValidation = { state: EMPTY }
         }
-        if (usedNames.get(product.name) > 1) {
+        if (usedNames.get(hasher(product)) > 1) {
           nameValidation = { state: INVALID, error: DuplicateName }
         }
         if (isNaN(product.quantity)) {
@@ -259,6 +268,9 @@ export class EditProducts extends ReactX.Component<Props, State> {
         }
         if (product.quantity < 0) {
           quantityValidation = { state: INVALID, error: NegativeQuantity }
+        }
+        if(nameValidation.state !== VALID || quantityValidation.state !== VALID) {
+          disableSave()
         }
         return { ...product, nameValidation, quantityValidation }
       })
@@ -294,7 +306,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
       <Fragment>
         <CardView dataSource={dataSource}>
           <Fragment />
-          {([ productType, products ]) =>
+          {([ productType, products ], _) =>
               <EditProductCard
                 productType={productType}
                 products={products}

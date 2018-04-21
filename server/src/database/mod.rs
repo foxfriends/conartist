@@ -11,6 +11,7 @@ mod setters;
 mod deleters;
 mod conversions;
 mod dsl;
+mod views;
 
 use juniper::Context;
 use diesel::PgConnection;

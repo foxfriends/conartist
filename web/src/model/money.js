@@ -11,6 +11,7 @@ export class Money {
   }
 
   static parse(string: string, currency?: Currency = model.model.getValue().settings.currency): Money {
+    if (string === '') { throw new Error('Empty string cannot be parsed as Money') }
     switch (currency) {
       case 'CAD':
       case 'USD':
@@ -18,7 +19,7 @@ export class Money {
         if (isNaN(amount)) {
           break
         }
-        return new Money(currency, amount)
+        return new Money(currency, Math.floor(amount * 100))
     }
     throw new Error(`Money string ${string} could not be parsed as ${currency}`);
   }

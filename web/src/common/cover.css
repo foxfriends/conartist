@@ -5,3 +5,7 @@
   left: 0;
   right: 0;
 }
+
+.fixed {
+  position: fixed;
+}

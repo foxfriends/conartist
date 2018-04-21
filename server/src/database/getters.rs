@@ -7,6 +7,7 @@ use super::Database;
 use super::models::*;
 use super::schema::*;
 use super::dsl::*;
+use super::views::*;
 
 // TODO: do some caching here for efficiency
 // TODO: handle errors more properly, returning Result<_, Error> instead of String
@@ -14,12 +15,12 @@ use super::dsl::*;
 impl Database {
     pub fn get_user_for_email(&self, email: &str) -> Result<User, String> {
         let conn = self.pool.get().unwrap();
-        let user = 
+        let user =
             users::table
                 .filter(users::email.eq(email))
                 .first::<User>(&*conn)
                 .map_err(|reason| format!("User with email {} could not be retrieved. Reason: {}", email, reason))?;
-        let con_count = 
+        let con_count =
             user_conventions::table
                 .filter(user_conventions::user_id.eq(user.user_id))
                 .count()
@@ -36,12 +37,12 @@ impl Database {
     pub fn get_user_by_id(&self, maybe_user_id: Option<i32>) -> Result<User, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
-        let user = 
+        let user =
             users::table
                 .filter(users::user_id.eq(user_id))
                 .first::<User>(&*conn)
                 .map_err(|reason| format!("User with id {} could not be retrieved. Reason: {}", user_id, reason))?;
-        let con_count = 
+        let con_count =
             user_conventions::table
                 .filter(user_conventions::user_id.eq(user.user_id))
                 .count()
@@ -114,11 +115,20 @@ impl Database {
     pub fn get_prices_for_user(&self, maybe_user_id: Option<i32>) -> Result<Vec<Price>, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
-        use database::schema::prices;
-        prices::table
-            .distinct_on((prices::type_id, prices::product_id, prices::quantity, prices::mod_date))
+        // with max_dates as (select type_id, product_id, quantity, MAX(mod_date) as max_date from prices where user_id = 3 group by type_id, product_id, quantity) select * from prices p inner join max_dates m on p.type_id = m.type_id and (p.product_id = m.product_id or (m.product_id is null and p.product_id is null)) and p.quantity = m.quantity and p.mod_date = m.max_date where price is not null
+        return prices::table
+            .inner_join(
+                currentprices::table
+                    .on(
+                        prices::type_id.eq(currentprices::type_id)
+                            .and(prices::product_id.is_not_distinct_from(currentprices::product_id))
+                            .and(prices::quantity.eq(currentprices::quantity))
+                            .and(prices::mod_date.eq(currentprices::mod_date))
+                    )
+            )
+            .select(prices::all_columns)
             .filter(prices::user_id.eq(user_id))
-            .order((prices::type_id, prices::product_id, prices::quantity, prices::mod_date.desc()))
+            .filter(prices::price.is_not_null())
             .load::<Price>(&*conn)
             .map_err(|reason| format!("Prices for user with id {} could not be retrieved. Reason: {}", user_id, reason))
             .map(|prices| prices.into_iter().filter(|price| price.price.is_some()).collect())
@@ -213,7 +223,7 @@ impl Database {
             .left_outer_join(conventioninforatings::table)
             .select((
                 conventionuserinfo::con_info_id,
-                conventionuserinfo::information, 
+                conventionuserinfo::information,
                 dsl::sql::<sql_types::BigInt>("SUM(CASE rating WHEN true THEN 1 ELSE 0 END)::INT"),
                 dsl::sql::<sql_types::BigInt>("SUM(CASE rating WHEN false THEN 1 ELSE 0 END)::INT"),
             ))

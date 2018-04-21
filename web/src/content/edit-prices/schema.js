@@ -33,6 +33,7 @@ export function editablePrice(price: Price): EditablePrice {
   return {
     ...price,
     original: price,
+    id: priceId(),
     quantityValidation: { state: VALID },
     priceValidation: { state: VALID },
   }

@@ -80,7 +80,7 @@ export class Input extends React.Component<Props, State> {
       <div className={`${S.container} ${className || ''}`}>
         <input className={`${S.input} ${value === '' ? S.empty : ''}`} autoFocus={autoFocus} tabIndex={tabIndex} defaultValue={defaultValue || ''} onChange={event => this.handleChange(event)} type={type || 'text'} onKeyDown={event => this.handleKeyDown(event)} ref={this.inputElement} />
         { title ? <span className={S.title}>{ title || '' }</span> : null }
-        { validation.state === INVALID
+        { value !== '' && validation.state === INVALID
           ? <Tooltip title={validation.error} className={S.error}>
               <Icon name="error" className={S.errorIcon}/>
             </Tooltip>

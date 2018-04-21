@@ -9,7 +9,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin'
 import { merge } from 'rxjs/observable/merge'
 import { of } from 'rxjs/observable/of'
 
-import { tap, filter, pluck, map, mapTo, switchMap, takeUntil, share, partition } from 'rxjs/operators'
+import { tap, filter, pluck, map, mapTo, switchMap, takeUntil, share, partition, defaultIfEmpty } from 'rxjs/operators'
 
 import DefaultMap from '../../util/default-map'
 import Set from '../../util/set'
@@ -63,6 +63,14 @@ type State = {
 }
 
 const defaultToolbar = { primary: toolbarAction.SavePrices, secondary: toolbarAction.DiscardPrices }
+
+function enableSave() {
+  toolbarStatus.next(defaultToolbar)
+}
+
+function disableSave() {
+  toolbarStatus.next({ ...defaultToolbar, primary: { ...defaultToolbar.primary, enabled: false } })
+}
 
 function diff(before: Price[], after: EditablePrice[]): [Price[], (Add | Delete)[]] {
   const initial: Map<string, Price> = new Map()
@@ -122,7 +130,13 @@ export class EditPrices extends ReactX.Component<Props, State> {
     const [savedPrices, savingPrices] = saveButtonPressed
       .pipe(
         map(() => diff(this.props.prices, this.state.prices)),
-        switchMap(([prices, changes]) => forkJoin(of(prices), forkJoin(...changes.map(price => new SavePrice().send(price))))),
+        switchMap(([prices, changes]) =>
+          forkJoin(
+            of(prices),
+            forkJoin(...changes.map(price => new SavePrice().send(price)))
+              .pipe(defaultIfEmpty([])),
+          )
+        ),
         map(([prices, changes]) => [prices, batchResponses(changes)]),
         share(),
         partition(([_, { state }]) => state === 'retrieved'),
@@ -130,29 +144,28 @@ export class EditPrices extends ReactX.Component<Props, State> {
 
     savedPrices
       .pipe(
-        map(([prices, { value: changed }]) => [].concat(prices, changed)),
+        map(([prices, { value: changed }]) => [].concat(prices, changed.filter(price => price))),
         tap(prices => update.setPrices(prices)),
       )
       .subscribe(() => navigate.prices())
 
     const saveFailed = savingPrices
       .pipe(
+        map(([_, response]) => response),
         filter(({ state }) => state === 'failed'),
-        share(),
       )
 
-    saveFailed
-      .pipe(mapTo(false))
-      .subscribe(editingEnabled => this.setState({ editingEnabled }))
+    const enabled = merge(saveButtonPressed.pipe(mapTo(false)), saveFailed.pipe(mapTo(true)))
+      .pipe(share())
 
-    merge(saveButtonPressed.pipe(mapTo(false)), saveFailed.pipe(mapTo(true)))
-      .pipe(
-        map(enabled => ({ ...defaultToolbar, primary: { ...defaultToolbar.primary, enabled } }))
-      )
+    enabled.subscribe(editingEnabled => this.setState({ editingEnabled }))
+
+    enabled
+      .pipe(map(enabled => ({ ...defaultToolbar, primary: { ...defaultToolbar.primary, enabled } })))
       .subscribe(status => toolbarStatus.next(status))
   }
 
-  handleProductIdChange(id: string, productId: number) {
+  handleProductIdChange(id: string, productId: ?number) {
     const prices =
       this.state.prices.map(price => price.id === id
         ? { ...price, productId, original: null }
@@ -205,6 +218,7 @@ export class EditPrices extends ReactX.Component<Props, State> {
     }
     const prices = [...this.state.prices, newPrice]
     this.setState({ prices })
+    disableSave()
   }
 
   validate(prices: EditablePrice[]): EditablePrice[] {
@@ -213,6 +227,7 @@ export class EditPrices extends ReactX.Component<Props, State> {
       .map(hasher)
       .forEach(hash => existingPrices.set(hash, existingPrices.get(hash) + 1))
 
+    enableSave()
     return prices.map(price => {
       let quantityValidation: Validation<ValidationError> = { state: VALID }
       let priceValidation: Validation<ValidationError> = { state: VALID }
@@ -229,6 +244,9 @@ export class EditPrices extends ReactX.Component<Props, State> {
         priceValidation = { state: INVALID, error: NonNumberPrice }
       } else if (price.price.amount < 0) {
         priceValidation = { state: INVALID, error: NegativePrice }
+      }
+      if (priceValidation.state === INVALID || quantityValidation.state === INVALID) {
+        disableSave()
       }
       return { ...price, priceValidation, quantityValidation }
     })
@@ -259,7 +277,7 @@ export class EditPrices extends ReactX.Component<Props, State> {
           {([ productType, prices ]) =>
               <EditPricesCard
                 productType={productType}
-                products={products}
+                products={products.filter(({ typeId, discontinued }) => !discontinued && typeId === productType.id)}
                 prices={prices}
                 bottomAction={addPrice(productType)}
                 onProductChange={(priceId, productId) => this.handleProductIdChange(priceId, productId)}

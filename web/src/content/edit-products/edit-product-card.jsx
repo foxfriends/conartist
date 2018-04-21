@@ -83,7 +83,7 @@ export function EditProductCard({ productType, products, topAction, bottomAction
           <div className={S.placeholder}>
             {l`No products yet... add one!`}
           </div>
-          {product =>
+          {(product, _) =>
             <Item key={`product_${product.id}`} className={product.discontinued ? S.discontinued : ''}>
               <Input
                 defaultValue={product.name}
@@ -93,7 +93,7 @@ export function EditProductCard({ productType, products, topAction, bottomAction
                 validation={productNameValidation(product.nameValidation)}
                 />
               <Input
-                defaultValue={`${product.name === '' ? '' : product.quantity}`}
+                defaultValue={isNaN(product.quantity) ? '' : `${product.quantity}`}
                 placeholder={l`Quantity`}
                 onChange={quantity => onProductQuantityChange(product.id, quantity)}
                 className={S.productQuantity}

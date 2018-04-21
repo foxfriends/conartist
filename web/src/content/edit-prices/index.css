@@ -23,3 +23,7 @@
 .placeholder {
   composes: placeholder from '../../common/styles.css'
 }
+
+.any {
+  color: var(--color--text-placeholder);
+}

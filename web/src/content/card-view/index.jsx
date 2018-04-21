@@ -6,9 +6,9 @@ const { Fragment } = React
 
 import S from './index.css'
 
-type Transformer<T> = (T) => React.Node
+type Transformer<T> = (T, number) => React.Node
 
-export type Props<T> = { 
+export type Props<T> = {
   dataSource: Iterable<T>,
   children: Transformer<T> | [React.Node, Transformer<T>] | [React.Node, Transformer<T>, React.Node]
 }

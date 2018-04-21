@@ -7,6 +7,7 @@ import { Input } from '../../common/input'
 import { List } from '../list'
 import { Item } from '../list/item'
 import { IconButton } from '../../common/icon-button'
+import { Select } from '../../common/select'
 import { scrollIdentifier } from '../../update/navigate'
 import { INVALID, VALID } from '../../model/validation'
 import { Money } from '../../model/money'
@@ -60,10 +61,11 @@ export type Props = {
   onPriceChange: (string, string) => void,
   onPriceRemove: (string) => void,
   onQuantityChange: (string, string) => void,
-  onProductChange: (string, number) => void,
+  onProductChange: (string, ?number) => void,
 }
 
 export function EditPricesCard({ productType, products, prices, bottomAction, onPriceChange, onProductChange, onQuantityChange, onPriceRemove }: Props) {
+  const productIds: (?number)[] = [null, ...products.map(({ id }) => id)]
   const dataSource = prices.map(price => price.productId === null ? [price, null] : [price, products.find(product => product.id === price.productId)])
   return (
     <Card id={scrollIdentifier('product-type', productType.id)} collapsible={true} bottomAction={bottomAction}>
@@ -73,16 +75,18 @@ export function EditPricesCard({ productType, products, prices, bottomAction, on
           <div className={S.placeholder}>
             {l`How much do these cost?`}
           </div>
-          {([price, product]) =>
+          {([price, product], _) =>
             <Item key={`price_${price.id}`}>
-              <Input
-                defaultValue={product ? product.name : 'Any'}
-                placeholder={l`Product`}
-                onChange={/* $FlowIgnore: TODO */
-                  productId => onProductChange(price.id, productId)
-                }
-                className={S.productName}
-                />
+              <Select
+                options={productIds}
+                defaultValue={price.productId}
+                onChange={productId => onProductChange(price.id, productId)}
+                className={S.productName}>
+                {productId => {
+                  const product = products.find(({ id }) => id === productId)
+                  return product ? product.name : <span className={S.any}>{ l`Any` }</span>
+                }}
+              </Select>
               <Input
                 defaultValue={`${price.quantity === 0 ? '' : price.quantity}`}
                 placeholder={l`How many`}

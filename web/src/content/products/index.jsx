@@ -39,7 +39,7 @@ export function Products({ products, productTypes }: Props) {
           {lx`<Empty products list message>`(x => x)}
         </div>
       </BasicCard>
-      {([ productType, products ]) =>
+      {([ productType, products ], _) =>
         <BasicCard id={scrollIdentifier('product-type', productType.id)} title={productType.name} collapsible={true} key={`product_type_${productType.id}`}>
           <Table dataSource={products}>
             <Fragment>
@@ -48,7 +48,7 @@ export function Products({ products, productTypes }: Props) {
                 {/* TODO: get some images for this */}
               </div>
             </Fragment>
-            {product =>
+            {(product, _) =>
               <Row title={product.name} detail={`${product.quantity}`} key={`product_${product.id}`}/>
             }
           </Table>

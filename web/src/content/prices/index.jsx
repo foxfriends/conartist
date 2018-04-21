@@ -40,7 +40,7 @@ export function Prices({ prices, products, productTypes }: Props) {
           {lx`<Empty prices list message>`(x => x)}
         </div>
       </BasicCard>
-      {([ productType, prices ]) =>
+      {([ productType, prices ], _) =>
         <BasicCard id={scrollIdentifier('product-type', productType.id)} title={productType.name} collapsible={true} key={`product_type_${productType.id}`}>
           <Table dataSource={prices}>
             <Fragment>
@@ -49,9 +49,9 @@ export function Prices({ prices, products, productTypes }: Props) {
                 {/* TODO: get some images for this */}
               </div>
             </Fragment>
-            {price => {
+            {(price, i) => {
               const product = price.productId && products.find(({ id }) => id === price.productId)
-              return <Row title={product ? product.name : <span className={S.any}>{l`Any`}</span>} value={price.quantity} detail={price.price.toString()} />
+              return <Row title={product ? product.name : <span className={S.any}>{l`Any`}</span>} value={price.quantity} detail={price.price.toString()} key={`price_${i}`} />
             }}
           </Table>
         </BasicCard>

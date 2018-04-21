@@ -23,6 +23,7 @@
   text-align: center;
   font-weight: var(--font-weight--regular);
   white-space: nowrap;
+  z-index: var(--z-index--over-toolbar);
 
   &::after {
     content: '';

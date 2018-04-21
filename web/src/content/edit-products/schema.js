@@ -109,3 +109,7 @@ export function setProductTypeIds(products: EditableProduct[], productTypes: Edi
       return product
     })
 }
+
+export function hasher({ typeId, name }: EditableProduct): string {
+  return `${typeId}:${name}`
+}

@@ -1,6 +1,7 @@
 /* @flow */
 import { model } from '../model'
 import * as page from '../model/page'
+import type { Convention } from '../model/convention'
 import type { Page } from '../model/page'
 
 export function splash() {
@@ -50,6 +51,21 @@ export function conventions() {
     window.history.pushState({}, '', '/conventions')
   }
   model.next({ ...model.getValue(), page: page.conventions })
+}
+
+export function searchConventions() {
+  if (model.getValue().page !== page.searchConventions) {
+    window.history.pushState({}, '', '/conventions/search')
+  }
+  model.next({ ...model.getValue(), page: page.searchConventions })
+}
+
+export function conventionDetails(convention: Convention) {
+  const { page: currentPage } = model.getValue()
+  if (currentPage.name !== 'convention-details' || currentPage.convention.id !== convention.id) {
+    window.history.pushState({}, '', `/convention/${convention.id}/details`)
+  }
+  model.next({ ...model.getValue(), page: page.conventionDetails(convention) })
 }
 
 export function settings() {

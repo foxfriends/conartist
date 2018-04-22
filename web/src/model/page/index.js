@@ -1,4 +1,6 @@
 /* @flow */
+import type { Convention } from '../convention'
+
 export type Page = Splash
                  | Dashboard
                  | Products
@@ -6,6 +8,8 @@ export type Page = Splash
                  | Prices
                  | EditPrices
                  | Conventions
+                 | SearchConventions
+                 | ConventionDetails
                  | Settings
                  | TermsOfService
                  | PrivacyPolicy
@@ -18,6 +22,8 @@ export type EditProducts = {| name: 'edit-products' |}
 export type Prices = {| name: 'prices' |}
 export type EditPrices = {| name: 'edit-prices' |}
 export type Conventions = {| name: 'conventions' |}
+export type SearchConventions = {| name: 'search-conventions' |}
+export type ConventionDetails = {| name: 'convention-details', convention: Convention |}
 export type Settings = {| name: 'settings' |}
 export type TermsOfService = {| name: 'terms-of-service' |}
 export type PrivacyPolicy = {| name: 'privacy-policy' |}
@@ -32,6 +38,8 @@ export const editProducts: EditProducts = { name: 'edit-products' }
 export const prices: Prices = { name: 'prices' }
 export const editPrices: EditPrices = { name: 'edit-prices' }
 export const conventions: Conventions = { name: 'conventions' }
+export const searchConventions: SearchConventions = { name: 'search-conventions' }
+export const conventionDetails = (convention: Convention): ConventionDetails => ({ name: 'convention-details', convention })
 export const settings: Settings = { name: 'settings' }
 export const termsOfService: TermsOfService = { name: 'terms-of-service' }
 export const privacyPolicy: PrivacyPolicy = { name: 'privacy-policy' }

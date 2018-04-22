@@ -85,8 +85,20 @@ export class ConArtist extends React.Component<Props, State> {
         break
 
       case 'conventions':
+        state.toolbar = { primary: toolbarAction.SearchConventions, secondary: null }
+        state.content = { name: 'conventions', conventions: model.conventions }
+        state.navigation = NavInfo.default.select('Conventions')
+        break
+
+      case 'search-conventions':
         state.toolbar = { primary: null, secondary: null }
-        state.content = { name: 'placeholder' }
+        state.content = { name: 'search-conventions' }
+        state.navigation = NavInfo.default.select('Conventions')
+        break
+
+      case 'convention-details':
+        state.toolbar = { primary: null, secondary: null }
+        state.content = { name: 'convention-details', convention: model.page.convention }
         state.navigation = NavInfo.default.select('Conventions')
         break
 

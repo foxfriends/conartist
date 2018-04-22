@@ -43,3 +43,8 @@ export const SavePrices: Action = {
   title: 'Save',
   action: () => send(SavePricesEvent),
 }
+
+export const SearchConventions: Action = {
+  title: 'Search',
+  action: navigate.searchConventions,
+}

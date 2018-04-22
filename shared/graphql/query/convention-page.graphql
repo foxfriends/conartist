@@ -1,13 +1,11 @@
-query ConventionPage($date: DateTimeFixedOffset, $limit: Int, $page: Int) {
-  convention(date: $date, limit: $limit, page: $page) {
-    page
-    pages
-    data {
-      id
-      name
-      start
-      end
+#import '../fragment/convention-basic-info.graphql'
+
+query ConventionPage($date: DateTimeFixedOffset, $search: String, $limit: Int, $before: String, $after: String) {
+  conventionsConnection(date: $date, search: $search, limit: $limit, after: $after, before: $before) {
+    nodes {
+      ...ConventionBasicInfoFragment
     }
+    endCursor
+    totalNodes
   }
 }
-

@@ -197,26 +197,25 @@ impl Database {
             .map_err(|reason| format!("Expenses for convention with id {} for user with id {} could not be retrieved. Reason: {}", con_id, user_id, reason))
     }
 
-    pub fn get_conventions_after(&self, date: NaiveDate, exclude_mine: bool) -> Result<Vec<Convention>, String> {
+    pub fn get_conventions_after(&self, date: NaiveDate, limit: i64, after: Option<String>) -> Result<Vec<Convention>, String> {
         let conn = self.pool.get().unwrap();
-        if exclude_mine {
-            let user_id = self.resolve_user_id(None)?;
-            let user_convention = user_conventions::table
-                .filter(user_conventions::user_id.eq(user_id))
-                .filter(user_conventions::con_id.eq(conventions::con_id));
-            conventions::table
-                .filter(conventions::start_date.gt(date))
-                .filter(dsl::not(dsl::exists(user_convention)))
-                .load::<DetachedConvention>(&*conn)
-                .map(|cons| cons.into_iter().map(Into::<Convention>::into).collect())
-                .map_err(|reason| format!("Conventions after {} could not be retrieved (excluding mine). Reason: {}" , date, reason))
-        } else {
-            conventions::table
-                .filter(conventions::start_date.gt(date))
-                .load::<DetachedConvention>(&*conn)
-                .map(|cons| cons.into_iter().map(Into::<Convention>::into).collect())
-                .map_err(|reason| format!("Conventions after {} could not be retrieved. Reason: {}", date, reason))
-        }
+        conventions::table
+            .filter(conventions::start_date.gt(date))
+            .offset(after.clone().and_then(|offset| str::parse(&offset).ok()).unwrap_or(0i64))
+            .limit(limit)
+            .order((conventions::start_date.asc(), conventions::end_date.asc(), conventions::con_id.asc()))
+            .load::<DetachedConvention>(&*conn)
+            .map(|cons| cons.into_iter().map(Into::<Convention>::into).collect())
+            .map_err(|reason| format!("Conventions after {}, cursor {:?} could not be retrieved. Reason: {}", date, after, reason))
+    }
+
+    pub fn count_conventions_after(&self, date: NaiveDate) -> i64 {
+        let conn = self.pool.get().unwrap();
+        conventions::table
+            .select(dsl::count(conventions::con_id))
+            .filter(conventions::start_date.gt(date))
+            .first::<i64>(&*conn)
+            .unwrap_or(0)
     }
 
     pub fn get_convention_extra_info_for_convention(&self, con_id: i32) -> Result<Vec<ConventionExtraInfo>, String> {

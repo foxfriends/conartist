@@ -5,6 +5,7 @@ use juniper::FieldResult;
 mod extra_info;
 mod user_info;
 mod image;
+mod connection;
 
 use money::Money;
 use database::models::*;
@@ -18,7 +19,7 @@ graphql_object!(Convention: Database |&self| {
     field start() -> DateTime<Utc> { DateTime::from_utc(self.start_date.and_hms(0, 0, 0), Utc) }
     field end() -> DateTime<Utc> { DateTime::from_utc(self.end_date.and_hms(23, 59, 59), Utc) }
 
-    field images(&executor) -> FieldResult<Vec<ConventionImage>> { 
+    field images(&executor) -> FieldResult<Vec<ConventionImage>> {
         dbtry! {
             executor
                 .context()
@@ -26,7 +27,7 @@ graphql_object!(Convention: Database |&self| {
         }
     }
 
-    field extra_info(&executor) -> FieldResult<Vec<ConventionExtraInfo>> { 
+    field extra_info(&executor) -> FieldResult<Vec<ConventionExtraInfo>> {
         dbtry! {
             executor
                 .context()
@@ -110,4 +111,3 @@ graphql_object!(Convention: Database |&self| {
         }
     }
 });
-

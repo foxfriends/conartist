@@ -336,23 +336,44 @@ export type UpvoteConventionInfoMutation = {|
 
 export type ConventionPageQueryVariables = {|
   date?: ?any,
+  search?: ?string,
   limit?: ?number,
-  page?: ?number,
+  before?: ?string,
+  after?: ?string,
 |};
 
 export type ConventionPageQuery = {|
   // Retrieves one page of conventions which start after a given date
-  convention: {|
-    __typename: "ConventionPages",
-    page: number,
-    pages: number,
-    data:  Array< {|
+  conventionsConnection: {|
+    __typename: "ConventionsConnection",
+    nodes:  Array< {|
       __typename: "Convention",
       id: number,
       name: string,
+      images:  Array< {|
+        __typename: "ConventionImage",
+        id: string,
+      |} >,
       start: any,
       end: any,
+      extraInfo:  Array< {|
+        __typename: "ConventionExtraInfo",
+        title: string,
+        info: ?string,
+        action: ?string,
+        actionText: ?string,
+      |} >,
+      userInfo:  Array< {|
+        __typename: "ConventionUserInfo",
+        id: number,
+        info: string,
+        vote: number,
+        upvotes: number,
+        downvotes: number,
+      |} >,
     |} >,
+    endCursor: ?string,
+    totalNodes: number,
   |},
 |};
 

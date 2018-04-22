@@ -2,13 +2,13 @@
 
 mod convention;
 mod user;
-mod pagination;
+mod connection;
 
 use chrono::{DateTime, Utc, FixedOffset};
 use juniper::FieldResult;
 use database::Database;
 use database::models::*;
-use self::pagination::Pagination;
+use self::connection::Connection;
 
 pub struct Query;
 
@@ -38,25 +38,35 @@ graphql_object!(Query: Database |&self| {
         }
     }
 
-    field convention(
+    field conventions_connection(
         &executor,
         date: Option<DateTime<FixedOffset>> as "The earliest day for which to retrieve conventions. Defaults to the current time",
-        limit = 5: i32 as "The limit on how many conventions to retrieve",
-        page = 0: i32 as "Which page to retrieve from",
-        exclude_mine = false: bool as "Set to true to not get conventions the current user is already signed up for",
-    ) -> Pagination<Convention> as "Retrieves one page of conventions which start after a given date" {
-        executor
-            .context()
-            .get_conventions_after(date.map(|r| r.naive_utc().date()).unwrap_or(Utc::today().naive_utc()), exclude_mine)
-            .map(|cons| (
-                cons.len(),
-                // TODO: do this in SQL
-                cons.into_iter()
-                    .skip((page * limit) as usize)
-                    .take(limit as usize)
-                    .collect(),
-            ))
-            .map(|(total, cons)| Pagination::new(cons, page, total, limit))
-            .unwrap_or(Pagination::new(vec![], 0, 0, limit))
+        search: Option<String> as "An optional search query. Currently unimplemented",
+        limit = 20: i32 as "The limit on how many conventions to retrieve",
+        after: Option<String> as "Cursor to search after",
+        before: Option<String> as "Cursor to search before. Currently unimplemented",
+    ) -> FieldResult<Connection<Convention>> as "Retrieves one page of conventions which start after a given date" {
+        ensure!(after.is_none() || before.is_none());
+
+        let earliest_date = date.map(|r| r.naive_utc().date()).unwrap_or(Utc::today().naive_utc());
+
+        let conventions = dbtry! {
+            executor
+                .context()
+                .get_conventions_after(
+                    earliest_date,
+                    limit as i64,
+                    after,
+                )
+        }?;
+
+        let total =
+            executor
+                .context()
+                .count_conventions_after(
+                    earliest_date,
+                );
+
+        Ok(Connection::new(conventions, total))
     }
 });

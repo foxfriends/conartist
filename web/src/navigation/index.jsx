@@ -38,7 +38,8 @@ export class NavInfo {
       new ItemInfo('Conventions', 'event', navigate.conventions),
       new ItemInfo('Settings', 'settings', navigate.settings),
     ]
-    if (model.getValue().user && model.getValue().user.clearance >= 1) {
+    const { user } = model.getValue()
+    if (user && user.clearance >= 1) {
       options.push(new ItemInfo('Admin', 'security', navigate.admin))
     }
 

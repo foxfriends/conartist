@@ -13,7 +13,7 @@ import { tap, filter, pluck, map, mapTo, switchMap, takeUntil, share, partition 
 import DefaultMap from '../../util/default-map'
 import { by, Asc, Desc } from '../../util/sort'
 import { l, lx } from '../../localization'
-import { CardView } from '../card-view'
+import { AutoCardView as CardView } from '../card-view/auto'
 import { Card } from '../card-view/card'
 import { EditProductCard } from './edit-product-card'
 import { Input } from '../../common/input'

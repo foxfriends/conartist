@@ -68,7 +68,7 @@ export class Expand<E: React.ElementType> extends React.Component<Props<E>, Stat
   render() {
     const { className, children } = this.props
     const { height, previousChildren } = this.state
-    const style = {
+    const style: { [string]: string | number } = {
       height
     }
     if (this.animationTimer === null) {

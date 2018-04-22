@@ -6,7 +6,7 @@ import { Icon } from '../../common/icon'
 import type { Action } from '../../common/button'
 import S from './card.css'
 
-export type Props = {
+export type Props<E: React.ElementType> = {
   id?: string,
   topAction?: ?Action,
   defaultCollapsed?: boolean,
@@ -14,7 +14,7 @@ export type Props = {
   className?: string,
   collapsible?: boolean,
   style?: { [string]: string | number },
-  children: [React.Node, React.Node],
+  children: [React.Node, React.Element<E>],
 }
 
 
@@ -22,8 +22,8 @@ type State = {
   collapsed: boolean,
 }
 
-export class Card extends React.Component<Props, State> {
-  constructor(props: Props) {
+export class Card<E: React.ElementType> extends React.Component<Props<E>, State> {
+  constructor(props: Props<E>) {
     super(props)
     this.state = {
       collapsed: props.defaultCollapsed || false,

@@ -1,6 +1,5 @@
 /* @flow */
 import * as React from 'react'
-import { CardView } from './card-view'
 import { Static } from './static'
 import { Products } from './products'
 import { EditProducts } from './edit-products'

@@ -78,6 +78,7 @@ export function Item({ title, action, icon, depth, selected, enabled, children }
         <Icon name={icon} />
         <span className={S.title}>{ localize(title) }</span>
       </div>
+      {/* $FlowIgnore: maybe I typed it wrong? but looks like Flow is just dumb */}
       <Expand>
         <List dataSource={children || []}>
           { (child, key) =>

@@ -7,14 +7,15 @@ const { Fragment } = React
 
 export type Props = {
   collapsible?: boolean,
+  defaultCollapsed?: boolean,
   title?: React.Node,
   children?: React.Node,
   id?: string,
 }
 
-export function BasicCard({ children, title, collapsible, id }: Props) {
+export function BasicCard({ children, title, collapsible, defaultCollapsed, id }: Props) {
   return (
-    <Card collapsible={collapsible || false} id={id}>
+    <Card collapsible={collapsible || false} id={id} defaultCollapsed={defaultCollapsed || false}>
       <BasicHeader title={title} />
       <Fragment>
         { children }

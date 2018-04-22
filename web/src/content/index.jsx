@@ -5,15 +5,24 @@ import { Products } from './products'
 import { EditProducts } from './edit-products'
 import { EditPrices } from './edit-prices'
 import { Prices } from './prices'
+import { Admin } from './admin'
 import type { Props as CardViewProps } from './card-view'
 import type { Props as ProductsProps } from './products'
 import type { Props as EditProductsProps } from './edit-products'
 import type { Props as PricesProps } from './prices'
 import type { Props as EditPricesProps } from './edit-prices'
 import type { Props as StaticProps } from './static'
+import type { Props as AdminProps } from './admin'
 import S from './index.css'
 
-export type Props = { name: 'placeholder' } | EditProductsProps | ProductsProps | PricesProps | EditPricesProps | StaticProps
+export type Props
+  = { name: 'placeholder' }
+  | EditProductsProps
+  | ProductsProps
+  | PricesProps
+  | EditPricesProps
+  | StaticProps
+  | AdminProps
 
 export function Content(props: Props) {
   let content: React.Node
@@ -35,6 +44,9 @@ export function Content(props: Props) {
       break
     case 'edit-prices':
       content = <EditPrices {...props} />
+      break
+    case 'admin':
+      content = <Admin {...props} />
       break
   }
   return (

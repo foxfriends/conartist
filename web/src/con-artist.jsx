@@ -98,7 +98,7 @@ export class ConArtist extends React.Component<Props, State> {
 
       case 'admin':
         state.toolbar = { primary: null, secondary: null }
-        state.content = { name: 'placeholder' }
+        state.content = { name: 'admin' }
         state.navigation = NavInfo.default.select('Admin')
         break
       case 'terms-of-service':

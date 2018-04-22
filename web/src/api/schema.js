@@ -334,7 +334,7 @@ export type UpvoteConventionInfoMutation = {|
   |},
 |};
 
-export type ConventionPageQueryVariables = {|
+export type ConventionsConnectionQueryVariables = {|
   date?: ?any,
   search?: ?string,
   limit?: ?number,
@@ -342,7 +342,7 @@ export type ConventionPageQueryVariables = {|
   after?: ?string,
 |};
 
-export type ConventionPageQuery = {|
+export type ConventionsConnectionQuery = {|
   // Retrieves one page of conventions which start after a given date
   conventionsConnection: {|
     __typename: "ConventionsConnection",

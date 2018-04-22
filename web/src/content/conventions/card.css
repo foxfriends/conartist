@@ -1,0 +1,13 @@
+.star {
+  font-size: 16px;
+  margin-left: -4px;
+  margin-right: 10px;
+}
+
+.starSelected {
+  color: var(--color--brand-variant);
+}
+
+.rowTitle {
+  font-variant-caps: all-small-caps;
+}

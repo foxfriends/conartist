@@ -2,6 +2,7 @@
 import * as React from 'react'
 import { model } from '../model'
 import DefaultMap from '../util/default-map'
+import { newlinesToReact } from '../util/newlines-to-react'
 import en from './lang/en'
 import zh from './lang/zh'
 
@@ -30,22 +31,6 @@ export function l(strings: string[], ...args: string[]): string {
     localized = localized.replace(PLACEHOLDER_PATTERN, arg)
   }
   return localized
-}
-
-function newlinesToReact(text: string): React.Node {
-  function insert<T>(item: React.Node, [...array]: React.Node[]): React.Node[] {
-    let position = array.length
-    while (position --> 1) {
-      array.splice(position, 0, <Fragment key={`newline_${position}`}>{ item }</Fragment>)
-    }
-    return array
-  }
-  return insert(
-    <br />,
-    text
-      .split('\n')
-      .map((part, i) => <Fragment key={`text_${i}`}>{ part }</Fragment>)
-  )
 }
 
 const SUBSECTION_PATTERN = /\{([^{}]+)\}/g

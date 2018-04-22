@@ -26,7 +26,7 @@ class Convention {
 
     let recordTotal: Money?
     let expenseTotal: Money?
-    
+
     fileprivate let øaddedRecords = Variable<[Record]>([])
     fileprivate let øremovedRecords = Variable<[Int]>([])
     fileprivate let øaddedExpenses = Variable<[Expense]>([])
@@ -159,7 +159,7 @@ extension Convention {
     }
 
     static func formatDateRange(start: Date, end: Date) -> String {
-        return "{} – {}"¡ % start.toString(Convention.DateFormat) % end.toString(Convention.DateFormat)
+        return "{} - {}"¡ % start.toString(Convention.DateFormat) % end.toString(Convention.DateFormat)
     }
 }
 
@@ -205,7 +205,7 @@ extension Convention {
                 .discard()
         }
     }
-    
+
     func addExpense(_ expense: Expense) -> Observable<Void> {
         let index = øaddedExpenses.value.count
         øaddedExpenses.value.append(expense)

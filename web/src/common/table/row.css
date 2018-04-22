@@ -5,5 +5,14 @@
 
 .value, .detail {
   justify-self: end;
+  text-align: right;
   font-variant-numeric: tabular-nums;
+}
+
+.valueDetail {
+  grid-column-end: span 2;
+}
+
+.tall {
+  grid-row-end: span 2;
 }

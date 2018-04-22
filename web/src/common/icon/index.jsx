@@ -9,5 +9,9 @@ type Props = {
 }
 
 export function Icon({ name, className }: Props) {
-  return <span className={`material-icons ${S.icon} ${className || ''}`}>{name}</span>
+  return (
+    <span className={`${S.container} ${className || ''}`}>
+      <span className='material-icons'>{name}</span>
+    </span>
+  )
 }

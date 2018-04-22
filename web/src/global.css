@@ -38,3 +38,7 @@
   font-family: var(--font--body);
   color: var(--color--text);
 }
+
+:global(.material-icons) {
+  font-size: unset;
+}

@@ -75,7 +75,7 @@ export function Item({ title, action, icon, depth, selected, enabled, children }
       <div className={`${S.item}  ${enabled ? '' : S.disabled}`}>
         <div className={selected ? S.indicatorSelected : S.indicatorDefault} />
         <div className={S.indent} style={{ width: depth * DEPTH_INDENT}} />
-        <Icon name={icon} />
+        <Icon name={icon} className={S.icon} />
         <span className={S.title}>{ localize(title) }</span>
       </div>
       {/* $FlowIgnore: maybe I typed it wrong? but looks like Flow is just dumb */}

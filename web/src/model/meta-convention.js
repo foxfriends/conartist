@@ -1,5 +1,5 @@
 /* @flow */
-import type { MetaConventionFragmentFragment } from '../api/schema'
+import type { ConventionBasicInfoFragmentFragment, MetaConventionFragmentFragment } from '../api/schema'
 import { Money } from './money'
 import { parse as parseImage } from './convention-image'
 import { parse as parseExtraInfo } from './convention-extra-info'
@@ -20,10 +20,11 @@ export type MetaConvention = {|
   expenseTotal: ?Money,
 |}
 
-export function parse({ id, name, images, start, end, extraInfo, userInfo, recordTotal, expenseTotal }: MetaConventionFragmentFragment): MetaConvention {
+// $FlowIgnore: seems confused about how default params work
+export function parse({ id, name, images, start, end, extraInfo, userInfo, recordTotal, expenseTotal }: ConventionBasicInfoFragmentFragment | MetaConventionFragmentFragment): MetaConvention {
   return {
-    id, 
-    name, 
+    id,
+    name,
     images: images.map(parseImage),
     start: new Date(start),
     end: new Date(end),

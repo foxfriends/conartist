@@ -1,6 +1,6 @@
 #import '../fragment/convention-basic-info.graphql'
 
-query ConventionPage($date: DateTimeFixedOffset, $search: String, $limit: Int, $before: String, $after: String) {
+query ConventionsConnection($date: DateTimeFixedOffset, $search: String, $limit: Int, $before: String, $after: String) {
   conventionsConnection(date: $date, search: $search, limit: $limit, after: $after, before: $before) {
     nodes {
       ...ConventionBasicInfoFragment

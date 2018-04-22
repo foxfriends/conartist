@@ -16,8 +16,11 @@ import { setUser } from '../update/signin'
 import { resolveRoute } from '../routing'
 
 export type Model = {|
-  email: ?string,
-  name: ?string,
+  user: ?{
+    email: string,
+    name: string,
+    clearance: number,
+  },
   prices: Price[],
   productTypes: ProductType[],
   products: Product[],
@@ -28,8 +31,7 @@ export type Model = {|
 |}
 
 export const defaultModel: Model = {
-  email: null,
-  name: null,
+  user: null,
   prices: [],
   productTypes: [],
   products: [],

@@ -4,8 +4,8 @@
 fragment UserFragment on User {
   name
   email
-  settings { 
-    ...SettingsFragment 
+  settings {
+    ...SettingsFragment
   }
   conventions {
     ...MetaConventionFragment

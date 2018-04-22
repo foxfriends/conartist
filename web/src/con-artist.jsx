@@ -16,7 +16,6 @@ import type { Props as ToolbarProps } from './toolbar'
 import type { Props as NavigationProps } from './navigation'
 import type { Props as ContentProps } from './content'
 import type { Props as DialogProps } from './dialog'
-import { l } from './localization'
 import S from './con-artist.css'
 import { Storage } from './storage'
 
@@ -97,6 +96,11 @@ export class ConArtist extends React.Component<Props, State> {
         state.navigation = NavInfo.default.select('Settings')
         break
 
+      case 'admin':
+        state.toolbar = { primary: null, secondary: null }
+        state.content = { name: 'placeholder' }
+        state.navigation = NavInfo.default.select('Admin')
+        break
       case 'terms-of-service':
         state.navigation = null
         state.content = { name: 'static', content: 'terms-of-service' }

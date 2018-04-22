@@ -4,6 +4,7 @@ import * as React from 'react'
 import { Item, ItemInfo } from './item'
 import { l } from '../localization'
 import * as navigate from '../update/navigate'
+import { model } from '../model'
 import type { ProductType } from '../model/product-type'
 import type { Props as ItemProps } from './item'
 import S from './index.css'
@@ -30,13 +31,18 @@ export class NavInfo {
    * The standard all deselected options
    */
   static get default(): NavInfo {
-    return new NavInfo([
-      new ItemInfo(l`Dashboard`, 'dashboard', navigate.dashboard),
-      new ItemInfo(l`Products`, 'shopping_basket', navigate.products),
-      new ItemInfo(l`Prices`, 'attach_money', navigate.prices),
-      new ItemInfo(l`Conventions`, 'event', navigate.conventions),
-      new ItemInfo(l`Settings`, 'settings', navigate.settings),
-    ])
+    const options = [
+      new ItemInfo('Dashboard', 'dashboard', navigate.dashboard),
+      new ItemInfo('Products', 'shopping_basket', navigate.products),
+      new ItemInfo('Prices', 'attach_money', navigate.prices),
+      new ItemInfo('Conventions', 'event', navigate.conventions),
+      new ItemInfo('Settings', 'settings', navigate.settings),
+    ]
+    if (model.getValue().user && model.getValue().user.clearance >= 1) {
+      options.push(new ItemInfo('Admin', 'security', navigate.admin))
+    }
+
+    return new NavInfo(options)
   }
 
   constructor(items: ItemInfo[]) {

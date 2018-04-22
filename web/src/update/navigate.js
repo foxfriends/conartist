@@ -59,6 +59,13 @@ export function settings() {
   model.next({ ...model.getValue(), page: page.settings })
 }
 
+export function admin() {
+  if (model.getValue().page !== page.admin) {
+    window.history.pushState({}, '', '/admin')
+  }
+  model.next({ ...model.getValue(), page: page.admin })
+}
+
 export type ScrollTarget = 'product-type'
 
 export function scrollIdentifier(target: ScrollTarget, id: number | string) {

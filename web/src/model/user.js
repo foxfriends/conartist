@@ -19,9 +19,10 @@ export type User = {|
   products: Product[],
   prices: Price[],
   conventions: MetaConvention[],
+  clearance: number,
 |}
 
-export function parse({ name, email, settings, productTypes, products, prices, conventions }: FullUserFragmentFragment): User {
+export function parse({ name, email, settings, productTypes, products, prices, conventions, clearance }: FullUserFragmentFragment): User {
   return {
     name,
     email,
@@ -29,6 +30,7 @@ export function parse({ name, email, settings, productTypes, products, prices, c
     productTypes: productTypes.map(parseProductType),
     products: products.map(parseProduct),
     prices: prices.map(parsePrice),
-    conventions: conventions.map(parseConvention)
+    conventions: conventions.map(parseConvention),
+    clearance,
   }
 }

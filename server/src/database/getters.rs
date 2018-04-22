@@ -65,6 +65,16 @@ impl Database {
             .map_err(|reason| format!("Settings for user with id {} could not be retrieved. Reason: {}", user_id, reason))
     }
 
+    pub fn get_admin_clearance(&self, maybe_user_id: Option<i32>) -> Result<i32, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let conn = self.pool.get().unwrap();
+        admins::table
+            .select(admins::clearance)
+            .filter(admins::user_id.eq(user_id))
+            .first::<i32>(&*conn)
+            .map_err(|reason| format!("Admin clearance for user with id {} could not be retrieved. Reason: {}", user_id, reason))
+    }
+
     pub fn get_product_types_for_user(&self, maybe_user_id: Option<i32>) -> Result<Vec<ProductType>, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();

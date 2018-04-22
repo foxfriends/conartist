@@ -443,6 +443,7 @@ export type FullUserQuery = {|
       recordTotal: ?any,
       expenseTotal: ?any,
     |} >,
+    clearance: number,
     products:  Array< {|
       __typename: "Product",
       id: number,
@@ -667,6 +668,7 @@ export type FullUserFragmentFragment = {|
     recordTotal: ?any,
     expenseTotal: ?any,
   |} >,
+  clearance: number,
   products:  Array< {|
     __typename: "Product",
     id: number,

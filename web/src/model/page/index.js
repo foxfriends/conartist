@@ -9,6 +9,7 @@ export type Page = Splash
                  | Settings
                  | TermsOfService
                  | PrivacyPolicy
+                 | Admin
 
 export type Splash = {| name: 'splash' |}
 export type Dashboard = {| name: 'dashboard' |}
@@ -20,6 +21,7 @@ export type Conventions = {| name: 'conventions' |}
 export type Settings = {| name: 'settings' |}
 export type TermsOfService = {| name: 'terms-of-service' |}
 export type PrivacyPolicy = {| name: 'privacy-policy' |}
+export type Admin = {| name: 'admin' |}
 
 export type Name = $PropertyType<Page, 'name'>
 
@@ -33,3 +35,4 @@ export const conventions: Conventions = { name: 'conventions' }
 export const settings: Settings = { name: 'settings' }
 export const termsOfService: TermsOfService = { name: 'terms-of-service' }
 export const privacyPolicy: PrivacyPolicy = { name: 'privacy-policy' }
+export const admin: Admin = { name: 'admin' }

@@ -1,4 +1,11 @@
 table! {
+    admins (user_id) {
+        user_id -> Int4,
+        clearance -> Int4,
+    }
+}
+
+table! {
     conventionextrainfo (con_id, title) {
         con_id -> Int4,
         title -> Varchar,
@@ -145,6 +152,7 @@ table! {
     }
 }
 
+joinable!(admins -> users (user_id));
 joinable!(conventionextrainfo -> conventions (con_id));
 joinable!(conventionimages -> conventions (con_id));
 joinable!(conventioninforatings -> conventionuserinfo (con_info_id));
@@ -165,6 +173,7 @@ joinable!(user_conventions -> users (user_id));
 joinable!(usersettings -> users (user_id));
 
 allow_tables_to_appear_in_same_query!(
+    admins,
     conventionextrainfo,
     conventionimages,
     conventioninforatings,

@@ -59,4 +59,11 @@ graphql_object!(User: Database |&self| {
             .get_settings_for_user(Some(self.user_id))
             .unwrap_or(Settings::default(self.user_id))
     }
+
+    field clearance(&executor) -> i32 {
+        executor
+            .context()
+            .get_admin_clearance(Some(self.user_id))
+            .unwrap_or(0)
+    }
 });

@@ -3,11 +3,14 @@ import { defaultModel, model } from '../model'
 import { dashboard } from '../model/page'
 import type { User } from '../model/user'
 
-export function completeSignIn({ email, name, settings, conventions, prices, products, productTypes }: User) {
+export function completeSignIn({ email, name, clearance, settings, conventions, prices, products, productTypes }: User) {
   model.next({
     ...model.getValue(),
-    email,
-    name,
+    user: {
+      email,
+      name,
+      clearance,
+    },
     prices,
     products,
     productTypes,
@@ -21,11 +24,14 @@ export function completeSignIn({ email, name, settings, conventions, prices, pro
   })
 }
 
-export function setUser({ email, name, settings, conventions, prices, products, productTypes }: User) {
+export function setUser({ email, name, clearance, settings, conventions, prices, products, productTypes }: User) {
   model.next({
     ...model.getValue(),
-    email,
-    name,
+    user: {
+      email,
+      name,
+      clearance,
+    },
     prices,
     products,
     productTypes,

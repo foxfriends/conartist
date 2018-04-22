@@ -1,0 +1,4 @@
+CREATE TABLE Admins (
+  user_id   INT PRIMARY KEY REFERENCES Users (user_id) ON DELETE CASCADE,
+  clearance INT NOT NULL DEFAULT (1)
+);

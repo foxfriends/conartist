@@ -21,6 +21,7 @@ type User {
   prices: [Price]!
   conventions: [Convention]!
   settings: Settings!
+  clearance: Int!
 }
 
 type Settings {

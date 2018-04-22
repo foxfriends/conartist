@@ -1,5 +1,7 @@
 //! The entry point of a GraphQL mutation
 use juniper::FieldResult;
+use chrono::NaiveDate;
+use serde_json;
 
 mod product;
 mod product_type;
@@ -243,5 +245,23 @@ graphql_object!(Mutation: Database |&self| {
 
     field update_settings(&executor, user_id: Option<i32>) -> FieldResult<SettingsMutation> {
         Ok(SettingsMutation(user_id))
+    }
+
+    field create_convention(&executor, title: String, start_date: NaiveDate, end_date: NaiveDate) -> FieldResult<Convention> {
+        dbtry! {
+            executor
+                .context()
+                .create_convention(None, title, start_date, end_date)
+        }
+    }
+
+    field add_convention_extra_info(&executor, con_id: i32, title: String, info: Option<String>, action: Option<String>, action_text: Option<String>) -> FieldResult<ConventionExtraInfo> {
+        let info_json = info.and_then(|info| serde_json::from_str(&info).unwrap_or(None));
+
+        dbtry! {
+            executor
+                .context()
+                .create_convention_extra_info(None, con_id, title, info_json, action, action_text)
+        }
     }
 });

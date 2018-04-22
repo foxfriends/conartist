@@ -13,7 +13,7 @@ export type Validation = GenericValidation<String>
 export type Validator = ((string) => Validation) | ((string) => Promise<Validation>)
 
 export type Props = {
-  type?: 'text' | 'password' | 'email',
+  type?: 'text' | 'password' | 'email' | 'date' | 'time',
   title?: string,
   placeholder?: string,
   defaultValue?: string,

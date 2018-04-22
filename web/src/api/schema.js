@@ -78,6 +78,24 @@ export type RecordMod = {|
   info?: ?string,
 |};
 
+export type AddConventionInfoMutationVariables = {|
+  conId: number,
+  title: string,
+  info?: ?string,
+  action?: ?string,
+  actionText?: ?string,
+|};
+
+export type AddConventionInfoMutation = {|
+  addConventionExtraInfo: {|
+    __typename: "ConventionExtraInfo",
+    title: string,
+    info: ?string,
+    action: ?string,
+    actionText: ?string,
+  |},
+|};
+
 export type AddExpenseMutationVariables = {|
   id?: ?number,
   expense: ExpenseAdd,
@@ -170,6 +188,19 @@ export type ContributeConventionInfoMutation = {|
     vote: number,
     upvotes: number,
     downvotes: number,
+  |},
+|};
+
+export type CreateConventionMutationVariables = {|
+  title: string,
+  startDate: any,
+  endDate: any,
+|};
+
+export type CreateConventionMutation = {|
+  createConvention: {|
+    __typename: "Convention",
+    id: number,
   |},
 |};
 

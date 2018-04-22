@@ -1,0 +1,21 @@
+.form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 16px;
+
+  & * {
+    flex-basis: 100%;
+  }
+}
+
+.halfInput {
+  flex-basis: 40%;
+  flex-grow: 1;
+  margin: 0 4px;
+}
+
+.button {
+  margin-top: 16px;
+  align-self: flex-end;
+}

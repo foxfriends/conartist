@@ -1,7 +1,7 @@
 /* @flow */
 import * as React from 'react'
 import { CardView } from '../card-view'
-import { BasicCard } from '../card-view/basic-card'
+import { NewConvention } from './new-convention'
 
 export type Props = {
   name: 'admin',
@@ -10,11 +10,7 @@ export type Props = {
 export function Admin(props: Props) {
   return (
     <CardView>
-      <BasicCard title='Add a convention' collapsible={true} defaultCollapsed={true}>
-        <div>
-          Hello world
-        </div>
-      </BasicCard>
+      <NewConvention />
     </CardView>
   )
 }

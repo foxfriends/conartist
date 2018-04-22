@@ -1,0 +1,5 @@
+mutation CreateConvention($title: String!, $startDate: NaiveDate!, $endDate: NaiveDate!) {
+  createConvention(title: $title, startDate: $startDate, endDate: $endDate) {
+    id
+  }
+}

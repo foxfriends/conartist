@@ -104,7 +104,7 @@ extension ExpenseDetailsOverlayViewController {
         amountLabel.font = amountLabel.font.usingFeatures([.tabularFigures])
         amountLabel.text = expense.price.toString()
         timeLabel.text = expense.time.toString("EEEE MMMM d, yyyy. h:mm a"¡)
-        noteLabel.text = expense.description.isEmpty ? "Nothing to say…"¡ : expense.description
+        noteLabel.text = expense.description.isEmpty ? "Nothing to say..."¡ : expense.description
         noteLabel.textColor = expense.description.isEmpty ? ConArtist.Color.TextPlaceholder : ConArtist.Color.Text
         backgroundButton.alpha = 0
         navBar.title = convention.name

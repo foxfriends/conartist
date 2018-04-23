@@ -116,7 +116,7 @@ extension RecordDetailsOverlayViewController {
         amountLabel.font = amountLabel.font.usingFeatures([.tabularFigures])
         amountLabel.text = record.price.toString()
         timeLabel.text = record.time.toString("EEEE MMMM d, yyyy. h:mm a"¡)
-        noteLabel.text = record.info.isEmpty ? "Nothing to say…"¡ : record.info
+        noteLabel.text = record.info.isEmpty ? "Nothing to say..."¡ : record.info
         noteLabel.textColor = record.info.isEmpty ? ConArtist.Color.TextPlaceholder : ConArtist.Color.Text
         backgroundButton.alpha = 0
         let height = productTypes

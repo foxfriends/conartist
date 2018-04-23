@@ -631,7 +631,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "APOLLO_FRAMEWORK_PATH=\"$(eval find $FRAMEWORK_SEARCH_PATHS -name \"Apollo.framework\" -maxdepth 1)\"\n\nif [ -z \"$APOLLO_FRAMEWORK_PATH\" ]; then\necho \"error: Couldn't find Apollo.framework in FRAMEWORK_SEARCH_PATHS; make sure to add the framework to your project.\"\nexit 1\nfi\n\ncd \"${SRCROOT}/${TARGET_NAME}\"\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-codegen.sh generate ../../shared/graphql/schema.graphql fragment/*.graphql query/*.graphql mutation/*.graphql --schema schema.json --output Services/API/GraphQL.swift\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-codegen.sh generate ../../shared/resources.graphql --schema resources.json --output Services/API/Resources.swift";
+			shellScript = "APOLLO_FRAMEWORK_PATH=\"$(eval find $FRAMEWORK_SEARCH_PATHS -name \"Apollo.framework\" -maxdepth 1)\"\n\nif [ -z \"$APOLLO_FRAMEWORK_PATH\" ]; then\necho \"error: Couldn't find Apollo.framework in FRAMEWORK_SEARCH_PATHS; make sure to add the framework to your project.\"\nexit 1\nfi\n\ncd \"${SRCROOT}/${TARGET_NAME}\"\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-codegen.sh generate  ../../shared/graphql/fragment/*.graphql ../../shared/graphql/query/*.graphql ../../shared/graphql/mutation/*.graphql --schema schema.json --output Services/API/GraphQL.swift\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-codegen.sh generate ../../shared/resources/*.graphql --schema resources.json --output Services/API/Resources.swift";
 		};
 		327C5D7D20818371007EEF71 /* Copy Configuration Files */ = {
 			isa = PBXShellScriptBuildPhase;

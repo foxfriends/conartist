@@ -6,6 +6,8 @@ import { pluck, filter, tap } from 'rxjs/operators'
 import { ConventionsConnection } from '../../api/conventions-connection'
 import { UpcomingConventionCard } from '../conventions/upcoming-convention-card'
 import { CardView } from '../card-view'
+import { BasicCard } from '../card-view/basic-card'
+import { l } from '../../localization'
 import type { Convention } from '../../model/convention'
 import type { Connection } from '../../model/connection'
 import S from './index.css'
@@ -39,7 +41,6 @@ export class SearchConventions extends React.Component<Props, State> {
     this.conventionsConnection.send()
       .pipe(
         filter(({ state }) => state === 'retrieved'),
-        tap(console.log),
         pluck('value'),
       )
       .subscribe(conventions => this.setState({ conventions }))
@@ -49,7 +50,10 @@ export class SearchConventions extends React.Component<Props, State> {
     const { conventions: { nodes: conventions } } = this.state
     return (
       <CardView>
-        { conventions.map(convention => <UpcomingConventionCard convention={convention} key={`convention_${convention.id}`}/>) }
+        { conventions.length
+          ? conventions.map(convention => <UpcomingConventionCard convention={convention} key={`convention_${convention.id}`}/>)
+          : <BasicCard title={l`Loading...`} />
+        }
       </CardView>
     )
   }

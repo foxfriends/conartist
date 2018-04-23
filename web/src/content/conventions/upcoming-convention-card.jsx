@@ -30,19 +30,33 @@ function sc(content: React.Node) {
 
 export function UpcomingConventionCard({ convention }: Props) {
   const selected = model.getValue().conventions.some(({ id }) => id === convention.id)
-  const { info: addressJson, action: coordsURL } = convention.extraInfo.find(({ title }) => title === 'Address')
   let address = null
-  try {
-    address = newlinesToReact(JSON.parse(addressJson))
-  } catch(_) {}
-  const { actionText: website, action: websiteURL } = convention.extraInfo.find(({ title }) => title === 'Website')
+  let coordsURL = null
+  let websiteURL = null
+  let website = null
+  const addressInfo = convention.extraInfo.find(({ title }) => title === 'Address')
+  if (addressInfo && addressInfo.info && addressInfo.action) {
+    const { info, action } = addressInfo
+    try {
+      address = newlinesToReact(JSON.parse(info))
+      coordsURL = action
+    } catch(_) {}
+  }
+
+  const websiteInfo = convention.extraInfo.find(({ title }) => title === 'Website')
+  if (websiteInfo && websiteInfo.action && websiteInfo.actionText) {
+    const { action, actionText } = websiteInfo
+    website = actionText
+    websiteURL = action
+  }
 
   return (
     <Card>
       <BasicHeader title={<><IconButton title={selected ? 'star' : 'star_outline'} action={() => {}} priority='secondary' className={`${S.star} ${selected ? S.starSelected : ''}`}/>{convention.name}</>} />
       <Table>
         <Row title={sc(l`Dates`)} value={l`${format(convention.start)} - ${format(convention.end)}`} />
-        { address ? <Row tall title={sc(l`Address`)} value={address} /> : null}
+        { address ? <Row tall title={sc(l`Address`)} value={address} /> : null }
+        {/* $FlowIgnore: invariant - websiteURL will be set! */}
         { website ? <Row title={sc(l`Website`)} value={<Link href={websiteURL}>{website}</Link>} /> : null }
       </Table>
     </Card>

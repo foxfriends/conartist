@@ -78,7 +78,7 @@ export class Expand<E: React.ElementType> extends React.Component<Props<E>, Stat
     return (
       <div className={`${S.expansionContainer} ${className || ''}`} style={style}>
         <div>
-          { !children ? previousChildren : null }
+          { !height ? previousChildren : null }
         </div>
         <div ref={this.measurementDiv}>
           { children }

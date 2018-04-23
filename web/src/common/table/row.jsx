@@ -7,7 +7,7 @@ export type Props = {
   title?: React.Node,
   value?: React.Node,
   detail?: React.Node,
-  tall: boolean,
+  tall?: boolean,
 }
 
 export function Row({ tall, title, value, detail }: Props) {

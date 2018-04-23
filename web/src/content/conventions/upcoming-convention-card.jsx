@@ -10,6 +10,7 @@ import { IconButton } from '../../common/icon-button'
 import { Link } from '../../common/link'
 import { model } from '../../model'
 import { l } from '../../localization'
+import * as update from '../../update/conventions'
 import { newlinesToReact } from '../../util/newlines-to-react'
 import type { Convention } from '../../model/convention'
 
@@ -50,9 +51,13 @@ export function UpcomingConventionCard({ convention }: Props) {
     websiteURL = action
   }
 
+  const toggleStarred = selected
+    ? () => { update.unstarConvention(convention) }
+    : () => { update.starConvention(convention) }
+
   return (
     <Card>
-      <BasicHeader title={<><IconButton title={selected ? 'star' : 'star_outline'} action={() => {}} priority='secondary' className={`${S.star} ${selected ? S.starSelected : ''}`}/>{convention.name}</>} />
+      <BasicHeader title={<><IconButton title={selected ? 'star' : 'star_outline'} action={toggleStarred} priority='secondary' className={`${S.star} ${selected ? S.starSelected : ''}`}/>{convention.name}</>} />
       <Table>
         <Row title={sc(l`Dates`)} value={l`${format(convention.start)} - ${format(convention.end)}`} />
         { address ? <Row tall title={sc(l`Address`)} value={address} /> : null }

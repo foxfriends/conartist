@@ -20,9 +20,7 @@
     "react": "^16.3.0",
     "react-dom": "^16.3.0",
     "rxjs": "^5.5.8",
-    "save-as": "^0.1.8"
-  },
-  "devDependencies": {
+    "save-as": "^0.1.8",
     "@babel/core": "^7.0.0-beta.42",
     "@babel/preset-react": "^7.0.0-beta.42",
     "autoprefixer": "^8.2.0",

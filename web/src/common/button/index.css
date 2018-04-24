@@ -1,6 +1,6 @@
 .primary, .secondary, .tertiary {
   height: 44px;
-  width: 152px;
+  min-width: 152px;
   border: none;
   border-radius: 2px;
   font-family: var(--font--body);
@@ -36,7 +36,7 @@
   background-color: transparent;
   color: var(--color--brand);
   font-size: 18px;
-  margin-left: auto;
+  white-space: nowrap;
 
   &:not(:disabled):hover {
     background-color: var(--color--background-hover-highlight);

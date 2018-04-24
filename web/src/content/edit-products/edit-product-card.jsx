@@ -74,6 +74,7 @@ export function EditProductCard({ productType, products, topAction, bottomAction
         <Input
           className={S.productTypeName}
           defaultValue={productType.name}
+          placeholder={l`New product type`}
           onChange={onProductTypeNameChange}
           validation={productTypeValidation(productType.validation)}
           />

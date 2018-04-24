@@ -28,6 +28,6 @@ module.exports = {
   },
   devtool: 'cheap-eval-source-map',
   plugins: [
-   new UglifyJSPlugin(),
+   // new UglifyJSPlugin(),
   ]
 };

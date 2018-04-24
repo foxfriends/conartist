@@ -18,6 +18,7 @@ import { Card } from '../card-view/card'
 import { EditProductCard } from './edit-product-card'
 import { Input } from '../../common/input'
 import { Cover } from '../../common/cover'
+import { Button } from '../../common/button'
 import { events, SaveProducts } from '../../event'
 import { SaveProductType } from '../../api/save-product-type'
 import { SaveProduct } from '../../api/save-product'
@@ -199,19 +200,18 @@ export class EditProducts extends ReactX.Component<Props, State> {
     }
   }
 
-  createProductType(name: string) {
-    if (name !== '' && !this.state.productTypes.some(existing => existing.name === name)) {
-      const newProductType: EditableProductType = {
-        productType: null,
-        validation: { state: VALID },
-        id: uniqueTypeId(),
-        name,
-        color: 0xffffff,
-        discontinued: false,
-      }
-      const productTypes = [...this.state.productTypes, newProductType]
-      this.setState({ productTypes })
+  createProductType() {
+    const newProductType: EditableProductType = {
+      productType: null,
+      validation: { state: EMPTY },
+      id: uniqueTypeId(),
+      name: '',
+      color: 0xffffff,
+      discontinued: false,
     }
+    const productTypes = [...this.state.productTypes, newProductType]
+    this.setState({ productTypes })
+    disableSave()
   }
 
   createProduct(typeId: Id) {
@@ -319,13 +319,13 @@ export class EditProducts extends ReactX.Component<Props, State> {
                 key={`product_type_${productType.id}`}
                 />
           }
-          <Card className={S.newProductType}>
+          <Card>
             <Fragment key={`product_type_${peekTypeId()}`}>
-              <Input
-                className={S.productTypeName}
-                placeholder={l`New product type`}
-                onSubmit={name => this.createProductType(name)}
-                />
+              <Button
+                className={S.newProductType}
+                title={l`New product type`}
+                action={() => this.createProductType()}
+                priority='tertiary' />
             </Fragment>
             <Fragment>
               { productTypes.length === 0

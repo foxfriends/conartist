@@ -56,8 +56,8 @@ export class Expand<E: React.ElementType> extends React.Component<Props<E>, Stat
       }
       this.animationTimer = setTimeout(
         () => {
-          this.setState({ previousChildren: null })
           this.animationTimer = null
+          this.setState({ previousChildren: null })
         },
         200,
       )
@@ -69,10 +69,12 @@ export class Expand<E: React.ElementType> extends React.Component<Props<E>, Stat
     const { className, children } = this.props
     const { height, previousChildren } = this.state
     const style: { [string]: string | number } = {
-      height
+      height,
     }
+
     if (this.animationTimer === null) {
       style.transitionDuration = '0s'
+      style.overflow = 'visible'
     }
 
     return (

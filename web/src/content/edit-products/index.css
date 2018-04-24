@@ -25,11 +25,13 @@
 }
 
 .newProductType {
-  opacity: 0.5;
+  margin-left: 10px;
+  color: var(--color--text-placeholder);
 }
 
 .placeholder {
-  composes: placeholder from '../../common/styles.css'
+  composes: placeholder from '../../common/styles.css';
+  height: 50px;
 }
 
 .discontinued {

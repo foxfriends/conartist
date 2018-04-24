@@ -16,7 +16,7 @@ export type Props = {
 export function BasicCard({ children, title, collapsible, defaultCollapsed, id }: Props) {
   return (
     <Card collapsible={collapsible || false} id={id} defaultCollapsed={defaultCollapsed || false}>
-      <BasicHeader title={title} />
+      <BasicHeader>{ title }</BasicHeader>
       <Fragment>
         { children }
       </Fragment>

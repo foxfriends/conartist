@@ -71,7 +71,7 @@ export function EditPricesCard({ productType, products, prices, bottomAction, on
     .map(price => price.productId === null ? [price, null] : [price, products.find(product => product.id === price.productId)])
   return (
     <Card id={scrollIdentifier('product-type', productType.id)} collapsible={true} bottomAction={bottomAction}>
-      <BasicHeader title={productType.name} />
+      <BasicHeader>{productType.name}</BasicHeader>
       <Fragment>
         <List dataSource={dataSource}>
           <div className={S.placeholder}>

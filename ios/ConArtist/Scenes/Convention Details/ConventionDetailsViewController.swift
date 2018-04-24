@@ -197,7 +197,7 @@ extension ConventionDetailsViewController {
                     label.textAlignment = .center
                     label.font = UIFont.systemFont(ofSize: 15).usingFeatures([.smallCaps])
                     label.textColor = ConArtist.Color.TextPlaceholder.withAlphaComponent(0.25)
-                    label.text = "There's nothing here…"¡
+                    label.text = "There's nothing here..."¡
                     userSuppliedInfoPreview.addArrangedSubview(label)
                 }
             })

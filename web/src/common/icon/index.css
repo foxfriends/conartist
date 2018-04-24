@@ -1,0 +1,6 @@
+.container {
+  user-select: none;
+  pointer-events: none;
+  display: inline-flex;
+  align-items: center;
+}

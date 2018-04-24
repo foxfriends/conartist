@@ -3,28 +3,18 @@
 
 use iron::prelude::*;
 use iron::{status, Handler};
-use iron::typemap::Key;
 use router::Router;
 use params::{Params, Value};
-use jwt::{encode, Header};
 use bcrypt;
 use database::Database;
 use middleware::VerifyJWT;
 use cr;
 use bodyparser;
-
-// TODO: get a real secret key
-pub const JWT_SECRET: &'static str = "FAKE_SECRET_KEY";
-
-#[derive(Serialize, Deserialize)]
-pub struct Claims {
-    pub usr: i32,
-}
-impl Key for Claims { type Value = Claims; }
+use super::authtoken::{self, Claims};
 
 fn reauth(req: &mut Request) -> IronResult<Response> {
-    let claims = req.extensions.get::<Claims>();
-    let authtoken = itry! { encode(&Header::default(), &claims, JWT_SECRET.as_ref()) };
+    let claims = iexpect!{ req.extensions.get::<Claims>() };
+    let authtoken = itry! { authtoken::with_claims(&claims) };
     return cr::ok(authtoken);
 }
 
@@ -38,7 +28,7 @@ impl Handler for Auth {
         if let (&Value::String(ref email), &Value::String(ref password)) = (usr, psw) {
             if let Ok(usr) = self.database.get_user_for_email(email) {
                 if itry! { bcrypt::verify(password, usr.password.as_str()) } {
-                    let authtoken = itry! { encode(&Header::default(), &Claims{ usr: usr.user_id }, JWT_SECRET.as_ref()) };
+                    let authtoken = itry! { authtoken::new(usr.user_id) };
                     return cr::ok(authtoken)
                 }
             }

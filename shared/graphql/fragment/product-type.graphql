@@ -1,0 +1,6 @@
+fragment ProductTypeFragment on ProductType {
+  id
+  name
+  color
+  discontinued
+}

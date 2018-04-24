@@ -1,0 +1,89 @@
+.container {
+  position: relative;
+  display: inline-block;
+  height: 50px;
+}
+
+.input {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  margin: 0;
+  width: 100%;
+  height: ;
+  font-family: var(--font--body);
+  font-size: 16px;
+  color: var(--color--text);
+  background-color: transparent;
+  border: none;
+}
+
+.title, .placeholder {
+  user-select: none;
+  pointer-events: none;
+}
+
+.title, .placeholder {
+  position: absolute;
+  bottom: 10px;
+  font-size: 16px;
+  margin-left: 10px;
+  color: var(--color--text-placeholder);
+  transition: 0.2s transform, 0.2s font-size;
+}
+
+.input:focus ~ .title, .input:not(.empty) ~ .title {
+  transform: translateY(-20px);
+  font-size: 12px;
+}
+
+.input:focus ~ .title {
+  color: var(--color--brand);
+}
+
+.underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--color--divider);
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    transform-origin: center;
+    transform: scaleX(0);
+    transition: transform 0.1s;
+    background-color: var(--color--brand);
+  }
+}
+
+.input:focus ~ .underline::after {
+  transform: scaleX(1);
+}
+
+.input:focus ~ .error {
+  display: none;
+}
+
+.error ~ .underline::after {
+  background-color: var(--color--warn);
+}
+
+.error {
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
+  font-size: 14px;
+}
+
+.errorIcon {
+  color: var(--color--warn);
+}

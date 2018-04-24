@@ -1,0 +1,1 @@
+ALTER TABLE UserSettings ADD COLUMN language CHAR(16) NOT NULL DEFAULT 'en-ca';

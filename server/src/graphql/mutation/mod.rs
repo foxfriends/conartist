@@ -1,4 +1,7 @@
 //! The entry point of a GraphQL mutation
+use juniper::FieldResult;
+use chrono::NaiveDate;
+use serde_json;
 
 mod product;
 mod product_type;
@@ -7,9 +10,8 @@ mod record;
 mod expense;
 mod settings;
 
-use juniper::FieldResult;
-use serde_json;
-use database::{Database, User, ProductType, ProductInInventory, Price, Convention, ConventionUserInfo, Record, Expense};
+use database::Database;
+use database::models::*;
 use money::Money;
 use self::product::*;
 use self::product_type::*;
@@ -90,7 +92,7 @@ graphql_object!(Mutation: Database |&self| {
     }
 
     // Products
-    field add_user_product(&executor, user_id: Option<i32>, product: ProductAdd) -> FieldResult<ProductInInventory> {
+    field add_user_product(&executor, user_id: Option<i32>, product: ProductAdd) -> FieldResult<ProductWithQuantity> {
         ensure!(product.name.len() > 0 && product.name.len() <= 512);
         ensure!(product.type_id > 0);
         ensure!(product.quantity >= 0);
@@ -102,7 +104,7 @@ graphql_object!(Mutation: Database |&self| {
         }
     }
 
-    field mod_user_product(&executor, user_id: Option<i32>, product: ProductMod) -> FieldResult<ProductInInventory> {
+    field mod_user_product(&executor, user_id: Option<i32>, product: ProductMod) -> FieldResult<ProductWithQuantity> {
         ensure!(product.product_id > 0);
         let name_length = product.name.as_ref().map(|s| s.len()).unwrap_or(1);
         ensure!(name_length > 0 && name_length <= 512);
@@ -117,13 +119,12 @@ graphql_object!(Mutation: Database |&self| {
 
     // Prices
     field add_user_price(&executor, user_id: Option<i32>, price: PriceAdd) -> FieldResult<Price> {
-        ensure!(price.prices.iter().all(|p| p.quantity > 0 && p.price > Money::new(0i64, p.price.cur())));
-
-        let prices: serde_json::Value = price.prices.into();
+        ensure!(price.price > Money::new(0i64, price.price.cur()));
+        ensure!(price.quantity > 0);
         dbtry! {
             executor
                 .context()
-                .create_or_update_price(user_id, price.type_id, price.product_id, prices)
+                .create_price(user_id, price.type_id, price.product_id, price.quantity, price.price)
         }
     }
 
@@ -131,7 +132,7 @@ graphql_object!(Mutation: Database |&self| {
         dbtry! {
             executor
                 .context()
-                .delete_price(user_id, price.type_id, price.product_id)
+                .delete_price(user_id, price.type_id, price.product_id, price.quantity)
         }
     }
 
@@ -165,9 +166,9 @@ graphql_object!(Mutation: Database |&self| {
     }
 
     // Records
-    field mod_user_record(&executor, user_id: Option<i32>, record: RecordMod) -> FieldResult<Record> { 
+    field mod_user_record(&executor, user_id: Option<i32>, record: RecordMod) -> FieldResult<Record> {
         ensure!(record.record_id > 0);
-        ensure!(record.products.as_ref().map(|products| products.len() > 0).unwrap_or(true)); 
+        ensure!(record.products.as_ref().map(|products| products.len() > 0).unwrap_or(true));
         ensure!(record.price.map(|price| price >= Money::new(0i64, price.cur())).unwrap_or(true));
 
         dbtry! {
@@ -209,7 +210,7 @@ graphql_object!(Mutation: Database |&self| {
         }
     }
 
-    field del_user_expense(&executor, user_id: Option<i32>, expense: ExpenseDel) -> FieldResult<bool> { 
+    field del_user_expense(&executor, user_id: Option<i32>, expense: ExpenseDel) -> FieldResult<bool> {
         dbtry! {
             executor
                 .context()
@@ -244,5 +245,23 @@ graphql_object!(Mutation: Database |&self| {
 
     field update_settings(&executor, user_id: Option<i32>) -> FieldResult<SettingsMutation> {
         Ok(SettingsMutation(user_id))
+    }
+
+    field create_convention(&executor, title: String, start_date: NaiveDate, end_date: NaiveDate) -> FieldResult<Convention> {
+        dbtry! {
+            executor
+                .context()
+                .create_convention(None, title, start_date, end_date)
+        }
+    }
+
+    field add_convention_extra_info(&executor, con_id: i32, title: String, info: Option<String>, action: Option<String>, action_text: Option<String>) -> FieldResult<ConventionExtraInfo> {
+        let info_json = info.and_then(|info| serde_json::from_str(&info).unwrap_or(None));
+
+        dbtry! {
+            executor
+                .context()
+                .create_convention_extra_info(None, con_id, title, info_json, action, action_text)
+        }
     }
 });

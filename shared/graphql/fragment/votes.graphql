@@ -1,0 +1,5 @@
+fragment VotesFragment on ConventionUserInfo {
+  upvotes
+  downvotes
+}
+

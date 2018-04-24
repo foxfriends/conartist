@@ -1,0 +1,65 @@
+.cover {
+  z-index: var(--z-index--over-toolbar);
+}
+
+.container {
+  position: relative;
+  display: inline-block;
+  height: 50px;
+  overflow: visible;
+}
+
+.selection {
+  box-sizing: border-box;
+  height: 100%;
+  border-bottom: 1px solid var(--color--divider);
+}
+
+.selection, .option {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  padding-left: 10px;
+}
+
+.optionsContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 100%;
+  max-height: 0;
+  z-index: var(--z-index--over-toolbar);
+  overflow-y: hidden;
+  transition: max-height 0.3s, right 0.3s;
+}
+
+.expanded {
+  right: 0;
+}
+
+.options {
+  background-color: var(--color--background);
+  box-shadow: 0 0 8px var(--color--shadow);
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.option {
+  height: 50px;
+
+  &:hover {
+    background-color: var(--color--background-hover-highlight);
+  }
+}
+
+.arrow, .check {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  color: var(--color--text-placeholder);
+}

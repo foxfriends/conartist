@@ -1,0 +1,37 @@
+.productTypeName, .productName, .productQuantity, .discontinueButton {
+  margin: 0 10px 0 6px;
+}
+
+.productTypeName {
+  flex-basis: 280px;
+}
+
+.productName, .productQuantity {
+  flex-basis: 0;
+}
+
+.productName {
+  flex-grow: 346;
+}
+
+.productQuantity {
+  flex-grow: 120;
+}
+
+.discontinueButton {
+  font-size: 16px;
+  align-self: flex-end;
+  margin-bottom: 8px;
+}
+
+.newProductType {
+  opacity: 0.5;
+}
+
+.placeholder {
+  composes: placeholder from '../../common/styles.css'
+}
+
+.discontinued {
+  opacity: 0.3;
+}

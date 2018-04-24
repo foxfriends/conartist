@@ -1,0 +1,12 @@
+#import './user.graphql'
+#import './product.graphql'
+#import './product-type.graphql'
+#import './price.graphql'
+
+fragment FullUserFragment on User {
+  ...UserFragment
+  clearance
+  products { ...ProductFragment }
+  productTypes { ...ProductTypeFragment }
+  prices { ...PriceFragment }
+}

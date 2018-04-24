@@ -1,0 +1,7 @@
+.title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 16px;
+  font-weight: var(--font-weight--semibold);
+}

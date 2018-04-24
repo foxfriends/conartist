@@ -1,0 +1,6 @@
+#import '../fragment/user-info.graphql'
+mutation ContributeConventionInfo($userId: Int, $conId: Int!, $info: String!) {
+  addConventionInfo(userId: $userId, conId: $conId, info: $info) {
+    ...UserInfoFragment
+  }
+}

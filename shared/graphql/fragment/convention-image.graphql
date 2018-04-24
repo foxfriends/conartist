@@ -1,0 +1,3 @@
+fragment ConventionImageFragment on ConventionImage {
+  id
+}

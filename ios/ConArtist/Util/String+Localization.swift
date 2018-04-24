@@ -40,7 +40,7 @@ extension String {
     private func localize(from path: String?) -> String? {
         return path
             .map(URL.init(fileURLWithPath:))
-            .flatMap { try? Data.init(contentsOf: $0) }
+            .flatMap { try? Data(contentsOf: $0) }
             .flatMap { try? JSONSerialization.jsonObject(with: $0, options: []) }
             .flatMap { $0 as? JSON }
             .flatMap { self <~~ $0 }

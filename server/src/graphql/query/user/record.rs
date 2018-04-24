@@ -1,7 +1,9 @@
 //! Holds information about a sale record
-use database::{Database, Record};
 use chrono::{DateTime, Utc};
+
 use money::Money;
+use database::Database;
+use database::models::*;
 
 graphql_object!(Record: Database |&self| {
     description: "Holds information about a sale record"

@@ -1,0 +1,15 @@
+#import './meta-convention.graphql'
+#import './product.graphql'
+#import './product-type.graphql'
+#import './price.graphql'
+#import './record.graphql'
+#import './expense.graphql'
+
+fragment FullConventionFragment on Convention {
+  ...MetaConventionFragment
+  products { ...ProductFragment }
+  productTypes { ...ProductTypeFragment }
+  prices { ...PriceFragment }
+  records { ...RecordFragment }
+  expenses { ...ExpenseFragment }
+}

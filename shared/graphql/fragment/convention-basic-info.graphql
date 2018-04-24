@@ -1,0 +1,19 @@
+#import './convention-image.graphql'
+#import './extra-info.graphql'
+#import './user-info.graphql'
+fragment ConventionBasicInfoFragment on Convention {
+  id
+  name
+  images {
+    ...ConventionImageFragment
+  }
+  start
+  end
+  extraInfo {
+    ...ExtraInfoFragment
+  }
+  userInfo {
+    ...UserInfoFragment
+  }
+}
+

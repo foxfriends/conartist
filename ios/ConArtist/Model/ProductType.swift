@@ -15,7 +15,7 @@ struct ProductType {
     init?(graphQL type: ProductTypeFragment) {
         id = type.id
         name = type.name
-        color = type.color
+        color = type.color ?? 0xFFFFFF
         discontinued = type.discontinued
     }
 }

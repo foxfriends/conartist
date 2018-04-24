@@ -1,0 +1,29 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 100%;
+}
+
+.primary {
+  color: var(--color--brand);
+
+  &:hover, &:focus {
+    color: var(--color--brand-variant);
+  }
+}
+
+.secondary {
+  color: var(--color--text);
+
+  &:not(.quiet):hover {
+    background-color: var(--color--background-hover-highlight);
+  }
+}
+
+.tertiary {
+  color: var(--color--divider);
+}

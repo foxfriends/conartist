@@ -26,7 +26,7 @@ class Convention {
 
     let recordTotal: Money?
     let expenseTotal: Money?
-    
+
     fileprivate let øaddedRecords = Variable<[Record]>([])
     fileprivate let øremovedRecords = Variable<[Int]>([])
     fileprivate let øaddedExpenses = Variable<[Expense]>([])
@@ -47,7 +47,7 @@ class Convention {
         name = con.name
         start = startDate
         end = endDate
-        images = con.images
+        images = con.images.map { $0.fragments.conventionImageFragment.id }
         recordTotal = con.recordTotal?.toMoney()
         expenseTotal = con.expenseTotal?.toMoney()
 
@@ -91,7 +91,7 @@ class Convention {
         prices = øconvention
             .map {
                 $0.prices
-                    .map { $0.fragments.priceRowFragment }
+                    .map { $0.fragments.priceFragment }
                     .filterMap(Price.init(graphQL:))
             }
 
@@ -167,7 +167,7 @@ extension Convention {
     }
 
     static func formatDateRange(start: Date, end: Date) -> String {
-        return "{} – {}"¡ % start.toString(Convention.DateFormat) % end.toString(Convention.DateFormat)
+        return "{} - {}"¡ % start.toString(Convention.DateFormat) % end.toString(Convention.DateFormat)
     }
 }
 
@@ -213,7 +213,7 @@ extension Convention {
                 .discard()
         }
     }
-    
+
     func addExpense(_ expense: Expense) -> Observable<Void> {
         let index = øaddedExpenses.value.count
         øaddedExpenses.value.append(expense)

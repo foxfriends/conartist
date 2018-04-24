@@ -1,0 +1,5 @@
+.expansionContainer {
+  overflow: hidden;
+  transition: height;
+  transition-duration: 0.2s;
+}

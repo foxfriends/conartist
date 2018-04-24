@@ -1,6 +1,7 @@
 elm-stuff
 node_modules
-static
+/static/
 *.js.map
 *.min.js
 *.min.css
+*.css.flow

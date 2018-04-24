@@ -1,0 +1,7 @@
+#import '../fragment/product.graphql'
+
+mutation ModProduct($id: Int, $product: ProductMod!) {
+  modUserProduct(userId: $id, product: $product) {
+    ...ProductFragment
+  }
+}

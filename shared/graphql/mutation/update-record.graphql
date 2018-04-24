@@ -1,0 +1,7 @@
+#import '../fragment/record.graphql'
+
+mutation UpdateRecord($id: Int, $record: RecordMod!) {
+  modUserRecord(userId: $id, record: $record) {
+    ...RecordFragment
+  }
+}

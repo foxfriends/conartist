@@ -1,0 +1,9 @@
+.link:link, .link:visited {
+  color: var(--color--brand);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.link:hover, .link:active, .link:focus {
+  color: var(--color--brand-variant);
+}

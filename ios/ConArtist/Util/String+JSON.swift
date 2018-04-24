@@ -19,7 +19,7 @@ private let RFC3339: DateFormatter = {
 
 extension String {
     /// Parses a JSON as any type
-    func parseJSON<T>() -> T? where T: Codable {
+    func parseJSON<T>() -> T? where T: Decodable {
         if T.self == String.self && hasPrefix("\"") {
             return dropFirst().dropLast().unescape() as? T
         } else if T.self == Bool.self {

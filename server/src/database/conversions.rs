@@ -1,12 +1,15 @@
-use postgres::types::{FromSql, ToSql, BPCHAR, Type, IsNull};
+use std::io::Write;
+use diesel::pg::Pg;
+use diesel::sql_types::Text;
+use diesel::deserialize::{self, FromSql, FromSqlRow};
+use diesel::serialize::{self, Output, ToSql};
+use diesel::Queryable;
 use juniper::Value;
 use std::error::Error;
 use std::str::FromStr;
 use money::{Money, Currency};
-use error::MoneyError;
 
 graphql_scalar!(Money {
-    // TODO: improve when proper currency support is added
     description: "Represents a monetary value and a currency as a string, such as CAD150 for $1.50 in CAD"
 
     resolve(&self) -> Value {
@@ -25,26 +28,33 @@ impl Into<i64> for Money {
     }
 }
 
-impl FromSql for Money {
-    fn from_sql(_: &Type, raw: &[u8]) -> Result<Money, Box<Error + Sync + Send>> {
-        <String as FromSql>::from_sql(&BPCHAR, raw).and_then(|s| FromStr::from_str(&s).map_err(|e: MoneyError| Box::new(e).into()))
+impl FromSql<Text, Pg> for Money {
+    fn from_sql(bytes: Option<&[u8]>) -> deserialize::Result<Self> {
+        let string: String = FromSql::<Text, Pg>::from_sql(bytes)?;
+        FromStr::from_str(&string).map_err(|_| format!("Could not parse Money from {}", string).into())
     }
-
-    accepts!(BPCHAR);
 }
 
-impl ToSql for Money {
-    fn to_sql(&self, _: &Type, out: &mut Vec<u8>) -> Result<IsNull, Box<Error + 'static + Sync + Send>> {
-        self.to_string().to_sql(&BPCHAR, out)
+impl ToSql<Text, Pg> for Money {
+    fn to_sql<W: Write>(&self, w: &mut Output<W, Pg>) -> serialize::Result {
+        ToSql::<Text, Pg>::to_sql(&self.to_string(), w)
     }
+}
 
-    accepts!(BPCHAR);
+impl FromSqlRow<Text, Pg> for Money {
+    fn build_from_row<R: ::diesel::row::Row<Pg>>(row: &mut R) -> Result<Self, Box<Error+Send+Sync>> {
+        FromSql::<Text, Pg>::from_sql(row.take())
+    }
+}
 
-    to_sql_checked!();
+impl Queryable<Text, Pg> for Money {
+    type Row = Self;
+    fn build(row: Self) -> Self {
+        row
+    }
 }
 
 graphql_scalar!(Currency {
-    // TODO: improve when proper currency support is added
     description: "Represents a type of currency"
 
     resolve(&self) -> Value {
@@ -57,21 +67,28 @@ graphql_scalar!(Currency {
     }
 });
 
-impl FromSql for Currency {
-    fn from_sql(_: &Type, raw: &[u8]) -> Result<Currency, Box<Error + Sync + Send>> {
-        <String as FromSql>::from_sql(&BPCHAR, raw).and_then(|s| FromStr::from_str(&s).map_err(|e: MoneyError| Box::new(e).into()))
+impl FromSql<Text, Pg> for Currency {
+    fn from_sql(bytes: Option<&[u8]>) -> deserialize::Result<Self> {
+        let string: String = FromSql::<Text, Pg>::from_sql(bytes)?;
+        FromStr::from_str(&string).map_err(|_| format!("Could not parse Currency from {}", string).into())
     }
-
-    accepts!(BPCHAR);
 }
 
-impl ToSql for Currency {
-    fn to_sql(&self, _: &Type, out: &mut Vec<u8>) -> Result<IsNull, Box<Error + 'static + Sync + Send>> {
-        self.to_string().to_sql(&BPCHAR, out)
+impl ToSql<Text, Pg> for Currency {
+    fn to_sql<W: Write>(&self, w: &mut Output<W, Pg>) -> serialize::Result {
+        ToSql::<Text, Pg>::to_sql(&self.to_string(), w)
     }
-
-    accepts!(BPCHAR);
-
-    to_sql_checked!();
 }
 
+impl FromSqlRow<Text, Pg> for Currency {
+    fn build_from_row<R: ::diesel::row::Row<Pg>>(row: &mut R) -> Result<Self, Box<Error+Send+Sync>> {
+        FromSql::<Text, Pg>::from_sql(row.take())
+    }
+}
+
+impl Queryable<Text, Pg> for Currency {
+    type Row = Self;
+    fn build(row: Self) -> Self {
+        row
+    }
+}

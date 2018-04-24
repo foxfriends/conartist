@@ -1,0 +1,44 @@
+@import url("//brick.a.ssl.fastly.net/Fira+Sans:400,500,700");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+:global(:root) {
+  --color--brand: #da4800;
+  --color--brand-variant: #d9991e;
+  --color--background: #333333;
+  --color--background-variant: #444444;
+  --color--background-highlight: #555555;
+  --color--background-toolbar: #111111;
+  --color--background-overlay: rgba(0, 0, 0, 0.2);
+  --color--background-backdrop: rgba(0, 0, 0, 0.6);
+  --color--background-hover-highlight: rgba(255, 255, 255, 0.03);
+  --color--text: #ffffff;
+  --color--text-placeholder: rgba(255, 255, 255, 0.5);
+  --color--shadow: rgba(0, 0, 0, 0.25);
+  --color--divider: rgba(255, 255, 255, 0.12);
+  --color--warn: #ff0000;
+
+  --font--body: 'Fira Sans', sans-serif;
+  --font--icon: 'Material Icons';
+
+  --font-weight--regular: 400;
+  --font-weight--semibold: 500;
+  --font-weight--bold: 700;
+
+  --height--toolbar: 60px;
+
+  --z-index--over-toolbar: 15;
+  --z-index--toolbar: 10;
+  --z-index--below-toolbar: 10;
+}
+
+:global(body), :global(#root) {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color--background);
+  font-family: var(--font--body);
+  color: var(--color--text);
+}
+
+:global(.material-icons) {
+  font-size: unset;
+}

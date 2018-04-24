@@ -1,0 +1,5 @@
+scalar Image
+
+type Query {
+  image(imageId: String!): Image
+}

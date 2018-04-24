@@ -1,0 +1,44 @@
+.card {
+  position: relative;
+  overflow: visible;
+  background-color: var(--color--background-variant);
+  margin: 16px;
+  width: calc(600px - 32px);
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  height: 50px;
+  align-items: center;
+  overflow: visible;
+  background-color: var(--color--background-highlight);
+}
+
+.content {
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+}
+
+.rightAction {
+  margin: 0 12px 0 auto;
+  font-size: 24px;
+}
+
+.topAction, .bottomAction {
+  composes: outlinedIcon from '../../common/styles.css';
+  position: absolute;
+  left: 100%;
+  margin-top: 8px;
+  margin-left: 8px;
+  margin-bottom: 8px;
+}
+
+.topAction {
+  top: 0;
+}
+
+.bottomAction {
+  bottom: 0;
+}

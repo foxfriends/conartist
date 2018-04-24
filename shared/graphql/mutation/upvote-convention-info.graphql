@@ -1,0 +1,7 @@
+#import '../fragment/votes.graphql'
+mutation UpvoteConventionInfo($userId: Int, $infoId: Int!) {
+  upvoteConventionInfo(userId: $userId, infoId: $infoId) {
+    id
+    ...VotesFragment
+  }
+}

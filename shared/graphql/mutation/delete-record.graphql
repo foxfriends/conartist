@@ -1,0 +1,3 @@
+mutation DeleteRecord($id: Int, $record: RecordDel!) {
+  delUserRecord(userId: $id, record: $record)
+}

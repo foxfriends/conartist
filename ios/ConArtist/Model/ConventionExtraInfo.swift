@@ -30,7 +30,7 @@ enum ConventionExtraInfo {
         switch self {
         case .Hours(let hours):
             return hours
-                .map { open, close in "{} {} – {}"¡ % open.toString(ConventionExtraInfo.ShortDayFormat) % open.toString(ConventionExtraInfo.HourFormat) % close.toString(ConventionExtraInfo.HourFormat) }
+                .map { open, close in "{} {} - {}"¡ % open.toString(ConventionExtraInfo.ShortDayFormat) % open.toString(ConventionExtraInfo.HourFormat) % close.toString(ConventionExtraInfo.HourFormat) }
                 .joined(separator: "\n")
         case .Dates(let dates): return Convention.formatDateRange(start: dates.0, end: dates.1)
         case .Address(let display, _): return display

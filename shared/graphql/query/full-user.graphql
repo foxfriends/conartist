@@ -1,0 +1,7 @@
+#import '../fragment/full-user.graphql'
+
+query FullUser($id: Int) {
+  user(id: $id) {
+    ...FullUserFragment
+  }
+}

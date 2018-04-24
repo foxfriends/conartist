@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Pair<T>: Decodable {
+struct Pair<T: Decodable>: Decodable {
     let raw: (T, T)
 
     init(from decoder: Decoder) throws {

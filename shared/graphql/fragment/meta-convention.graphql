@@ -1,0 +1,7 @@
+#import './convention-basic-info.graphql'
+fragment MetaConventionFragment on Convention {
+  ...ConventionBasicInfoFragment
+  recordTotal
+  expenseTotal
+}
+

@@ -1,270 +1,264 @@
-use super::*;
 use std::collections::HashMap;
+use diesel::{dsl, sql_types};
+use diesel::prelude::*;
+use chrono::NaiveDate;
+
+use super::Database;
+use super::models::*;
+use super::schema::*;
+use super::dsl::*;
+use super::views::*;
 
 // TODO: do some caching here for efficiency
 // TODO: handle errors more properly, returning Result<_, Error> instead of String
 //       also update the dbtry! macro to resolve that problem correctly
-// TODO: make this somehow typesafe/error safe instead of runtime checked. Use Diesel
 impl Database {
     pub fn get_user_for_email(&self, email: &str) -> Result<User, String> {
         let conn = self.pool.get().unwrap();
-        for row in &query!(conn, "SELECT * FROM Users WHERE email = $1", email) {
-            return User::from(row);
-        }
-        Err(format!("No user with email {} exists", email))
+        let user =
+            users::table
+                .filter(users::email.eq(email))
+                .first::<User>(&*conn)
+                .map_err(|reason| format!("User with email {} could not be retrieved. Reason: {}", email, reason))?;
+        let con_count =
+            user_conventions::table
+                .filter(user_conventions::user_id.eq(user.user_id))
+                .count()
+                .get_result::<i64>(&*conn)
+                .unwrap_or(0i64);
+        Ok(
+            User {
+                keys: user.keys - con_count as i32,
+                ..user
+            }
+        )
     }
 
     pub fn get_user_by_id(&self, maybe_user_id: Option<i32>) -> Result<User, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
-        for row in &query!(conn, "SELECT * FROM Users WHERE user_id = $1", user_id) {
-            return User::from(row);
-        }
-        Err(format!("No user {} exists", user_id))
-    }
-
-    pub fn get_settings_for_user(&self, user_id: i32) -> Result<Settings, String> {
-        let conn = self.pool.get().unwrap();
-        for row in &query!(conn, "SELECT * FROM UserSettings WHERE user_id = $1", user_id) {
-            return Settings::from(row);
-        }
-        Ok(Settings::default(user_id))
-    }
-
-    pub fn get_product_types_for_user(&self, user_id: i32) -> Result<Vec<ProductType>, String> {
-        assert_authorized!(self, user_id);
-        let conn = self.pool.get().unwrap();
-        Ok (
-            query!(conn, "SELECT * FROM ProductTypes WHERE user_id = $1", user_id)
-                .iter()
-                .filter_map(|row| ProductType::from(row).ok())
-                .collect()
+        let user =
+            users::table
+                .filter(users::user_id.eq(user_id))
+                .first::<User>(&*conn)
+                .map_err(|reason| format!("User with id {} could not be retrieved. Reason: {}", user_id, reason))?;
+        let con_count =
+            user_conventions::table
+                .filter(user_conventions::user_id.eq(user.user_id))
+                .count()
+                .get_result::<i64>(&*conn)
+                .unwrap_or(0i64);
+        Ok(
+            User {
+                keys: user.keys - con_count as i32,
+                ..user
+            }
         )
     }
 
-    pub fn get_products_for_user(&self, user_id: i32) -> Result<Vec<ProductInInventory>, String> {
-        assert_authorized!(self, user_id);
+    pub fn get_settings_for_user(&self, maybe_user_id: Option<i32>) -> Result<Settings, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
-        let items_sold: HashMap<i32, i32> = query!(conn, "
-                  SELECT product_id,
-                         COUNT(product_id)::INT AS sold
-                    FROM (
-                        SELECT UNNEST(products) AS product_id
-                          FROM Records
-                         WHERE user_id = $1
-                        ) a
-               GROUP BY product_id
-        ", user_id)
-            .into_iter()
-            .map(|r| (r.get("product_id"), r.get("sold")))
-            .collect();
-        let products: Vec<ProductInInventory> = query!(conn, "
-                SELECT p.product_id,
-                       type_id,
-                       user_id,
-                       name,
-                       discontinued,
-                       SUM(COALESCE(quantity, 0))::INT as quantity
-                  FROM Products p 
-       LEFT OUTER JOIN Inventory i 
-                    ON p.product_id = i.product_id
-                 WHERE p.user_id = $1
-              GROUP BY p.product_id
-            ", user_id)
+        usersettings::table
+            .filter(usersettings::user_id.eq(user_id))
+            .first::<Settings>(&*conn)
+            .map_err(|reason| format!("Settings for user with id {} could not be retrieved. Reason: {}", user_id, reason))
+    }
+
+    pub fn get_admin_clearance(&self, maybe_user_id: Option<i32>) -> Result<i32, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let conn = self.pool.get().unwrap();
+        admins::table
+            .select(admins::clearance)
+            .filter(admins::user_id.eq(user_id))
+            .first::<i32>(&*conn)
+            .map_err(|reason| format!("Admin clearance for user with id {} could not be retrieved. Reason: {}", user_id, reason))
+    }
+
+    pub fn get_product_types_for_user(&self, maybe_user_id: Option<i32>) -> Result<Vec<ProductType>, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let conn = self.pool.get().unwrap();
+        producttypes::table
+            .filter(producttypes::user_id.eq(user_id))
+            .order(producttypes::type_id.asc())
+            .load::<ProductType>(&*conn)
+            .map_err(|reason| format!("ProductTypes for user with id {} could not be retrieved. Reason: {}", user_id, reason))
+    }
+
+    pub fn get_products_for_user(&self, maybe_user_id: Option<i32>) -> Result<Vec<ProductWithQuantity>, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let conn = self.pool.get().unwrap();
+
+        // TODO: was nice when the counting could be done in SQL... maybe someday it can be improved
+        let items_sold: HashMap<i32, i64> =
+            records::table
+                .select(unnest(records::products))
+                .filter(records::user_id.eq(user_id))
+                .load::<i32>(&*conn)
+                .map_err(|reason| format!("Records for user with id {} could not be retrieved. Reason: {}", user_id, reason))?
                 .into_iter()
-                .filter_map(|row| ProductInInventory::from(row).ok())
-                .collect();
-        Ok(products
+                .fold(HashMap::new(), |mut map, index| {
+                    let amt = map.get(&index).unwrap_or(&0i64) + 1;
+                    map.insert(index, amt);
+                    map
+                });
+
+        let products_with_quantity =
+            products::table
+                .left_outer_join(inventory::table)
+                .select((products::product_id, products::type_id, products::user_id, products::name, products::discontinued, dsl::sql::<sql_types::BigInt>("sum(inventory.quantity)")))
+                .filter(products::user_id.eq(user_id))
+                .group_by(products::product_id)
+                .order(products::product_id.asc())
+                .load::<ProductWithQuantity>(&*conn)
+                .map_err(|reason| format!("Products for user with id {} could not be retrieved. Reason: {}", user_id, reason))?;
+
+        Ok(products_with_quantity
             .into_iter()
             .map(|product| {
-                 let sold_amount = *items_sold.get(&product.product.product_id).unwrap_or(&0i32);
-                 product.sold(sold_amount)
+                 let sold_amount = *items_sold.get(&product.product_id).unwrap_or(&0i64);
+                 ProductWithQuantity { quantity: product.quantity - sold_amount, ..product }
             })
             .collect())
     }
 
-    pub fn get_prices_for_user(&self, user_id: i32) -> Result<Vec<Price>, String> {
-        assert_authorized!(self, user_id);
-        let conn = self.pool.get().unwrap();
-        Ok (
-            query!(conn, "SELECT * FROM Prices WHERE user_id = $1", user_id)
-                .iter()
-                .filter_map(|row| Price::from(row).ok())
-                .collect()
-        )
-    }
-
-    pub fn get_conventions_for_user(&self, user_id: i32) -> Result<Vec<FullUserConvention>, String> {
-        assert_authorized!(self, user_id);
-        let conn = self.pool.get().unwrap();
-        Ok (
-            query!(conn, "
-                SELECT user_con_id,
-                       user_id,
-                       u.con_id,
-                       title,
-                       start_date,
-                       end_date,
-                       extra_info
-                  FROM User_Conventions u
-            INNER JOIN Conventions c
-                    ON u.con_id = c.con_id
-                 WHERE user_id = $1
-            ", user_id)
-                .iter()
-                .filter_map(|row| FullUserConvention::from(row).ok())
-                .collect()
-        )
-    }
-
-    pub fn get_convention_for_user(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<FullUserConvention, String> {
+    pub fn get_prices_for_user(&self, maybe_user_id: Option<i32>) -> Result<Vec<Price>, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
-        query!(conn, "
-            SELECT user_con_id,
-                   user_id,
-                   c.con_id,
-                   title,
-                   start_date,
-                   end_date,
-                   extra_info
-              FROM User_Conventions u 
-        INNER JOIN Conventions c 
-                ON u.con_id = c.con_id
-             WHERE user_id = $1
-               AND u.con_id = $2
-        ", user_id, con_id)
-            .iter()
-            .filter_map(|row| FullUserConvention::from(row).ok())
-            .nth(0)
-            .ok_or(format!("User {} is not signed up for convention {}", user_id, con_id))
+        // with max_dates as (select type_id, product_id, quantity, MAX(mod_date) as max_date from prices where user_id = 3 group by type_id, product_id, quantity) select * from prices p inner join max_dates m on p.type_id = m.type_id and (p.product_id = m.product_id or (m.product_id is null and p.product_id is null)) and p.quantity = m.quantity and p.mod_date = m.max_date where price is not null
+        return prices::table
+            .inner_join(
+                currentprices::table
+                    .on(
+                        prices::type_id.eq(currentprices::type_id)
+                            .and(prices::product_id.is_not_distinct_from(currentprices::product_id))
+                            .and(prices::quantity.eq(currentprices::quantity))
+                            .and(prices::mod_date.eq(currentprices::mod_date))
+                    )
+            )
+            .select(prices::all_columns)
+            .filter(prices::user_id.eq(user_id))
+            .filter(prices::price.is_not_null())
+            .load::<Price>(&*conn)
+            .map_err(|reason| format!("Prices for user with id {} could not be retrieved. Reason: {}", user_id, reason))
+            .map(|prices| prices.into_iter().filter(|price| price.price.is_some()).collect())
     }
 
-    pub fn get_products_for_user_con(&self, user_id: i32, _con_id: i32) -> Result<Vec<ProductInInventory>, String> {
+    pub fn get_conventions_for_user(&self, maybe_user_id: Option<i32>) -> Result<Vec<Convention>, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let conn = self.pool.get().unwrap();
+        user_conventions::table
+            .inner_join(conventions::table)
+            .select((conventions::con_id, user_conventions::user_id.nullable(), conventions::title, conventions::start_date, conventions::end_date, conventions::predecessor))
+            .filter(user_conventions::user_id.eq(user_id))
+            .load::<Convention>(&*conn)
+            .map_err(|reason| format!("Conventions for user with id {} could not be retrieved. Reason: {}", user_id, reason))
+    }
+
+    pub fn get_convention_for_user(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<Convention, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let conn = self.pool.get().unwrap();
+        user_conventions::table
+            .inner_join(conventions::table)
+            .select((conventions::con_id, user_conventions::user_id.nullable(), conventions::title, conventions::start_date, conventions::end_date, conventions::predecessor))
+            .filter(user_conventions::user_id.eq(user_id))
+            .filter(user_conventions::con_id.eq(con_id))
+            .first::<Convention>(&*conn)
+            .map_err(|reason| format!("Convention with id {} for user with id {} could not be retrieved. Reason: {}", con_id, user_id, reason))
+    }
+
+    pub fn get_products_for_user_con(&self, user_id: Option<i32>, _con_id: i32) -> Result<Vec<ProductWithQuantity>, String> {
+        // TODO: should check for products and quantities before a certain date
         self.get_products_for_user(user_id)
     }
 
-    pub fn get_prices_for_user_con(&self, user_id: i32, user_con_id: i32, include_all: bool) -> Result<Vec<Price>, String> {
-        assert_authorized!(self, user_id);
-        let conn = self.pool.get().unwrap();
-        Ok (
-            if include_all {
-                query!(conn, "SELECT * FROM Prices WHERE user_id = $1", user_id)
-            } else {
-                query!(conn, "SELECT * FROM Prices WHERE user_con_id = $1", user_con_id)
-            }   .iter()
-                .filter_map(|row| Price::from(row).ok())
-                .collect()
-        )
+    pub fn get_prices_for_user_con(&self, user_id: Option<i32>, _con_id: i32) -> Result<Vec<Price>, String> {
+        // TODO: should check for prices before a certain date
+        self.get_prices_for_user(user_id)
     }
 
-    pub fn get_records_for_user_con(&self, user_id: i32, con_id: i32) -> Result<Vec<Record>, String> {
-        assert_authorized!(self, user_id);
+    pub fn get_records_for_user_con(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<Vec<Record>, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
-        Ok (
-            query!(conn, "SELECT * FROM Records WHERE user_id = $1 AND con_id = $2", user_id, con_id)
-                .iter()
-                .filter_map(|row| Record::from(row).ok())
-                .collect()
-        )
+        records::table
+            .filter(records::user_id.eq(user_id))
+            .filter(records::con_id.eq(con_id))
+            .load::<Record>(&*conn)
+            .map_err(|reason| format!("Records for convention with id {} for user with id {} could not be retrieved. Reason: {}", con_id, user_id, reason))
     }
 
-    pub fn get_expenses_for_user_con(&self, user_id: i32, con_id: i32) -> Result<Vec<Expense>, String> {
-        assert_authorized!(self, user_id);
+    pub fn get_expenses_for_user_con(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<Vec<Expense>, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
-        Ok (
-            query!(conn, "SELECT * FROM Expenses WHERE user_id = $1 AND con_id = $2", user_id, con_id)
-                .iter()
-                .filter_map(|row| Expense::from(row).ok())
-                .collect()
-        )
+        expenses::table
+            .filter(expenses::user_id.eq(user_id))
+            .filter(expenses::con_id.eq(con_id))
+            .load::<Expense>(&*conn)
+            .map_err(|reason| format!("Expenses for convention with id {} for user with id {} could not be retrieved. Reason: {}", con_id, user_id, reason))
     }
 
-    pub fn get_conventions_after(&self, date: NaiveDate, exclude_mine: bool) -> Result<Vec<Convention>, String> {
+    pub fn get_conventions_after(&self, date: NaiveDate, limit: i64, after: Option<String>) -> Result<Vec<Convention>, String> {
         let conn = self.pool.get().unwrap();
-        Ok (
-            if exclude_mine {
-                query!(conn, "
-                    SELECT c.con_id,
-                           title,
-                           start_date,
-                           end_date,
-                           extra_info
-                      FROM Conventions c
-                     WHERE start_date > $1
-            AND NOT EXISTS (
-                          SELECT 1
-                            FROM User_Conventions u
-                           WHERE u.user_id = $2
-                             AND u.con_id = c.con_id
-                           )
-                  GROUP BY c.con_id
-                ", date, self.resolve_user_id(None)?)
-            } else {
-                query!(conn, "
-                       SELECT c.con_id,
-                              title,
-                              start_date,
-                              end_date,
-                              extra_info
-                         FROM Conventions 
-                        WHERE start_date > $1
-                ", date)
-            }
-            .iter()
-            .filter_map(|row| Convention::from(row).ok())
-            .collect()
-        )
+        conventions::table
+            .filter(conventions::start_date.gt(date))
+            .offset(after.clone().and_then(|offset| str::parse(&offset).ok()).unwrap_or(0i64))
+            .limit(limit)
+            .order((conventions::start_date.asc(), conventions::end_date.asc(), conventions::con_id.asc()))
+            .load::<DetachedConvention>(&*conn)
+            .map(|cons| cons.into_iter().map(Into::<Convention>::into).collect())
+            .map_err(|reason| format!("Conventions after {}, cursor {:?} could not be retrieved. Reason: {}", date, after, reason))
+    }
+
+    pub fn count_conventions_after(&self, date: NaiveDate) -> i64 {
+        let conn = self.pool.get().unwrap();
+        conventions::table
+            .select(dsl::count(conventions::con_id))
+            .filter(conventions::start_date.gt(date))
+            .first::<i64>(&*conn)
+            .unwrap_or(0)
+    }
+
+    pub fn get_convention_extra_info_for_convention(&self, con_id: i32) -> Result<Vec<ConventionExtraInfo>, String> {
+        let conn = self.pool.get().unwrap();
+        conventionextrainfo::table
+            .filter(conventionextrainfo::con_id.eq(con_id))
+            .load::<ConventionExtraInfo>(&*conn)
+            .map_err(|reason| format!("Convention extra info for convention with id {} could not be retrieved. Reason: {}", con_id, reason))
     }
 
     pub fn get_convention_user_info_for_convention(&self, con_id: i32) -> Result<Vec<ConventionUserInfo>, String> {
         let conn = self.pool.get().unwrap();
-        Ok (
-            query!(conn, "
-                SELECT i.con_info_id, 
-                       information, 
-                       SUM(CASE rating WHEN true THEN 1 ELSE 0 END)::INT as upvotes,
-                       SUM(CASE rating WHEN false THEN 1 ELSE 0 END)::INT as downvotes
-                  FROM ConventionInfo i
-       LEFT OUTER JOIN ConventionInfoRatings r
-                    ON i.con_info_id = r.con_info_id
-                 WHERE con_id = $1
-              GROUP BY i.con_info_id
-            ", con_id)
-            .iter()
-            .filter_map(|row| ConventionUserInfo::from(row).ok())
-            .collect()
-        )
+        conventionuserinfo::table
+            .left_outer_join(conventioninforatings::table)
+            .select((
+                conventionuserinfo::con_info_id,
+                conventionuserinfo::information,
+                dsl::sql::<sql_types::BigInt>("SUM(CASE rating WHEN true THEN 1 ELSE 0 END)::INT"),
+                dsl::sql::<sql_types::BigInt>("SUM(CASE rating WHEN false THEN 1 ELSE 0 END)::INT"),
+            ))
+            .filter(conventionuserinfo::con_id.eq(con_id))
+            .group_by(conventionuserinfo::con_info_id)
+            .load::<ConventionUserInfo>(&*conn)
+            .map_err(|reason| format!("Convention user info for convention with id {} could not be retrieved. Reason: {}", con_id, reason))
     }
 
     pub fn get_user_vote_for_convention_user_info(&self, maybe_user_id: Option<i32>, con_info_id: i32) -> Result<i32, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
-        Ok (
-            query!(conn, "
-                    SELECT (CASE rating WHEN true THEN 1 WHEN false THEN -1 ELSE 0 END) AS vote
-                      FROM ConventionInfoRatings
-                     WHERE user_id = $1
-                       AND con_info_id = $2
-            ", user_id, con_info_id)
-            .iter()
-            .map(|row| row.get("vote"))
-            .nth(0)
-            .unwrap_or(0)
-        )
+        conventioninforatings::table
+            .select(dsl::sql::<sql_types::Int4>("CASE rating WHEN true THEN 1 WHEN false THEN -1 ELSE 0 END"))
+            .filter(conventioninforatings::user_id.eq(user_id))
+            .filter(conventioninforatings::con_info_id.eq(con_info_id))
+            .first::<i32>(&*conn)
+            .or(Ok(0))
     }
 
-    pub fn get_images_for_convention(&self, con_id: i32) -> Result<Vec<String>, String> {
+    pub fn get_images_for_convention(&self, con_id: i32) -> Result<Vec<ConventionImage>, String> {
         let conn = self.pool.get().unwrap();
-        Ok (
-            query!(conn, "
-                SELECT DISTINCT image_uuid
-                  FROM ConventionImages
-                 WHERE con_id = $1
-            ", con_id)
-            .iter()
-            .filter_map(|row| row.get("image_uuid"))
-            .collect()
-        )
+        conventionimages::table
+            .distinct_on(conventionimages::image_uuid)
+            .filter(conventionimages::con_id.eq(con_id))
+            .load::<ConventionImage>(&*conn)
+            .map_err(|reason| format!("Images for convention with id {} could not be retrieved. Reason: {}", con_id, reason))
     }
 }

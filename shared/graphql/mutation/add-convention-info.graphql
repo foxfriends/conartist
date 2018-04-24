@@ -1,0 +1,7 @@
+#import '../fragment/extra-info.graphql'
+
+mutation AddConventionInfo($conId: Int!, $title: String!, $info: String, $action: String, $actionText: String) {
+  addConventionExtraInfo(conId: $conId, title: $title, info: $info, action: $action, actionText: $actionText) {
+    ...ExtraInfoFragment
+  }
+}

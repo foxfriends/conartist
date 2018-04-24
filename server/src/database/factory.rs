@@ -1,14 +1,15 @@
 use iron::Request;
+use diesel::PgConnection;
 use r2d2::Pool;
-use r2d2_postgres::PostgresConnectionManager;
-use rest::auth::Claims;
+use r2d2_diesel::ConnectionManager;
+use rest::authtoken::Claims;
 
 pub struct DatabaseFactory {
-    pool: Pool<PostgresConnectionManager>,
+    pool: Pool<ConnectionManager<PgConnection>>, 
 }
 
 impl DatabaseFactory {
-    pub fn new(pool: Pool<PostgresConnectionManager>) -> Self {
+    pub fn new(pool: Pool<ConnectionManager<PgConnection>>) -> Self {
         Self{ pool }
     }
 

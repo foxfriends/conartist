@@ -1,0 +1,29 @@
+.productName, .priceQuantity, .pricePrice, .removeButton {
+  margin: 0 10px 0 6px;
+}
+
+.productName, .priceQuantity, .pricePrice {
+  flex-basis: 0;
+}
+
+.productName {
+  flex-grow: 240;
+}
+
+.priceQuantity, .pricePrice {
+  flex-grow: 115;
+}
+
+.removeButton {
+  font-size: 16px;
+  align-self: flex-end;
+  margin-bottom: 8px;
+}
+
+.placeholder {
+  composes: placeholder from '../../common/styles.css'
+}
+
+.any {
+  color: var(--color--text-placeholder);
+}

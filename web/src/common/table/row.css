@@ -1,0 +1,18 @@
+.title, .value, .detail {
+  align-self: center;
+  padding: 0 16px;
+}
+
+.value, .detail {
+  justify-self: end;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.valueDetail {
+  grid-column-end: span 2;
+}
+
+.tall {
+  grid-row-end: span 2;
+}

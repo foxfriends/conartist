@@ -8,6 +8,17 @@
 
 import UIKit
 
+extension ConventionListViewController.Section {
+    fileprivate var emptyStateText: String? {
+        switch self {
+        case .PresentEmpty: return "No conventions today"¡
+        case .PastEmpty:    return "You haven't been to any conventions yet..."¡
+        case .FutureEmpty:  return "You don't have any conventions starred... Why don't you go find one you like?"¡
+        default:            return nil
+        }
+    }
+}
+
 class ConventionTableViewCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel?
     @IBOutlet weak var titleLabel: UILabel?
@@ -26,8 +37,8 @@ class ConventionTableViewCell: UITableViewCell {
         cardView?.addShadow()
     }
 
-    func emptyState() {
-        titleLabel?.text = "No conventions today"¡
+    func emptyState(for section: ConventionListViewController.Section) {
+        titleLabel?.text = section.emptyStateText
         titleLabel?.font = titleLabel!.font.usingFeatures([.smallCaps])
         dateLabel?.text = nil
         locationLabel?.text = nil

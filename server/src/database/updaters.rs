@@ -1,6 +1,13 @@
-use super::*;
-use money::Money;
+//! Methods for updating the database with
+use diesel::{self, dsl, sql_types};
+use diesel::prelude::*;
 use chrono::Utc;
+
+use super::Database;
+use super::models::*;
+use super::schema::*;
+use super::dsl::*;
+use money::Money;
 
 impl Database {
     pub fn update_product_type(&self,
@@ -10,28 +17,14 @@ impl Database {
         color: Option<i32>,
         discontinued: Option<bool>,
     ) -> Result<ProductType, String> {
-        self.resolve_user_id(maybe_user_id)?;
-
+        let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
-        let trans = conn.transaction().unwrap();
-        if let Some(name) = name {
-            execute!(trans, "UPDATE ProductTypes SET name = $1 WHERE type_id = $2", name, type_id)
-                .or(Err(format!("Could not set name of product type {} to {}", type_id, name)))?;
-        }
-        if let Some(color) = color {
-            execute!(trans, "UPDATE ProductTypes SET color = $1 WHERE type_id = $2", color, type_id)
-                .or(Err(format!("Could not set color of product type {} to {}", type_id, color)))?;
-        }
-        if let Some(discontinued) = discontinued {
-            execute!(trans, "UPDATE ProductTypes SET discontinued = $1 WHERE type_id = $2", discontinued, type_id)
-                .or(Err(format!("Could not set discontinued of product type {} to {}", type_id, discontinued)))?;
-        }
-        trans.commit().unwrap();
-        query!(conn, "SELECT * FROM ProductTypes WHERE type_id = $1", type_id)
-            .into_iter()
-            .map(|r| ProductType::from(r))
-            .nth(0)
-            .unwrap_or(Err("Could not retrieve updated product type".to_string()))
+        diesel::update(producttypes::table)
+            .filter(producttypes::type_id.eq(type_id))
+            .filter(producttypes::user_id.eq(user_id))
+            .set(&ProductTypeChange { name, color, discontinued })
+            .get_result(&*conn)
+            .map_err(|reason| format!("Could not update product type with id {}. Reason: {}", type_id, reason))
     }
 
     pub fn update_product(&self,
@@ -40,217 +33,161 @@ impl Database {
         name: Option<String>,
         quantity: Option<i32>,
         discontinued: Option<bool>,
-    ) -> Result<ProductInInventory, String> {
+    ) -> Result<ProductWithQuantity, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
-
         let conn = self.pool.get().unwrap();
-        let trans = conn.transaction().unwrap();
-        let sold: i32 = query!(conn, "
-              SELECT COUNT(1)::INT as sold
-                FROM (
-                SELECT UNNEST(products) AS product_id
-                  FROM Records
-                 WHERE user_id = $1
-                ) a
-              WHERE product_id = $2
-        ", user_id, product_id)
-            .into_iter()
-            .map(|r| r.get::<&'static str, i32>("sold"))
-            .nth(0)
-            .unwrap_or(0);
 
-        if let Some(name) = name {
-            execute!(trans, "UPDATE Products SET name = $1 WHERE product_id = $2", name, product_id)
-                .or(Err(format!("Could not set name of product {} to {}", product_id, name)))?;
-        }
-        if let Some(quantity) = quantity {
-            let total: i32 = query!(conn, "
-                    SELECT SUM(COALESCE(quantity, 0))::INT as quantity
-                      FROM Products p
-           LEFT OUTER JOIN Inventory i
-                        ON p.product_id = i.product_id
-                     WHERE user_id = $1
-                       AND p.product_id = $2
-                  GROUP BY p.product_id
-                ", user_id, product_id)
-                    .into_iter()
-                    .map(|r| r.get::<&'static str, i32>("quantity"))
-                    .nth(0)
-                    .unwrap_or(0);
-            // Allow (total-sold) here to be negative to compensate for overselling miscounted
-            // items
-            let quantity_delta = quantity - (total - sold);
-            execute!(trans, "
-                INSERT INTO Inventory
-                    (product_id, quantity)
-                VALUES
-                    ($1, $2)
-            ", product_id, quantity_delta)
-                .or(Err(format!("Could not set quantity of product {} to {}", product_id, quantity)))?;
-        }
-        if let Some(discontinued) = discontinued {
-            execute!(trans, "UPDATE Products SET discontinued = $1 WHERE product_id = $2", discontinued, product_id)
-                .or(Err(format!("Could not set discontinued of product {} to {}", product_id, discontinued)))?;
-        }
-        trans.commit().unwrap();
-        query!(conn, "
-           SELECT p.product_id,
-                  type_id,
-                  user_id,
-                  name,
-                  discontinued,
-                  SUM(COALESCE(quantity, 0))::INT as quantity
-             FROM Products p
-  LEFT OUTER JOIN Inventory i
-               ON p.product_id = i.product_id
-            WHERE p.user_id = $1
-              AND p.product_id = $2
-         GROUP BY p.product_id
-            ", user_id, product_id)
-            .into_iter()
-            .nth(0)
-            .ok_or("Could not retrieve updated product".to_string())
-            .and_then(|r| Ok(ProductInInventory::from(r)?.sold(sold)))
+        conn.transaction(|| {
+                let product =
+                    products::table
+                        .filter(products::product_id.eq(product_id))
+                        .filter(products::user_id.eq(user_id));
+                if !diesel::select(dsl::exists(product)).get_result::<bool>(&*conn)? {
+                    return Err(diesel::result::Error::NotFound)
+                }
+
+                let sold =
+                    records::table
+                        .select(unnest(records::products))
+                        .filter(records::user_id.eq(user_id))
+                        .load::<i32>(&*conn)
+                        .unwrap_or(vec![])
+                        .into_iter()
+                        .filter(|id| *id == product_id)
+                        .collect::<Vec<_>>()
+                        .len() as i64;
+
+                let updated_product: Product =
+                    diesel::update(products::table)
+                        .filter(products::product_id.eq(product_id))
+                        .filter(products::user_id.eq(user_id))
+                        .set(&ProductChanges { name, discontinued })
+                        .get_result(&*conn)?;
+
+                let total =
+                    inventory::table
+                        .select(dsl::sum(inventory::quantity))
+                        .filter(inventory::product_id.eq(product_id))
+                        .group_by(inventory::product_id)
+                        .first::<_>(&*conn)
+                        .unwrap_or(None)
+                        .unwrap_or(0i64);
+
+                if let Some(quantity) = quantity {
+                    // Allow (total-sold) here to be negative to compensate for overselling miscounted
+                    // items
+                    let quantity_delta = (quantity as i64) - (total - sold);
+                    diesel::insert_into(inventory::table)
+                        .values((inventory::product_id.eq(product_id), inventory::quantity.eq(quantity_delta as i32)))
+                        .execute(&*conn)?;
+                }
+
+                Ok(updated_product.with_quantity(quantity.unwrap_or(i64::max(0, total - sold) as i32) as i64))
+            })
+            .map_err(|reason| format!("Could not update product with id {}. Reason: {}", product_id, reason))
     }
 
     pub fn update_record(&self, maybe_user_id: Option<i32>, record_id: i32, products: Option<Vec<i32>>, price: Option<Money>, info: Option<String>) -> Result<Record, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
-        let trans = conn.transaction().unwrap();
-        let record = query!(trans, "
-            SELECT * 
-              FROM Records
-             WHERE record_id = $1
-               AND user_id = $2
-        ", record_id, user_id)
-            .into_iter()
-            .nth(0)
-            .ok_or_else(|| format!("User {} does not own a record with id {}", user_id, record_id))
-            .and_then(Record::from)?;
-        let convention = query!(trans, "SELECT * FROM Conventions WHERE con_id = $1", record.con_id)
-            .into_iter()
-            .nth(0)
-            .ok_or_else(|| format!("No convention exists with id {}", record.con_id))
-            .and_then(|r| Convention::from(r))?;
+        conn.transaction(|| {
+                let record = records::table
+                    .filter(records::record_id.eq(record_id))
+                    .filter(records::user_id.eq(user_id))
+                    .first::<Record>(&*conn)?;
 
-        if convention.end_date.and_hms(23, 59, 59) < Utc::now().naive_utc() {
-            return Err(format!("Convention '{}' ({}) has ended", convention.title, record.con_id));
-        }
+                let convention = conventions::table
+                    .filter(conventions::con_id.eq(record.con_id))
+                    .first::<DetachedConvention>(&*conn)?;
 
-        let new_record = Record {
-            products: products.unwrap_or(record.products),
-            price: price.unwrap_or(record.price),
-            info: info.unwrap_or(record.info),
-            ..record
-        };
-        let updated_record = query!(trans, "
-            UPDATE Records
-               SET products = $1,
-                   price = $2,
-                   info = $3
-             WHERE record_id = $4
-         RETURNING *
-        ", new_record.products, new_record.price, new_record.info, record_id)
-            .into_iter()
-            .nth(0)
-            .ok_or("Could not retrieve updated record".to_string())
-            .and_then(Record::from)?;
-        trans.commit().unwrap();
-        Ok(updated_record)
+                if convention.end_date.and_hms(23, 59, 59) < Utc::now().naive_utc() {
+                    return Err(
+                        diesel::result::Error::DeserializationError(
+                            Box::new(
+                                ::error::StringError(
+                                    format!("Convention with id {} is already over", convention.con_id)
+                                )
+                            )
+                        )
+                    )
+                }
+
+                diesel::update(records::table)
+                    .filter(records::record_id.eq(record_id))
+                    .set(&RecordChanges::new(products, price, info))
+                    .get_result::<Record>(&*conn)
+            })
+            .map_err(|reason| format!("Could not update record with id {}. Reason: {}", record_id, reason))
     }
 
     pub fn update_expense(&self, maybe_user_id: Option<i32>, expense_id: i32, category: Option<String>, price: Option<Money>, description: Option<String>) -> Result<Expense, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
-        let trans = conn.transaction().unwrap();
-        let expense = query!(trans, "
-            SELECT * 
-              FROM Expenses
-             WHERE expense_id = $1
-               AND user_id = $2
-        ", expense_id, user_id)
-            .into_iter()
-            .nth(0)
-            .ok_or_else(|| format!("Use {} does not own an expense with id {}", user_id, expense_id))
-            .and_then(Expense::from)?;
-        let convention = query!(trans, "SELECT * FROM Conventions WHERE con_id = $1", expense.con_id)
-            .into_iter()
-            .nth(0)
-            .ok_or_else(|| format!("No convention exists with id {}", expense.con_id))
-            .and_then(|r| Convention::from(r))?;
+        conn.transaction(|| {
+                let expense =
+                    expenses::table
+                        .filter(expenses::expense_id.eq(expense_id))
+                        .filter(expenses::user_id.eq(user_id))
+                        .first::<Expense>(&*conn)?;
+                let convention =
+                    conventions::table
+                        .filter(conventions::con_id.eq(expense.con_id))
+                        .first::<DetachedConvention>(&*conn)?;
 
-        if convention.end_date.and_hms(23, 59, 59) < Utc::now().naive_utc() {
-            return Err(format!("Convention '{}' ({}) has ended", convention.title, expense.con_id));
-        }
-        let new_expense = Expense {
-            category: category.unwrap_or(expense.category),
-            price: price.unwrap_or(expense.price),
-            description: description.unwrap_or(expense.description),
-            ..expense
-        };
-        let updated_expense = query!(trans, "
-            UPDATE Expenses
-               SET category = $1,
-                   price = $2,
-                   description = $3
-             WHERE expense_id = $4
-         RETURNING *
-        ", new_expense.category, new_expense.price, new_expense.description, expense_id)
-            .into_iter()
-            .nth(0)
-            .ok_or("Could not retrieve updated expense".to_string())
-            .and_then(Expense::from)?;
-        trans.commit().unwrap();
-        Ok(updated_expense)
+                if convention.end_date.and_hms(23, 59, 59) < Utc::now().naive_utc() {
+                    return Err(
+                        diesel::result::Error::DeserializationError(
+                            Box::new(
+                                ::error::StringError(
+                                    format!("Convention with id {} is already over", convention.con_id)
+                                )
+                            )
+                        )
+                    )
+                }
+
+                diesel::update(expenses::table)
+                    .filter(expenses::expense_id.eq(expense_id))
+                    .set(&ExpenseChanges::new(category, description, price))
+                    .get_result::<Expense>(&*conn)
+            })
+            .map_err(|reason| format!("Could not update expense with id {}. Reason: {}", expense_id, reason))
     }
 
     pub fn update_convention_user_info_vote(&self, maybe_user_id: Option<i32>, info_id: i32, approved: bool) -> Result<ConventionUserInfo, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
-
         let conn = self.pool.get().unwrap();
-        let trans = conn.transaction().unwrap();
 
-        execute!(trans, "
-            INSERT INTO ConventionInfoRatings
-                (user_id, con_info_id, rating)
-            VALUES
-                ($1, $2, $3)
-            ON CONFLICT (con_info_id, user_id) DO UPDATE
-               SET rating = $3
-        ", user_id, info_id, approved)
-            .or(Err(format!("Could not set the rating for info {}", info_id)))?;
+        conn.transaction(|| {
+                diesel::insert_into(conventioninforatings::table)
+                    .values((conventioninforatings::user_id.eq(user_id), conventioninforatings::con_info_id.eq(info_id), conventioninforatings::rating.eq(approved)))
+                    .on_conflict((conventioninforatings::con_info_id, conventioninforatings::user_id))
+                    .do_update()
+                    .set(conventioninforatings::rating.eq(approved))
+                    .execute(&*conn)?;
 
-        let info = query!(trans, "
-                SELECT i.con_info_id,
-                       information,
-                       SUM(CASE rating WHEN true THEN 1 ELSE 0 END)::INT as upvotes,
-                       SUM(CASE rating WHEN false THEN 1 ELSE 0 END)::INT as downvotes
-                  FROM ConventionInfo i
-            INNER JOIN ConventionInfoRatings r
-                    ON i.con_info_id = r.con_info_id
-                 WHERE i.con_info_id = $1
-              GROUP BY i.con_info_id
-        ", info_id)
-            .into_iter()
-            .nth(0)
-            .ok_or_else(|| format!("No convention info exists with id {}", info_id))
-            .and_then(ConventionUserInfo::without_votes)?;
-        trans.commit().unwrap();
-        Ok(info)
+                conventionuserinfo::table
+                    .left_outer_join(conventioninforatings::table)
+                    .select((
+                        conventionuserinfo::con_info_id,
+                        conventionuserinfo::information,
+                        dsl::sql::<sql_types::BigInt>("SUM(CASE rating WHEN true THEN 1 ELSE 0 END)::INT"),
+                        dsl::sql::<sql_types::BigInt>("SUM(CASE rating WHEN false THEN 1 ELSE 0 END)::INT"),
+                    ))
+                    .filter(conventionuserinfo::con_info_id.eq(info_id))
+                    .group_by(conventionuserinfo::con_info_id)
+                    .first::<ConventionUserInfo>(&*conn)
+            })
+            .map_err(|reason| format!("Could not change vote for user with id {} on info with id {}. Reason: {}", user_id, info_id, reason))
     }
 
     pub fn change_password(&self, user_id: i32, hashed_password: String) -> Result<(), String> {
         let conn = self.pool.get().unwrap();
-        let trans = conn.transaction().unwrap();
-        execute!(trans, "
-            UPDATE Users
-               SET password = $2
-             WHERE user_id = $1
-        ", user_id, hashed_password)
-            .map_err(|r| r.to_string())
-            .and_then(|r| if r == 1 { Ok(()) } else { Err("unknown".to_string()) })
-            .map_err(|r| format!("Failed to change password. Reason: {}", r))?;
-        trans.commit().unwrap();
-        Ok(())
+        diesel::update(users::table)
+            .set(users::password.eq(hashed_password))
+            .filter(users::user_id.eq(user_id))
+            .execute(&*conn)
+            .map_err(|reason| format!("Could not change password of user with id {}. Reason: {}", user_id, reason))
+            .map(|_| ())
     }
 }

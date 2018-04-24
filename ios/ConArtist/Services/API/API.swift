@@ -12,7 +12,7 @@ import RxSwift
 
 extension ConArtist {
     struct API {
-        static let BaseURL = "https://con--artist.herokuapp.com"
+        static let BaseURL = Config.retrieve(Config.BaseURL.self)
         static let GraphQLURL = URL(string: BaseURL + "/api/v2")!
         static let ResourcesURL = URL(string: BaseURL + "/resource")!
         static var GraphQL = ApolloClient(url: ConArtist.API.GraphQLURL)

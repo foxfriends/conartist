@@ -1,15 +1,16 @@
 //! Holds information about a user and their products, prices, and conventions
+use juniper::FieldResult;
+use chrono::{DateTime, Utc};
+
+use database::Database;
+use database::models::*;
+
 mod product_type;
 mod product;
 mod price;
 mod record;
 mod expense;
-mod user_convention;
 mod settings;
-
-use database::{Database, User, ProductType, ProductInInventory, PriceRow, FullUserConvention, Settings};
-use juniper::FieldResult;
-use chrono::{DateTime, Utc};
 
 graphql_object!(User: Database |&self| {
     description: "Holds information about a user and their products, prices, and conventions"
@@ -24,46 +25,45 @@ graphql_object!(User: Database |&self| {
         dbtry! {
             executor
                 .context()
-                .get_product_types_for_user(self.user_id)
+                .get_product_types_for_user(Some(self.user_id))
         }
     }
 
-    field products(&executor) -> FieldResult<Vec<ProductInInventory>> {
+    field products(&executor) -> FieldResult<Vec<ProductWithQuantity>> {
         dbtry! {
             executor
                 .context()
-                .get_products_for_user(self.user_id)
+                .get_products_for_user(Some(self.user_id))
         }
     }
 
-    field prices(&executor) -> FieldResult<Vec<PriceRow>> {
+    field prices(&executor) -> FieldResult<Vec<Price>> {
         dbtry! {
             executor
                 .context()
-                .get_prices_for_user(self.user_id)
-                .map(|prices| prices
-                    .into_iter()
-                    .fold(vec![], |prev, price| {
-                        let len = prev.len() as i32;
-                        prev.into_iter().chain(price.spread(len)).collect()
-                    })
-                )
+                .get_prices_for_user(Some(self.user_id))
         }
     }
 
-    field conventions(&executor) -> FieldResult<Vec<FullUserConvention>> {
+    field conventions(&executor) -> FieldResult<Vec<Convention>> {
         dbtry! {
             executor
                 .context()
-                .get_conventions_for_user(self.user_id)
+                .get_conventions_for_user(Some(self.user_id))
         }
     }
 
-    field settings(&executor) -> FieldResult<Settings> {
-        dbtry! {
-            executor
-                .context()
-                .get_settings_for_user(self.user_id)
-        }
+    field settings(&executor) -> Settings {
+        executor
+            .context()
+            .get_settings_for_user(Some(self.user_id))
+            .unwrap_or(Settings::default(self.user_id))
+    }
+
+    field clearance(&executor) -> i32 {
+        executor
+            .context()
+            .get_admin_clearance(Some(self.user_id))
+            .unwrap_or(0)
     }
 });

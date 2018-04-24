@@ -25,8 +25,8 @@ impl Into<ConventionUserInfo> for RawConventionUserInfo {
         ConventionUserInfo {
             con_info_id: self.con_info_id,
             information: self.information,
-            upvotes: 0,
-            downvotes: 0,
+            upvotes: 0i32,
+            downvotes: 0i32,
         }
     }
 }
@@ -35,8 +35,8 @@ impl Into<ConventionUserInfo> for RawConventionUserInfo {
 pub struct ConventionUserInfo {
     pub con_info_id: i32,
     pub information: String,
-    pub upvotes: i64,
-    pub downvotes: i64,
+    pub upvotes: i32,
+    pub downvotes: i32,
 }
 
 #[derive(Queryable, Clone)]
@@ -69,7 +69,7 @@ impl DetachedConvention {
     pub fn attached_to(self, user_id: i32) -> Convention {
         Convention {
             con_id: self.con_id,
-            user_id: Some(user_id), 
+            user_id: Some(user_id),
             title: self.title,
             start_date: self.start_date,
             end_date: self.end_date,
@@ -80,9 +80,9 @@ impl DetachedConvention {
 
 impl Into<Convention> for DetachedConvention {
     fn into(self) -> Convention {
-        Convention { 
+        Convention {
             con_id: self.con_id,
-            user_id: None, 
+            user_id: None,
             title: self.title,
             start_date: self.start_date,
             end_date: self.end_date,

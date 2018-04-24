@@ -233,8 +233,8 @@ impl Database {
             .select((
                 conventionuserinfo::con_info_id,
                 conventionuserinfo::information,
-                dsl::sql::<sql_types::BigInt>("SUM(CASE rating WHEN true THEN 1 ELSE 0 END)::INT"),
-                dsl::sql::<sql_types::BigInt>("SUM(CASE rating WHEN false THEN 1 ELSE 0 END)::INT"),
+                dsl::sql::<sql_types::Integer>("SUM(CASE rating WHEN true THEN 1 ELSE 0 END)::INT"),
+                dsl::sql::<sql_types::Integer>("SUM(CASE rating WHEN false THEN 1 ELSE 0 END)::INT"),
             ))
             .filter(conventionuserinfo::con_id.eq(con_id))
             .group_by(conventionuserinfo::con_info_id)

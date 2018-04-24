@@ -9,8 +9,8 @@ graphql_object!(ConventionUserInfo: Database |&self| {
 
     field id() -> i32 { self.con_info_id }
     field info() -> &String { &self.information }
-    field upvotes() -> i32 { self.upvotes as i32 }
-    field downvotes() -> i32 { self.downvotes as i32 }
+    field upvotes() -> i32 { self.upvotes }
+    field downvotes() -> i32 { self.downvotes }
 
     field vote(&executor, user_id: Option<i32>) -> FieldResult<i32> {
         dbtry! {

@@ -106,7 +106,7 @@ impl Database {
         let products_with_quantity =
             products::table
                 .left_outer_join(inventory::table)
-                .select((products::product_id, products::type_id, products::user_id, products::name, products::discontinued, dsl::sql::<sql_types::BigInt>("sum(inventory.quantity)")))
+                .select((products::product_id, products::type_id, products::user_id, products::name, products::discontinued, dsl::sql::<sql_types::BigInt>("coalesce(sum(inventory.quantity), 0)")))
                 .filter(products::user_id.eq(user_id))
                 .group_by(products::product_id)
                 .order(products::product_id.asc())

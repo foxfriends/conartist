@@ -58,11 +58,17 @@ impl Database {
                         .len() as i64;
 
                 let updated_product: Product =
-                    diesel::update(products::table)
-                        .filter(products::product_id.eq(product_id))
-                        .filter(products::user_id.eq(user_id))
-                        .set(&ProductChanges { name, discontinued })
-                        .get_result(&*conn)?;
+                    if name.is_some() || discontinued.is_some() {
+                        diesel::update(products::table)
+                            .filter(products::product_id.eq(product_id))
+                            .filter(products::user_id.eq(user_id))
+                            .set(&ProductChanges { name, discontinued })
+                            .get_result(&*conn)?
+                    } else {
+                        products::table
+                            .filter(products::product_id.eq(product_id))
+                            .first(&*conn)?
+                    };
 
                 let total =
                     inventory::table

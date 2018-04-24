@@ -3,7 +3,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 const path = require('path');
 
-module.exports = {
+module.exports = env => ({
   mode: 'development',
   entry: './index.jsx',
   output: {
@@ -27,7 +27,5 @@ module.exports = {
     extensions: ['.js', '.jsx', '.json'],
   },
   devtool: 'cheap-eval-source-map',
-  plugins: [
-   // new UglifyJSPlugin(),
-  ]
-};
+  plugins: env === 'production' ? [new UglifyJSPlugin()] : []
+});

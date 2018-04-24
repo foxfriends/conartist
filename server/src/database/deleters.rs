@@ -90,8 +90,7 @@ impl Database {
                     conventions::table
                         .filter(conventions::con_id.eq(con_id))
                         .first::<DetachedConvention>(&*conn)?;
-
-                if convention.start_date.and_hms(0, 0, 0) > Utc::now().naive_utc() {
+                if convention.start_date.and_hms(0, 0, 0) <= Utc::now().naive_utc() {
                     return Err(
                         diesel::result::Error::DeserializationError(
                             Box::new(

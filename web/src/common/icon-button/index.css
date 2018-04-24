@@ -4,7 +4,8 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
-  padding: 0;
+  padding: 4px;
+  border-radius: 100%;
 }
 
 .primary {
@@ -17,6 +18,10 @@
 
 .secondary {
   color: var(--color--text);
+
+  &:not(.quiet):hover {
+    background-color: var(--color--background-hover-highlight);
+  }
 }
 
 .tertiary {

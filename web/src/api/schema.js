@@ -174,6 +174,42 @@ export type AddRecordMutation = {|
   |},
 |};
 
+export type AddUserConventionMutationVariables = {|
+  userId?: ?number,
+  conId: number,
+|};
+
+export type AddUserConventionMutation = {|
+  addUserConvention: {|
+    __typename: "Convention",
+    id: number,
+    name: string,
+    images:  Array< {|
+      __typename: "ConventionImage",
+      id: string,
+    |} >,
+    start: any,
+    end: any,
+    extraInfo:  Array< {|
+      __typename: "ConventionExtraInfo",
+      title: string,
+      info: ?string,
+      action: ?string,
+      actionText: ?string,
+    |} >,
+    userInfo:  Array< {|
+      __typename: "ConventionUserInfo",
+      id: number,
+      info: string,
+      vote: number,
+      upvotes: number,
+      downvotes: number,
+    |} >,
+    recordTotal: ?any,
+    expenseTotal: ?any,
+  |},
+|};
+
 export type ContributeConventionInfoMutationVariables = {|
   userId?: ?number,
   conId: number,
@@ -229,6 +265,15 @@ export type DeleteRecordMutationVariables = {|
 
 export type DeleteRecordMutation = {|
   delUserRecord: boolean,
+|};
+
+export type DeleteUserConventionMutationVariables = {|
+  userId?: ?number,
+  conId: number,
+|};
+
+export type DeleteUserConventionMutation = {|
+  delUserConvention: boolean,
 |};
 
 export type DownvoteConventionInfoMutationVariables = {|

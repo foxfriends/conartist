@@ -1,0 +1,3 @@
+mutation DeleteUserConvention($userId: Int, $conId: Int!) {
+  delUserConvention(userId: $userId, conId: $conId)
+}

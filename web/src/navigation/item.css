@@ -36,7 +36,7 @@
   margin-left: 10px;
 }
 
-.indicatorSelected, .indicatorDefault {
+.indicatorSelected, .indicatorDefault, .indicatorDeep {
   display: inline-block;
   height: 100%;
   width: 4px;
@@ -48,5 +48,9 @@
 }
 
 .indicatorDefault {
-  background-color: var(--color--background-variant)
+  background-color: var(--color--background-variant);
+}
+
+.indicatorDeep {
+  background-color: var(--color--brand-variant);
 }

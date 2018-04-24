@@ -1,12 +1,12 @@
 /* @flow */
 import * as React from 'react'
 
-import { Item, ItemInfo } from './item'
+import { Item, ItemInfo, DIRECT } from './item'
 import { l } from '../localization'
 import * as navigate from '../update/navigate'
 import { model } from '../model'
 import type { ProductType } from '../model/product-type'
-import type { Props as ItemProps } from './item'
+import type { Props as ItemProps, Direct, Indirect } from './item'
 import S from './index.css'
 
 export type Props = {
@@ -56,8 +56,8 @@ export class NavInfo {
    * @param option {string} The title of the item to select
    * @param children {?ItemInfo[]} Any children to add to this node
    */
-  select(option: string, children: ?ItemInfo[]): NavInfo {
-    this.items = this.items.map(item => item.withChildren(item.title === option ? children : null).select(item.title === option))
+  select(option: string, children: ?ItemInfo[], directness: Direct | Indirect = DIRECT): NavInfo {
+    this.items = this.items.map(item => item.withChildren(item.title === option ? children : null).select(item.title === option, directness))
     return this
   }
 

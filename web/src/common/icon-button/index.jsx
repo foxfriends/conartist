@@ -12,11 +12,12 @@ export type Props = Action & {
   enabled?: boolean,
   className?: string,
   style?: { [string]: string | number },
+  quiet?: boolean,
 }
 
-export function IconButton({ priority, title, action, enabled, className, style }: Props) {
+export function IconButton({ priority, title, action, enabled, className, style, quiet }: Props) {
   return (
-    <button disabled={enabled === false} onClick={action} className={`${S.button} ${S[priority || 'primary']} ${className || ''}`} style={style || {}}>
+    <button disabled={enabled === false} onClick={action} className={`${S.button} ${S[priority || 'primary']} ${quiet ? S.quiet : ''} ${className || ''}`} style={style || {}}>
       <Icon name={title} />
     </button>
   )

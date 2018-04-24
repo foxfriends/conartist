@@ -1,0 +1,7 @@
+#import '../fragment/meta-convention.graphql'
+
+mutation AddUserConvention($userId: Int, $conId: Int!) {
+  addUserConvention(userId: $userId, conId: $conId) {
+    ...MetaConventionFragment
+  }
+}

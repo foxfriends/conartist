@@ -8,11 +8,16 @@ import { Expand } from '../common/animation/expand'
 import { localize } from '../localization'
 import S from './item.css'
 
+export opaque type Direct = Symbol
+export opaque type Indirect = Symbol
+export const DIRECT: Direct = Symbol('Direct')
+export const INDIRECT: Indirect = Symbol('Indirect')
+
 export class ItemInfo {
   title: string
   icon: string
   children: ?ItemInfo[]
-  selected: boolean
+  selected: ?(Direct | Indirect)
   enabled: boolean
   action: () => void
 
@@ -20,7 +25,7 @@ export class ItemInfo {
     this.title = title
     this.icon = icon
     this.children = null
-    this.selected = false
+    this.selected = null
     this.enabled = true
     this.action = action
   }
@@ -30,10 +35,10 @@ export class ItemInfo {
    *
    * @param selected {boolean} Whether the item should be selected
    */
-  select(selected: boolean): ItemInfo {
-    this.selected = selected
+  select(selected: boolean, directness: Direct | Indirect = DIRECT): ItemInfo {
+    this.selected = selected ? directness : null
     if (this.children) {
-      this.children = this.children.map(child => child.select(selected))
+      this.children = this.children.map(child => child.select(selected, directness))
     }
     return this
   }
@@ -70,10 +75,16 @@ const DEPTH_INDENT = 34
 
 export function Item({ title, action, icon, depth, selected, enabled, children }: Props) {
   depth = depth || 0
+  let indicator = S.indicatorDefault
+  if (selected === DIRECT) {
+    indicator = S.indicatorSelected
+  } else if (selected === INDIRECT) {
+    indicator = S.indicatorDeep
+  }
   return (
     <div className={S.container} onClick={() => enabled && action()}>
       <div className={`${S.item}  ${enabled ? '' : S.disabled}`}>
-        <div className={selected ? S.indicatorSelected : S.indicatorDefault} />
+        <div className={indicator} />
         <div className={S.indent} style={{ width: depth * DEPTH_INDENT}} />
         <Icon name={icon} className={S.icon} />
         <span className={S.title}>{ localize(title) }</span>

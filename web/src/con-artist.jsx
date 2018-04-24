@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators/map'
 import { Toolbar, status as toolbarStatus } from './toolbar'
 import * as toolbarAction from './toolbar/action'
 import { Navigation, NavInfo } from './navigation'
+import { INDIRECT } from './navigation/item'
 import { Content } from './content'
 import { Dialog } from './dialog'
 import { model } from './model'
@@ -93,13 +94,13 @@ export class ConArtist extends React.Component<Props, State> {
       case 'search-conventions':
         state.toolbar = { primary: null, secondary: null }
         state.content = { name: 'search-conventions' }
-        state.navigation = NavInfo.default.select('Conventions')
+        state.navigation = NavInfo.default.select('Conventions', [], INDIRECT)
         break
 
       case 'convention-details':
         state.toolbar = { primary: null, secondary: null }
         state.content = { name: 'convention-details', convention: model.page.convention }
-        state.navigation = NavInfo.default.select('Conventions')
+        state.navigation = NavInfo.default.select('Conventions', [], INDIRECT)
         break
 
       case 'settings':

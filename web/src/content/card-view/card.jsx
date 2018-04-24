@@ -48,6 +48,7 @@ export class Card<E: React.ElementType> extends React.Component<Props<E>, State>
                   priority="secondary"
                   className={S.rightAction}
                   action={() => this.handleToggleCollapsed()}
+                  quiet
                   />
               : null
           }

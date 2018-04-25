@@ -2,24 +2,16 @@
 import * as React from 'react'
 import S from './index.css'
 
-type Transformer<T> = (T, number) => React.Node
-
-export type Props<T> = {
+export type Props = {
   className?: string,
   style?: { [string]: string | number },
-  children: Transformer<T> | [React.Node, Transformer<T>] | [React.Node, Transformer<T>, React.Node],
-  dataSource: Iterable<T>,
+  children?: React.Node,
 }
 
-export function List<T>({ className, style, dataSource, children }: Props<T>) {
-  const [ emptyState, transformer, footer ] = children instanceof Array
-    ? [...children]
-    : [, children, ]
-  const data = [...dataSource]
+export function List({ className, style, children }: Props) {
   return (
     <div className={`${S.list} ${className || ''}`} style={style || {}}>
-      { data.length === 0 ? emptyState || '' : data.map(transformer) }
-      { footer || null }
+      { children }
     </div>
   )
 }

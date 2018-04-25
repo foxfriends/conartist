@@ -37,7 +37,7 @@ export function Conventions({ conventions }: Props) {
 
   return (
     <CardView>
-      { today.map(convention => <TodayConventionCard convention={convention} key={`convention_${convention.id}`}/>) }
+      { today.map(convention => <TodayConventionCard showDetails convention={convention} key={`convention_${convention.id}`}/>) }
       { today.length === 0
         ? <Card className={S.emptyState}>
             <div className={S.placeholder}>
@@ -47,7 +47,7 @@ export function Conventions({ conventions }: Props) {
         : null
       }
       <p className={S.header}>{l`Upcoming`}</p>
-      { upcoming.map(convention => <UpcomingConventionCard convention={convention} key={`convention_${convention.id}`}/>) }
+      { upcoming.map(convention => <UpcomingConventionCard showDetails convention={convention} key={`convention_${convention.id}`}/>) }
       { upcoming.length === 0
         ? <Card className={S.emptyState}>
             <div className={S.placeholderLarge}>
@@ -57,7 +57,7 @@ export function Conventions({ conventions }: Props) {
         : null
       }
       <p className={S.header}>{l`Completed`}</p>
-      { completed.map(convention => <CompletedConventionCard convention={convention} key={`convention_${convention.id}`}/>) }
+      { completed.map(convention => <CompletedConventionCard showDetails convention={convention} key={`convention_${convention.id}`}/>) }
       { completed.length === 0
         ? <Card className={S.emptyState}>
             <div className={S.placeholder}>

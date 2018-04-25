@@ -1,7 +1,6 @@
 #import '../fragment/full-convention.graphql'
 query FullConvention($userId: Int, $conId: Int!) {
-  userConvention(userId: $userId, conId: $conId) {
+  convention(userId: $userId, conId: $conId) {
     ...FullConventionFragment
   }
 }
-

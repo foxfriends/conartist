@@ -21,16 +21,17 @@ const { Fragment } = React
 
 export type Props = {
   convention: Convention,
+  showDetails?: boolean,
 }
 
-export function TodayConventionCard({ convention }: Props) {
+export function TodayConventionCard({ convention, showDetails }: Props) {
   return (
     <Card>
       <BasicHeader>
         <span>
           {lx`{${convention.name}} {is today. Good luck!}`(text => text === convention.name ? text : <Font smallCaps regular>{ text }</Font>)}
         </span>
-        <Link className={S.detailsButton} priority='tertiary' onClick={() => navigate.conventionDetails(convention)}><Font smallCaps>{l`Details`}</Font><Icon name='keyboard_arrow_right' /></Link>
+        { showDetails ? <Link className={S.detailsButton} priority='tertiary' onClick={() => navigate.conventionDetails(convention)}><Font smallCaps>{l`Details`}</Font><Icon name='keyboard_arrow_right' /></Link> : null }
       </BasicHeader>
       <Table>
         <DatesInfo start={convention.start} end={convention.end} />

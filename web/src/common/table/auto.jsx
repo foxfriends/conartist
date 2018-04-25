@@ -1,7 +1,6 @@
 /* @flow */
 import * as React from 'react'
 import { Table } from './index'
-import S from './index.css'
 
 type Transformer<T> = (T, number) => React.Node
 

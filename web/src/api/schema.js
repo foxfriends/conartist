@@ -428,8 +428,8 @@ export type FullConventionQueryVariables = {|
 |};
 
 export type FullConventionQuery = {|
-  // Retrieves the full information of one user's convention
-  userConvention: {|
+  // Retrieves the full information of one convention
+  convention: {|
     __typename: "Convention",
     id: number,
     name: string,

@@ -2,7 +2,7 @@
 import * as React from 'react'
 
 import { Icon } from '../common/icon'
-import { List } from '../common/list'
+import { AutoList as List } from '../common/list/auto'
 import { Item as ListItem } from '../common/list/item'
 import { Expand } from '../common/animation/expand'
 import { localize } from '../localization'

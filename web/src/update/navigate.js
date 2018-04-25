@@ -68,6 +68,11 @@ export function conventionDetails(convention: Convention) {
   model.next({ ...model.getValue(), page: page.conventionDetails(convention) })
 }
 
+export function conventionUserInfo(convention: Convention) {
+  // TODO:
+  conventionDetails(convention)
+}
+
 export function settings() {
   if (model.getValue().page !== page.settings) {
     window.history.pushState({}, '', '/settings')

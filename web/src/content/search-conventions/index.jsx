@@ -51,7 +51,7 @@ export class SearchConventions extends React.Component<Props, State> {
     return (
       <CardView>
         { conventions.length
-          ? conventions.map(convention => <UpcomingConventionCard convention={convention} key={`convention_${convention.id}`}/>)
+          ? conventions.map(convention => <UpcomingConventionCard showDetails convention={convention} key={`convention_${convention.id}`}/>)
           : <Card className={S.emptyState}>
               <div className={S.placeholder}>
                 {l`Loading...`}

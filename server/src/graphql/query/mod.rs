@@ -26,11 +26,11 @@ graphql_object!(Query: Database |&self| {
         }
     }
 
-    field user_convention(
+    field convention(
         &executor,
         user_id: Option<i32> as "The ID of the user to retrieve. Leave out to request self",
         con_id: i32 as "The ID of the convention to retrieve",
-    ) -> FieldResult<Convention> as "Retrieves the full information of one user's convention" {
+    ) -> FieldResult<Convention> as "Retrieves the full information of one convention" {
         dbtry! {
             executor
                 .context()

@@ -21,6 +21,9 @@ import type { Props as StaticProps } from './static'
 import type { Props as AdminProps } from './admin'
 import S from './index.css'
 
+import { CardView } from './card-view'
+import { Card } from './card-view/card'
+
 export type Props
   = { name: 'placeholder' }
   | EditProductsProps
@@ -37,7 +40,14 @@ export function Content(props: Props) {
   let content: React.Node
   switch (props.name) {
     case 'placeholder':
-      content = <div />
+      content =
+        <CardView>
+          <Card className={S.emptyState}>
+            <div className={S.placeholder}>
+              This page is coming soon!
+            </div>
+          </Card>
+        </CardView>
       break
     case 'static':
       content = <Static {...props} />

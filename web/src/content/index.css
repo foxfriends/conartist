@@ -3,3 +3,11 @@
   box-sizing: border-box;
   width: calc(600px + ((100vw - 600px - 280px) / 2));
 }
+
+.placeholder {
+  composes: placeholder from '../common/styles.css';
+}
+
+.emptyState {
+  opacity: 0.5;
+}

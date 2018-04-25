@@ -31,11 +31,8 @@ export class Money {
 
   toString() {
     const currency = this.currency === 'AUTO' ? model.model.getValue().settings.currency : this.currency
-    switch (currency) {
-      case 'CAD':
-      case 'USD':
-        return `$${this.amount / 100.0}`
-      }
+    const locale = model.model.getValue().settings.language
+    return (this.amount / 100.0).toLocaleString(locale, { style: 'currency', currency })
   }
 
   constructor(currency: Currency, amount: number) {

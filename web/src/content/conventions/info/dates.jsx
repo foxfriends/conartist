@@ -4,7 +4,7 @@ import moment from 'moment'
 
 import { l } from '../../../localization'
 import { Row } from '../../../common/table/row'
-import { SmallCaps } from '../../../common/smallcaps'
+import { Font } from '../../../common/font'
 
 export type Props = {
   start: Date,
@@ -16,5 +16,5 @@ function format(date: Date): string {
 }
 
 export function DatesInfo({ start, end }: Props) {
-  return <Row title={<SmallCaps>{l`Dates`}</SmallCaps>} value={l`${format(start)} - ${format(end)}`} />
+  return <Row title={<Font smallCaps>{l`Dates`}</Font>} value={l`${format(start)} - ${format(end)}`} />
 }

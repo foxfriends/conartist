@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { l } from '../../../localization'
 import { Row } from '../../../common/table/row'
-import { SmallCaps } from '../../../common/smallcaps'
+import { Font } from '../../../common/font'
 import { newlinesToReact } from '../../../util/newlines-to-react'
 import type { ConventionExtraInfo } from '../../../model/convention-extra-info'
 
@@ -17,7 +17,7 @@ export function AddressInfo({ infos }: Props) {
       const { info, action } = addressInfo
       const address = newlinesToReact(JSON.parse(info))
       const coordsURL = action
-      return <Row tall title={<SmallCaps>{l`Address`}</SmallCaps>} value={address} />
+      return <Row tall title={<Font smallCaps>{l`Address`}</Font>} value={address} />
     }
   } catch(_) {}
   return null

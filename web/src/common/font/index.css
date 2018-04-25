@@ -1,0 +1,19 @@
+.smallCaps {
+  font-variant-caps: all-small-caps;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.regular {
+  font-weight: var(--font-weight--regular);
+}
+
+.semibold {
+  font-weight: var(--font-weight--semibold);
+}
+
+.bold {
+  font-weight: var(--font-weight--bold);
+}

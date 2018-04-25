@@ -38,7 +38,7 @@ export function Conventions({ conventions }: Props) {
     <CardView>
       { today.map(convention => <TodayConventionCard convention={convention} key={`convention_${convention.id}`}/>) }
       <p className={S.header}>{l`Upcoming`}</p>
-      { upcoming.map(convention => <UpcomingConventionCard convention={convention} key={`convention_${convention.id}`}/>) }
+      { upcoming.map(convention => <TodayConventionCard convention={convention} key={`convention_${convention.id}`}/>) }
       <p className={S.header}>{l`Completed`}</p>
       { completed.map(convention => <CompletedConventionCard convention={convention} key={`convention_${convention.id}`}/>) }
     </CardView>

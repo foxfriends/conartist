@@ -21,10 +21,10 @@ export function localize(key: string, locale: ?(string | string[])): string {
   return doLocalize(key, locale) || key
 }
 
-const PLACEHOLDER_PATTERN = "{}"
+const PLACEHOLDER_PATTERN = '{}'
 /// Template tag that localizes the given string, with placeholders filled in
 export function l(strings: string[], ...args: string[]): string {
-  const key = strings.join('{}')
+  const key = strings.join(PLACEHOLDER_PATTERN)
   const lang = model.getValue().settings.language
   let localized = localize(key, lang.split('-', 1))
   for(const arg of args) {

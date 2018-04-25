@@ -1,4 +1,6 @@
-.link:link, .link:visited {
+.link, .link:link, .link:visited {
+  display: inline-flex;
+  align-items: center;
   color: var(--color--brand);
   text-decoration: none;
   cursor: pointer;

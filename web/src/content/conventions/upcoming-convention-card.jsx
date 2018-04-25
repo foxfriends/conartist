@@ -2,6 +2,9 @@
 import * as React from 'react'
 
 import { Table } from '../../common/table'
+import { Icon } from '../../common/icon'
+import { Font } from '../../common/font'
+import { Link } from '../../common/link'
 import { IconButton } from '../../common/icon-button'
 import { Card } from '../card-view/card'
 import { BasicHeader } from '../card-view/basic-header'
@@ -11,6 +14,7 @@ import { AddressInfo } from './info/address'
 import { model } from '../../model'
 import { l } from '../../localization'
 import * as update from '../../update/conventions'
+import * as navigate from '../../update/navigate'
 import type { Convention } from '../../model/convention'
 
 import S from './card.css'
@@ -36,6 +40,7 @@ export function UpcomingConventionCard({ convention }: Props) {
           priority='secondary'
           className={`${S.star} ${selected ? S.starSelected : ''}`}/>
         {convention.name}
+        <Link className={S.detailsButton} priority='tertiary' onClick={() => navigate.conventionDetails(convention)}><Font smallCaps>{l`Details`}</Font><Icon name='keyboard_arrow_right' /></Link>
       </BasicHeader>
       <Table>
         <DatesInfo start={convention.start} end={convention.end} />

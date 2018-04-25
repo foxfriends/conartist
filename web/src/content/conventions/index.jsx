@@ -5,7 +5,8 @@ import { TodayConventionCard } from './today-convention-card'
 import { UpcomingConventionCard } from './upcoming-convention-card'
 import { CompletedConventionCard } from './completed-convention-card'
 import { CardView } from '../card-view'
-import { l } from '../../localization'
+import { Card } from '../card-view/card'
+import { l, lx } from '../../localization'
 import type { Convention } from '../../model/convention'
 import S from './index.css'
 
@@ -37,10 +38,34 @@ export function Conventions({ conventions }: Props) {
   return (
     <CardView>
       { today.map(convention => <TodayConventionCard convention={convention} key={`convention_${convention.id}`}/>) }
+      { today.length === 0
+        ? <Card className={S.emptyState}>
+            <div className={S.placeholder}>
+              {l`No conventions today`}
+            </div>
+          </Card>
+        : null
+      }
       <p className={S.header}>{l`Upcoming`}</p>
-      { upcoming.map(convention => <TodayConventionCard convention={convention} key={`convention_${convention.id}`}/>) }
+      { upcoming.map(convention => <UpcomingConventionCard convention={convention} key={`convention_${convention.id}`}/>) }
+      { upcoming.length === 0
+        ? <Card className={S.emptyState}>
+            <div className={S.placeholderLarge}>
+              { lx`You don't have any conventions starred... Why don't you go find one you like?`(_ => _) }
+            </div>
+          </Card>
+        : null
+      }
       <p className={S.header}>{l`Completed`}</p>
       { completed.map(convention => <CompletedConventionCard convention={convention} key={`convention_${convention.id}`}/>) }
+      { completed.length === 0
+        ? <Card className={S.emptyState}>
+            <div className={S.placeholder}>
+              { l`You haven't been to any conventions yet...` }
+            </div>
+          </Card>
+        : null
+      }
     </CardView>
   )
 }

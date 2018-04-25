@@ -5,6 +5,7 @@ import { by, Asc } from '../../util/sort'
 import { l, lx } from '../../localization'
 import { AutoCardView as CardView } from '../card-view/auto'
 import { BasicCard } from '../card-view/basic-card'
+import { Card } from '../card-view/card'
 import { AutoTable as Table } from '../../common/table/auto'
 import { Row } from '../../common/table/row'
 import { scrollIdentifier } from '../../update/navigate'
@@ -34,11 +35,11 @@ export function Products({ products, productTypes }: Props) {
 
   return (
     <CardView dataSource={dataSource}>
-      <BasicCard title={l`Huh?`}>
+      <Card className={S.emptyState}>
         <div className={S.placeholder}>
           {lx`<Empty products list message>`(x => x)}
         </div>
-      </BasicCard>
+      </Card>
       {([ productType, products ], _) =>
         <BasicCard id={scrollIdentifier('product-type', productType.id)} title={productType.name} collapsible={true} key={`product_type_${productType.id}`}>
           <Table dataSource={products}>

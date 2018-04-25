@@ -11,11 +11,12 @@ export type Props = {
   title?: React.Node,
   children?: React.Node,
   id?: string,
+  className?: string,
 }
 
-export function BasicCard({ children, title, collapsible, defaultCollapsed, id }: Props) {
+export function BasicCard({ className, children, title, collapsible, defaultCollapsed, id }: Props) {
   return (
-    <Card collapsible={collapsible || false} id={id} defaultCollapsed={defaultCollapsed || false}>
+    <Card className={className} collapsible={collapsible || false} id={id} defaultCollapsed={defaultCollapsed || false}>
       <BasicHeader>{ title }</BasicHeader>
       <Fragment>
         { children }

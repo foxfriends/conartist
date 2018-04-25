@@ -8,3 +8,16 @@
   font-size: 16px;
   font-weight: var(--font-weight--semibold);
 }
+
+.emptyState {
+  opacity: 0.5;
+}
+
+
+.placeholder, .placeholderLarge {
+  composes: placeholder from '../../common/styles.css';
+}
+
+.placeholder {
+  height: 50px;
+}

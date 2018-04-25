@@ -1,3 +1,7 @@
 .placeholder {
   composes: placeholder from '../../common/styles.css';
 }
+
+.emptyState {
+  opacity: 0.5;
+}

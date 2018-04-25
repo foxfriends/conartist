@@ -1,0 +1,8 @@
+.emptyState {
+  opacity: 0.5;
+}
+
+.placeholder {
+  composes: placeholder from '../../common/styles.css';
+  height: 50px;
+}

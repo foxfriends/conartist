@@ -14,7 +14,7 @@ export type Props<E: React.ElementType> = {
   className?: string,
   collapsible?: boolean,
   style?: { [string]: string | number },
-  children: [React.Node, React.Element<E>],
+  children: [React.Node, React.Element<E>] | React.Element<E>,
 }
 
 
@@ -35,25 +35,31 @@ export class Card<E: React.ElementType> extends React.Component<Props<E>, State>
   }
 
   render() {
-    const { children: [header, content], collapsible, topAction, bottomAction, id, className, style } = this.props
+    const { children, collapsible, topAction, bottomAction, id, className, style } = this.props
     const { collapsed } = this.state
     const isCollapsed = collapsed && collapsible
+    const [header, content] = children instanceof Array
+      ? [...children]
+      : [, children]
     return (
       <div className={`${S.card} ${className || ''}`} id={id || ''} style={style || {}}>
-        <div className={S.header}>
-          { header }
-          { collapsible
-              ? <IconButton
-                  title={collapsed ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}
-                  priority="secondary"
-                  className={S.rightAction}
-                  action={() => this.handleToggleCollapsed()}
-                  quiet
-                  />
-              : null
-          }
-          { topAction ? <IconButton {...topAction} priority="tertiary" className={S.topAction} /> : null }
-        </div>
+        { header
+            ? <div className={S.header}>
+                { header }
+                { collapsible
+                    ? <IconButton
+                        title={collapsed ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}
+                        priority="secondary"
+                        className={S.rightAction}
+                        action={() => this.handleToggleCollapsed()}
+                        quiet
+                        />
+                    : null
+                }
+                { topAction ? <IconButton {...topAction} priority="tertiary" className={S.topAction} /> : null }
+              </div>
+            : null
+        }
         <div className={S.content}>
           <Expand>
             { !isCollapsed ? content : null }

@@ -6,7 +6,7 @@ import { pluck, filter, tap } from 'rxjs/operators'
 import { ConventionsConnection } from '../../api/conventions-connection'
 import { UpcomingConventionCard } from '../conventions/upcoming-convention-card'
 import { CardView } from '../card-view'
-import { BasicCard } from '../card-view/basic-card'
+import { Card } from '../card-view/card'
 import { l } from '../../localization'
 import type { Convention } from '../../model/convention'
 import type { Connection } from '../../model/connection'
@@ -52,7 +52,11 @@ export class SearchConventions extends React.Component<Props, State> {
       <CardView>
         { conventions.length
           ? conventions.map(convention => <UpcomingConventionCard convention={convention} key={`convention_${convention.id}`}/>)
-          : <BasicCard title={l`Loading...`} />
+          : <Card className={S.emptyState}>
+              <div className={S.placeholder}>
+                {l`Loading...`}
+              </div>
+            </Card>
         }
       </CardView>
     )

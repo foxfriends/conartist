@@ -3594,7 +3594,7 @@ public final class ConventionsConnectionQuery: GraphQLQuery {
 
 public final class FullConventionQuery: GraphQLQuery {
   public static let operationString =
-    "query FullConvention($userId: Int, $conId: Int!) {\n  userConvention(userId: $userId, conId: $conId) {\n    __typename\n    ...FullConventionFragment\n  }\n}"
+    "query FullConvention($userId: Int, $conId: Int!) {\n  convention(userId: $userId, conId: $conId) {\n    __typename\n    ...FullConventionFragment\n  }\n}"
 
   public static var requestString: String { return operationString.appending(FullConventionFragment.fragmentString).appending(MetaConventionFragment.fragmentString).appending(ConventionBasicInfoFragment.fragmentString).appending(ConventionImageFragment.fragmentString).appending(ExtraInfoFragment.fragmentString).appending(UserInfoFragment.fragmentString).appending(VotesFragment.fragmentString).appending(ProductFragment.fragmentString).appending(ProductTypeFragment.fragmentString).appending(PriceFragment.fragmentString).appending(RecordFragment.fragmentString).appending(ExpenseFragment.fragmentString) }
 
@@ -3614,7 +3614,7 @@ public final class FullConventionQuery: GraphQLQuery {
     public static let possibleTypes = ["Query"]
 
     public static let selections: [GraphQLSelection] = [
-      GraphQLField("userConvention", arguments: ["userId": GraphQLVariable("userId"), "conId": GraphQLVariable("conId")], type: .nonNull(.object(UserConvention.selections))),
+      GraphQLField("convention", arguments: ["userId": GraphQLVariable("userId"), "conId": GraphQLVariable("conId")], type: .nonNull(.object(Convention.selections))),
     ]
 
     public var snapshot: Snapshot
@@ -3623,21 +3623,21 @@ public final class FullConventionQuery: GraphQLQuery {
       self.snapshot = snapshot
     }
 
-    public init(userConvention: UserConvention) {
-      self.init(snapshot: ["__typename": "Query", "userConvention": userConvention.snapshot])
+    public init(convention: Convention) {
+      self.init(snapshot: ["__typename": "Query", "convention": convention.snapshot])
     }
 
-    /// Retrieves the full information of one user's convention
-    public var userConvention: UserConvention {
+    /// Retrieves the full information of one convention
+    public var convention: Convention {
       get {
-        return UserConvention(snapshot: snapshot["userConvention"]! as! Snapshot)
+        return Convention(snapshot: snapshot["convention"]! as! Snapshot)
       }
       set {
-        snapshot.updateValue(newValue.snapshot, forKey: "userConvention")
+        snapshot.updateValue(newValue.snapshot, forKey: "convention")
       }
     }
 
-    public struct UserConvention: GraphQLSelectionSet {
+    public struct Convention: GraphQLSelectionSet {
       public static let possibleTypes = ["Convention"]
 
       public static let selections: [GraphQLSelection] = [

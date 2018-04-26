@@ -42,7 +42,6 @@ class Convention {
             let startDate = con.start.toDate(),
             let endDate = con.end.toDate()
         else { return nil }
-        print(con)
         id = con.id
         name = con.name
         start = startDate
@@ -301,7 +300,7 @@ extension Convention {
     private func full(_ force: Bool) -> Observable<FullConventionFragment> {
         return ConArtist.API.GraphQL
             .observe(query: FullConventionQuery(userId: nil, conId: id), cachePolicy: force ? .fetchIgnoringCacheData : .returnCacheDataElseFetch)
-            .map { $0.userConvention.fragments.fullConventionFragment }
+            .map { $0.convention.fragments.fullConventionFragment }
             .catchError { _ in Observable.empty() }
     }
 
@@ -312,69 +311,4 @@ extension Convention {
         }
         return øconvention.asObservable().filterMap(identity).discard()
     }
-
-//    func save() -> Observable<Bool> {
-//        let records: Observable<[Error?]> = øaddedRecords.value.isEmpty
-//            ? Observable.just([])
-//            : Observable.zip(
-//                øaddedRecords.value
-//                    .map { record in record.add(to: self) }
-//                    .map {
-//                        ConArtist.API.GraphQL.observe(mutation: AddRecordMutation(record: $0))
-//                            .map(const(nil as Error?))
-//                            .catchError { Observable.just($0) }
-//                    }
-//            )
-//
-//        let deletedRecords: Observable<[Error?]> = øremovedRecords.value.isEmpty
-//            ? Observable.just([])
-//            : Observable.zip(
-//                øremovedRecords.value
-//                    .map(RecordDel.init)
-//                    .map {
-//                        ConArtist.API.GraphQL.observe(mutation: DeleteRecordMutation(record: $0))
-//                            .map(const(nil as Error?))
-//                            .catchError { Observable.just($0) }
-//                    }
-//            )
-//
-//        let expenses: Observable<[Error?]> = øaddedExpenses.value.isEmpty
-//            ? Observable.just([])
-//            : Observable.zip(
-//                øaddedExpenses.value
-//                    .map { expense in expense.add(to: self) }
-//                    .map {
-//                        ConArtist.API.GraphQL.observe(mutation: AddExpenseMutation(expense: $0))
-//                            .map(const(nil as Error?))
-//                            .catchError { Observable.just($0) }
-//                    }
-//            )
-//
-//        return Observable.zip(records, expenses)
-//            .map { [weak self] errors in
-//                guard let `self` = self else { return }
-//                let (recordErrors, expenseErrors) = errors
-//                var allErrors: [Error] = []
-//                self.øaddedRecords.value = zip(self.øaddedRecords.value, recordErrors)
-//                    .filterMap { record, error in
-//                        if let error = error {
-//                            allErrors.append(error)
-//                            return record
-//                        }
-//                        return nil
-//                    }
-//                self.øaddedExpenses.value = zip(self.øaddedExpenses.value, expenseErrors).filterMap { expense, error in
-//                    if let error = error {
-//                        allErrors.append(error)
-//                        return expense
-//                    }
-//                    return nil
-//                }
-//                if !allErrors.isEmpty {
-//                    throw Convention.SaveErrors(errors: allErrors)
-//                }
-//            }
-//            .flatMap({ [weak self] in self?.fill(true) ?? Observable.empty() })
-//            .map(const(true))
-//    }
 }

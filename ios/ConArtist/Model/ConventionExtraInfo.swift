@@ -10,12 +10,28 @@ import Foundation
 
 enum ConventionExtraInfo {
     static var HourFormat: String { return "h:mma"¡ }
+    static var ShortHourFormat: String { return "h:mm"¡ }
     static var ShortDayFormat: String { return "EEE"¡ }
 
     case Hours([(Date, Date)])
     case Dates(Date, Date)
     case Website(display: String, url: String)
     case Address(display: String, url: String)
+
+    init?(graphQL conventionInfo: ExtraInfoFragment) {
+        switch conventionInfo.title {
+        case "Hours":
+            guard let hours: [Pair<Date>] = conventionInfo.info?.parseJSON() else { return nil }
+            self = .Hours(hours.map { $0.raw })
+        case "Address":
+            guard let info: String = conventionInfo.info?.parseJSON(), let url = conventionInfo.action else { return nil }
+            self = .Address(display: info, url: url)
+        case "Website":
+            guard let info = conventionInfo.actionText, let url = conventionInfo.action else { return nil }
+            self = .Website(display: info, url: url)
+        default: return nil
+        }
+    }
 
     var title: String {
         switch self {
@@ -56,21 +72,6 @@ enum ConventionExtraInfo {
         case .Website: return "PrimaryAction"
         case .Address: return "SecondaryAction"
         default: return "NoAction"
-        }
-    }
-
-    init?(graphQL conventionInfo: ExtraInfoFragment) {
-        switch conventionInfo.title {
-        case "Hours":
-            guard let hours: [Pair<Date>] = conventionInfo.info?.parseJSON() else { return nil }
-            self = .Hours(hours.map { $0.raw })
-        case "Address":
-            guard let info: String = conventionInfo.info?.parseJSON(), let url = conventionInfo.action else { return nil }
-            self = .Address(display: info, url: url)
-        case "Website":
-            guard let info = conventionInfo.actionText, let url = conventionInfo.action else { return nil }
-            self = .Website(display: info, url: url)
-        default: return nil
         }
     }
 }

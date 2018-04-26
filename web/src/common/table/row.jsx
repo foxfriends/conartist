@@ -7,16 +7,46 @@ export type Props = {
   title?: React.Node,
   value?: React.Node,
   detail?: React.Node,
-  tall?: boolean,
 }
 
-export function Row({ tall, title, value, detail }: Props) {
-  return (
-    <Fragment>
-      { title ? <div className={`${S.title}`}>{ title }</div> : <span/>}
-      { value ? <div className={`${tall ? S.tall : ''} ${S.value} ${detail ? '' : S.valueDetail}`}>{ value }</div> : <span/> }
-      { detail ? <div className={`${S.detail}`}>{ detail }</div> : null }
-      { tall ? <span/> : null}
-    </Fragment>
-  )
+export class Row extends React.PureComponent<Props, State> {
+  // $FlowIgnore
+  valueRef: React.Ref<HTMLDivElement>
+
+  constructor(props: Props) {
+    super(props)
+    this.state = {
+      height: 0,
+    }
+    // $FlowIgnore
+    this.valueRef = React.createRef()
+  }
+
+  componentDidMount() {
+    if (this.valueRef.current) {
+      const height = this.valueRef.current.clientHeight
+      this.setState({ height })
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.valueRef.current) {
+      const height = this.valueRef.current.clientHeight
+      this.setState({ height })
+    }
+  }
+
+  render() {
+    const { title, value, detail } = this.props
+    const { height } = this.state
+    const rows = Math.ceil(height / 50)
+    return (
+      <Fragment>
+        { title ? <div className={`${S.title}`}>{ title }</div> : <span/>}
+        { value ? <div style={{ gridRowEnd: `span ${rows}` }} className={`${S.value} ${detail ? '' : S.valueDetail}`}><div ref={this.valueRef}>{ value }</div></div> : <span/> }
+        { detail ? <div className={`${S.detail}`}>{ detail }</div> : null }
+        { rows > 1 ? <div style={{ gridRowEnd: `span ${rows - 1}`}} /> : null }
+      </Fragment>
+    )
+  }
 }

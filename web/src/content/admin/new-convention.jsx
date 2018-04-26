@@ -1,5 +1,7 @@
 /* @flow */
 import * as React from 'react'
+import moment from 'moment'
+
 import { forkJoin } from 'rxjs/observable/forkJoin'
 import { of } from 'rxjs/observable/of'
 import { switchMap, tap, map, filter } from 'rxjs/operators'
@@ -134,7 +136,7 @@ export class NewConvention extends React.Component<Props, State> {
     }
 
     new CreateConvention()
-      .send({ title: name, startDate: startDate.toJSON(), endDate: endDate.toJSON() })
+      .send({ title: name, startDate: moment(startDate).format(), endDate: moment(endDate).format() })
       .pipe(
         tap(response => response.state === 'failed' ? alert(response.error) : void 0),
         filter(response => response.state === 'retrieved'),

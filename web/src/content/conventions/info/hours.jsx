@@ -21,13 +21,29 @@ function day(date: Date): string {
   return moment(date).format(l`ddd`)
 }
 
+function isToday(date: Date): boolean {
+  const newDate = new Date(date)
+  newDate.setHours(0)
+  newDate.setMinutes(0)
+  newDate.setSeconds(0)
+  newDate.setMilliseconds(0)
+
+  const today = new Date()
+  today.setHours(0)
+  today.setMinutes(0)
+  today.setSeconds(0)
+  today.setMilliseconds(0)
+
+  return newDate.getTime() === today.getTime()
+}
+
 export function HoursInfo({ infos, todayOnly }: Props) {
   try {
     const hoursInfo = infos.find(({ title }) => title === 'Hours')
     if (hoursInfo && hoursInfo.info) {
       const hours = JSON.parse(hoursInfo.info)
       if (todayOnly) {
-        const todayHours = hours.find(([start, end]) => start <= new Date() && end >= new Date())
+        const todayHours = hours.find(([start, end]) => isToday(start))
         if (todayHours) {
           const [start, end] = todayHours
           return <Row title={<Font smallCaps>{l`Today's hours`}</Font>} value={l`${format(start)} - ${format(end)}`} />
@@ -36,7 +52,7 @@ export function HoursInfo({ infos, todayOnly }: Props) {
         const hoursText = newlinesToReact(
           hours.map(([start, end]) => l`${day(start)} ${format(start)} - ${format(end)}`).join('\n')
         )
-        return <Row tall={hours.length > 1} title={<Font smallCaps>{l`Hours`}</Font>} value={hoursText} />
+        return <Row title={<Font smallCaps>{l`Hours`}</Font>} value={hoursText} />
       }
     }
   } catch(_) {}

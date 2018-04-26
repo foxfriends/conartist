@@ -17,7 +17,7 @@ export function AddressInfo({ infos }: Props) {
       const { info, action } = addressInfo
       const address = newlinesToReact(JSON.parse(info))
       const coordsURL = action
-      return <Row tall title={<Font smallCaps>{l`Address`}</Font>} value={address} />
+      return <Row title={<Font smallCaps>{l`Address`}</Font>} value={address} />
     }
   } catch(_) {}
   return null

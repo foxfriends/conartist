@@ -53,14 +53,17 @@ export class Expand<E: React.ElementType> extends React.Component<Props<E>, Stat
     if(height !== this.state.height) {
       if (this.animationTimer) {
         clearTimeout(this.animationTimer)
+        this.animationTimer = null
       }
-      this.animationTimer = setTimeout(
-        () => {
-          this.animationTimer = null
-          this.setState({ previousChildren: null })
-        },
-        200,
-      )
+      if (height === 0 || this.state.height === 0) {
+        this.animationTimer = setTimeout(
+          () => {
+            this.animationTimer = null
+            this.setState({ previousChildren: null })
+          },
+          200,
+        )
+      }
       this.setState({ height })
     }
   }

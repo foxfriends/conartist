@@ -1,6 +1,5 @@
 .title, .value, .detail {
-  align-self: center;
-  padding: 0 16px;
+  padding: 16px;
 }
 
 .value, .detail {
@@ -11,8 +10,4 @@
 
 .valueDetail {
   grid-column-end: span 2;
-}
-
-.tall {
-  grid-row-end: span 2;
 }

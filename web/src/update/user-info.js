@@ -8,7 +8,7 @@ function adjustVotes(id: number, vote: number): (ConventionUserInfo) => Conventi
     ? {
         ...info,
         upvotes: info.upvotes - Math.max(info.vote, 0) + Math.max(vote, 0),
-        downvotes: info.downvotes - Math.min(info.vote, 0) + Math.min(vote, 0),
+        downvotes: info.downvotes - Math.max(-info.vote, 0) + Math.max(-vote, 0),
         vote,
       }
     : info
@@ -33,7 +33,7 @@ export async function voteForInfo(id: number, vote: number) {
     page,
   })
   try {
-    const response = await new VoteForInfo().send({ id, vote })
+    const response = await new VoteForInfo().send({ id, vote }).toPromise()
     if (response.state === 'failed') {
       throw new Error();
     }

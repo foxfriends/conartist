@@ -37,7 +37,7 @@ export class ConventionUserInfoCard extends React.Component<Props> {
     const dataSource = [...convention.userInfo]
       .map(info => ({ ...info, score: info.upvotes - info.downvotes }))
       .sort(by(['score', Desc]))
-      .slice(limit || convention.userInfo.length)
+      .slice(0, limit || convention.userInfo.length)
 
     return (
       <Card>

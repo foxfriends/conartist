@@ -24,10 +24,11 @@ const { Fragment } = React
 export type Props = {
   convention: Convention,
   includeHours?: boolean,
+  starrable?: boolean,
   showDetails?: boolean
 }
 
-export function UpcomingConventionCard({ convention, includeHours, showDetails }: Props) {
+export function ConventionCard({ convention, includeHours, showDetails, starrable }: Props) {
   const selected = model.getValue().conventions.some(({ id }) => id === convention.id)
 
   const toggleStarred = selected
@@ -37,11 +38,14 @@ export function UpcomingConventionCard({ convention, includeHours, showDetails }
   return (
     <Card>
       <BasicHeader>
-        <IconButton
-          title={selected ? 'star' : 'star_outline'}
-          action={toggleStarred}
-          priority='secondary'
-          className={`${S.star} ${selected ? S.starSelected : ''}`}/>
+        { starrable
+          ? <IconButton
+              title={selected ? 'star' : 'star_outline'}
+              action={toggleStarred}
+              priority='secondary'
+              className={`${S.star} ${selected ? S.starSelected : ''}`}/>
+          : null
+        }
         {convention.name}
         { showDetails ? <Link className={S.detailsButton} priority='tertiary' onClick={() => navigate.conventionDetails(convention)}><Font smallCaps>{l`Details`}</Font><Icon name='keyboard_arrow_right' /></Link> : null }
       </BasicHeader>

@@ -2,7 +2,7 @@
 import * as React from 'react'
 
 import { TodayConventionCard } from './today-convention-card'
-import { UpcomingConventionCard } from './upcoming-convention-card'
+import { ConventionCard } from './convention-card'
 import { CompletedConventionCard } from './completed-convention-card'
 import { CardView } from '../card-view'
 import { Card } from '../card-view/card'
@@ -47,7 +47,7 @@ export function Conventions({ conventions }: Props) {
         : null
       }
       <p className={S.header}>{l`Upcoming`}</p>
-      { upcoming.map(convention => <UpcomingConventionCard showDetails convention={convention} key={`convention_${convention.id}`}/>) }
+      { upcoming.map(convention => <ConventionCard showDetails starrable convention={convention} key={`convention_${convention.id}`}/>) }
       { upcoming.length === 0
         ? <Card className={S.emptyState}>
             <div className={S.placeholderLarge}>

@@ -4,7 +4,7 @@ import * as React from 'react'
 import { pluck, filter, tap } from 'rxjs/operators'
 
 import { ConventionsConnection } from '../../api/conventions-connection'
-import { UpcomingConventionCard } from '../conventions/upcoming-convention-card'
+import { ConventionCard } from '../conventions/convention-card'
 import { CardView } from '../card-view'
 import { Card } from '../card-view/card'
 import { l } from '../../localization'
@@ -51,7 +51,7 @@ export class SearchConventions extends React.Component<Props, State> {
     return (
       <CardView>
         { conventions.length
-          ? conventions.map(convention => <UpcomingConventionCard showDetails convention={convention} key={`convention_${convention.id}`}/>)
+          ? conventions.map(convention => <ConventionCard showDetails starrable convention={convention} key={`convention_${convention.id}`}/>)
           : <Card className={S.emptyState}>
               <div className={S.placeholder}>
                 {l`Loading...`}

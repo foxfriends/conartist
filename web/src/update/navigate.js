@@ -69,8 +69,11 @@ export function conventionDetails(convention: Convention) {
 }
 
 export function conventionUserInfo(convention: Convention) {
-  // TODO:
-  conventionDetails(convention)
+  const { page: currentPage } = model.getValue()
+  if (currentPage.name !== 'convention-user-info' || currentPage.convention.id !== convention.id) {
+    window.history.pushState({}, '', `/convention/${convention.id}/info`)
+  }
+  model.next({ ...model.getValue(), page: page.conventionUserInfo(convention) })
 }
 
 export function settings() {

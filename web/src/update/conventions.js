@@ -2,6 +2,7 @@
 import { model } from '../model'
 import { StarConvention } from '../api/star-convention'
 import { UnstarConvention } from '../api/unstar-convention'
+import type { Convention } from '../model/convention'
 import type { MetaConvention } from '../model/meta-convention'
 
 export async function starConvention(convention: MetaConvention) {
@@ -54,4 +55,25 @@ export async function unstarConvention(convention: MetaConvention) {
       conventions: originalConventions,
     })
   }
+}
+
+export function setConvention(convention: Convention) {
+  const { conventions: originalConventions, page: originalPage } = model.getValue()
+  const page = { ...originalPage }
+  switch (page.name) {
+    case 'convention-details':
+    case 'convention-user-info':
+      if (page.convention.id === convention.id) {
+        page.convention = convention
+      }
+      break
+  }
+  const conventions = [...originalConventions].map(oldCon => oldCon.id === convention.id ? convention : oldCon)
+  model.next({
+    ...model.getValue(),
+    // $FlowIgnore: flow is confused about enums
+    conventions,
+    // $FlowIgnore: flow is confused about enums again
+    page,
+  })
 }

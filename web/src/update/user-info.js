@@ -5,6 +5,7 @@ import { VoteForInfo } from '../api/vote-for-info'
 
 function adjustVotes(id: number, vote: number): (ConventionUserInfo) => ConventionUserInfo {
   return info => id === info.id
+    // $FlowIgnore: flow doesn't like exact types
     ? {
         ...info,
         upvotes: info.upvotes - Math.max(info.vote, 0) + Math.max(vote, 0),
@@ -29,7 +30,9 @@ export async function voteForInfo(id: number, vote: number) {
   }))
   model.next({
     ...model.getValue(),
+    // $FlowIgnore: flow is confused about enums
     conventions,
+    // $FlowIgnore: flow is confused about enums again
     page,
   })
   try {

@@ -37,7 +37,7 @@ export class ConventionUserInfoCard extends React.Component<Props> {
     const dataSource = [...convention.userInfo]
       .map(info => ({ ...info, score: info.upvotes - info.downvotes }))
       .sort(by(['score', Desc]))
-      .slice(limit || infos.length)
+      .slice(limit || convention.userInfo.length)
 
     return (
       <Card>
@@ -46,12 +46,10 @@ export class ConventionUserInfoCard extends React.Component<Props> {
           { hasSeeAllButton ? <Link className={S.detailsButton} priority='tertiary' onClick={() => navigate.conventionUserInfo(convention)}><Font smallCaps>{l`See all`}</Font><Icon name='keyboard_arrow_right' /></Link> : null }
         </BasicHeader>
         <List dataSource={dataSource}>
-          {
-            <div className={S.placeholder}>
-              {lx`<No convention user info>`(_ => _)}
-            </div>
-          }
-          {({ id, info, vote, upvotes, downvotes }) =>
+          <div className={S.placeholder}>
+            {lx`<No convention user info>`(_ => _)}
+          </div>
+          {({ id, info, vote, upvotes, downvotes }, _) =>
             <Item className={S.item} key={`info_${id}`}>
               <span className={S.truncation}>{info}</span>
               <Vote className={S.vote} vote={vote} upvotes={upvotes} downvotes={downvotes} onChange={vote => this.handleVoteChanged(id, vote)} />

@@ -1707,8 +1707,8 @@
               "deprecationReason": null
             },
             {
-              "name": "userConvention",
-              "description": "Retrieves the full information of one user's convention",
+              "name": "convention",
+              "description": "Retrieves the full information of one convention",
               "args": [
                 {
                   "name": "userId",

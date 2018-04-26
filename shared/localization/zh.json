@@ -104,6 +104,7 @@
   "EEEE MMMM d, yyyy": "YYYY年MMMDD日EEE",
   "EEEE MMMM d, yyyy. h:mma": "YYYY年MMMDD日EEE, H:mm",
   "h:mma": "H:mm",
+  "h:mm": "H:mm",
   "MMM. d, yyyy": "YYYY年MMMDD日",
   "{{}} {is today. Good luck!}": "TODO: translate",
   "{} - {}": "{} – {}",

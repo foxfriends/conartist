@@ -20,7 +20,7 @@ private let RFC3339: DateFormatter = {
 extension String {
     /// Parses a JSON as any type
     func parseJSON<T>() -> T? where T: Decodable {
-        if T.self == String.self && hasPrefix("\"") {
+        if T.self == String.self && hasPrefix("\"") && hasSuffix("\"") {
             return dropFirst().dropLast().unescape() as? T
         } else if T.self == Bool.self {
             switch self {
@@ -28,12 +28,13 @@ extension String {
             case "false": return false as? T
             default: return nil
             }
-        }else {
-            return data(using: .utf8).flatMap { data in
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .formatted(RFC3339)
-                return try? decoder.decode(T.self, from: data)
-            }
+        } else {
+            return data(using: .utf8)
+                .flatMap { data in
+                    let decoder = JSONDecoder()
+                    decoder.dateDecodingStrategy = .formatted(RFC3339)
+                    return try? decoder.decode(T.self, from: data)
+                }
         }
     }
 }

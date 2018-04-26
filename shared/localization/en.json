@@ -106,6 +106,7 @@
   "EEEE MMMM d, yyyy. h:mma": "EEEE MMMM DD, YYYY. h:mma",
   "MMM. d, yyyy": "MMM. DD, YYYY",
   "h:mma": "h:mma",
+  "h:mm": "h:mm",
   "{{}} {is today. Good luck!}": "{{}} {is today. Good luck!}",
   "{} - {}": "{} – {}",
   "{} {} - {}": "{} {} – {}",

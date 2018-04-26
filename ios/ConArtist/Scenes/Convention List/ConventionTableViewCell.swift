@@ -35,6 +35,14 @@ class ConventionTableViewCell: UITableViewCell {
         moneyLabel?.text = recordTotal != Money.zero || expenseTotal != Money.zero ? (recordTotal - expenseTotal).toString() : nil
         cardView?.layer.cornerRadius = 10
         cardView?.addShadow()
+        if case .Hours(let hours)? = item.extraInfo.first(where: { info in if case .Hours = info { return true } else { return false } }),
+            let (open, close) = hours.first(where: { start, end in start.roundToDay() == Date().roundToDay()}) {
+            timeLabel?.text = "{} - {}"¡
+                % open.toString(ConventionExtraInfo.ShortHourFormat)
+                % close.toString(ConventionExtraInfo.ShortHourFormat)
+        } else {
+            timeLabel?.text = ""
+        }
     }
 
     func emptyState(for section: ConventionListViewController.Section) {

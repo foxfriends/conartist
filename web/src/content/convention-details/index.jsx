@@ -15,7 +15,7 @@ export type Props = {
 export function ConventionDetails({ convention }: Props) {
   return (
     <CardView>
-      <ConventionCard includeHours convention={convention} />
+      <ConventionCard includeHours starrable={convention.start > new Date()} convention={convention} />
       <ConventionUserInfoCard hasSeeAllButton convention={convention} limit={5} />
     </CardView>
   )

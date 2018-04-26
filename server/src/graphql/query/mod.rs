@@ -34,7 +34,7 @@ graphql_object!(Query: Database |&self| {
         dbtry! {
             executor
                 .context()
-                .get_convention_for_user(user_id, con_id)
+                .get_convention(user_id, con_id)
         }
     }
 

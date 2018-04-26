@@ -155,16 +155,14 @@ impl Database {
             .map_err(|reason| format!("Conventions for user with id {} could not be retrieved. Reason: {}", user_id, reason))
     }
 
-    pub fn get_convention_for_user(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<Convention, String> {
+    pub fn get_convention(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<Convention, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
-        user_conventions::table
-            .inner_join(conventions::table)
-            .select((conventions::con_id, user_conventions::user_id.nullable(), conventions::title, conventions::start_date, conventions::end_date, conventions::predecessor))
-            .filter(user_conventions::user_id.eq(user_id))
-            .filter(user_conventions::con_id.eq(con_id))
-            .first::<Convention>(&*conn)
-            .map_err(|reason| format!("Convention with id {} for user with id {} could not be retrieved. Reason: {}", con_id, user_id, reason))
+        conventions::table
+            .filter(conventions::con_id.eq(con_id))
+            .first::<DetachedConvention>(&*conn)
+            .map(|con| con.attached_to(user_id))
+            .map_err(|reason| format!("Convention with id {} could not be retrieved. Reason: {}", con_id, reason))
     }
 
     pub fn get_products_for_user_con(&self, user_id: Option<i32>, _con_id: i32) -> Result<Vec<ProductWithQuantity>, String> {

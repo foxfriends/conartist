@@ -11,5 +11,8 @@ export type Props = {
 }
 
 export function CurrentEarnings({ amount }: Props) {
-  return <Row title={<Font smallCaps>{l`Current earnings`}</Font>} value={(amount || Money.zero).toString()} />
+  const money = amount || Money.zero
+  return money.equals(Money.zero)
+    ? null
+    : <Row title={<Font smallCaps>{l`Current earnings`}</Font>} value={money.toString()} />
 }

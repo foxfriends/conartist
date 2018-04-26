@@ -30,7 +30,6 @@ export function CompletedConventionCard({ convention, showDetails }: Props) {
         <span>
           {convention.name}
         </span>
-        <Link className={S.detailsButton} priority='tertiary' onClick={() => navigate.conventionDetails(convention)}><Font smallCaps>{l`Details`}</Font><Icon name='keyboard_arrow_right' /></Link>
         { showDetails ? <Link className={S.detailsButton} priority='tertiary' onClick={() => navigate.conventionDetails(convention)}><Font smallCaps>{l`Details`}</Font><Icon name='keyboard_arrow_right' /></Link> : null }
       </BasicHeader>
       <Table>

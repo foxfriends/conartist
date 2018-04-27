@@ -14,6 +14,7 @@ import { BasicCard } from '../card-view/basic-card'
 import { Button } from '../../common/button'
 import { Input } from '../../common/input'
 import { Textarea } from '../../common/textarea'
+import * as toast from '../../toast'
 import type { Validation as InputValidation } from '../../common/input'
 import S from './index.css'
 const { Fragment } = React
@@ -148,7 +149,7 @@ export class NewConvention extends React.Component<Props, State> {
           ])
         ),
         map(batchResponses),
-        tap(console.log),
+        tap(() => toast.send(<span>Convention created</span>)),
       )
       .subscribe()
   }

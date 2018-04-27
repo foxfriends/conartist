@@ -11,6 +11,7 @@ import { INDIRECT } from './navigation/item'
 import { Content } from './content'
 import { Dialog } from './dialog'
 import { model } from './model'
+import { toast, Toast } from './toast'
 import * as page from './model/page'
 import type { Model } from './model'
 import type { Props as ToolbarProps } from './toolbar'
@@ -26,6 +27,7 @@ type State = {
   navigation: ?NavigationProps,
   content: ?ContentProps,
   dialog: ?DialogProps,
+  toast: React.Node,
 }
 
 export class ConArtist extends React.Component<Props, State> {
@@ -36,13 +38,19 @@ export class ConArtist extends React.Component<Props, State> {
       navigation: null,
       content: null,
       dialog: null,
+      toast: null,
     }
   }
 
   componentDidMount() {
     // don't care to dispose this observable because it is the app and should never be disposed!
+    toast.subscribe(toast => this.setState({ toast }))
     combineLatest(model, toolbarStatus, this.computeState.bind(this))
       .subscribe(newState => this.setState(newState))
+  }
+
+  dismissToast() {
+    this.setState({ toast: null })
   }
 
   computeState(model: $ReadOnly<Model>, toolbar: ToolbarProps): State {
@@ -144,12 +152,15 @@ export class ConArtist extends React.Component<Props, State> {
             step: model.dialog.step,
           }
           break
+
         case 'signin':
           state.dialog = { name: 'signin' }
           break
+
         case 'change-password':
           state.dialog = { name: 'change-password' }
           break
+
         default:
           state.dialog = null
           if (model.dialog) {
@@ -164,7 +175,7 @@ export class ConArtist extends React.Component<Props, State> {
   }
 
   render() {
-    let { toolbar, navigation, content, dialog } = this.state
+    let { toolbar, navigation, content, dialog, toast } = this.state
     return (
       <>
         { toolbar ? <Toolbar {...toolbar} /> : null }
@@ -175,6 +186,9 @@ export class ConArtist extends React.Component<Props, State> {
           {/* $FlowIgnore: Flow doesn't understand enums properly */}
           { dialog ? <Dialog {...dialog} /> : null }
         </div>
+        <Toast onClick={() => this.dismissToast()}>
+          { toast || null }
+        </Toast>
       </>
     )
   }

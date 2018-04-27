@@ -4,11 +4,13 @@ import * as React from 'react'
 import { l } from '../../localization'
 import { Input } from '../../common/input'
 import { Button } from '../../common/button'
+import { Icon } from '../../common/icon'
 import { Basic } from '../basic'
 import { ChangePasswordRequest } from '../../api/change-password'
 import type { Validation as InputValidation } from '../../common/input'
 import { closeDialog as closeDialogButton } from '../action'
 import { closeDialog } from '../../update/dialog'
+import * as toast from '../../toast'
 import { VALID, EMPTY, INVALID } from '../../model/validation'
 import S from './index.css'
 
@@ -89,6 +91,7 @@ export class ChangePassword extends React.Component<Props, State> {
     if (response.state === 'failed') {
       this.setState({ currentPasswordValidation: { state: INVALID, error: l`Your password is incorrect` } })
     } else {
+      toast.show(<span>{l`Password changed successfully`} <Icon name='check'/></span>)
       closeDialog()
     }
   }

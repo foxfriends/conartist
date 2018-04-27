@@ -145,9 +145,10 @@ export class ConArtist extends React.Component<Props, State> {
           }
           break
         case 'signin':
-          state.dialog = {
-            name: 'signin'
-          }
+          state.dialog = { name: 'signin' }
+          break
+        case 'change-password':
+          state.dialog = { name: 'change-password' }
           break
         default:
           state.dialog = null

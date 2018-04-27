@@ -24,7 +24,7 @@ export function AccountSettings({ email, name }: Props) {
       <Table>
         <Row title={l`Email`} value={email} onEdit={() => {}}/>
         <Row title={l`Name`} value={name} onEdit={() => {}} />
-        <Row title={l`Password`} onEdit={() => {}} />
+        <Row title={l`Password`} onEdit={update.changePassword} />
       </Table>
     </Card>
   )

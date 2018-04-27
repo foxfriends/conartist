@@ -1,6 +1,5 @@
 /* @flow */
 import type { Observable } from 'rxjs/Observable'
-import { of } from 'rxjs/observable/of'
 import { map } from 'rxjs/operators'
 
 import { GraphQLMutation } from './index'

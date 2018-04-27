@@ -1,6 +1,5 @@
 /* @flow */
 import type { Observable } from 'rxjs/Observable'
-import { of } from 'rxjs/observable/of'
 import { map } from 'rxjs/operators'
 
 import { GraphQLMutation } from './index'
@@ -13,6 +12,7 @@ import type {
 // $FlowIgnore: trouble importing graphql files
 import addConventionInfo from './graphql/mutation/add-convention-info.graphql'
 
+// Admin use only, for adding convention extra info
 export class AddConventionInfo implements APIRequest<AddConventionInfoMutationVariables, void> {
   addConventionInfo: GraphQLMutation<AddConventionInfoMutationVariables, AddConventionInfoMutation>
 

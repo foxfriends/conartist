@@ -1,7 +1,43 @@
 /* @flow */
 import { model } from '../model'
+import type { Convention } from '../model/convention'
 import type { ConventionUserInfo } from '../model/convention-user-info'
 import { VoteForInfo } from '../api/vote-for-info'
+import { ContributeConventionInfo } from '../api/contribute-convention-info'
+
+function addInfo(convention: Convention, info: ConventionUserInfo): Convention {
+  return {
+    ...convention,
+    userInfo: [...convention.userInfo, info],
+  }
+}
+
+export async function addUserInfo(convention: Convention, info: string) {
+  try {
+    const response = await new ContributeConventionInfo().send({ conId: convention.id, info }).toPromise()
+    if (response.state !== 'retrieved') { throw new Error() }
+    const { value: newInfo } = response
+    const { page: { ...page }, conventions: originalConventions } = model.getValue()
+    const conventions = [...originalConventions]
+      .map(con => con.id === convention.id
+        ? addInfo(con, newInfo)
+        : con
+      )
+    switch (page.name) {
+      case 'convention-user-info':
+      case 'convention-details':
+        if (page.convention.id === convention.id) {
+          page.convention = addInfo(page.convention, newInfo)
+        }
+        break
+    }
+    model.next({
+      ...model.getValue(),
+      conventions,
+      page,
+    })
+  } catch(_) {}
+}
 
 function adjustVotes(id: number, vote: number): (ConventionUserInfo) => ConventionUserInfo {
   return info => id === info.id

@@ -1,6 +1,5 @@
 /* @flow */
 import type { Observable } from 'rxjs/Observable'
-import { of } from 'rxjs/observable/of'
 import { map } from 'rxjs/operators'
 
 import { GraphQLQuery } from './index'
@@ -41,7 +40,7 @@ export class ConventionsConnection implements APIRequest<Params, Connection<Meta
                   totalNodes: response.value.conventionsConnection.totalNodes,
                 }
               }
-            : of(response)
+            : response
         )
       )
   }

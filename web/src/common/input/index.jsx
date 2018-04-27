@@ -37,7 +37,6 @@ export class Input extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props)
-    // $FlowIgnore: Flow definitions not up to date
     this.inputElement = React.createRef()
     this.state = {
       // TODO: if necessary, add a thing that ensures only the last
@@ -48,7 +47,8 @@ export class Input extends React.Component<Props, State> {
   }
 
   focus() {
-    this.inputElement.current.focus()
+    // $FlowIgnore: Flow definitions not up to date
+    this.inputElement.current && this.inputElement.current.focus()
   }
 
   handleKeyDown(event: SyntheticKeyboardEvent<HTMLInputElement>) {

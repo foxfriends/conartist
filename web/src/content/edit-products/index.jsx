@@ -77,7 +77,7 @@ function disableSave() {
 }
 
 export class EditProducts extends ReactX.Component<Props, State> {
-  static getDerivedStateFromProps({ products, productTypes }: Props, state: State) {
+  static getDerivedStateFromProps({ products, productTypes }: Props, state: State): ?$Shape<State> {
     if (!state || (state.products.length === 0 && state.productTypes.length === 0)) {
       return {
         products: products.map(editableProduct),

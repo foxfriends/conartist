@@ -37,7 +37,6 @@ export class EmailForm extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props)
-    // $FlowIgnore: Flow definitions not up to date
     this.confirmInput = React.createRef()
     this.email = new BehaviorSubject('')
     this.confirmEmail = new BehaviorSubject('')
@@ -113,7 +112,8 @@ export class EmailForm extends React.Component<Props, State> {
             <Icon className={S.info} name="info_outline" />
           </Tooltip>
         </div>
-        <Input className={S.input} placeholder={l`Email`} onChange={email => this.handleEmailChange(email)} onSubmit={() => this.confirmInput.current.focus()} key="email" autoFocus validation={emailValidation}/>
+        {/* $FlowIgnore: Flow definitions not up to date */}
+        <Input className={S.input} placeholder={l`Email`} onChange={email => this.handleEmailChange(email)} onSubmit={() => this.confirmInput.current && this.confirmInput.current.focus()} key="email" autoFocus validation={emailValidation}/>
         <Input className={S.input} placeholder={l`And again`} onChange={email => this.handleConfirmEmailChange(email)} ref={this.confirmInput} onSubmit={onSubmit} validation={mismatchValidation}/>
         <span className={S.hint}>{ l`We won't send you anything.` }<br />{ l`Promise.` }</span>
       </Form>

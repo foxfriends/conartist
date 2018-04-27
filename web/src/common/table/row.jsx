@@ -9,6 +9,10 @@ export type Props = {
   detail?: React.Node,
 }
 
+type State = {
+  height: number,
+}
+
 export class Row extends React.PureComponent<Props, State> {
   // $FlowIgnore
   valueRef: React.Ref<HTMLDivElement>
@@ -18,12 +22,12 @@ export class Row extends React.PureComponent<Props, State> {
     this.state = {
       height: 0,
     }
-    // $FlowIgnore
     this.valueRef = React.createRef()
   }
 
   componentDidMount() {
     if (this.valueRef.current) {
+      // $FlowIgnore
       const height = this.valueRef.current.clientHeight
       this.setState({ height })
     }
@@ -31,6 +35,7 @@ export class Row extends React.PureComponent<Props, State> {
 
   componentDidUpdate() {
     if (this.valueRef.current) {
+      // $FlowIgnore
       const height = this.valueRef.current.clientHeight
       this.setState({ height })
     }

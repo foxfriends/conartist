@@ -22,6 +22,37 @@
   composes: placeholder from '../../common/styles.css';
 }
 
-.detailsButton {
+.shareInfoCard {
+  margin-bottom: 0;
+}
+
+.disclaimerCard {
+  margin-top: 0;
+  color: var(--color--text-placeholder);
+  background-color: var(--color--background);
+}
+
+.disclaimer {
+  opacity: 0.5;
+  padding: 16px;
+}
+
+.detailsButton, .sendButton {
   margin-left: auto;
+}
+
+.sendButton {
+  font-size: 20px;
+}
+
+.form {
+  box-sizing: border-box;
+  position: relative;
+  padding: 6px;
+  height: 150px;
+}
+
+.full {
+  width: 100%;
+  height: 100%;
 }

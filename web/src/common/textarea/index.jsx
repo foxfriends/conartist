@@ -1,8 +1,11 @@
 /* @flow */
 import * as React from 'react'
+import S from './index.css'
 
 export type Props = {
+  className?: string,
   defaultValue?: string,
+  placeholder?: string,
   onChange: (string) => void,
 }
 
@@ -25,9 +28,10 @@ export class Textarea extends React.Component<Props, State> {
   }
 
   render() {
-    const { defaultValue } = this.props
+    const { defaultValue, className, placeholder } = this.props
     return (
-      <textarea defaultValue={defaultValue} onChange={event => this.handleChange(event)} />
+      // $FlowIgnore
+      <textarea className={`${S.textarea} ${className || ''}`} placeholder={placeholder} defaultValue={defaultValue} onChange={event => this.handleChange(event)}/>
     )
   }
 }

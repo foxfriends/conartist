@@ -11,6 +11,7 @@ export type Props<T> = {
   dataSource: Iterable<T>,
 }
 
+// $FlowIgnore
 export function AutoList<T>({ className, style, dataSource, children }: Props<T>) {
   const [ emptyState, transformer, footer ] = children instanceof Array
     ? [...children]

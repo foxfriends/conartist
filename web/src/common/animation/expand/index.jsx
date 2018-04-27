@@ -33,7 +33,6 @@ export class Expand<E: React.ElementType> extends React.Component<Props<E>, Stat
       previousChildren: null,
       children: props.children ? React.cloneElement(props.children) : null,
     }
-    // $FlowIgnore
     this.measurementDiv = React.createRef()
   }
 
@@ -44,11 +43,16 @@ export class Expand<E: React.ElementType> extends React.Component<Props<E>, Stat
   }
 
   componentDidMount() {
-    const height = this.measurementDiv.current.clientHeight
-    this.setState({ height })
+    if (this.measurementDiv.current) {
+      // $FlowIgnore
+      const height = this.measurementDiv.current.clientHeight
+      this.setState({ height })
+    }
   }
 
   componentDidUpdate() {
+    if (!this.measurementDiv.current) { return; }
+    // $FlowIgnore
     const height = this.measurementDiv.current.clientHeight
     if(height !== this.state.height) {
       if (this.animationTimer) {

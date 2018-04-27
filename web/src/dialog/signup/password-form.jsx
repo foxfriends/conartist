@@ -26,7 +26,6 @@ export class PasswordForm extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props)
-    // $FlowIgnore: Flow definitions not up to date
     this.confirmInput = React.createRef()
     this.state = {
       password: '',
@@ -74,7 +73,8 @@ export class PasswordForm extends React.Component<Props, State> {
         <div className={S.question}>
           { l`Pick a password. I'm not looking.` }
         </div>
-        <Input className={S.input} type="password" placeholder={l`Password`} onChange={password => this.handlePasswordChange(password)} onSubmit={() => this.confirmInput.current.focus()} validation={passwordValidation} key="password" autoFocus />
+        {/* $FlowIgnore: Flow definitions not up to date */}
+        <Input className={S.input} type="password" placeholder={l`Password`} onChange={password => this.handlePasswordChange(password)} onSubmit={() => this.confirmInput.current && this.confirmInput.current.focus()} validation={passwordValidation} key="password" autoFocus />
         <Input className={S.input} type="password" placeholder={l`And again`} onChange={password => this.handleConfirmPasswordChange(password)} ref={this.confirmInput} onSubmit={onSubmit} validation={mismatchValidation}/>
       </Form>
     )

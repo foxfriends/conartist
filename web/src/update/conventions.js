@@ -59,6 +59,7 @@ export async function unstarConvention(convention: MetaConvention) {
 
 export function setConvention(convention: Convention) {
   const { conventions: originalConventions, page: originalPage } = model.getValue()
+  // $FlowIgnore: flow can't do this
   const page = { ...originalPage }
   switch (page.name) {
     case 'convention-details':

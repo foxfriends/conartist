@@ -15,6 +15,7 @@ import type {
 
 // $FlowIgnore: trouble importing graphql files
 import downvoteConventionInfo from './graphql/mutation/downvote-convention-info.graphql'
+// $FlowIgnore: trouble importing graphql files
 import upvoteConventionInfo from './graphql/mutation/upvote-convention-info.graphql'
 
 export type Params = {
@@ -46,13 +47,23 @@ export class VoteForInfo implements APIRequest<Params, Votes> {
   }
 
   send({ id, vote }: Params): Observable<Response<Votes, string>> {
-    const request = vote === 1 ? this.upvote : this.downvote
-    return request.send({ infoId: id })
-      .pipe(
-        map(response => response.state === 'retrieved'
-          ? { state: 'retrieved', value: parse(response.value) }
-          : response
+    if (vote === 1) {
+      return this.upvote.send({ infoId: id })
+        .pipe(
+          map(response => response.state === 'retrieved'
+            ? { state: 'retrieved', value: parse(response.value.upvoteConventionInfo) }
+            : response
+          )
         )
-      )
+    } else if(vote === -1) {
+      return this.downvote.send({ infoId: id })
+        .pipe(
+          map(response => response.state === 'retrieved'
+            ? { state: 'retrieved', value: parse(response.value.downvoteConventionInfo) }
+            : response
+          )
+        )
+    }
+    return of({ state: 'failed', value: 'Can only up or downvote, not "no" vote' })
   }
 }

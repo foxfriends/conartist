@@ -1,0 +1,10 @@
+.textarea {
+  box-sizing: border-box;
+  background-color: var(--color--background-overlay);
+  color: var(--color--text);
+  font: var(--font--body);
+  border: none;
+  border-radius: 2px;
+  padding: 10px;
+  resize: none;
+}

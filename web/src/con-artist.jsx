@@ -111,7 +111,8 @@ export class ConArtist extends React.Component<Props, State> {
 
       case 'settings':
         state.toolbar = { primary: null, secondary: null }
-        state.content = { name: 'placeholder' }
+        const { email = '', name: username = '' } = model.user || {}
+        state.content = { name: 'settings', email, username, settings: model.settings }
         state.navigation = NavInfo.default.select('Settings')
         break
 
@@ -120,6 +121,7 @@ export class ConArtist extends React.Component<Props, State> {
         state.content = { name: 'admin' }
         state.navigation = NavInfo.default.select('Admin')
         break
+
       case 'terms-of-service':
         state.navigation = null
         state.content = { name: 'static', content: 'terms-of-service' }

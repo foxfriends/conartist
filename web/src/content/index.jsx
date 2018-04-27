@@ -10,6 +10,7 @@ import { SearchConventions } from './search-conventions'
 import { ConventionDetails } from './convention-details'
 import { ConventionUserInfo } from './convention-user-info'
 import { Admin } from './admin'
+import { Settings } from './settings'
 import type { Props as CardViewProps } from './card-view'
 import type { Props as ProductsProps } from './products'
 import type { Props as EditProductsProps } from './edit-products'
@@ -21,6 +22,7 @@ import type { Props as ConventionDetailsProps } from './convention-details'
 import type { Props as ConventionUserInfoProps } from './convention-user-info'
 import type { Props as StaticProps } from './static'
 import type { Props as AdminProps } from './admin'
+import type { Props as SettingsProps } from './settings'
 import S from './index.css'
 
 import { CardView } from './card-view'
@@ -36,6 +38,7 @@ export type Props
   | SearchConventionsProps
   | ConventionDetailsProps
   | ConventionUserInfoProps
+  | SettingsProps
   | StaticProps
   | AdminProps
 
@@ -78,6 +81,9 @@ export function Content(props: Props) {
       break
     case 'convention-user-info':
       content = <ConventionUserInfo {...props} />
+      break
+    case 'settings':
+      content = <Settings {...props} />
       break
     case 'admin':
       content = <Admin {...props} />

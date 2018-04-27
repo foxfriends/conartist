@@ -1,0 +1,9 @@
+.footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.signOutButton {
+  height: 32px;
+  margin-left: auto;
+}

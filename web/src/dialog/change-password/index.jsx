@@ -5,8 +5,10 @@ import { l } from '../../localization'
 import { Input } from '../../common/input'
 import { Button } from '../../common/button'
 import { Basic } from '../basic'
+import { ChangePasswordRequest } from '../../api/change-password'
 import type { Validation as InputValidation } from '../../common/input'
-import { closeDialog } from '../action'
+import { closeDialog as closeDialogButton } from '../action'
+import { closeDialog } from '../../update/dialog'
 import { VALID, EMPTY, INVALID } from '../../model/validation'
 import S from './index.css'
 
@@ -18,6 +20,8 @@ type State = {
   currentPassword: string,
   password: string,
   confirmPassword: string,
+  processing: boolean,
+  currentPasswordValidation: InputValidation,
   passwordValidation: InputValidation,
   mismatchValidation: InputValidation,
 }
@@ -40,13 +44,15 @@ export class ChangePassword extends React.Component<Props, State> {
       currentPassword: '',
       password: '',
       confirmPassword: '',
+      processing: false,
       passwordValidation: { state: EMPTY },
       mismatchValidation: { state: EMPTY },
+      currentPasswordValidation: { state: VALID },
     }
   }
 
   handleCurrentPasswordChange(value: string) {
-    this.setState({ currentPassword: value })
+    this.setState({ currentPassword: value, currentPasswordValidation: { state: VALID } })
   }
 
   handlePasswordChange(value: string) {
@@ -75,25 +81,33 @@ export class ChangePassword extends React.Component<Props, State> {
     this.setState({ passwordValidation, mismatchValidation })
   }
 
-  saveChanges() {
+  async saveChanges() {
     const { currentPassword, password } = this.state
+    this.setState({ processing: true })
+    const response = await new ChangePasswordRequest().send({ old: currentPassword, new: password }).toPromise()
+    this.setState({ processing: false })
+    if (response.state === 'failed') {
+      this.setState({ currentPasswordValidation: { state: INVALID, error: l`Your password is incorrect` } })
+    } else {
+      closeDialog()
+    }
   }
 
   render() {
-    const { passwordValidation, mismatchValidation } = this.state
+    const { currentPasswordValidation, passwordValidation, mismatchValidation, processing } = this.state
     const save = {
-      enabled: passwordValidation.state === VALID && mismatchValidation.state === VALID,
+      enabled: passwordValidation.state === VALID && mismatchValidation.state === VALID && !processing,
       title: 'Save',
-      action: () => this.saveChanges(),
+      action: () => { this.saveChanges() },
     }
     return (
-      <Basic title={l`Change Password`} onClose={closeDialog} onContinue={save}>
+      <Basic title={l`Change Password`} onClose={closeDialogButton} onContinue={save}>
         <div className={S.form}>
           {/* $FlowIgnore: Flow definitions not up to date */}
-          <Input className={S.input} type="password" title={l`Current password`} onChange={password => this.handlePasswordChange(password)} onSubmit={() => this.passwordInput.current && this.passwordInput.current.focus()} autoFocus />
+          <Input className={S.input} type="password" title={l`Current password`} onChange={password => this.handleCurrentPasswordChange(password)} onSubmit={() => this.passwordInput.current && this.passwordInput.current.focus()} validation={currentPasswordValidation} autoFocus />
           {/* $FlowIgnore: Flow definitions not up to date */}
           <Input className={S.input} type="password" title={l`New password`} onChange={password => this.handlePasswordChange(password)} onSubmit={() => this.confirmInput.current && this.confirmInput.current.focus()} ref={this.passwordInput} validation={passwordValidation} />
-          <Input className={S.input} type="password" title={l`Confirm new password`} onChange={password => this.handleConfirmPasswordChange(password)} ref={this.confirmInput} onSubmit={() => this.saveChanges()} validation={mismatchValidation}/>
+          <Input className={S.input} type="password" title={l`Confirm new password`} onChange={password => this.handleConfirmPasswordChange(password)} ref={this.confirmInput} onSubmit={() => { this.saveChanges() }} validation={mismatchValidation}/>
         </div>
       </Basic>
     )

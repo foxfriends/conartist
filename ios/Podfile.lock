@@ -38,6 +38,20 @@ DEPENDENCIES:
   - SVGKit (from `https://github.com/SVGKit/SVGKit.git`, branch `2.x`)
   - SwiftMoment
 
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - Apollo
+    - CocoaLumberjack
+    - Gloss
+    - pop
+    - RxAlamofire
+    - RxCocoa
+    - RxSwift
+    - SexyTooltip
+    - Strongbox
+    - SwiftMoment
+
 EXTERNAL SOURCES:
   SVGKit:
     :branch: 2.x
@@ -64,4 +78,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 6698972f1b3a31c79535a8c93868ef91159b7297
 
-COCOAPODS: 1.4.0.rc.1
+COCOAPODS: 1.5.0

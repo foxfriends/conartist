@@ -12,7 +12,7 @@ export type Props = {
 }
 
 function format(date: Date): string {
-  return moment(date).format(l`MMM. d, yyyy`)
+  return moment.utc(date).format(l`MMM. d, yyyy`)
 }
 
 export function DatesInfo({ start, end }: Props) {

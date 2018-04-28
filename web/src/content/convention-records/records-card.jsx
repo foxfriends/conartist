@@ -9,7 +9,7 @@ import { ExpenseItem } from './expense-item'
 import { Total } from './total'
 import { BasicCard } from '../card-view/basic-card'
 import { by, Asc } from '../../util/sort'
-import { sameDayAs } from '../../util/date'
+import { sameUTCDayAs } from '../../util/date'
 import { Money } from '../../model/money'
 import { l } from '../../localization'
 import type { Convention } from '../../model/convention'
@@ -21,14 +21,14 @@ export type Props = {
 }
 
 function format(date: Date): string {
-  return moment(date).format(l`dddd MMMM d, yyyy`)
+  return moment.utc(date).format(l`dddd MMMM d, yyyy`)
 }
 
 export function RecordsCard({ date, convention }: Props) {
   // $FlowIgnore: does not seem to recognize defaulting of missing properties
   const { records = [], expenses = [] } = convention
 
-  const dataSource = [].concat(records.filter(sameDayAs(date)), expenses.filter(sameDayAs(date)))
+  const dataSource = [].concat(records.filter(sameUTCDayAs(date)), expenses.filter(sameUTCDayAs(date)))
     .sort(by(['time', Asc]))
 
   const total = dataSource.reduce((acc, { name, price }) => acc.add(name === 'record' ? price : price.negate()), Money.zero)

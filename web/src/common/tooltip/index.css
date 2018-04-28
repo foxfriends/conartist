@@ -5,6 +5,8 @@
 .target {
   display: inline-block;
   outline: none;
+  display: flex;
+  align-items: center;
 }
 
 .tooltip {

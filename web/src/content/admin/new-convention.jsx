@@ -149,7 +149,7 @@ export class NewConvention extends React.Component<Props, State> {
           ])
         ),
         map(batchResponses),
-        tap(() => toast.send(<span>Convention created</span>)),
+        tap(() => toast.show(<span>Convention created</span>)),
       )
       .subscribe()
   }

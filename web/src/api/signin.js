@@ -34,7 +34,7 @@ export class SignInRequest extends PostRequest<Params, User> {
           ? new UserQuery().send()
           : of(response)
         ),
-        catchError(of),
+        catchError(error => of(error)),
       )
   }
 }

@@ -13,10 +13,15 @@ import { Form } from '../form'
 import { Basic } from '../basic'
 import { Input } from '../../common/input'
 import { Button } from '../../common/button'
+import { Icon } from '../../common/icon'
+import { Tooltip } from '../../common/tooltip'
+import { VALID, INVALID } from '../../model/validation'
 import type { Props as ButtonProps } from '../../common/button'
 import type { Response } from '../../api'
 import type { User } from '../../model/user'
+import type { Validation as InputValidation } from '../../common/input'
 import S from '../form.css'
+import SS from './index.css'
 
 export type Props = {
   name: 'signin',
@@ -25,7 +30,8 @@ export type Props = {
 type State = {
   email: string,
   password: string,
-  response: Response<User, string>
+  response: Response<User, string>,
+  passwordValidation: InputValidation,
 }
 
 export class SignIn extends React.Component<Props, State> {
@@ -35,6 +41,7 @@ export class SignIn extends React.Component<Props, State> {
       email: '',
       password: '',
       response: API.unsent,
+      passwordValidation: { state: VALID },
     }
   }
 
@@ -42,21 +49,25 @@ export class SignIn extends React.Component<Props, State> {
     const { email: usr, password: psw } = this.state
     new SignInRequest()
       .send({ usr, psw })
-      .subscribe(response => 
+      .subscribe(response => {
+        console.log(response);
+        if (response.state === 'failed') {
+          this.setState({ passwordValidation: { state: INVALID, error: l`Your email or password is incorrect` } })
+        }
         this.setState({ response }, () => {
           if (this.state.response.state === 'retrieved') {
             completeSignIn(this.state.response.value)
           }
         })
-      )
+      })
   }
 
   handleEmailChange(email: string) {
-    this.setState({ email })
+    this.setState({ email, passwordValidation: { state: VALID } })
   }
 
   handlePasswordChange(password: string) {
-    this.setState({ password })
+    this.setState({ password, passwordValidation: { state: VALID } })
   }
 
   render() {
@@ -67,7 +78,7 @@ export class SignIn extends React.Component<Props, State> {
       enabled: this.state.response.state !== 'sending',
     }
 
-    const { response } = this.state
+    const { response, passwordValidation } = this.state
 
     return (
       <Basic title={l`Sign in`} onClose={closeDialog}>
@@ -77,7 +88,14 @@ export class SignIn extends React.Component<Props, State> {
           </div>
           <Input className={S.titledInput} title={l`Email`} key="email" onChange={email => this.handleEmailChange(email)} autoFocus/>
           <Input className={S.titledInput} enabled={response.state !== 'sending'} type="password" title={l`Password`} key="password" onChange={password => this.handlePasswordChange(password)} onSubmit={() => this.trySignIn()}/>
-          <Button className={S.button} {...onContinue} />
+          <div className={SS.signInFooter}>
+            { passwordValidation.state === INVALID
+                ? <div className={SS.spacing}><Tooltip title={passwordValidation.error}><Icon name='error' className={SS.error}/></Tooltip></div>
+                : <div className={SS.spacing} />
+            }
+            <Button className={SS.button} {...onContinue} />
+            <div className={SS.spacing} />
+          </div>
         </Form>
       </Basic>
     )

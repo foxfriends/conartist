@@ -14,7 +14,7 @@ export type Props<E: React.ElementType> = {
   className?: string,
   collapsible?: boolean,
   style?: { [string]: string | number },
-  children: [React.Node, React.Element<E>] | React.Element<E>,
+  children: React.Element<E> | [React.Node, React.Element<E>] | [React.Node, React.Element<E>, React.Node],
 }
 
 
@@ -38,9 +38,9 @@ export class Card<E: React.ElementType> extends React.Component<Props<E>, State>
     const { children, collapsible, topAction, bottomAction, id, className, style } = this.props
     const { collapsed } = this.state
     const isCollapsed = collapsed && collapsible
-    const [header, content] = children instanceof Array
+    const [header, content, footer] = children instanceof Array
       ? [...children]
-      : [, children]
+      : [, children, ]
     return (
       <div className={`${S.card} ${className || ''}`} id={id || ''} style={style || {}}>
         { header
@@ -66,6 +66,7 @@ export class Card<E: React.ElementType> extends React.Component<Props<E>, State>
           </Expand>
           { !isCollapsed && bottomAction ? <IconButton {...bottomAction} priority="tertiary" className={S.bottomAction} /> : null }
         </div>
+        { footer || null }
       </div>
     )
   }

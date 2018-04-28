@@ -6,6 +6,7 @@ import { l } from '../../../localization'
 import { Row } from '../../../common/table/row'
 import { Font } from '../../../common/font'
 import { newlinesToReact } from '../../../util/newlines-to-react'
+import { sameDayAs } from '../../../util/date'
 import type { ConventionExtraInfo } from '../../../model/convention-extra-info'
 
 export type Props = {
@@ -21,21 +22,7 @@ function day(date: Date): string {
   return moment(date).format(l`ddd`)
 }
 
-function isToday(date: Date): boolean {
-  const newDate = new Date(date)
-  newDate.setHours(0)
-  newDate.setMinutes(0)
-  newDate.setSeconds(0)
-  newDate.setMilliseconds(0)
-
-  const today = new Date()
-  today.setHours(0)
-  today.setMinutes(0)
-  today.setSeconds(0)
-  today.setMilliseconds(0)
-
-  return newDate.getTime() === today.getTime()
-}
+const isToday = sameDayAs(new Date())
 
 export function HoursInfo({ infos, todayOnly }: Props) {
   try {

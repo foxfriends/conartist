@@ -64,6 +64,7 @@ export function setConvention(convention: Convention) {
   switch (page.name) {
     case 'convention-details':
     case 'convention-user-info':
+    case 'convention-records':
       if (page.convention.id === convention.id) {
         page.convention = convention
       }

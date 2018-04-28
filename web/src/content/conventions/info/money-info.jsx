@@ -7,7 +7,7 @@ import { Font } from '../../../common/font'
 import { Money } from '../../../model/money'
 
 export type Props = {
-  hideZero: boolean,
+  hideZero?: boolean,
   title: string,
   amount: ?Money,
 }

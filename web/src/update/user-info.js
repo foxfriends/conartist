@@ -26,6 +26,7 @@ export async function addUserInfo(convention: Convention, info: string) {
     switch (page.name) {
       case 'convention-user-info':
       case 'convention-details':
+      case 'convention-records':
         if (page.convention.id === convention.id) {
           page.convention = addInfo(page.convention, newInfo)
         }
@@ -57,6 +58,7 @@ export async function voteForInfo(id: number, vote: number) {
   switch (page.name) {
     case 'convention-details':
     case 'convention-user-info':
+    case 'convention-records':
       page.convention.userInfo = page.convention.userInfo.map(adjustVotes(id, vote))
       break
   }

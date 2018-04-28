@@ -3,6 +3,7 @@ import type { ExpenseFragmentFragment } from '../api/schema'
 import { Money } from './money'
 
 export type Expense = {|
+  name: 'expense',
   id: number,
   category: string,
   description: string,
@@ -12,6 +13,7 @@ export type Expense = {|
 
 export function parse({ id, category, description, price, time }: ExpenseFragmentFragment): Expense {
   return {
+    name: 'expense',
     id,
     category,
     description,

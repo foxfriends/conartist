@@ -3,6 +3,7 @@ import type { RecordFragmentFragment } from '../api/schema'
 import { Money } from './money'
 
 export type Record = {|
+  name: 'record',
   id: number,
   products: number[],
   price: Money,
@@ -12,6 +13,7 @@ export type Record = {|
 
 export function parse({ id, products, price, time, info }: RecordFragmentFragment): Record {
   return {
+    name: 'record',
     id,
     products,
     price: Money.fromJSON(price),

@@ -21,7 +21,10 @@ export function ExpenseItem({ expense }: Props) {
   return (
     <Item>
       <div className={`${S.item} ${S.expense}`}>
-        <div className={S.category}>{expense.category}</div>
+        <div className={S.info}>
+          <div className={S.category}>{expense.category}</div>
+          <div className={S.time}>{format(expense.time)}</div>
+        </div>
         <div className={S.amount}>
           {expense.price.toString()}
         </div>

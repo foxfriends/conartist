@@ -27,6 +27,7 @@ function format(date: Date): string {
 export function RecordsCard({ date, convention }: Props) {
   // $FlowIgnore: does not seem to recognize defaulting of missing properties
   const { records = [], expenses = [] } = convention
+
   const dataSource = [].concat(records.filter(sameDayAs(date)), expenses.filter(sameDayAs(date)))
     .sort(by(['time', Asc]))
 

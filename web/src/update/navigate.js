@@ -68,6 +68,14 @@ export function conventionDetails(convention: Convention) {
   model.next({ ...model.getValue(), page: page.conventionDetails(convention) })
 }
 
+export function conventionRecords(convention: Convention) {
+  const { page: currentPage } = model.getValue()
+  if (currentPage.name !== 'convention-records' || currentPage.convention.id !== convention.id) {
+    window.history.pushState({}, '', `/convention/${convention.id}/records`)
+  }
+  model.next({ ...model.getValue(), page: page.conventionRecords(convention) })
+}
+
 export function conventionUserInfo(convention: Convention) {
   const { page: currentPage } = model.getValue()
   if (currentPage.name !== 'convention-user-info' || currentPage.convention.id !== convention.id) {

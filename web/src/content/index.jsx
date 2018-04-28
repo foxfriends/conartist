@@ -8,6 +8,7 @@ import { Prices } from './prices'
 import { Conventions } from './conventions'
 import { SearchConventions } from './search-conventions'
 import { ConventionDetails } from './convention-details'
+import { ConventionRecords } from './convention-records'
 import { ConventionUserInfo } from './convention-user-info'
 import { Admin } from './admin'
 import { Settings } from './settings'
@@ -20,6 +21,7 @@ import type { Props as ConventionsProps } from './conventions'
 import type { Props as SearchConventionsProps } from './search-conventions'
 import type { Props as ConventionDetailsProps } from './convention-details'
 import type { Props as ConventionUserInfoProps } from './convention-user-info'
+import type { Props as ConventionRecordsProps } from './convention-records'
 import type { Props as StaticProps } from './static'
 import type { Props as AdminProps } from './admin'
 import type { Props as SettingsProps } from './settings'
@@ -37,6 +39,7 @@ export type Props
   | ConventionsProps
   | SearchConventionsProps
   | ConventionDetailsProps
+  | ConventionRecordsProps
   | ConventionUserInfoProps
   | SettingsProps
   | StaticProps
@@ -81,6 +84,9 @@ export function Content(props: Props) {
       break
     case 'convention-user-info':
       content = <ConventionUserInfo {...props} />
+      break
+    case 'convention-records':
+      content = <ConventionRecords {...props} />
       break
     case 'settings':
       content = <Settings {...props} />

@@ -10,7 +10,7 @@ import { BasicHeader } from '../card-view/basic-header'
 import { DatesInfo } from './info/dates'
 import { HoursInfo } from './info/hours'
 import { WebsiteInfo } from './info/website'
-import { CurrentEarnings } from './info/current-earnings'
+import { MoneyInfo } from './info/money-info'
 import { AddressInfo } from './info/address'
 import { l, lx } from '../../localization'
 import * as navigate from '../../update/navigate'
@@ -38,7 +38,7 @@ export function TodayConventionCard({ convention, showDetails }: Props) {
         <HoursInfo todayOnly infos={convention.extraInfo} />
         <AddressInfo infos={convention.extraInfo} />
         <WebsiteInfo infos={convention.extraInfo} />
-        <CurrentEarnings amount={convention.recordTotal} />
+        <MoneyInfo hideZero title={l`Current earnings`} amount={convention.recordTotal} />
       </Table>
     </Card>
   )

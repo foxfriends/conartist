@@ -8,6 +8,7 @@ import {
   prices,
   conventions,
   conventionDetails,
+  conventionRecords,
   conventionUserInfo,
   searchConventions,
   settings,
@@ -66,7 +67,7 @@ const matchUrl = match(
   [ /^\/conventions\/?$/i, () => conventions ],
   [ /^\/conventions\/search\/?$/i, () => searchConventions ],
   [ /^\/convention\/(\d+)\/details\/?$/i, id => conventionDetails(stubConvention(parseInt(id, 10))) ],
-  [ /^\/convention\/(\d+)\/records\/?$/i, () => conventions ],
+  [ /^\/convention\/(\d+)\/records\/?$/i, id => conventionRecords(stubConvention(parseInt(id, 10))) ],
   [ /^\/convention\/(\d+)\/info\/?$/i, id => conventionUserInfo(stubConvention(parseInt(id, 10))) ],
 )
 

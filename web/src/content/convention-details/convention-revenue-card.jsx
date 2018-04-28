@@ -19,6 +19,7 @@ export type Props = {
 }
 
 export function ConventionRevenueCard({ convention }: Props) {
+  if (convention.start > new Date()) { return null }
   return (
     <Card>
       <BasicHeader>

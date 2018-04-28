@@ -545,7 +545,6 @@
 				321B75D41F9BAD320055EBC4 /* Resources */,
 				327C5D7D20818371007EEF71 /* Copy Configuration Files */,
 				693BFD9862FF5ADE35690E83 /* [CP] Embed Pods Frameworks */,
-				75DEED44157E6BF6D92E3F3E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -685,21 +684,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ConArtist/Pods-ConArtist-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		75DEED44157E6BF6D92E3F3E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ConArtist/Pods-ConArtist-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D62396CD3173BAAF148F6055 /* [CP] Check Pods Manifest.lock */ = {

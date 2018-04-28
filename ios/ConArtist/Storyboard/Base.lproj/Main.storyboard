@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="E1q-Mt-Tdz">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -20,24 +20,24 @@
                         <viewControllerLayoutGuide type="bottom" id="pz1-FQ-zaV"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="OkM-Vc-wV4">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <subviews>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xpn-RP-goK">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="92"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="112"/>
                                     </view>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="umd-fc-6co">
-                                        <rect key="frame" x="97" y="92" width="180" height="180"/>
+                                        <rect key="frame" x="97" y="112" width="180" height="180"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="180" id="N7J-Sj-HMV"/>
                                             <constraint firstAttribute="height" constant="180" id="dd9-25-7oX"/>
                                         </constraints>
                                     </imageView>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="AMZ-uh-Pve" customClass="FancyTextField" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="48" y="302" width="279" height="50"/>
+                                        <rect key="frame" x="48" y="322" width="279" height="50"/>
                                         <color key="tintColor" name="Brand"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="Zb1-Dc-rla"/>
@@ -50,7 +50,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="VJ9-2q-zrw" customClass="FancyTextField" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="48" y="382" width="279" height="50"/>
+                                        <rect key="frame" x="48" y="402" width="279" height="50"/>
                                         <color key="tintColor" name="Brand"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="y4M-Uc-t0G"/>
@@ -63,7 +63,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ry9-iF-0mD" customClass="FancyButton" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="48" y="462" width="279" height="50"/>
+                                        <rect key="frame" x="48" y="482" width="279" height="50"/>
                                         <color key="backgroundColor" name="Brand"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="t5J-o1-78H"/>
@@ -138,7 +138,7 @@
                         <viewControllerLayoutGuide type="bottom" id="AV6-i5-xBe"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="eoF-QL-vFg">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" name="Background"/>
                     </view>
@@ -156,22 +156,22 @@
                         <viewControllerLayoutGuide type="bottom" id="KFE-0l-uHq"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="fAz-sv-F4q">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="50" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="NfX-Yc-4ji">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="724"/>
                                 <color key="backgroundColor" name="Background"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="SettingsSelectOptionCell" id="obe-Pc-tfp" customClass="SettingsSelectOptionTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="55.333333333333343" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="obe-Pc-tfp" id="DS5-eg-BTo">
                                             <rect key="frame" x="0.0" y="0.0" width="336" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Press me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="asX-yA-qms">
-                                                    <rect key="frame" x="20" y="16.5" width="296" height="18"/>
+                                                    <rect key="frame" x="20" y="16.666666666666668" width="296" height="18.000000000000004"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                     <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
@@ -196,7 +196,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jgW-5e-FMq" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
                                 <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="Settings"/>
@@ -234,28 +234,28 @@
                         <viewControllerLayoutGuide type="bottom" id="b1D-oP-BOc"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="rR4-Wa-u0X">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="50" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="xkF-T5-skV">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="724"/>
                                 <color key="backgroundColor" name="Background"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="SettingsBooleanCell" id="FZU-Uf-rVK" customClass="SettingsBooleanTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="55.333333333333343" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="FZU-Uf-rVK" id="TnO-Be-WFY">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yes or no" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZVL-Ln-CgD">
-                                                    <rect key="frame" x="20" y="16.5" width="266" height="18"/>
+                                                    <rect key="frame" x="20" y="16.666666666666668" width="266" height="18.000000000000004"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                     <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qCr-8M-KvU">
-                                                    <rect key="frame" x="306" y="9.5" width="51" height="31"/>
+                                                    <rect key="frame" x="306" y="9.6666666666666643" width="51" height="31"/>
                                                     <color key="onTintColor" name="Brand"/>
                                                 </switch>
                                             </subviews>
@@ -274,14 +274,14 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="SettingsActionCell" id="OdX-w3-Aor" customClass="SettingsActionTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="105.5" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="105.33333333333334" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="OdX-w3-Aor" id="GpY-pg-fAw">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Press me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LRN-ml-b9X">
-                                                    <rect key="frame" x="20" y="16.5" width="335" height="18"/>
+                                                    <rect key="frame" x="20" y="16.666666666666668" width="335" height="18.000000000000004"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                     <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
@@ -299,20 +299,20 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SettingsSelectCell" id="1Jz-Ws-EM1" customClass="SettingsSelectTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="155.5" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="155.33333333333334" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1Jz-Ws-EM1" id="CQs-Ww-Phk">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Currency" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bt3-sU-39j">
-                                                    <rect key="frame" x="20" y="16.5" width="269" height="18"/>
+                                                    <rect key="frame" x="20" y="16.666666666666668" width="269" height="18.000000000000004"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                     <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="CAD" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kIf-8N-kjo">
-                                                    <rect key="frame" x="289" y="16" width="33" height="19.5"/>
+                                                    <rect key="frame" x="289" y="16" width="33" height="19.666666666666671"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" name="TextPlaceholder"/>
                                                     <nil key="highlightedColor"/>
@@ -339,7 +339,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ELo-qK-h0y" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
                                 <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="Settings"/>
@@ -377,11 +377,11 @@
                         <viewControllerLayoutGuide type="bottom" id="Z7z-te-0YH"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="T6W-eI-ghc">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ekR-KH-GX0">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="690"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No one has contributed any information about this convention yet. You could be the first!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q2G-Ub-SED">
                                         <rect key="frame" x="40" y="180" width="295" height="54"/>
@@ -397,7 +397,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FWM-Ta-rCy">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="724"/>
                                 <color key="backgroundColor" name="Background"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ConventionUserInfo" rowHeight="50" id="Nef-be-Z4i" customClass="ConventionUserInfoTableViewCell" customModule="ConArtist" customModuleProvider="target">
@@ -408,13 +408,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Underground parking is available" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="100" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dxx-by-T9M">
-                                                    <rect key="frame" x="20" y="15" width="307" height="19.5"/>
+                                                    <rect key="frame" x="20" y="15.000000000000002" width="307" height="19.666666666666671"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4qC-6K-9bh">
-                                                    <rect key="frame" x="337" y="10" width="18" height="31.5"/>
+                                                    <rect key="frame" x="337" y="10.000000000000002" width="18" height="31.666666666666671"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fzC-lP-fCn">
                                                             <rect key="frame" x="0.0" y="0.0" width="18" height="18"/>
@@ -424,7 +424,7 @@
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="88" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RYV-aL-sB7">
-                                                            <rect key="frame" x="0.0" y="18" width="18" height="13.5"/>
+                                                            <rect key="frame" x="0.0" y="18" width="18" height="13.666666666666664"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="18" id="dcG-jk-7MJ"/>
                                                             </constraints>
@@ -467,7 +467,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q7c-fV-2OY" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
                                 <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="Fanexpo"/>
@@ -479,7 +479,7 @@
                         <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Z7z-te-0YH" firstAttribute="top" secondItem="ekR-KH-GX0" secondAttribute="bottom" id="BKg-Ts-d42"/>
-                            <constraint firstItem="Z7z-te-0YH" firstAttribute="top" secondItem="FWM-Ta-rCy" secondAttribute="bottom" id="HTR-Z8-EOH"/>
+                            <constraint firstAttribute="bottom" secondItem="FWM-Ta-rCy" secondAttribute="bottom" id="HTR-Z8-EOH"/>
                             <constraint firstItem="q7c-fV-2OY" firstAttribute="leading" secondItem="T6W-eI-ghc" secondAttribute="leading" id="Hpf-Ly-ubL"/>
                             <constraint firstItem="q7c-fV-2OY" firstAttribute="top" secondItem="T6W-eI-ghc" secondAttribute="top" id="Ijc-gT-7PM"/>
                             <constraint firstAttribute="trailing" secondItem="ekR-KH-GX0" secondAttribute="trailing" id="Kf9-nR-SES"/>
@@ -512,11 +512,11 @@
                         <viewControllerLayoutGuide type="bottom" id="Ax9-rW-Jnw"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="vey-ka-jO8">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="FyX-IB-qHA">
-                                <rect key="frame" x="10" y="74" width="355" height="128"/>
+                                <rect key="frame" x="10" y="98" width="355" height="128"/>
                                 <color key="backgroundColor" name="BackgroundOverlay"/>
                                 <color key="tintColor" name="Brand"/>
                                 <constraints>
@@ -532,7 +532,7 @@
                                 </userDefinedRuntimeAttributes>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h4i-nF-ELM">
-                                <rect key="frame" x="36" y="222" width="303" height="115"/>
+                                <rect key="frame" x="36" y="245.99999999999997" width="303" height="114.66666666666666"/>
                                 <string key="text">Your identity is not shared with the other artists when you contribute information. Please respect that people of all ages can read this information, and any incorrect or offensive information may be removed without notice.
 
 Once submitted, you cannot edit this information, so make sure it’s correct!</string>
@@ -541,7 +541,7 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w3h-Dz-iHT" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
                                 <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="Share Info"/>
@@ -583,15 +583,15 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                         <viewControllerLayoutGuide type="bottom" id="njU-46-Q9k"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="9pK-bc-rtK">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="a87-la-fNK">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="724"/>
                                 <color key="backgroundColor" name="Background"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="TodayConventionCell" rowHeight="90" id="7lN-ml-6k2" customClass="ConventionTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="375" height="90"/>
+                                        <rect key="frame" x="0.0" y="55.333333333333343" width="375" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7lN-ml-6k2" id="Kve-vy-zVD">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
@@ -601,31 +601,31 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                                     <rect key="frame" x="4" y="0.0" width="367" height="90"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Fanexpo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JFe-cy-Hh9">
-                                                            <rect key="frame" x="16" y="13" width="64" height="19.5"/>
+                                                            <rect key="frame" x="16" y="13.000000000000002" width="64" height="19.666666666666671"/>
                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                                             <color key="textColor" name="Text"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.75" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Jan. 2, 2018" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pUZ-6w-F00">
-                                                            <rect key="frame" x="16" y="32.5" width="79" height="17"/>
+                                                            <rect key="frame" x="16" y="32.666666666666664" width="79" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" name="Text"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.75" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Th 8:00-6:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Moo-Cq-uPG">
-                                                            <rect key="frame" x="95" y="32.5" width="239" height="17"/>
+                                                            <rect key="frame" x="95" y="32.666666666666664" width="239" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" name="Text"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="$1200.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gK2-bl-zme">
-                                                            <rect key="frame" x="16" y="57" width="317.5" height="19.5"/>
+                                                            <rect key="frame" x="16" y="56.999999999999993" width="317.66666666666669" height="19.666666666666664"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                             <color key="textColor" name="Text"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Toronto, ON" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lh5-EV-4zN">
-                                                            <rect key="frame" x="80" y="13" width="254" height="19.5"/>
+                                                            <rect key="frame" x="80" y="13.000000000000002" width="254" height="19.666666666666671"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                             <color key="textColor" name="Text"/>
                                                             <nil key="highlightedColor"/>
@@ -681,7 +681,7 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NothingTodayConventionCell" rowHeight="90" id="aVq-dx-f3J" customClass="ConventionTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="145.5" width="375" height="90"/>
+                                        <rect key="frame" x="0.0" y="145.33333333333334" width="375" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aVq-dx-f3J" id="6NF-iS-ANY">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
@@ -724,23 +724,23 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ConventionCell" rowHeight="60" id="dDW-sc-q46" customClass="ConventionTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="235.5" width="375" height="60"/>
+                                        <rect key="frame" x="0.0" y="235.33333333333337" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dDW-sc-q46" id="he4-Fx-EBN">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ucK-Db-HdQ">
-                                                    <rect key="frame" x="20" y="13.5" width="251.5" height="34"/>
+                                                    <rect key="frame" x="19.999999999999986" y="13.666666666666664" width="251.66666666666663" height="34"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Fanexpo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n5d-Ur-Zii">
-                                                            <rect key="frame" x="0.0" y="0.0" width="251.5" height="17"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="251.66666666666666" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                                             <color key="textColor" name="Text"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.75" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jan. 2, 2018" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xr9-dV-RvP">
-                                                            <rect key="frame" x="0.0" y="17" width="251.5" height="17"/>
+                                                            <rect key="frame" x="0.0" y="17" width="251.66666666666666" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" name="Text"/>
                                                             <nil key="highlightedColor"/>
@@ -757,7 +757,7 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="$1200.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l1n-Bl-6J9">
-                                                    <rect key="frame" x="271.5" y="21.5" width="66.5" height="17"/>
+                                                    <rect key="frame" x="271.66666666666669" y="21.666666666666668" width="66.333333333333314" height="17.000000000000004"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                     <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
@@ -779,7 +779,7 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NothingUpcomingConventionCell" rowHeight="90" id="S8e-Ut-Ptc" customClass="ConventionTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="295.5" width="375" height="90"/>
+                                        <rect key="frame" x="0.0" y="295.33333333333337" width="375" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="S8e-Ut-Ptc" id="3sn-8s-rlN">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
@@ -806,14 +806,14 @@ You should go find one you like!</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="FutureConventionCell" rowHeight="60" id="u9V-bh-gbd" customClass="ConventionTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="385.5" width="375" height="60"/>
+                                        <rect key="frame" x="0.0" y="385.33333333333337" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="u9V-bh-gbd" id="Eek-DD-nlM">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xNt-Lq-JNs">
-                                                    <rect key="frame" x="20" y="13.5" width="79" height="34"/>
+                                                    <rect key="frame" x="20" y="13.666666666666664" width="79" height="34"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Fanexpo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aVy-kI-Vnz">
                                                             <rect key="frame" x="0.0" y="0.0" width="79" height="17"/>
@@ -851,14 +851,14 @@ You should go find one you like!</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NothingCompletedConventionCell" rowHeight="90" id="R0t-bH-b1e" customClass="ConventionTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="445.5" width="375" height="90"/>
+                                        <rect key="frame" x="0.0" y="445.33333333333337" width="375" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="R0t-bH-b1e" id="DSg-Vk-Lhz">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" alpha="0.25" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You haven't been to any conventions yet…" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yfh-Mp-oiI">
-                                                    <rect key="frame" x="40" y="35.5" width="295" height="18"/>
+                                                    <rect key="frame" x="40" y="35.666666666666664" width="295" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
@@ -882,7 +882,7 @@ You should go find one you like!</string>
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mMd-hu-uhP" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
                                 <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="Conventions"/>
@@ -920,7 +920,7 @@ You should go find one you like!</string>
                         <viewControllerLayoutGuide type="bottom" id="NWD-h0-TBJ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="A5L-fR-5ZQ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mJN-DV-Wfe">
@@ -936,7 +936,7 @@ You should go find one you like!</string>
                                                         <rect key="frame" x="0.0" y="10" width="375" height="30"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Info" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sXQ-WL-BrF">
-                                                                <rect key="frame" x="20" y="6.5" width="289" height="17"/>
+                                                                <rect key="frame" x="20" y="6.6666666666666856" width="289" height="17"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                 <color key="textColor" name="Text"/>
                                                                 <nil key="highlightedColor"/>
@@ -999,7 +999,7 @@ You should go find one you like!</string>
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Revenue" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b5b-Fh-URM">
-                                                                <rect key="frame" x="20" y="6.5" width="245" height="17"/>
+                                                                <rect key="frame" x="20" y="6.6666666666666288" width="245" height="17"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                 <color key="textColor" name="Text"/>
                                                                 <nil key="highlightedColor"/>
@@ -1171,13 +1171,13 @@ You should go find one you like!</string>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XJt-hZ-J26">
-                                                            <rect key="frame" x="20" y="10" width="55.5" height="17"/>
+                                                            <rect key="frame" x="19.999999999999996" y="10" width="55.666666666666657" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cdf-VL-DIQ">
-                                                            <rect key="frame" x="75.5" y="10" width="279.5" height="57.5"/>
+                                                            <rect key="frame" x="75.666666666666657" y="10.000000000000004" width="279.33333333333337" height="57.333333333333343"/>
                                                             <string key="text">Metro Toronto Convention Center
 222 Bremner Blvd
 Toronto, ON, Canada</string>
@@ -1186,7 +1186,7 @@ Toronto, ON, Canada</string>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="View on map" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dNf-Yo-FYE">
-                                                            <rect key="frame" x="20" y="67.5" width="335" height="9.5"/>
+                                                            <rect key="frame" x="20" y="67.333333333333329" width="335" height="9.6666666666666714"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" red="0.85490196080000003" green="0.28235294119999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -1219,13 +1219,13 @@ Toronto, ON, Canada</string>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Website" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f4G-dj-PvO">
-                                                            <rect key="frame" x="20" y="10" width="52.5" height="17"/>
+                                                            <rect key="frame" x="19.999999999999996" y="10" width="52.666666666666657" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="fanexpocanada.com" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qyD-am-v5q">
-                                                            <rect key="frame" x="72.5" y="10" width="282.5" height="24"/>
+                                                            <rect key="frame" x="72.666666666666657" y="10" width="282.33333333333337" height="24"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                             <color key="textColor" red="0.85490196078431369" green="0.28235294117647058" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -1254,13 +1254,13 @@ Toronto, ON, Canada</string>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Dates" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qzf-Rf-iI2">
-                                                            <rect key="frame" x="20" y="10" width="37.5" height="17"/>
+                                                            <rect key="frame" x="19.999999999999996" y="10" width="37.666666666666657" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Aug 30 - Sep 2, 2018" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hzy-px-iXO">
-                                                            <rect key="frame" x="57.5" y="10" width="297.5" height="24"/>
+                                                            <rect key="frame" x="57.666666666666657" y="10" width="297.33333333333337" height="24"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -1300,7 +1300,7 @@ Toronto, ON, Canada</string>
                                 </constraints>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YDd-oq-Qx0" customClass="FancyButton" customModule="ConArtist" customModuleProvider="target">
-                                <rect key="frame" x="195" y="597" width="160" height="50"/>
+                                <rect key="frame" x="195" y="708" width="160" height="50"/>
                                 <color key="backgroundColor" name="BackgroundVariant"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="wrF-3K-ZCX"/>
@@ -1311,7 +1311,7 @@ Toronto, ON, Canada</string>
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SAV-tf-BZI" customClass="FancyButton" customModule="ConArtist" customModuleProvider="target">
-                                <rect key="frame" x="20" y="597" width="160" height="50"/>
+                                <rect key="frame" x="20" y="708" width="160" height="50"/>
                                 <color key="backgroundColor" name="Brand"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="AFA-Wz-2Xu"/>
@@ -1322,7 +1322,7 @@ Toronto, ON, Canada</string>
                                 </state>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LcN-nw-TDv" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
                                 <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="Fanexpo"/>
@@ -1382,20 +1382,20 @@ Toronto, ON, Canada</string>
                         <viewControllerLayoutGuide type="bottom" id="khv-aH-TCc"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="i5y-An-TNF">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tAh-fl-8Mw">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="724"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Note" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xXu-ch-Tox">
-                                        <rect key="frame" x="30" y="160" width="315" height="14.5"/>
+                                        <rect key="frame" x="30" y="160" width="315" height="14.666666666666657"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="vm1-Rh-k46">
-                                        <rect key="frame" x="20" y="184.5" width="335" height="128"/>
+                                        <rect key="frame" x="20" y="184.66666666666669" width="335" height="128"/>
                                         <color key="backgroundColor" name="BackgroundOverlay"/>
                                         <color key="tintColor" name="Brand"/>
                                         <constraints>
@@ -1455,7 +1455,7 @@ Toronto, ON, Canada</string>
                                 </constraints>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dHf-zs-gxP" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
                                 <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="New Expense"/>
@@ -1466,7 +1466,7 @@ Toronto, ON, Canada</string>
                         </subviews>
                         <color key="backgroundColor" name="Background"/>
                         <constraints>
-                            <constraint firstItem="khv-aH-TCc" firstAttribute="top" secondItem="tAh-fl-8Mw" secondAttribute="bottom" id="2hG-Je-34S"/>
+                            <constraint firstAttribute="bottom" secondItem="tAh-fl-8Mw" secondAttribute="bottom" id="2hG-Je-34S"/>
                             <constraint firstItem="dHf-zs-gxP" firstAttribute="leading" secondItem="i5y-An-TNF" secondAttribute="leading" id="DB3-Yu-s3b"/>
                             <constraint firstAttribute="trailing" secondItem="dHf-zs-gxP" secondAttribute="trailing" id="EqC-iK-WI8"/>
                             <constraint firstItem="dHf-zs-gxP" firstAttribute="top" secondItem="i5y-An-TNF" secondAttribute="top" id="edr-TB-DdP"/>
@@ -1497,27 +1497,27 @@ Toronto, ON, Canada</string>
                         <viewControllerLayoutGuide type="bottom" id="Lqe-7d-Pia"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ljf-bc-YC0">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Xeq-x0-NDa">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="724"/>
                                 <color key="backgroundColor" name="Background"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="yYe-zq-xWR">
-                                    <rect key="frame" x="0.0" y="173.5" width="375" height="50"/>
+                                    <rect key="frame" x="0.0" y="173.33333333333334" width="375" height="50"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PUc-DK-o8a">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" text="Net profit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tze-2K-qwG">
-                                                    <rect key="frame" x="20" y="16.5" width="64.5" height="17"/>
+                                                    <rect key="frame" x="20" y="16.666666666666668" width="64.666666666666671" height="17.000000000000004"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                                     <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$72.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Af3-gC-QTD">
-                                                    <rect key="frame" x="84.5" y="16.5" width="238.5" height="17"/>
+                                                    <rect key="frame" x="84.666666666666671" y="16.666666666666668" width="238.33333333333331" height="17.000000000000004"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                     <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
@@ -1554,7 +1554,7 @@ Toronto, ON, Canada</string>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="RecordSummaryCell" id="yRS-Fd-ydU" customClass="RecordSummaryTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="55.333333333333343" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yRS-Fd-ydU" id="S83-HE-Aa0">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="50"/>
@@ -1568,13 +1568,13 @@ Toronto, ON, Canada</string>
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" text="Sales" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vOL-pR-tkx">
-                                                    <rect key="frame" x="20" y="17" width="36.5" height="17"/>
+                                                    <rect key="frame" x="19.999999999999996" y="17" width="36.666666666666657" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                                     <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" text="(6)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dmL-vu-xO4">
-                                                    <rect key="frame" x="64.5" y="17" width="19.5" height="17"/>
+                                                    <rect key="frame" x="64.666666666666671" y="17" width="19.333333333333329" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" name="TextPlaceholder"/>
                                                     <nil key="highlightedColor"/>
@@ -1607,7 +1607,7 @@ Toronto, ON, Canada</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="ExpenseCell" id="akY-dv-ukV" customClass="ExpenseTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="105.5" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="105.33333333333334" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="akY-dv-ukV" id="vJO-Vu-hKv">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
@@ -1621,13 +1621,13 @@ Toronto, ON, Canada</string>
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lunch" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rCi-5K-BEM">
-                                                    <rect key="frame" x="20" y="16.5" width="41.5" height="17"/>
+                                                    <rect key="frame" x="19.999999999999996" y="16.666666666666668" width="41.666666666666657" height="17.000000000000004"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                                     <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1" verticalHuggingPriority="251" text="$72.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T3L-o2-Bfh">
-                                                    <rect key="frame" x="61.5" y="16" width="260.5" height="17"/>
+                                                    <rect key="frame" x="61.666666666666657" y="16" width="260.33333333333337" height="17"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                     <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
@@ -1657,7 +1657,7 @@ Toronto, ON, Canada</string>
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OqY-8t-bcf" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
                                 <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="Fanexpo"/>
@@ -1671,7 +1671,7 @@ Toronto, ON, Canada</string>
                             <constraint firstItem="OqY-8t-bcf" firstAttribute="leading" secondItem="ljf-bc-YC0" secondAttribute="leading" id="Clv-S7-c86"/>
                             <constraint firstItem="OqY-8t-bcf" firstAttribute="bottom" secondItem="n9u-xp-G2Q" secondAttribute="bottom" constant="44" id="LH2-Q1-eL1"/>
                             <constraint firstItem="Xeq-x0-NDa" firstAttribute="leading" secondItem="ljf-bc-YC0" secondAttribute="leading" id="POs-dM-OjY"/>
-                            <constraint firstItem="Lqe-7d-Pia" firstAttribute="top" secondItem="Xeq-x0-NDa" secondAttribute="bottom" id="Ye1-qb-1ek"/>
+                            <constraint firstAttribute="bottom" secondItem="Xeq-x0-NDa" secondAttribute="bottom" id="Ye1-qb-1ek"/>
                             <constraint firstAttribute="trailing" secondItem="OqY-8t-bcf" secondAttribute="trailing" id="aYC-Ld-F8o"/>
                             <constraint firstAttribute="trailing" secondItem="Xeq-x0-NDa" secondAttribute="trailing" id="b3V-1z-nSU"/>
                             <constraint firstItem="Xeq-x0-NDa" firstAttribute="top" secondItem="OqY-8t-bcf" secondAttribute="bottom" id="n7e-Kn-0Ma"/>
@@ -1697,11 +1697,11 @@ Toronto, ON, Canada</string>
                         <viewControllerLayoutGuide type="bottom" id="06C-P4-8rq"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="vUV-qP-Uet">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WCN-3x-49f">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WCN-3x-49f">
+                                <rect key="frame" x="0.0" y="88" width="375" height="724"/>
                                 <color key="backgroundColor" name="Background"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="RecordCell" id="b3T-6j-B4U" customClass="RecordTableViewCell" customModule="ConArtist" customModuleProvider="target">
@@ -1719,16 +1719,16 @@ Toronto, ON, Canada</string>
                                                     </constraints>
                                                 </view>
                                                 <view contentMode="scaleToFill" horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="aKf-u8-kIC">
-                                                    <rect key="frame" x="0.0" y="9" width="222.5" height="33"/>
+                                                    <rect key="frame" x="0.0" y="9" width="222.66666666666666" height="33"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Milk BT, Strawberry BT, Peach" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="fkt-vY-JXe">
-                                                            <rect key="frame" x="20" y="0.0" width="202.5" height="17"/>
+                                                            <rect key="frame" x="20" y="0.0" width="202.66666666666666" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                                             <color key="textColor" name="Text"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9:35" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ydt-vJ-GrF">
-                                                            <rect key="frame" x="20" y="18" width="26.5" height="14.5"/>
+                                                            <rect key="frame" x="20" y="18" width="26.666666666666671" height="14.666666666666664"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <color key="textColor" name="TextPlaceholder"/>
                                                             <nil key="highlightedColor"/>
@@ -1744,7 +1744,7 @@ Toronto, ON, Canada</string>
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="$5.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NDo-El-5LB">
-                                                    <rect key="frame" x="313" y="16.5" width="41.5" height="17"/>
+                                                    <rect key="frame" x="313" y="16.666666666666668" width="41.666666666666686" height="17.000000000000004"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                     <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
@@ -1776,7 +1776,7 @@ Toronto, ON, Canada</string>
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bus-3T-2VO" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
                                 <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="Fanexpo"/>
@@ -1794,7 +1794,7 @@ Toronto, ON, Canada</string>
                             <constraint firstAttribute="trailing" secondItem="Bus-3T-2VO" secondAttribute="trailing" id="DT6-7b-BrN"/>
                             <constraint firstItem="WCN-3x-49f" firstAttribute="top" secondItem="Bus-3T-2VO" secondAttribute="bottom" id="tSg-nI-mtx"/>
                             <constraint firstAttribute="trailing" secondItem="WCN-3x-49f" secondAttribute="trailing" id="wto-7f-qiJ"/>
-                            <constraint firstItem="06C-P4-8rq" firstAttribute="top" secondItem="WCN-3x-49f" secondAttribute="bottom" id="yYe-a2-fB4"/>
+                            <constraint firstAttribute="bottom" secondItem="WCN-3x-49f" secondAttribute="bottom" id="yYe-a2-fB4"/>
                         </constraints>
                     </view>
                     <connections>
@@ -1815,18 +1815,18 @@ Toronto, ON, Canada</string>
                         <viewControllerLayoutGuide type="bottom" id="mjg-5S-3pS"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="hPM-dN-ShI">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iX7-Yr-sSr">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="724"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                             </button>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Z2-Tl-jiF">
-                                <rect key="frame" x="0.0" y="356" width="375" height="311"/>
+                                <rect key="frame" x="0.0" y="467" width="375" height="345"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sale" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a3a-b4-XjX">
-                                        <rect key="frame" x="171.5" y="35" width="31" height="18"/>
+                                        <rect key="frame" x="171.66666666666666" y="35" width="31" height="18"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                         <color key="textColor" name="Text"/>
                                         <nil key="highlightedColor"/>
@@ -1845,7 +1845,7 @@ Toronto, ON, Canada</string>
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Items" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u9Q-8m-ELI">
-                                        <rect key="frame" x="20" y="66" width="35.5" height="17"/>
+                                        <rect key="frame" x="19.999999999999996" y="66" width="35.666666666666657" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" name="Text"/>
                                         <nil key="highlightedColor"/>
@@ -1866,7 +1866,7 @@ Toronto, ON, Canada</string>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="5x7 Print" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IG5-AF-at0">
-                                                            <rect key="frame" x="10" y="10" width="57.5" height="20"/>
+                                                            <rect key="frame" x="9.9999999999999964" y="10" width="57.666666666666657" height="20"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="xt0-QC-DNG"/>
                                                             </constraints>
@@ -1945,13 +1945,13 @@ Toronto, ON, Canada</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Note" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="foP-HM-qFd">
-                                        <rect key="frame" x="20" y="241" width="31.5" height="17"/>
+                                        <rect key="frame" x="20" y="241" width="31.666666666666671" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" name="Text"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KkI-h1-DQ5">
-                                        <rect key="frame" x="61.5" y="249" width="293.5" height="1"/>
+                                        <rect key="frame" x="61.666666666666657" y="249" width="293.33333333333337" height="1"/>
                                         <color key="backgroundColor" name="Divider"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="zsl-n3-TjP"/>
@@ -1964,19 +1964,19 @@ Toronto, ON, Canada</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HZG-vK-QqH">
-                                        <rect key="frame" x="20" y="187" width="50.5" height="17"/>
+                                        <rect key="frame" x="19.999999999999996" y="187" width="50.666666666666657" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" name="Text"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$20.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uhD-Ii-U9n">
-                                        <rect key="frame" x="301.5" y="187" width="53.5" height="18"/>
+                                        <rect key="frame" x="301.66666666666669" y="187" width="53.333333333333314" height="18"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <color key="textColor" name="Text"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Friday August 31, 2018. 9:31" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uJY-aK-cc5">
-                                        <rect key="frame" x="161.5" y="214" width="193.5" height="18"/>
+                                        <rect key="frame" x="161.66666666666663" y="214" width="193.33333333333337" height="18"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" name="Text"/>
                                         <nil key="highlightedColor"/>
@@ -2007,13 +2007,12 @@ Toronto, ON, Canada</string>
                                     <constraint firstItem="bAk-vK-ZpE" firstAttribute="leading" secondItem="3Z2-Tl-jiF" secondAttribute="leading" constant="10" id="tAW-8f-AR2"/>
                                     <constraint firstItem="foP-HM-qFd" firstAttribute="top" secondItem="7FO-FB-ZVo" secondAttribute="bottom" constant="10" id="tp7-Bz-8vg"/>
                                     <constraint firstItem="KkI-h1-DQ5" firstAttribute="leading" secondItem="foP-HM-qFd" secondAttribute="trailing" constant="10" id="w2C-ra-I9y"/>
-                                    <constraint firstAttribute="bottom" secondItem="dJp-UJ-gQf" secondAttribute="bottom" constant="25" id="x97-5A-XbF"/>
                                     <constraint firstItem="KkI-h1-DQ5" firstAttribute="centerY" secondItem="foP-HM-qFd" secondAttribute="centerY" id="xi1-jo-QRX"/>
                                     <constraint firstItem="7FO-FB-ZVo" firstAttribute="leading" secondItem="3Z2-Tl-jiF" secondAttribute="leading" constant="20" id="xn8-5b-Az4"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c6g-cp-o4C" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
                                 <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="rightButtonTitle" value="Edit"/>
@@ -2024,10 +2023,11 @@ Toronto, ON, Canada</string>
                         <constraints>
                             <constraint firstItem="3Z2-Tl-jiF" firstAttribute="leading" secondItem="hPM-dN-ShI" secondAttribute="leading" id="5Qc-Lr-5fH"/>
                             <constraint firstItem="iX7-Yr-sSr" firstAttribute="top" secondItem="c6g-cp-o4C" secondAttribute="bottom" id="8wS-XB-Zmn"/>
+                            <constraint firstItem="mjg-5S-3pS" firstAttribute="top" secondItem="dJp-UJ-gQf" secondAttribute="bottom" constant="25" id="AzR-Qe-1hS"/>
                             <constraint firstAttribute="trailing" secondItem="3Z2-Tl-jiF" secondAttribute="trailing" id="CjE-y7-Aoc"/>
                             <constraint firstAttribute="trailing" secondItem="c6g-cp-o4C" secondAttribute="trailing" id="INQ-Hk-oVG"/>
                             <constraint firstItem="c6g-cp-o4C" firstAttribute="bottom" secondItem="PgG-dz-C2B" secondAttribute="bottom" constant="44" id="Lt0-PL-fmm"/>
-                            <constraint firstItem="mjg-5S-3pS" firstAttribute="top" secondItem="3Z2-Tl-jiF" secondAttribute="bottom" id="OBD-tD-VtI"/>
+                            <constraint firstAttribute="bottom" secondItem="3Z2-Tl-jiF" secondAttribute="bottom" id="OBD-tD-VtI"/>
                             <constraint firstAttribute="bottom" secondItem="iX7-Yr-sSr" secondAttribute="bottom" id="aDb-sk-DnS"/>
                             <constraint firstItem="c6g-cp-o4C" firstAttribute="leading" secondItem="hPM-dN-ShI" secondAttribute="leading" id="kd5-95-Jh2"/>
                             <constraint firstItem="c6g-cp-o4C" firstAttribute="top" secondItem="hPM-dN-ShI" secondAttribute="top" id="mUB-By-dwk"/>
@@ -2054,7 +2054,7 @@ Toronto, ON, Canada</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vyh-ev-SNB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3478" y="52"/>
+            <point key="canvasLocation" x="3477.5999999999999" y="51.724137931034484"/>
         </scene>
         <!--Product Type List View Controller-->
         <scene sceneID="GBc-Lp-GIE">
@@ -2065,11 +2065,11 @@ Toronto, ON, Canada</string>
                         <viewControllerLayoutGuide type="bottom" id="a0y-ve-yhU"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="nqz-o7-LYH">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4Va-JC-ojd">
-                                <rect key="frame" x="0.0" y="64" width="375" height="533"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="620"/>
                                 <color key="backgroundColor" name="Background"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ProductTypeCell" rowHeight="50" id="NhN-Km-hRX" customClass="ProductTypeTableViewCell" customModule="ConArtist" customModuleProvider="target">
@@ -2083,7 +2083,7 @@ Toronto, ON, Canada</string>
                                                     <rect key="frame" x="298" y="13" width="24" height="24"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vFo-Zn-pYY">
-                                                            <rect key="frame" x="7" y="1.5" width="10.5" height="21"/>
+                                                            <rect key="frame" x="6.9999999999999991" y="1.6666666666666661" width="10.666666666666664" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <color key="textColor" name="Background"/>
                                                             <nil key="highlightedColor"/>
@@ -2131,7 +2131,7 @@ Toronto, ON, Canada</string>
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Oy-Dl-qGY">
-                                <rect key="frame" x="0.0" y="597" width="375" height="220"/>
+                                <rect key="frame" x="0.0" y="708" width="375" height="220"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Price" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="fW1-7w-Gkw" customClass="FancyTextField" customModule="ConArtist" customModuleProvider="target">
                                         <rect key="frame" x="10" y="10" width="301" height="50"/>
@@ -2166,7 +2166,7 @@ Toronto, ON, Canada</string>
                                         </state>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Note" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hpl-cw-GYI">
-                                        <rect key="frame" x="30" y="68.5" width="315" height="14.5"/>
+                                        <rect key="frame" x="30" y="68.666666666666629" width="315" height="14.333333333333329"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <color key="textColor" name="TextPlaceholder"/>
                                         <nil key="highlightedColor"/>
@@ -2206,8 +2206,12 @@ Toronto, ON, Canada</string>
                                     <constraint firstItem="fW1-7w-Gkw" firstAttribute="leading" secondItem="5Oy-Dl-qGY" secondAttribute="leading" constant="10" id="yLR-bg-u0x"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sz3-g8-pzj">
+                                <rect key="frame" x="0.0" y="778" width="375" height="34"/>
+                                <color key="backgroundColor" name="BackgroundVariant"/>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vey-CQ-XiF" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
                                 <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="New Sale"/>
@@ -2218,15 +2222,19 @@ Toronto, ON, Canada</string>
                         </subviews>
                         <color key="backgroundColor" name="Background"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="sz3-g8-pzj" secondAttribute="bottom" id="0jP-0J-jMy"/>
                             <constraint firstAttribute="trailing" secondItem="5Oy-Dl-qGY" secondAttribute="trailing" id="4dg-RV-lY8"/>
                             <constraint firstAttribute="trailing" secondItem="Vey-CQ-XiF" secondAttribute="trailing" id="Aun-Gp-uzi"/>
                             <constraint firstItem="5Oy-Dl-qGY" firstAttribute="leading" secondItem="nqz-o7-LYH" secondAttribute="leading" id="EcJ-Sk-zAt"/>
                             <constraint firstAttribute="trailing" secondItem="4Va-JC-ojd" secondAttribute="trailing" id="JX1-hs-W2n"/>
                             <constraint firstItem="Vey-CQ-XiF" firstAttribute="bottom" secondItem="3oQ-ec-fPJ" secondAttribute="bottom" constant="44" id="L31-o7-vkp"/>
+                            <constraint firstItem="sz3-g8-pzj" firstAttribute="leading" secondItem="nqz-o7-LYH" secondAttribute="leading" id="Nj5-PA-16o"/>
                             <constraint firstItem="4Va-JC-ojd" firstAttribute="top" secondItem="Vey-CQ-XiF" secondAttribute="bottom" id="QAC-nQ-Ey7"/>
                             <constraint firstItem="5Oy-Dl-qGY" firstAttribute="top" secondItem="4Va-JC-ojd" secondAttribute="bottom" id="a2A-uX-fQe"/>
                             <constraint firstItem="a0y-ve-yhU" firstAttribute="top" secondItem="5Oy-Dl-qGY" secondAttribute="bottom" constant="-150" id="eg8-3h-R34"/>
                             <constraint firstItem="Vey-CQ-XiF" firstAttribute="leading" secondItem="nqz-o7-LYH" secondAttribute="leading" id="ewM-2f-gfq"/>
+                            <constraint firstAttribute="trailing" secondItem="sz3-g8-pzj" secondAttribute="trailing" id="jm5-U5-aed"/>
+                            <constraint firstItem="a0y-ve-yhU" firstAttribute="top" secondItem="sz3-g8-pzj" secondAttribute="top" id="jrq-KO-g80"/>
                             <constraint firstItem="4Va-JC-ojd" firstAttribute="leading" secondItem="nqz-o7-LYH" secondAttribute="leading" id="lh9-HL-7dF"/>
                             <constraint firstItem="Vey-CQ-XiF" firstAttribute="top" secondItem="nqz-o7-LYH" secondAttribute="top" id="mPV-RU-4q3"/>
                         </constraints>
@@ -2255,11 +2263,11 @@ Toronto, ON, Canada</string>
                         <viewControllerLayoutGuide type="bottom" id="pIA-0B-PGY"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="rui-x8-Yo5">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="CHh-98-Yvf">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="724"/>
                                 <color key="backgroundColor" name="Background"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="ProductCell" rowHeight="50" id="h3E-gD-cGc" customClass="ProductTableViewCell" customModule="ConArtist" customModuleProvider="target">
@@ -2276,7 +2284,7 @@ Toronto, ON, Canada</string>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="83" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XXg-yy-2y3">
-                                                    <rect key="frame" x="334" y="14.5" width="21" height="21"/>
+                                                    <rect key="frame" x="334" y="14.666666666666664" width="21" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" name="TextPlaceholder"/>
                                                     <nil key="highlightedColor"/>
@@ -2285,7 +2293,7 @@ Toronto, ON, Canada</string>
                                                     <rect key="frame" x="290" y="13" width="24" height="24"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qAz-DM-JEr">
-                                                            <rect key="frame" x="7" y="1.5" width="10.5" height="21"/>
+                                                            <rect key="frame" x="6.9999999999999991" y="1.6666666666666661" width="10.666666666666664" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <color key="textColor" name="Background"/>
                                                             <nil key="highlightedColor"/>
@@ -2331,7 +2339,7 @@ Toronto, ON, Canada</string>
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pYY-R7-feo" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
                                 <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="11x17 Print"/>
@@ -2346,7 +2354,7 @@ Toronto, ON, Canada</string>
                             <constraint firstItem="pYY-R7-feo" firstAttribute="bottom" secondItem="uPv-Ii-2ZU" secondAttribute="bottom" constant="44" id="K5f-gF-sf4"/>
                             <constraint firstAttribute="trailing" secondItem="CHh-98-Yvf" secondAttribute="trailing" id="YUU-K1-eim"/>
                             <constraint firstAttribute="trailing" secondItem="pYY-R7-feo" secondAttribute="trailing" id="eh0-84-0M5"/>
-                            <constraint firstItem="pIA-0B-PGY" firstAttribute="top" secondItem="CHh-98-Yvf" secondAttribute="bottom" id="fRD-nq-ucE"/>
+                            <constraint firstAttribute="bottom" secondItem="CHh-98-Yvf" secondAttribute="bottom" id="fRD-nq-ucE"/>
                             <constraint firstItem="pYY-R7-feo" firstAttribute="leading" secondItem="rui-x8-Yo5" secondAttribute="leading" id="qvQ-L8-YqM"/>
                             <constraint firstItem="pYY-R7-feo" firstAttribute="top" secondItem="rui-x8-Yo5" secondAttribute="top" id="yih-cu-ev5"/>
                         </constraints>
@@ -2369,15 +2377,15 @@ Toronto, ON, Canada</string>
                         <viewControllerLayoutGuide type="bottom" id="2GK-oP-STk"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="GeO-wo-KFi">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pez-VQ-9rj">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="724"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                             </button>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qrb-1k-fdV">
-                                <rect key="frame" x="0.0" y="450" width="375" height="217"/>
+                                <rect key="frame" x="0.0" y="561" width="375" height="251"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Expense" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a7V-ha-MMh">
                                         <rect key="frame" x="157" y="35" width="61" height="18"/>
@@ -2405,13 +2413,13 @@ Toronto, ON, Canada</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Note" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hRF-3g-rGg">
-                                        <rect key="frame" x="20" y="147" width="31.5" height="17"/>
+                                        <rect key="frame" x="20" y="147" width="31.666666666666671" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" name="Text"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IyZ-dc-3d9">
-                                        <rect key="frame" x="61.5" y="155" width="293.5" height="1"/>
+                                        <rect key="frame" x="61.666666666666657" y="155" width="293.33333333333337" height="1"/>
                                         <color key="backgroundColor" name="Divider"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="Gdo-r1-G58"/>
@@ -2424,25 +2432,25 @@ Toronto, ON, Canada</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kg6-Kt-S8X">
-                                        <rect key="frame" x="20" y="93" width="50.5" height="17"/>
+                                        <rect key="frame" x="19.999999999999996" y="93" width="50.666666666666657" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" name="Text"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$20.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HGr-jM-l6h">
-                                        <rect key="frame" x="301.5" y="93" width="53.5" height="18"/>
+                                        <rect key="frame" x="301.66666666666669" y="93" width="53.333333333333314" height="18"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <color key="textColor" name="Text"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Friday August 31, 2018. 9:31" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vyq-96-nXq">
-                                        <rect key="frame" x="161.5" y="120" width="193.5" height="18"/>
+                                        <rect key="frame" x="161.66666666666663" y="120" width="193.33333333333337" height="18"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" name="Text"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gGS-wm-D15">
-                                        <rect key="frame" x="20" y="66" width="59.5" height="17"/>
+                                        <rect key="frame" x="19.999999999999996" y="66" width="59.666666666666657" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" name="Text"/>
                                         <nil key="highlightedColor"/>
@@ -2468,7 +2476,6 @@ Toronto, ON, Canada</string>
                                     <constraint firstAttribute="trailing" secondItem="Vyq-96-nXq" secondAttribute="trailing" constant="20" id="UVj-H2-k2N"/>
                                     <constraint firstItem="CWQ-Q2-FTG" firstAttribute="top" secondItem="hRF-3g-rGg" secondAttribute="bottom" constant="10" id="arq-Iz-yEO"/>
                                     <constraint firstItem="Vyq-96-nXq" firstAttribute="centerY" secondItem="DgN-Jn-mWi" secondAttribute="centerY" id="cou-ST-DO0"/>
-                                    <constraint firstAttribute="bottom" secondItem="CWQ-Q2-FTG" secondAttribute="bottom" constant="25" id="crz-3k-bha"/>
                                     <constraint firstAttribute="trailing" secondItem="IyZ-dc-3d9" secondAttribute="trailing" constant="20" id="g21-8h-mUt"/>
                                     <constraint firstItem="oiI-za-dwK" firstAttribute="centerY" secondItem="gGS-wm-D15" secondAttribute="centerY" id="iU1-yV-9uC"/>
                                     <constraint firstItem="gGS-wm-D15" firstAttribute="leading" secondItem="Qrb-1k-fdV" secondAttribute="leading" constant="20" id="ncY-GG-1Ff"/>
@@ -2484,7 +2491,7 @@ Toronto, ON, Canada</string>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UOI-OP-uLe" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
                                 <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="rightButtonTitle" value="Edit"/>
@@ -2500,11 +2507,12 @@ Toronto, ON, Canada</string>
                             <constraint firstItem="UOI-OP-uLe" firstAttribute="top" secondItem="GeO-wo-KFi" secondAttribute="top" id="Vvu-Xi-4JS"/>
                             <constraint firstItem="Qrb-1k-fdV" firstAttribute="leading" secondItem="GeO-wo-KFi" secondAttribute="leading" id="bfH-BV-aj3"/>
                             <constraint firstAttribute="trailing" secondItem="pez-VQ-9rj" secondAttribute="trailing" id="cWw-87-nvY"/>
-                            <constraint firstItem="2GK-oP-STk" firstAttribute="top" secondItem="Qrb-1k-fdV" secondAttribute="bottom" id="fud-Xd-Nzu"/>
+                            <constraint firstAttribute="bottom" secondItem="Qrb-1k-fdV" secondAttribute="bottom" id="fud-Xd-Nzu"/>
                             <constraint firstAttribute="trailing" secondItem="UOI-OP-uLe" secondAttribute="trailing" id="jEi-Cl-l2D"/>
                             <constraint firstItem="UOI-OP-uLe" firstAttribute="bottom" secondItem="VUm-fJ-5zc" secondAttribute="bottom" constant="44" id="jaY-dA-cEK"/>
                             <constraint firstItem="pez-VQ-9rj" firstAttribute="top" secondItem="UOI-OP-uLe" secondAttribute="bottom" id="m3k-so-HmL"/>
                             <constraint firstItem="pez-VQ-9rj" firstAttribute="leading" secondItem="GeO-wo-KFi" secondAttribute="leading" id="mL3-Aj-t0e"/>
+                            <constraint firstItem="2GK-oP-STk" firstAttribute="top" secondItem="CWQ-Q2-FTG" secondAttribute="bottom" constant="25" id="qaS-T6-ygu"/>
                         </constraints>
                     </view>
                     <connections>
@@ -2525,7 +2533,7 @@ Toronto, ON, Canada</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="foJ-BU-5zW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3478" y="721"/>
+            <point key="canvasLocation" x="3477.5999999999999" y="720.44334975369463"/>
         </scene>
     </scenes>
     <resources>
@@ -2541,6 +2549,9 @@ Toronto, ON, Canada</string>
         </namedColor>
         <namedColor name="BackgroundOverlay">
             <color red="0.0" green="0.0" blue="0.0" alpha="0.20000000298023224" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="BackgroundVariant">
+            <color red="0.2669999897480011" green="0.2669999897480011" blue="0.2669999897480011" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="BackgroundVariant">
             <color red="0.2669999897480011" green="0.2669999897480011" blue="0.2669999897480011" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

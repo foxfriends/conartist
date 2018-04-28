@@ -10,6 +10,7 @@ import { BasicHeader } from '../card-view/basic-header'
 import { MoneyInfo } from '../conventions/info/money-info'
 import { NetProfit } from '../conventions/info/net-profit'
 import { l } from '../../localization'
+import { Money } from '../../model/money'
 import * as navigate from '../../update/navigate'
 import type { Convention } from '../../model/convention'
 import S from '../conventions/card.css'
@@ -19,7 +20,7 @@ export type Props = {
 }
 
 export function ConventionRevenueCard({ convention }: Props) {
-  if (convention.recordTotal === 0 && convention.expenseTotal === 0 && convention.start > new Date()) { return null }
+  if (Money.zero.equals(convention.recordTotal || Money.zero) && Money.zero.equals(convention.expenseTotal || Money.zero) && convention.start > new Date()) { return null }
   return (
     <Card>
       <BasicHeader>

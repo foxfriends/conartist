@@ -46,6 +46,7 @@ export class Card<E: React.ElementType> extends React.Component<Props<E>, State>
         { header
             ? <div className={S.header}>
                 { header }
+                { topAction ? <IconButton {...topAction} priority="tertiary" className={S.topAction} /> : null }
                 { collapsible
                     ? <IconButton
                         title={collapsed ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}
@@ -56,7 +57,6 @@ export class Card<E: React.ElementType> extends React.Component<Props<E>, State>
                         />
                     : null
                 }
-                { topAction ? <IconButton {...topAction} priority="tertiary" className={S.topAction} /> : null }
               </div>
             : null
         }

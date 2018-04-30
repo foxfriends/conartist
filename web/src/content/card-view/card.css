@@ -5,9 +5,16 @@
   margin: 16px;
 }
 
+@media (min-width: 440px) {
+  .card {
+    width: calc(100vw - 68px);
+  }
+}
+
 @media (min-width: 888px) {
   .card {
     width: calc(600px - 32px);
+    max-width: calc(100% - 68px);
   }
 }
 
@@ -33,17 +40,28 @@
 
 .topAction, .bottomAction {
   composes: outlinedIcon from '../../common/styles.css';
-  position: absolute;
-  left: 100%;
-  margin-top: 8px;
-  margin-left: 8px;
-  margin-bottom: 8px;
+  flex-shrink: 0;
+  flex-grow: 0;
 }
 
-.topAction {
-  top: 0;
+@media (max-width: 439px) {
+  .bottomAction {
+    margin: 8px 8px 8px auto;
+  }
 }
 
-.bottomAction {
-  bottom: 0;
+@media (min-width: 440px) {
+  .topAction, .bottomAction {
+    position: absolute;
+    left: 100%;
+    margin: 8px;
+  }
+
+  .topAction {
+    top: 0;
+  }
+
+  .bottomAction {
+    bottom: 0;
+  }
 }

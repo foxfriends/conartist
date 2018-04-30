@@ -12,8 +12,11 @@
   "dependencies": {
     "@babel/core": "^7.0.0-beta.46",
     "@babel/preset-react": "^7.0.0-beta.46",
-    "apollo-boost": "^0.1.4",
+    "apollo-cache-inmemory": "^1.1.12",
     "apollo-client": "^2.2.8",
+    "apollo-link": "^1.2.2",
+    "apollo-link-batch-http": "^1.2.2",
+    "apollo-link-http": "^1.5.4",
     "autoprefixer": "^8.3.0",
     "babel-loader": "^8.0.0-beta.2",
     "babel-plugin-react-css-modules": "^3.4.0",

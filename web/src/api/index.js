@@ -1,7 +1,7 @@
 /* @flow */
 import { Observable } from 'rxjs/Observable'
-import ApolloClient from 'apollo-boost'
-import type { Operation, Query, Mutation } from 'apollo-boost'
+import type { Operation, Query, Mutation } from './apollo'
+import { graphql } from './apollo'
 
 import { Storage } from '../storage'
 
@@ -89,19 +89,6 @@ export class GetRequest<Params, Result> extends HttpRequest<Params, Result> impl
     return super._send(new Request(`${this.route}${query.length > 1 ? query : ''}`))
   }
 }
-
-// TODO: set up resolvers so that every request class doesn't have to call parse
-const graphql = new ApolloClient({
-  uri: '/api/v2/',
-  shouldBatch: true,
-  async request(operation: Operation) {
-    const authorization = Storage.retrieve(Storage.Auth)
-    if (authorization) {
-      const headers = { Authorization: `Bearer ${authorization}` }
-      operation.setContext({ headers })
-    }
-  },
-})
 
 export class GraphQLQuery<Variables, Value> implements APIRequest<Variables, Value> {
   query: Query<Variables, Value>

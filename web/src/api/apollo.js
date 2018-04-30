@@ -89,6 +89,10 @@ const link = ApolloLink.from([
 
 const cache = new InMemoryCache()
 
+export function clearCache() {
+  cache.reset()
+}
+
 export const graphql = new ApolloClient({
   link,
   cache,

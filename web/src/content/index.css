@@ -1,7 +1,6 @@
 .container {
   position: relative;
   box-sizing: border-box;
-  width: calc(600px + ((100vw - 600px - 280px) / 2));
 }
 
 .placeholder {
@@ -10,4 +9,16 @@
 
 .emptyState {
   opacity: 0.5;
+}
+
+@media (min-width: 888px) {
+  .container {
+    width: calc(600px + ((100vw - 600px - 280px) / 2));
+  }
+}
+
+@media (max-width: 887px) {
+  .container {
+    width: 100%;
+  }
 }

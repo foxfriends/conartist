@@ -6,7 +6,20 @@
   flex-shrink: 0;
 }
 
-.nav {
-  position: fixed;
-  width: 280px;
+@media (max-width: 887px) {
+  .container {
+    position: fixed;
+    right: 100%;
+  }
+
+  .nav {
+    position: relative;
+  }
+}
+
+@media (min-width: 888px) {
+  .nav {
+    position: fixed;
+    width: 280px;
+  }
 }

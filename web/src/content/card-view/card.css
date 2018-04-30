@@ -3,7 +3,12 @@
   overflow: visible;
   background-color: var(--color--background-variant);
   margin: 16px;
-  width: calc(600px - 32px);
+}
+
+@media (min-width: 888px) {
+  .card {
+    width: calc(600px - 32px);
+  }
 }
 
 .header {

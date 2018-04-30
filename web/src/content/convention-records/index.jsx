@@ -16,6 +16,7 @@ export function ConventionRecords({ convention }: Props) {
   for (const date = new Date(justUTCDay(convention.start)); date <= end; date.setDate(date.getDate() + 1)) {
     dates.push(new Date(date).getTime())
   }
+  // $FlowIgnore: does not understand defaulting missing args
   for (const item of [].concat(convention.records || [], convention.expenses || [])) {
     const day = justUTCDay(item.time).getTime()
     if (!dates.includes(day)) {

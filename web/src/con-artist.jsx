@@ -193,6 +193,7 @@ export class ConArtist extends React.Component<Props, State> {
           { dialog ? <Dialog {...dialog} /> : null }
         </div>
         <Toast onClick={() => this.dismissToast()}>
+          {/* $FlowIgnore: does not understand defaulting missing args */}
           { toast || null }
         </Toast>
       </>

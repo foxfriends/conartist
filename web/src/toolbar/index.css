@@ -9,12 +9,24 @@
 }
 
 .inner {
-  width: 880px;
   height: 100%;
-  margin: 0 auto;
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+@media (min-width: 888px) {
+  .inner {
+    width: 880px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 887px) {
+  .inner {
+    width: 100%;
+    padding: 0 4px;
+  }
 }
 
 .title {
@@ -25,6 +37,16 @@
   letter-spacing: 1px;
   margin-left: 8px;
   margin-right: auto;
+}
+
+@media (max-width: 460px) {
+  .logo {
+    margin-right: auto;
+  }
+
+  .title {
+    display: none;
+  }
 }
 
 .action {

@@ -1,12 +1,12 @@
-.primary, .secondary, .tertiary {
+.button {
   height: 44px;
-  min-width: 152px;
   border: none;
   border-radius: 2px;
   font-family: var(--font--body);
   font-weight: var(--font-weight--semibold);
   font-variant-caps: small-caps;
   text-transform: lowercase;
+  padding: 0 16px;
 
   &:not(:disabled) {
     cursor: pointer;
@@ -15,6 +15,13 @@
 
   &:disabled {
     opacity: 0.5;
+  }
+}
+
+@media (min-width: 480px) {
+  .button {
+    min-width: 152px;
+    padding: 0;
   }
 }
 

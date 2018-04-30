@@ -20,7 +20,7 @@ export type Props = Action & {
 
 export function Button({ children, title, action, priority, enabled, className, style }: Props) {
   return (
-    <button disabled={enabled === false} onClick={action} className={`${S[priority || 'primary']} ${className || ''}`} style={style || {}}>
+    <button disabled={enabled === false} onClick={action} className={`${S.button} ${S[priority || 'primary']} ${className || ''}`} style={style || {}}>
       { children || localize(title) }
     </button>
   )

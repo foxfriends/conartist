@@ -23,9 +23,18 @@
   justify-content: center;
 }
 
+.pageIcon {
+  font-size: 24px;
+  padding: 8px;
+}
+
 @media (min-width: 888px) {
   .inner {
     --width--inner-page: 880px;
+  }
+
+  .pageIcon {
+    display: none !important;
   }
 }
 
@@ -51,6 +60,10 @@
       border-color: transparent;
       border-left-color: var(--color--background-toolbar-variant);
     }
+  }
+
+  .logo {
+    display: none;
   }
 }
 

@@ -64,74 +64,74 @@ export class ConArtist extends React.Component<Props, State> {
         break
 
       case 'dashboard':
-        state.toolbar = { primary: null, secondary: null }
+        state.toolbar = { primary: null, secondary: null, pageIcon: 'dashboard' }
         state.content = { name: 'placeholder' }
         state.navigation = NavInfo.default.select('Dashboard')
         break
 
       case 'products':
-        state.toolbar = { primary: toolbarAction.EditProducts, secondary: null }
+        state.toolbar = { primary: toolbarAction.EditProducts, secondary: null, pageIcon: 'shopping_basket' }
         state.content = { name: 'products', productTypes: model.productTypes, products: model.products }
         state.navigation = NavInfo.default.select('Products', [].concat(...model.productTypes.map(NavInfo.forProductType)))
         break
 
       case 'edit-products':
         state.toolbar = toolbar
-        state.content = { name: 'edit-products', productTypes: model.productTypes, products: model.products }
+        state.content = { name: 'edit-products', productTypes: model.productTypes, products: model.products, pageIcon: 'shopping_basket' }
         state.navigation = NavInfo.default.select('Products', [].concat(...model.productTypes.map(NavInfo.forProductType))).disable()
         break
 
       case 'prices':
-        state.toolbar = { primary: model.productTypes.filter(({ discontinued }) => !discontinued).length ? toolbarAction.EditPrices : null, secondary: null }
+        state.toolbar = { primary: model.productTypes.filter(({ discontinued }) => !discontinued).length ? toolbarAction.EditPrices : null, secondary: null, pageIcon: 'attach_money' }
         state.content = { name: 'prices', prices: model.prices, productTypes: model.productTypes, products: model.products }
         state.navigation = NavInfo.default.select('Prices', [].concat(...model.productTypes.map(NavInfo.forProductType)))
         break
 
       case 'edit-prices':
         state.toolbar = toolbar
-        state.content = { name: 'edit-prices', prices: model.prices, productTypes: model.productTypes, products: model.products }
+        state.content = { name: 'edit-prices', prices: model.prices, productTypes: model.productTypes, products: model.products, pageIcon: 'attach_money' }
         state.navigation = NavInfo.default.select('Prices', [].concat(...model.productTypes.map(NavInfo.forProductType))).disable()
         break
 
       case 'conventions':
-        state.toolbar = { primary: toolbarAction.SearchConventions, secondary: null }
+        state.toolbar = { primary: toolbarAction.SearchConventions, secondary: null, pageIcon: 'event' }
         state.content = { name: 'conventions', conventions: model.conventions }
         state.navigation = NavInfo.default.select('Conventions')
         break
 
       case 'search-conventions':
-        state.toolbar = { primary: null, secondary: null }
+        state.toolbar = { primary: null, secondary: null, pageIcon: 'event' }
         state.content = { name: 'search-conventions' }
         state.navigation = NavInfo.default.select('Conventions', [], INDIRECT)
         break
 
       case 'convention-details':
-        state.toolbar = { primary: null, secondary: null }
+        state.toolbar = { primary: null, secondary: null, pageIcon: 'event' }
         state.content = { name: 'convention-details', convention: model.page.convention }
         state.navigation = NavInfo.default.select('Conventions', [], INDIRECT)
         break
 
       case 'convention-records':
-        state.toolbar = { primary: null, secondary: null }
+        state.toolbar = { primary: null, secondary: null, pageIcon: 'event' }
         state.content = { name: 'convention-records', convention: model.page.convention }
         state.navigation = NavInfo.default.select('Conventions', [], INDIRECT)
         break
 
       case 'convention-user-info':
-        state.toolbar = { primary: null, secondary: null }
+        state.toolbar = { primary: null, secondary: null, pageIcon: 'event' }
         state.content = { name: 'convention-user-info', convention: model.page.convention }
         state.navigation = NavInfo.default.select('Conventions', [], INDIRECT)
         break
 
       case 'settings':
-        state.toolbar = { primary: null, secondary: null }
+        state.toolbar = { primary: null, secondary: null, pageIcon: 'settings' }
         const { email = '', name: username = '' } = model.user || {}
         state.content = { name: 'settings', email, username, settings: model.settings }
         state.navigation = NavInfo.default.select('Settings')
         break
 
       case 'admin':
-        state.toolbar = { primary: null, secondary: null }
+        state.toolbar = { primary: null, secondary: null, pageIcon: 'security' }
         state.content = { name: 'admin' }
         state.navigation = NavInfo.default.select('Admin')
         break

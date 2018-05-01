@@ -9,16 +9,16 @@
   .container {
     position: fixed;
     top: 0;
-    left: 0;
-    right: 0;
+    right: 100%;
+    width: 100vw;
     z-index: var(--z-index--over-toolbar);
-    transform: translateX(-100%);
+    transform: translateX(0);
     transition: transform 0.2s;
     pointer-events: none;
   }
 
   .focused {
-    transform: translateX(0);
+    transform: translateX(100%);
     pointer-events: auto;
   }
 

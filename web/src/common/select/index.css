@@ -50,7 +50,7 @@
 }
 
 .option {
-  height: 50px;
+  height: var(--height--row);
 
   &:hover {
     background-color: var(--color--background-hover-highlight);

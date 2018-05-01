@@ -4,5 +4,5 @@
 
 .placeholder {
   composes: placeholder from '../../common/styles.css';
-  height: 50px;
+  height: var(--height--row);
 }

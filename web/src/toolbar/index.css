@@ -14,19 +14,43 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin: 0 auto;
+}
+
+.logoContainer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (min-width: 888px) {
   .inner {
     --width--inner-page: 880px;
-    margin: 0 auto;
   }
 }
 
 @media (max-width: 887px) {
   .inner {
     --width--inner-page: 100%;
-    padding: 0 4px;
+  }
+
+  .logoContainer {
+    position: relative;
+    padding-left: 4px;
+    height: 100%;
+    background-color: var(--color--background-toolbar-variant);
+
+    &::after {
+      position: absolute;
+      left: 100%;
+      content: '';
+      width: 0;
+      height: 0;
+      border-width: 30px 0 30px 16px;
+      border-style: solid;
+      border-color: transparent;
+      border-left-color: var(--color--background-toolbar-variant);
+    }
   }
 }
 
@@ -38,10 +62,13 @@
   letter-spacing: 1px;
   margin-left: 8px;
   margin-right: auto;
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
 }
 
 @media (max-width: 460px) {
-  .logo {
+  .logoContainer {
     margin-right: auto;
   }
 

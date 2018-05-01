@@ -21,7 +21,7 @@
 .header {
   display: flex;
   flex-direction: row;
-  height: 50px;
+  height: var(--height--row);
   align-items: center;
   overflow: visible;
   background-color: var(--color--background-highlight);

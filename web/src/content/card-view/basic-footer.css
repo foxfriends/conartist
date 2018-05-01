@@ -1,4 +1,4 @@
 .footer {
-  height: 50px;
+  height: var(--height--row);
   background-color: var(--color--background-highlight);
 }

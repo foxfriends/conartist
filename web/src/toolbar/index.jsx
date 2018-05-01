@@ -7,6 +7,7 @@ import LOGO from '../../icons/apple-icon-180x180.png'
 import S from './index.css'
 
 import { Button } from '../common/button'
+import { focus as focusNavigation } from '../navigation/focus'
 import type { Action, Props as ButtonProps } from '../common/button'
 
 export type Props = {
@@ -20,7 +21,9 @@ export function Toolbar({ primary, secondary }: Props) {
   return (
     <div className={S.toolbar}>
       <div className={S.inner}>
-        <img src={LOGO} height={44} className={S.logo}/>
+        <div className={S.logoContainer} onClick={() => focusNavigation()}>
+          <img src={LOGO} height={44} />
+        </div>
         <span className={S.title}>ConArtist</span>
         { secondary ? <Button {...secondary} priority="tertiary" className={S.action} /> : null }
         { primary ? <Button {...primary} priority="primary" className={S.action} /> : null }

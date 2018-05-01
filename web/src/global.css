@@ -8,6 +8,7 @@
   --color--background-variant: #444444;
   --color--background-highlight: #555555;
   --color--background-toolbar: #111111;
+  --color--background-toolbar-variant: #222222;
   --color--background-overlay: rgba(0, 0, 0, 0.2);
   --color--background-backdrop: rgba(0, 0, 0, 0.6);
   --color--background-hover-highlight: rgba(255, 255, 255, 0.03);
@@ -26,6 +27,9 @@
   --font-weight--bold: 700;
 
   --height--toolbar: 60px;
+  --height--row: 50px;
+
+  --width--indicator: 4px;
 
   --z-index--over-toolbar: 15;
   --z-index--toolbar: 10;

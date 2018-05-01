@@ -1,14 +1,26 @@
 .container {
   display: flex;
   flex-direction: column;
-  width: 100%;
+}
+
+@media (max-width: 887px) {
+  .container {
+    background: var(--color--background-toolbar);
+    flex-basis: 0;
+    flex-grow: 1;
+  }
+}
+
+@media (min-width: 888px) {
+  .container {
+    width: 100%;
+  }
 }
 
 .item {
-  height: 50px;
+  position: relative;
   width: 100%;
   display: flex;
-  flex-direction: row;
   align-items: center;
   color: var(--color--text);
   transition: 0.1s background-color;
@@ -17,6 +29,25 @@
   &:hover:not(.disabled) {
     cursor: pointer;
     background-color: var(--color--background-hover-highlight);
+  }
+}
+
+@media (max-width: 887px) {
+  .item {
+    height: var(--height--toolbar);
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .children {
+    display: none;
+  }
+}
+
+@media (min-width: 888px) {
+  .item {
+    height: var(--height--row);
+    flex-direction: row;
   }
 }
 
@@ -32,15 +63,39 @@
   font-size: 24px;
 }
 
-.title {
-  margin-left: 10px;
+@media (max-width: 887px) {
+  .title {
+    margin-top: 2px;
+    font-size: 10px;
+    color: var(--color--text-placeholder);
+  }
 }
 
-.indicatorSelected, .indicatorDefault, .indicatorDeep {
+@media (min-width: 888px) {
+  .title {
+    margin-left: 10px;
+  }
+}
+
+.indicator {
   display: inline-block;
-  height: 100%;
-  width: 4px;
-  margin-right: 12px;
+}
+
+@media (max-width: 887px) {
+  .indicator {
+    height: var(--width--indicator);
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+  }
+}
+
+@media (min-width: 888px) {
+  .indicator, .indicator, .indicator {
+    height: 100%;
+    width: var(--width--indicator);
+    margin-right: 12px;
+  }
 }
 
 .indicatorSelected {

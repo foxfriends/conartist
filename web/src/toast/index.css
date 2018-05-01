@@ -5,7 +5,7 @@
   background-color: var(--color--background-variant);
   box-shadow: 0 4px 8px var(--color--shadow);
   padding: 16px 32px 16px 16px;
-  border-left: 4px solid var(--color--brand);
+  border-left: var(--width--indicator) solid var(--color--brand);
   transition: transform 0.3s, opacity 0.1s;
   transition-timing-function: cubic-bezier(0.175, 0.885, 0, 1.175);
   cursor: pointer;

@@ -1,5 +1,4 @@
 .container {
-  padding-top: 16px;
   margin-left: auto;
   flex-basis: 280px;
   flex-grow: 0;
@@ -9,15 +8,30 @@
 @media (max-width: 887px) {
   .container {
     position: fixed;
-    right: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-index--over-toolbar);
+    transform: translateX(-100%);
+    transition: transform 0.2s;
+  }
+
+  .focused {
+    transform: translateX(0);
   }
 
   .nav {
     position: relative;
+    display: flex;
+    flex-direction: row;
   }
 }
 
 @media (min-width: 888px) {
+  .container {
+    padding-top: 16px;
+  }
+
   .nav {
     box-sizing: border-box;
     position: fixed;

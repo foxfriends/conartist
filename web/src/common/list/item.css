@@ -1,6 +1,6 @@
 .item {
   display: flex;
   flex-direction: row;
-  height: 50px;
+  height: var(--height--row);
   width: 100%;
 }

@@ -1,6 +1,7 @@
 /* @flow */
 import * as React from 'react'
 
+import { focus } from './focus'
 import { Icon } from '../common/icon'
 import { AutoList as List } from '../common/list/auto'
 import { Item as ListItem } from '../common/list/item'
@@ -33,7 +34,7 @@ export class ItemInfo {
   /**
    * Selects or deselects this item
    *
-   * @param selected {boolean} Whether the item should be selected
+   * @param {boolean} selected Whether the item should be selected
    */
   select(selected: boolean, directness: Direct | Indirect = DIRECT): ItemInfo {
     this.selected = selected ? directness : null
@@ -56,7 +57,7 @@ export class ItemInfo {
   /**
    * Enables or disables this item
    *
-   * @param enabled {boolean} Whether the item should be enabled
+   * @param {boolean} enabled Whether the item should be enabled
    */
   enable(enabled: boolean, nested: boolean = false): ItemInfo {
     this.enabled = enabled
@@ -81,16 +82,24 @@ export function Item({ title, action, icon, depth, selected, enabled, children }
   } else if (selected === INDIRECT) {
     indicator = S.indicatorDeep
   }
+
+  const onClick = () => {
+    focus()
+    if (enabled) {
+      action()
+    }
+  }
+
   return (
-    <div className={S.container} onClick={() => enabled && action()}>
+    <div className={S.container} onClick={onClick}>
       <div className={`${S.item}  ${enabled ? '' : S.disabled}`}>
-        <div className={indicator} />
+        <div className={`${S.indicator} ${indicator}`} />
         <div className={S.indent} style={{ width: depth * DEPTH_INDENT}} />
         <Icon name={icon} className={S.icon} />
         <span className={S.title}>{ localize(title) }</span>
       </div>
       {/* $FlowIgnore: maybe I typed it wrong? but looks like Flow is just dumb */}
-      <Expand>
+      <Expand className={S.children}>
         <List dataSource={children || []}>
           { (child, key) =>
               <ListItem key={`child_${key}`}>

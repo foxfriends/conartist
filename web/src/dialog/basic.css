@@ -12,7 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-basis: 50px;
+  flex-basis: var(--height--row);
   flex-grow: 0;
   flex-shrink: 0;
 }

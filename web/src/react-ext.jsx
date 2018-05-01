@@ -15,5 +15,6 @@ export class Component<Props, State> extends React.Component<Props, State> {
 
   componentWillUnmount() {
     this.unmounted.next()
+    this.unmounted.complete()
   }
 }

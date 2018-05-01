@@ -16,5 +16,5 @@ export function MoneyInfo({ hideZero, title, amount }: Props) {
   const money = amount || Money.zero
   return money.equals(Money.zero) && hideZero
     ? null
-    : <Row title={<Font smallCaps>{title}</Font>} value={money.toString()} />
+    : <Row title={<Font smallCaps>{title}</Font>} detail={money.toString()} />
 }

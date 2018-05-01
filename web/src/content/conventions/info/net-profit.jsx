@@ -15,5 +15,5 @@ export function NetProfit({ sales, expenses }: Props) {
   sales = sales || Money.zero
   expenses = expenses || Money.zero
   const net = sales.add(expenses.negate())
-  return <Row title={<Font smallCaps>{l`Net profit`}</Font>} value={net.toString()} />
+  return <Row title={<Font smallCaps>{l`Net profit`}</Font>} detail={net.toString()} />
 }

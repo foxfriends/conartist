@@ -19,7 +19,10 @@
 
 @media (min-width: 888px) {
   .nav {
+    box-sizing: border-box;
     position: fixed;
     width: 280px;
+    max-height: calc(100% - 32px - var(--height--toolbar));
+    overflow-y: auto;
   }
 }

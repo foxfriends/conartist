@@ -45,12 +45,26 @@ export class Row extends React.PureComponent<Props, State> {
     const { title, value, detail } = this.props
     const { height } = this.state
     const rows = Math.ceil(height / 50)
+    const titleStyle = {
+      gridColumnStart: 1,
+      gridColumnEnd: `span ${1 + (!value ? 1 : 0)}`,
+      gridRowEnd: `span ${rows}`,
+    }
+    const valueStyle = {
+      gridColumnStart: title ? 2 : 1,
+      gridColumnEnd: `span ${1 + (!detail ? 1 : 0) + (!title ? 1 : 0)}`,
+      gridRowEnd: `span ${rows}`,
+    }
+    const detailStyle = {
+      gridColumnStart: (title || value ? 3 : 1),
+      gridColumnEnd: 4 - (title ? 0 : 0) + (value ? 1 : 0),
+      gridRowEnd: `span ${rows}`,
+    }
     return (
       <Fragment>
-        { title ? <div className={`${S.title}`}>{ title }</div> : <span/>}
-        { value ? <div style={{ gridRowEnd: `span ${rows}` }} className={`${S.value} ${detail ? '' : S.valueDetail}`}><div ref={this.valueRef}>{ value }</div></div> : <span/> }
-        { detail ? <div className={`${S.detail}`}>{ detail }</div> : null }
-        { rows > 1 ? <div style={{ gridRowEnd: `span ${rows - 1}`}} /> : null }
+        { title ? <div className={`${S.title}`} style={titleStyle}>{ title }</div> : null }
+        { value ? <div className={S.value} style={valueStyle}><div ref={this.valueRef}>{ value }</div></div> : null }
+        { detail ? <div className={`${S.detail}`} style={detailStyle}>{ detail }</div> : null }
       </Fragment>
     )
   }

@@ -1,7 +1,7 @@
 /* @flow */
 import { ApolloClient } from 'apollo-client'
 import { ApolloLink, Observable } from 'apollo-link'
-import { BatchHttpLink } from 'apollo-link-batch-http'
+// import { BatchHttpLink } from 'apollo-link-batch-http'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { Storage } from '../storage'
@@ -36,12 +36,6 @@ type GraphQLResponse<Data> = {
   data: Data,
   errors: ?GraphQLError[],
 }
-
-// declare class ApolloClient {
-//   constructor(options: ApolloClientOptions): ApolloClient;
-//   query<Variables, Data>(options: QueryOptions<Variables, Data>): Promise<GraphQLResponse<Data>>;
-//   mutate<Variables, Data>(options: MutationOptions<Variables, Data>): Promise<GraphQLResponse<Data>>;
-// }
 
 async function addAuthorization(operation: Operation) {
   const authorization = Storage.retrieve(Storage.Auth)

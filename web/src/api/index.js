@@ -105,11 +105,12 @@ export class GraphQLQuery<Variables, Value> implements APIRequest<Variables, Val
           const result = await graphql.query({ query: this.query, variables })
           observer.next({ state: 'retrieved', value: result.data })
         } catch(result) {
+          console.error(result)
           if (result.networkError) {
-            const error = 'GraphQL error:\n' + result.networkError.result.errors.map(error => error.message).join(',\n')
+            const error = 'GraphQL error:\n' + JSON.stringify(result.networkError)
             observer.next({ state: 'failed', error })
           } else if (result.graphQLErrors) {
-            const error = 'GraphQL error:\n' + result.graphQLErrors.map(error => error.message).join(',\n')
+            const error = 'GraphQL error:\n' + JSON.stringify(result.graphQLErrors)
             observer.next({ state: 'failed', error })
           }
         } finally {
@@ -135,11 +136,12 @@ export class GraphQLMutation<Variables, Value> implements APIRequest<Variables, 
           const result = await graphql.mutate({ mutation: this.mutation, variables })
           observer.next({ state: 'retrieved', value: result.data })
         } catch(result) {
+          console.error(result)
           if (result.networkError) {
-            const error = 'GraphQL error:\n' + result.networkError.result.errors.map(error => error.message).join(',\n')
+            const error = 'GraphQL error:\n' + JSON.stringify(result.networkError)
             observer.next({ state: 'failed', error })
           } else if (result.graphQLErrors) {
-            const error = 'GraphQL error:\n' + result.graphQLErrors.map(error => error.message).join(',\n')
+            const error = 'GraphQL error:\n' + JSON.stringify(result.graphQLErrors)
             observer.next({ state: 'failed', error })
           }
         } finally {

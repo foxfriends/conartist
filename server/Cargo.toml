@@ -5,9 +5,9 @@ authors = ["Cameron Eldridge <cameldridge+git@gmail.com>"]
 
 # TODO: solidify dependency versions before entering production?
 [dependencies]
-juniper = { git = "https://github.com/oinkiguana/juniper" }
-juniper_codegen = { git = "https://github.com/oinkiguana/juniper" }
-juniper_iron = { git = "https://github.com/oinkiguana/juniper" }
+juniper = { git = "https://github.com/graphql-rust/juniper" }
+juniper_codegen = { git = "https://github.com/graphql-rust/juniper" }
+juniper_iron = { git = "https://github.com/graphql-rust/juniper" }
 iron = "*"
 mount = "*"
 router = "*"

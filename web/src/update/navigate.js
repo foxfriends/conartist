@@ -1,8 +1,10 @@
 /* @flow */
 import { model } from '../model'
 import * as page from '../model/page'
+import { LoadConvention } from '../api/load-convention'
 import type { Convention } from '../model/convention'
 import type { Page } from '../model/page'
+import { setConvention } from '../update/conventions'
 
 export function splash() {
   if (model.getValue().page !== page.dashboard) {
@@ -60,11 +62,26 @@ export function searchConventions() {
   model.next({ ...model.getValue(), page: page.searchConventions })
 }
 
+function loadConvention(conId: number) {
+  new LoadConvention()
+    .send({ conId })
+    .toPromise()
+    .then(response => {
+      if(response.state === 'retrieved') {
+        return response.value
+      }
+      throw new Error()
+    })
+    .then(setConvention)
+    .catch(conventions)
+}
+
 export function conventionDetails(convention: Convention) {
   const { page: currentPage } = model.getValue()
   if (currentPage.name !== 'convention-details' || currentPage.convention.id !== convention.id) {
     window.history.pushState({}, '', `/convention/${convention.id}/details`)
   }
+  loadConvention(convention.id)
   model.next({ ...model.getValue(), page: page.conventionDetails(convention) })
 }
 
@@ -73,6 +90,7 @@ export function conventionRecords(convention: Convention) {
   if (currentPage.name !== 'convention-records' || currentPage.convention.id !== convention.id) {
     window.history.pushState({}, '', `/convention/${convention.id}/records`)
   }
+  loadConvention(convention.id)
   model.next({ ...model.getValue(), page: page.conventionRecords(convention) })
 }
 
@@ -81,6 +99,7 @@ export function conventionUserInfo(convention: Convention) {
   if (currentPage.name !== 'convention-user-info' || currentPage.convention.id !== convention.id) {
     window.history.pushState({}, '', `/convention/${convention.id}/info`)
   }
+  loadConvention(convention.id)
   model.next({ ...model.getValue(), page: page.conventionUserInfo(convention) })
 }
 

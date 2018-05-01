@@ -1,8 +1,7 @@
 /* @flow */
 import { ApolloClient } from 'apollo-client'
 import { ApolloLink, Observable } from 'apollo-link'
-// import { BatchHttpLink } from 'apollo-link-batch-http'
-import { HttpLink } from 'apollo-link-http'
+import { BatchHttpLink } from 'apollo-link-batch-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { Storage } from '../storage'
 
@@ -66,20 +65,12 @@ const requestHandler = new ApolloLink((operation, forward) =>
 
 const link = ApolloLink.from([
   requestHandler,
-  new HttpLink({
+  new BatchHttpLink({
+    batchMax: 200,
     uri: '/api/v2/',
     credentials: 'same-origin',
   }),
 ])
-
-// const link = ApolloLink.from([
-//   requestHandler,
-//   new BatchHttpLink({
-//     batchMax: 200,
-//     uri: '/api/v2/',
-//     credentials: 'same-origin',
-//   }),
-// ])
 
 const cache = new InMemoryCache()
 

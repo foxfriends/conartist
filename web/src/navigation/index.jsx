@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { merge } from 'rxjs/observable/merge'
 import { timer } from 'rxjs/observable/timer'
-import { takeUntil, mapTo, switchMap } from 'rxjs/operators'
+import { takeUntil, mapTo, switchMap, share } from 'rxjs/operators'
 
 import * as ReactX from '../react-ext'
 import * as navigate from '../update/navigate'
@@ -29,13 +29,19 @@ export class Navigation extends ReactX.Component<Props, State> {
       focused: false,
     }
 
-    const loseFocus = focused
+    const base = focused
+      .pipe(
+        takeUntil(this.unmounted),
+        share(),
+      )
+
+    const loseFocus = base
       .pipe(
         switchMap(() => timer(this.state.focused ? 1000 : 6000)),
         mapTo(false),
       )
 
-    merge(focused, loseFocus)
+    merge(base, loseFocus)
       .pipe(takeUntil(this.unmounted))
       .subscribe(focused => this.setState({ focused }))
   }

@@ -47,6 +47,7 @@
     position: relative;
     padding-left: 4px;
     height: 100%;
+    margin-right: auto;
     background-color: var(--color--background-toolbar-variant);
 
     &::after {
@@ -65,6 +66,10 @@
   .logo {
     display: none;
   }
+
+  .title {
+    display: none;
+  }
 }
 
 .title {
@@ -78,16 +83,6 @@
   z-index: 1;
   pointer-events: none;
   user-select: none;
-}
-
-@media (max-width: 460px) {
-  .logoContainer {
-    margin-right: auto;
-  }
-
-  .title {
-    display: none;
-  }
 }
 
 .action {

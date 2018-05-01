@@ -38,8 +38,8 @@ extension String {
     }
 
     private func forIOS(_ json: JSON) -> String? {
-        guard let entry: JSON = self <~~ JSON else {
-            return self <~~ JSON
+        guard let entry: JSON = self <~~ json else {
+            return self <~~ json
         }
         return "ios" <~~ entry
     }

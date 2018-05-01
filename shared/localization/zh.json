@@ -105,14 +105,24 @@
   "Your password is incorrect": "您的密码不正确",
   "Your password is too short": "您的密码太短",
   "Your passwords don't match": "您的密码不匹配",
-  "ddd": "ddd",
-  "EEE": "EEE",
-  "dddd MMMM d, yyyy": "YYYY年MMMDD日ddd",
-  "EEEE MMMM d, yyyy": "YYYY年MMMDD日EEE",
-  "EEEE MMMM d, yyyy. h:mma": "YYYY年MMMDD日EEE, H:mm",
+  "EEE": {
+    "web": "ddd.",
+    "ios": "EEE."
+  },
+  "EEEE MMMM d, yyyy": {
+    "web": "YYYY年MMMDD日ddd",
+    "ios": "YYYY年MMMd日EEE"
+  },
+  "EEEE MMMM d, yyyy. h:mma": {
+    "web": "YYYY年MMMDD日ddd, H:mm",
+    "ios": "YYYY年MMMd日EEE, H:mm"
+  },
+  "MMM. d, yyyy": {
+    "web": "YYYY年MMMDD日",
+    "ios": "YYYY年MMMd日"
+  },
   "h:mma": "H:mm",
   "h:mm": "H:mm",
-  "MMM. d, yyyy": "YYYY年MMMDD日",
   "{{}} {is today. Good luck!}": "TODO: translate",
   "{} - {}": "{} – {}",
   "{} {} - {}": "{} {} – {}",

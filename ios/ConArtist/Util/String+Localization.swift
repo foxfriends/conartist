@@ -37,13 +37,20 @@ extension String {
                 ?? localize(Array(locales.dropFirst()))
     }
 
+    private func forIOS(_ json: JSON) -> String? {
+        guard let entry: JSON = self <~~ JSON else {
+            return self <~~ JSON
+        }
+        return "ios" <~~ entry
+    }
+
     private func localize(from path: String?) -> String? {
         return path
             .map(URL.init(fileURLWithPath:))
             .flatMap { try? Data(contentsOf: $0) }
             .flatMap { try? JSONSerialization.jsonObject(with: $0, options: []) }
             .flatMap { $0 as? JSON }
-            .flatMap { self <~~ $0 }
+            .flatMap(forIOS)
     }
 
     private func localize<S: StringProtocol>(onePart locale: S) -> String? {

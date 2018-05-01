@@ -105,12 +105,22 @@
   "Your password is incorrect": "Your password is incorrect",
   "Your password is too short": "Your password is too short",
   "Your passwords don't match": "Your passwords don't match",
-  "ddd": "ddd.",
-  "EEE": "EEE",
-  "dddd MMMM d, yyyy": "dddd MMMM DD, YYYY",
-  "EEEE MMMM d, yyyy": "EEEE MMMM DD, YYYY",
-  "EEEE MMMM d, yyyy. h:mma": "EEEE MMMM DD, YYYY. h:mma",
-  "MMM. d, yyyy": "MMM. DD, YYYY",
+  "EEE": {
+    "web": "ddd.",
+    "ios": "EEE."
+  },
+  "EEEE MMMM d, yyyy": {
+    "web": "dddd MMMM D, YYYY",
+    "ios": "EEEE MMMM d, yyyy"
+  },
+  "EEEE MMMM d, yyyy. h:mma": {
+    "web": "dddd MMMM D, YYYY. h:mma",
+    "ios": "EEEE MMMM d, yyyy. h:mma"
+  },
+  "MMM. d, yyyy": {
+    "web": "MMM. D, YYYY",
+    "ios": "MMM. d, yyyy"
+  },
   "h:mma": "h:mma",
   "h:mm": "h:mm",
   "{{}} {is today. Good luck!}": "{{}} {is today. Good luck!}",

@@ -4,6 +4,7 @@ import type { Operation, Query, Mutation } from './apollo'
 import { graphql } from './apollo'
 
 import { Storage } from '../storage'
+import { BaseURL } from '../constants'
 
 export type Response<T, E> = Unsent | Sending | Failed<E> | Retrieved<T>
 export type Unsent = { state: 'unsent' }
@@ -64,7 +65,7 @@ export class PostRequest<Params, Result> extends HttpRequest<Params, Result> imp
 
   send(params: Params): Observable<Response<Result, APIError>> {
     const body = JSON.stringify(params)
-    return super._send(new Request(this.route, { method: 'POST', body }))
+    return super._send(new Request(`${BaseURL}${this.route}`, { method: 'POST', body }))
   }
 }
 
@@ -86,7 +87,7 @@ export class GetRequest<Params, Result> extends HttpRequest<Params, Result> impl
         .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
         .join('&')
     }
-    return super._send(new Request(`${this.route}${query.length > 1 ? query : ''}`))
+    return super._send(new Request(`${BaseURL}${this.route}${query.length > 1 ? query : ''}`))
   }
 }
 

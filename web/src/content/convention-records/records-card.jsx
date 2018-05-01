@@ -21,14 +21,17 @@ export type Props = {
 }
 
 function format(date: Date): string {
-  return moment.utc(date).format(l`dddd MMMM d, yyyy`)
+  return moment.utc(date).format(l`EEEE MMMM d, yyyy`)
 }
 
 export function RecordsCard({ date, convention }: Props) {
   // $FlowIgnore: does not seem to recognize defaulting of missing properties
   const { records = [], expenses = [] } = convention
 
-  const dataSource = [].concat(records.filter(sameUTCDayAs(date)), expenses.filter(sameUTCDayAs(date)))
+  const dataSource = [].concat(
+    records.filter(({ time }) => sameUTCDayAs(date)(time)),
+    expenses.filter(({ time }) => sameUTCDayAs(date)(time)),
+  )
     .sort(by(['time', Asc]))
 
   const total = dataSource.reduce((acc, { name, price }) => acc.add(name === 'record' ? price : price.negate()), Money.zero)
@@ -48,6 +51,5 @@ export function RecordsCard({ date, convention }: Props) {
         }
       </List>
     </BasicCard>
-
   )
 }

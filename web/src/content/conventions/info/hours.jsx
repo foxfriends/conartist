@@ -19,7 +19,7 @@ function format(date: Date): string {
 }
 
 function day(date: Date): string {
-  return moment(date).format(l`ddd`)
+  return moment(date).format(l`EEE`)
 }
 
 const isToday = sameDayAs(new Date())

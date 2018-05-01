@@ -10,10 +10,16 @@ const { Fragment } = React
 
 const languages = new DefaultMap([['en', en], ['zh', zh]], {})
 
+function forWeb(entry: ?(string | { web: string })): ?string {
+  return entry && typeof entry === 'object'
+    ? entry.web
+    : entry
+}
+
 function doLocalize(key: string, locale: string | string[]): ?string {
   return locale instanceof Array
     ? doLocalize(key, locale.join('-')) || doLocalize(key, locale[0])
-    : languages.get(locale)[key]
+    : forWeb(languages.get(locale)[key])
 }
 
 export function localize(key: string, locale: ?(string | string[])): string {

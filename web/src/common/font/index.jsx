@@ -10,10 +10,11 @@ export type Props = {
   bold?: boolean,
   semibold?: boolean,
 
+  className?: string,
   children?: React.Node
 }
 
-export function Font({ smallCaps, tabular, regular, bold, semibold, children }: Props) {
+export function Font({ smallCaps, tabular, regular, bold, semibold, className, children }: Props) {
   const classNames = [
     smallCaps && S.smallCaps,
     tabular && S.tabular,
@@ -21,5 +22,6 @@ export function Font({ smallCaps, tabular, regular, bold, semibold, children }: 
     bold && S.bold,
     semibold && S.semibold,
   ].filter(className => !!className)
+  if (className) { classNames.push(className) }
   return <span className={classNames.join(' ')}>{ children }</span>
 }

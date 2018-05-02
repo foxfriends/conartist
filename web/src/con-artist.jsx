@@ -70,7 +70,7 @@ export class ConArtist extends React.Component<Props, State> {
         break
 
       case 'products':
-        state.toolbar = { primary: toolbarAction.EditProducts, secondary: null, pageIcon: 'shopping_basket' }
+        state.toolbar = { primary: toolbarAction.EditProducts, secondary: toolbarAction.ExportProducts, pageIcon: 'shopping_basket' }
         state.content = { name: 'products', productTypes: model.productTypes, products: model.products }
         state.navigation = NavInfo.default.select('Products', [].concat(...model.productTypes.map(NavInfo.forProductType)))
         break
@@ -165,6 +165,10 @@ export class ConArtist extends React.Component<Props, State> {
 
         case 'change-password':
           state.dialog = { name: 'change-password' }
+          break
+
+        case 'export':
+          state.dialog = model.dialog
           break
 
         default:

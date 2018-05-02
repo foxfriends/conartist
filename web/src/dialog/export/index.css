@@ -1,0 +1,12 @@
+.grid {
+  align-items: center;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+}
+
+.cell {
+  padding: 0 16px;
+}

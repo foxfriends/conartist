@@ -1,15 +1,11 @@
 /* @flow */
 import * as React from 'react'
-import S from './index.css'
+import { Grid } from '../grid'
 
 export type Props = {
   children: React.Node,
 }
 
 export function Table({ children }: Props) {
-  return (
-    <div className={S.table}>
-      { children }
-    </div>
-  )
+  return <Grid columns='2fr 2fr 1fr'>{ children }</Grid>
 }

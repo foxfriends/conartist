@@ -115,11 +115,13 @@ export class ExportProducts extends React.Component<Props, State> {
       action: () => { this.doExport() },
     }
 
+    const columnTitles = columns.map(column => <span className={S.columnTitle} key={`column_title_${column}`}>{ columnTitle(column) }</span>)
+
     return (
       <Basic title={l`Export Products`} onContinue={doExport} onClose={closeDialog}>
         <div className={S.container}>
           <div className={S.options}>
-            <span className={`${S.title} ${S.optionsTitle}`}>{l`Options`}</span>
+            <span className={S.optionsTitle}>{l`Options`}</span>
             <div className={S.option}>
               <Checkbox defaultValue={separateTypes} onChange={separateTypes => this.setState({ separateTypes })}>
                 {l`Separate types`}
@@ -144,8 +146,11 @@ export class ExportProducts extends React.Component<Props, State> {
           </div>
           <div className={S.preview}>
             <Grid columns={columns.length} className={S.grid}>
-              { includeTitles ? columns.map(column => <span className={S.title} key={`column_title_${column}`}>{ columnTitle(column) }</span>) : null }
-              { dataSource.map(data(columns)) }
+              { (separateTypes ? [...separate.call(dataSource, 'type')] : [['', dataSource]])
+                  .map(([name, items]) => [name, items.map(data(columns))])
+                  .map(([name, items]) => [name, includeTitles ? [columnTitles, ...items] : items])
+                  .map(([name, items]) => [name ? <span className={S.fileName} style={{gridColumnEnd: `span ${columns.length}`}} key={`file_name_${name}`}>{name}</span> : null, items])
+              }
             </Grid>
           </div>
         </div>

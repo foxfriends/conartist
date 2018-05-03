@@ -22,7 +22,7 @@
   align-items: center;
 }
 
-.title {
+.columnTitle, .optionsTitle {
   font-variant-caps: all-small-caps;
   font-weight: var(--font-weight--semibold);
   display: flex;
@@ -32,6 +32,11 @@
 
 .optionsTitle {
   height: var(--height--row);
+}
+
+.columnTitle {
+  height: 100%;
+  border-bottom: 1px solid var(--color--divider);
 }
 
 .option {
@@ -61,6 +66,18 @@
 
   &:hover {
     background-color: var(--color--background-hover-highlight);
+  }
+}
+
+.fileName {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight--semibold);
+  height: 100%;
+
+  &:not(:first-child) {
+    border-top: 1px solid var(--color--divider);
   }
 }
 

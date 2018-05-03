@@ -27,6 +27,8 @@ import type { Props as AdminProps } from './admin'
 import type { Props as SettingsProps } from './settings'
 import S from './index.css'
 
+// TODO: these are just used for placeholder
+import { l } from '../localization'
 import { CardView } from './card-view'
 import { Card } from './card-view/card'
 
@@ -53,7 +55,7 @@ export function Content(props: Props) {
         <CardView>
           <Card className={S.emptyState}>
             <div className={S.placeholder}>
-              This page is coming soon!
+              {l`This page is coming soon!`}
             </div>
           </Card>
         </CardView>

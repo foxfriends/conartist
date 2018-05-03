@@ -94,13 +94,12 @@ export class ExportProducts extends React.Component<Props, State> {
       .map(([name, file]) => [name, file.join('\n') + '\n'])
       .map(([name, file]) => [name, new Blob([file], { type: 'text/plain;charset=utf-8' })])
     if (separateTypes) {
-      console.log(files)
       const zip = new Zip()
       for (const [name, blob] of files) {
         zip.file(`${name}.csv`, blob)
       }
       const blob = await zip.generateAsync({ type: 'blob' })
-      saveAs(blob, 'products.zip')
+      saveAs(blob, `${l`Products`.toLowerCase()}.zip`)
     } else {
       const [[name, blob]] = files
       saveAs(blob, `${name}.csv`)

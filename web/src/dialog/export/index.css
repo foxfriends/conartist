@@ -1,10 +1,68 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  max-height: 100%;
+}
+
+.options {
+  padding: 16px 0;
+  flex-basis: 0;
+  flex-grow: 1;
+}
+
+.preview {
+  flex-basis: 0;
+  flex-grow: 2;
+  background-color: var(--color--background-overlay);
+  margin: 16px;
+  max-height: 100%;
+  overflow: auto;
+}
+
 .grid {
   align-items: center;
 }
 
 .title {
+  font-variant-caps: all-small-caps;
+  font-weight: var(--font-weight--semibold);
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+.optionsTitle {
+  height: var(--height--row);
+}
+
+.option {
+  box-sizing: border-box;
+  padding: 0 16px;
+  margin: 8px 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.info {
+  margin-left: auto;
+}
+
+.tooltip {
+  color: var(--color--text-placeholder);
+}
+
+.excluded {
+  box-sizing: border-box;
+  height: 50px;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 16px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--color--background-hover-highlight);
+  }
 }
 
 .cell {

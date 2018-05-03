@@ -38,7 +38,7 @@ export class Checkbox extends React.Component<Props, State> {
     return (
       <div tabIndex={0} autoFocus className={`${S.container} ${className || ''}`} onClick={event => this.handleClick(event)} style={style}>
         <Icon name={checked ? 'check_box' : 'check_box_outline_blank'} />
-        { children ? <p className={S.label}>{ children }</p> : null }
+        { children ? <div className={S.label}>{ children }</div> : null }
       </div>
     )
   }

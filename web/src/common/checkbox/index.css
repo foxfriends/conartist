@@ -3,9 +3,12 @@
   flex-direction: row;
   align-items: center;
   color: var(--color--text);
+  outline: none;
+  cursor: pointer;
 }
 
 .label {
   padding: 0;
-  margin: 0 0 0 2px;
+  margin: 0 0 0 4px;
+  flex-grow: 1;
 }

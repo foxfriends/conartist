@@ -20,9 +20,13 @@ function format(date: Date): string {
   return moment.utc(date).format(l`MMM. d, yyyy`)
 }
 
+function bold(text): React.Node {
+  return <Font semibold>{ text }</Font>
+}
+
 export function ComingSoonConventionsCard({ conventions }: Props) {
   return (
-    <BasicCard title={<Font smallCaps regular>{lx`{${conventions.length}} conventions coming soon.`(text => <Font semibold>{ text }</Font>)}</Font>}>
+    <BasicCard title={<Font smallCaps regular>{(conventions.length === 1 ? lx`{1} convention coming soon.` : lx`{${conventions.length}} conventions coming soon.`)(bold)}</Font>}>
       <Table dataSource={conventions}>
         {({ name, start, end, id }) =>
           <Row title={name} value={l`${format(start)} - ${format(end)}`} key={`convention_${id}`} />

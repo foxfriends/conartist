@@ -65,7 +65,7 @@ export class ConArtist extends React.Component<Props, State> {
 
       case 'dashboard':
         state.toolbar = { primary: null, secondary: null, pageIcon: 'dashboard' }
-        state.content = { name: 'placeholder' }
+        state.content = { name: 'dashboard' }
         state.navigation = NavInfo.default.select('Dashboard')
         break
 

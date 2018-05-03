@@ -137,14 +137,14 @@ export class NewConvention extends React.Component<Props, State> {
     }
 
     new CreateConvention()
-      .send({ title: name, startDate: moment(startDate).format(), endDate: moment(endDate).format() })
+      .send({ title: name, startDate: moment.utc(startDate).format('YYYY-MM-DD'), endDate: moment.utc(endDate).format('YYYY-MM-DD') })
       .pipe(
-        tap(response => response.state === 'failed' ? alert(response.error) : void 0),
+        tap(response => response.state === 'failed' && alert(response.error)),
         filter(response => response.state === 'retrieved'),
         switchMap(({ value: conId }) =>
           forkJoin([
             new AddConventionInfo().send({ conId, title: 'Address', info: JSON.stringify(address), action: 'TODO: coordinates', actionText: null }),
-            new AddConventionInfo().send({ conId, title: 'Hours', info: JSON.stringify(hours), action: null, actionText: null }),
+            new AddConventionInfo().send({ conId, title: 'Hours', info: JSON.stringify(hours.map(day => day.map(time => moment.utc(time).format()))), action: null, actionText: null }),
             new AddConventionInfo().send({ conId, title: 'Website', info: null, action: websiteURL, actionText: website }),
           ])
         ),

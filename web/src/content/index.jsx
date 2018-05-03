@@ -1,6 +1,7 @@
 /* @flow */
 import * as React from 'react'
 import { Static } from './static'
+import { Dashboard } from './dashboard'
 import { Products } from './products'
 import { EditProducts } from './edit-products'
 import { EditPrices } from './edit-prices'
@@ -12,7 +13,7 @@ import { ConventionRecords } from './convention-records'
 import { ConventionUserInfo } from './convention-user-info'
 import { Admin } from './admin'
 import { Settings } from './settings'
-import type { Props as CardViewProps } from './card-view'
+import type { Props as DashboardProps } from './dashboard'
 import type { Props as ProductsProps } from './products'
 import type { Props as EditProductsProps } from './edit-products'
 import type { Props as PricesProps } from './prices'
@@ -34,6 +35,7 @@ import { Card } from './card-view/card'
 
 export type Props
   = { name: 'placeholder' }
+  | DashboardProps
   | EditProductsProps
   | ProductsProps
   | PricesProps
@@ -62,6 +64,9 @@ export function Content(props: Props) {
       break
     case 'static':
       content = <Static {...props} />
+      break
+    case 'dashboard':
+      content = <Dashboard {...props} />
       break
     case 'products':
       content = <Products {...props} />

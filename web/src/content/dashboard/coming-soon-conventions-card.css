@@ -1,0 +1,9 @@
+.findMore {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 16px;
+  height: 50px;
+  font-variant-caps: all-small-caps;
+  font-weight: var(--font-weight--semibold);
+}

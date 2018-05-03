@@ -14,7 +14,7 @@ export function Dashboard(props: Props) {
   const { conventions } = model.getValue()
   const conventionCards = conventions
     .filter(({ start, end }) => start <= new Date() && new Date() <= end)
-    .map(convention => <TodayConventionCard convention={convention} key={`today_convention_${convention.id}`} />)
+    .map(convention => <TodayConventionCard convention={convention} key={`today_convention_${convention.id}`} showDetails />)
   return (
     <CardView>
       { conventionCards }

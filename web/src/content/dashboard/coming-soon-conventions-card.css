@@ -4,6 +4,13 @@
   justify-content: flex-end;
   padding: 0 16px;
   height: 50px;
+}
+
+.view, .findMore {
   font-variant-caps: all-small-caps;
   font-weight: var(--font-weight--semibold);
+}
+
+.placeholder {
+  composes: placeholder from '../../common/styles.css'
 }

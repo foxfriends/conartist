@@ -144,7 +144,7 @@ export class NewConvention extends React.Component<Props, State> {
         switchMap(({ value: conId }) =>
           forkJoin([
             new AddConventionInfo().send({ conId, title: 'Address', info: JSON.stringify(address), action: 'TODO: coordinates', actionText: null }),
-            new AddConventionInfo().send({ conId, title: 'Hours', info: JSON.stringify(hours.map(day => day.map(time => moment.utc(time).format()))), action: null, actionText: null }),
+            new AddConventionInfo().send({ conId, title: 'Hours', info: JSON.stringify(hours.map(day => day.map(time => moment.utc(time || 0).format()))), action: null, actionText: null }),
             new AddConventionInfo().send({ conId, title: 'Website', info: null, action: websiteURL, actionText: website }),
           ])
         ),

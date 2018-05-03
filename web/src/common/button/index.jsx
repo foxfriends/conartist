@@ -4,7 +4,7 @@ import { localize } from '../../localization'
 import S from './index.css'
 
 export type Action = {
-  title: string,
+  title?: string,
   action: () => void,
 }
 
@@ -21,7 +21,7 @@ export type Props = Action & {
 export function Button({ children, title, action, priority, enabled, className, style }: Props) {
   return (
     <button disabled={enabled === false} onClick={action} className={`${S.button} ${S[priority || 'primary']} ${className || ''}`} style={style || {}}>
-      { children || localize(title) }
+      { children || localize(title || '') }
     </button>
   )
 }

@@ -3,6 +3,7 @@
   width: 640px;
   max-width: calc(100vw - 8px);
   height: 395px;
+  max-height: 395px;
   display: flex;
   flex-direction: column;
   background-color: var(--color--background-variant);
@@ -28,8 +29,7 @@
 .contents {
   flex-basis: 0;
   flex-grow: 1;
-  overflow-x: visible;
-  overflow-y: auto;
+  overflow: visible;
 }
 
 .footer {

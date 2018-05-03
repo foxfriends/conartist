@@ -11,6 +11,7 @@
   --color--background-toolbar-variant: #222222;
   --color--background-overlay: rgba(0, 0, 0, 0.2);
   --color--background-backdrop: rgba(0, 0, 0, 0.6);
+  --color--background-tooltip: rgba(0, 0, 0, 0.8);
   --color--background-hover-highlight: rgba(255, 255, 255, 0.03);
   --color--text: #ffffff;
   --color--text-placeholder: rgba(255, 255, 255, 0.5);

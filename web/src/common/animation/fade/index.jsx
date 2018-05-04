@@ -56,11 +56,11 @@ export class Fade<E: React.ElementType> extends React.Component<Props<E>, State<
 
     return (
       <div className={`${S.container} ${className || ''}`}>
-        <div className={`${S.fade} ${S.visible}`} key={`fade_${key ? 'b' : 'a'}`}>
-          { children }
+        <div className={`${S.fade} ${key ? S.visible : ''}`}>
+          { key ? children : previousChildren }
         </div>
-        <div className={`${S.fade}`} key={`fade_${key ? 'a' : 'b'}`}>
-          { previousChildren }
+        <div className={`${S.fade} ${!key ? S.visible : ''}`}>
+          { key ? previousChildren : children }
         </div>
       </div>
     )

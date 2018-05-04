@@ -12,13 +12,14 @@ import S from './item.css'
 
 export type Props = {
   record: Record,
+  onClick: () => void,
 }
 
 function format(date: Date): string {
   return moment(date).format(l`h:mm`)
 }
 
-export function RecordItem({ record }: Props) {
+export function RecordItem({ record, onClick }: Props) {
   const { products = [] } = model.getValue()
   const productString =
     [...record.products.reduce((map, id) => map.set(id, map.get(id) + 1), new Map([], 0))]
@@ -28,7 +29,7 @@ export function RecordItem({ record }: Props) {
       .map(([product, count]) => `${product.name}${count > 1 ? ` (${count})` : '' }`)
       .join(', ')
   return (
-    <Item>
+    <Item onClick={onClick}>
       <div className={`${S.item} ${S.record}`}>
         <div className={S.info}>
           <div className={S.products}>{productString}</div>

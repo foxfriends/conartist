@@ -4,3 +4,11 @@
   height: var(--height--row);
   width: 100%;
 }
+
+.clickable {
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--color--hover-highlight);
+  }
+}

@@ -1,6 +1,8 @@
 .header {
+  box-sizing: border-box;
   display: flex;
   align-items: center;
+  width: var(--width--card);
   height: 34px;
   margin: 16px;
   padding-left: 16px;
@@ -12,7 +14,6 @@
 .emptyState {
   opacity: 0.5;
 }
-
 
 .placeholder, .placeholderLarge {
   composes: placeholder from '../../common/styles.css';

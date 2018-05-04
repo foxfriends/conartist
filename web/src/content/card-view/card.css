@@ -13,7 +13,7 @@
 
 @media (min-width: 888px) {
   .card {
-    width: calc(600px - 32px);
+    width: var(--width--card);
     max-width: calc(100% - 68px);
   }
 }

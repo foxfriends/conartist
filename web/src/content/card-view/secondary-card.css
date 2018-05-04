@@ -1,0 +1,23 @@
+.card {
+  position: absolute;
+  overflow: visible;
+  background-color: var(--color--background-variant);
+  width: 250px;
+  margin-top: 16px;
+  left: 600px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  height: var(--height--row);
+  align-items: center;
+  overflow: visible;
+  background-color: var(--color--background-highlight);
+}
+
+.content {
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+}

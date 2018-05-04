@@ -46,7 +46,7 @@ export function Conventions({ conventions }: Props) {
           </Card>
         : null
       }
-      <p className={S.header}>{l`Upcoming`}</p>
+      <div className={S.header}>{l`Upcoming`}</div>
       { upcoming.map(convention => <ConventionCard showDetails starrable convention={convention} key={`convention_${convention.id}`}/>) }
       { upcoming.length === 0
         ? <Card className={S.emptyState}>
@@ -56,7 +56,7 @@ export function Conventions({ conventions }: Props) {
           </Card>
         : null
       }
-      <p className={S.header}>{l`Completed`}</p>
+      <div className={S.header}>{l`Completed`}</div>
       { completed.map(convention => <CompletedConventionCard showDetails convention={convention} key={`convention_${convention.id}`}/>) }
       { completed.length === 0
         ? <Card className={S.emptyState}>

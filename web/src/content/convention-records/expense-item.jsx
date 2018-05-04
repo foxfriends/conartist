@@ -11,15 +11,16 @@ import S from './item.css'
 
 export type Props = {
   expense: Expense,
+  onClick: () => void,
 }
 
 function format(date: Date): string {
   return moment(date).format(l`h:mm`)
 }
 
-export function ExpenseItem({ expense }: Props) {
+export function ExpenseItem({ expense, onClick }: Props) {
   return (
-    <Item>
+    <Item onClick={onClick}>
       <div className={`${S.item} ${S.expense}`}>
         <div className={S.info}>
           <div className={S.category}>{expense.category}</div>

@@ -63,8 +63,6 @@ export class SecondaryCard extends React.Component<Props, State> {
     const { title, children, anchor, onClose } = this.props
     const { top } = this.state
 
-    console.log(onClose);
-
     return (
       // $FlowIgnore
       <div className={S.card} style={{ top }} ref={this.ref}>

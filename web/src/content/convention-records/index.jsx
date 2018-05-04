@@ -1,5 +1,6 @@
 /* @flow */
 import * as React from 'react'
+import { Fade } from '../../common/animation/fade'
 import { AutoCardView as CardView } from '../card-view/auto'
 import { RecordsCard } from './records-card'
 import { justUTCDay } from '../../util/date'
@@ -42,7 +43,10 @@ export class ConventionRecords extends React.Component<Props, State> {
       <CardView dataSource={dates.sort().map(time => new Date(time))}>
         <></>
         {(date, i) => <RecordsCard date={date} convention={convention} key={`records_${date.getTime()}`} onFocus={focus => this.setState({ focus })} />}
-        { focus || null }
+        <Fade>
+          {/* $FlowIgnore */}
+          { focus || null }
+        </Fade>
       </CardView>
     )
   }

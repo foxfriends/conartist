@@ -12,7 +12,7 @@ export type Props<E: React.ElementType> = {
   defaultCollapsed?: boolean,
   bottomAction?: ?Action,
   className?: string,
-  collapsible?: boolean,
+  collapsible?: boolean | () => void,
   style?: { [string]: string | number },
   children: React.Element<E> | [React.Node, React.Element<E>] | [React.Node, React.Element<E>, React.Node],
 }
@@ -31,6 +31,10 @@ export class Card<E: React.ElementType> extends React.Component<Props<E>, State>
   }
 
   handleToggleCollapsed() {
+    const { collapsible } = this.props
+    if (typeof collapsible === 'function') {
+      collapsible()
+    }
     this.setState({ collapsed: !this.state.collapsed })
   }
 

@@ -64,7 +64,7 @@ export function RecordInfo({ record, anchor, onClose }: Props) {
         <Font smallCaps semibold>{l`Note`}</Font>
         <div className={S.rule}/>
       </div>
-      <div className={S.note}>{ record.info }</div>
+      <div className={S.note}>{ record.info || l`Nothing to say...` }</div>
     </SecondaryCard>
   )
 }

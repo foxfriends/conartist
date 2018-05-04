@@ -42,7 +42,7 @@ export function ExpenseInfo({ expense, anchor, onClose }: Props) {
         <Font smallCaps semibold>{l`Note`}</Font>
         <div className={S.rule}/>
       </div>
-      <div className={S.note}>{ expense.description }</div>
+      <div className={S.note}>{ expense.description || l`Nothing to say...` }</div>
     </SecondaryCard>
   )
 }

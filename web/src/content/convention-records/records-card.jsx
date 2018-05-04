@@ -42,7 +42,7 @@ export function RecordsCard({ date, convention, onFocus }: Props) {
 
   return (
     <>
-      <BasicCard title={<Font smallCaps>{ format(date) }</Font>} collapsible footer={<Total total={total} />}>
+      <BasicCard title={<Font smallCaps>{ format(date) }</Font>} collapsible={() => onFocus(null)} footer={<Total total={total} />}>
         <List dataSource={dataSource}>
           <div className={S.placeholder}>
             {l`No activity for this day`}

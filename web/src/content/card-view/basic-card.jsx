@@ -7,7 +7,7 @@ import { BasicFooter } from './basic-footer'
 const { Fragment } = React
 
 export type Props = {
-  collapsible?: boolean,
+  collapsible?: boolean | () => void,
   defaultCollapsed?: boolean,
   title?: React.Node,
   footer?: React.Node,

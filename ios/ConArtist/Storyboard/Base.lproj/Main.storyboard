@@ -2043,6 +2043,7 @@ Toronto, ON, Canada</string>
                         <outlet property="itemsTableViewHeightConstraint" destination="Le0-h3-VLb" id="tsv-om-9gj"/>
                         <outlet property="navBar" destination="c6g-cp-o4C" id="nob-Cn-oOi"/>
                         <outlet property="noteLabel" destination="dJp-UJ-gQf" id="DR0-Pw-IDt"/>
+                        <outlet property="otherBottomConstraint" destination="AzR-Qe-1hS" id="uw0-vu-aae"/>
                         <outlet property="sheetView" destination="3Z2-Tl-jiF" id="Nfh-al-sSW"/>
                         <outlet property="timeLabel" destination="uJY-aK-cc5" id="OCz-Za-4KS"/>
                         <outlet property="titleLabel" destination="a3a-b4-XjX" id="Xaz-Ry-0rU"/>
@@ -2522,6 +2523,7 @@ Toronto, ON, Canada</string>
                         <outlet property="categoryLabel" destination="oiI-za-dwK" id="pdQ-LD-DSn"/>
                         <outlet property="navBar" destination="UOI-OP-uLe" id="2Ee-QA-HFY"/>
                         <outlet property="noteLabel" destination="CWQ-Q2-FTG" id="Ajk-1C-xbv"/>
+                        <outlet property="otherBottomConstraint" destination="qaS-T6-ygu" id="CgL-IE-V2Q"/>
                         <outlet property="sheetView" destination="Qrb-1k-fdV" id="mem-kY-9RV"/>
                         <outlet property="timeLabel" destination="Vyq-96-nXq" id="EQf-Wj-Lo1"/>
                         <outlet property="titleLabel" destination="a7V-ha-MMh" id="Xo2-zL-W9a"/>

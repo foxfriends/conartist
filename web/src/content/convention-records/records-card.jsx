@@ -20,68 +20,48 @@ import S from './records-card.css'
 export type Props = {
   date: Date,
   convention: Convention,
-}
-
-type State = {
-  focus: ?React.Node,
+  onFocus: (?React.Node) => void,
 }
 
 function format(date: Date): string {
   return moment.utc(date).format(l`EEEE MMMM d, yyyy`)
 }
 
-export class RecordsCard extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.state = {
-      focus: null
-    }
-  }
+export function RecordsCard({ date, convention, onFocus }: Props) {
+  // $FlowIgnore: does not seem to recognize defaulting of missing properties
+  const { records = [], expenses = [] } = convention
 
-  setFocus(focus: React.Node) {
-    this.setState({ focus })
-  }
-
-  render() {
-    const { date, convention } = this.props
-    const { focus } = this.state
-
-    // $FlowIgnore: does not seem to recognize defaulting of missing properties
-    const { records = [], expenses = [] } = convention
-
-    const dataSource = []
-      .concat(
-        records.filter(({ time }) => sameUTCDayAs(date)(time)),
-        expenses.filter(({ time }) => sameUTCDayAs(date)(time)),
-      )
-      .sort(by(['time', Asc]))
-
-    const total = dataSource.reduce((acc, { name, price }) => acc.add(name === 'record' ? price : price.negate()), Money.zero)
-
-    return (
-      <>
-        <BasicCard title={<Font smallCaps>{ format(date) }</Font>} collapsible footer={<Total total={total} />}>
-          <List dataSource={dataSource}>
-            <div className={S.placeholder}>
-              {l`No activity for this day`}
-            </div>
-            {(item, _) => {
-              // using some fake refs that are never null...
-              const ref = { current: null }
-              if (item.name === 'record') {
-                // $FlowIgnore
-                const info = <RecordInfo record={item} anchor={ref} key={`record_info_${item.id}`} />
-                return <RecordItem innerRef={node => node && (ref.current = node)} record={item} key={`record_${item.time.getTime()}`} onClick={() => this.setFocus(info)}/>
-              } else {
-                // $FlowIgnore
-                const info = <ExpenseInfo expense={item} anchor={ref} key={`expense_info_${item.id}`}/>
-                return <ExpenseItem innerRef={node => node && (ref.current = node)} expense={item} key={`expense_${item.time.getTime()}`} onClick={() => this.setFocus(info)}/>
-              }
-            }}
-          </List>
-        </BasicCard>
-        { focus || null }
-      </>
+  const dataSource = []
+    .concat(
+      records.filter(({ time }) => sameUTCDayAs(date)(time)),
+      expenses.filter(({ time }) => sameUTCDayAs(date)(time)),
     )
-  }
+    .sort(by(['time', Asc]))
+
+  const total = dataSource.reduce((acc, { name, price }) => acc.add(name === 'record' ? price : price.negate()), Money.zero)
+
+  return (
+    <>
+      <BasicCard title={<Font smallCaps>{ format(date) }</Font>} collapsible footer={<Total total={total} />}>
+        <List dataSource={dataSource}>
+          <div className={S.placeholder}>
+            {l`No activity for this day`}
+          </div>
+          {(item, _) => {
+            // using some fake refs that are never null...
+            const ref = { current: null }
+            if (item.name === 'record') {
+              // $FlowIgnore
+              const info = <RecordInfo record={item} anchor={ref} key={`record_info_${item.id}`} />
+              return <RecordItem innerRef={node => node && (ref.current = node)} record={item} key={`record_${item.time.getTime()}`} onClick={() => onFocus(info)}/>
+            } else {
+              // $FlowIgnore
+              const info = <ExpenseInfo expense={item} anchor={ref} key={`expense_info_${item.id}`}/>
+              return <ExpenseItem innerRef={node => node && (ref.current = node)} expense={item} key={`expense_${item.time.getTime()}`} onClick={() => onFocus(info)}/>
+            }
+          }}
+        </List>
+      </BasicCard>
+    </>
+  )
 }

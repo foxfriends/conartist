@@ -10,22 +10,40 @@ export type Props = {
   convention: Convention,
 }
 
-export function ConventionRecords({ convention }: Props) {
-  const dates = [];
-  const end = new Date(Math.min(convention.end, justUTCDay(new Date())))
-  for (const date = new Date(justUTCDay(convention.start)); date <= end; date.setDate(date.getDate() + 1)) {
-    dates.push(new Date(date).getTime())
-  }
-  // $FlowIgnore: does not understand defaulting missing args
-  for (const item of [].concat(convention.records || [], convention.expenses || [])) {
-    const day = justUTCDay(item.time).getTime()
-    if (!dates.includes(day)) {
-      dates.push(day)
+type State = {
+  focus: ?React.Node
+}
+
+export class ConventionRecords extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props)
+    this.state = {
+      focus: null,
     }
   }
-  return (
-    <CardView dataSource={dates.sort().map(time => new Date(time))}>
-      {date => <RecordsCard date={date} convention={convention} key={`records_${date.getTime()}`} />}
-    </CardView>
-  )
+
+  render() {
+    const { convention } = this.props
+    const { focus } = this.state
+
+    const dates = [];
+    const end = new Date(Math.min(convention.end, justUTCDay(new Date())))
+    for (const date = new Date(justUTCDay(convention.start)); date <= end; date.setDate(date.getDate() + 1)) {
+      dates.push(new Date(date).getTime())
+    }
+    // $FlowIgnore: does not understand defaulting missing args
+    for (const item of [].concat(convention.records || [], convention.expenses || [])) {
+      const day = justUTCDay(item.time).getTime()
+      if (!dates.includes(day)) {
+        dates.push(day)
+      }
+    }
+    return (
+      <CardView dataSource={dates.sort().map(time => new Date(time))}>
+        <></>
+        {date => <RecordsCard date={date} convention={convention} key={`records_${date.getTime()}`} onFocus={focus => this.setState({ focus })} />}
+        { focus || null }
+      </CardView>
+    )
+  }
 }

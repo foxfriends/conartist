@@ -26,6 +26,7 @@ class ExpenseDetailsOverlayViewController: UIViewController {
     @IBOutlet weak var backgroundButton: UIButton!
 
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var otherBottomConstraint: NSLayoutConstraint!
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -41,6 +42,7 @@ extension ExpenseDetailsOverlayViewController {
         setupSubscriptions()
         setupUI()
         bottomConstraint.constant = -sheetView.frame.height
+        otherBottomConstraint.constant = -sheetView.frame.height + 25
         view.layoutIfNeeded()
     }
 
@@ -116,6 +118,7 @@ extension ExpenseDetailsOverlayViewController {
 
     fileprivate func animateEntry() {
         bottomConstraint.constant = 0
+        otherBottomConstraint.constant = 25
         UIView.animate(withDuration: ExpenseDetailsOverlayViewController.AnimationDuration) {
             self.backgroundButton.alpha = 1
             self.view.layoutIfNeeded()
@@ -124,6 +127,7 @@ extension ExpenseDetailsOverlayViewController {
 
     fileprivate func animateExit() {
         bottomConstraint.constant = -sheetView.frame.height
+        otherBottomConstraint.constant = -sheetView.frame.height + 25
         UIView.animate(
             withDuration: ExpenseDetailsOverlayViewController.AnimationDuration,
             animations: {

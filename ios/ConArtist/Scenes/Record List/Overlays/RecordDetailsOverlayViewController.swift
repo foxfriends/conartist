@@ -23,6 +23,7 @@ class RecordDetailsOverlayViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
 
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var otherBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var itemsTableViewHeightConstraint: NSLayoutConstraint!
 
     @IBOutlet var smallCapsLabels: [UILabel]!
@@ -54,6 +55,7 @@ extension RecordDetailsOverlayViewController {
         setupSubscriptions()
         setupUI()
         bottomConstraint.constant = -sheetView.frame.height
+        otherBottomConstraint.constant = -sheetView.frame.height + 25
         view.layoutIfNeeded()
     }
 
@@ -135,6 +137,7 @@ extension RecordDetailsOverlayViewController {
 
     fileprivate func animateEntry() {
         bottomConstraint.constant = 0
+        otherBottomConstraint.constant = 25
         UIView.animate(withDuration: RecordDetailsOverlayViewController.AnimationDuration) {
             self.backgroundButton.alpha = 1
             self.view.layoutIfNeeded()
@@ -143,6 +146,7 @@ extension RecordDetailsOverlayViewController {
 
     fileprivate func animateExit() {
         bottomConstraint.constant = -sheetView.frame.height
+        otherBottomConstraint.constant = -sheetView.frame.height + 25
         UIView.animate(
             withDuration: RecordDetailsOverlayViewController.AnimationDuration,
             animations: {

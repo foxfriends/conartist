@@ -41,7 +41,7 @@ export class ConventionRecords extends React.Component<Props, State> {
     return (
       <CardView dataSource={dates.sort().map(time => new Date(time))}>
         <></>
-        {date => <RecordsCard date={date} convention={convention} key={`records_${date.getTime()}`} onFocus={focus => this.setState({ focus })} />}
+        {(date, i) => <RecordsCard date={date} convention={convention} key={`records_${date.getTime()}`} onFocus={focus => this.setState({ focus })} />}
         { focus || null }
       </CardView>
     )

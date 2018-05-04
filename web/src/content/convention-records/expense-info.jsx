@@ -14,15 +14,16 @@ export type Props = {
   expense: Expense,
   // $FlowIgnore
   anchor: React.Ref<HTMLElement>,
+  onClose: () => void,
 }
 
 function format(date: Date): string {
   return moment(date).format(l`h:mma`)
 }
 
-export function ExpenseInfo({ expense, anchor }: Props) {
+export function ExpenseInfo({ expense, anchor, onClose }: Props) {
   return (
-    <SecondaryCard title={l`Expense`} anchor={anchor}>
+    <SecondaryCard title={l`Expense`} anchor={anchor} onClose={onClose}>
       <List>
         <Item className={S.info}>
           <Font smallCaps semibold>{l`Category`}</Font>

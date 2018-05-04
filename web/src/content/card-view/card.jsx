@@ -50,7 +50,7 @@ export class Card<E: React.ElementType> extends React.Component<Props<E>, State>
                 { collapsible
                     ? <IconButton
                         title={collapsed ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}
-                        priority="secondary"
+                        priority='secondary'
                         className={S.rightAction}
                         action={() => this.handleToggleCollapsed()}
                         quiet

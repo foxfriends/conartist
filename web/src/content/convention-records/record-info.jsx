@@ -18,13 +18,14 @@ export type Props = {
   record: Record,
   // $FlowIgnore
   anchor: React.Ref<HTMLElement>,
+  onClose: () => void,
 }
 
 function format(date: Date): string {
   return moment(date).format(l`h:mma`)
 }
 
-export function RecordInfo({ record, anchor }: Props) {
+export function RecordInfo({ record, anchor, onClose }: Props) {
   const { products, productTypes } = model.getValue()
 
   const productInfo: [ProductType, Product[]][] = [...record.products
@@ -35,7 +36,7 @@ export function RecordInfo({ record, anchor }: Props) {
     .map(([typeId, products]) => [productTypes.find(type => type.id === typeId), products])
 
   return (
-    <SecondaryCard title={l`Sale`} anchor={anchor}>
+    <SecondaryCard title={l`Sale`} anchor={anchor} onClose={onClose}>
       <List>
         <Item className={S.info}>
           <Font smallCaps semibold>{l`Price`}</Font>

@@ -21,3 +21,9 @@
   padding: 0;
   overflow: visible;
 }
+
+.rightAction {
+  composes: rightAction from './card.css';
+  font-size: 18px;
+  color: var(--color--text-placeholder);
+}

@@ -2,6 +2,7 @@
 import * as React from 'react'
 
 import { BasicHeader } from './basic-header'
+import { IconButton } from '../../common/icon-button'
 import S from './secondary-card.css'
 
 export type Props = {
@@ -9,6 +10,7 @@ export type Props = {
   // $FlowIgnore
   anchor: React.Ref<HTMLElement>,
   children: React.Node,
+  onClose?: () => void,
 }
 
 type State = {
@@ -58,14 +60,19 @@ export class SecondaryCard extends React.Component<Props, State> {
   }
 
   render() {
-    const { title, children, anchor } = this.props
+    const { title, children, anchor, onClose } = this.props
     const { top } = this.state
+
+    console.log(onClose);
 
     return (
       // $FlowIgnore
       <div className={S.card} style={{ top }} ref={this.ref}>
         <div className={S.header}>
-          <BasicHeader>{ title }</BasicHeader>
+          <BasicHeader>
+            { title }
+          </BasicHeader>
+          { onClose ? <IconButton quiet className={S.rightAction} action={onClose} title='close' priority='secondary'/> : null }
         </div>
         <div className={S.content}>
           { children }

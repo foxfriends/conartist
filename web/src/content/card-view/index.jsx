@@ -11,7 +11,7 @@ export type Props = {
 
 export function CardView({ children }: Props) {
   return (
-    <div className={S.container}>
+    <div className={S.container} id='card-view'>
       { children }
     </div>
   )

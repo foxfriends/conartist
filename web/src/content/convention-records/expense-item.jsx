@@ -11,6 +11,8 @@ import S from './item.css'
 
 export type Props = {
   expense: Expense,
+  // $FlowIgnore
+  innerRef?: (?HTMLDivElement) => void,
   onClick: () => void,
 }
 
@@ -18,10 +20,10 @@ function format(date: Date): string {
   return moment(date).format(l`h:mm`)
 }
 
-export function ExpenseItem({ expense, onClick }: Props) {
+export function ExpenseItem({ expense, onClick, innerRef }: Props) {
   return (
     <Item onClick={onClick}>
-      <div className={`${S.item} ${S.expense}`}>
+      <div className={`${S.item} ${S.expense}`} ref={innerRef}>
         <div className={S.info}>
           <div className={S.category}>{expense.category}</div>
           <div className={S.time}>{format(expense.time)}</div>

@@ -12,6 +12,8 @@ import S from './item.css'
 
 export type Props = {
   record: Record,
+  // $FlowIgnore
+  innerRef?: (?HTMLDivElement) => void,
   onClick: () => void,
 }
 
@@ -19,7 +21,7 @@ function format(date: Date): string {
   return moment(date).format(l`h:mm`)
 }
 
-export function RecordItem({ record, onClick }: Props) {
+export function RecordItem({ record, onClick, innerRef }: Props) {
   const { products = [] } = model.getValue()
   const productString =
     [...record.products.reduce((map, id) => map.set(id, map.get(id) + 1), new Map([], 0))]
@@ -30,7 +32,7 @@ export function RecordItem({ record, onClick }: Props) {
       .join(', ')
   return (
     <Item onClick={onClick}>
-      <div className={`${S.item} ${S.record}`}>
+      <div className={`${S.item} ${S.record}`} ref={innerRef}>
         <div className={S.info}>
           <div className={S.products}>{productString}</div>
           <div className={S.time}>{format(record.time)}</div>

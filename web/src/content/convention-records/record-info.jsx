@@ -10,28 +10,32 @@ import { model } from '../../model'
 import { l } from '../../localization'
 import { SecondaryCard } from '../card-view/secondary-card'
 import type { Record } from '../../model/record'
+import type { Product } from '../../model/product'
+import type { ProductType } from '../../model/product-type'
 import S from './info.css'
-
-const { Fragment } = React
 
 export type Props = {
   record: Record,
+  // $FlowIgnore
+  anchor: React.Ref<HTMLElement>,
 }
 
 function format(date: Date): string {
   return moment(date).format(l`h:mma`)
 }
 
-export function RecordInfo({ record }: Props) {
+export function RecordInfo({ record, anchor }: Props) {
   const { products, productTypes } = model.getValue()
 
-  const productInfo = [...record.products
+  const productInfo: [ProductType, Product[]][] = [...record.products
     .map(id => products.find(product => product.id === id))
+    // $FlowIgnore
     .reduce((acc, product) => acc.set(product.typeId, [...acc.get(product.typeId), product]), new Map([], []))]
+    // $FlowIgnore
     .map(([typeId, products]) => [productTypes.find(type => type.id === typeId), products])
 
   return (
-    <SecondaryCard title={l`Sale`}>
+    <SecondaryCard title={l`Sale`} anchor={anchor}>
       <List>
         <Item className={S.info}>
           <Font smallCaps semibold>{l`Price`}</Font>
@@ -50,6 +54,7 @@ export function RecordInfo({ record }: Props) {
         { productInfo.map(([type, products]) =>
           <div className={S.type} key={`type_${type.id}`}>
             <div>{type.name}</div>
+            {/* $FlowIgnore */}
             <div className={S.products}>{ products.map(({ name }, i) => <span className={S.product} key={`product_${i}`}>{name}</span>) }</div>
           </div>
         ) }

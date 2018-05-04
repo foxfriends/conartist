@@ -12,15 +12,17 @@ import S from './info.css'
 
 export type Props = {
   expense: Expense,
+  // $FlowIgnore
+  anchor: React.Ref<HTMLElement>,
 }
 
 function format(date: Date): string {
   return moment(date).format(l`h:mma`)
 }
 
-export function ExpenseInfo({ expense }: Props) {
+export function ExpenseInfo({ expense, anchor }: Props) {
   return (
-    <SecondaryCard title={l`Expense`}>
+    <SecondaryCard title={l`Expense`} anchor={anchor}>
       <List>
         <Item className={S.info}>
           <Font smallCaps semibold>{l`Category`}</Font>

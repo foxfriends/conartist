@@ -23,7 +23,7 @@ export type Props = {
 }
 
 type State = {
-  focus: ?(Record | Expense),
+  focus: ?React.Node,
 }
 
 function format(date: Date): string {
@@ -38,7 +38,7 @@ export class RecordsCard extends React.Component<Props, State> {
     }
   }
 
-  setFocus(focus: Record | Expense) {
+  setFocus(focus: React.Node) {
     this.setState({ focus })
   }
 
@@ -65,14 +65,22 @@ export class RecordsCard extends React.Component<Props, State> {
             <div className={S.placeholder}>
               {l`No activity for this day`}
             </div>
-            {(item, _) =>
-              item.name === 'record'
-                ? <RecordItem record={item} key={`record_${item.time.getTime()}`} onClick={() => this.setFocus(item)}/>
-                : <ExpenseItem expense={item} key={`expense_${item.time.getTime()}`} onClick={() => this.setFocus(item)}/>
-            }
+            {(item, _) => {
+              // using some fake refs that are never null...
+              const ref = { current: null }
+              if (item.name === 'record') {
+                // $FlowIgnore
+                const info = <RecordInfo record={item} anchor={ref} key={`record_info_${item.id}`} />
+                return <RecordItem innerRef={node => node && (ref.current = node)} record={item} key={`record_${item.time.getTime()}`} onClick={() => this.setFocus(info)}/>
+              } else {
+                // $FlowIgnore
+                const info = <ExpenseInfo expense={item} anchor={ref} key={`expense_info_${item.id}`}/>
+                return <ExpenseItem innerRef={node => node && (ref.current = node)} expense={item} key={`expense_${item.time.getTime()}`} onClick={() => this.setFocus(info)}/>
+              }
+            }}
           </List>
         </BasicCard>
-        { focus ? (focus.name === 'record' ? <RecordInfo record={focus} /> : <ExpenseInfo expense={focus} />) : null }
+        { focus || null }
       </>
     )
   }

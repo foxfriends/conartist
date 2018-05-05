@@ -1,0 +1,12 @@
+.options {
+  display: flex;
+  flex-direction: column;
+}
+
+.select {
+  margin: 0 6px;
+}
+
+.any {
+  color: var(--color--text-placeholder);
+}

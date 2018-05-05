@@ -27,6 +27,3 @@ export function ChartCard({ children, title, showSettings, innerRef }: Props) {
     </Card>
   )
 }
-
-ChartCard.height = 600;
-ChartCard.width = 600 - 64;

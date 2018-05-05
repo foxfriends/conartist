@@ -8,6 +8,7 @@ import S from './index.css'
 type Transformer<T> = (T) => React.Node
 
 export type Props<Value> = {
+  title?: string,
   options: Value[],
   defaultValue?: Value,
   children: Transformer<Value>,
@@ -39,7 +40,7 @@ export class Select<Value> extends React.Component<Props<Value>, State<Value>>  
   }
 
   render() {
-    const { options, children, className } = this.props
+    const { options, children, className, title } = this.props
     const { expanded, value } = this.state
     return (
       <>
@@ -48,6 +49,7 @@ export class Select<Value> extends React.Component<Props<Value>, State<Value>>  
           <div className={S.selection} onClick={() => this.toggleExpansion()}>
             { children(value) }
             <Icon name='arrow_drop_down' className={S.arrow}/>
+            <span className={S.title}>{ title || ''}</span>
           </div>
           <div className={`${S.optionsContainer} ${expanded ? S.expanded : ''}`} style={{ maxHeight: expanded ? Math.min(8, options.length) * 50 : 0 }}>
             { expanded

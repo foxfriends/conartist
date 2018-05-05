@@ -67,10 +67,18 @@ export class Card<E: React.ElementType> extends React.Component<Props<E>, State>
             : null
         }
         <div className={S.content}>
-          <Expand>
-            { !isCollapsed ? content : null }
-          </Expand>
-          { !isCollapsed && bottomAction ? <IconButton {...bottomAction} priority="tertiary" className={S.bottomAction} /> : null }
+          { collapsible
+            ? <>
+                <Expand>
+                  { !isCollapsed ? content : null }
+                </Expand>
+                { !isCollapsed && bottomAction ? <IconButton {...bottomAction} priority="tertiary" className={S.bottomAction} /> : null }
+              </>
+            : <>
+                { !isCollapsed ? content : null }
+                { !isCollapsed && bottomAction ? <IconButton {...bottomAction} priority="tertiary" className={S.bottomAction} /> : null }
+              </>
+          }
         </div>
         { footer || null }
       </div>

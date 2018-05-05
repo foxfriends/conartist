@@ -23,9 +23,6 @@
 .title, .placeholder {
   user-select: none;
   pointer-events: none;
-}
-
-.title, .placeholder {
   box-sizing: border-box;
   position: absolute;
   bottom: 10px;

@@ -73,6 +73,8 @@ export class Expand<E: React.ElementType> extends React.Component<Props<E>, Stat
   }
 
   render() {
+    // TODO: the height should recalculate when the page resizes so that the cards grow with their
+    // content as expected
     const { className, children } = this.props
     const { height, previousChildren } = this.state
     const style: { [string]: string | number } = {

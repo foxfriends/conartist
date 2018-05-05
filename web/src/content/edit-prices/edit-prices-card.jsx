@@ -83,7 +83,8 @@ export function EditPricesCard({ productType, products, prices, bottomAction, on
                 options={productIds}
                 defaultValue={price.productId}
                 onChange={productId => onProductChange(price.id, productId)}
-                className={S.productName}>
+                className={S.productName}
+                >
                 {productId => {
                   const product = products.find(({ id }) => id === productId)
                   return product ? product.name : <span className={S.any}>{ l`Any` }</span>

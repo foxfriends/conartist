@@ -11,6 +11,7 @@ export type Page = Splash
                  | SearchConventions
                  | ConventionDetails
                  | ConventionRecords
+                 | ConventionStats
                  | ConventionUserInfo
                  | Settings
                  | TermsOfService
@@ -27,6 +28,7 @@ export type Conventions = {| name: 'conventions' |}
 export type SearchConventions = {| name: 'search-conventions' |}
 export type ConventionDetails = {| name: 'convention-details', convention: Convention |}
 export type ConventionRecords = {| name: 'convention-records', convention: Convention |}
+export type ConventionStats = {| name: 'convention-stats', convention: Convention |}
 export type ConventionUserInfo = {| name: 'convention-user-info', convention: Convention |}
 export type Settings = {| name: 'settings' |}
 export type TermsOfService = {| name: 'terms-of-service' |}
@@ -43,6 +45,7 @@ export const conventions: Conventions = { name: 'conventions' }
 export const searchConventions: SearchConventions = { name: 'search-conventions' }
 export const conventionDetails = (convention: Convention): ConventionDetails => ({ name: 'convention-details', convention })
 export const conventionRecords = (convention: Convention): ConventionRecords => ({ name: 'convention-records', convention })
+export const conventionStats = (convention: Convention): ConventionStats => ({ name: 'convention-stats', convention })
 export const conventionUserInfo = (convention: Convention): ConventionUserInfo => ({ name: 'convention-user-info', convention })
 export const settings: Settings = { name: 'settings' }
 export const termsOfService: TermsOfService = { name: 'terms-of-service' }

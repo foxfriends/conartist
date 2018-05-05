@@ -42,8 +42,18 @@ export class ConventionUserInfoCard extends React.Component<Props> {
     return (
       <Card>
         <BasicHeader>
-          {title || l`Extra info`}
-          { hasSeeAllButton ? <Link className={S.detailsButton} priority='tertiary' onClick={() => navigate.conventionUserInfo(convention)}><Font smallCaps>{l`See all`}</Font><Icon name='keyboard_arrow_right' /></Link> : null }
+          { title ? <span>{title}</span> : <Font smallCaps>{l`Extra info`}</Font>}
+          { hasSeeAllButton
+              ? <Link
+                  className={S.detailsButton}
+                  priority='tertiary'
+                  onClick={() => navigate.conventionUserInfo(convention)}
+                  >
+                  <Font smallCaps>{l`See all`}</Font>
+                  <Icon name='keyboard_arrow_right' />
+                </Link>
+              : null
+          }
         </BasicHeader>
         <List dataSource={dataSource}>
           <div className={S.placeholder}>

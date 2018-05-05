@@ -24,9 +24,7 @@ export function ConventionRevenueCard({ convention }: Props) {
   return (
     <Card>
       <BasicHeader>
-        <span>
-          <Font smallCaps>{l`Revenue`}</Font>
-        </span>
+        <Font smallCaps>{l`Revenue`}</Font>
         <Link className={S.detailsButton} priority='tertiary' onClick={() => navigate.conventionRecords(convention)}><Font smallCaps>{l`Details`}</Font><Icon name='keyboard_arrow_right' /></Link>
       </BasicHeader>
       <Table>

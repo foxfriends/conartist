@@ -117,6 +117,12 @@ export class ConArtist extends React.Component<Props, State> {
         state.navigation = NavInfo.default.select('Conventions', [], INDIRECT)
         break
 
+      case 'convention-stats':
+        state.toolbar = { primary: null, secondary: null, pageIcon: 'event' }
+        state.content = { name: 'convention-stats', convention: model.page.convention }
+        state.navigation = NavInfo.default.select('Conventions', [], INDIRECT)
+        break
+
       case 'convention-user-info':
         state.toolbar = { primary: null, secondary: null, pageIcon: 'event' }
         state.content = { name: 'convention-user-info', convention: model.page.convention }

@@ -94,6 +94,15 @@ export function conventionRecords(convention: Convention) {
   model.next({ ...model.getValue(), page: page.conventionRecords(convention) })
 }
 
+export function conventionStats(convention: Convention) {
+  const { page: currentPage } = model.getValue()
+  if (currentPage.name !== 'convention-stats' || currentPage.convention.id !== convention.id) {
+    window.history.pushState({}, '', `/convention/${convention.id}/stats`)
+  }
+  loadConvention(convention.id)
+  model.next({ ...model.getValue(), page: page.conventionStats(convention) })
+}
+
 export function conventionUserInfo(convention: Convention) {
   const { page: currentPage } = model.getValue()
   if (currentPage.name !== 'convention-user-info' || currentPage.convention.id !== convention.id) {

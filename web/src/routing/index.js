@@ -9,6 +9,7 @@ import {
   conventions,
   conventionDetails,
   conventionRecords,
+  conventionStats,
   conventionUserInfo,
   searchConventions,
   settings,
@@ -69,6 +70,7 @@ const matchUrl = match(
   [ /^\/convention\/(\d+)\/details\/?$/i, id => conventionDetails(stubConvention(parseInt(id, 10))) ],
   [ /^\/convention\/(\d+)\/records\/?$/i, id => conventionRecords(stubConvention(parseInt(id, 10))) ],
   [ /^\/convention\/(\d+)\/info\/?$/i, id => conventionUserInfo(stubConvention(parseInt(id, 10))) ],
+  [ /^\/convention\/(\d+)\/stats\/?$/i, id => conventionStats(stubConvention(parseInt(id, 10))) ],
 )
 
 export function resolveRoute(): Page {

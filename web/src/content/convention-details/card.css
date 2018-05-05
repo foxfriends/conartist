@@ -1,0 +1,7 @@
+.detailsButton {
+  composes: detailsButton from '../conventions/card.css';
+}
+
+.placeholder {
+  composes: placeholder from '../../common/styles.css';
+}

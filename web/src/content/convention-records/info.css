@@ -44,3 +44,7 @@
     margin-bottom: 8px;
   }
 }
+
+.placeholder {
+  color: var(--color--text-placeholder);
+}

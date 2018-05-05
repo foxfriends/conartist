@@ -44,10 +44,12 @@ export class Fade<E: React.ElementType> extends React.Component<Props<E>, State<
     if (this.animationTimer !== null) {
       clearTimeout(this.animationTimer)
     }
-    this.animationTimer = setTimeout(() => {
-      this.setState({ previousChildren: null })
-      this.animationTimer = null
-    }, 200)
+    if (this.state.previousChildren) {
+      this.animationTimer = setTimeout(() => {
+        this.setState({ previousChildren: null })
+        this.animationTimer = null
+      }, 200)
+    }
   }
 
   render() {

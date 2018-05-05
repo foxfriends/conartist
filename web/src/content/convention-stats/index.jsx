@@ -2,6 +2,7 @@
 import * as React from 'react'
 import { SecondaryCardFade as Fade } from '../../common/animation/fade/secondary-card'
 import { CardView } from '../card-view'
+import { InventoryChart } from './chart/inventory'
 import type { Convention } from '../../model/convention'
 
 export type Props = {
@@ -25,8 +26,14 @@ export class ConventionStats extends React.Component<Props, State> {
     const { convention } = this.props
     const { settings } = this.state
 
+    // $FlowIgnore
+    const { products = [], records = [] } = convention;
+
+    const showSettings = settings => this.setState({ settings })
+
     return (
       <CardView>
+        <InventoryChart products={products} records={records} showSettings={showSettings} />
         <Fade>
           {/* $FlowIgnore */}
           { settings || null }

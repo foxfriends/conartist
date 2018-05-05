@@ -73,6 +73,10 @@ const link = ApolloLink.from([
   }),
 ])
 
+// NOTE: cache is disabled because it caused inconsistent data sometimes... Not sure if this is my
+// fault or an Apollo bug, but it's not worth investigating at this time. See api/index.js for the
+// part where cache is disabled...
+
 const cache = new InMemoryCache()
 
 export function clearCache() {

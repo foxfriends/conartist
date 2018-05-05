@@ -103,7 +103,7 @@ export class GraphQLQuery<Variables, Value> implements APIRequest<Variables, Val
       (async () => {
         observer.next({ state: 'sending', progress: 0 })
         try {
-          const result = await graphql.query({ query: this.query, variables })
+          const result = await graphql.query({ query: this.query, variables, fetchPolicy: 'no-cache' })
           observer.next({ state: 'retrieved', value: result.data })
         } catch(result) {
           console.error(result)

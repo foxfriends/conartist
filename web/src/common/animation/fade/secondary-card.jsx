@@ -6,8 +6,8 @@ export type { Props };
 import S from './secondary-card.css'
 
 // A specialized case of the fade animation, which adjusts to a fixed container on phone sizes
-export function SecondaryCardFade({ className, ...props }: Props) {
+export function SecondaryCardFade<E: React.ElementType>({ className, ...props }: Props<E>) {
   return (
-    <Fade className={`${S.secondaryCardContainer} ${className}`} {...props} />
+    <Fade className={`${S.secondaryCardContainer} ${className || ''}`} {...props} />
   )
 }

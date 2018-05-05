@@ -55,5 +55,6 @@
     left: 0;
     bottom: 0;
     top: unset !important;
+    box-shadow: 0 0 15px 4px var(--color--shadow);
   }
 }

@@ -12,12 +12,12 @@
   "dependencies": {
     "@babel/core": "^7.0.0-beta.46",
     "@babel/preset-react": "^7.0.0-beta.46",
-    "apollo-cache-inmemory": "^1.1.12",
-    "apollo-client": "^2.2.8",
+    "apollo-cache-inmemory": "^1.2.1",
+    "apollo-client": "^2.3.1",
     "apollo-link": "^1.2.2",
     "apollo-link-batch-http": "^1.2.2",
     "apollo-link-http": "^1.5.4",
-    "autoprefixer": "^8.3.0",
+    "autoprefixer": "^8.4.1",
     "babel-loader": "^8.0.0-beta.2",
     "babel-plugin-react-css-modules": "^3.4.0",
     "babel-plugin-transform-object-rest-spread": "^7.0.0-beta.3",
@@ -29,12 +29,12 @@
     "flow-bin": "^0.70.0",
     "flow-typed": "^2.4.0",
     "graphql": "^0.13.2",
-    "graphql-tag": "^2.9.1",
+    "graphql-tag": "^2.9.2",
     "img-loader": "^2.0.1",
     "jszip": "^3.1.5",
     "moment": "^2.22.1",
     "postcss-custom-properties": "^7.0.0",
-    "postcss-loader": "^2.1.4",
+    "postcss-loader": "^2.1.5",
     "postcss-nesting": "^4.2.1",
     "react": "^16.3.2",
     "react-chartjs-2": "^2.7.2",
@@ -43,7 +43,7 @@
     "save-as": "^0.1.8",
     "style-loader": "^0.20.3",
     "uglifyjs-webpack-plugin": "^1.2.5",
-    "webpack": "^4.6.0",
-    "webpack-cli": "^2.0.15"
+    "webpack": "^4.7.0",
+    "webpack-cli": "^2.1.2"
   }
 }

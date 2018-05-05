@@ -47,11 +47,11 @@ export class SecondaryCard extends React.Component<Props, State> {
         top += node.offsetTop
         node = node.offsetParent
       }
-      if (top + height + 16 > cardView.offsetHeight - 16) {
+      if (top + height > cardView.offsetHeight - 16) {
         top = cardView.offsetHeight - height - 16
       }
 
-      this.setState({ top: top - 16 })
+      this.setState({ top })
     }
   }
 

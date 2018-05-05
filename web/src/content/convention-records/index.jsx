@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Fade } from '../../common/animation/fade'
 import { AutoCardView as CardView } from '../card-view/auto'
 import { RecordsCard } from './records-card'
-import { justUTCDay } from '../../util/date'
+import { toLocal, toUTC, justDay, justUTCDay } from '../../util/date'
 import type { Convention } from '../../model/convention'
 
 export type Props = {
@@ -28,7 +28,7 @@ export class ConventionRecords extends React.Component<Props, State> {
     const { focus } = this.state
 
     const dates = [];
-    const end = new Date(Math.min(convention.end, justUTCDay(new Date())))
+    const end = new Date(Math.min(convention.end, toUTC(justDay(new Date()))))
     for (const date = new Date(justUTCDay(convention.start)); date <= end; date.setDate(date.getDate() + 1)) {
       dates.push(new Date(date).getTime())
     }
@@ -40,7 +40,7 @@ export class ConventionRecords extends React.Component<Props, State> {
       }
     }
     return (
-      <CardView dataSource={dates.sort().map(time => new Date(time))}>
+      <CardView dataSource={dates.sort().map(time => toLocal(new Date(time)))}>
         <></>
         {(date, i) => <RecordsCard date={date} convention={convention} key={`records_${date.getTime()}`} onFocus={focus => this.setState({ focus })} />}
         <Fade>

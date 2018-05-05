@@ -2,9 +2,6 @@
   position: absolute;
   overflow: visible;
   background-color: var(--color--background-variant);
-  width: 250px;
-  margin-top: 16px;
-  left: 600px;
 }
 
 .header {
@@ -26,4 +23,18 @@
   composes: rightAction from './card.css';
   font-size: 18px;
   color: var(--color--text-placeholder);
+}
+
+@media (min-width: 1312px) {
+  .card {
+    max-width: calc(100vw / 2 - 440px - 16px);
+    left: 600px;
+    width: 250px;
+  }
+}
+
+@media (max-width: 1311px) {
+  .card {
+    display: none;
+  }
 }

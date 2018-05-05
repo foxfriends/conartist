@@ -11,7 +11,7 @@ import { ExpenseInfo } from './expense-info'
 import { Total } from './total'
 import { BasicCard } from '../card-view/basic-card'
 import { by, Asc } from '../../util/sort'
-import { sameUTCDayAs } from '../../util/date'
+import { sameDayAs } from '../../util/date'
 import { Money } from '../../model/money'
 import { l } from '../../localization'
 import type { Convention } from '../../model/convention'
@@ -33,8 +33,8 @@ export function RecordsCard({ date, convention, onFocus }: Props) {
 
   const dataSource = []
     .concat(
-      records.filter(({ time }) => sameUTCDayAs(date)(time)),
-      expenses.filter(({ time }) => sameUTCDayAs(date)(time)),
+      records.filter(({ time }) => sameDayAs(date)(time)),
+      expenses.filter(({ time }) => sameDayAs(date)(time)),
     )
     .sort(by(['time', Asc]))
 

@@ -2,13 +2,25 @@
   position: absolute;
   top: 0;
   left: 0;
+  width: 100vw;
+  height: 100vh;
   overflow: visible;
+  pointer-events: none;
 }
 
 .fade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  top: 0;
   opacity: 0;
   transform: translateY(20px);
   transition: transform 0.2s, opacity 0.2s;
+
+  & * {
+    pointer-events: auto;
+  }
 }
 
 .visible {

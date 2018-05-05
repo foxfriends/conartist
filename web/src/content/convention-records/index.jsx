@@ -1,6 +1,6 @@
 /* @flow */
 import * as React from 'react'
-import { Fade } from '../../common/animation/fade'
+import { SecondaryCardFade as Fade } from '../../common/animation/fade/secondary-card'
 import { AutoCardView as CardView } from '../card-view/auto'
 import { RecordsCard } from './records-card'
 import { toLocal, toUTC, justDay, justUTCDay } from '../../util/date'

@@ -33,8 +33,27 @@
   }
 }
 
-@media (max-width: 1311px) {
+@media (min-width: 888px) and (max-width: 1311px) {
   .card {
-    display: none;
+    left: calc(600px - 250px + (100vw / 2 - 440px - 16px));
+    width: 250px;
+    box-shadow: 0 0 8px 2px var(--color--shadow);
+  }
+}
+
+@media (min-width: 440px) and (max-width: 887px) {
+  .card {
+    left: calc(100vw - 266px);
+    width: 250px;
+    box-shadow: 0 0 8px 2px var(--color--shadow);
+  }
+}
+
+@media (max-width: 439px) {
+  .card {
+    width: 100vw;
+    left: 0;
+    bottom: 0;
+    top: unset !important;
   }
 }

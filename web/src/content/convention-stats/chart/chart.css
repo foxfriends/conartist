@@ -1,3 +1,17 @@
+.notEnoughData {
+  position: absolute;
+  font-variant-caps: all-small-caps;
+  color: var(--color--text-placeholder);
+  top: 0;
+  bottom: 0;
+  left: 20%;
+  right: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
 .options {
   display: flex;
   flex-direction: column;

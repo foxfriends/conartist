@@ -4,6 +4,7 @@ import { Bar } from 'react-chartjs-2'
 
 import Map from '../../../util/default-map'
 import { ChartCard } from './card'
+import { NotEnoughData } from './not-enough-data'
 import { SecondaryCard } from '../../card-view/secondary-card'
 import { Select } from '../../../common/select'
 import { l } from '../../../localization'
@@ -41,13 +42,7 @@ export class InventoryChart extends React.Component<Props, State> {
 
     const selectedProducts = type === null ? products : products.filter(({ typeId }) => typeId === type)
 
-    if (selectedProducts.length === 0 || records.length === 0) {
-      // TODO: placeholder
-      return null
-    }
-
     const types = new Set(products.map(({ typeId }) => typeId))
-
 
     const sold = [].concat(...records.map(({ products }) => products))
       .reduce((acc, productId) => acc.set(productId, acc.get(productId) + 1), new Map([], 0))
@@ -76,12 +71,18 @@ export class InventoryChart extends React.Component<Props, State> {
 
     return (
       <ChartCard title={l`Inventory`} showSettings={showSettings} innerRef={card => this.ref.current = card}>
-        <Bar
-          data={data}
-          width={600}
-          height={600}
-          options={options}
-          />
+        <>
+          <Bar
+            data={data}
+            width={600}
+            height={600}
+            options={options}
+            />
+          { selectedProducts.length === 0
+            ? <NotEnoughData />
+            : null
+          }
+        </>
         <SecondaryCard anchor={this.ref} title={l`Options`} onClose={() => showSettings(null)}>
           <div className={S.options}>
             <Select

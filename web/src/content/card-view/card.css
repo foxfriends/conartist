@@ -34,8 +34,9 @@
 }
 
 .rightAction {
-  margin: 0 12px 0 auto;
+  margin: 0 12px 0 0;
   font-size: 24px;
+  align-self: center;
 }
 
 .topAction, .bottomAction {

@@ -157,6 +157,16 @@ export class EditProducts extends ReactX.Component<Props, State> {
     this.setState(this.validate({ products: this.state.products, productTypes }))
   }
 
+  handleProductTypeColorChange(id: Id, color: number) {
+    const productTypes =
+      this.state.productTypes.map(productType => productType.id === id
+        ? { ...productType, color }
+        : productType
+      )
+
+    this.setState(this.validate({ products: this.state.products, productTypes }))
+  }
+
   handleProductNameChange(id: Id, name: string) {
     const products =
       this.state.products.map(product => product.id === id
@@ -313,8 +323,9 @@ export class EditProducts extends ReactX.Component<Props, State> {
                 topAction={toggleDiscontinueProductType(productType)}
                 bottomAction={addProduct(productType)}
                 onProductTypeNameChange={name => this.handleProductTypeNameChange(productType.id, name)}
+                onProductTypeColorChange={color => this.handleProductTypeColorChange(productType.id, color)}
                 onProductNameChange={(id, name) => this.handleProductNameChange(id, name)}
-                onProductQuantityChange={(id, name) => this.handleProductQuantityChange(id, name)}
+                onProductQuantityChange={(id, quantity) => this.handleProductQuantityChange(id, quantity)}
                 onProductToggleDiscontinue={id => this.handleProductDiscontinueToggled(id)}
                 key={`product_type_${productType.id}`}
                 />

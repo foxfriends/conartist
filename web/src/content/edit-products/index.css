@@ -1,5 +1,13 @@
-.productTypeName, .productName, .productQuantity, .discontinueButton {
+.productTypeName, .productTypeColor, .productName, .productQuantity, .discontinueButton {
   margin: 0 10px 0 6px;
+}
+
+.productTypeColor {
+  margin-left: auto;
+  width: 32px;
+  height: 32px;
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 .productTypeName {

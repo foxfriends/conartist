@@ -6,6 +6,7 @@ import { Input } from '../../common/input'
 import { AutoList as List } from '../../common/list/auto'
 import { Item } from '../../common/list/item'
 import { IconButton } from '../../common/icon-button'
+import { ColorPicker } from '../../common/color-picker'
 import { scrollIdentifier } from '../../update/navigate'
 import { INVALID, VALID } from '../../model/validation'
 import { DuplicateName, NonNumberQuantity, NonIntegerQuantity, NegativeQuantity } from './schema'
@@ -62,12 +63,13 @@ export type Props = {
   topAction?: ?Action,
   bottomAction?: ?Action,
   onProductTypeNameChange: (string) => void,
+  onProductTypeColorChange: (number) => void,
   onProductNameChange: (Id, string) => void,
   onProductQuantityChange: (Id, string) => void,
   onProductToggleDiscontinue: (Id) => void,
 }
 
-export function EditProductCard({ productType, products, topAction, bottomAction, onProductTypeNameChange, onProductNameChange, onProductQuantityChange, onProductToggleDiscontinue }: Props) {
+export function EditProductCard({ productType, products, topAction, bottomAction, onProductTypeNameChange, onProductTypeColorChange, onProductNameChange, onProductQuantityChange, onProductToggleDiscontinue }: Props) {
   return (
     <Card id={scrollIdentifier('product-type', productType.id)} collapsible={true} defaultCollapsed={productType.discontinued} topAction={topAction} bottomAction={bottomAction} className={productType.discontinued ? S.discontinued : ''}>
       <Fragment>
@@ -77,6 +79,11 @@ export function EditProductCard({ productType, products, topAction, bottomAction
           placeholder={l`New product type`}
           onChange={onProductTypeNameChange}
           validation={productTypeValidation(productType.validation)}
+          />
+        <ColorPicker
+          className={S.productTypeColor}
+          defaultValue={productType.color}
+          onChange={onProductTypeColorChange}
           />
       </Fragment>
       <Fragment>

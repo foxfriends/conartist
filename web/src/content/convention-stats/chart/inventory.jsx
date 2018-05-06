@@ -52,13 +52,13 @@ export class InventoryChart extends React.Component<Props, State> {
       datasets: [{
         label: 'Sold',
         xAxisId: 'sold',
-        backgroundColor: '#ff0000',
+        backgroundColor: '#b52b2b',
         data: selectedProducts.map(({ id }) => sold.get(id))
       }, {
         label: 'Remaining',
         xAxisId: 'remaining',
         backgroundColor: '#3E803E',
-        data: selectedProducts.map(({ id, quantity }) => quantity - sold.get(id))
+        data: selectedProducts.map(({ id, quantity }) => Math.max(0, quantity - sold.get(id)))
       }]
     }
 

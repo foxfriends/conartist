@@ -91,7 +91,7 @@ export class SalesByTypeChart extends React.Component<Props, State> {
             height={600}
             options={options}
             />
-          { records.length === 0
+          { records.length === 0 || productTypes.length === 0
             ? <NotEnoughData />
             : null
           }

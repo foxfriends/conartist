@@ -44,8 +44,10 @@ export class SalesByTypeChart extends React.Component<Props, State> {
     switch (metric) {
       case 'Quantity':
         const typeIds = [].concat(...records.map(({ products }) => products))
+          .map(productId => products.find(({ id }) => id === productId))
+          .filter(x => x)
           // $FlowIgnore
-          .map(productId => products.find(({ id }) => id === productId).typeId)
+          .map(({ typeId }) => typeId)
         for (const typeId of typeIds) {
           count.set(typeId, count.get(typeId) + 1)
         }
@@ -55,8 +57,9 @@ export class SalesByTypeChart extends React.Component<Props, State> {
         break
       case 'Customers':
         const typeSets = records.map(({ products }) => products)
+          .map(productIds => productIds.map(productId => products.find(({ id }) => id === productId)))
           // $FlowIgnore
-          .map(productIds => new Set(productIds.map(productId => products.find(({ id }) => id === productId).typeId)))
+          .map(products => new Set(products.filter(x => x).map(({ typeId }) => typeId)))
         for (const typeSet of typeSets) {
           for (const typeId of typeSet) {
             count.set(typeId, count.get(typeId) + 1)

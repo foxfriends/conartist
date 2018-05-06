@@ -8,12 +8,13 @@ import { NotEnoughData } from './not-enough-data'
 import { SecondaryCard } from '../../card-view/secondary-card'
 import { Select } from '../../../common/select'
 import { l } from '../../../localization'
-import { model } from '../../../model'
+import type { ProductType } from '../../../model/product-type'
 import type { Product } from '../../../model/product'
 import type { Record } from '../../../model/record'
 import S from './chart.css'
 
 export type Props = {
+  productTypes: ProductType[],
   products: Product[],
   records: Record[],
   showSettings: (React.Node) => void,
@@ -36,8 +37,7 @@ export class InventoryChart extends React.Component<Props, State> {
   }
 
   render() {
-    const { productTypes } = model.getValue()
-    const { products, records, showSettings } = this.props
+    const { productTypes, products, records, showSettings } = this.props
     const { type } = this.state
 
     const selectedProducts = type === null ? products : products.filter(({ typeId }) => typeId === type)
@@ -50,12 +50,12 @@ export class InventoryChart extends React.Component<Props, State> {
     const data = {
       labels: selectedProducts.map(({ name }) => name),
       datasets: [{
-        label: 'Sold',
+        label: l`Sold`,
         xAxisId: 'sold',
         backgroundColor: '#b52b2b',
         data: selectedProducts.map(({ id }) => sold.get(id))
       }, {
-        label: 'Remaining',
+        label: l`Remaining`,
         xAxisId: 'remaining',
         backgroundColor: '#3E803E',
         data: selectedProducts.map(({ id, quantity }) => Math.max(0, quantity - sold.get(id)))
@@ -90,7 +90,6 @@ export class InventoryChart extends React.Component<Props, State> {
               options={[null, ...types]}
               defaultValue={type}
               onChange={type => this.setState({ type })}
-              className={S.select}
               >
               {typeId => {
                 const productType = productTypes.find(({ id }) => id === typeId)

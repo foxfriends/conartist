@@ -15,10 +15,7 @@
 .options {
   display: flex;
   flex-direction: column;
-}
-
-.select {
-  margin: 0 6px;
+  padding: 10px 6px;
 }
 
 .any {

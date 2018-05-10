@@ -80,7 +80,7 @@ extension ExpenseDetailsOverlayViewController {
         navBar.rightButton.rx.tap
             .flatMap { [unowned self] _ in NewExpenseViewController.show(editing: self.expense) }
             .map { [unowned self] category, description, price in
-                let newExpense = Expense(id: self.expense.id, category: category, description: description, price: price, time: self.expense.time)
+                let newExpense = Expense(id: self.expense.id.id ?? ConArtist.NoID, category: category, description: description, price: price, time: self.expense.time)
                 self.expense = newExpense
                 DispatchQueue.main.async { self.setupUI() }
                 return newExpense

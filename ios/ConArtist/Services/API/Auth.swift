@@ -48,7 +48,7 @@ extension ConArtist.API {
                 .map(handleConRequest)
                 .map(setAuthToken)
                 .flatMap(loadUser)
-                .map(ConArtist.model.setUser(graphQL:))
+                .map(ConArtist.model.merge(graphQL:))
         }
 
         /// Refreshes the provided authorization token, then retrieves the user data again
@@ -61,7 +61,7 @@ extension ConArtist.API {
                 .map(handleConRequest)
                 .map(setAuthToken)
                 .flatMap(loadUser)
-                .map(ConArtist.model.setUser(graphQL:))
+                .map(ConArtist.model.merge(graphQL:))
         }
 
         private static func handleConRequest<T>(_ response: (HTTPURLResponse, Any)) throws -> T {

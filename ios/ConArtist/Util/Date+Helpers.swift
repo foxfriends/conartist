@@ -20,12 +20,18 @@ extension Date {
     }
     
     // Formats the date according to the provided format string
-    func toString(_ format: String) -> String {
-        return moment(self, timeZone: TimeZone.current, locale: Locale(identifier: ConArtist.model.settings.value.language.first!)).format(format)
+    func toString(_ format: String, timeZone: TimeZone = .current) -> String {
+        return moment(self, timeZone: timeZone, locale: Locale(identifier: ConArtist.model.settings.value.language.first!)).format(format)
     }
     
     // Formats the date as an RFC-3339 date string
     func toJSON() -> String {
         return moment(self).format("yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ")
+    }
+
+    func changeTimeZone(from: TimeZone, to: TimeZone) -> Date {
+        let targetOffset = TimeInterval(to.secondsFromGMT(for: self))
+        let localOffeset = TimeInterval(from.secondsFromGMT(for: self))
+        return self.addingTimeInterval(targetOffset - localOffeset)
     }
 }

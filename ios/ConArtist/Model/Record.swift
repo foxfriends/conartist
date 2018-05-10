@@ -8,15 +8,15 @@
 
 import Foundation
 
-struct Record {
-    let id: Int
+struct Record: Codable {
+    let id: Id
     let products: [Int]
     let price: Money
     let time: Date
     let info: String
 
     init(id: Int = ConArtist.NoID, products: [Int], price: Money, time: Date = Date(), info: String) {
-        self.id = id
+        self.id = id == ConArtist.NoID ? Id.temporary() : .id(id)
         self.products = products
         self.price = price
         self.time = time
@@ -24,7 +24,7 @@ struct Record {
     }
 
     init?(graphQL record: RecordFragment) {
-        id = record.id
+        id = .id(record.id)
         products = record.products
         price = record.price.toMoney()! // TODO: is ! bad?
         time = record.time.toDate()! // TODO: is ! bad?
@@ -35,7 +35,11 @@ struct Record {
         return RecordAdd(conId: con.id, products: products, price: price.toJSON(), time: time.toJSON(), info: info)
     }
 
-    var modifications: RecordMod {
-        return RecordMod(recordId: id, products: products, price: price.toJSON(), info: info)
+    var modifications: RecordMod? {
+        if let id = id.id {
+            return RecordMod(recordId: id, products: products, price: price.toJSON(), info: info)
+        } else {
+            return nil
+        }
     }
 }

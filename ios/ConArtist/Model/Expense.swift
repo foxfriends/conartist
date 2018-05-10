@@ -8,8 +8,8 @@
 
 import Foundation
 
-struct Expense {
-    let id: Int
+struct Expense: Codable {
+    let id: Id
     let price: Money
     let time: Date
     let category: String
@@ -20,7 +20,7 @@ struct Expense {
     }
 
     init(id: Int, category: String, description: String, price: Money, time: Date) {
-        self.id = id
+        self.id = id == ConArtist.NoID ? Id.temporary() : .id(id)
         self.price = price
         self.category = category
         self.description = description
@@ -33,7 +33,7 @@ struct Expense {
             let price = expense.price.toMoney(),
             let time = expense.time.toDate()
             else { return nil }
-        id = expense.id
+        id = .id(expense.id)
         self.price = price
         self.time = time
         category = expense.category
@@ -44,7 +44,11 @@ struct Expense {
         return ExpenseAdd(conId: con.id, price: price.toJSON(), category: category, description: description, time: time.toJSON())
     }
 
-    var modifications: ExpenseMod {
-        return ExpenseMod(expenseId: id, price: price.toJSON(), category: category, description: description)
+    var modifications: ExpenseMod? {
+        if let id = id.id {
+            return ExpenseMod(expenseId: id, price: price.toJSON(), category: category, description: description)
+        } else {
+            return nil
+        }
     }
 }

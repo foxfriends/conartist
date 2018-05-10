@@ -93,7 +93,7 @@ extension RecordDetailsOverlayViewController {
         navBar.rightButton.rx.tap
             .flatMap { [convention, unowned self] _ in ProductTypeListViewController.show(for: convention!, editing: self.record) }
             .map { [unowned self] products, price, info in
-                let newRecord = Record(id: self.record.id, products: products.map { $0.id }, price: price, time: self.record.time, info: info)
+                let newRecord = Record(id: self.record.id.id ?? ConArtist.NoID, products: products.map { $0.id }, price: price, time: self.record.time, info: info)
                 self.record = newRecord
                 DispatchQueue.main.async { self.setupUI() }
                 return newRecord

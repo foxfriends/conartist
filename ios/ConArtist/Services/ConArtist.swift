@@ -10,7 +10,7 @@ import UIKit
 import SVGKit
 
 struct ConArtist {
-    static let model = Model()
+    static let model = Persist.load()
 
     struct Error: Swift.Error {
         let msg: String

@@ -6,7 +6,7 @@
 //  Copyright © 2017 Cameron Eldridge. All rights reserved.
 //
 
-struct Price {
+struct Price: Codable {
     let typeId: Int
     let productId: Int?
     let quantity: Int

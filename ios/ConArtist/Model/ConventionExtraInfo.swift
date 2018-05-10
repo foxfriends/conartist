@@ -8,7 +8,22 @@
 
 import Foundation
 
-enum ConventionExtraInfo {
+enum ConventionExtraInfo: Codable {
+    private enum Cases: String, Codable {
+        case hours
+        case dates
+        case website
+        case address
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case `case`
+        case hours
+        case dates
+        case website
+        case address
+    }
+
     static var HourFormat: String { return "h:mma"¡ }
     static var ShortHourFormat: String { return "h:mm"¡ }
     static var ShortDayFormat: String { return "EEE"¡ }
@@ -72,6 +87,42 @@ enum ConventionExtraInfo {
         case .Website: return "PrimaryAction"
         case .Address: return "SecondaryAction"
         default: return "NoAction"
+        }
+    }
+
+    // MARK: Decodable
+    init(from decoder: Decoder) throws {
+        let json = try decoder.container(keyedBy: CodingKeys.self)
+        switch try json.decode(Cases.self, forKey: .case) {
+        case .hours: self = .Hours(try json.decode([Pair<Date>].self, forKey: .hours).map { $0.raw })
+        case .dates:
+            let (start, end) = try json.decode(Pair<Date>.self, forKey: .dates).raw
+            self = .Dates(start, end)
+        case .address:
+            let (display, url) = try json.decode(Pair<String>.self, forKey: .address).raw
+            self = .Address(display: display, url: url)
+        case .website:
+            let (display, url) = try json.decode(Pair<String>.self, forKey: .website).raw
+            self = .Website(display: display, url: url)
+        }
+    }
+
+    // MARK: Encodable
+    func encode(to encoder: Encoder) throws {
+        var json = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+        case .Hours(let hours):
+            try json.encode(Cases.hours, forKey: .case)
+            try json.encode(hours.map(Pair.init), forKey: .hours)
+        case .Address(let display, let url):
+            try json.encode(Cases.address, forKey: .case)
+            try json.encode(Pair((display, url)), forKey: .address)
+        case .Website(let display, let url):
+            try json.encode(Cases.website, forKey: .case)
+            try json.encode(Pair((display, url)), forKey: .website)
+        case .Dates(let start, let end):
+            try json.encode(Cases.dates, forKey: .case)
+            try json.encode(Pair((start, end)), forKey: .dates)
         }
     }
 }

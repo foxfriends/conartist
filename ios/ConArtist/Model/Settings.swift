@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Settings {
+struct Settings: Codable {
     let currency: CurrencyCode
     let language: [String]
 

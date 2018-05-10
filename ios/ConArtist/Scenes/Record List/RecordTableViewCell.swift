@@ -16,29 +16,31 @@ class RecordTableViewCell: UITableViewCell {
     @IBOutlet weak var modifiedMarkView: UIView!
 
     func setup(for item: Record, with products: [Product]) {
-        productsListLabel.text = item.products
-            .reduce([:]) { (prev: [Int: Int], next) in
-                // count up the products of each name
-                var result = prev
-                result[next] = (prev[next] ?? 0) + 1
-                return result
-            }.reduce("") { (prev: String, pair) in
-                // turn the counts into a string
-                let (productId, quantity) = pair
-                guard let product = products.first(where: { $0.id == productId }) else {
-                    // can just ignore invalid products since they shouldn't happen anyway
-                    return prev
-                }
-                let result = "\(product.name)\(quantity > 1 ? " (\(quantity))" : "")"
-                if prev == "" {
+        DispatchQueue.main.async {
+            self.productsListLabel.text = item.products
+                .reduce([:]) { (prev: [Int: Int], next) in
+                    // count up the products of each name
+                    var result = prev
+                    result[next] = (prev[next] ?? 0) + 1
                     return result
-                } else {
-                    return "\(prev), \(result)"
-                }
+                }.reduce("") { (prev: String, pair) in
+                    // turn the counts into a string
+                    let (productId, quantity) = pair
+                    guard let product = products.first(where: { $0.id == productId }) else {
+                        // can just ignore invalid products since they shouldn't happen anyway
+                        return prev
+                    }
+                    let result = "\(product.name)\(quantity > 1 ? " (\(quantity))" : "")"
+                    if prev == "" {
+                        return result
+                    } else {
+                        return "\(prev), \(result)"
+                    }
+            }
+            self.priceLabel.font = self.priceLabel.font.usingFeatures([.tabularFigures])
+            self.priceLabel.text = item.price.toString()
+            self.timeLabel.text = item.time.toString("E h:mm")
+            self.modifiedMarkView.backgroundColor = item.id.isTemp ? ConArtist.Color.BrandVariant : ConArtist.Color.BackgroundVariant
         }
-        priceLabel.font = priceLabel.font.usingFeatures([.tabularFigures])
-        priceLabel.text = item.price.toString()
-        timeLabel.text = item.time.toString("E h:mm")
-        modifiedMarkView.backgroundColor = item.id == ConArtist.NoID ? ConArtist.Color.BrandVariant : ConArtist.Color.BackgroundVariant
     }
 }

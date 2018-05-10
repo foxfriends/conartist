@@ -8,8 +8,8 @@
 
 import Foundation
 
-struct ConventionUserInfo {
-    enum Vote { case none, up, down }
+struct ConventionUserInfo: Codable {
+    enum Vote: String, Codable { case none, up, down }
     let id: Int
     let info: String
     let rating: Int

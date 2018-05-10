@@ -114,7 +114,7 @@ extension ConventionDetailsViewController {
         newSaleButton.rx.tap
             .flatMap { [convention] _ in ProductTypeListViewController.show(for: convention!) }
             .map { products, price, info in Record(products: products.map { $0.id }, price: price, info: info) }
-            .flatMap(convention.addRecord)
+            .flatMap { [convention] in convention!.addRecord($0) }
             .subscribe(
                 onNext: { print("SAVED") },
                 onError: { print("FAILED TO SAVE: \($0)") }
@@ -124,7 +124,7 @@ extension ConventionDetailsViewController {
         newExpenseButton.rx.tap
             .flatMap { _ in NewExpenseViewController.show() }
             .map(Expense.init)
-            .flatMap(convention.addExpense)
+            .flatMap { [convention] in convention!.addExpense($0) }
             .subscribe(
                 onNext: { print("SAVED") },
                 onError: { print("FAILED TO SAVE: \($0)") }

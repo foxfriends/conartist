@@ -13,10 +13,14 @@ class ExpenseTableViewCell: UITableViewCell {
 
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var amountLabel: UILabel!
+    @IBOutlet weak var modifiedMarkView: UIView!
 
     func setup(for expense: Expense) {
-        categoryLabel.text = expense.category
-        amountLabel.text = expense.price.toString()
-        amountLabel.font = amountLabel.font.usingFeatures([.tabularFigures])
+        DispatchQueue.main.async {
+            self.categoryLabel.text = expense.category
+            self.amountLabel.text = expense.price.toString()
+            self.amountLabel.font = self.amountLabel.font.usingFeatures([.tabularFigures])
+            self.modifiedMarkView.backgroundColor = expense.id.isTemp ? ConArtist.Color.BrandVariant : ConArtist.Color.Brand
+        }
     }
 }

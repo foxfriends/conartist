@@ -6,7 +6,7 @@
 //  Copyright © 2017 Cameron Eldridge. All rights reserved.
 //
 
-struct Product {
+struct Product: Codable {
     let id: Int
     let typeId: Int
     let name: String

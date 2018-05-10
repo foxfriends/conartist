@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum CurrencyCode: String {
+enum CurrencyCode: String, Codable {
     case AUTO, CAD, USD
 
     static var variants: [CurrencyCode] {
@@ -18,7 +18,7 @@ enum CurrencyCode: String {
     }
 }
 
-struct Money {
+struct Money: Codable {
     let currency: CurrencyCode
     let amount: Int
 

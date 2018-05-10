@@ -1648,6 +1648,7 @@ Toronto, ON, Canada</string>
                                         <connections>
                                             <outlet property="amountLabel" destination="T3L-o2-Bfh" id="MOd-id-8PK"/>
                                             <outlet property="categoryLabel" destination="rCi-5K-BEM" id="EkB-pd-21k"/>
+                                            <outlet property="modifiedMarkView" destination="nnI-fU-LjO" id="pa4-he-pVY"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

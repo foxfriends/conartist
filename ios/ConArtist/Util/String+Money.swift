@@ -13,6 +13,7 @@ import SwiftMoment
 
 extension String {
     func toDate() -> Date? {
+        print(self)
         return moment(self)?.date
     }
 }

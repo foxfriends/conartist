@@ -20,10 +20,14 @@ extension SplashScreenViewController {
             ConventionListViewController.show(animated: false)
             let _ = ConArtist.API.Auth.reauthorize()
                 .subscribe(
-                    onError: {
-                        print("Sign in failed: \($0)")
-                        ConArtist.model.navigate(backTo: SignInViewController.self)
-                        ConArtist.API.Auth.authToken = ConArtist.API.Auth.Unauthorized
+                    onError: { error in
+                        print("Sign in failed: \(error)")
+                        if error as? ConArtist.Error != nil {
+                            ConArtist.model.navigate(backTo: SignInViewController.self)
+                            ConArtist.API.Auth.authToken = ConArtist.API.Auth.Unauthorized
+                        } else {
+                            // probably ok... just no internet connection or something
+                        }
                     }
                 )
         }

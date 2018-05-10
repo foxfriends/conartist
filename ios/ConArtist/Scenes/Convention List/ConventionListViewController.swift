@@ -100,6 +100,7 @@ extension ConventionListViewController {
     private func signOut() {
         ConArtist.model.navigate(backTo: SignInViewController.self)
         ConArtist.API.Auth.authToken = ConArtist.API.Auth.Unauthorized
+        ConArtist.model.clear()
     }
 
     private func contactSupport() {
@@ -138,6 +139,9 @@ extension ConventionListViewController {
         øpast.subscribe(onNext: { [weak self] in self?.past = $0 }).disposed(by: disposeBag)
         øfuture.subscribe(onNext: { [weak self] in self?.future = $0 }).disposed(by: disposeBag)
         øpresent.subscribe(onNext: { [weak self] in self?.present = $0 }).disposed(by: disposeBag)
+
+        // Always fill today's conventions
+        øpresent.subscribe(onNext: { cons in cons.forEach { let _ = $0.fill() } }).disposed(by: disposeBag)
 
         Observable.combineLatest([øpresent, øfuture, øpast])
             .map { conventionss in conventionss.map { conventions in conventions.isEmpty } }

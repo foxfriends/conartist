@@ -125,7 +125,6 @@ impl Database {
     pub fn get_prices_for_user(&self, maybe_user_id: Option<i32>) -> Result<Vec<Price>, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
-        // with max_dates as (select type_id, product_id, quantity, MAX(mod_date) as max_date from prices where user_id = 3 group by type_id, product_id, quantity) select * from prices p inner join max_dates m on p.type_id = m.type_id and (p.product_id = m.product_id or (m.product_id is null and p.product_id is null)) and p.quantity = m.quantity and p.mod_date = m.max_date where price is not null
         return prices::table
             .inner_join(
                 currentprices::table
@@ -213,9 +212,34 @@ impl Database {
             .collect())
     }
 
-    pub fn get_prices_for_user_con(&self, user_id: Option<i32>, _con_id: i32) -> Result<Vec<Price>, String> {
-        // TODO: should check for prices before a certain date
-        self.get_prices_for_user(user_id)
+    pub fn get_prices_for_user_con(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<Vec<Price>, String> {
+        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let conn = self.pool.get().unwrap();
+
+        let end_date = conventions::table
+            .select(conventions::end_date)
+            .filter(conventions::con_id.eq(con_id))
+            .first::<NaiveDate>(&*conn)
+            .map_err(|reason| format!("Convention with id {} could not be retrieved. Reason: {}", con_id, reason))?;
+
+        let date = end_date.and_hms(23, 59, 59);
+        return prices::table
+            .inner_join(
+                currentprices::table
+                    .on(
+                        prices::type_id.eq(currentprices::type_id)
+                            .and(prices::product_id.is_not_distinct_from(currentprices::product_id))
+                            .and(prices::quantity.eq(currentprices::quantity))
+                            .and(prices::mod_date.eq(currentprices::mod_date))
+                    )
+            )
+            .select(prices::all_columns)
+            .filter(prices::user_id.eq(user_id))
+            .filter(prices::price.is_not_null())
+            .filter(prices::mod_date.lt(date))
+            .load::<Price>(&*conn)
+            .map_err(|reason| format!("Prices for user with id {} could not be retrieved. Reason: {}", user_id, reason))
+            .map(|prices| prices.into_iter().filter(|price| price.price.is_some()).collect())
     }
 
     pub fn get_records_for_user_con(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<Vec<Record>, String> {

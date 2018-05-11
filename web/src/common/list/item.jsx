@@ -14,13 +14,10 @@ export class Item<T> extends React.Component<Props<T>> {
   render() {
     const { className, onClick, style, children, value } = this.props
 
-    React.Children.map(children, child => {
-      console.log(child)
-    })
-
     return (
       <div className={`${S.item} ${onClick ? S.clickable : ''} ${className || ''}`} style={style || {}} onClick={onClick}>
         { children }
+        { value !== undefined ? <Icon name='drag' /> : null }
       </div>
     )
   }

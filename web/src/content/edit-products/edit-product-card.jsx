@@ -113,7 +113,6 @@ export function EditProductCard({ productType, products, topAction, bottomAction
                 action={() => onProductToggleDiscontinue(product.id)}
                 className={S.discontinueButton}
                 />
-              {/* <ReorderHandle /> */}
             </Item>
           }
         </List>

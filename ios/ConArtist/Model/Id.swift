@@ -18,7 +18,7 @@ enum Id: Codable, Equatable {
         case id
     }
 
-    case temp(Int)
+    case temp(String)
     case id(Int)
 
     init(from decoder: Decoder) throws {
@@ -43,10 +43,8 @@ enum Id: Codable, Equatable {
         }
     }
 
-    private static var tempTicker = 0
     static func temporary() -> Id {
-        tempTicker += 1
-        return .temp(tempTicker)
+        return .temp(UUID().uuidString)
     }
 
     func encode(to encoder: Encoder) throws {

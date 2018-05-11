@@ -1,5 +1,7 @@
 /* @flow */
 import * as React from 'react'
+
+import { Icon } from '../../common/icon'
 import S from './item.css'
 
 export type Props<T> = {

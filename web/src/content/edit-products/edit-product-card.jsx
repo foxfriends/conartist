@@ -67,9 +67,10 @@ export type Props = {
   onProductNameChange: (Id, string) => void,
   onProductQuantityChange: (Id, string) => void,
   onProductToggleDiscontinue: (Id) => void,
+  onProductReorder: (Id, number) => void,
 }
 
-export function EditProductCard({ productType, products, topAction, bottomAction, onProductTypeNameChange, onProductTypeColorChange, onProductNameChange, onProductQuantityChange, onProductToggleDiscontinue }: Props) {
+export function EditProductCard({ productType, products, topAction, bottomAction, onProductTypeNameChange, onProductTypeColorChange, onProductNameChange, onProductQuantityChange, onProductToggleDiscontinue, onProductReorder }: Props) {
   return (
     <Card id={scrollIdentifier('product-type', productType.id)} collapsible={true} defaultCollapsed={productType.discontinued} topAction={topAction} bottomAction={bottomAction} className={productType.discontinued ? S.discontinued : ''}>
       <Fragment>
@@ -87,12 +88,12 @@ export function EditProductCard({ productType, products, topAction, bottomAction
           />
       </Fragment>
       <Fragment>
-        <List dataSource={products}>
+        <List dataSource={products} reorderable={onProductReorder}>
           <div className={S.placeholder}>
             {l`No products yet... add one!`}
           </div>
           {(product, _) =>
-            <Item key={`product_${product.id}`} className={product.discontinued ? S.discontinued : ''}>
+            <Item key={`product_${product.id}`} className={product.discontinued ? S.discontinued : ''} value={product.id}>
               <Input
                 defaultValue={product.name}
                 placeholder={l`New product`}
@@ -112,6 +113,7 @@ export function EditProductCard({ productType, products, topAction, bottomAction
                 action={() => onProductToggleDiscontinue(product.id)}
                 className={S.discontinueButton}
                 />
+              {/* <ReorderHandle /> */}
             </Item>
           }
         </List>

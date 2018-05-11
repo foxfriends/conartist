@@ -60,7 +60,7 @@ impl Database {
                         .len() as i64;
 
                 let updated_product: Product =
-                    if name.is_some() || discontinued.is_some() {
+                    if name.is_some() || discontinued.is_some() || sort.is_some() {
                         diesel::update(products::table)
                             .filter(products::product_id.eq(product_id))
                             .filter(products::user_id.eq(user_id))

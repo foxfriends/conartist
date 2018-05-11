@@ -20,12 +20,14 @@ export type PriceAdd = {|
 export type ProductTypeAdd = {|
   name: string,
   color: number,
+  sort: number,
 |};
 
 export type ProductAdd = {|
   typeId: number,
   name: string,
   quantity: number,
+  sort: number,
 |};
 
 export type RecordAdd = {|
@@ -55,6 +57,7 @@ export type ProductTypeMod = {|
   name?: ?string,
   color?: ?number,
   discontinued?: ?boolean,
+  sort?: ?number,
 |};
 
 export type ProductMod = {|
@@ -62,6 +65,7 @@ export type ProductMod = {|
   name?: ?string,
   quantity?: ?number,
   discontinued?: ?boolean,
+  sort?: ?number,
 |};
 
 export type ExpenseMod = {|
@@ -139,6 +143,7 @@ export type AddProductTypeMutation = {|
     name: string,
     color: ?number,
     discontinued: boolean,
+    sort: number,
   |},
 |};
 
@@ -155,6 +160,7 @@ export type AddProductMutation = {|
     name: string,
     quantity: number,
     discontinued: boolean,
+    sort: number,
   |},
 |};
 
@@ -302,6 +308,7 @@ export type ModProductTypeMutation = {|
     name: string,
     color: ?number,
     discontinued: boolean,
+    sort: number,
   |},
 |};
 
@@ -318,6 +325,7 @@ export type ModProductMutation = {|
     name: string,
     quantity: number,
     discontinued: boolean,
+    sort: number,
   |},
 |};
 
@@ -463,6 +471,7 @@ export type FullConventionQuery = {|
       name: string,
       quantity: number,
       discontinued: boolean,
+      sort: number,
     |} >,
     productTypes:  Array< {|
       __typename: "ProductType",
@@ -470,6 +479,7 @@ export type FullConventionQuery = {|
       name: string,
       color: ?number,
       discontinued: boolean,
+      sort: number,
     |} >,
     prices:  Array< {|
       __typename: "Price",
@@ -548,6 +558,7 @@ export type FullUserQuery = {|
       name: string,
       quantity: number,
       discontinued: boolean,
+      sort: number,
     |} >,
     productTypes:  Array< {|
       __typename: "ProductType",
@@ -555,6 +566,7 @@ export type FullUserQuery = {|
       name: string,
       color: ?number,
       discontinued: boolean,
+      sort: number,
     |} >,
     prices:  Array< {|
       __typename: "Price",
@@ -695,6 +707,7 @@ export type FullConventionFragmentFragment = {|
     name: string,
     quantity: number,
     discontinued: boolean,
+    sort: number,
   |} >,
   productTypes:  Array< {|
     __typename: "ProductType",
@@ -702,6 +715,7 @@ export type FullConventionFragmentFragment = {|
     name: string,
     color: ?number,
     discontinued: boolean,
+    sort: number,
   |} >,
   prices:  Array< {|
     __typename: "Price",
@@ -773,6 +787,7 @@ export type FullUserFragmentFragment = {|
     name: string,
     quantity: number,
     discontinued: boolean,
+    sort: number,
   |} >,
   productTypes:  Array< {|
     __typename: "ProductType",
@@ -780,6 +795,7 @@ export type FullUserFragmentFragment = {|
     name: string,
     color: ?number,
     discontinued: boolean,
+    sort: number,
   |} >,
   prices:  Array< {|
     __typename: "Price",
@@ -833,6 +849,7 @@ export type ProductTypeFragmentFragment = {|
   name: string,
   color: ?number,
   discontinued: boolean,
+  sort: number,
 |};
 
 export type ProductFragmentFragment = {|
@@ -842,6 +859,7 @@ export type ProductFragmentFragment = {|
   name: string,
   quantity: number,
   discontinued: boolean,
+  sort: number,
 |};
 
 export type RecordFragmentFragment = {|

@@ -6,15 +6,17 @@ export type Product = {|
   typeId: number,
   name: string,
   quantity: number,
+  sort: number,
   discontinued: boolean,
 |}
 
-export function parse({ id, typeId, name, quantity, discontinued }: ProductFragmentFragment): Product {
+export function parse({ id, typeId, name, quantity, sort, discontinued }: ProductFragmentFragment): Product {
   return {
     id,
     typeId,
     name,
     quantity,
+    sort,
     discontinued,
   }
 }

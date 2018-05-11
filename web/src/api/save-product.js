@@ -45,6 +45,9 @@ export class SaveProduct implements APIRequest<EditableProduct, EditableProduct>
       if (product.discontinued !== original.discontinued) {
         variables.product.discontinued = product.discontinued
       }
+      if (product.sort !== original.sort) {
+        variables.product.sort = product.sort
+      }
       if (Object.keys(variables.product).length === 1) {
         // Unmodified
         return of({ state: 'retrieved', value: product })
@@ -64,6 +67,7 @@ export class SaveProduct implements APIRequest<EditableProduct, EditableProduct>
           typeId: product.typeId,
           name: product.name,
           quantity: product.quantity,
+          sort: product.sort,
         }
       }
       return this.addProduct.send(variables)

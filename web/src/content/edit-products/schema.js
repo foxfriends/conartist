@@ -3,6 +3,7 @@ import { VALID } from '../../model/validation'
 import type { ProductType } from '../../model/product-type'
 import type { Product } from '../../model/product'
 import type { Validation } from '../../model/validation'
+import Map from '../../util/default-map'
 
 export opaque type ValidationError = Symbol
 export const DuplicateName: ValidationError = Symbol()
@@ -46,21 +47,28 @@ export function peekTypeId(): Id {
   return `product_type_id_${typeIdCounter}`
 }
 
-export function editableProduct(product: Product): EditableProduct {
-  // $FlowIgnore: some dirty hacks huehue
-  return {
-    ...product,
-    product,
-    nameValidation: { state: VALID },
-    quantityValidation: { state: VALID },
+export function editableProduct() {
+  const sort = new Map([], 0)
+  return (product: Product): EditableProduct => {
+    const index = sort.get(product.typeId)
+    sort.set(product.typeId, index + 1)
+    // $FlowIgnore: some dirty hacks huehue
+    return {
+      ...product,
+      product,
+      sort: index,
+      nameValidation: { state: VALID },
+      quantityValidation: { state: VALID },
+    }
   }
 }
 
-export function editableProductType(productType: ProductType): EditableProductType {
+export function editableProductType(productType: ProductType, index: number): EditableProductType {
   // $FlowIgnore: some dirty hacks huehue
   return {
     ...productType,
     productType,
+    sort: index,
     validation: { state: VALID },
   }
 }

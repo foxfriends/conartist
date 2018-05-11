@@ -43,7 +43,10 @@ export class SaveProductType implements APIRequest<EditableProductType, Editable
         variables.productType.color = productType.color
       }
       if (productType.discontinued !== original.discontinued) {
-        variables.productType.discontinued = productType.discontinued;
+        variables.productType.discontinued = productType.discontinued
+      }
+      if (productType.sort !== original.sort) {
+        variables.productType.sort = productType.sort
       }
       if (Object.keys(variables.productType).length === 1) {
         // unmodified
@@ -62,6 +65,7 @@ export class SaveProductType implements APIRequest<EditableProductType, Editable
         productType: {
           name: productType.name,
           color: productType.color || 0xffffff,
+          sort: productType.sort,
         }
       }
       return this.addProductType.send(variables)

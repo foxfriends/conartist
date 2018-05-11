@@ -80,7 +80,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
   static getDerivedStateFromProps({ products, productTypes }: Props, state: State): ?$Shape<State> {
     if (!state || (state.products.length === 0 && state.productTypes.length === 0)) {
       return {
-        products: products.map(editableProduct),
+        products: products.map(editableProduct()),
         productTypes: productTypes.map(editableProductType),
       }
     } else {
@@ -94,7 +94,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
     toolbarStatus.next(defaultToolbar)
 
     this.state = {
-      products: this.props.products.map(editableProduct),
+      products: this.props.products.map(editableProduct()),
       productTypes: this.props.productTypes.map(editableProductType),
       editingEnabled: true,
     }
@@ -208,6 +208,29 @@ export class EditProducts extends ReactX.Component<Props, State> {
       const products = this.state.products.map(product => product.id === id ? { ...product, discontinued: !product.discontinued } : product)
       this.setState(this.validate({ products, productTypes: this.state.productTypes }))
     }
+  }
+
+  handleProductSortChange(id: Id, sort: number) {
+    const original = this.state.products.find(product => product.id === id)
+    const products =
+      this.state.products.map(product => product.id === id
+        ? { ...product, sort }
+        : product.typeId === original.typeId && product.sort >= sort && product.sort < original.sort
+          ? { ...product, sort: product.sort + 1 }
+          : product
+      )
+      this.setState(this.validate({ products, productTypes: this.state.productTypes }))
+  }
+
+  handleProductTypeSortChange(id: Id, sort: number) {
+    const original = this.state.productTypes.find(type => type.id === id)
+    const productTypes =
+      this.state.productTypes.map(productType => productType.id === id
+        ? { ...productType, sort }
+        : productType.sort >= sort && productType.sort < original.sort
+          ? { ...productType, sort: productType.sort + 1 }
+          : productType
+      )
   }
 
   createProductType() {

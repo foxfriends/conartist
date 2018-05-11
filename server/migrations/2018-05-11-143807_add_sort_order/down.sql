@@ -1,0 +1,2 @@
+ALTER TABLE Products DROP COLUMN sort;
+ALTER TABLE ProductTypes DROP COLUMN sort;

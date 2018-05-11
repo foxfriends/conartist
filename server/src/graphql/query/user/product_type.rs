@@ -9,4 +9,5 @@ graphql_object!(ProductType: Database |&self| {
     field name() -> &String { &self.name }
     field color() -> Option<i32> { self.color }
     field discontinued() -> bool { self.discontinued }
+    field sort() -> i32 { self.sort }
 });

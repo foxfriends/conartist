@@ -16,13 +16,14 @@ impl Database {
         name: Option<String>,
         color: Option<i32>,
         discontinued: Option<bool>,
+        sort: Option<i32>,
     ) -> Result<ProductType, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         diesel::update(producttypes::table)
             .filter(producttypes::type_id.eq(type_id))
             .filter(producttypes::user_id.eq(user_id))
-            .set(&ProductTypeChange { name, color, discontinued })
+            .set(&ProductTypeChange { name, color, discontinued, sort })
             .get_result(&*conn)
             .map_err(|reason| format!("Could not update product type with id {}. Reason: {}", type_id, reason))
     }
@@ -33,6 +34,7 @@ impl Database {
         name: Option<String>,
         quantity: Option<i32>,
         discontinued: Option<bool>,
+        sort: Option<i32>,
     ) -> Result<ProductWithQuantity, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
@@ -62,7 +64,7 @@ impl Database {
                         diesel::update(products::table)
                             .filter(products::product_id.eq(product_id))
                             .filter(products::user_id.eq(user_id))
-                            .set(&ProductChanges { name, discontinued })
+                            .set(&ProductChanges { name, discontinued, sort })
                             .get_result(&*conn)?
                     } else {
                         products::table

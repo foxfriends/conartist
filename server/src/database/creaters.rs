@@ -17,22 +17,22 @@ impl Database {
             .map_err(|reason| format!("Could not create new user for {}. Reason: {}", email, reason))
     }
 
-    pub fn create_product_type(&self, maybe_user_id: Option<i32>, name: String, color: i32) -> Result<ProductType, String> {
+    pub fn create_product_type(&self, maybe_user_id: Option<i32>, name: String, color: i32, sort: i32) -> Result<ProductType, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         diesel::insert_into(producttypes::table)
-            .values((producttypes::user_id.eq(user_id), producttypes::name.eq(name), producttypes::color.eq(color)))
+            .values((producttypes::user_id.eq(user_id), producttypes::name.eq(name), producttypes::color.eq(color), producttypes::sort.eq(sort)))
             .get_result::<ProductType>(&*conn)
             .map_err(|reason| format!("Failed to create new product type for user with id {}. Reason: {}", user_id, reason))
     }
 
-    pub fn create_product(&self, maybe_user_id: Option<i32>, type_id: i32, name: String, quantity: i32) -> Result<ProductWithQuantity, String> {
+    pub fn create_product(&self, maybe_user_id: Option<i32>, type_id: i32, name: String, quantity: i32, sort: i32) -> Result<ProductWithQuantity, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conn.transaction(|| -> diesel::result::QueryResult<ProductWithQuantity> {
                 let product =
                     diesel::insert_into(products::table)
-                        .values((products::user_id.eq(user_id), products::type_id.eq(type_id), products::name.eq(name)))
+                        .values((products::user_id.eq(user_id), products::type_id.eq(type_id), products::name.eq(name), products::sort.eq(sort)))
                         .get_result::<Product>(&*conn)?;
 
                 diesel::insert_into(inventory::table)

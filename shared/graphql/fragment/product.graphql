@@ -4,4 +4,5 @@ fragment ProductFragment on Product {
   name
   quantity
   discontinued
+  sort
 }

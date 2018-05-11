@@ -100,6 +100,7 @@ table! {
         user_id -> Int4,
         name -> Varchar,
         discontinued -> Bool,
+        sort -> Int4,
     }
 }
 
@@ -110,6 +111,7 @@ table! {
         name -> Varchar,
         color -> Nullable<Int4>,
         discontinued -> Bool,
+        sort -> Int4,
     }
 }
 

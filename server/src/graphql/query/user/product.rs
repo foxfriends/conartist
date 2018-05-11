@@ -10,4 +10,5 @@ graphql_object!(ProductWithQuantity: Database as "Product" |&self| {
     field name() -> &String { &self.name }
     field discontinued() -> bool { self.discontinued }
     field quantity() -> i32 { self.quantity as i32 }
+    field sort() -> i32 { self.sort }
 });

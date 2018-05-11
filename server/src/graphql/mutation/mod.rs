@@ -70,11 +70,12 @@ graphql_object!(Mutation: Database |&self| {
     field add_user_product_type(&executor, user_id: Option<i32>, product_type: ProductTypeAdd) -> FieldResult<ProductType> {
         ensure!(product_type.name.len() > 0 && product_type.name.len() <= 512);
         ensure!(product_type.color >= 0);
+        ensure!(product_type.sort >= 0);
 
         dbtry! {
             executor
                 .context()
-                .create_product_type(user_id, product_type.name, product_type.color)
+                .create_product_type(user_id, product_type.name, product_type.color, product_type.sort)
         }
     }
 
@@ -83,11 +84,12 @@ graphql_object!(Mutation: Database |&self| {
         let name_length = product_type.name.as_ref().map(|s| s.len()).unwrap_or(1);
         ensure!(name_length > 0 && name_length <= 512);
         ensure!(product_type.color.unwrap_or(0) >= 0);
+        ensure!(product_type.sort.unwrap_or(0) >= 0);
 
         dbtry! {
             executor
                 .context()
-                .update_product_type(user_id, product_type.type_id, product_type.name, product_type.color, product_type.discontinued)
+                .update_product_type(user_id, product_type.type_id, product_type.name, product_type.color, product_type.discontinued, product_type.sort)
         }
     }
 
@@ -96,11 +98,12 @@ graphql_object!(Mutation: Database |&self| {
         ensure!(product.name.len() > 0 && product.name.len() <= 512);
         ensure!(product.type_id > 0);
         ensure!(product.quantity >= 0);
+        ensure!(product.sort >= 0);
 
         dbtry! {
             executor
                 .context()
-                .create_product(user_id, product.type_id, product.name, product.quantity)
+                .create_product(user_id, product.type_id, product.name, product.quantity, product.sort)
         }
     }
 
@@ -109,11 +112,12 @@ graphql_object!(Mutation: Database |&self| {
         let name_length = product.name.as_ref().map(|s| s.len()).unwrap_or(1);
         ensure!(name_length > 0 && name_length <= 512);
         ensure!(product.quantity.unwrap_or(0) >= 0);
+        ensure!(product.sort.unwrap_or(0) >= 0);
 
         dbtry! {
             executor
                 .context()
-                .update_product(user_id, product.product_id, product.name, product.quantity, product.discontinued)
+                .update_product(user_id, product.product_id, product.name, product.quantity, product.discontinued, product.sort)
         }
     }
 

@@ -4,6 +4,7 @@
 pub struct ProductTypeAdd {
     pub name: String,
     pub color: i32,
+    pub sort: i32,
 }
 
 #[derive(Clone, GraphQLInputObject)]
@@ -13,4 +14,5 @@ pub struct ProductTypeMod {
     pub name: Option<String>,
     pub color: Option<i32>,
     pub discontinued: Option<bool>,
+    pub sort: Option<i32>,
 }

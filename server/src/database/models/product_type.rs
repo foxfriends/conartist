@@ -8,6 +8,7 @@ pub struct ProductType {
     pub name: String,
     pub color: Option<i32>,
     pub discontinued: bool,
+    pub sort: i32,
 }
 
 #[derive(AsChangeset)]
@@ -16,4 +17,5 @@ pub struct ProductTypeChange {
     pub name: Option<String>,
     pub color: Option<i32>,
     pub discontinued: Option<bool>,
+    pub sort: Option<i32>,
 }

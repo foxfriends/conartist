@@ -80,7 +80,7 @@ impl Database {
         let conn = self.pool.get().unwrap();
         producttypes::table
             .filter(producttypes::user_id.eq(user_id))
-            .order(producttypes::type_id.asc())
+            .order((producttypes::sort.desc(), producttypes::type_id.asc()))
             .load::<ProductType>(&*conn)
             .map_err(|reason| format!("ProductTypes for user with id {} could not be retrieved. Reason: {}", user_id, reason))
     }
@@ -106,10 +106,10 @@ impl Database {
         let products_with_quantity =
             products::table
                 .left_outer_join(inventory::table)
-                .select((products::product_id, products::type_id, products::user_id, products::name, products::discontinued, dsl::sql::<sql_types::BigInt>("coalesce(sum(inventory.quantity), 0)")))
+                .select((products::product_id, products::type_id, products::user_id, products::name, products::sort, products::discontinued, dsl::sql::<sql_types::BigInt>("coalesce(sum(inventory.quantity), 0)")))
                 .filter(products::user_id.eq(user_id))
                 .group_by(products::product_id)
-                .order(products::product_id.asc())
+                .order((products::sort.desc(), products::product_id.asc()))
                 .load::<ProductWithQuantity>(&*conn)
                 .map_err(|reason| format!("Products for user with id {} could not be retrieved. Reason: {}", user_id, reason))?;
 
@@ -196,11 +196,11 @@ impl Database {
         let products_with_quantity =
             products::table
                 .left_outer_join(inventory::table)
-                .select((products::product_id, products::type_id, products::user_id, products::name, products::discontinued, dsl::sql::<sql_types::BigInt>("coalesce(sum(inventory.quantity), 0)")))
+                .select((products::product_id, products::type_id, products::user_id, products::name, products::sort, products::discontinued, dsl::sql::<sql_types::BigInt>("coalesce(sum(inventory.quantity), 0)")))
                 .filter(products::user_id.eq(user_id))
                 .filter(inventory::mod_date.lt(date))
                 .group_by(products::product_id)
-                .order(products::product_id.asc())
+                .order((products::sort.desc(), products::product_id.asc()))
                 .load::<ProductWithQuantity>(&*conn)
                 .map_err(|reason| format!("Products for user with id {} could not be retrieved. Reason: {}", user_id, reason))?;
 

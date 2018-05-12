@@ -338,11 +338,12 @@ extension Convention {
             }
             .map { $0.addUserRecord.fragments.recordFragment }
             .filterMap(Record.init(graphQL:))
-            .map { [øaddedRecords, ørecords] newRecord in
+            .do(onNext: { [øaddedRecords, ørecords] newRecord in
                 øaddedRecords.value.removeFirst { rec in rec.id == record.id }
                 ørecords.value.append(newRecord)
                 ConArtist.Persist.persist()
-            }
+            })
+            .discard()
     }
 
     func updateRecord(_ record: Record) -> Observable<Void> {
@@ -410,11 +411,12 @@ extension Convention {
             }
             .map { $0.addUserExpense.fragments.expenseFragment }
             .filterMap(Expense.init(graphQL:))
-            .map { [øaddedExpenses, øexpenses] newExpense in
+            .do(onNext: { [øaddedExpenses, øexpenses] newExpense in
                 øaddedExpenses.value.removeFirst { exp in exp.id == expense.id }
                 øexpenses.value.append(newExpense)
                 ConArtist.Persist.persist()
-            }
+            })
+            .discard()
     }
 
     func updateExpense(_ expense: Expense) -> Observable<Void> {

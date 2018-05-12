@@ -69,6 +69,7 @@ table! {
         category -> Varchar,
         description -> Text,
         spend_time -> Timestamp,
+        gen_id -> Nullable<Uuid>,
     }
 }
 
@@ -124,6 +125,7 @@ table! {
         products -> Array<Int4>,
         info -> Text,
         sale_time -> Timestamp,
+        gen_id -> Nullable<Uuid>,
     }
 }
 

@@ -157,6 +157,7 @@ graphql_object!(Mutation: Database |&self| {
          }
     }
 
+    // Records
     field add_user_record(&executor, user_id: Option<i32>, record: RecordAdd) -> FieldResult<Record> {
         ensure!(record.products.len() != 0);
         ensure!(record.con_id > 0);
@@ -165,11 +166,10 @@ graphql_object!(Mutation: Database |&self| {
         dbtry! {
             executor
                 .context()
-                .create_user_record(user_id, record.con_id, record.products, record.price, record.time.naive_utc(), record.info)
+                .create_user_record(user_id, record.con_id, record.uuid, record.products, record.price, record.time.naive_utc(), record.info)
         }
     }
 
-    // Records
     field mod_user_record(&executor, user_id: Option<i32>, record: RecordMod) -> FieldResult<Record> {
         ensure!(record.record_id > 0);
         ensure!(record.products.as_ref().map(|products| products.len() > 0).unwrap_or(true));
@@ -190,6 +190,7 @@ graphql_object!(Mutation: Database |&self| {
         }
     }
 
+    // Expenses
     field add_user_expense(&executor, user_id: Option<i32>, expense: ExpenseAdd) -> FieldResult<Expense> {
         ensure!(expense.con_id > 0);
         ensure!(expense.price >= Money::new(0i64, expense.price.cur()));
@@ -198,7 +199,7 @@ graphql_object!(Mutation: Database |&self| {
         dbtry! {
             executor
                 .context()
-                .create_user_expense(user_id, expense.con_id, expense.price, expense.category, expense.description, expense.time.naive_utc())
+                .create_user_expense(user_id, expense.con_id, expense.uuid, expense.price, expense.category, expense.description, expense.time.naive_utc())
         }
     }
 

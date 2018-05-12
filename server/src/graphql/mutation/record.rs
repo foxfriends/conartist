@@ -1,11 +1,13 @@
 //! Input objects needed to modify sales records
 use chrono::{DateTime,FixedOffset};
+use uuid::Uuid;
 use money::Money;
 
 #[derive(Clone, GraphQLInputObject)]
 #[graphql(description="Information required to create a sales record")]
 pub struct RecordAdd {
     pub con_id: i32,
+    pub uuid: Uuid,
     pub products: Vec<i32>,
     pub price: Money,
     pub time: DateTime<FixedOffset>,

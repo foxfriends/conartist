@@ -212,6 +212,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
 
   handleProductSortChange(id: Id, sort: number) {
     const original = this.state.products.find(product => product.id === id)
+    if (!original) { throw new Error("Trying to edit non-existent product") }
     const products =
       this.state.products.map(product => product.id === id
         ? { ...product, sort }
@@ -224,6 +225,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
 
   handleProductTypeSortChange(id: Id, sort: number) {
     const original = this.state.productTypes.find(type => type.id === id)
+    if (!original) { throw new Error("Trying to edit non-existent product type") }
     const productTypes =
       this.state.productTypes.map(productType => productType.id === id
         ? { ...productType, sort }
@@ -240,6 +242,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
       id: uniqueTypeId(),
       name: '',
       color: 0xffffff,
+      sort: this.state.productTypes.length,
       discontinued: false,
     }
     const productTypes = [...this.state.productTypes, newProductType]
@@ -256,6 +259,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
       typeId,
       name: '',
       quantity: NaN,
+      sort: this.state.products.filter(product => product.typeId === typeId).length,
       discontinued: false,
     }
     const products = [...this.state.products, newProduct]
@@ -350,6 +354,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
                 onProductNameChange={(id, name) => this.handleProductNameChange(id, name)}
                 onProductQuantityChange={(id, quantity) => this.handleProductQuantityChange(id, quantity)}
                 onProductToggleDiscontinue={id => this.handleProductDiscontinueToggled(id)}
+                onProductReorder={(id, index) => this.handleProductSortChange(id, index)}
                 key={`product_type_${productType.id}`}
                 />
           }

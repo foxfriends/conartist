@@ -1,5 +1,6 @@
 //! The Expenses table
 use chrono::NaiveDateTime;
+use uuid::Uuid;
 
 use database::schema::*;
 use money::Money;
@@ -13,6 +14,7 @@ pub struct Expense {
     pub category: String,
     pub description: String,
     pub spend_time: NaiveDateTime,
+    pub gen_id: Option<Uuid>,
 }
 
 #[derive(AsChangeset)]

@@ -1,6 +1,7 @@
 use diesel::{self, dsl};
 use diesel::prelude::*;
 use chrono::{NaiveDateTime, NaiveDate, Utc};
+use uuid::Uuid;
 use serde_json;
 
 use super::schema::*;
@@ -93,6 +94,7 @@ impl Database {
         &self,
         maybe_user_id: Option<i32>,
         con_id: i32,
+        gen_id: Uuid,
         products: Vec<i32>,
         price: Money,
         time: NaiveDateTime,
@@ -119,7 +121,15 @@ impl Database {
             }
 
             diesel::insert_into(records::table)
-                .values((records::user_id.eq(user_id), records::con_id.eq(con_id), records::products.eq(products), records::price.eq(price.to_string()), records::sale_time.eq(time), records::info.eq(info)))
+                .values((
+                    records::user_id.eq(user_id),
+                    records::con_id.eq(con_id),
+                    records::products.eq(products),
+                    records::price.eq(price.to_string()),
+                    records::sale_time.eq(time),
+                    records::info.eq(info),
+                    records::gen_id.eq(gen_id),
+                ))
                 .get_result::<Record>(&*conn)
         })
         .map_err(|reason| format!("Could not create record for user with id {} and convention with id {}. Reason: {}", user_id, con_id, reason))
@@ -129,6 +139,7 @@ impl Database {
         &self,
         maybe_user_id: Option<i32>,
         con_id: i32,
+        gen_id: Uuid,
         price: Money,
         category: String,
         description: String,
@@ -155,7 +166,15 @@ impl Database {
             }
 
             diesel::insert_into(expenses::table)
-                .values((expenses::user_id.eq(user_id), expenses::con_id.eq(con_id), expenses::price.eq(price.to_string()), expenses::category.eq(category), expenses::description.eq(description), expenses::spend_time.eq(time)))
+                .values((
+                    expenses::user_id.eq(user_id),
+                    expenses::con_id.eq(con_id),
+                    expenses::price.eq(price.to_string()),
+                    expenses::category.eq(category),
+                    expenses::description.eq(description),
+                    expenses::spend_time.eq(time),
+                    expenses::gen_id.eq(gen_id),
+                ))
                 .get_result::<Expense>(&*conn)
         })
         .map_err(|reason| format!("Could not create expense for user with id {} and convention with id {}. Reason: {}", user_id, con_id, reason))

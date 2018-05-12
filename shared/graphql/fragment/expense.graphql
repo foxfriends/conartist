@@ -1,5 +1,6 @@
 fragment ExpenseFragment on Expense {
   id
+  uuid
   category
   description
   price

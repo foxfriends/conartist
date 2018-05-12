@@ -1,5 +1,6 @@
 //! The Records table
 use chrono::NaiveDateTime;
+use uuid::Uuid;
 
 use database::schema::*;
 use money::Money;
@@ -13,6 +14,7 @@ pub struct Record {
     pub products: Vec<i32>,
     pub info: String,
     pub sale_time: NaiveDateTime,
+    pub gen_id: Option<Uuid>,
 }
 
 #[derive(AsChangeset)]

@@ -1,11 +1,13 @@
 //! Input objects needed to modify convention expense
 use chrono::{DateTime,FixedOffset};
+use uuid::Uuid;
 use money::Money;
 
 #[derive(Clone, GraphQLInputObject)]
 #[graphql(description="Information required to create a convention expense")]
 pub struct ExpenseAdd {
     pub con_id: i32,
+    pub uuid: Uuid,
     pub price: Money,
     pub category: String,
     pub description: String,

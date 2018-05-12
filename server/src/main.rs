@@ -20,6 +20,7 @@ extern crate hyper;
 extern crate base64;
 extern crate r2d2;
 extern crate r2d2_diesel;
+extern crate uuid;
 
 #[macro_use] mod macros;
 mod web;
@@ -92,7 +93,7 @@ fn main() {
             ]
         };
 
-    let resource = 
+    let resource =
         GraphQLHandler::new(
             |_| Client::new(), // TODO: HTTPS support
             resource::Query,

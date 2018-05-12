@@ -109,6 +109,7 @@ export type AddExpenseMutation = {|
   addUserExpense: {|
     __typename: "Expense",
     id: number,
+    uuid: ?any,
     category: string,
     description: string,
     price: any,
@@ -173,6 +174,7 @@ export type AddRecordMutation = {|
   addUserRecord: {|
     __typename: "Record",
     id: number,
+    uuid: ?any,
     products: Array< number >,
     price: any,
     time: any,
@@ -350,6 +352,7 @@ export type UpdateExpenseMutation = {|
   modUserExpense: {|
     __typename: "Expense",
     id: number,
+    uuid: ?any,
     category: string,
     description: string,
     price: any,
@@ -366,6 +369,7 @@ export type UpdateRecordMutation = {|
   modUserRecord: {|
     __typename: "Record",
     id: number,
+    uuid: ?any,
     products: Array< number >,
     price: any,
     time: any,
@@ -491,6 +495,7 @@ export type FullConventionQuery = {|
     records:  Array< {|
       __typename: "Record",
       id: number,
+      uuid: ?any,
       products: Array< number >,
       price: any,
       time: any,
@@ -499,6 +504,7 @@ export type FullConventionQuery = {|
     expenses:  Array< {|
       __typename: "Expense",
       id: number,
+      uuid: ?any,
       category: string,
       description: string,
       price: any,
@@ -659,6 +665,7 @@ export type ConventionImageFragmentFragment = {|
 export type ExpenseFragmentFragment = {|
   __typename: "Expense",
   id: number,
+  uuid: ?any,
   category: string,
   description: string,
   price: any,
@@ -727,6 +734,7 @@ export type FullConventionFragmentFragment = {|
   records:  Array< {|
     __typename: "Record",
     id: number,
+    uuid: ?any,
     products: Array< number >,
     price: any,
     time: any,
@@ -735,6 +743,7 @@ export type FullConventionFragmentFragment = {|
   expenses:  Array< {|
     __typename: "Expense",
     id: number,
+    uuid: ?any,
     category: string,
     description: string,
     price: any,
@@ -865,6 +874,7 @@ export type ProductFragmentFragment = {|
 export type RecordFragmentFragment = {|
   __typename: "Record",
   id: number,
+  uuid: ?any,
   products: Array< number >,
   price: any,
   time: any,

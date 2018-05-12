@@ -35,7 +35,7 @@ export class ColorPicker extends React.Component<Props, State> {
     }
   }
 
-  handleChange(event: React.SyntheticEvent<HTMLInputElement>) {
+  handleChange(event: SyntheticEvent<HTMLInputElement>) {
     const { currentTarget } = event
     const color = colorToNumber(currentTarget.value)
     this.setState({ color })
@@ -48,6 +48,7 @@ export class ColorPicker extends React.Component<Props, State> {
 
     return (
       <>
+        {/* $FlowIgnore */}
         <div className={`${S.button} ${className || ''}`} onClick={() => this.ref.current && this.ref.current.click()} style={{ backgroundColor: numberToColor(color) }}/>
         <input
           defaultValue={numberToColor(color)}

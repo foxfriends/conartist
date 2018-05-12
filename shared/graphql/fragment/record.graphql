@@ -1,5 +1,6 @@
 fragment RecordFragment on Record {
   id
+  uuid
   products
   price
   time

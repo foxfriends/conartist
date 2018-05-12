@@ -5,16 +5,18 @@ import { Money } from './money'
 export type Record = {|
   name: 'record',
   id: number,
+  uuid: ?string,
   products: number[],
   price: Money,
   time: Date,
   info: string,
 |}
 
-export function parse({ id, products, price, time, info }: RecordFragmentFragment): Record {
+export function parse({ id, uuid, products, price, time, info }: RecordFragmentFragment): Record {
   return {
     name: 'record',
     id,
+    uuid,
     products,
     price: Money.fromJSON(price),
     time: new Date(time),

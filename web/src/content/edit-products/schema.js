@@ -17,6 +17,7 @@ export type EditableProductType = {
   id: Id,
   name: string,
   color: ?number,
+  sort: number,
   discontinued: boolean,
 }
 
@@ -28,6 +29,7 @@ export type EditableProduct = {
   typeId: Id,
   name: string,
   quantity: number,
+  sort: number,
   discontinued: boolean,
 }
 
@@ -82,6 +84,7 @@ export function nonEditableProduct(product: EditableProduct): Product {
   }
   return {
     id: product.id,
+    sort: product.sort,
     typeId: product.typeId,
     name: product.name,
     quantity: product.quantity,
@@ -95,6 +98,7 @@ export function nonEditableProductType(productType: EditableProductType): Produc
   }
   return {
     id: productType.id,
+    sort: productType.sort,
     name: productType.name,
     color: productType.color,
     discontinued: productType.discontinued,

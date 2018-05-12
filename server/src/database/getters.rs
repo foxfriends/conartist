@@ -62,6 +62,11 @@ impl Database {
         usersettings::table
             .filter(usersettings::user_id.eq(user_id))
             .first::<Settings>(&*conn)
+            .map(|settings| Settings {
+                currency: settings.currency,
+                language: settings.language.trim().to_owned(),
+                ..settings
+            })
             .map_err(|reason| format!("Settings for user with id {} could not be retrieved. Reason: {}", user_id, reason))
     }
 

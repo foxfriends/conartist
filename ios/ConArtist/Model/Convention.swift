@@ -240,8 +240,14 @@ class Convention: Codable {
         if !addedRecords.isEmpty || !addedExpenses.isEmpty {
             let _ = fill().subscribe()
         }
-        øremovedRecords.value = try json.decode([Id].self, forKey: .removedRecords)
-        øremovedExpenses.value = try json.decode([Id].self, forKey: .removedExpenses)
+        let removedRecords = try json.decode([Id].self, forKey: .removedRecords)
+        for recordId in removedRecords {
+            let _ = deleteRecordById(recordId, save: false).subscribe()
+        }
+        let removedExpenses = try json.decode([Id].self, forKey: .removedExpenses)
+        for expenseId in removedExpenses {
+            let _ = deleteExpenseById(id, save: false).subscribe()
+        }
     }
 
     // MARK: Encodable
@@ -359,19 +365,30 @@ extension Convention {
     }
 
     func deleteRecord(_ record: Record) -> Observable<Void> {
-        øremovedRecords.value.append(record.id)
-        if øaddedRecords.value.contains(where: { $0.id == record.id }) {
-            øaddedRecords.value.removeFirst { $0.id == record.id }
+        return deleteRecordById(record.id)
+    }
+
+    fileprivate func deleteRecordById(_ id: Id, save: Bool = true) -> Observable<Void> {
+        øremovedRecords.value.append(id)
+        if øaddedRecords.value.contains(where: { $0.id == id }) {
+            øaddedRecords.value.removeFirst { $0.id == id }
             // try to not send it. If it already sent and was added that's ok, it will get deleted eventually
             return Observable.just(())
         } else {
             // hide it now... it's probably going to work
-            ørecords.value.removeFirst { $0.id == record.id }
+            ørecords.value.removeFirst { $0.id == id }
+        }
+        if save {
+            ConArtist.Persist.persist()
         }
         return ConArtist.API.GraphQL
-            .observe(mutation: DeleteRecordMutation(record: RecordDel(recordId: record.id.id, uuid: record.id.uuid?.uuidString)))
+            .observe(mutation: DeleteRecordMutation(record: RecordDel(recordId: id.id, uuid: id.uuid?.uuidString)))
             .map { $0.delUserRecord }
             .filter(identity)
+            .do(onNext: { [øremovedRecords] _ in
+                øremovedRecords.value = øremovedRecords.value.filter { $0 != id }
+                ConArtist.Persist.persist()
+            })
             .discard()
     }
 
@@ -419,19 +436,30 @@ extension Convention {
     }
 
     func deleteExpense(_ expense: Expense) -> Observable<Void> {
-        øremovedExpenses.value.append(expense.id)
-        if øaddedExpenses.value.contains(where: { $0.id == expense.id }) {
-            øaddedExpenses.value.removeFirst { $0.id == expense.id }
+        return deleteExpenseById(expense.id)
+    }
+
+    fileprivate func deleteExpenseById(_ id: Id, save: Bool = true) -> Observable<Void> {
+        øremovedExpenses.value.append(id)
+        if øaddedExpenses.value.contains(where: { $0.id == id }) {
+            øaddedExpenses.value.removeFirst { $0.id == id }
             // try to not send it. If it already sent and was added that's ok, it will get deleted eventually
             return Observable.just(())
         } else {
             // hide it now... it's probably going to work
-            øexpenses.value.removeFirst { $0.id == expense.id }
+            øexpenses.value.removeFirst { $0.id == id }
+        }
+        if save {
+            ConArtist.Persist.persist()
         }
         return ConArtist.API.GraphQL
-            .observe(mutation: DeleteExpenseMutation(expense: ExpenseDel(expenseId: expense.id.id, uuid: expense.id.uuid?.uuidString)))
+            .observe(mutation: DeleteExpenseMutation(expense: ExpenseDel(expenseId: id.id, uuid: id.uuid?.uuidString)))
             .map { $0.delUserExpense }
             .filter(identity)
+            .do(onNext: { [øremovedExpenses] _ in
+                øremovedExpenses.value = øremovedExpenses.value.filter { $0 != id }
+                ConArtist.Persist.persist()
+            })
             .discard()
     }
 

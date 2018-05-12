@@ -315,6 +315,9 @@ extension Convention {
 // MARK: - Modifications
 extension Convention {
     func addRecord(_ record: Record, save: Bool = true) -> Observable<Void> {
+        guard let recordAdd = record.add(to: self) else {
+            return Observable.just()
+        }
         øaddedRecords.value.append(record)
         if save {
             ConArtist.Persist.persist()
@@ -325,7 +328,7 @@ extension Convention {
             .take(1)
             .flatMap { _ in
                 ConArtist.API.GraphQL
-                    .observe(mutation: AddRecordMutation(record: record.add(to: self)))
+                    .observe(mutation: AddRecordMutation(record: recordAdd))
             }
             .map { $0.addUserRecord.fragments.recordFragment }
             .filterMap(Record.init(graphQL:))
@@ -372,6 +375,9 @@ extension Convention {
     }
 
     func addExpense(_ expense: Expense, save: Bool = true) -> Observable<Void> {
+        guard let expenseAdd = expense.add(to: self) else {
+            return Observable.just()
+        }
         øaddedExpenses.value.append(expense)
         if save {
             ConArtist.Persist.persist()
@@ -382,7 +388,7 @@ extension Convention {
             .take(1)
             .flatMap { _ in
                 ConArtist.API.GraphQL
-                    .observe(mutation: AddExpenseMutation(expense: expense.add(to: self)))
+                    .observe(mutation: AddExpenseMutation(expense: expenseAdd))
             }
             .map { $0.addUserExpense.fragments.expenseFragment }
             .filterMap(Expense.init(graphQL:))

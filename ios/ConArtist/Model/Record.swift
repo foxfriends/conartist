@@ -31,8 +31,12 @@ struct Record: Codable {
         info = record.info
     }
     
-    func add(to con: Convention) -> RecordAdd {
-        return RecordAdd(conId: con.id, products: products, price: price.toJSON(), time: time.toJSON(), info: info)
+    func add(to con: Convention) -> RecordAdd? {
+        if let uuid = id.uuid {
+            return RecordAdd(conId: con.id, uuid: uuid.uuidString, products: products, price: price.toJSON(), time: time.toJSON(), info: info)
+        } else {
+            return nil
+        }
     }
 
     var modifications: RecordMod? {

@@ -40,8 +40,12 @@ struct Expense: Codable {
         description = expense.description
     }
     
-    func add(to con: Convention) -> ExpenseAdd {
-        return ExpenseAdd(conId: con.id, price: price.toJSON(), category: category, description: description, time: time.toJSON())
+    func add(to con: Convention) -> ExpenseAdd? {
+        if let uuid = id.uuid {
+            return ExpenseAdd(conId: con.id, uuid: uuid.uuidString, price: price.toJSON(), category: category, description: description, time: time.toJSON())
+        } else {
+            return nil
+        }
     }
 
     var modifications: ExpenseMod? {

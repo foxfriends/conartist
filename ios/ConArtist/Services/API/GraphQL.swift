@@ -6,8 +6,8 @@ import Apollo
 public struct ExpenseAdd: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
-  public init(conId: Int, price: String, category: String, description: String, time: String) {
-    graphQLMap = ["conId": conId, "price": price, "category": category, "description": description, "time": time]
+  public init(conId: Int, uuid: String, price: String, category: String, description: String, time: String) {
+    graphQLMap = ["conId": conId, "uuid": uuid, "price": price, "category": category, "description": description, "time": time]
   }
 
   public var conId: Int {
@@ -16,6 +16,15 @@ public struct ExpenseAdd: GraphQLMapConvertible {
     }
     set {
       graphQLMap.updateValue(newValue, forKey: "conId")
+    }
+  }
+
+  public var uuid: String {
+    get {
+      return graphQLMap["uuid"] as! String
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "uuid")
     }
   }
 
@@ -105,8 +114,8 @@ public struct PriceAdd: GraphQLMapConvertible {
 public struct ProductTypeAdd: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
-  public init(name: String, color: Int) {
-    graphQLMap = ["name": name, "color": color]
+  public init(name: String, color: Int, sort: Int) {
+    graphQLMap = ["name": name, "color": color, "sort": sort]
   }
 
   public var name: String {
@@ -126,14 +135,23 @@ public struct ProductTypeAdd: GraphQLMapConvertible {
       graphQLMap.updateValue(newValue, forKey: "color")
     }
   }
+
+  public var sort: Int {
+    get {
+      return graphQLMap["sort"] as! Int
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "sort")
+    }
+  }
 }
 
 /// Information required to create a new product
 public struct ProductAdd: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
-  public init(typeId: Int, name: String, quantity: Int) {
-    graphQLMap = ["typeId": typeId, "name": name, "quantity": quantity]
+  public init(typeId: Int, name: String, quantity: Int, sort: Int) {
+    graphQLMap = ["typeId": typeId, "name": name, "quantity": quantity, "sort": sort]
   }
 
   public var typeId: Int {
@@ -162,14 +180,23 @@ public struct ProductAdd: GraphQLMapConvertible {
       graphQLMap.updateValue(newValue, forKey: "quantity")
     }
   }
+
+  public var sort: Int {
+    get {
+      return graphQLMap["sort"] as! Int
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "sort")
+    }
+  }
 }
 
 /// Information required to create a sales record
 public struct RecordAdd: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
-  public init(conId: Int, products: [Int], price: String, time: String, info: String) {
-    graphQLMap = ["conId": conId, "products": products, "price": price, "time": time, "info": info]
+  public init(conId: Int, uuid: String, products: [Int], price: String, time: String, info: String) {
+    graphQLMap = ["conId": conId, "uuid": uuid, "products": products, "price": price, "time": time, "info": info]
   }
 
   public var conId: Int {
@@ -178,6 +205,15 @@ public struct RecordAdd: GraphQLMapConvertible {
     }
     set {
       graphQLMap.updateValue(newValue, forKey: "conId")
+    }
+  }
+
+  public var uuid: String {
+    get {
+      return graphQLMap["uuid"] as! String
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "uuid")
     }
   }
 
@@ -294,8 +330,8 @@ public struct RecordDel: GraphQLMapConvertible {
 public struct ProductTypeMod: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
-  public init(typeId: Int, name: Optional<String?> = nil, color: Optional<Int?> = nil, discontinued: Optional<Bool?> = nil) {
-    graphQLMap = ["typeId": typeId, "name": name, "color": color, "discontinued": discontinued]
+  public init(typeId: Int, name: Optional<String?> = nil, color: Optional<Int?> = nil, discontinued: Optional<Bool?> = nil, sort: Optional<Int?> = nil) {
+    graphQLMap = ["typeId": typeId, "name": name, "color": color, "discontinued": discontinued, "sort": sort]
   }
 
   public var typeId: Int {
@@ -333,14 +369,23 @@ public struct ProductTypeMod: GraphQLMapConvertible {
       graphQLMap.updateValue(newValue, forKey: "discontinued")
     }
   }
+
+  public var sort: Optional<Int?> {
+    get {
+      return graphQLMap["sort"] as! Optional<Int?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "sort")
+    }
+  }
 }
 
 /// Information required to modify an existing product
 public struct ProductMod: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
-  public init(productId: Int, name: Optional<String?> = nil, quantity: Optional<Int?> = nil, discontinued: Optional<Bool?> = nil) {
-    graphQLMap = ["productId": productId, "name": name, "quantity": quantity, "discontinued": discontinued]
+  public init(productId: Int, name: Optional<String?> = nil, quantity: Optional<Int?> = nil, discontinued: Optional<Bool?> = nil, sort: Optional<Int?> = nil) {
+    graphQLMap = ["productId": productId, "name": name, "quantity": quantity, "discontinued": discontinued, "sort": sort]
   }
 
   public var productId: Int {
@@ -376,6 +421,15 @@ public struct ProductMod: GraphQLMapConvertible {
     }
     set {
       graphQLMap.updateValue(newValue, forKey: "discontinued")
+    }
+  }
+
+  public var sort: Optional<Int?> {
+    get {
+      return graphQLMap["sort"] as! Optional<Int?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "sort")
     }
   }
 }
@@ -663,6 +717,7 @@ public final class AddExpenseMutation: GraphQLMutation {
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("id", type: .nonNull(.scalar(Int.self))),
+        GraphQLField("uuid", type: .scalar(String.self)),
         GraphQLField("category", type: .nonNull(.scalar(String.self))),
         GraphQLField("description", type: .nonNull(.scalar(String.self))),
         GraphQLField("price", type: .nonNull(.scalar(String.self))),
@@ -675,8 +730,8 @@ public final class AddExpenseMutation: GraphQLMutation {
         self.snapshot = snapshot
       }
 
-      public init(id: Int, category: String, description: String, price: String, time: String) {
-        self.init(snapshot: ["__typename": "Expense", "id": id, "category": category, "description": description, "price": price, "time": time])
+      public init(id: Int, uuid: String? = nil, category: String, description: String, price: String, time: String) {
+        self.init(snapshot: ["__typename": "Expense", "id": id, "uuid": uuid, "category": category, "description": description, "price": price, "time": time])
       }
 
       public var __typename: String {
@@ -694,6 +749,15 @@ public final class AddExpenseMutation: GraphQLMutation {
         }
         set {
           snapshot.updateValue(newValue, forKey: "id")
+        }
+      }
+
+      public var uuid: String? {
+        get {
+          return snapshot["uuid"] as? String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "uuid")
         }
       }
 
@@ -948,6 +1012,7 @@ public final class AddProductTypeMutation: GraphQLMutation {
         GraphQLField("name", type: .nonNull(.scalar(String.self))),
         GraphQLField("color", type: .scalar(Int.self)),
         GraphQLField("discontinued", type: .nonNull(.scalar(Bool.self))),
+        GraphQLField("sort", type: .nonNull(.scalar(Int.self))),
       ]
 
       public var snapshot: Snapshot
@@ -956,8 +1021,8 @@ public final class AddProductTypeMutation: GraphQLMutation {
         self.snapshot = snapshot
       }
 
-      public init(id: Int, name: String, color: Int? = nil, discontinued: Bool) {
-        self.init(snapshot: ["__typename": "ProductType", "id": id, "name": name, "color": color, "discontinued": discontinued])
+      public init(id: Int, name: String, color: Int? = nil, discontinued: Bool, sort: Int) {
+        self.init(snapshot: ["__typename": "ProductType", "id": id, "name": name, "color": color, "discontinued": discontinued, "sort": sort])
       }
 
       public var __typename: String {
@@ -1002,6 +1067,15 @@ public final class AddProductTypeMutation: GraphQLMutation {
         }
         set {
           snapshot.updateValue(newValue, forKey: "discontinued")
+        }
+      }
+
+      public var sort: Int {
+        get {
+          return snapshot["sort"]! as! Int
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "sort")
         }
       }
 
@@ -1085,6 +1159,7 @@ public final class AddProductMutation: GraphQLMutation {
         GraphQLField("name", type: .nonNull(.scalar(String.self))),
         GraphQLField("quantity", type: .nonNull(.scalar(Int.self))),
         GraphQLField("discontinued", type: .nonNull(.scalar(Bool.self))),
+        GraphQLField("sort", type: .nonNull(.scalar(Int.self))),
       ]
 
       public var snapshot: Snapshot
@@ -1093,8 +1168,8 @@ public final class AddProductMutation: GraphQLMutation {
         self.snapshot = snapshot
       }
 
-      public init(id: Int, typeId: Int, name: String, quantity: Int, discontinued: Bool) {
-        self.init(snapshot: ["__typename": "Product", "id": id, "typeId": typeId, "name": name, "quantity": quantity, "discontinued": discontinued])
+      public init(id: Int, typeId: Int, name: String, quantity: Int, discontinued: Bool, sort: Int) {
+        self.init(snapshot: ["__typename": "Product", "id": id, "typeId": typeId, "name": name, "quantity": quantity, "discontinued": discontinued, "sort": sort])
       }
 
       public var __typename: String {
@@ -1148,6 +1223,15 @@ public final class AddProductMutation: GraphQLMutation {
         }
         set {
           snapshot.updateValue(newValue, forKey: "discontinued")
+        }
+      }
+
+      public var sort: Int {
+        get {
+          return snapshot["sort"]! as! Int
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "sort")
         }
       }
 
@@ -1227,6 +1311,7 @@ public final class AddRecordMutation: GraphQLMutation {
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("id", type: .nonNull(.scalar(Int.self))),
+        GraphQLField("uuid", type: .scalar(String.self)),
         GraphQLField("products", type: .nonNull(.list(.nonNull(.scalar(Int.self))))),
         GraphQLField("price", type: .nonNull(.scalar(String.self))),
         GraphQLField("time", type: .nonNull(.scalar(String.self))),
@@ -1239,8 +1324,8 @@ public final class AddRecordMutation: GraphQLMutation {
         self.snapshot = snapshot
       }
 
-      public init(id: Int, products: [Int], price: String, time: String, info: String) {
-        self.init(snapshot: ["__typename": "Record", "id": id, "products": products, "price": price, "time": time, "info": info])
+      public init(id: Int, uuid: String? = nil, products: [Int], price: String, time: String, info: String) {
+        self.init(snapshot: ["__typename": "Record", "id": id, "uuid": uuid, "products": products, "price": price, "time": time, "info": info])
       }
 
       public var __typename: String {
@@ -1258,6 +1343,15 @@ public final class AddRecordMutation: GraphQLMutation {
         }
         set {
           snapshot.updateValue(newValue, forKey: "id")
+        }
+      }
+
+      public var uuid: String? {
+        get {
+          return snapshot["uuid"] as? String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "uuid")
         }
       }
 
@@ -2375,6 +2469,7 @@ public final class ModProductTypeMutation: GraphQLMutation {
         GraphQLField("name", type: .nonNull(.scalar(String.self))),
         GraphQLField("color", type: .scalar(Int.self)),
         GraphQLField("discontinued", type: .nonNull(.scalar(Bool.self))),
+        GraphQLField("sort", type: .nonNull(.scalar(Int.self))),
       ]
 
       public var snapshot: Snapshot
@@ -2383,8 +2478,8 @@ public final class ModProductTypeMutation: GraphQLMutation {
         self.snapshot = snapshot
       }
 
-      public init(id: Int, name: String, color: Int? = nil, discontinued: Bool) {
-        self.init(snapshot: ["__typename": "ProductType", "id": id, "name": name, "color": color, "discontinued": discontinued])
+      public init(id: Int, name: String, color: Int? = nil, discontinued: Bool, sort: Int) {
+        self.init(snapshot: ["__typename": "ProductType", "id": id, "name": name, "color": color, "discontinued": discontinued, "sort": sort])
       }
 
       public var __typename: String {
@@ -2429,6 +2524,15 @@ public final class ModProductTypeMutation: GraphQLMutation {
         }
         set {
           snapshot.updateValue(newValue, forKey: "discontinued")
+        }
+      }
+
+      public var sort: Int {
+        get {
+          return snapshot["sort"]! as! Int
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "sort")
         }
       }
 
@@ -2512,6 +2616,7 @@ public final class ModProductMutation: GraphQLMutation {
         GraphQLField("name", type: .nonNull(.scalar(String.self))),
         GraphQLField("quantity", type: .nonNull(.scalar(Int.self))),
         GraphQLField("discontinued", type: .nonNull(.scalar(Bool.self))),
+        GraphQLField("sort", type: .nonNull(.scalar(Int.self))),
       ]
 
       public var snapshot: Snapshot
@@ -2520,8 +2625,8 @@ public final class ModProductMutation: GraphQLMutation {
         self.snapshot = snapshot
       }
 
-      public init(id: Int, typeId: Int, name: String, quantity: Int, discontinued: Bool) {
-        self.init(snapshot: ["__typename": "Product", "id": id, "typeId": typeId, "name": name, "quantity": quantity, "discontinued": discontinued])
+      public init(id: Int, typeId: Int, name: String, quantity: Int, discontinued: Bool, sort: Int) {
+        self.init(snapshot: ["__typename": "Product", "id": id, "typeId": typeId, "name": name, "quantity": quantity, "discontinued": discontinued, "sort": sort])
       }
 
       public var __typename: String {
@@ -2575,6 +2680,15 @@ public final class ModProductMutation: GraphQLMutation {
         }
         set {
           snapshot.updateValue(newValue, forKey: "discontinued")
+        }
+      }
+
+      public var sort: Int {
+        get {
+          return snapshot["sort"]! as! Int
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "sort")
         }
       }
 
@@ -2735,6 +2849,7 @@ public final class UpdateExpenseMutation: GraphQLMutation {
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("id", type: .nonNull(.scalar(Int.self))),
+        GraphQLField("uuid", type: .scalar(String.self)),
         GraphQLField("category", type: .nonNull(.scalar(String.self))),
         GraphQLField("description", type: .nonNull(.scalar(String.self))),
         GraphQLField("price", type: .nonNull(.scalar(String.self))),
@@ -2747,8 +2862,8 @@ public final class UpdateExpenseMutation: GraphQLMutation {
         self.snapshot = snapshot
       }
 
-      public init(id: Int, category: String, description: String, price: String, time: String) {
-        self.init(snapshot: ["__typename": "Expense", "id": id, "category": category, "description": description, "price": price, "time": time])
+      public init(id: Int, uuid: String? = nil, category: String, description: String, price: String, time: String) {
+        self.init(snapshot: ["__typename": "Expense", "id": id, "uuid": uuid, "category": category, "description": description, "price": price, "time": time])
       }
 
       public var __typename: String {
@@ -2766,6 +2881,15 @@ public final class UpdateExpenseMutation: GraphQLMutation {
         }
         set {
           snapshot.updateValue(newValue, forKey: "id")
+        }
+      }
+
+      public var uuid: String? {
+        get {
+          return snapshot["uuid"] as? String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "uuid")
         }
       }
 
@@ -2881,6 +3005,7 @@ public final class UpdateRecordMutation: GraphQLMutation {
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
         GraphQLField("id", type: .nonNull(.scalar(Int.self))),
+        GraphQLField("uuid", type: .scalar(String.self)),
         GraphQLField("products", type: .nonNull(.list(.nonNull(.scalar(Int.self))))),
         GraphQLField("price", type: .nonNull(.scalar(String.self))),
         GraphQLField("time", type: .nonNull(.scalar(String.self))),
@@ -2893,8 +3018,8 @@ public final class UpdateRecordMutation: GraphQLMutation {
         self.snapshot = snapshot
       }
 
-      public init(id: Int, products: [Int], price: String, time: String, info: String) {
-        self.init(snapshot: ["__typename": "Record", "id": id, "products": products, "price": price, "time": time, "info": info])
+      public init(id: Int, uuid: String? = nil, products: [Int], price: String, time: String, info: String) {
+        self.init(snapshot: ["__typename": "Record", "id": id, "uuid": uuid, "products": products, "price": price, "time": time, "info": info])
       }
 
       public var __typename: String {
@@ -2912,6 +3037,15 @@ public final class UpdateRecordMutation: GraphQLMutation {
         }
         set {
           snapshot.updateValue(newValue, forKey: "id")
+        }
+      }
+
+      public var uuid: String? {
+        get {
+          return snapshot["uuid"] as? String
+        }
+        set {
+          snapshot.updateValue(newValue, forKey: "uuid")
         }
       }
 
@@ -4117,6 +4251,7 @@ public final class FullConventionQuery: GraphQLQuery {
           GraphQLField("name", type: .nonNull(.scalar(String.self))),
           GraphQLField("quantity", type: .nonNull(.scalar(Int.self))),
           GraphQLField("discontinued", type: .nonNull(.scalar(Bool.self))),
+          GraphQLField("sort", type: .nonNull(.scalar(Int.self))),
         ]
 
         public var snapshot: Snapshot
@@ -4125,8 +4260,8 @@ public final class FullConventionQuery: GraphQLQuery {
           self.snapshot = snapshot
         }
 
-        public init(id: Int, typeId: Int, name: String, quantity: Int, discontinued: Bool) {
-          self.init(snapshot: ["__typename": "Product", "id": id, "typeId": typeId, "name": name, "quantity": quantity, "discontinued": discontinued])
+        public init(id: Int, typeId: Int, name: String, quantity: Int, discontinued: Bool, sort: Int) {
+          self.init(snapshot: ["__typename": "Product", "id": id, "typeId": typeId, "name": name, "quantity": quantity, "discontinued": discontinued, "sort": sort])
         }
 
         public var __typename: String {
@@ -4183,6 +4318,15 @@ public final class FullConventionQuery: GraphQLQuery {
           }
         }
 
+        public var sort: Int {
+          get {
+            return snapshot["sort"]! as! Int
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "sort")
+          }
+        }
+
         public var fragments: Fragments {
           get {
             return Fragments(snapshot: snapshot)
@@ -4216,6 +4360,7 @@ public final class FullConventionQuery: GraphQLQuery {
           GraphQLField("name", type: .nonNull(.scalar(String.self))),
           GraphQLField("color", type: .scalar(Int.self)),
           GraphQLField("discontinued", type: .nonNull(.scalar(Bool.self))),
+          GraphQLField("sort", type: .nonNull(.scalar(Int.self))),
         ]
 
         public var snapshot: Snapshot
@@ -4224,8 +4369,8 @@ public final class FullConventionQuery: GraphQLQuery {
           self.snapshot = snapshot
         }
 
-        public init(id: Int, name: String, color: Int? = nil, discontinued: Bool) {
-          self.init(snapshot: ["__typename": "ProductType", "id": id, "name": name, "color": color, "discontinued": discontinued])
+        public init(id: Int, name: String, color: Int? = nil, discontinued: Bool, sort: Int) {
+          self.init(snapshot: ["__typename": "ProductType", "id": id, "name": name, "color": color, "discontinued": discontinued, "sort": sort])
         }
 
         public var __typename: String {
@@ -4270,6 +4415,15 @@ public final class FullConventionQuery: GraphQLQuery {
           }
           set {
             snapshot.updateValue(newValue, forKey: "discontinued")
+          }
+        }
+
+        public var sort: Int {
+          get {
+            return snapshot["sort"]! as! Int
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "sort")
           }
         }
 
@@ -4393,6 +4547,7 @@ public final class FullConventionQuery: GraphQLQuery {
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("id", type: .nonNull(.scalar(Int.self))),
+          GraphQLField("uuid", type: .scalar(String.self)),
           GraphQLField("products", type: .nonNull(.list(.nonNull(.scalar(Int.self))))),
           GraphQLField("price", type: .nonNull(.scalar(String.self))),
           GraphQLField("time", type: .nonNull(.scalar(String.self))),
@@ -4405,8 +4560,8 @@ public final class FullConventionQuery: GraphQLQuery {
           self.snapshot = snapshot
         }
 
-        public init(id: Int, products: [Int], price: String, time: String, info: String) {
-          self.init(snapshot: ["__typename": "Record", "id": id, "products": products, "price": price, "time": time, "info": info])
+        public init(id: Int, uuid: String? = nil, products: [Int], price: String, time: String, info: String) {
+          self.init(snapshot: ["__typename": "Record", "id": id, "uuid": uuid, "products": products, "price": price, "time": time, "info": info])
         }
 
         public var __typename: String {
@@ -4424,6 +4579,15 @@ public final class FullConventionQuery: GraphQLQuery {
           }
           set {
             snapshot.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var uuid: String? {
+          get {
+            return snapshot["uuid"] as? String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "uuid")
           }
         }
 
@@ -4493,6 +4657,7 @@ public final class FullConventionQuery: GraphQLQuery {
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
           GraphQLField("id", type: .nonNull(.scalar(Int.self))),
+          GraphQLField("uuid", type: .scalar(String.self)),
           GraphQLField("category", type: .nonNull(.scalar(String.self))),
           GraphQLField("description", type: .nonNull(.scalar(String.self))),
           GraphQLField("price", type: .nonNull(.scalar(String.self))),
@@ -4505,8 +4670,8 @@ public final class FullConventionQuery: GraphQLQuery {
           self.snapshot = snapshot
         }
 
-        public init(id: Int, category: String, description: String, price: String, time: String) {
-          self.init(snapshot: ["__typename": "Expense", "id": id, "category": category, "description": description, "price": price, "time": time])
+        public init(id: Int, uuid: String? = nil, category: String, description: String, price: String, time: String) {
+          self.init(snapshot: ["__typename": "Expense", "id": id, "uuid": uuid, "category": category, "description": description, "price": price, "time": time])
         }
 
         public var __typename: String {
@@ -4524,6 +4689,15 @@ public final class FullConventionQuery: GraphQLQuery {
           }
           set {
             snapshot.updateValue(newValue, forKey: "id")
+          }
+        }
+
+        public var uuid: String? {
+          get {
+            return snapshot["uuid"] as? String
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "uuid")
           }
         }
 
@@ -5262,6 +5436,7 @@ public final class FullUserQuery: GraphQLQuery {
           GraphQLField("name", type: .nonNull(.scalar(String.self))),
           GraphQLField("quantity", type: .nonNull(.scalar(Int.self))),
           GraphQLField("discontinued", type: .nonNull(.scalar(Bool.self))),
+          GraphQLField("sort", type: .nonNull(.scalar(Int.self))),
         ]
 
         public var snapshot: Snapshot
@@ -5270,8 +5445,8 @@ public final class FullUserQuery: GraphQLQuery {
           self.snapshot = snapshot
         }
 
-        public init(id: Int, typeId: Int, name: String, quantity: Int, discontinued: Bool) {
-          self.init(snapshot: ["__typename": "Product", "id": id, "typeId": typeId, "name": name, "quantity": quantity, "discontinued": discontinued])
+        public init(id: Int, typeId: Int, name: String, quantity: Int, discontinued: Bool, sort: Int) {
+          self.init(snapshot: ["__typename": "Product", "id": id, "typeId": typeId, "name": name, "quantity": quantity, "discontinued": discontinued, "sort": sort])
         }
 
         public var __typename: String {
@@ -5328,6 +5503,15 @@ public final class FullUserQuery: GraphQLQuery {
           }
         }
 
+        public var sort: Int {
+          get {
+            return snapshot["sort"]! as! Int
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "sort")
+          }
+        }
+
         public var fragments: Fragments {
           get {
             return Fragments(snapshot: snapshot)
@@ -5361,6 +5545,7 @@ public final class FullUserQuery: GraphQLQuery {
           GraphQLField("name", type: .nonNull(.scalar(String.self))),
           GraphQLField("color", type: .scalar(Int.self)),
           GraphQLField("discontinued", type: .nonNull(.scalar(Bool.self))),
+          GraphQLField("sort", type: .nonNull(.scalar(Int.self))),
         ]
 
         public var snapshot: Snapshot
@@ -5369,8 +5554,8 @@ public final class FullUserQuery: GraphQLQuery {
           self.snapshot = snapshot
         }
 
-        public init(id: Int, name: String, color: Int? = nil, discontinued: Bool) {
-          self.init(snapshot: ["__typename": "ProductType", "id": id, "name": name, "color": color, "discontinued": discontinued])
+        public init(id: Int, name: String, color: Int? = nil, discontinued: Bool, sort: Int) {
+          self.init(snapshot: ["__typename": "ProductType", "id": id, "name": name, "color": color, "discontinued": discontinued, "sort": sort])
         }
 
         public var __typename: String {
@@ -5415,6 +5600,15 @@ public final class FullUserQuery: GraphQLQuery {
           }
           set {
             snapshot.updateValue(newValue, forKey: "discontinued")
+          }
+        }
+
+        public var sort: Int {
+          get {
+            return snapshot["sort"]! as! Int
+          }
+          set {
+            snapshot.updateValue(newValue, forKey: "sort")
           }
         }
 
@@ -6551,13 +6745,14 @@ public struct ConventionImageFragment: GraphQLFragment {
 
 public struct ExpenseFragment: GraphQLFragment {
   public static let fragmentString =
-    "fragment ExpenseFragment on Expense {\n  __typename\n  id\n  category\n  description\n  price\n  time\n}"
+    "fragment ExpenseFragment on Expense {\n  __typename\n  id\n  uuid\n  category\n  description\n  price\n  time\n}"
 
   public static let possibleTypes = ["Expense"]
 
   public static let selections: [GraphQLSelection] = [
     GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
     GraphQLField("id", type: .nonNull(.scalar(Int.self))),
+    GraphQLField("uuid", type: .scalar(String.self)),
     GraphQLField("category", type: .nonNull(.scalar(String.self))),
     GraphQLField("description", type: .nonNull(.scalar(String.self))),
     GraphQLField("price", type: .nonNull(.scalar(String.self))),
@@ -6570,8 +6765,8 @@ public struct ExpenseFragment: GraphQLFragment {
     self.snapshot = snapshot
   }
 
-  public init(id: Int, category: String, description: String, price: String, time: String) {
-    self.init(snapshot: ["__typename": "Expense", "id": id, "category": category, "description": description, "price": price, "time": time])
+  public init(id: Int, uuid: String? = nil, category: String, description: String, price: String, time: String) {
+    self.init(snapshot: ["__typename": "Expense", "id": id, "uuid": uuid, "category": category, "description": description, "price": price, "time": time])
   }
 
   public var __typename: String {
@@ -6589,6 +6784,15 @@ public struct ExpenseFragment: GraphQLFragment {
     }
     set {
       snapshot.updateValue(newValue, forKey: "id")
+    }
+  }
+
+  public var uuid: String? {
+    get {
+      return snapshot["uuid"] as? String
+    }
+    set {
+      snapshot.updateValue(newValue, forKey: "uuid")
     }
   }
 
@@ -7172,6 +7376,7 @@ public struct FullConventionFragment: GraphQLFragment {
       GraphQLField("name", type: .nonNull(.scalar(String.self))),
       GraphQLField("quantity", type: .nonNull(.scalar(Int.self))),
       GraphQLField("discontinued", type: .nonNull(.scalar(Bool.self))),
+      GraphQLField("sort", type: .nonNull(.scalar(Int.self))),
     ]
 
     public var snapshot: Snapshot
@@ -7180,8 +7385,8 @@ public struct FullConventionFragment: GraphQLFragment {
       self.snapshot = snapshot
     }
 
-    public init(id: Int, typeId: Int, name: String, quantity: Int, discontinued: Bool) {
-      self.init(snapshot: ["__typename": "Product", "id": id, "typeId": typeId, "name": name, "quantity": quantity, "discontinued": discontinued])
+    public init(id: Int, typeId: Int, name: String, quantity: Int, discontinued: Bool, sort: Int) {
+      self.init(snapshot: ["__typename": "Product", "id": id, "typeId": typeId, "name": name, "quantity": quantity, "discontinued": discontinued, "sort": sort])
     }
 
     public var __typename: String {
@@ -7238,6 +7443,15 @@ public struct FullConventionFragment: GraphQLFragment {
       }
     }
 
+    public var sort: Int {
+      get {
+        return snapshot["sort"]! as! Int
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "sort")
+      }
+    }
+
     public var fragments: Fragments {
       get {
         return Fragments(snapshot: snapshot)
@@ -7271,6 +7485,7 @@ public struct FullConventionFragment: GraphQLFragment {
       GraphQLField("name", type: .nonNull(.scalar(String.self))),
       GraphQLField("color", type: .scalar(Int.self)),
       GraphQLField("discontinued", type: .nonNull(.scalar(Bool.self))),
+      GraphQLField("sort", type: .nonNull(.scalar(Int.self))),
     ]
 
     public var snapshot: Snapshot
@@ -7279,8 +7494,8 @@ public struct FullConventionFragment: GraphQLFragment {
       self.snapshot = snapshot
     }
 
-    public init(id: Int, name: String, color: Int? = nil, discontinued: Bool) {
-      self.init(snapshot: ["__typename": "ProductType", "id": id, "name": name, "color": color, "discontinued": discontinued])
+    public init(id: Int, name: String, color: Int? = nil, discontinued: Bool, sort: Int) {
+      self.init(snapshot: ["__typename": "ProductType", "id": id, "name": name, "color": color, "discontinued": discontinued, "sort": sort])
     }
 
     public var __typename: String {
@@ -7325,6 +7540,15 @@ public struct FullConventionFragment: GraphQLFragment {
       }
       set {
         snapshot.updateValue(newValue, forKey: "discontinued")
+      }
+    }
+
+    public var sort: Int {
+      get {
+        return snapshot["sort"]! as! Int
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "sort")
       }
     }
 
@@ -7448,6 +7672,7 @@ public struct FullConventionFragment: GraphQLFragment {
       GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
       GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
       GraphQLField("id", type: .nonNull(.scalar(Int.self))),
+      GraphQLField("uuid", type: .scalar(String.self)),
       GraphQLField("products", type: .nonNull(.list(.nonNull(.scalar(Int.self))))),
       GraphQLField("price", type: .nonNull(.scalar(String.self))),
       GraphQLField("time", type: .nonNull(.scalar(String.self))),
@@ -7460,8 +7685,8 @@ public struct FullConventionFragment: GraphQLFragment {
       self.snapshot = snapshot
     }
 
-    public init(id: Int, products: [Int], price: String, time: String, info: String) {
-      self.init(snapshot: ["__typename": "Record", "id": id, "products": products, "price": price, "time": time, "info": info])
+    public init(id: Int, uuid: String? = nil, products: [Int], price: String, time: String, info: String) {
+      self.init(snapshot: ["__typename": "Record", "id": id, "uuid": uuid, "products": products, "price": price, "time": time, "info": info])
     }
 
     public var __typename: String {
@@ -7479,6 +7704,15 @@ public struct FullConventionFragment: GraphQLFragment {
       }
       set {
         snapshot.updateValue(newValue, forKey: "id")
+      }
+    }
+
+    public var uuid: String? {
+      get {
+        return snapshot["uuid"] as? String
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "uuid")
       }
     }
 
@@ -7548,6 +7782,7 @@ public struct FullConventionFragment: GraphQLFragment {
       GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
       GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
       GraphQLField("id", type: .nonNull(.scalar(Int.self))),
+      GraphQLField("uuid", type: .scalar(String.self)),
       GraphQLField("category", type: .nonNull(.scalar(String.self))),
       GraphQLField("description", type: .nonNull(.scalar(String.self))),
       GraphQLField("price", type: .nonNull(.scalar(String.self))),
@@ -7560,8 +7795,8 @@ public struct FullConventionFragment: GraphQLFragment {
       self.snapshot = snapshot
     }
 
-    public init(id: Int, category: String, description: String, price: String, time: String) {
-      self.init(snapshot: ["__typename": "Expense", "id": id, "category": category, "description": description, "price": price, "time": time])
+    public init(id: Int, uuid: String? = nil, category: String, description: String, price: String, time: String) {
+      self.init(snapshot: ["__typename": "Expense", "id": id, "uuid": uuid, "category": category, "description": description, "price": price, "time": time])
     }
 
     public var __typename: String {
@@ -7579,6 +7814,15 @@ public struct FullConventionFragment: GraphQLFragment {
       }
       set {
         snapshot.updateValue(newValue, forKey: "id")
+      }
+    }
+
+    public var uuid: String? {
+      get {
+        return snapshot["uuid"] as? String
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "uuid")
       }
     }
 
@@ -8265,6 +8509,7 @@ public struct FullUserFragment: GraphQLFragment {
       GraphQLField("name", type: .nonNull(.scalar(String.self))),
       GraphQLField("quantity", type: .nonNull(.scalar(Int.self))),
       GraphQLField("discontinued", type: .nonNull(.scalar(Bool.self))),
+      GraphQLField("sort", type: .nonNull(.scalar(Int.self))),
     ]
 
     public var snapshot: Snapshot
@@ -8273,8 +8518,8 @@ public struct FullUserFragment: GraphQLFragment {
       self.snapshot = snapshot
     }
 
-    public init(id: Int, typeId: Int, name: String, quantity: Int, discontinued: Bool) {
-      self.init(snapshot: ["__typename": "Product", "id": id, "typeId": typeId, "name": name, "quantity": quantity, "discontinued": discontinued])
+    public init(id: Int, typeId: Int, name: String, quantity: Int, discontinued: Bool, sort: Int) {
+      self.init(snapshot: ["__typename": "Product", "id": id, "typeId": typeId, "name": name, "quantity": quantity, "discontinued": discontinued, "sort": sort])
     }
 
     public var __typename: String {
@@ -8331,6 +8576,15 @@ public struct FullUserFragment: GraphQLFragment {
       }
     }
 
+    public var sort: Int {
+      get {
+        return snapshot["sort"]! as! Int
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "sort")
+      }
+    }
+
     public var fragments: Fragments {
       get {
         return Fragments(snapshot: snapshot)
@@ -8364,6 +8618,7 @@ public struct FullUserFragment: GraphQLFragment {
       GraphQLField("name", type: .nonNull(.scalar(String.self))),
       GraphQLField("color", type: .scalar(Int.self)),
       GraphQLField("discontinued", type: .nonNull(.scalar(Bool.self))),
+      GraphQLField("sort", type: .nonNull(.scalar(Int.self))),
     ]
 
     public var snapshot: Snapshot
@@ -8372,8 +8627,8 @@ public struct FullUserFragment: GraphQLFragment {
       self.snapshot = snapshot
     }
 
-    public init(id: Int, name: String, color: Int? = nil, discontinued: Bool) {
-      self.init(snapshot: ["__typename": "ProductType", "id": id, "name": name, "color": color, "discontinued": discontinued])
+    public init(id: Int, name: String, color: Int? = nil, discontinued: Bool, sort: Int) {
+      self.init(snapshot: ["__typename": "ProductType", "id": id, "name": name, "color": color, "discontinued": discontinued, "sort": sort])
     }
 
     public var __typename: String {
@@ -8418,6 +8673,15 @@ public struct FullUserFragment: GraphQLFragment {
       }
       set {
         snapshot.updateValue(newValue, forKey: "discontinued")
+      }
+    }
+
+    public var sort: Int {
+      get {
+        return snapshot["sort"]! as! Int
+      }
+      set {
+        snapshot.updateValue(newValue, forKey: "sort")
       }
     }
 
@@ -9010,7 +9274,7 @@ public struct PriceFragment: GraphQLFragment {
 
 public struct ProductTypeFragment: GraphQLFragment {
   public static let fragmentString =
-    "fragment ProductTypeFragment on ProductType {\n  __typename\n  id\n  name\n  color\n  discontinued\n}"
+    "fragment ProductTypeFragment on ProductType {\n  __typename\n  id\n  name\n  color\n  discontinued\n  sort\n}"
 
   public static let possibleTypes = ["ProductType"]
 
@@ -9020,6 +9284,7 @@ public struct ProductTypeFragment: GraphQLFragment {
     GraphQLField("name", type: .nonNull(.scalar(String.self))),
     GraphQLField("color", type: .scalar(Int.self)),
     GraphQLField("discontinued", type: .nonNull(.scalar(Bool.self))),
+    GraphQLField("sort", type: .nonNull(.scalar(Int.self))),
   ]
 
   public var snapshot: Snapshot
@@ -9028,8 +9293,8 @@ public struct ProductTypeFragment: GraphQLFragment {
     self.snapshot = snapshot
   }
 
-  public init(id: Int, name: String, color: Int? = nil, discontinued: Bool) {
-    self.init(snapshot: ["__typename": "ProductType", "id": id, "name": name, "color": color, "discontinued": discontinued])
+  public init(id: Int, name: String, color: Int? = nil, discontinued: Bool, sort: Int) {
+    self.init(snapshot: ["__typename": "ProductType", "id": id, "name": name, "color": color, "discontinued": discontinued, "sort": sort])
   }
 
   public var __typename: String {
@@ -9076,11 +9341,20 @@ public struct ProductTypeFragment: GraphQLFragment {
       snapshot.updateValue(newValue, forKey: "discontinued")
     }
   }
+
+  public var sort: Int {
+    get {
+      return snapshot["sort"]! as! Int
+    }
+    set {
+      snapshot.updateValue(newValue, forKey: "sort")
+    }
+  }
 }
 
 public struct ProductFragment: GraphQLFragment {
   public static let fragmentString =
-    "fragment ProductFragment on Product {\n  __typename\n  id\n  typeId\n  name\n  quantity\n  discontinued\n}"
+    "fragment ProductFragment on Product {\n  __typename\n  id\n  typeId\n  name\n  quantity\n  discontinued\n  sort\n}"
 
   public static let possibleTypes = ["Product"]
 
@@ -9091,6 +9365,7 @@ public struct ProductFragment: GraphQLFragment {
     GraphQLField("name", type: .nonNull(.scalar(String.self))),
     GraphQLField("quantity", type: .nonNull(.scalar(Int.self))),
     GraphQLField("discontinued", type: .nonNull(.scalar(Bool.self))),
+    GraphQLField("sort", type: .nonNull(.scalar(Int.self))),
   ]
 
   public var snapshot: Snapshot
@@ -9099,8 +9374,8 @@ public struct ProductFragment: GraphQLFragment {
     self.snapshot = snapshot
   }
 
-  public init(id: Int, typeId: Int, name: String, quantity: Int, discontinued: Bool) {
-    self.init(snapshot: ["__typename": "Product", "id": id, "typeId": typeId, "name": name, "quantity": quantity, "discontinued": discontinued])
+  public init(id: Int, typeId: Int, name: String, quantity: Int, discontinued: Bool, sort: Int) {
+    self.init(snapshot: ["__typename": "Product", "id": id, "typeId": typeId, "name": name, "quantity": quantity, "discontinued": discontinued, "sort": sort])
   }
 
   public var __typename: String {
@@ -9156,17 +9431,27 @@ public struct ProductFragment: GraphQLFragment {
       snapshot.updateValue(newValue, forKey: "discontinued")
     }
   }
+
+  public var sort: Int {
+    get {
+      return snapshot["sort"]! as! Int
+    }
+    set {
+      snapshot.updateValue(newValue, forKey: "sort")
+    }
+  }
 }
 
 public struct RecordFragment: GraphQLFragment {
   public static let fragmentString =
-    "fragment RecordFragment on Record {\n  __typename\n  id\n  products\n  price\n  time\n  info\n}"
+    "fragment RecordFragment on Record {\n  __typename\n  id\n  uuid\n  products\n  price\n  time\n  info\n}"
 
   public static let possibleTypes = ["Record"]
 
   public static let selections: [GraphQLSelection] = [
     GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
     GraphQLField("id", type: .nonNull(.scalar(Int.self))),
+    GraphQLField("uuid", type: .scalar(String.self)),
     GraphQLField("products", type: .nonNull(.list(.nonNull(.scalar(Int.self))))),
     GraphQLField("price", type: .nonNull(.scalar(String.self))),
     GraphQLField("time", type: .nonNull(.scalar(String.self))),
@@ -9179,8 +9464,8 @@ public struct RecordFragment: GraphQLFragment {
     self.snapshot = snapshot
   }
 
-  public init(id: Int, products: [Int], price: String, time: String, info: String) {
-    self.init(snapshot: ["__typename": "Record", "id": id, "products": products, "price": price, "time": time, "info": info])
+  public init(id: Int, uuid: String? = nil, products: [Int], price: String, time: String, info: String) {
+    self.init(snapshot: ["__typename": "Record", "id": id, "uuid": uuid, "products": products, "price": price, "time": time, "info": info])
   }
 
   public var __typename: String {
@@ -9198,6 +9483,15 @@ public struct RecordFragment: GraphQLFragment {
     }
     set {
       snapshot.updateValue(newValue, forKey: "id")
+    }
+  }
+
+  public var uuid: String? {
+    get {
+      return snapshot["uuid"] as? String
+    }
+    set {
+      snapshot.updateValue(newValue, forKey: "uuid")
     }
   }
 

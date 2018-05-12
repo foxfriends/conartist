@@ -4,6 +4,7 @@
 
 export type ExpenseAdd = {|
   conId: number,
+  uuid: any,
   price: any,
   category: string,
   description: string,
@@ -32,6 +33,7 @@ export type ProductAdd = {|
 
 export type RecordAdd = {|
   conId: number,
+  uuid: any,
   products: Array< number >,
   price: any,
   time: any,
@@ -39,7 +41,8 @@ export type RecordAdd = {|
 |};
 
 export type ExpenseDel = {|
-  expenseId: number,
+  expenseId?: ?number,
+  uuid?: ?any,
 |};
 
 export type PriceDel = {|
@@ -49,7 +52,8 @@ export type PriceDel = {|
 |};
 
 export type RecordDel = {|
-  recordId: number,
+  recordId?: ?number,
+  uuid?: ?any,
 |};
 
 export type ProductTypeMod = {|

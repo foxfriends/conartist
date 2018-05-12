@@ -26,5 +26,6 @@ pub struct ExpenseMod {
 #[derive(Clone, GraphQLInputObject)]
 #[graphql(description="Information required to delete a convention expense")]
 pub struct ExpenseDel {
-    pub expense_id: i32,
+    pub expense_id: Option<i32>,
+    pub uuid: Option<Uuid>,
 }

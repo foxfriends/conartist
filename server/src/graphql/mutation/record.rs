@@ -26,5 +26,6 @@ pub struct RecordMod {
 #[derive(Clone, GraphQLInputObject)]
 #[graphql(description="Information required to delete a sales record")]
 pub struct RecordDel {
-    pub record_id: i32,
+    pub record_id: Option<i32>,
+    pub uuid: Option<Uuid>,
 }

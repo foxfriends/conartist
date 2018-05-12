@@ -183,10 +183,13 @@ graphql_object!(Mutation: Database |&self| {
     }
 
     field del_user_record(&executor, user_id: Option<i32>, record: RecordDel) -> FieldResult<bool> {
+        // must have one of these two.
+        ensure!(record.record_id.is_some() || record.uuid.is_some());
+        ensure!(record.record_id.is_none() || record.uuid.is_none());
         dbtry! {
             executor
                 .context()
-                .delete_record(user_id, record.record_id)
+                .delete_record(user_id, record.record_id, record.uuid)
         }
     }
 
@@ -216,10 +219,13 @@ graphql_object!(Mutation: Database |&self| {
     }
 
     field del_user_expense(&executor, user_id: Option<i32>, expense: ExpenseDel) -> FieldResult<bool> {
+        // must have one of these two.
+        ensure!(expense.expense_id.is_some() || expense.uuid.is_some());
+        ensure!(expense.expense_id.is_none() || expense.uuid.is_none());
         dbtry! {
             executor
                 .context()
-                .delete_expense(user_id, expense.expense_id)
+                .delete_expense(user_id, expense.expense_id, expense.uuid)
         }
     }
 

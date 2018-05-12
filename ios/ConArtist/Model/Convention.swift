@@ -359,19 +359,20 @@ extension Convention {
     }
 
     func deleteRecord(_ record: Record) -> Observable<Void> {
-        return Observable.just()
-        // TODO: implement this in the future
-//        if øaddedRecords.value.contains(where: { $0.id == record.id }) {
-//            øaddedRecords.value.removeFirst { $0.id == record.id }
-//            return Observable.just(())
-//        } else {
-//            øremovedRecords.value.append(record.id)
-//            return ConArtist.API.GraphQL
-//                .observe(mutation: DeleteRecordMutation(record: RecordDel(recordId: record.id)))
-//                .map { $0.delUserRecord }
-//                .filter(identity)
-//                .discard()
-//        }
+        øremovedRecords.value.append(record.id)
+        if øaddedRecords.value.contains(where: { $0.id == record.id }) {
+            øaddedRecords.value.removeFirst { $0.id == record.id }
+            // try to not send it. If it already sent and was added that's ok, it will get deleted eventually
+            return Observable.just(())
+        } else {
+            // hide it now... it's probably going to work
+            ørecords.value.removeFirst { $0.id == record.id }
+        }
+        return ConArtist.API.GraphQL
+            .observe(mutation: DeleteRecordMutation(record: RecordDel(recordId: record.id.id, uuid: record.id.uuid?.uuidString)))
+            .map { $0.delUserRecord }
+            .filter(identity)
+            .discard()
     }
 
     func addExpense(_ expense: Expense, save: Bool = true) -> Observable<Void> {
@@ -418,18 +419,20 @@ extension Convention {
     }
 
     func deleteExpense(_ expense: Expense) -> Observable<Void> {
-        return Observable.just()
-//        if øaddedExpenses.value.contains(where: { $0.id == expense.id }) {
-//            øaddedExpenses.value.removeFirst { $0.id == expense.id }
-//            return Observable.just(())
-//        } else {
-//            øremovedExpenses.value.append(expense.id)
-//            return ConArtist.API.GraphQL
-//                .observe(mutation: DeleteExpenseMutation(expense: ExpenseDel(expenseId: expense.id)))
-//                .map { $0.delUserExpense }
-//                .filter(identity)
-//                .discard()
-//        }
+        øremovedExpenses.value.append(expense.id)
+        if øaddedExpenses.value.contains(where: { $0.id == expense.id }) {
+            øaddedExpenses.value.removeFirst { $0.id == expense.id }
+            // try to not send it. If it already sent and was added that's ok, it will get deleted eventually
+            return Observable.just(())
+        } else {
+            // hide it now... it's probably going to work
+            øexpenses.value.removeFirst { $0.id == expense.id }
+        }
+        return ConArtist.API.GraphQL
+            .observe(mutation: DeleteExpenseMutation(expense: ExpenseDel(expenseId: expense.id.id, uuid: expense.id.uuid?.uuidString)))
+            .map { $0.delUserExpense }
+            .filter(identity)
+            .discard()
     }
 
     func addUserInfo(_ info: String) {

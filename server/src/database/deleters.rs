@@ -1,6 +1,7 @@
 use diesel::prelude::*;
 use diesel;
 use chrono::Utc;
+use uuid::Uuid;
 
 use super::schema::*;
 use super::models::*;
@@ -18,14 +19,33 @@ impl Database {
             .map(|size| size == 1)
     }
 
-    pub fn delete_record(&self, maybe_user_id: Option<i32>, record_id: i32) -> Result<bool, String> {
+    pub fn delete_record(&self, maybe_user_id: Option<i32>, record_id: Option<i32>, uuid: Option<Uuid>) -> Result<bool, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conn.transaction(|| {
-                let record = records::table
-                    .filter(records::record_id.eq(record_id))
-                    .filter(records::user_id.eq(user_id))
-                    .first::<Record>(&*conn)?;
+                let record =
+                    if let Some(record_id) = record_id {
+                        records::table
+                            .filter(records::record_id.eq(record_id))
+                            .filter(records::user_id.eq(user_id))
+                            .first::<Record>(&*conn)?
+                    } else if let Some(uuid) = uuid {
+                        records::table
+                            .filter(records::gen_id.eq(uuid))
+                            .filter(records::user_id.eq(user_id))
+                            .first::<Record>(&*conn)?
+                    } else {
+                        return Err(
+                            diesel::result::Error::DeserializationError(
+                                Box::new(
+                                    ::error::StringError(
+                                        "Could not retrieve record with no id or uuid".to_owned()
+                                    )
+                                )
+                            )
+                        )
+                    };
+
                 let convention = conventions::table
                     .filter(conventions::con_id.eq(record.con_id))
                     .first::<DetachedConvention>(&*conn)?;
@@ -43,21 +63,40 @@ impl Database {
                 }
 
                 diesel::delete(records::table)
-                    .filter(records::record_id.eq(record_id))
+                    .filter(records::record_id.eq(record.record_id))
                     .execute(&*conn)
                     .map(|size| size == 1)
             })
-            .map_err(|reason| format!("Could not delete record with id {} for user with id {}. Reason: {}", record_id, user_id, reason))
+            .map_err(|reason| format!("Could not delete record with id {:?} or uuid {:?} for user with id {}. Reason: {}", record_id, uuid, user_id, reason))
     }
 
-    pub fn delete_expense(&self, maybe_user_id: Option<i32>, expense_id: i32) -> Result<bool, String> {
+    pub fn delete_expense(&self, maybe_user_id: Option<i32>, expense_id: Option<i32>, uuid: Option<Uuid>) -> Result<bool, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conn.transaction(|| {
-                let expense = expenses::table
-                    .filter(expenses::expense_id.eq(expense_id))
-                    .filter(expenses::user_id.eq(user_id))
-                    .first::<Expense>(&*conn)?;
+                let expense =
+                    if let Some(expense_id) = expense_id {
+                        expenses::table
+                            .filter(expenses::expense_id.eq(expense_id))
+                            .filter(expenses::user_id.eq(user_id))
+                            .first::<Expense>(&*conn)?
+                    } else if let Some(uuid) = uuid {
+                        expenses::table
+                            .filter(expenses::gen_id.eq(uuid))
+                            .filter(expenses::user_id.eq(user_id))
+                            .first::<Expense>(&*conn)?
+                    } else {
+                        return Err(
+                            diesel::result::Error::DeserializationError(
+                                Box::new(
+                                    ::error::StringError(
+                                        "Could not retrieve expense with no id or uuid".to_owned()
+                                    )
+                                )
+                            )
+                        )
+                    };
+
                 let convention = conventions::table
                     .filter(conventions::con_id.eq(expense.con_id))
                     .first::<DetachedConvention>(&*conn)?;
@@ -75,11 +114,11 @@ impl Database {
                 }
 
                 diesel::delete(expenses::table)
-                    .filter(expenses::expense_id.eq(expense_id))
+                    .filter(expenses::expense_id.eq(expense.expense_id))
                     .execute(&*conn)
                     .map(|size| size == 1)
             })
-            .map_err(|reason| format!("Could not delete expense with id {} for user with id {}. Reason: {}", expense_id, user_id, reason))
+            .map_err(|reason| format!("Could not delete expense with id {:?} or uuid {:?} for user with id {}. Reason: {}", expense_id, uuid, user_id, reason))
     }
 
     pub fn delete_user_convention(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<bool, String> {

@@ -117,7 +117,7 @@ impl Database {
             .into_iter()
             .map(|product| {
                  let sold_amount = *items_sold.get(&product.product_id).unwrap_or(&0i64);
-                 ProductWithQuantity { quantity: product.quantity - sold_amount, ..product }
+                 ProductWithQuantity { quantity: i64::max(0, product.quantity - sold_amount), ..product }
             })
             .collect())
     }
@@ -197,6 +197,7 @@ impl Database {
                 .left_outer_join(inventory::table)
                 .select((products::product_id, products::type_id, products::user_id, products::name, products::sort, products::discontinued, dsl::sql::<sql_types::BigInt>("coalesce(sum(inventory.quantity), 0)")))
                 .filter(products::user_id.eq(user_id))
+                .filter(products::discontinued.eq(false))
                 .filter(inventory::mod_date.lt(date))
                 .group_by(products::product_id)
                 .order((products::sort.asc(), products::product_id.asc()))
@@ -207,7 +208,7 @@ impl Database {
             .into_iter()
             .map(|product| {
                  let sold_amount = *items_sold.get(&product.product_id).unwrap_or(&0i64);
-                 ProductWithQuantity { quantity: product.quantity - sold_amount, ..product }
+                 ProductWithQuantity { quantity: i64::max(0, product.quantity - sold_amount), ..product }
             })
             .collect())
     }

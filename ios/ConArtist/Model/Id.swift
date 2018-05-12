@@ -24,8 +24,8 @@ enum Id: Codable, Equatable {
     init(from decoder: Decoder) throws {
         let json = try decoder.container(keyedBy: CodingKeys.self)
         switch try json.decode(Cases.self, forKey: .case) {
-        case .temp: self = Id.temporary()
-        case .id: self = .id(try json.decode(Int.self, forKey: .id))
+        case .temp: self = .temp(try json.decode(UUID.self, forKey: .id))
+        case .id:   self = .id(try json.decode(Int.self, forKey: .id))
         }
     }
 
@@ -60,8 +60,9 @@ enum Id: Codable, Equatable {
         case .id(let id):
             try json.encode(Cases.id, forKey: .case)
             try json.encode(id, forKey: .id)
-        case .temp:
+        case .temp(let uuid):
             try json.encode(Cases.temp, forKey: .case)
+            try json.encode(uuid, forKey: .id)
         }
     }
 }

@@ -254,6 +254,7 @@ impl Database {
         records::table
             .filter(records::user_id.eq(user_id))
             .filter(records::con_id.eq(con_id))
+            .order(records::sale_time.asc())
             .load::<Record>(&*conn)
             .map_err(|reason| format!("Records for convention with id {} for user with id {} could not be retrieved. Reason: {}", con_id, user_id, reason))
     }
@@ -264,6 +265,7 @@ impl Database {
         expenses::table
             .filter(expenses::user_id.eq(user_id))
             .filter(expenses::con_id.eq(con_id))
+            .order(expenses::spend_time.asc())
             .load::<Expense>(&*conn)
             .map_err(|reason| format!("Expenses for convention with id {} for user with id {} could not be retrieved. Reason: {}", con_id, user_id, reason))
     }

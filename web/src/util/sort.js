@@ -40,6 +40,9 @@ function compute<T: Object>(key: $Keys<T>, direction: Direction = Asc, typeDirec
     if (typeof lhs !== typeof rhs) {
       return redirect(direction === typeDirection ? Asc : Desc, typeOrder)(typeof lhs, typeof rhs)
     }
+    if (lhs instanceof Date && rhs instanceof Date) {
+      return lhs.getTime() - rhs.getTime()
+    }
     switch (typeof lhs) {
       case 'number':
         return lhs - rhs

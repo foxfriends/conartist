@@ -99,7 +99,7 @@ class Convention: Codable {
                 øremovedRecords.asObservable()
             )
             .map { records, added, removed in
-                (records.filter { record in !removed.contains(record.id) } + added)
+                (records + added)
                     .sorted { $0.time < $1.time }
             }
 
@@ -110,7 +110,7 @@ class Convention: Codable {
                 øremovedExpenses.asObservable()
             )
             .map { expenses, added, removed in
-                (expenses.filter { expense in !removed.contains(expense.id) } + added)
+                (expenses + added)
                     .sorted { $0.time < $1.time }
             }
 
@@ -246,7 +246,7 @@ class Convention: Codable {
         }
         let removedExpenses = try json.decode([Id].self, forKey: .removedExpenses)
         for expenseId in removedExpenses {
-            let _ = deleteExpenseById(id, save: false).subscribe()
+            let _ = deleteExpenseById(expenseId, save: false).subscribe()
         }
     }
 

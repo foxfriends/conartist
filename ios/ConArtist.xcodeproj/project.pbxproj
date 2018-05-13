@@ -107,7 +107,7 @@
 		32D4BB15205B44E000B0A397 /* RecordDetailsItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4BB14205B44E000B0A397 /* RecordDetailsItemCollectionViewCell.swift */; };
 		32DD973B205B803E0045DF41 /* OptionSet+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DD973A205B803E0045DF41 /* OptionSet+Operators.swift */; };
 		32E80BD4201700100008EC27 /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E80BD3201700100008EC27 /* Money.swift */; };
-		32E80BD7201700EB0008EC27 /* String+Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E80BD6201700EB0008EC27 /* String+Money.swift */; };
+		32E80BD7201700EB0008EC27 /* String+Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E80BD6201700EB0008EC27 /* String+Conversion.swift */; };
 		32F12C0E20353E840045D0BC /* FancyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F12C0D20353E840045D0BC /* FancyButton.swift */; };
 		32F12C10203544E60045D0BC /* UIFont+Features.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F12C0F203544E60045D0BC /* UIFont+Features.swift */; };
 		32F12C1220354E550045D0BC /* String+Attributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F12C1120354E550045D0BC /* String+Attributes.swift */; };
@@ -218,7 +218,7 @@
 		32D4BB14205B44E000B0A397 /* RecordDetailsItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailsItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		32DD973A205B803E0045DF41 /* OptionSet+Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OptionSet+Operators.swift"; sourceTree = "<group>"; };
 		32E80BD3201700100008EC27 /* Money.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Money.swift; sourceTree = "<group>"; };
-		32E80BD6201700EB0008EC27 /* String+Money.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Money.swift"; sourceTree = "<group>"; };
+		32E80BD6201700EB0008EC27 /* String+Conversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Conversion.swift"; sourceTree = "<group>"; };
 		32F12C0D20353E840045D0BC /* FancyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyButton.swift; sourceTree = "<group>"; };
 		32F12C0F203544E60045D0BC /* UIFont+Features.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Features.swift"; sourceTree = "<group>"; };
 		32F12C1120354E550045D0BC /* String+Attributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Attributes.swift"; sourceTree = "<group>"; };
@@ -439,7 +439,7 @@
 				322AFB3E20574622005E56C8 /* String+JSON.swift */,
 				32D45CBB20A4DBC600F7A67F /* TimeZone+UTC.swift */,
 				322C6A0C204CC2810021A2D9 /* String+Localization.swift */,
-				32E80BD6201700EB0008EC27 /* String+Money.swift */,
+				32E80BD6201700EB0008EC27 /* String+Conversion.swift */,
 				322AFB44205769DE005E56C8 /* Tuple.swift */,
 				32B36EBC203BD2F000DA4593 /* UIButton+ConArtist.swift */,
 				3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */,
@@ -780,7 +780,7 @@
 				32892C44203530C800F1AD9C /* Array+Safe.swift in Sources */,
 				32B36EB720371BC700DA4593 /* FakeNavBar.swift in Sources */,
 				32B910172044F80B002F9C94 /* NewExpenseViewController.swift in Sources */,
-				32E80BD7201700EB0008EC27 /* String+Money.swift in Sources */,
+				32E80BD7201700EB0008EC27 /* String+Conversion.swift in Sources */,
 				32D4BB11205B3E5500B0A397 /* RecordDetailsOverlayViewController.swift in Sources */,
 				32892C4020352D1500F1AD9C /* FancyTextField.swift in Sources */,
 				32B36EE4204226B100DA4593 /* ConventionUserInfo.swift in Sources */,

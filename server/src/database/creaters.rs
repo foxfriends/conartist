@@ -130,6 +130,8 @@ impl Database {
                     records::info.eq(info),
                     records::gen_id.eq(gen_id),
                 ))
+                .on_conflict(records::gen_id)
+                .do_nothing()
                 .get_result::<Record>(&*conn)
         })
         .map_err(|reason| format!("Could not create record for user with id {} and convention with id {}. Reason: {}", user_id, con_id, reason))
@@ -175,6 +177,8 @@ impl Database {
                     expenses::spend_time.eq(time),
                     expenses::gen_id.eq(gen_id),
                 ))
+                .on_conflict(expenses::gen_id)
+                .do_nothing()
                 .get_result::<Expense>(&*conn)
         })
         .map_err(|reason| format!("Could not create expense for user with id {} and convention with id {}. Reason: {}", user_id, con_id, reason))

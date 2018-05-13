@@ -124,14 +124,15 @@ impl Database {
                 .values((
                     records::user_id.eq(user_id),
                     records::con_id.eq(con_id),
-                    records::products.eq(products),
+                    records::products.eq(products.clone()),
                     records::price.eq(price.to_string()),
                     records::sale_time.eq(time),
-                    records::info.eq(info),
+                    records::info.eq(info.clone()),
                     records::gen_id.eq(gen_id),
                 ))
-                .on_conflict(records::gen_id)
-                .do_nothing()
+                .on_conflict((records::user_id, records::sale_time, records::gen_id))
+                .do_update()
+                .set(&RecordChanges::new(Some(products), Some(price), Some(info)))
                 .get_result::<Record>(&*conn)
         })
         .map_err(|reason| format!("Could not create record for user with id {} and convention with id {}. Reason: {}", user_id, con_id, reason))
@@ -172,13 +173,14 @@ impl Database {
                     expenses::user_id.eq(user_id),
                     expenses::con_id.eq(con_id),
                     expenses::price.eq(price.to_string()),
-                    expenses::category.eq(category),
-                    expenses::description.eq(description),
+                    expenses::category.eq(category.clone()),
+                    expenses::description.eq(description.clone()),
                     expenses::spend_time.eq(time),
                     expenses::gen_id.eq(gen_id),
                 ))
-                .on_conflict(expenses::gen_id)
-                .do_nothing()
+                .on_conflict((expenses::user_id, expenses::spend_time, expenses::gen_id))
+                .do_update()
+                .set(&ExpenseChanges::new(Some(category), Some(description), Some(price)))
                 .get_result::<Expense>(&*conn)
         })
         .map_err(|reason| format!("Could not create expense for user with id {} and convention with id {}. Reason: {}", user_id, con_id, reason))

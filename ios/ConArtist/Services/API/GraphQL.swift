@@ -258,16 +258,25 @@ public struct RecordAdd: GraphQLMapConvertible {
 public struct ExpenseDel: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
-  public init(expenseId: Int) {
-    graphQLMap = ["expenseId": expenseId]
+  public init(expenseId: Optional<Int?> = nil, uuid: Optional<String?> = nil) {
+    graphQLMap = ["expenseId": expenseId, "uuid": uuid]
   }
 
-  public var expenseId: Int {
+  public var expenseId: Optional<Int?> {
     get {
-      return graphQLMap["expenseId"] as! Int
+      return graphQLMap["expenseId"] as! Optional<Int?>
     }
     set {
       graphQLMap.updateValue(newValue, forKey: "expenseId")
+    }
+  }
+
+  public var uuid: Optional<String?> {
+    get {
+      return graphQLMap["uuid"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "uuid")
     }
   }
 }
@@ -312,16 +321,25 @@ public struct PriceDel: GraphQLMapConvertible {
 public struct RecordDel: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
-  public init(recordId: Int) {
-    graphQLMap = ["recordId": recordId]
+  public init(recordId: Optional<Int?> = nil, uuid: Optional<String?> = nil) {
+    graphQLMap = ["recordId": recordId, "uuid": uuid]
   }
 
-  public var recordId: Int {
+  public var recordId: Optional<Int?> {
     get {
-      return graphQLMap["recordId"] as! Int
+      return graphQLMap["recordId"] as! Optional<Int?>
     }
     set {
       graphQLMap.updateValue(newValue, forKey: "recordId")
+    }
+  }
+
+  public var uuid: Optional<String?> {
+    get {
+      return graphQLMap["uuid"] as! Optional<String?>
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "uuid")
     }
   }
 }

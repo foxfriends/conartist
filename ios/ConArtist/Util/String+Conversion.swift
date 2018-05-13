@@ -1,5 +1,5 @@
 //
-//  String+Money.swift
+//  String+Conversion.swift
 //  ConArtist
 //
 //  Created by Cameron Eldridge on 2018-01-23.
@@ -13,7 +13,6 @@ import SwiftMoment
 
 extension String {
     func toDate() -> Date? {
-        print(self)
         return moment(self)?.date
     }
 }
@@ -23,8 +22,8 @@ extension String {
 extension String {
     func toMoney() -> Money? {
         guard
-            let currency = CurrencyCode(rawValue: String(self.prefix(3))),
-            let amount = Int(self.dropFirst(3))
+            let currency = CurrencyCode(rawValue: String(prefix(3))),
+            let amount = Int(dropFirst(3))
         else {
             return nil
         }

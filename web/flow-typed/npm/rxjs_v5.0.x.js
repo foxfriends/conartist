@@ -1,5 +1,5 @@
-// flow-typed signature: cd3f6957afcdaf4e6c509f7f26926084
-// flow-typed version: cf388269bd/rxjs_v5.0.x/flow_>=v0.34.x
+// flow-typed signature: ba8bd69b3b15ca5144e860a8ed7c2c4e
+// flow-typed version: 5cce1617ae/rxjs_v5.0.x/flow_>=v0.34.x
 
 type rxjs$PartialObserver<-T> =
   | {
@@ -441,6 +441,7 @@ declare class rxjs$Observable<+T> {
     scheduler?: rxjs$SchedulerClass
   ): rxjs$Observable<T>;
 
+  filter(predicate: typeof Boolean): rxjs$Observable<$NonMaybeType<T>>;
   filter(
     predicate: (value: T, index: number) => boolean,
     thisArg?: any

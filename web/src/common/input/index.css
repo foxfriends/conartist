@@ -26,19 +26,20 @@
   box-sizing: border-box;
   position: absolute;
   bottom: 10px;
-  font-size: 16px;
+  font-size: var(--font-size, 16px);
   padding-left: 10px;
   max-width: 100%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  transform: var(--transform, translateY(0));
   color: var(--color--text-placeholder);
   transition: 0.2s transform, 0.2s font-size;
 }
 
 .input:focus ~ .title, .input:not(.empty) ~ .title {
-  transform: translateY(-20px);
-  font-size: 12px;
+  --transform: translateY(-20px);
+  --font-size: 12px;
 }
 
 .input:focus ~ .title {
@@ -61,29 +62,30 @@
     right: 0;
     height: 1px;
     transform-origin: center;
-    transform: scaleX(0);
+    transform: var(--transform, scaleX(0));
     transition: transform 0.1s;
-    background-color: var(--color--brand);
+    background-color: var(--background-color, var(--color--brand));
   }
 }
 
 .input:focus ~ .underline::after {
-  transform: scaleX(1);
-}
-
-.input:focus ~ .error {
-  display: none;
+  --transform: scaleX(1);
 }
 
 .error ~ .underline::after {
-  background-color: var(--color--warn);
+  --background-color: var(--color--warn);
 }
 
 .error {
+  display: var(--display, inline-block);
   position: absolute;
   right: 8px;
   bottom: 6px;
   font-size: 14px;
+}
+
+.input:focus ~ .error {
+  --display: none;
 }
 
 .errorIcon {

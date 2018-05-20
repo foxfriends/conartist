@@ -12,11 +12,12 @@
   height: 100%;
   flex-shrink: 0;
   flex-grow: 0;
+  display: var(--display);
 }
 
 @media (max-width: 560px) {
   .image {
-    display: none;
+    --display: none;
   }
 }
 
@@ -25,11 +26,12 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+  max-width: var(--max-width);
 }
 
 @media (min-width: 560px) {
   .formContent, .form {
-    max-width: 280px;
+    --max-width: 280px;
   }
 }
 

@@ -62,9 +62,10 @@
 
 .option {
   height: var(--height--row);
+  background-color: var(--background-color);
 
   &:hover {
-    background-color: var(--color--background-hover-highlight);
+    --background-color: var(--color--background-hover-highlight);
   }
 }
 

@@ -9,18 +9,19 @@
 }
 
 .primary {
-  color: var(--color--brand);
+  color: var(--color, var(--color--brand));
 
   &:hover, &:focus {
-    color: var(--color--brand-variant);
+    --color: var(--color--brand-variant);
   }
 }
 
 .secondary {
   color: var(--color--text);
+  background-color: var(--background-color);
 
   &:not(.quiet):hover {
-    background-color: var(--color--background-hover-highlight);
+    --background-color: var(--color--background-hover-highlight);
   }
 }
 

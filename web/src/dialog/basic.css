@@ -51,16 +51,18 @@
   composes: outlinedIcon from '../common/styles.css';
   position: absolute;
   margin: 8px;
+  left: var(--left);
+  right: var(--right);
 }
 
 @media (min-width: 740px) {
   .closeButton {
-    left: 100%;
+    --left: 100%;
   }
 }
 
 @media (max-width: 739px) {
   .closeButton {
-    right: 0;
+    --right: 0;
   }
 }

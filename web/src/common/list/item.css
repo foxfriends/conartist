@@ -7,8 +7,9 @@
 
 .clickable {
   cursor: pointer;
+  background-color: var(--background-color);
 
   &:hover {
-    background-color: var(--color--hover-highlight);
+    --background-color: var(--color--hover-highlight);
   }
 }

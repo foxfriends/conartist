@@ -4,20 +4,14 @@
 }
 
 .dot {
-  width: var(--size--dot);
-  height: var(--size--dot);
+  width: var(--size--dot, 10px);
+  height: var(--size--dot, 10px);
   border-radius: 100%;
   margin: 4px;
   background-color: rgba(0, 0, 0, 0.2);
 
   &.current {
     background-color: var(--color--brand);
-  }
-}
-
-@media (max-width: 479px) {
-  .dot {
-    --size--dot: 10px;
   }
 }
 

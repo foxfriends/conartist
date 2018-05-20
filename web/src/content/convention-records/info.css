@@ -39,10 +39,8 @@
   align-items: flex-end;
 }
 
-.product {
-  &:not(:last-child) {
-    margin-bottom: 8px;
-  }
+.product:not(:last-child) {
+  margin-bottom: 8px;
 }
 
 .placeholder {

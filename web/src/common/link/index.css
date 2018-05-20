@@ -1,11 +1,11 @@
 .link, .link:link, .link:visited {
   display: inline-flex;
   align-items: center;
-  color: var(--color--brand);
+  color: var(--color, var(--color--brand));
   text-decoration: none;
   cursor: pointer;
 }
 
 .link:hover, .link:active, .link:focus {
-  color: var(--color--brand-variant);
+  --color: var(--color--brand-variant);
 }

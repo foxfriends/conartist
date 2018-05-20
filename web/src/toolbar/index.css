@@ -9,7 +9,7 @@
 }
 
 .inner {
-  width: var(--width--inner-page);
+  width: var(--width);
   height: 100%;
   display: flex;
   flex-direction: row;
@@ -30,7 +30,7 @@
 
 @media (min-width: 888px) {
   .inner {
-    --width--inner-page: 880px;
+    --width: 880px;
   }
 
   .pageIcon {
@@ -40,7 +40,7 @@
 
 @media (max-width: 887px) {
   .inner {
-    --width--inner-page: 100%;
+    --width: 100%;
   }
 
   .logoContainer {

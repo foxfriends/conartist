@@ -20,6 +20,8 @@
 .item {
   position: relative;
   width: 100%;
+  height: var(--height);
+  flex-direction: var(--flex-direction);
   display: flex;
   align-items: center;
   color: var(--color--text);
@@ -34,8 +36,8 @@
 
 @media (max-width: 887px) {
   .item {
-    height: var(--height--toolbar);
-    flex-direction: column;
+    --height: var(--height--toolbar);
+    --flex-direction: column;
     justify-content: center;
   }
 
@@ -46,8 +48,8 @@
 
 @media (min-width: 888px) {
   .item {
-    height: var(--height--row);
-    flex-direction: row;
+    --height: var(--height--row);
+    --flex-direction: row;
   }
 }
 
@@ -79,21 +81,23 @@
 
 .indicator {
   display: inline-block;
+  height: var(--height);
+  width: var(--width);
 }
 
 @media (max-width: 887px) {
   .indicator {
-    height: var(--width--indicator);
-    width: 100%;
+    --height: var(--width--indicator);
+    --width: 100%;
     position: absolute;
     bottom: 0;
   }
 }
 
 @media (min-width: 888px) {
-  .indicator, .indicator, .indicator {
-    height: 100%;
-    width: var(--width--indicator);
+  .indicator {
+    --height: 100%;
+    --width: var(--width--indicator);
     margin-right: 12px;
   }
 }

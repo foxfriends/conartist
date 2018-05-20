@@ -19,8 +19,8 @@
   margin-bottom: 12px;
   border-radius: 8px;
   background-color: var(--color--background-tooltip);
-  opacity: 0;
-  transform: translateX(-50%) scale(0.8);
+  opacity: var(--opacity, 0);
+  transform: var(--transform, translateX(-50%) scale(0.8));
   transform-origin: center bottom;
   transition: opacity 0.3s, transform 0.3s;
   pointer-events: none;
@@ -45,6 +45,6 @@
 }
 
 .target:hover + .tooltip, .target:focus + .tooltip {
-  opacity: 1;
-  transform: translateX(-50%) scale(1) ;
+  --opacity: 1;
+  --transform: translateX(-50%) scale(1);
 }

@@ -21,18 +21,18 @@ r2d2 = "*"
 r2d2-diesel = "*"
 chrono = "*"
 colored = "*"
-hyper = "*"
+hyper = "0.10"
 base64 = "*"
 diesel = { version = "*", features = ["postgres", "chrono", "serde_json", "uuid"] }
 uuid = "*"
 
 [dependencies.juniper]
 git = "https://github.com/oinkiguana/juniper"
-rev = "658cb29f6061201575c9b36cc4ddfc489058845a"
+rev = "6c7c61fb73e672141079f75ea1af56eeed3cee62"
 features = ["chrono", "uuid"]
 [dependencies.juniper_codegen]
 git = "https://github.com/oinkiguana/juniper"
-rev = "658cb29f6061201575c9b36cc4ddfc489058845a"
+rev = "6c7c61fb73e672141079f75ea1af56eeed3cee62"
 [dependencies.juniper_iron]
 git = "https://github.com/oinkiguana/juniper"
-rev = "658cb29f6061201575c9b36cc4ddfc489058845a"
+rev = "6c7c61fb73e672141079f75ea1af56eeed3cee62"

@@ -346,7 +346,9 @@ extension Convention {
         guard let recordAdd = record.add(to: self) else {
             return Observable.just()
         }
-        øaddedRecords.value.append(record)
+        if !øaddedRecords.value.contains(where: { $0.id == record.id }) {
+            øaddedRecords.value.append(record)
+        }
         if save {
             ConArtist.Persist.persist()
         }
@@ -362,7 +364,9 @@ extension Convention {
             .filterMap(Record.init(graphQL:))
             .do(onNext: { [øaddedRecords, ørecords] newRecord in
                 øaddedRecords.value.removeFirst { rec in rec.id == record.id }
-                ørecords.value.append(newRecord)
+                if !ørecords.value.contains(where: { $0.id == newRecord.id }) {
+                    ørecords.value.append(newRecord)
+                }
                 ConArtist.Persist.persist()
             })
             .discard()
@@ -371,6 +375,7 @@ extension Convention {
     func updateRecord(_ record: Record, save: Bool = true) -> Observable<Void> {
         if let existingIndex = øaddedRecords.value.index(where: { $0.id == record.id }) {
             øaddedRecords.value[existingIndex] = record
+            return Observable.just(())
         }
         if let existingIndex = ørecords.value.index(where: { $0.id == record.id }) {
             ørecords.value.remove(at: existingIndex)
@@ -388,7 +393,9 @@ extension Convention {
             .filterMap(Record.init(graphQL:))
             .map { [ømodifiedRecords, ørecords] updatedRecord in
                 ømodifiedRecords.value.removeFirst(where: { $0.id == record.id })
-                ørecords.value.append(updatedRecord)
+                if !ørecords.value.contains(where: { $0.id == updatedRecord.id }) {
+                    ørecords.value.append(updatedRecord)
+                }
                 ConArtist.Persist.persist()
             }
     }
@@ -398,7 +405,9 @@ extension Convention {
     }
 
     fileprivate func deleteRecordById(_ id: Id, save: Bool = true) -> Observable<Void> {
-        øremovedRecords.value.append(id)
+        if !øremovedRecords.value.contains(id) {
+            øremovedRecords.value.append(id)
+        }
         if øaddedRecords.value.contains(where: { $0.id == id }) {
             øaddedRecords.value.removeFirst { $0.id == id }
             // try to not send it. If it already sent and was added that's ok, it will get deleted eventually
@@ -425,7 +434,9 @@ extension Convention {
         guard let expenseAdd = expense.add(to: self) else {
             return Observable.just()
         }
-        øaddedExpenses.value.append(expense)
+        if !øaddedExpenses.value.contains(where: { $0.id == expense.id }) {
+            øaddedExpenses.value.append(expense)
+        }
         if save {
             ConArtist.Persist.persist()
         }
@@ -441,7 +452,9 @@ extension Convention {
             .filterMap(Expense.init(graphQL:))
             .do(onNext: { [øaddedExpenses, øexpenses] newExpense in
                 øaddedExpenses.value.removeFirst { exp in exp.id == expense.id }
-                øexpenses.value.append(newExpense)
+                if !øexpenses.value.contains(where: { $0.id == newExpense.id }) {
+                    øexpenses.value.append(newExpense)
+                }
                 ConArtist.Persist.persist()
             })
             .discard()
@@ -450,6 +463,7 @@ extension Convention {
     func updateExpense(_ expense: Expense, save: Bool = true) -> Observable<Void> {
         if let existingIndex = øaddedExpenses.value.index(where: { $0.id == expense.id }) {
             øaddedExpenses.value[existingIndex] = expense
+            return Observable.just(())
         }
         if let existingIndex = øexpenses.value.index(where: { $0.id == expense.id }) {
             øexpenses.value.remove(at: existingIndex)
@@ -467,7 +481,9 @@ extension Convention {
             .filterMap(Expense.init(graphQL:))
             .map { [ømodifiedExpenses, øexpenses] updatedExpense in
                 ømodifiedExpenses.value.removeFirst(where: { $0.id == expense.id })
-                øexpenses.value.append(updatedExpense)
+                if !øexpenses.value.contains(where: { $0.id == updatedExpense.id }) {
+                    øexpenses.value.append(updatedExpense)
+                }
                 ConArtist.Persist.persist()
             }
     }
@@ -477,7 +493,9 @@ extension Convention {
     }
 
     fileprivate func deleteExpenseById(_ id: Id, save: Bool = true) -> Observable<Void> {
-        øremovedExpenses.value.append(id)
+        if !øremovedExpenses.value.contains(id) {
+            øremovedExpenses.value.append(id)
+        }
         if øaddedExpenses.value.contains(where: { $0.id == id }) {
             øaddedExpenses.value.removeFirst { $0.id == id }
             // try to not send it. If it already sent and was added that's ok, it will get deleted eventually
@@ -539,10 +557,6 @@ extension Convention {
 
 // MARK: - API
 extension Convention {
-    struct SaveErrors: Error {
-        let errors: [Error]
-    }
-
     private func full(_ force: Bool) -> Observable<FullConventionFragment> {
         return ConArtist.API.GraphQL
             .observe(
@@ -554,13 +568,47 @@ extension Convention {
     }
 
     func fill(_ force: Bool = false) -> Observable<Void> {
-        if øconvention.value == nil || force {
+        let doLoad = øconvention.value == nil || force
+        if doLoad {
             øconvention.value = nil
-            let _ = full(force).bind(to: øconvention)
+            let doFill = full(force).share()
+            let _ = doFill.bind(to: øconvention)
+            return doFill
+                .do(onNext: { [weak self] _ in self?.attemptSaveEverything() })
+                .discard()
         }
         return øconvention
             .asObservable()
+            .skip(doLoad ? 1 : 0)
             .filterMap(identity)
+            .do(onNext: { [weak self] _ in self?.attemptSaveEverything() })
             .discard()
+    }
+
+    private func attemptSaveEverything() {
+        for record in øaddedRecords.value {
+            let _ = addRecord(record, save: false)
+                .subscribe()
+        }
+        for expense in øaddedExpenses.value {
+            let _ = addExpense(expense, save: false)
+                .subscribe()
+        }
+        for record in øremovedRecords.value {
+            let _ = deleteRecordById(record, save: false)
+                .subscribe()
+        }
+        for expense in øremovedExpenses.value {
+            let _ = deleteExpenseById(expense, save: false)
+                .subscribe()
+        }
+        for record in ømodifiedRecords.value {
+            let _ = updateRecord(record, save: false)
+                .subscribe()
+        }
+        for expense in ømodifiedExpenses.value {
+            let _ = updateExpense(expense, save: false)
+                .subscribe()
+        }
     }
 }

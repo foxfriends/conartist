@@ -69,7 +69,7 @@ extension RecordsOverviewViewController {
     @objc private func reloadConvention() {
         let _ = convention
             .fill(true)
-            .subscribe(onNext: { [refreshControl] in refreshControl.endRefreshing() })
+            .subscribe { [refreshControl] _ in refreshControl.endRefreshing() }
     }
 }
 

@@ -23,6 +23,11 @@ class RecordListViewController: UIViewController {
 
     fileprivate let disposeBag = DisposeBag()
 
+    fileprivate let refreshControl = UIRefreshControl()
+}
+
+// MARK: - Lifecycle
+extension RecordListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -46,6 +51,19 @@ class RecordListViewController: UIViewController {
 
         navBar.title = convention.name
         navBar.subtitle = after?.toString("MMM. d, yyyy"¡)
+
+        setupRefreshControl()
+    }
+
+    private func setupRefreshControl() {
+        recordsTableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(reloadConvention), for: .valueChanged)
+    }
+
+    @objc private func reloadConvention() {
+        let _ = convention
+            .fill(true)
+            .subscribe(onNext: { [refreshControl] in refreshControl.endRefreshing() })
     }
 }
 

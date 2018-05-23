@@ -1357,6 +1357,7 @@ Toronto, ON, Canada</string>
                         <outlet property="netRevenueAmountLabel" destination="cgj-IM-dBj" id="Ppr-1Z-lbK"/>
                         <outlet property="newExpenseButton" destination="YDd-oq-Qx0" id="F5Q-yL-vWe"/>
                         <outlet property="newSaleButton" destination="SAV-tf-BZI" id="dc7-Gw-1gd"/>
+                        <outlet property="pageScrollView" destination="mJN-DV-Wfe" id="DYY-TP-Jm8"/>
                         <outlet property="revenueSection" destination="vZ7-vn-xbc" id="vlF-PB-9Ao"/>
                         <outlet property="salesAmountLabel" destination="dbs-lv-nnK" id="saU-g9-VfD"/>
                         <outlet property="seeAllInfoButton" destination="J7q-CC-j98" id="aR9-A8-F8r"/>

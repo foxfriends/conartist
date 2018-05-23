@@ -47,6 +47,7 @@ class RecordsOverviewViewController: UIViewController {
     fileprivate let øsections = Variable<[Section]>([])
 
     fileprivate let disposeBag = DisposeBag()
+    fileprivate let refreshControl = UIRefreshControl()
 }
 
 // MARK: - Lifecycle
@@ -55,8 +56,20 @@ extension RecordsOverviewViewController {
         super.viewDidLoad()
         setupLocalization()
         setupSubscriptions()
+        setupRefreshControl()
         navBar.title = convention.name
         netProfitAmountLabel.font = netProfitAmountLabel.font.usingFeatures([.tabularFigures])
+    }
+
+    private func setupRefreshControl() {
+        recordsTableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(reloadConvention), for: .valueChanged)
+    }
+
+    @objc private func reloadConvention() {
+        let _ = convention
+            .fill(true)
+            .subscribe(onNext: { [refreshControl] in refreshControl.endRefreshing() })
     }
 }
 

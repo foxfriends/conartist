@@ -545,7 +545,10 @@ extension Convention {
 
     private func full(_ force: Bool) -> Observable<FullConventionFragment> {
         return ConArtist.API.GraphQL
-            .observe(query: FullConventionQuery(userId: nil, conId: id), cachePolicy: force ? .fetchIgnoringCacheData : .returnCacheDataElseFetch)
+            .observe(
+                query: FullConventionQuery(userId: nil, conId: id),
+                cachePolicy: force ? .fetchIgnoringCacheData : .returnCacheDataElseFetch
+            )
             .map { $0.convention.fragments.fullConventionFragment }
             .catchError { _ in Observable.empty() }
     }
@@ -555,6 +558,9 @@ extension Convention {
             øconvention.value = nil
             let _ = full(force).bind(to: øconvention)
         }
-        return øconvention.asObservable().filterMap(identity).discard()
+        return øconvention
+            .asObservable()
+            .filterMap(identity)
+            .discard()
     }
 }

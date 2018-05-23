@@ -39,7 +39,7 @@ DEPENDENCIES:
   - SwiftMoment
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - Alamofire
     - Apollo
     - CocoaLumberjack
@@ -78,4 +78,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 6698972f1b3a31c79535a8c93868ef91159b7297
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.2

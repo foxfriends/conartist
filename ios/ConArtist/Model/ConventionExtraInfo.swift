@@ -71,15 +71,17 @@ enum ConventionExtraInfo: Codable {
 
     var actionText: String? {
         switch self {
-        case .Address: return "View on map"¡
+        case .Address: return nil // "View on map"¡
         case .Website(let display, _): return display
         default: return nil
         }
     }
 
     var action: String? {
-        // TODO: rethink how this action is going to work, since it never worked anyway
-        return nil
+        switch self {
+        case .Website(_, let url): return url
+        default: return nil
+        }
     }
 
     var cellIdentifier: String {

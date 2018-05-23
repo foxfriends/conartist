@@ -51,6 +51,7 @@ struct ConArtist {
 
     /// Handles universal URLs and deep links
     static func handleURL(_ url: String) {
+        print(url)
         if let url = URL(string: url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }

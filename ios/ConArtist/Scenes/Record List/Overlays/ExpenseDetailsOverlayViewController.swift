@@ -85,7 +85,7 @@ extension ExpenseDetailsOverlayViewController {
                 DispatchQueue.main.async { self.setupUI() }
                 return newExpense
             }
-            .flatMap(convention.updateExpense)
+            .flatMap { [convention] expense in convention!.updateExpense(expense) }
             .subscribe(
                 onNext: { print("SAVED") },
                 onError: { print("FAILED TO SAVE: \($0)") }

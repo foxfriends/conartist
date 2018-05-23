@@ -31,6 +31,8 @@ class Convention: Codable {
         case addedExpenses
         case removedRecords
         case removedExpenses
+        case modifiedRecords
+        case modifiedExpenses
     }
 
     let id: Int
@@ -57,8 +59,10 @@ class Convention: Codable {
     var expenseTotal: Money?
 
     fileprivate let øaddedRecords = Variable<[Record]>([])
+    fileprivate let ømodifiedRecords = Variable<[Record]>([])
     fileprivate let øremovedRecords = Variable<[Id]>([])
     fileprivate let øaddedExpenses = Variable<[Expense]>([])
+    fileprivate let ømodifiedExpenses = Variable<[Expense]>([])
     fileprivate let øremovedExpenses = Variable<[Id]>([])
     fileprivate let øuserInfo = Variable<[ConventionUserInfo]>([])
 
@@ -96,10 +100,10 @@ class Convention: Codable {
             .combineLatest(
                 ørecords.asObservable(),
                 øaddedRecords.asObservable(),
-                øremovedRecords.asObservable()
+                ømodifiedRecords.asObservable()
             )
-            .map { records, added, removed in
-                (records + added)
+            .map { records, added, modified in
+                (records + added + modified)
                     .sorted { $0.time < $1.time }
             }
 
@@ -107,10 +111,10 @@ class Convention: Codable {
             .combineLatest(
                 øexpenses.asObservable(),
                 øaddedExpenses.asObservable(),
-                øremovedExpenses.asObservable()
+                ømodifiedExpenses.asObservable()
             )
-            .map { expenses, added, removed in
-                (expenses + added)
+            .map { expenses, added, modified in
+                (expenses + added + modified)
                     .sorted { $0.time < $1.time }
             }
 
@@ -230,16 +234,14 @@ class Convention: Codable {
         bindObservables()
 
         let addedRecords = try json.decode([Record].self, forKey: .addedRecords)
-        let addedExpenses = try json.decode([Expense].self, forKey: .addedExpenses)
         for record in addedRecords {
             let _ = addRecord(record, save: false).subscribe()
         }
+        let addedExpenses = try json.decode([Expense].self, forKey: .addedExpenses)
         for expense in addedExpenses {
             let _ = addExpense(expense, save: false).subscribe()
         }
-        if !addedRecords.isEmpty || !addedExpenses.isEmpty {
-            let _ = fill().subscribe()
-        }
+
         let removedRecords = try json.decode([Id].self, forKey: .removedRecords)
         for recordId in removedRecords {
             let _ = deleteRecordById(recordId, save: false).subscribe()
@@ -247,6 +249,24 @@ class Convention: Codable {
         let removedExpenses = try json.decode([Id].self, forKey: .removedExpenses)
         for expenseId in removedExpenses {
             let _ = deleteExpenseById(expenseId, save: false).subscribe()
+        }
+
+        let modifiedRecords = try json.decode([Record].self, forKey: .modifiedRecords)
+        for record in modifiedRecords {
+            let _ = updateRecord(record, save: false).subscribe()
+        }
+        let modifiedExpenses = try json.decode([Expense].self, forKey: .modifiedExpenses)
+        for expense in modifiedExpenses {
+            let _ = updateExpense(expense, save: false).subscribe()
+        }
+
+        if !addedRecords.isEmpty
+            || !addedExpenses.isEmpty
+            || !removedRecords.isEmpty
+            || !removedExpenses.isEmpty
+            || !modifiedRecords.isEmpty
+            || !modifiedExpenses.isEmpty {
+            let _ = fill().subscribe()
         }
     }
 
@@ -273,6 +293,8 @@ class Convention: Codable {
         try json.encode(øaddedExpenses.value, forKey: .addedExpenses)
         try json.encode(øremovedRecords.value, forKey: .removedRecords)
         try json.encode(øremovedExpenses.value, forKey: .removedExpenses)
+        try json.encode(ømodifiedRecords.value, forKey: .modifiedRecords)
+        try json.encode(ømodifiedExpenses.value, forKey: .modifiedExpenses)
     }
 }
 
@@ -346,23 +368,29 @@ extension Convention {
             .discard()
     }
 
-    func updateRecord(_ record: Record) -> Observable<Void> {
-        return Observable.just()
-        // TODO: implement this in the future
-//        øremovedRecords.value.append(record.id)
-//        let index: Int
-//        if let existingIndex = øaddedRecords.value.index(where: { $0.id == record.id }) {
-//            index = existingIndex
-//            øaddedRecords.value[index] = record
-//        } else {
-//            index = øaddedRecords.value.count
-//            øaddedRecords.value.append(record)
-//        }
-//        return ConArtist.API.GraphQL
-//            .observe(mutation: UpdateRecordMutation(record: record.modifications))
-//            .map { $0.modUserRecord.fragments.recordFragment }
-//            .filterMap(Record.init(graphQL:))
-//            .map { [øaddedRecords] in øaddedRecords.value[index] = $0 }
+    func updateRecord(_ record: Record, save: Bool = true) -> Observable<Void> {
+        if let existingIndex = øaddedRecords.value.index(where: { $0.id == record.id }) {
+            øaddedRecords.value[existingIndex] = record
+        }
+        if let existingIndex = ørecords.value.index(where: { $0.id == record.id }) {
+            ørecords.value.remove(at: existingIndex)
+        }
+        if let existingIndex = ømodifiedRecords.value.index(where: { $0.id == record.id }) {
+            ømodifiedRecords.value.remove(at: existingIndex)
+        }
+        ømodifiedRecords.value.append(record)
+        if save {
+            ConArtist.Persist.persist()
+        }
+        return ConArtist.API.GraphQL
+            .observe(mutation: UpdateRecordMutation(record: record.modifications!))
+            .map { $0.modUserRecord.fragments.recordFragment }
+            .filterMap(Record.init(graphQL:))
+            .map { [ømodifiedRecords, ørecords] updatedRecord in
+                ømodifiedRecords.value.removeFirst(where: { $0.id == record.id })
+                ørecords.value.append(updatedRecord)
+                ConArtist.Persist.persist()
+            }
     }
 
     func deleteRecord(_ record: Record) -> Observable<Void> {
@@ -419,22 +447,29 @@ extension Convention {
             .discard()
     }
 
-    func updateExpense(_ expense: Expense) -> Observable<Void> {
-        return Observable.just()
-//        øremovedExpenses.value.append(expense.id)
-//        let index: Int
-//        if let existingIndex = øaddedExpenses.value.index(where: { $0.id == expense.id }) {
-//            index = existingIndex
-//            øaddedExpenses.value[index] = expense
-//        } else {
-//            index = øaddedExpenses.value.count
-//            øaddedExpenses.value.append(expense)
-//        }
-//        return ConArtist.API.GraphQL
-//            .observe(mutation: UpdateExpenseMutation(expense: expense.modifications))
-//            .map { $0.modUserExpense.fragments.expenseFragment }
-//            .filterMap(Expense.init(graphQL:))
-//            .map { [øaddedExpenses] in øaddedExpenses.value[index] = $0 }
+    func updateExpense(_ expense: Expense, save: Bool = true) -> Observable<Void> {
+        if let existingIndex = øaddedExpenses.value.index(where: { $0.id == expense.id }) {
+            øaddedExpenses.value[existingIndex] = expense
+        }
+        if let existingIndex = øexpenses.value.index(where: { $0.id == expense.id }) {
+            øexpenses.value.remove(at: existingIndex)
+        }
+        if let existingIndex = ømodifiedExpenses.value.index(where: { $0.id == expense.id }) {
+            ømodifiedExpenses.value.remove(at: existingIndex)
+        }
+        ømodifiedExpenses.value.append(expense)
+        if save {
+            ConArtist.Persist.persist()
+        }
+        return ConArtist.API.GraphQL
+            .observe(mutation: UpdateExpenseMutation(expense: expense.modifications!))
+            .map { $0.modUserExpense.fragments.expenseFragment }
+            .filterMap(Expense.init(graphQL:))
+            .map { [ømodifiedExpenses, øexpenses] updatedExpense in
+                ømodifiedExpenses.value.removeFirst(where: { $0.id == expense.id })
+                øexpenses.value.append(updatedExpense)
+                ConArtist.Persist.persist()
+            }
     }
 
     func deleteExpense(_ expense: Expense) -> Observable<Void> {

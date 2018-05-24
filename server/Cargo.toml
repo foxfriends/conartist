@@ -5,34 +5,35 @@ authors = ["Cameron Eldridge <cameldridge+git@gmail.com>"]
 
 # TODO: solidify dependency versions before entering production?
 [dependencies]
-iron = "*"
-mount = "*"
-router = "*"
-iron-cors = "*"
-params = "*"
-staticfile = "*"
-bodyparser = "*"
-serde = "*"
-serde_json = "*"
-serde_derive = "*"
-jsonwebtoken = "*"
-bcrypt = "*"
-r2d2 = "*"
-r2d2-diesel = "*"
-chrono = "*"
-colored = "*"
+iron = "0.6"
+mount = "0.4"
+router = "0.6"
+iron-cors = "0.7"
+params = "0.8"
+staticfile = "0.5"
+bodyparser = "0.8"
+serde = "1.0"
+serde_json = "1.0"
+serde_derive = "1.0"
+jsonwebtoken = "4.0"
+bcrypt = "0.2"
+r2d2 = "0.8"
+r2d2-diesel = "1.0"
+chrono = "0.4"
+colored = "1.6"
 hyper = "0.10"
-base64 = "*"
-diesel = { version = "*", features = ["postgres", "chrono", "serde_json", "uuid"] }
-uuid = "*"
+base64 = "0.9"
+diesel = { version = "1.3", features = ["postgres", "chrono", "serde_json", "uuid"] }
+uuid = "0.6"
 
 [dependencies.juniper]
 git = "https://github.com/oinkiguana/juniper"
-rev = "6c7c61fb73e672141079f75ea1af56eeed3cee62"
+rev = "a1c53a42e57d00be4a61f153f33e0353a73b8e8d"
 features = ["chrono", "uuid"]
 [dependencies.juniper_codegen]
 git = "https://github.com/oinkiguana/juniper"
-rev = "6c7c61fb73e672141079f75ea1af56eeed3cee62"
+rev = "a1c53a42e57d00be4a61f153f33e0353a73b8e8d"
 [dependencies.juniper_iron]
 git = "https://github.com/oinkiguana/juniper"
-rev = "6c7c61fb73e672141079f75ea1af56eeed3cee62"
+rev = "a1c53a42e57d00be4a61f153f33e0353a73b8e8d"
+features = ["apollo-extensions"]

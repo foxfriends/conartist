@@ -15,6 +15,8 @@ class ConventionDetailsViewController : UIViewController {
 
     @IBOutlet weak var navBar: FakeNavBar!
 
+    @IBOutlet weak var pageScrollView: UIScrollView!
+
     @IBOutlet weak var infoTableView: UITableView!
     @IBOutlet weak var infoTableViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var headerImage: NetworkImageView!
@@ -34,6 +36,8 @@ class ConventionDetailsViewController : UIViewController {
     @IBOutlet var smallCapsLabels: [UILabel]!
 
     var convention: Convention!
+
+    fileprivate let refreshControl = UIRefreshControl()
 }
 
 // MARK: - Lifecycle
@@ -43,6 +47,7 @@ extension ConventionDetailsViewController {
         setupUI()
         setupLocalization()
         setupSubscriptions()
+        setupRefreshControl()
     }
 
     // NOTE: not the quickest calculation, but it should only be called once anyway...
@@ -56,6 +61,17 @@ extension ConventionDetailsViewController {
     override func updateViewConstraints() {
         super.updateViewConstraints()
         infoTableViewHeightConstraint.constant = tableViewHeight + infoTableView.tableHeaderView!.frame.height
+    }
+
+    private func setupRefreshControl() {
+        pageScrollView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(reloadConvention), for: .valueChanged)
+    }
+
+    @objc private func reloadConvention() {
+        let _ = convention
+            .fill(true)
+            .subscribe { [refreshControl] _ in refreshControl.endRefreshing() }
     }
 }
 
@@ -114,21 +130,23 @@ extension ConventionDetailsViewController {
         newSaleButton.rx.tap
             .flatMap { [convention] _ in ProductTypeListViewController.show(for: convention!) }
             .map { products, price, info in Record(products: products.map { $0.id }, price: price, info: info) }
-            .flatMap { [convention] in convention!.addRecord($0) }
-            .subscribe(
-                onNext: { print("SAVED") },
-                onError: { print("FAILED TO SAVE: \($0)") }
-            )
+            .flatMap { [convention] in
+                convention!
+                    .addRecord($0)
+                    .catchErrorJustReturn(())
+            }
+            .subscribe()
             .disposed(by: disposeBag)
 
         newExpenseButton.rx.tap
             .flatMap { _ in NewExpenseViewController.show() }
             .map(Expense.init)
-            .flatMap { [convention] in convention!.addExpense($0) }
-            .subscribe(
-                onNext: { print("SAVED") },
-                onError: { print("FAILED TO SAVE: \($0)") }
-            )
+            .flatMap { [convention] in
+                convention!
+                    .addExpense($0)
+                    .catchErrorJustReturn(())
+            }
+            .subscribe()
             .disposed(by: disposeBag)
 
         seeAllInfoButton.rx.tap

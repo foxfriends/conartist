@@ -98,7 +98,7 @@ extension RecordDetailsOverlayViewController {
                 DispatchQueue.main.async { self.setupUI() }
                 return newRecord
             }
-            .flatMap(convention.updateRecord)
+            .flatMap { [convention] record in convention!.updateRecord(record) }
             .subscribe(
                 onNext: { print("SAVED") },
                 onError: { print("FAILED TO SAVE: \($0)") }

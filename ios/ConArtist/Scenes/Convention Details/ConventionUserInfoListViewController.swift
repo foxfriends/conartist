@@ -19,6 +19,7 @@ class ConventionUserInfoListViewController: UIViewController {
     fileprivate let disposeBag = DisposeBag()
     fileprivate var convention: Convention!
     fileprivate let øinformation = Variable<[ConventionUserInfo]>([])
+    fileprivate let refreshControl = UIRefreshControl()
 }
 
 // MARK: - Lifecycle
@@ -27,6 +28,18 @@ extension ConventionUserInfoListViewController {
         super.viewDidLoad()
         setupLocalization()
         setupSubscriptions()
+        setupRefreshControl()
+    }
+
+    private func setupRefreshControl() {
+        infoTableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(reloadConvention), for: .valueChanged)
+    }
+
+    @objc private func reloadConvention() {
+        let _ = convention
+            .fill(true)
+            .subscribe { [refreshControl] _ in refreshControl.endRefreshing() }
     }
 }
 

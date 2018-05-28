@@ -3,6 +3,6 @@
 <plist version="1.0">
 <dict>
 	<key>BaseURL</key>
-	<string>http://10.0.1.21:8080</string>
+	<string>https://con--artist.herokuapp.com</string>
 </dict>
 </plist>

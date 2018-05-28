@@ -387,9 +387,17 @@ extension Convention {
         if save {
             ConArtist.Persist.persist()
         }
-        return ConArtist.API.GraphQL
-            .observe(mutation: UpdateRecordMutation(record: record.modifications!))
-            .map { $0.modUserRecord.fragments.recordFragment }
+
+        let request =
+            record.modifications == nil
+                ? ConArtist.API.GraphQL
+                    .observe(mutation: AddRecordMutation(record: record.add(to: self)!))
+                    .map { $0.addUserRecord.fragments.recordFragment }
+                : ConArtist.API.GraphQL
+                    .observe(mutation: UpdateRecordMutation(record: record.modifications!))
+                    .map { $0.modUserRecord.fragments.recordFragment }
+
+        return request
             .filterMap(Record.init(graphQL:))
             .map { [ømodifiedRecords, ørecords] updatedRecord in
                 ømodifiedRecords.value.removeFirst(where: { $0.id == record.id })
@@ -475,9 +483,16 @@ extension Convention {
         if save {
             ConArtist.Persist.persist()
         }
-        return ConArtist.API.GraphQL
-            .observe(mutation: UpdateExpenseMutation(expense: expense.modifications!))
-            .map { $0.modUserExpense.fragments.expenseFragment }
+        let request =
+            expense.modifications == nil
+                ? ConArtist.API.GraphQL
+                    .observe(mutation: UpdateExpenseMutation(expense: expense.modifications!))
+                    .map { $0.modUserExpense.fragments.expenseFragment }
+                : ConArtist.API.GraphQL
+                    .observe(mutation: AddExpenseMutation(expense: expense.add(to: self)!))
+                    .map { $0.addUserExpense.fragments.expenseFragment }
+
+        return request
             .filterMap(Expense.init(graphQL:))
             .map { [ømodifiedExpenses, øexpenses] updatedExpense in
                 ømodifiedExpenses.value.removeFirst(where: { $0.id == expense.id })

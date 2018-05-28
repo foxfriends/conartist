@@ -108,18 +108,6 @@ impl Database {
                     .filter(conventions::con_id.eq(con_id))
                     .first::<DetachedConvention>(&*conn)?;
 
-            if convention.end_date.and_hms(23, 59, 59) < Utc::now().naive_utc() {
-                return Err(
-                    diesel::result::Error::DeserializationError(
-                        Box::new(
-                            ::error::StringError(
-                                format!("Convention with id {} is already over", convention.con_id)
-                            )
-                        )
-                    )
-                )
-            }
-
             diesel::insert_into(records::table)
                 .values((
                     records::user_id.eq(user_id),
@@ -155,18 +143,6 @@ impl Database {
                 conventions::table
                     .filter(conventions::con_id.eq(con_id))
                     .first::<DetachedConvention>(&*conn)?;
-
-            if convention.end_date.and_hms(23, 59, 59) < Utc::now().naive_utc() {
-                return Err(
-                    diesel::result::Error::DeserializationError(
-                        Box::new(
-                            ::error::StringError(
-                                format!("Convention with id {} is already over", convention.con_id)
-                            )
-                        )
-                    )
-                )
-            }
 
             diesel::insert_into(expenses::table)
                 .values((

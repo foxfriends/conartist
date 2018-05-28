@@ -50,18 +50,6 @@ impl Database {
                     .filter(conventions::con_id.eq(record.con_id))
                     .first::<DetachedConvention>(&*conn)?;
 
-                if convention.end_date.and_hms(23, 59, 59) < Utc::now().naive_utc() {
-                    return Err(
-                        diesel::result::Error::DeserializationError(
-                            Box::new(
-                                ::error::StringError(
-                                    format!("Convention with id {} is already over", convention.con_id)
-                                )
-                            )
-                        )
-                    )
-                }
-
                 diesel::delete(records::table)
                     .filter(records::record_id.eq(record.record_id))
                     .execute(&*conn)
@@ -100,18 +88,6 @@ impl Database {
                 let convention = conventions::table
                     .filter(conventions::con_id.eq(expense.con_id))
                     .first::<DetachedConvention>(&*conn)?;
-
-                if convention.end_date.and_hms(23, 59, 59) < Utc::now().naive_utc() {
-                    return Err(
-                        diesel::result::Error::DeserializationError(
-                            Box::new(
-                                ::error::StringError(
-                                    format!("Convention with id {} is already over", convention.con_id)
-                                )
-                            )
-                        )
-                    )
-                }
 
                 diesel::delete(expenses::table)
                     .filter(expenses::expense_id.eq(expense.expense_id))

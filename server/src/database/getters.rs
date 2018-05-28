@@ -273,7 +273,7 @@ impl Database {
     pub fn get_conventions_after(&self, date: NaiveDate, limit: i64, after: Option<String>) -> Result<Vec<Convention>, String> {
         let conn = self.pool.get().unwrap();
         conventions::table
-            .filter(conventions::start_date.gt(date))
+            .filter(conventions::end_date.ge(date))
             .offset(after.clone().and_then(|offset| str::parse(&offset).ok()).unwrap_or(0i64))
             .limit(limit)
             .order((conventions::start_date.asc(), conventions::end_date.asc(), conventions::con_id.asc()))

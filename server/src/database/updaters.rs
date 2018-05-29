@@ -1,7 +1,6 @@
 //! Methods for updating the database with
 use diesel::{self, dsl, sql_types};
 use diesel::prelude::*;
-use chrono::Utc;
 
 use super::Database;
 use super::models::*;
@@ -99,15 +98,6 @@ impl Database {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conn.transaction(|| {
-                let record = records::table
-                    .filter(records::record_id.eq(record_id))
-                    .filter(records::user_id.eq(user_id))
-                    .first::<Record>(&*conn)?;
-
-                let convention = conventions::table
-                    .filter(conventions::con_id.eq(record.con_id))
-                    .first::<DetachedConvention>(&*conn)?;
-
                 diesel::update(records::table)
                     .filter(records::record_id.eq(record_id))
                     .set(&RecordChanges::new(products, price, info))
@@ -120,16 +110,6 @@ impl Database {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conn.transaction(|| {
-                let expense =
-                    expenses::table
-                        .filter(expenses::expense_id.eq(expense_id))
-                        .filter(expenses::user_id.eq(user_id))
-                        .first::<Expense>(&*conn)?;
-                let convention =
-                    conventions::table
-                        .filter(conventions::con_id.eq(expense.con_id))
-                        .first::<DetachedConvention>(&*conn)?;
-
                 diesel::update(expenses::table)
                     .filter(expenses::expense_id.eq(expense_id))
                     .set(&ExpenseChanges::new(category, description, price))

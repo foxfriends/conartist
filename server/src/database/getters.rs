@@ -155,7 +155,7 @@ impl Database {
             .inner_join(conventions::table)
             .select((conventions::con_id, user_conventions::user_id.nullable(), conventions::title, conventions::start_date, conventions::end_date, conventions::predecessor))
             .filter(user_conventions::user_id.eq(user_id))
-            .order(conventions::start.desc())
+            .order(conventions::start_date.desc())
             .load::<Convention>(&*conn)
             .map_err(|reason| format!("Conventions for user with id {} could not be retrieved. Reason: {}", user_id, reason))
     }

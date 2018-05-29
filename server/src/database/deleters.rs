@@ -46,10 +46,6 @@ impl Database {
                         )
                     };
 
-                let convention = conventions::table
-                    .filter(conventions::con_id.eq(record.con_id))
-                    .first::<DetachedConvention>(&*conn)?;
-
                 diesel::delete(records::table)
                     .filter(records::record_id.eq(record.record_id))
                     .execute(&*conn)
@@ -85,10 +81,6 @@ impl Database {
                         )
                     };
 
-                let convention = conventions::table
-                    .filter(conventions::con_id.eq(expense.con_id))
-                    .first::<DetachedConvention>(&*conn)?;
-
                 diesel::delete(expenses::table)
                     .filter(expenses::expense_id.eq(expense.expense_id))
                     .execute(&*conn)
@@ -105,6 +97,7 @@ impl Database {
                     conventions::table
                         .filter(conventions::con_id.eq(con_id))
                         .first::<DetachedConvention>(&*conn)?;
+
                 if convention.start_date.and_hms(0, 0, 0) <= Utc::now().naive_utc() {
                     return Err(
                         diesel::result::Error::DeserializationError(

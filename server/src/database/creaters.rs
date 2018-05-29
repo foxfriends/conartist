@@ -103,11 +103,6 @@ impl Database {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conn.transaction(|| {
-            let convention =
-                conventions::table
-                    .filter(conventions::con_id.eq(con_id))
-                    .first::<DetachedConvention>(&*conn)?;
-
             diesel::insert_into(records::table)
                 .values((
                     records::user_id.eq(user_id),
@@ -139,11 +134,6 @@ impl Database {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conn.transaction(|| {
-            let convention =
-                conventions::table
-                    .filter(conventions::con_id.eq(con_id))
-                    .first::<DetachedConvention>(&*conn)?;
-
             diesel::insert_into(expenses::table)
                 .values((
                     expenses::user_id.eq(user_id),

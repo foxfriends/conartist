@@ -6,6 +6,7 @@ import { ConventionCard } from './convention-card'
 import { CompletedConventionCard } from './completed-convention-card'
 import { CardView } from '../card-view'
 import { Card } from '../card-view/card'
+import { by, Desc } from '../../util/sort'
 import { l, lx } from '../../localization'
 import type { Convention } from '../../model/convention'
 import S from './index.css'
@@ -23,7 +24,7 @@ export function Conventions({ conventions }: Props) {
   const today = [];
   const upcoming = [];
   const completed = [];
-
+  conventions.sort(by(['start', Desc]))
   conventions.forEach(convention => {
     const now = justDay(new Date());
     if (convention.end < now) {

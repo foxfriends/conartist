@@ -81,10 +81,9 @@ extension ConArtist.API {
         }
 
         private static func loadUser() throws -> Observable<UserFragment> {
-            return
-                ConArtist.API.GraphQL
-                    .observe(query: UserQuery(id: nil))
-                    .map { $0.user.fragments.userFragment }
+            return ConArtist.API.GraphQL
+                .observe(query: UserQuery(id: nil), cachePolicy: .fetchIgnoringCacheData)
+                .map { $0.user.fragments.userFragment }
         }
     }
 }

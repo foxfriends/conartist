@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import RxSwift
 
 class TableHeaderView: UIView {
     let titleLabel = UILabel().customizable()
     let hbar = HighlightableView().customizable()
     let seeAllButton = UIButton().customizable().conArtistStyle()
+    let disposeBag = DisposeBag()
 
     init(title: String, showBar: Bool, showMore: Bool) {
         super.init(frame: CGRect.zero)
@@ -35,6 +37,8 @@ class TableHeaderView: UIView {
         titleLabel.font = UIFont.systemFont(ofSize: 12).usingFeatures([.smallCaps])
         titleLabel.textColor = ConArtist.Color.TextPlaceholder
 
+        seeAllButton.setTitle("See all"¡, for: .normal)
+
         NSLayoutConstraint.activate([
             NSLayoutConstraint(item: titleLabel, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 20),
             NSLayoutConstraint(item: self, attribute: .centerY, relatedBy: .equal, toItem: titleLabel, attribute: .centerY, multiplier: 1, constant: 0)
@@ -43,7 +47,7 @@ class TableHeaderView: UIView {
         if showMore {
             addSubview(seeAllButton)
             NSLayoutConstraint.activate([
-                NSLayoutConstraint(item: seeAllButton, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: 20),
+                NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: seeAllButton, attribute: .trailing, multiplier: 1, constant: 20),
                 NSLayoutConstraint(item: self, attribute: .centerY, relatedBy: .equal, toItem: seeAllButton, attribute: .centerY, multiplier: 1, constant: 0)
             ])
         }
@@ -62,5 +66,11 @@ class TableHeaderView: UIView {
                 NSLayoutConstraint.activate([NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: hbar, attribute: .trailing, multiplier: 1, constant: 20)])
             }
         }
+    }
+}
+
+extension Reactive where Base == TableHeaderView {
+    var seeAll: Observable<Void> {
+        return base.seeAllButton.rx.tap.discard()
     }
 }

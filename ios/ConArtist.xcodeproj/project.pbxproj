@@ -105,6 +105,7 @@
 		32D4BB11205B3E5500B0A397 /* RecordDetailsOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4BB10205B3E5500B0A397 /* RecordDetailsOverlayViewController.swift */; };
 		32D4BB13205B446600B0A397 /* RecordDetailsItemsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4BB12205B446600B0A397 /* RecordDetailsItemsTableViewCell.swift */; };
 		32D4BB15205B44E000B0A397 /* RecordDetailsItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4BB14205B44E000B0A397 /* RecordDetailsItemCollectionViewCell.swift */; };
+		32D65DBA20BCFA5000F03BC2 /* AllConventionsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D65DB920BCFA5000F03BC2 /* AllConventionsListViewController.swift */; };
 		32DD973B205B803E0045DF41 /* OptionSet+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DD973A205B803E0045DF41 /* OptionSet+Operators.swift */; };
 		32E80BD4201700100008EC27 /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E80BD3201700100008EC27 /* Money.swift */; };
 		32E80BD7201700EB0008EC27 /* String+Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E80BD6201700EB0008EC27 /* String+Conversion.swift */; };
@@ -216,6 +217,7 @@
 		32D4BB10205B3E5500B0A397 /* RecordDetailsOverlayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailsOverlayViewController.swift; sourceTree = "<group>"; };
 		32D4BB12205B446600B0A397 /* RecordDetailsItemsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailsItemsTableViewCell.swift; sourceTree = "<group>"; };
 		32D4BB14205B44E000B0A397 /* RecordDetailsItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailsItemCollectionViewCell.swift; sourceTree = "<group>"; };
+		32D65DB920BCFA5000F03BC2 /* AllConventionsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllConventionsListViewController.swift; sourceTree = "<group>"; };
 		32DD973A205B803E0045DF41 /* OptionSet+Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OptionSet+Operators.swift"; sourceTree = "<group>"; };
 		32E80BD3201700100008EC27 /* Money.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Money.swift; sourceTree = "<group>"; };
 		32E80BD6201700EB0008EC27 /* String+Conversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Conversion.swift"; sourceTree = "<group>"; };
@@ -519,6 +521,7 @@
 			children = (
 				324592A11FEB4B4D00DE89BB /* ConventionListViewController.swift */,
 				32C39C2F201EA5B300071E26 /* ConventionTableViewCell.swift */,
+				32D65DB920BCFA5000F03BC2 /* AllConventionsListViewController.swift */,
 			);
 			path = "Convention List";
 			sourceTree = "<group>";
@@ -801,6 +804,7 @@
 				321FDE8220269E67002DF04B /* SettingsActionTableViewCell.swift in Sources */,
 				32BE32BB201E786B00BFEB16 /* UIViewController+Instantiate.swift in Sources */,
 				322C6A15204E20570021A2D9 /* ConventionUserInfoTableViewCell.swift in Sources */,
+				32D65DBA20BCFA5000F03BC2 /* AllConventionsListViewController.swift in Sources */,
 				32B910192047C821002F9C94 /* Settings.swift in Sources */,
 				32B36ED82041FF3200DA4593 /* NetworkImageView.swift in Sources */,
 				32DD973B205B803E0045DF41 /* OptionSet+Operators.swift in Sources */,

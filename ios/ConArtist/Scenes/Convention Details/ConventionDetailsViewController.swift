@@ -89,6 +89,8 @@ extension ConventionDetailsViewController {
         expensesAmountLabel.font = expensesAmountLabel.font.usingFeatures([.tabularFigures])
         netRevenueAmountLabel.font = netRevenueAmountLabel.font.usingFeatures([.tabularFigures])
         headerImage.imageId = convention.images.first
+        seeAllInfoButton = seeAllInfoButton.conArtistStyle()
+        seeAllRecordsButton = seeAllRecordsButton.conArtistStyle()
         infoTableView.reloadData()
         updateViewConstraints()
     }

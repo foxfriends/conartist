@@ -72,6 +72,8 @@ class ConventionListViewController: UIViewController {
     fileprivate var past: [Convention] = []
     fileprivate var future: [Convention] = []
     fileprivate var sectionTitles: [String] = []
+
+    fileprivate let refreshControl = UIRefreshControl()
 }
 
 // MARK: - Settings
@@ -118,6 +120,20 @@ extension ConventionListViewController {
         super.viewDidLoad()
         setupLocalization()
         setupSubscriptions()
+        setupRefreshControl()
+    }
+
+    private func setupRefreshControl() {
+        self.conventionsTableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(reloadModel), for: .valueChanged)
+    }
+
+    @objc private func reloadModel() {
+        let _ = ConArtist.API.GraphQL
+            .observe(query: UserQuery(), cachePolicy: .fetchIgnoringCacheData)
+            .map{ $0.user.fragments.userFragment }
+            .do { [weak self] in self?.refreshControl.endRefreshing() }
+            .subscribe(onNext: ConArtist.model.merge)
     }
 }
 
@@ -222,8 +238,17 @@ extension ConventionListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let title = self.tableView(tableView, titleForHeaderInSection: section) else { return nil }
         let conCount = øsections.value.nth(section).map(conventions(for:))?.count ?? 0
+        let conventions = øsections.asObservable()
+            .map { sections in sections.nth(section) }
+            .map { [unowned self] section in self.conventions(for: section!) }
         let showMore = conCount > ConventionListViewController.MaxConventionsPerSection
-        return TableHeaderView(title: title, showBar: section != 0, showMore: showMore)
+        let headerView = TableHeaderView(title: title, showBar: section != 0, showMore: showMore)
+        headerView.rx.seeAll
+            .subscribe(onNext: { _ in
+                AllConventionsListViewController.show(conventions: conventions)
+            })
+            .disposed(by: headerView.disposeBag)
+        return headerView
     }
 }
 

@@ -70,7 +70,7 @@ class Model: Codable {
                 existingConventions.append(convention)
             }
         }
-        conventions.value = existingConventions
+        conventions.value = existingConventions.sorted(by: { $0.start > $1.start })
         settings.value = Settings(graphQL: user.settings.fragments.settingsFragment) ?? Settings.default
         ConArtist.Persist.persist()
     }

@@ -9,6 +9,7 @@
 import UIKit
 
 extension UIButton {
+    @discardableResult
     func conArtistStyle() -> Self {
         titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFontWeightSemibold).usingFeatures([.smallCaps])
         setTitleColor(ConArtist.Color.Brand, for: .normal)

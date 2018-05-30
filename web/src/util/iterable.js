@@ -1,10 +1,11 @@
 /* @flow */
 import Map from './default-map'
 
-export function separate<T, K: $Keys<T>>(prop: $Keys<T>): Iterable<[$ElementType<T, K>, T[]]> {
+export function separate<T: Object, K: $Keys<T>, E: $ElementType<T, K>, R>(prop: $Keys<T>, transform?: (E) => R): Iterable<[R, T[]]> {
   const parts = new Map([], [])
   for (const item of this) {
-    parts.set(item[prop], [...parts.get(item[prop]), item])
+    const key = transform ? transform(item[prop]) : item[prop]
+    parts.set(key, [...parts.get(key), item])
   }
   return parts
 }

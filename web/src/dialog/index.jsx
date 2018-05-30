@@ -31,7 +31,9 @@ export function Dialog(props: Props) {
       dialog = <ChangePassword {...props} />
       break
     case 'export':
+      // $FlowIgnore
       dialog = <Export {...props} />
+      break
   }
 
   return (

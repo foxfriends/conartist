@@ -155,6 +155,10 @@
     "web": "dddd MMMM D, YYYY. h:mma",
     "ios": "EEEE MMMM d, yyyy. h:mma"
   },
+  "MMMM d yyyy. h:mma": {
+    "web": "MMMM D YYYY. h:mma",
+    "ios": "MMMM d yyyy. h:mma"
+  },
   "MMM. d, yyyy": {
     "web": "MMM. D, YYYY",
     "ios": "MMM. d, yyyy"

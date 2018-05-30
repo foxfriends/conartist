@@ -153,6 +153,10 @@
     "web": "YYYY年MMMDD日ddd, H:mm",
     "ios": "YYYY年MMMd日EEE, H:mm"
   },
+  "MMMM d, yyyy. h:mma": {
+    "web": "YYYY年MMMDD日, H:mm",
+    "ios": "YYYY年MMMd日, H:mm"
+  },
   "MMM. d, yyyy": {
     "web": "YYYY年MMMDD日",
     "ios": "YYYY年MMMd日"

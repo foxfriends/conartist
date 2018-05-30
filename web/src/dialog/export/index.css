@@ -48,6 +48,10 @@
   align-items: center;
 }
 
+.select {
+  width: 100%;
+}
+
 .info {
   margin-left: auto;
 }

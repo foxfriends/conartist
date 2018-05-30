@@ -1,9 +1,10 @@
 /* @flow */
 import { showSignupDialog, showSigninDialog } from '../update/splash'
-import { showExportProductsDialog } from '../update/dialog'
+import { showExportProductsDialog, showExportRecordsDialog } from '../update/dialog'
 import * as navigate from '../update/navigate'
 import { send, SaveProducts as SaveProductsEvent, SavePrices as SavePricesEvent } from '../event'
 import type { Action } from '../common/button'
+import type { Convention } from '../model/convention'
 
 export const LogIn: Action = {
   title: 'Sign in',
@@ -48,6 +49,13 @@ export const DiscardPrices: Action = {
 export const SavePrices: Action = {
   title: 'Save',
   action: () => send(SavePricesEvent),
+}
+
+export function ExportRecords(convention: Convention): Action {
+  return {
+    title: 'Export',
+    action: () => showExportRecordsDialog(convention),
+  }
 }
 
 export const SearchConventions: Action = {

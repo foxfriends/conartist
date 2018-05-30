@@ -112,8 +112,9 @@ export class ConArtist extends React.Component<Props, State> {
         break
 
       case 'convention-records':
-        state.toolbar = { primary: null, secondary: null, pageIcon: 'event' }
-        state.content = { name: 'convention-records', convention: model.page.convention }
+        const { convention } = model.page
+        state.toolbar = { primary: null, secondary: toolbarAction.ExportRecords(convention), pageIcon: 'event' }
+        state.content = { name: 'convention-records', convention }
         state.navigation = NavInfo.default.select('Conventions', [], INDIRECT)
         break
 

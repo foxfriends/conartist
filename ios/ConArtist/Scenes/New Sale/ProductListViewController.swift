@@ -17,6 +17,7 @@ class ProductListViewController: UIViewController {
     @IBOutlet weak var productsTableView: UITableView!
 
     fileprivate var productType: ProductType!
+    fileprivate var records: [Record]!
     fileprivate var products: [Product]!
     fileprivate var øselected: Variable<[Product]>!
 }
@@ -46,7 +47,7 @@ extension ProductListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProductTableViewCell.ID) as! ProductTableViewCell
         let product = products[indexPath.row]
-        cell.setup(with: product, count: øselected.value.count(occurrencesOf: product))
+        cell.setup(with: product, records: records, count: øselected.value.count(occurrencesOf: product))
         return cell
     }
 }
@@ -78,10 +79,11 @@ extension ProductListViewController: UITableViewDelegate {
 
 // MARK: - Navigation
 extension ProductListViewController {
-    class func show(for productType: ProductType, and products: [Product], selected øselected: Variable<[Product]>) {
+    class func show(for productType: ProductType, and products: [Product], records: [Record], selected øselected: Variable<[Product]>) {
         let controller: ProductListViewController = ProductListViewController.instantiate(withId: ProductListViewController.ID)
         controller.productType = productType
         controller.products = products
+        controller.records = records
         controller.øselected = øselected
         ConArtist.model.navigate(push: controller)
     }

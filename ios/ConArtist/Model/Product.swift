@@ -20,6 +20,11 @@ struct Product: Codable {
         quantity = product.quantity
         discontinued = product.discontinued
     }
+
+    func remainingQuantity(havingSold records: [Record]) -> Int {
+        let sold = records.reduce(0) { sold, record in sold + record.products.count(occurrencesOf: id) }
+        return max(0, quantity - sold)
+    }
 }
 
 extension Product: Equatable {

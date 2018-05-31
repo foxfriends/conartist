@@ -26,6 +26,7 @@ class ProductTypeListViewController: UIViewController {
     fileprivate let øproducts = Variable<[Product]>([])
     fileprivate let øprices = Variable<[Price]>([])
     fileprivate let øselected = Variable<[Product]>([])
+    fileprivate let ørecords = Variable<[Record]>([])
     fileprivate let ømoney = Variable<Money?>(nil)
 
     fileprivate var convention: Convention!
@@ -199,7 +200,7 @@ extension ProductTypeListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let productType = øproductTypes.value[indexPath.row]
         let products = øproducts.value.filter { $0.typeId == productType.id }
-        ProductListViewController.show(for: productType, and: products, selected: øselected)
+        ProductListViewController.show(for: productType, and: products, records: ørecords.value, selected: øselected)
     }
 }
 
@@ -268,6 +269,9 @@ extension ProductTypeListViewController {
 
         controller.editingRecord = record
         controller.convention = convention
+        convention.records
+            .bind(to: controller.ørecords)
+            .disposed(by: controller.disposeBag)
         convention.products
             .bind(to: controller.øproducts)
             .disposed(by: controller.disposeBag)

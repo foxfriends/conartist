@@ -14,10 +14,10 @@ class ProductTableViewCell: UITableViewCell {
     @IBOutlet weak var countView: UIView!
     @IBOutlet weak var countLabel: UILabel!
     @IBOutlet weak var inventoryLabel: UILabel!
-    func setup(with product: Product, count: Int) {
+    func setup(with product: Product, records: [Record], count: Int) {
         nameLabel.text = product.name
         countLabel.text = "\(count)"
         countView.isHidden = count == 0
-        inventoryLabel.text = "\(product.quantity)"
+        inventoryLabel.text = "\(max(0, product.remainingQuantity(havingSold: records) - count))"
     }
 }

@@ -10,6 +10,6 @@ import UIKit
 
 extension String {
     func withColor(_ color: UIColor) -> NSAttributedString {
-        return NSAttributedString(string: self, attributes: [NSForegroundColorAttributeName: color])
+        return NSAttributedString(string: self, attributes: [NSAttributedStringKey.foregroundColor: color])
     }
 }

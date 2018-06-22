@@ -13,22 +13,22 @@ extension UIFont {
         case smallCaps
         case tabularFigures
 
-        fileprivate var features: [[String: Int]] {
+        fileprivate var features: [[UIFontDescriptor.FeatureKey: Int]] {
             switch self {
             case .smallCaps:
                 let upperCaseFeature = [
-                    UIFontFeatureSelectorIdentifierKey: kUpperCaseSmallCapsSelector,
-                    UIFontFeatureTypeIdentifierKey: kUpperCaseType
+                    UIFontDescriptor.FeatureKey.featureIdentifier: kUpperCaseSmallCapsSelector,
+                    .typeIdentifier: kUpperCaseType
                 ]
                 let lowerCaseFeature = [
-                    UIFontFeatureSelectorIdentifierKey: kLowerCaseSmallCapsSelector,
-                    UIFontFeatureTypeIdentifierKey: kLowerCaseType
+                    UIFontDescriptor.FeatureKey.featureIdentifier: kLowerCaseSmallCapsSelector,
+                    .typeIdentifier: kLowerCaseType
                 ]
                 return [upperCaseFeature, lowerCaseFeature]
             case .tabularFigures:
                 let tabularFigures = [
-                    UIFontFeatureSelectorIdentifierKey: kProportionalNumbersSelector,
-                    UIFontFeatureTypeIdentifierKey: kNumberSpacingType
+                    UIFontDescriptor.FeatureKey.featureIdentifier: kProportionalNumbersSelector,
+                    .typeIdentifier: kNumberSpacingType
                 ]
                 return [tabularFigures]
             }
@@ -36,7 +36,7 @@ extension UIFont {
     }
 
     func usingFeatures(_ features: Set<Feature>) -> UIFont {
-        let descriptor = fontDescriptor.addingAttributes([UIFontDescriptorFeatureSettingsAttribute: features.flatMap { $0.features } ])
+        let descriptor = fontDescriptor.addingAttributes([.featureSettings: features.flatMap { $0.features } ])
         return UIFont(descriptor: descriptor, size: pointSize)
     }
 

@@ -10,7 +10,6 @@
 		321B75DA1F9BAD320055EBC4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321B75D91F9BAD320055EBC4 /* AppDelegate.swift */; };
 		321B75DC1F9BAD320055EBC4 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321B75DB1F9BAD320055EBC4 /* SignInViewController.swift */; };
 		321B75DF1F9BAD320055EBC4 /* SignIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 321B75DD1F9BAD320055EBC4 /* SignIn.storyboard */; };
-		321B75E21F9BAD320055EBC4 /* ConArtist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 321B75E01F9BAD320055EBC4 /* ConArtist.xcdatamodeld */; };
 		321B75E41F9BAD320055EBC4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 321B75E31F9BAD320055EBC4 /* Assets.xcassets */; };
 		321B75E71F9BAD320055EBC4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 321B75E51F9BAD320055EBC4 /* LaunchScreen.storyboard */; };
 		321F9007204F8CB700E2BA57 /* NewConventionUserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321F9006204F8CB700E2BA57 /* NewConventionUserInfoViewController.swift */; };
@@ -104,6 +103,7 @@
 		32CFB1D920DCB20200672EC9 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32CFB1D820DCB20200672EC9 /* Settings.storyboard */; };
 		32CFB1DB20DCB23B00672EC9 /* Sale.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32CFB1DA20DCB23B00672EC9 /* Sale.storyboard */; };
 		32CFB1DD20DCB3C800672EC9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32CFB1DC20DCB3C800672EC9 /* Main.storyboard */; };
+		32CFB1DF20DCB7B900672EC9 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32CFB1DE20DCB7B900672EC9 /* MapKit.framework */; };
 		32D45CB820A3F96200F7A67F /* Persist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D45CB720A3F96200F7A67F /* Persist.swift */; };
 		32D45CBA20A4A54400F7A67F /* Id.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D45CB920A4A54400F7A67F /* Id.swift */; };
 		32D45CBC20A4DBC600F7A67F /* TimeZone+UTC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D45CBB20A4DBC600F7A67F /* TimeZone+UTC.swift */; };
@@ -125,7 +125,6 @@
 		321B75D91F9BAD320055EBC4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		321B75DB1F9BAD320055EBC4 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		321B75DE1F9BAD320055EBC4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SignIn.storyboard; sourceTree = "<group>"; };
-		321B75E11F9BAD320055EBC4 /* ConArtist.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ConArtist.xcdatamodel; sourceTree = "<group>"; };
 		321B75E31F9BAD320055EBC4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		321B75E61F9BAD320055EBC4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		321B75E81F9BAD320055EBC4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -220,6 +219,7 @@
 		32CFB1D820DCB20200672EC9 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		32CFB1DA20DCB23B00672EC9 /* Sale.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Sale.storyboard; sourceTree = "<group>"; };
 		32CFB1DC20DCB3C800672EC9 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		32CFB1DE20DCB7B900672EC9 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		32D45CB720A3F96200F7A67F /* Persist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persist.swift; sourceTree = "<group>"; };
 		32D45CB920A4A54400F7A67F /* Id.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Id.swift; sourceTree = "<group>"; };
 		32D45CBB20A4DBC600F7A67F /* TimeZone+UTC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeZone+UTC.swift"; sourceTree = "<group>"; };
@@ -243,6 +243,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32CFB1DF20DCB7B900672EC9 /* MapKit.framework in Frameworks */,
 				C2E3ACC3210C151F27F71107 /* Pods_ConArtist.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -272,7 +273,6 @@
 			isa = PBXGroup;
 			children = (
 				327C5D77208179D7007EEF71 /* Config */,
-				321B75E01F9BAD320055EBC4 /* ConArtist.xcdatamodeld */,
 				321B75E81F9BAD320055EBC4 /* Info.plist */,
 				32B9100C20439F73002F9C94 /* generate-schemas */,
 				32B9100D20439F74002F9C94 /* resources.json */,
@@ -541,6 +541,7 @@
 		4FB42CF41256E760A79587D8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				32CFB1DE20DCB7B900672EC9 /* MapKit.framework */,
 				BE8B039676510BCEC679764D /* Pods_ConArtist.framework */,
 			);
 			name = Frameworks;
@@ -594,6 +595,11 @@
 						DevelopmentTeam = KT5TYPEMWT;
 						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -796,7 +802,6 @@
 				32E80BD4201700100008EC27 /* Money.swift in Sources */,
 				32CFB1D320DCAE4800672EC9 /* ViewControllerNavigation.swift in Sources */,
 				321B75DA1F9BAD320055EBC4 /* AppDelegate.swift in Sources */,
-				321B75E21F9BAD320055EBC4 /* ConArtist.xcdatamodeld in Sources */,
 				32892C44203530C800F1AD9C /* Array+Safe.swift in Sources */,
 				32B36EB720371BC700DA4593 /* FakeNavBar.swift in Sources */,
 				32B910172044F80B002F9C94 /* NewExpenseViewController.swift in Sources */,
@@ -975,7 +980,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = cameldridge.ConArtist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -994,7 +999,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = cameldridge.ConArtist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -1021,19 +1026,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		321B75E01F9BAD320055EBC4 /* ConArtist.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				321B75E11F9BAD320055EBC4 /* ConArtist.xcdatamodel */,
-			);
-			currentVersion = 321B75E11F9BAD320055EBC4 /* ConArtist.xcdatamodel */;
-			path = ConArtist.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 321B75CE1F9BAD320055EBC4 /* Project object */;
 }

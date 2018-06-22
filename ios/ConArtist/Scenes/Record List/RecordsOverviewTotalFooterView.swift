@@ -28,7 +28,7 @@ class RecordsOverviewTotalFooterView: UIView {
         addSubview(amountLabel)
         addSubview(lineView)
 
-        titleLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
+        titleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
         titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo: amountLabel.leadingAnchor, constant: 0).isActive = true
@@ -40,9 +40,9 @@ class RecordsOverviewTotalFooterView: UIView {
         lineView.heightAnchor.constraint(equalToConstant: 1).isActive = true
         lineView.backgroundColor = ConArtist.Color.DividerDark
 
-        titleLabel.font = UIFont.systemFont(ofSize: 14, weight: UIFontWeightSemibold)
+        titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         titleLabel.textColor = ConArtist.Color.Text
-        amountLabel.font = UIFont.systemFont(ofSize: 14, weight: UIFontWeightBold).usingFeatures([.tabularFigures])
+        amountLabel.font = UIFont.systemFont(ofSize: 14, weight: .bold).usingFeatures([.tabularFigures])
         amountLabel.textColor = ConArtist.Color.Text
         amountLabel.textAlignment = .right
 

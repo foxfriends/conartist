@@ -344,7 +344,7 @@ extension Convention {
 extension Convention {
     func addRecord(_ record: Record, save: Bool = true) -> Observable<Void> {
         guard let recordAdd = record.add(to: self) else {
-            return Observable.just()
+            return Observable.just(())
         }
         if !øaddedRecords.value.contains(where: { $0.id == record.id }) {
             øaddedRecords.value.append(record)
@@ -440,7 +440,7 @@ extension Convention {
 
     func addExpense(_ expense: Expense, save: Bool = true) -> Observable<Void> {
         guard let expenseAdd = expense.add(to: self) else {
-            return Observable.just()
+            return Observable.just(())
         }
         if !øaddedExpenses.value.contains(where: { $0.id == expense.id }) {
             øaddedExpenses.value.append(expense)

@@ -111,7 +111,6 @@
 		32E80BD7201700EB0008EC27 /* String+Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E80BD6201700EB0008EC27 /* String+Conversion.swift */; };
 		32F12C0E20353E840045D0BC /* FancyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F12C0D20353E840045D0BC /* FancyButton.swift */; };
 		32F12C10203544E60045D0BC /* UIFont+Features.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F12C0F203544E60045D0BC /* UIFont+Features.swift */; };
-		32F12C1220354E550045D0BC /* String+Attributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F12C1120354E550045D0BC /* String+Attributes.swift */; };
 		32F6F6441FF706AA00935554 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 32F6F6431FF706AA00935554 /* Images.xcassets */; };
 		C2E3ACC3210C151F27F71107 /* Pods_ConArtist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE8B039676510BCEC679764D /* Pods_ConArtist.framework */; };
 /* End PBXBuildFile section */
@@ -223,7 +222,6 @@
 		32E80BD6201700EB0008EC27 /* String+Conversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Conversion.swift"; sourceTree = "<group>"; };
 		32F12C0D20353E840045D0BC /* FancyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyButton.swift; sourceTree = "<group>"; };
 		32F12C0F203544E60045D0BC /* UIFont+Features.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Features.swift"; sourceTree = "<group>"; };
-		32F12C1120354E550045D0BC /* String+Attributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Attributes.swift"; sourceTree = "<group>"; };
 		32F6F6431FF706AA00935554 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		910953E2D95714FA5C58D57C /* Pods-ConArtist.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConArtist.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ConArtist/Pods-ConArtist.debug.xcconfig"; sourceTree = "<group>"; };
 		BE8B039676510BCEC679764D /* Pods_ConArtist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ConArtist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -435,7 +433,6 @@
 				321FDE832027D14B002DF04B /* Observable+Helpers.swift */,
 				32B36ED52040F57000DA4593 /* Optional+Helpers.swift */,
 				32C39C1F201E99A100071E26 /* Sequence+Helpers.swift */,
-				32F12C1120354E550045D0BC /* String+Attributes.swift */,
 				322C6A0E204CC8B40021A2D9 /* String+Display.swift */,
 				322AFB40205763C0005E56C8 /* String+Escape.swift */,
 				322AFB3E20574622005E56C8 /* String+JSON.swift */,
@@ -770,7 +767,6 @@
 				32C39C36201EA66800071E26 /* ConventionDetailsViewController.swift in Sources */,
 				324592971FEAFEE000DE89BB /* ConRequest.swift in Sources */,
 				32AE4169202553CF0061EB64 /* ProductTypeListViewController.swift in Sources */,
-				32F12C1220354E550045D0BC /* String+Attributes.swift in Sources */,
 				32892C4220352E9D00F1AD9C /* HighlightableView.swift in Sources */,
 				3266CEF720017E2C0016D5E6 /* UIColor+Hex.swift in Sources */,
 				32BC33EA1FEEF2420006256A /* Price.swift in Sources */,

@@ -189,7 +189,7 @@ extension RecordDetailsOverlayViewController: UITableViewDelegate {
 
 // MARK: - Navigation
 extension RecordDetailsOverlayViewController: ViewControllerNavigation {
-    static let StoryboardName = "Records"
+    static let Storyboard: Storyboard = .Records
     static let ID = "RecordDetailsOverlay"
 
     static func show(for record: Record, in convention: Convention, after: Date?) {

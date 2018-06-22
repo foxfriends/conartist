@@ -252,7 +252,7 @@ extension ConventionListViewController: UITableViewDelegate {
 
 // MARK: - Navigation
 extension ConventionListViewController: ViewControllerNavigation {
-    static let StoryboardName = "Main"
+    static let Storyboard: Storyboard = .Main
     static let ID = "ConventionList"
 
     static func show(animated: Bool = true) {

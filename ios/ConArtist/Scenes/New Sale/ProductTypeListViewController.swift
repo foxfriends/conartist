@@ -263,7 +263,7 @@ extension ProductTypeListViewController {
 
 // MARK: Navigation
 extension ProductTypeListViewController: ViewControllerNavigation {
-    static let StoryboardName = "Sale"
+    static let Storyboard: Storyboard = .Sale
     static let ID = "ProductTypeList"
 
     static func show(for convention: Convention, editing record: Record? = nil) -> Observable<([Product], Money, String)> {

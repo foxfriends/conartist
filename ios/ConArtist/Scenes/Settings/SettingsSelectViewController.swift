@@ -63,7 +63,7 @@ extension SettingsSelectViewController: UITableViewDelegate {
 
 // MARK: - Navigation
 extension SettingsSelectViewController: ViewControllerNavigation {
-    static let StoryboardName = "Settings"
+    static let Storyboard: Storyboard = .Settings
     static let ID = "SettingsSelect"
 
     static func show(title: String, value: Variable<String>, options: [String]) {

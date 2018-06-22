@@ -8,13 +8,22 @@
 
 import UIKit
 
+enum Storyboard: String {
+    case Main
+    case SignIn
+    case Convention
+    case Records
+    case Sale
+    case Settings
+}
+
 protocol ViewControllerNavigation {
-    static var StoryboardName: String { get }
+    static var Storyboard: Storyboard { get }
     static var ID: String { get }
 }
 
 extension ViewControllerNavigation {
     static func instantiate() -> Self {
-        return UIStoryboard(name: StoryboardName, bundle: nil).instantiateViewController(withIdentifier: ID) as! Self
+        return UIStoryboard(name: Storyboard.rawValue, bundle: nil).instantiateViewController(withIdentifier: ID) as! Self
     }
 }

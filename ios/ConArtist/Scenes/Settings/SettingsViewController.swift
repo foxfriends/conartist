@@ -103,7 +103,7 @@ extension SettingsViewController: UITableViewDelegate {
 
 // MARK: - Navigation
 extension SettingsViewController: ViewControllerNavigation {
-    static let StoryboardName = "Settings"
+    static let Storyboard: Storyboard = .Settings
     static let ID = "Settings"
 
     static func show(for settings: [Group]) {

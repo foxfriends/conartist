@@ -24,11 +24,17 @@ with the latest event information, and see what your fellow artists have to say,
 *   Data import/export
     *   Existing spreadsheets of inventory data can be easily imported
     *   Export inventory and sales data for your own further processing
-*   Con chat
-    *   Chat with other artists at the same convention (please be civil)
 *   Offline mode
     *   Works even if you don't have internet access in the convention center (just make sure you
         load everything up before you get there!)
+
+## Future features
+
+*   Con chat
+    *   Chat with other artists at the same convention (please be civil)
+*   Advanced categorization
+    *   Add tags to items so you can search and filter in more complex ways!
+    *   Item sets, using the individual items' inventories, but sold as one item
 
 # Contribution
 

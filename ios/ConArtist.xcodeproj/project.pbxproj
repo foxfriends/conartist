@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		321B75DA1F9BAD320055EBC4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321B75D91F9BAD320055EBC4 /* AppDelegate.swift */; };
 		321B75DC1F9BAD320055EBC4 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321B75DB1F9BAD320055EBC4 /* SignInViewController.swift */; };
-		321B75DF1F9BAD320055EBC4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 321B75DD1F9BAD320055EBC4 /* Main.storyboard */; };
+		321B75DF1F9BAD320055EBC4 /* SignIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 321B75DD1F9BAD320055EBC4 /* SignIn.storyboard */; };
 		321B75E21F9BAD320055EBC4 /* ConArtist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 321B75E01F9BAD320055EBC4 /* ConArtist.xcdatamodeld */; };
 		321B75E41F9BAD320055EBC4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 321B75E31F9BAD320055EBC4 /* Assets.xcassets */; };
 		321B75E71F9BAD320055EBC4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 321B75E51F9BAD320055EBC4 /* LaunchScreen.storyboard */; };
@@ -100,6 +100,10 @@
 		32C9F9BE20265A840004566E /* Prices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C9F9BD20265A840004566E /* Prices.swift */; };
 		32CFB1D320DCAE4800672EC9 /* ViewControllerNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CFB1D220DCAE4800672EC9 /* ViewControllerNavigation.swift */; };
 		32CFB1D520DCB0EB00672EC9 /* String+Attributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CFB1D420DCB0EB00672EC9 /* String+Attributes.swift */; };
+		32CFB1D720DCB16300672EC9 /* Convention.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32CFB1D620DCB16300672EC9 /* Convention.storyboard */; };
+		32CFB1D920DCB20200672EC9 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32CFB1D820DCB20200672EC9 /* Settings.storyboard */; };
+		32CFB1DB20DCB23B00672EC9 /* Sale.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32CFB1DA20DCB23B00672EC9 /* Sale.storyboard */; };
+		32CFB1DD20DCB3C800672EC9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32CFB1DC20DCB3C800672EC9 /* Main.storyboard */; };
 		32D45CB820A3F96200F7A67F /* Persist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D45CB720A3F96200F7A67F /* Persist.swift */; };
 		32D45CBA20A4A54400F7A67F /* Id.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D45CB920A4A54400F7A67F /* Id.swift */; };
 		32D45CBC20A4DBC600F7A67F /* TimeZone+UTC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D45CBB20A4DBC600F7A67F /* TimeZone+UTC.swift */; };
@@ -120,7 +124,7 @@
 		321B75D61F9BAD320055EBC4 /* ConArtist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConArtist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		321B75D91F9BAD320055EBC4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		321B75DB1F9BAD320055EBC4 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
-		321B75DE1F9BAD320055EBC4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		321B75DE1F9BAD320055EBC4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SignIn.storyboard; sourceTree = "<group>"; };
 		321B75E11F9BAD320055EBC4 /* ConArtist.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ConArtist.xcdatamodel; sourceTree = "<group>"; };
 		321B75E31F9BAD320055EBC4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		321B75E61F9BAD320055EBC4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -212,6 +216,10 @@
 		32C9F9BD20265A840004566E /* Prices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prices.swift; sourceTree = "<group>"; };
 		32CFB1D220DCAE4800672EC9 /* ViewControllerNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerNavigation.swift; sourceTree = "<group>"; };
 		32CFB1D420DCB0EB00672EC9 /* String+Attributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Attributes.swift"; sourceTree = "<group>"; };
+		32CFB1D620DCB16300672EC9 /* Convention.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Convention.storyboard; sourceTree = "<group>"; };
+		32CFB1D820DCB20200672EC9 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
+		32CFB1DA20DCB23B00672EC9 /* Sale.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Sale.storyboard; sourceTree = "<group>"; };
+		32CFB1DC20DCB3C800672EC9 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		32D45CB720A3F96200F7A67F /* Persist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persist.swift; sourceTree = "<group>"; };
 		32D45CB920A4A54400F7A67F /* Id.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Id.swift; sourceTree = "<group>"; };
 		32D45CBB20A4DBC600F7A67F /* TimeZone+UTC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeZone+UTC.swift"; sourceTree = "<group>"; };
@@ -333,7 +341,11 @@
 			isa = PBXGroup;
 			children = (
 				321B75E51F9BAD320055EBC4 /* LaunchScreen.storyboard */,
-				321B75DD1F9BAD320055EBC4 /* Main.storyboard */,
+				321B75DD1F9BAD320055EBC4 /* SignIn.storyboard */,
+				32CFB1DC20DCB3C800672EC9 /* Main.storyboard */,
+				32CFB1D620DCB16300672EC9 /* Convention.storyboard */,
+				32CFB1D820DCB20200672EC9 /* Settings.storyboard */,
+				32CFB1DA20DCB23B00672EC9 /* Sale.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -615,13 +627,17 @@
 				322C6A19204E231B0021A2D9 /* thumb_up.svg in Resources */,
 				32F6F6441FF706AA00935554 /* Images.xcassets in Resources */,
 				321B75E41F9BAD320055EBC4 /* Assets.xcassets in Resources */,
+				32CFB1DB20DCB23B00672EC9 /* Sale.storyboard in Resources */,
 				32B9101020439F75002F9C94 /* resources.json in Resources */,
 				327C5D7B20817AD1007EEF71 /* Release.plist in Resources */,
 				32B9102B204B32C4002F9C94 /* chevron_up.svg in Resources */,
-				321B75DF1F9BAD320055EBC4 /* Main.storyboard in Resources */,
+				32CFB1DD20DCB3C800672EC9 /* Main.storyboard in Resources */,
+				321B75DF1F9BAD320055EBC4 /* SignIn.storyboard in Resources */,
 				322C6A0B204CC2170021A2D9 /* localization in Resources */,
+				32CFB1D720DCB16300672EC9 /* Convention.storyboard in Resources */,
 				32B9102C204B32C4002F9C94 /* chevron_down.svg in Resources */,
 				32B9100F20439F75002F9C94 /* generate-schemas in Resources */,
+				32CFB1D920DCB20200672EC9 /* Settings.storyboard in Resources */,
 				322C6A18204E231B0021A2D9 /* thumb_down.svg in Resources */,
 				32B3026A2050B8B5000F7F2A /* Colors.xcassets in Resources */,
 			);
@@ -819,12 +835,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		321B75DD1F9BAD320055EBC4 /* Main.storyboard */ = {
+		321B75DD1F9BAD320055EBC4 /* SignIn.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				321B75DE1F9BAD320055EBC4 /* Base */,
 			);
-			name = Main.storyboard;
+			name = SignIn.storyboard;
 			sourceTree = "<group>";
 		};
 		321B75E51F9BAD320055EBC4 /* LaunchScreen.storyboard */ = {

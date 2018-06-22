@@ -116,7 +116,7 @@ extension RecordListViewController: UITableViewDelegate {
 
 // MARK: - Navigation
 extension RecordListViewController: ViewControllerNavigation {
-    static let StoryboardName = "Main"
+    static let StoryboardName = "Convention"
     static let ID = "RecordList"
 
     static func show(for convention: Convention, after: Date, before: Date) {

@@ -8,7 +8,6 @@
 
 import UIKit
 
-@IBDesignable
 class HighlightableView: UIView {
     @IBInspectable var defaultColor: UIColor = ConArtist.Color.Divider {
         didSet {

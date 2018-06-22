@@ -8,7 +8,6 @@
 
 import UIKit
 
-@IBDesignable
 class FancyButton: UIButton {
     private func onInit() {
         layer.cornerRadius = frame.height / 2

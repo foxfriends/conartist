@@ -9,7 +9,6 @@
 import UIKit
 import RxSwift
 
-@IBDesignable
 class FancyTextField: UITextField {
     private let disposeBag = DisposeBag()
     private let underlineView = HighlightableView()

@@ -8,7 +8,6 @@
 
 import UIKit
 
-@IBDesignable
 class FakeNavBar: UIView {
     private static let NavBarHeight: CGFloat = 44.0
 

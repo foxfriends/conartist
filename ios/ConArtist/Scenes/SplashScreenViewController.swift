@@ -8,9 +8,7 @@
 
 import UIKit
 
-class SplashScreenViewController: UIViewController {
-    static let ID = "SplashScreen"
-}
+class SplashScreenViewController: UIViewController {}
 
 // MARK: - Lifecycle
 extension SplashScreenViewController {
@@ -35,9 +33,12 @@ extension SplashScreenViewController {
 }
 
 // MARK: - Navigation
-extension SplashScreenViewController {
-    class func show() {
-        let controller = SplashScreenViewController.instantiate(withId: SplashScreenViewController.ID)
+extension SplashScreenViewController: ViewControllerNavigation {
+    static let StoryboardName = "Main"
+    static let ID = "SplashScreen"
+
+    static func show() {
+        let controller = instantiate()
         ConArtist.model.navigate(replace: controller)
     }
 }

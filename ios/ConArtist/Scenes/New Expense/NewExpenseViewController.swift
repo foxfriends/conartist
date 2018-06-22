@@ -10,7 +10,6 @@ import UIKit
 import RxSwift
 
 class NewExpenseViewController: UIViewController {
-    fileprivate static let ID = "NewExpense"
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var categoryTextField: FancyTextField!
     @IBOutlet weak var amountTextField: FancyTextField!
@@ -133,9 +132,12 @@ extension NewExpenseViewController {
 }
 
 // MARK: - Navigation
-extension NewExpenseViewController {
-    class func show(editing expense: Expense? = nil) -> Observable<(String, String, Money)> {
-        let controller: NewExpenseViewController = NewExpenseViewController.instantiate(withId: NewExpenseViewController.ID)
+extension NewExpenseViewController: ViewControllerNavigation {
+    static let StoryboardName = "Main"
+    static let ID = "NewExpense"
+
+    static func show(editing expense: Expense? = nil) -> Observable<(String, String, Money)> {
+        let controller = instantiate()
         controller.editingExpense = expense
         ConArtist.model.navigate(present: controller)
         return controller.results.asObservable()

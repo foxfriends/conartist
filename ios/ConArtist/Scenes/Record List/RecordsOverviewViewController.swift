@@ -36,8 +36,6 @@ class RecordsOverviewViewController: UIViewController {
         }
     }
 
-    static let ID = "RecordsOverview"
-
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var recordsTableView: UITableView!
     @IBOutlet weak var netProfitLabel: UILabel!
@@ -260,9 +258,12 @@ extension RecordsOverviewViewController: UITableViewDelegate {
 }
 
 // MARK: - Navigation
-extension RecordsOverviewViewController {
-    class func show(for convention: Convention) {
-        let controller: RecordsOverviewViewController = RecordsOverviewViewController.instantiate(withId: RecordsOverviewViewController.ID)
+extension RecordsOverviewViewController: ViewControllerNavigation {
+    static let StoryboardName = "Main"
+    static let ID = "RecordsOverview"
+
+    static func show(for convention: Convention) {
+        let controller = instantiate()
         controller.convention = convention
         ConArtist.model.navigate(push: controller)
     }

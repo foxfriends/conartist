@@ -10,7 +10,6 @@ import UIKit
 import RxSwift
 
 class ConventionDetailsViewController : UIViewController {
-    fileprivate static let ID = "ConventionDetails"
     fileprivate let disposeBag = DisposeBag()
 
     @IBOutlet weak var navBar: FakeNavBar!
@@ -254,9 +253,12 @@ extension ConventionDetailsViewController: UITableViewDelegate {
 }
 
 // MARK: - Navigation
-extension ConventionDetailsViewController {
-    class func show(for convention: Convention) {
-        let controller: ConventionDetailsViewController = ConventionDetailsViewController.instantiate(withId: ConventionDetailsViewController.ID)
+extension ConventionDetailsViewController: ViewControllerNavigation {
+    static let StoryboardName = "Main"
+    static let ID = "ConventionDetails"
+
+    static func show(for convention: Convention) {
+        let controller = instantiate()
         controller.convention = convention
         ConArtist.model.navigate(push: controller)
     }

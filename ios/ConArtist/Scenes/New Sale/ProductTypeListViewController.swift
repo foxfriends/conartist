@@ -11,7 +11,6 @@ import RxSwift
 import SVGKit
 
 class ProductTypeListViewController: UIViewController {
-    fileprivate static let ID = "ProductTypeList"
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var productTypeTableView: UITableView!
     @IBOutlet weak var priceField: FancyTextField!
@@ -263,9 +262,12 @@ extension ProductTypeListViewController {
 }
 
 // MARK: Navigation
-extension ProductTypeListViewController {
-    class func show(for convention: Convention, editing record: Record? = nil) -> Observable<([Product], Money, String)> {
-        let controller: ProductTypeListViewController = ProductTypeListViewController.instantiate(withId: ProductTypeListViewController.ID)
+extension ProductTypeListViewController: ViewControllerNavigation {
+    static let StoryboardName = "Main"
+    static let ID = "ProductTypeList"
+
+    static func show(for convention: Convention, editing record: Record? = nil) -> Observable<([Product], Money, String)> {
+        let controller = instantiate()
 
         controller.editingRecord = record
         controller.convention = convention

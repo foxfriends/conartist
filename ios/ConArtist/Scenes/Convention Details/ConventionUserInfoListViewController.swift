@@ -10,7 +10,6 @@ import UIKit
 import RxSwift
 
 class ConventionUserInfoListViewController: UIViewController {
-    static let ID = "ConventionUserInfoList"
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var infoTableView: UITableView!
     @IBOutlet weak var emptyStateView: UIView!
@@ -145,9 +144,12 @@ extension ConventionUserInfoListViewController: UITableViewDelegate {
 }
 
 // MARK: - Navigation
-extension ConventionUserInfoListViewController {
-    class func show(for convention: Convention) {
-        let controller: ConventionUserInfoListViewController = ConventionUserInfoListViewController.instantiate(withId: ConventionUserInfoListViewController.ID)
+extension ConventionUserInfoListViewController: ViewControllerNavigation {
+    static let ID = "ConventionUserInfoList"
+    static let StoryboardName = "Main"
+
+    static func show(for convention: Convention) {
+        let controller = instantiate()
 
         controller.convention = convention
         convention.userInfo

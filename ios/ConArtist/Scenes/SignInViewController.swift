@@ -11,8 +11,6 @@ import RxSwift
 import RxCocoa
 
 class SignInViewController: UIViewController {
-    fileprivate static let ID = "SignIn"
-    
     fileprivate enum ErrorState {
         case IncorrectCredentials
         
@@ -124,9 +122,12 @@ extension SignInViewController {
 }
 
 // MARK: - Navigation
-extension SignInViewController {
-    class func show(animated: Bool = true) {
-        let controller = SignInViewController.instantiate(withId: SignInViewController.ID)
+extension SignInViewController: ViewControllerNavigation {
+    static let StoryboardName = "Main"
+    static let ID = "SignIn"
+
+    static func show(animated: Bool = true) {
+        let controller = instantiate()
         if animated {
             ConArtist.model.navigate(push: controller)
         } else {

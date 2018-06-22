@@ -10,7 +10,6 @@ import UIKit
 import RxSwift
 
 class ProductListViewController: UIViewController {
-    fileprivate static let ID = "ProductList"
     fileprivate let disposeBag = DisposeBag()
 
     @IBOutlet weak var navBar: FakeNavBar!
@@ -78,9 +77,12 @@ extension ProductListViewController: UITableViewDelegate {
 }
 
 // MARK: - Navigation
-extension ProductListViewController {
-    class func show(for productType: ProductType, and products: [Product], records: [Record], selected øselected: Variable<[Product]>) {
-        let controller: ProductListViewController = ProductListViewController.instantiate(withId: ProductListViewController.ID)
+extension ProductListViewController: ViewControllerNavigation {
+    static let StoryboardName = "Main"
+    static let ID = "ProductList"
+
+    static func show(for productType: ProductType, and products: [Product], records: [Record], selected øselected: Variable<[Product]>) {
+        let controller = instantiate()
         controller.productType = productType
         controller.products = products
         controller.records = records

@@ -21,7 +21,6 @@ extension Convention {
 
 
 class AllConventionsListViewController: UIViewController {
-    fileprivate static let ID = "AllConventionsList"
     fileprivate let øconventions = Variable<[Convention]>([])
     fileprivate let disposeBag = DisposeBag()
 
@@ -94,9 +93,12 @@ extension AllConventionsListViewController: UITableViewDelegate {
 }
 
 // MARK: - Navigation
-extension AllConventionsListViewController {
-    class func show(conventions: Observable<[Convention]>) {
-        let controller: AllConventionsListViewController = AllConventionsListViewController.instantiate(withId: AllConventionsListViewController.ID)
+extension AllConventionsListViewController: ViewControllerNavigation {
+    static let StoryboardName = "Main"
+    static let ID = "AllConventionsList"
+
+    static func show(conventions: Observable<[Convention]>) {
+        let controller = instantiate()
         conventions
             .bind(to: controller.øconventions)
             .disposed(by: controller.disposeBag)

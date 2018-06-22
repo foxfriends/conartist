@@ -10,8 +10,6 @@ import UIKit
 import RxSwift
 
 class SettingsViewController: UIViewController {
-    static let ID = "Settings"
-
     enum Setting {
         case Action(String, () -> Void)
         case Boolean(String, Variable<Bool>)
@@ -104,9 +102,12 @@ extension SettingsViewController: UITableViewDelegate {
 }
 
 // MARK: - Navigation
-extension SettingsViewController {
-    class func show(for settings: [Group]) {
-        let controller: SettingsViewController = SettingsViewController.instantiate(withId: SettingsViewController.ID)
+extension SettingsViewController: ViewControllerNavigation {
+    static let StoryboardName = "Main"
+    static let ID = "Settings"
+
+    static func show(for settings: [Group]) {
+        let controller = instantiate()
         controller.settings = settings
         ConArtist.model.navigate(present: controller)
     }

@@ -59,8 +59,6 @@ class ConventionListViewController: UIViewController {
         }
     }
 
-    fileprivate static let ID = "ConventionList"
-
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var conventionsTableView: UITableView!
 
@@ -253,9 +251,12 @@ extension ConventionListViewController: UITableViewDelegate {
 }
 
 // MARK: - Navigation
-extension ConventionListViewController {
-    class func show(animated: Bool = true) {
-        let controller = ConventionListViewController.instantiate(withId: ConventionListViewController.ID)
+extension ConventionListViewController: ViewControllerNavigation {
+    static let StoryboardName = "Main"
+    static let ID = "ConventionList"
+
+    static func show(animated: Bool = true) {
+        let controller = instantiate()
         if animated {
             ConArtist.model.navigate(push: controller)
         } else {

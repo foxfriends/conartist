@@ -10,7 +10,6 @@ import UIKit
 import RxSwift
 
 class ExpenseDetailsOverlayViewController: UIViewController {
-    fileprivate static let ID = "ExpenseDetailsOverlay"
     fileprivate static let AnimationDuration = 0.25
 
     @IBOutlet weak var titleLabel: UILabel!
@@ -142,9 +141,12 @@ extension ExpenseDetailsOverlayViewController {
 }
 
 // MARK: - Navigation
-extension ExpenseDetailsOverlayViewController {
-    class func show(for expense: Expense, in convention: Convention) {
-        let controller: ExpenseDetailsOverlayViewController = ExpenseDetailsOverlayViewController.instantiate(withId: ExpenseDetailsOverlayViewController.ID)
+extension ExpenseDetailsOverlayViewController: ViewControllerNavigation {
+    static let StoryboardName = "Main"
+    static let ID = "ExpenseDetailsOverlay"
+
+    static func show(for expense: Expense, in convention: Convention) {
+        let controller = instantiate()
         controller.expense = expense
         controller.convention = convention
         ConArtist.model.navigate(show: controller)

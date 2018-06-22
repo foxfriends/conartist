@@ -11,8 +11,6 @@ import UIKit
 import RxSwift
 
 class NewConventionUserInfoViewController: UIViewController {
-    static let ID = "NewConventionUserInfo"
-
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var infoTextView: UITextView!
     @IBOutlet weak var disclaimerLabel: UILabel!
@@ -60,9 +58,12 @@ extension NewConventionUserInfoViewController {
 }
 
 // MARK: - Navigation
-extension NewConventionUserInfoViewController {
-    class func show() -> Observable<String> {
-        let controller: NewConventionUserInfoViewController = NewConventionUserInfoViewController.instantiate(withId: NewConventionUserInfoViewController.ID)
+extension NewConventionUserInfoViewController: ViewControllerNavigation {
+    static let StoryboardName = "Main"
+    static let ID = "NewConventionUserInfo"
+
+    static func show() -> Observable<String> {
+        let controller = instantiate()
         ConArtist.model.navigate(push: controller)
         return controller.øresults.asObservable()
     }

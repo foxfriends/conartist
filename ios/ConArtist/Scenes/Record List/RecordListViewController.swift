@@ -10,7 +10,6 @@ import UIKit
 import RxSwift
 
 class RecordListViewController: UIViewController {
-    fileprivate static let ID = "RecordList"
     @IBOutlet weak var recordsTableView: UITableView!
     @IBOutlet weak var navBar: FakeNavBar!
 
@@ -116,9 +115,12 @@ extension RecordListViewController: UITableViewDelegate {
 }
 
 // MARK: - Navigation
-extension RecordListViewController {
-    class func show(for convention: Convention, after: Date, before: Date) {
-        let controller: RecordListViewController = RecordListViewController.instantiate(withId: RecordListViewController.ID)
+extension RecordListViewController: ViewControllerNavigation {
+    static let StoryboardName = "Main"
+    static let ID = "RecordList"
+
+    static func show(for convention: Convention, after: Date, before: Date) {
+        let controller = instantiate()
         controller.convention = convention
         controller.after = after
         controller.before = before

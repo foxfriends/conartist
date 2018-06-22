@@ -10,7 +10,6 @@ import UIKit
 import RxSwift
 
 class SettingsSelectViewController: UIViewController {
-    static let ID = "SettingsSelect"
     let disposeBag = DisposeBag()
 
     fileprivate var navBarTitle: String?
@@ -63,9 +62,12 @@ extension SettingsSelectViewController: UITableViewDelegate {
 }
 
 // MARK: - Navigation
-extension SettingsSelectViewController {
-    class func show(title: String, value: Variable<String>, options: [String]) {
-        let controller: SettingsSelectViewController = SettingsSelectViewController.instantiate(withId: SettingsSelectViewController.ID)
+extension SettingsSelectViewController: ViewControllerNavigation {
+    static let StoryboardName = "Main"
+    static let ID = "SettingsSelect"
+
+    static func show(title: String, value: Variable<String>, options: [String]) {
+        let controller = instantiate()
         controller.value = value
         controller.options = options
         controller.navBarTitle = title

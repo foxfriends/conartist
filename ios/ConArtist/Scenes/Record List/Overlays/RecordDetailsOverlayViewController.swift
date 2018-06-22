@@ -10,7 +10,6 @@ import UIKit
 import RxSwift
 
 class RecordDetailsOverlayViewController: UIViewController {
-    fileprivate static let ID = "RecordDetailsOverlay"
     fileprivate static let AnimationDuration = 0.25
 
     @IBOutlet weak var navBar: FakeNavBar!
@@ -192,9 +191,12 @@ extension RecordDetailsOverlayViewController: UITableViewDelegate {
 }
 
 // MARK: - Navigation
-extension RecordDetailsOverlayViewController {
-    class func show(for record: Record, in convention: Convention, after: Date?) {
-        let controller: RecordDetailsOverlayViewController = RecordDetailsOverlayViewController.instantiate(withId: RecordDetailsOverlayViewController.ID)
+extension RecordDetailsOverlayViewController: ViewControllerNavigation {
+    static let StoryboardName = "Main"
+    static let ID = "RecordDetailsOverlay"
+
+    static func show(for record: Record, in convention: Convention, after: Date?) {
+        let controller = instantiate()
         controller.record = record
         controller.convention = convention
         controller.after = after

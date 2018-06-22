@@ -19,7 +19,7 @@ extension SplashScreenViewController {
             let _ = ConArtist.API.Auth.reauthorize()
                 .subscribe(
                     onError: { error in
-                        print("Sign in failed: \(error)")
+                        debug("Sign in failed: \(error)")
                         if error as? ConArtist.Error != nil {
                             ConArtist.model.navigate(backTo: SignInViewController.self)
                             ConArtist.API.Auth.authToken = ConArtist.API.Auth.Unauthorized

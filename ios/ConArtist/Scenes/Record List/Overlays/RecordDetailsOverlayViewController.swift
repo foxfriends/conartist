@@ -98,10 +98,7 @@ extension RecordDetailsOverlayViewController {
                 return newRecord
             }
             .flatMap { [convention] record in convention!.updateRecord(record) }
-            .subscribe(
-                onNext: { print("SAVED") },
-                onError: { print("FAILED TO SAVE: \($0)") }
-            )
+            .subscribe()
             .disposed(by: disposeBag)
     }
 }

@@ -37,7 +37,7 @@ extension ApolloClient {
                 }
                 return Disposables.create()
             }
-            .catchError { error in print(error); throw error }
+            .catchError { error in throw debug(error) }
     }
 
     func observe<Mutation: GraphQLMutation>(mutation: Mutation, queue: DispatchQueue = DispatchQueue.main) -> Observable<Mutation.Data> {
@@ -61,6 +61,6 @@ extension ApolloClient {
                 }
                 return Disposables.create()
             }
-            .catchError { error in print(error); throw error }
+            .catchError { error in throw debug(error) }
     }
 }

@@ -85,10 +85,7 @@ extension ExpenseDetailsOverlayViewController {
                 return newExpense
             }
             .flatMap { [convention] expense in convention!.updateExpense(expense) }
-            .subscribe(
-                onNext: { print("SAVED") },
-                onError: { print("FAILED TO SAVE: \($0)") }
-            )
+            .subscribe()
             .disposed(by: disposeBag)
     }
 }

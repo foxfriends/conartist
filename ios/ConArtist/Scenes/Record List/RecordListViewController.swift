@@ -98,11 +98,7 @@ extension RecordListViewController: UITableViewDelegate {
         var actions: [UIContextualAction] = []
         if !convention.isEnded {
             let deleteAction = UIContextualAction(style: .normal, title: "Delete"¡) { [convention] _, _, reset in
-                let _ = convention?.deleteRecord(record)
-                    .subscribe(
-                        onNext: { print("SAVED") },
-                        onError: { print("FAILED TO SAVE \($0)") }
-                    )
+                let _ = convention?.deleteRecord(record).subscribe()
                 reset(true)
             }
             deleteAction.backgroundColor = ConArtist.Color.Warn

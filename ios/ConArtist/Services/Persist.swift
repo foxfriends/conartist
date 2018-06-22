@@ -20,9 +20,9 @@ extension ConArtist {
             do {
                 let jsonModel = try encoder.encode(ConArtist.model)
                 try jsonModel.write(to: CachePath)
-                print("Model is persisted")
+                debug("Model is persisted")
             } catch {
-                print("FAILED TO PERSIST \(error)")
+                debug("FAILED TO PERSIST \(error)")
             }
         }
 
@@ -30,10 +30,10 @@ extension ConArtist {
             do {
                 let jsonModel = try Data(contentsOf: CachePath)
                 let decoder = JSONDecoder()
-                print("Model loaded")
+                debug("Model loaded")
                 return try decoder.decode(Model.self, from: jsonModel)
             } catch {
-                print("FAILED TO LOAD \(error)")
+                debug("FAILED TO LOAD \(error)")
                 return Model()
             }
         }

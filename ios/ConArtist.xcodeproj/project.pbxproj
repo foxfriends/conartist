@@ -104,6 +104,7 @@
 		32CFB1DB20DCB23B00672EC9 /* Sale.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32CFB1DA20DCB23B00672EC9 /* Sale.storyboard */; };
 		32CFB1DD20DCB3C800672EC9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32CFB1DC20DCB3C800672EC9 /* Main.storyboard */; };
 		32CFB1DF20DCB7B900672EC9 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32CFB1DE20DCB7B900672EC9 /* MapKit.framework */; };
+		32CFB1E120DCBABA00672EC9 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CFB1E020DCBABA00672EC9 /* Debug.swift */; };
 		32D45CB820A3F96200F7A67F /* Persist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D45CB720A3F96200F7A67F /* Persist.swift */; };
 		32D45CBA20A4A54400F7A67F /* Id.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D45CB920A4A54400F7A67F /* Id.swift */; };
 		32D45CBC20A4DBC600F7A67F /* TimeZone+UTC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D45CBB20A4DBC600F7A67F /* TimeZone+UTC.swift */; };
@@ -220,6 +221,7 @@
 		32CFB1DA20DCB23B00672EC9 /* Sale.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Sale.storyboard; sourceTree = "<group>"; };
 		32CFB1DC20DCB3C800672EC9 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		32CFB1DE20DCB7B900672EC9 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		32CFB1E020DCBABA00672EC9 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		32D45CB720A3F96200F7A67F /* Persist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persist.swift; sourceTree = "<group>"; };
 		32D45CB920A4A54400F7A67F /* Id.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Id.swift; sourceTree = "<group>"; };
 		32D45CBB20A4DBC600F7A67F /* TimeZone+UTC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeZone+UTC.swift"; sourceTree = "<group>"; };
@@ -441,6 +443,7 @@
 			isa = PBXGroup;
 			children = (
 				32B36EE02042085400DA4593 /* Functional */,
+				32CFB1E020DCBABA00672EC9 /* Debug.swift */,
 				32C39C1B201E812D00071E26 /* ApolloClient+Rx.swift */,
 				32892C43203530C800F1AD9C /* Array+Safe.swift */,
 				324592AD1FEC314900DE89BB /* Date+Helpers.swift */,
@@ -776,6 +779,7 @@
 				324592AC1FEC2EA500DE89BB /* Convention.swift in Sources */,
 				32B3026C2050E09B000F7F2A /* RecordsOverviewViewController.swift in Sources */,
 				324592AA1FEC2E7900DE89BB /* Model.swift in Sources */,
+				32CFB1E120DCBABA00672EC9 /* Debug.swift in Sources */,
 				325EAB2320524C5500B1BE3E /* RecordsOverviewTotalFooterView.swift in Sources */,
 				32D45CBA20A4A54400F7A67F /* Id.swift in Sources */,
 				32C39C32201EA5B400071E26 /* ConventionTableViewCell.swift in Sources */,

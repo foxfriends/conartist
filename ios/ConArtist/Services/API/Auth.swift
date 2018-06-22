@@ -23,7 +23,7 @@ extension ConArtist.API {
             set {
                 _authToken = newValue
                 if !ConArtist.Keychain.store(value: authToken, for: .AuthToken) {
-                    print("Archival of authToken has failed. User will need to sign in again later")
+                    debug("Archival of authToken has failed. User will need to sign in again later")
                 }
                 let config = URLSessionConfiguration.default
                 config.httpAdditionalHeaders = ["Authorization": "Bearer \(authToken)"]

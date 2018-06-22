@@ -255,7 +255,7 @@ extension RecordsOverviewViewController: UITableViewDelegate {
 
 // MARK: - Navigation
 extension RecordsOverviewViewController: ViewControllerNavigation {
-    static let StoryboardName = "Convention"
+    static let StoryboardName = "Records"
     static let ID = "RecordsOverview"
 
     static func show(for convention: Convention) {

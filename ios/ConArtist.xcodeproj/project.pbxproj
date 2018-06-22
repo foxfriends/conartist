@@ -105,6 +105,7 @@
 		32CFB1DD20DCB3C800672EC9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32CFB1DC20DCB3C800672EC9 /* Main.storyboard */; };
 		32CFB1DF20DCB7B900672EC9 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32CFB1DE20DCB7B900672EC9 /* MapKit.framework */; };
 		32CFB1E120DCBABA00672EC9 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CFB1E020DCBABA00672EC9 /* Debug.swift */; };
+		32CFB1E320DCBC5D00672EC9 /* Records.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32CFB1E220DCBC5D00672EC9 /* Records.storyboard */; };
 		32D45CB820A3F96200F7A67F /* Persist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D45CB720A3F96200F7A67F /* Persist.swift */; };
 		32D45CBA20A4A54400F7A67F /* Id.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D45CB920A4A54400F7A67F /* Id.swift */; };
 		32D45CBC20A4DBC600F7A67F /* TimeZone+UTC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D45CBB20A4DBC600F7A67F /* TimeZone+UTC.swift */; };
@@ -222,6 +223,7 @@
 		32CFB1DC20DCB3C800672EC9 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		32CFB1DE20DCB7B900672EC9 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		32CFB1E020DCBABA00672EC9 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
+		32CFB1E220DCBC5D00672EC9 /* Records.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Records.storyboard; sourceTree = "<group>"; };
 		32D45CB720A3F96200F7A67F /* Persist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persist.swift; sourceTree = "<group>"; };
 		32D45CB920A4A54400F7A67F /* Id.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Id.swift; sourceTree = "<group>"; };
 		32D45CBB20A4DBC600F7A67F /* TimeZone+UTC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeZone+UTC.swift"; sourceTree = "<group>"; };
@@ -348,6 +350,7 @@
 				32CFB1D620DCB16300672EC9 /* Convention.storyboard */,
 				32CFB1D820DCB20200672EC9 /* Settings.storyboard */,
 				32CFB1DA20DCB23B00672EC9 /* Sale.storyboard */,
+				32CFB1E220DCBC5D00672EC9 /* Records.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -645,6 +648,7 @@
 				322C6A0B204CC2170021A2D9 /* localization in Resources */,
 				32CFB1D720DCB16300672EC9 /* Convention.storyboard in Resources */,
 				32B9102C204B32C4002F9C94 /* chevron_down.svg in Resources */,
+				32CFB1E320DCBC5D00672EC9 /* Records.storyboard in Resources */,
 				32B9100F20439F75002F9C94 /* generate-schemas in Resources */,
 				32CFB1D920DCB20200672EC9 /* Settings.storyboard in Resources */,
 				322C6A18204E231B0021A2D9 /* thumb_down.svg in Resources */,

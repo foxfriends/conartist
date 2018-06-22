@@ -139,7 +139,7 @@ extension ExpenseDetailsOverlayViewController {
 
 // MARK: - Navigation
 extension ExpenseDetailsOverlayViewController: ViewControllerNavigation {
-    static let StoryboardName = "Convention"
+    static let StoryboardName = "Records"
     static let ID = "ExpenseDetailsOverlay"
 
     static func show(for expense: Expense, in convention: Convention) {

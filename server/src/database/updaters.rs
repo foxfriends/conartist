@@ -100,6 +100,7 @@ impl Database {
         conn.transaction(|| {
                 diesel::update(records::table)
                     .filter(records::record_id.eq(record_id))
+                    .filter(records::user_id.eq(user_id))
                     .set(&RecordChanges::new(products, price, info))
                     .get_result::<Record>(&*conn)
             })
@@ -112,6 +113,7 @@ impl Database {
         conn.transaction(|| {
                 diesel::update(expenses::table)
                     .filter(expenses::expense_id.eq(expense_id))
+                    .filter(expenses::user_id.eq(user_id))
                     .set(&ExpenseChanges::new(category, description, price))
                     .get_result::<Expense>(&*conn)
             })

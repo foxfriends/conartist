@@ -11,3 +11,4 @@ DROP TABLE ConventionImages;
 DROP TABLE Conventions;
 DROP TABLE UserSettings;
 DROP TABLE Users;
+DROP ROLE conartist_app;

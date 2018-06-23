@@ -5,7 +5,7 @@
 //  Created by Cameron Eldridge on 2017-12-20.
 //  Copyright © 2017 Cameron Eldridge. All rights reserved.
 //
-import Foundation
+
 import UIKit
 import SVGKit
 
@@ -46,13 +46,6 @@ struct ConArtist {
                 static let Down     = SVGKImage(named: "thumb_down.svg")!
                 static let Up       = SVGKImage(named: "thumb_up.svg")!
             }
-        }
-    }
-
-    /// Handles universal URLs and deep links
-    static func handleURL(_ url: String) {
-        if let url = URL(string: url) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
 }

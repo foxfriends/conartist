@@ -11,6 +11,7 @@ PODS:
     - CocoaLumberjack/Default
   - Gloss (2.0.0)
   - pop (1.0.10)
+  - PrettyString (0.1.1)
   - RxAlamofire (4.0.0):
     - RxAlamofire/Core (= 4.0.0)
   - RxAlamofire/Core (4.0.0):
@@ -30,6 +31,7 @@ DEPENDENCIES:
   - Alamofire (~> 4.5)
   - Apollo (~> 0.7.0)
   - Gloss (~> 2.0)
+  - PrettyString (~> 0.1)
   - RxAlamofire
   - RxCocoa
   - RxSwift
@@ -37,20 +39,6 @@ DEPENDENCIES:
   - Strongbox
   - SVGKit (from `https://github.com/SVGKit/SVGKit.git`, branch `2.x`)
   - SwiftMoment
-
-SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
-    - Alamofire
-    - Apollo
-    - CocoaLumberjack
-    - Gloss
-    - pop
-    - RxAlamofire
-    - RxCocoa
-    - RxSwift
-    - SexyTooltip
-    - Strongbox
-    - SwiftMoment
 
 EXTERNAL SOURCES:
   SVGKit:
@@ -68,6 +56,7 @@ SPEC CHECKSUMS:
   CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
   Gloss: b67617f327406adfd47adf20172d00680a3a31bd
   pop: 82ca6b068ce9278fd350fd9dd09482a0ce9492e6
+  PrettyString: 186adc5eb395894d0914c920ae3dc7fecfa8ca12
   RxAlamofire: 6ea579ac53bf14cb4bc7049a3866e5a769989b1d
   RxCocoa: d62846ca96495d862fa4c59ea7d87e5031d7340e
   RxSwift: fd680d75283beb5e2559486f3c0ff852f0d35334
@@ -76,6 +65,6 @@ SPEC CHECKSUMS:
   SVGKit: 4055d9e809b5db8633755979cfb3b02dc5a8c20d
   SwiftMoment: dc6dd27012e267819104cbb03f74ff9192dd0b42
 
-PODFILE CHECKSUM: 6698972f1b3a31c79535a8c93868ef91159b7297
+PODFILE CHECKSUM: fb1db34de8f7a28761a6f39b255ead54dbb97934
 
-COCOAPODS: 1.5.2
+COCOAPODS: 1.4.0

@@ -15,4 +15,5 @@ target 'ConArtist' do
   pod 'RxAlamofire'
   pod 'SexyTooltip'
   pod 'SVGKit', :git => 'https://github.com/SVGKit/SVGKit.git', :branch => '2.x'
+  pod 'PrettyString', '~> 0.1'
 end

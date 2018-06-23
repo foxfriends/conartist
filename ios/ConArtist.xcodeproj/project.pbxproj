@@ -114,6 +114,9 @@
 		32D4BB15205B44E000B0A397 /* RecordDetailsItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4BB14205B44E000B0A397 /* RecordDetailsItemCollectionViewCell.swift */; };
 		32D65DBA20BCFA5000F03BC2 /* AllConventionsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D65DB920BCFA5000F03BC2 /* AllConventionsListViewController.swift */; };
 		32DD973B205B803E0045DF41 /* OptionSet+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DD973A205B803E0045DF41 /* OptionSet+Operators.swift */; };
+		32DFCF5720DDDD35007FFE70 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DFCF5620DDDD35007FFE70 /* MapViewController.swift */; };
+		32DFCF5920DDE592007FFE70 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DFCF5820DDE592007FFE70 /* Location.swift */; };
+		32DFCF5B20DDE697007FFE70 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DFCF5A20DDE697007FFE70 /* URL.swift */; };
 		32E80BD4201700100008EC27 /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E80BD3201700100008EC27 /* Money.swift */; };
 		32E80BD7201700EB0008EC27 /* String+Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E80BD6201700EB0008EC27 /* String+Conversion.swift */; };
 		32F12C0E20353E840045D0BC /* FancyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F12C0D20353E840045D0BC /* FancyButton.swift */; };
@@ -232,6 +235,9 @@
 		32D4BB14205B44E000B0A397 /* RecordDetailsItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailsItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		32D65DB920BCFA5000F03BC2 /* AllConventionsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllConventionsListViewController.swift; sourceTree = "<group>"; };
 		32DD973A205B803E0045DF41 /* OptionSet+Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OptionSet+Operators.swift"; sourceTree = "<group>"; };
+		32DFCF5620DDDD35007FFE70 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		32DFCF5820DDE592007FFE70 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		32DFCF5A20DDE697007FFE70 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		32E80BD3201700100008EC27 /* Money.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Money.swift; sourceTree = "<group>"; };
 		32E80BD6201700EB0008EC27 /* String+Conversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Conversion.swift"; sourceTree = "<group>"; };
 		32F12C0D20353E840045D0BC /* FancyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyButton.swift; sourceTree = "<group>"; };
@@ -324,6 +330,7 @@
 				322C6A12204E1D070021A2D9 /* ConventionUserInfoListViewController.swift */,
 				322C6A14204E20570021A2D9 /* ConventionUserInfoTableViewCell.swift */,
 				321F9006204F8CB700E2BA57 /* NewConventionUserInfoViewController.swift */,
+				32DFCF5620DDDD35007FFE70 /* MapViewController.swift */,
 			);
 			path = "Convention Details";
 			sourceTree = "<group>";
@@ -360,6 +367,7 @@
 			children = (
 				32C39C38201EA9F800071E26 /* API */,
 				324592941FEAFA6000DE89BB /* ConArtist.swift */,
+				32DFCF5A20DDE697007FFE70 /* URL.swift */,
 				32B36EDE204202DB00DA4593 /* Keychain.swift */,
 				32D45CB720A3F96200F7A67F /* Persist.swift */,
 				327C5D7E2081845F007EEF71 /* Config.swift */,
@@ -507,6 +515,7 @@
 				32BC33E51FEEF1E40006256A /* Record.swift */,
 				32B910182047C821002F9C94 /* Settings.swift */,
 				32D45CB920A4A54400F7A67F /* Id.swift */,
+				32DFCF5820DDE592007FFE70 /* Location.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -576,6 +585,7 @@
 				321B75D41F9BAD320055EBC4 /* Resources */,
 				327C5D7D20818371007EEF71 /* Copy Configuration Files */,
 				693BFD9862FF5ADE35690E83 /* [CP] Embed Pods Frameworks */,
+				654CC0E21C11159954340169 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -687,6 +697,21 @@
 			shellPath = /bin/sh;
 			shellScript = "CONFIG_FILE=\"${SRCROOT}/${PRODUCT_NAME}/Config/${CONFIGURATION}.plist\"\nBUILD_APP_DIR=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\"\necho \"Copying ${CONFIG_FILE} to ${BUILD_APP_DIR}/Config.plist\"\ncp -v \"${CONFIG_FILE}\" \"${BUILD_APP_DIR}/Config.plist\"";
 		};
+		654CC0E21C11159954340169 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ConArtist/Pods-ConArtist-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		693BFD9862FF5ADE35690E83 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -698,6 +723,7 @@
 				"${BUILT_PRODUCTS_DIR}/Apollo/Apollo.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
 				"${BUILT_PRODUCTS_DIR}/Gloss/Gloss.framework",
+				"${BUILT_PRODUCTS_DIR}/PrettyString/PrettyString.framework",
 				"${BUILT_PRODUCTS_DIR}/RxAlamofire/RxAlamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
@@ -713,6 +739,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Apollo.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Gloss.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PrettyString.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAlamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
@@ -758,6 +785,7 @@
 				32BC33E81FEEF2070006256A /* Expense.swift in Sources */,
 				321F9007204F8CB700E2BA57 /* NewConventionUserInfoViewController.swift in Sources */,
 				32C39C20201E99A100071E26 /* Sequence+Helpers.swift in Sources */,
+				32DFCF5720DDDD35007FFE70 /* MapViewController.swift in Sources */,
 				32F12C0E20353E840045D0BC /* FancyButton.swift in Sources */,
 				32B36ECD203FB8DD00DA4593 /* ConventionExtraInfoTableViewCell.swift in Sources */,
 				3245929C1FEB19DA00DE89BB /* GraphQL.swift in Sources */,
@@ -765,6 +793,7 @@
 				32B36EDB2041FFF100DA4593 /* API.swift in Sources */,
 				327C5D7F2081845F007EEF71 /* Config.swift in Sources */,
 				32B36EDF204202DB00DA4593 /* Keychain.swift in Sources */,
+				32DFCF5920DDE592007FFE70 /* Location.swift in Sources */,
 				32F12C10203544E60045D0BC /* UIFont+Features.swift in Sources */,
 				32B9101320439F97002F9C94 /* Resources.swift in Sources */,
 				32B9101B2048F049002F9C94 /* SettingsSelectTableViewCell.swift in Sources */,
@@ -833,6 +862,7 @@
 				324592AE1FEC314900DE89BB /* Date+Helpers.swift in Sources */,
 				321FDE8220269E67002DF04B /* SettingsActionTableViewCell.swift in Sources */,
 				322C6A15204E20570021A2D9 /* ConventionUserInfoTableViewCell.swift in Sources */,
+				32DFCF5B20DDE697007FFE70 /* URL.swift in Sources */,
 				32D65DBA20BCFA5000F03BC2 /* AllConventionsListViewController.swift in Sources */,
 				32B910192047C821002F9C94 /* Settings.swift in Sources */,
 				32B36ED82041FF3200DA4593 /* NetworkImageView.swift in Sources */,

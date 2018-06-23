@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PrettyString
 
 enum ConventionExtraInfo: Codable {
     private enum Cases: String, Codable {
@@ -22,6 +23,7 @@ enum ConventionExtraInfo: Codable {
         case dates
         case website
         case address
+        case location
     }
 
     static var HourFormat: String { return "h:mma"¡ }
@@ -31,7 +33,7 @@ enum ConventionExtraInfo: Codable {
     case Hours([(Date, Date)])
     case Dates(Date, Date)
     case Website(display: String, url: String)
-    case Address(display: String, url: String)
+    case Address(display: String, location: Location)
 
     init?(graphQL conventionInfo: ExtraInfoFragment) {
         switch conventionInfo.title {
@@ -39,8 +41,12 @@ enum ConventionExtraInfo: Codable {
             guard let hours: [Pair<Date>] = conventionInfo.info?.parseJSON() else { return nil }
             self = .Hours(hours.map { $0.raw })
         case "Address":
-            guard let info: String = conventionInfo.info?.parseJSON(), let url = conventionInfo.action else { return nil }
-            self = .Address(display: info, url: url)
+            guard
+                let info: String = conventionInfo.info?.parseJSON(),
+                let url = conventionInfo.action,
+                let location: Location = ConArtist.parseURL(url)
+            else { return nil }
+            self = .Address(display: info, location: location)
         case "Website":
             guard let info = conventionInfo.actionText, let url = conventionInfo.action else { return nil }
             self = .Website(display: info, url: url)
@@ -57,14 +63,22 @@ enum ConventionExtraInfo: Codable {
         }
     }
 
-    var info: String? {
+    var info: NSAttributedString? {
         switch self {
         case .Hours(let hours):
-            return hours
-                .map { open, close in "{} {} - {}"¡ % open.toString(ConventionExtraInfo.ShortDayFormat) % open.toString(ConventionExtraInfo.HourFormat) % close.toString(ConventionExtraInfo.HourFormat) }
+            let string = hours
+                .map { open, close in
+                    "{} {} - {}"¡
+                        % open.toString(ConventionExtraInfo.ShortDayFormat)
+                        % open.toString(ConventionExtraInfo.HourFormat)
+                        % close.toString(ConventionExtraInfo.HourFormat)
+                }
                 .joined(separator: "\n")
-        case .Dates(let dates): return Convention.formatDateRange(start: dates.0, end: dates.1)
-        case .Address(let display, _): return display
+            return NSAttributedString(string: string)
+        case .Dates(let dates):
+            return NSAttributedString(string: Convention.formatDateRange(start: dates.0, end: dates.1))
+        case .Address(let display, _):
+            return try! ("{} View on map"¡ % display).prettify()
         default: return nil
         }
     }
@@ -77,10 +91,11 @@ enum ConventionExtraInfo: Codable {
         }
     }
 
-    var action: String? {
+    func performAction() {
         switch self {
-        case .Website(_, let url): return url
-        default: return nil
+        case .Website(_, let url): return ConArtist.handleURL(url)
+        case .Address(let name, let location): MapViewController.show(location: location, name: name)
+        default: return
         }
     }
 
@@ -101,8 +116,9 @@ enum ConventionExtraInfo: Codable {
             let (start, end) = try json.decode(Pair<Date>.self, forKey: .dates).raw
             self = .Dates(start, end)
         case .address:
-            let (display, url) = try json.decode(Pair<String>.self, forKey: .address).raw
-            self = .Address(display: display, url: url)
+            let display = try json.decode(String.self, forKey: .address)
+            let location = try json.decode(Location.self, forKey: .location)
+            self = .Address(display: display, location: location)
         case .website:
             let (display, url) = try json.decode(Pair<String>.self, forKey: .website).raw
             self = .Website(display: display, url: url)
@@ -116,9 +132,10 @@ enum ConventionExtraInfo: Codable {
         case .Hours(let hours):
             try json.encode(Cases.hours, forKey: .case)
             try json.encode(hours.map(Pair.init), forKey: .hours)
-        case .Address(let display, let url):
+        case .Address(let display, let location):
             try json.encode(Cases.address, forKey: .case)
-            try json.encode(Pair((display, url)), forKey: .address)
+            try json.encode(display, forKey: .address)
+            try json.encode(location, forKey: .location)
         case .Website(let display, let url):
             try json.encode(Cases.website, forKey: .case)
             try json.encode(Pair((display, url)), forKey: .website)

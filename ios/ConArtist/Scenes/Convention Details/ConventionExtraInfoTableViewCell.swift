@@ -19,7 +19,7 @@ class ConventionExtraInfoTableViewCell: UITableViewCell {
 
         actionLabel?.text = info.actionText?¡
 
-        infoLabel?.text = info.info
+        infoLabel?.attributedText = info.info
         infoLabel?.font = infoLabel!.font.usingFeatures([.tabularFigures])
         infoLabel?.numberOfLines = 0
     }

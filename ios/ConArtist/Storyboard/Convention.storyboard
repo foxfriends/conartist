@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -696,6 +696,48 @@ Toronto, ON, Canada</string>
             </objects>
             <point key="canvasLocation" x="1425" y="399"/>
         </scene>
+        <!--Map View Controller-->
+        <scene sceneID="Dqg-J8-N4A">
+            <objects>
+                <viewController storyboardIdentifier="Map" id="j5b-hf-5Pb" customClass="MapViewController" customModule="ConArtist" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ULf-QG-tbU">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WDZ-5U-wdC" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <color key="backgroundColor" name="BackgroundNavBar"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="title" value="Map"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="leftButtonTitle" value="Back"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="mutedStandard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="he8-Gz-wZM">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="he8-Gz-wZM" firstAttribute="top" secondItem="WDZ-5U-wdC" secondAttribute="bottom" id="30Y-tv-y5G"/>
+                            <constraint firstItem="WDZ-5U-wdC" firstAttribute="bottom" secondItem="pfX-tE-bOO" secondAttribute="top" constant="44" id="JYo-0U-GTw"/>
+                            <constraint firstItem="he8-Gz-wZM" firstAttribute="leading" secondItem="pfX-tE-bOO" secondAttribute="leading" id="Q5J-em-eVb"/>
+                            <constraint firstItem="pfX-tE-bOO" firstAttribute="trailing" secondItem="WDZ-5U-wdC" secondAttribute="trailing" id="Vew-1J-1m6"/>
+                            <constraint firstItem="pfX-tE-bOO" firstAttribute="trailing" secondItem="he8-Gz-wZM" secondAttribute="trailing" id="Zzg-be-OKE"/>
+                            <constraint firstItem="WDZ-5U-wdC" firstAttribute="leading" secondItem="pfX-tE-bOO" secondAttribute="leading" id="fom-Vt-uEN"/>
+                            <constraint firstItem="WDZ-5U-wdC" firstAttribute="top" secondItem="ULf-QG-tbU" secondAttribute="top" id="qjp-Jb-n3n"/>
+                            <constraint firstItem="pfX-tE-bOO" firstAttribute="bottom" secondItem="he8-Gz-wZM" secondAttribute="bottom" id="s2A-Qf-jZB"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="pfX-tE-bOO"/>
+                    </view>
+                    <connections>
+                        <outlet property="mapView" destination="he8-Gz-wZM" id="WzF-GQ-kOV"/>
+                        <outlet property="navBar" destination="WDZ-5U-wdC" id="jGp-b9-sn5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0Ne-aa-MAX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2100" y="399"/>
+        </scene>
     </scenes>
     <resources>
         <namedColor name="Background">
@@ -703,6 +745,9 @@ Toronto, ON, Canada</string>
         </namedColor>
         <namedColor name="BackgroundNavBar">
             <color red="0.067000001670000003" green="0.067000001670000003" blue="0.067000001670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="BackgroundNavBar">
+            <color red="0.067000001668930054" green="0.067000001668930054" blue="0.067000001668930054" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="BackgroundOverlay">
             <color red="0.0" green="0.0" blue="0.0" alpha="0.20000000300000001" colorSpace="custom" customColorSpace="sRGB"/>

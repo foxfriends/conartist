@@ -247,8 +247,7 @@ extension ConventionDetailsViewController: UITableViewDataSource {
 //MARK: - UITableViewDelegate
 extension ConventionDetailsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let action = convention.extraInfo.nth(indexPath.row)?.action else { return }
-        ConArtist.handleURL(action)
+        convention.extraInfo.nth(indexPath.row)?.performAction()
     }
 }
 

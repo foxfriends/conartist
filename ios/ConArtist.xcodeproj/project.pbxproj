@@ -119,6 +119,7 @@
 		32DFCF5B20DDE697007FFE70 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DFCF5A20DDE697007FFE70 /* URL.swift */; };
 		32E80BD4201700100008EC27 /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E80BD3201700100008EC27 /* Money.swift */; };
 		32E80BD7201700EB0008EC27 /* String+Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E80BD6201700EB0008EC27 /* String+Conversion.swift */; };
+		32EEC27520E031620016DFCA /* PrettyString+Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EEC27420E031620016DFCA /* PrettyString+Styles.swift */; };
 		32F12C0E20353E840045D0BC /* FancyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F12C0D20353E840045D0BC /* FancyButton.swift */; };
 		32F12C10203544E60045D0BC /* UIFont+Features.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F12C0F203544E60045D0BC /* UIFont+Features.swift */; };
 		32F6F6441FF706AA00935554 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 32F6F6431FF706AA00935554 /* Images.xcassets */; };
@@ -240,6 +241,7 @@
 		32DFCF5A20DDE697007FFE70 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		32E80BD3201700100008EC27 /* Money.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Money.swift; sourceTree = "<group>"; };
 		32E80BD6201700EB0008EC27 /* String+Conversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Conversion.swift"; sourceTree = "<group>"; };
+		32EEC27420E031620016DFCA /* PrettyString+Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PrettyString+Styles.swift"; sourceTree = "<group>"; };
 		32F12C0D20353E840045D0BC /* FancyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyButton.swift; sourceTree = "<group>"; };
 		32F12C0F203544E60045D0BC /* UIFont+Features.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Features.swift"; sourceTree = "<group>"; };
 		32F6F6431FF706AA00935554 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -467,6 +469,7 @@
 				322AFB3E20574622005E56C8 /* String+JSON.swift */,
 				32D45CBB20A4DBC600F7A67F /* TimeZone+UTC.swift */,
 				322C6A0C204CC2810021A2D9 /* String+Localization.swift */,
+				32EEC27420E031620016DFCA /* PrettyString+Styles.swift */,
 				32E80BD6201700EB0008EC27 /* String+Conversion.swift */,
 				322AFB44205769DE005E56C8 /* Tuple.swift */,
 				32B36EBC203BD2F000DA4593 /* UIButton+ConArtist.swift */,
@@ -867,6 +870,7 @@
 				32B910192047C821002F9C94 /* Settings.swift in Sources */,
 				32B36ED82041FF3200DA4593 /* NetworkImageView.swift in Sources */,
 				32DD973B205B803E0045DF41 /* OptionSet+Operators.swift in Sources */,
+				32EEC27520E031620016DFCA /* PrettyString+Styles.swift in Sources */,
 				32C39C33201EA5B400071E26 /* ProductTypeTableViewCell.swift in Sources */,
 				32D45CB820A3F96200F7A67F /* Persist.swift in Sources */,
 				32B36EE22042086500DA4593 /* Monad.swift in Sources */,

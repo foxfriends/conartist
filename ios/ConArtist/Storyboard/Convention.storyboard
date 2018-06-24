@@ -249,8 +249,9 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                                                 <color key="textColor" name="Text"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6R4-Ln-MTD">
+                                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6R4-Ln-MTD">
                                                                 <rect key="frame" x="309" y="0.0" width="46" height="30"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                 <state key="normal" title="See all">
                                                                     <color key="titleColor" name="Brand"/>
                                                                 </state>
@@ -318,8 +319,9 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                                                 <color key="textColor" name="Text"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HUc-6I-9Mg">
+                                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HUc-6I-9Mg">
                                                                 <rect key="frame" x="265" y="0.0" width="90" height="30"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                 <state key="normal" title="View records">
                                                                     <color key="titleColor" name="Brand"/>
                                                                 </state>
@@ -746,9 +748,6 @@ Toronto, ON, Canada</string>
         <namedColor name="BackgroundNavBar">
             <color red="0.067000001670000003" green="0.067000001670000003" blue="0.067000001670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="BackgroundNavBar">
-            <color red="0.067000001668930054" green="0.067000001668930054" blue="0.067000001668930054" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="BackgroundOverlay">
             <color red="0.0" green="0.0" blue="0.0" alpha="0.20000000300000001" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
@@ -763,6 +762,9 @@ Toronto, ON, Canada</string>
         </namedColor>
         <namedColor name="Text">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="TextPlaceholder">
+            <color red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="TextPlaceholder">
             <color red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>

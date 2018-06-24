@@ -16,19 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Override point for customization after application launch.
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         application.statusBarStyle = .lightContent
-
-        PrettyString.Config.default = PrettyString.Config(
-            base: [],
-            rules: [
-                PrettyString.Config.Rule(
-                    name: "action",
-                    attributes: [
-                        .foregroundColor(ConArtist.Color.Brand),
-                    ]
-                )
-            ]
-        )
-
+        PrettyString.Config.default = .regular
         return true
     }
 

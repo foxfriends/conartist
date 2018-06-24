@@ -7,19 +7,29 @@
 //
 
 import UIKit
+import PrettyString
 
 class ConventionExtraInfoTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel?
     @IBOutlet weak var infoLabel: UILabel?
     @IBOutlet weak var actionLabel: UILabel?
 
+    private var info: ConventionExtraInfo!
+
+    override var isHighlighted: Bool {
+        didSet {
+            actionLabel?.textColor = isHighlighted ? ConArtist.Color.BrandVariant : ConArtist.Color.Brand
+        }
+    }
+
     func setup(with info: ConventionExtraInfo) {
+        self.info = info
         titleLabel?.text = info.title¡
         titleLabel?.font = titleLabel!.font.usingFeatures([.smallCaps])
 
-        actionLabel?.text = info.actionText?¡
+        actionLabel?.text = info.actionText
 
-        infoLabel?.attributedText = info.info
+        infoLabel?.text = info.info
         infoLabel?.font = infoLabel!.font.usingFeatures([.tabularFigures])
         infoLabel?.numberOfLines = 0
     }

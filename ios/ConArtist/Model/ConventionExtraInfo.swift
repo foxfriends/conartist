@@ -63,10 +63,10 @@ enum ConventionExtraInfo: Codable {
         }
     }
 
-    var info: NSAttributedString? {
+    var info: String? {
         switch self {
         case .Hours(let hours):
-            let string = hours
+            return hours
                 .map { open, close in
                     "{} {} - {}"¡
                         % open.toString(ConventionExtraInfo.ShortDayFormat)
@@ -74,18 +74,17 @@ enum ConventionExtraInfo: Codable {
                         % close.toString(ConventionExtraInfo.HourFormat)
                 }
                 .joined(separator: "\n")
-            return NSAttributedString(string: string)
         case .Dates(let dates):
-            return NSAttributedString(string: Convention.formatDateRange(start: dates.0, end: dates.1))
+            return Convention.formatDateRange(start: dates.0, end: dates.1)
         case .Address(let display, _):
-            return try! ("{} View on map"¡ % display).prettify()
+            return display
         default: return nil
         }
     }
 
     var actionText: String? {
         switch self {
-        case .Address: return nil // "View on map"¡
+        case .Address: return "View on map"¡
         case .Website(let display, _): return display
         default: return nil
         }

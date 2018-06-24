@@ -88,8 +88,8 @@ extension ConventionDetailsViewController {
         expensesAmountLabel.font = expensesAmountLabel.font.usingFeatures([.tabularFigures])
         netRevenueAmountLabel.font = netRevenueAmountLabel.font.usingFeatures([.tabularFigures])
         headerImage.imageId = convention.images.first
-        seeAllInfoButton = seeAllInfoButton.conArtistStyle()
-        seeAllRecordsButton = seeAllRecordsButton.conArtistStyle()
+        seeAllInfoButton.conArtistStyle()
+        seeAllRecordsButton.conArtistStyle()
         infoTableView.reloadData()
         updateViewConstraints()
     }
@@ -248,6 +248,14 @@ extension ConventionDetailsViewController: UITableViewDataSource {
 extension ConventionDetailsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         convention.extraInfo.nth(indexPath.row)?.performAction()
+    }
+
+    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.isHighlighted = true
+    }
+
+    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.isHighlighted = false
     }
 }
 

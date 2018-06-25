@@ -28,14 +28,14 @@ export class ConventionStats extends React.Component<Props, State> {
     const { settings } = this.state
 
     // $FlowIgnore
-    const { products = [], records = [], productTypes = [] } = convention;
+    const { products = [], records = [], productTypes = [], prices = [] } = convention;
 
     const showSettings = settings => this.setState({ settings })
 
     return (
       <CardView>
         <InventoryChart productTypes={productTypes} products={products} records={records} showSettings={showSettings} />
-        <SalesByTypeChart productTypes={productTypes} products={products} records={records} showSettings={showSettings} />
+        <SalesByTypeChart productTypes={productTypes} products={products} records={records} prices={prices} showSettings={showSettings} />
         <Fade>
           {/* $FlowIgnore */}
           { settings || null }

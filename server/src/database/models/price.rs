@@ -2,7 +2,7 @@
 use chrono::NaiveDateTime;
 use money::Money;
 
-#[derive(Queryable, Clone)]
+#[derive(Queryable, Clone, Debug)]
 pub struct Price {
     pub price_id: i32,
     pub user_id: i32,

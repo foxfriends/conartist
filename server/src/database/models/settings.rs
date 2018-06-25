@@ -1,7 +1,7 @@
 //! The UserSettings table
 use money::Currency;
 
-#[derive(Queryable, Clone)]
+#[derive(Queryable, Clone, Debug)]
 pub struct Settings {
     pub user_id: i32,
     pub currency: Currency,

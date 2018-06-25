@@ -1,7 +1,7 @@
 //! The ProductTypes table
 use super::super::schema::*;
 
-#[derive(Queryable, Clone)]
+#[derive(Queryable, Clone, Debug)]
 pub struct ProductType {
     pub type_id: i32,
     pub user_id: i32,
@@ -11,7 +11,7 @@ pub struct ProductType {
     pub sort: i32,
 }
 
-#[derive(AsChangeset)]
+#[derive(AsChangeset, Debug)]
 #[table_name="producttypes"]
 pub struct ProductTypeChange {
     pub name: Option<String>,

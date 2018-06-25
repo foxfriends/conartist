@@ -3,7 +3,7 @@
 use chrono::{NaiveDate, NaiveDateTime};
 use serde_json::Value;
 
-#[derive(Queryable, Clone)]
+#[derive(Queryable, Clone, Debug)]
 pub struct ConventionExtraInfo {
     pub con_id: i32,
     pub title: String,
@@ -12,7 +12,7 @@ pub struct ConventionExtraInfo {
     pub action_text: Option<String>,
 }
 
-#[derive(Queryable, Clone)]
+#[derive(Queryable, Clone, Debug)]
 pub struct RawConventionUserInfo {
     pub con_info_id: i32,
     pub con_id: i32,
@@ -31,7 +31,7 @@ impl Into<ConventionUserInfo> for RawConventionUserInfo {
     }
 }
 
-#[derive(Queryable, Clone)]
+#[derive(Queryable, Clone, Debug)]
 pub struct ConventionUserInfo {
     pub con_info_id: i32,
     pub information: String,
@@ -39,14 +39,14 @@ pub struct ConventionUserInfo {
     pub downvotes: i32,
 }
 
-#[derive(Queryable, Clone)]
+#[derive(Queryable, Clone, Debug)]
 pub struct ConventionInfoRating {
     pub con_info_id: i32,
     pub user_id: i32,
     pub rating: bool,
 }
 
-#[derive(Queryable, Clone)]
+#[derive(Queryable, Clone, Debug)]
 pub struct Convention {
     pub con_id: i32,
     pub user_id: Option<i32>,
@@ -56,7 +56,7 @@ pub struct Convention {
     pub predecessor: Option<i32>,
 }
 
-#[derive(Queryable, Clone)]
+#[derive(Queryable, Clone, Debug)]
 pub struct DetachedConvention {
     pub con_id: i32,
     pub title: String,
@@ -91,7 +91,7 @@ impl Into<Convention> for DetachedConvention {
     }
 }
 
-#[derive(Queryable, Clone)]
+#[derive(Queryable, Clone, Debug)]
 pub struct ConventionImage {
     pub image_id: i32,
     pub con_id: i32,
@@ -99,7 +99,7 @@ pub struct ConventionImage {
     pub create_date: NaiveDateTime,
 }
 
-#[derive(Queryable, Clone)]
+#[derive(Queryable, Clone, Debug)]
 pub struct UserConvention {
     pub user_con_id: i32,
     pub user_id: i32,

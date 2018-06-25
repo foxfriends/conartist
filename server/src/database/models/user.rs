@@ -1,7 +1,7 @@
 //! The Users table
 use chrono::NaiveDateTime;
 
-#[derive(Queryable, Clone)]
+#[derive(Queryable, Clone, Debug)]
 pub struct User {
     pub user_id: i32,
     pub email: String,

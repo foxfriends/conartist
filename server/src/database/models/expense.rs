@@ -5,7 +5,7 @@ use uuid::Uuid;
 use database::schema::*;
 use money::Money;
 
-#[derive(Queryable, Clone)]
+#[derive(Queryable, Clone, Debug)]
 pub struct Expense {
     pub expense_id: i32,
     pub user_id: i32,
@@ -17,7 +17,7 @@ pub struct Expense {
     pub gen_id: Option<Uuid>,
 }
 
-#[derive(AsChangeset)]
+#[derive(AsChangeset, Debug)]
 #[table_name="expenses"]
 pub struct ExpenseChanges {
     pub category: Option<String>,

@@ -2,7 +2,7 @@
 use chrono::NaiveDateTime;
 use super::super::schema::*;
 
-#[derive(Queryable, Clone)]
+#[derive(Queryable, Clone, Debug)]
 pub struct InventoryItem {
     pub inventory_id: i32,
     pub product_id: i32,
@@ -10,7 +10,7 @@ pub struct InventoryItem {
     pub mod_date: NaiveDateTime,
 }
 
-#[derive(Queryable, Clone)]
+#[derive(Queryable, Clone, Debug)]
 pub struct Product {
     pub product_id: i32,
     pub type_id: i32,
@@ -34,7 +34,7 @@ impl Product {
     }
 }
 
-#[derive(Queryable, Clone)]
+#[derive(Queryable, Clone, Debug)]
 pub struct ProductWithQuantity {
     pub product_id: i32,
     pub type_id: i32,
@@ -45,7 +45,7 @@ pub struct ProductWithQuantity {
     pub quantity: i64,
 }
 
-#[derive(AsChangeset)]
+#[derive(AsChangeset, Debug)]
 #[table_name="products"]
 pub struct ProductChanges {
     pub name: Option<String>,

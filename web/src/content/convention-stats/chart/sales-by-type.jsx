@@ -67,7 +67,9 @@ export class SalesByTypeChart extends React.Component<Props, State> {
           const productsByType = soldProducts.reduce((types, product) =>
             types.set(product.typeId, [...types.get(product.typeId), product])
           , new Map([], []))
-          const pricesByType = [...productsByType].map(([typeId, soldProducts]) => [typeId, calculatePrice(soldProducts, prices)])
+          const pricesByType = [...productsByType].map(([typeId, soldProducts]) =>
+            [typeId, calculatePrice(soldProducts, prices).multiply(ratio)]
+          )
           for (const [typeId, price] of pricesByType) {
             types.set(typeId, types.get(typeId).add(price))
           }

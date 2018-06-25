@@ -57,6 +57,10 @@ export class Money {
     return new Money(this.currency, -this.amount)
   }
 
+  multiply(factor: number): Money {
+    return new Money(this.currency, Math.round(this.amount * factor))
+  }
+
   equals(other: ?Money): boolean {
     if (!other) { return false }
     const currency = this.currency === 'AUTO' ? other.currency : this.currency

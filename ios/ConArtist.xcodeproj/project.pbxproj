@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		320CF59820E7E6EF003F91EC /* Either.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320CF59720E7E6EF003F91EC /* Either.swift */; };
 		321B75DA1F9BAD320055EBC4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321B75D91F9BAD320055EBC4 /* AppDelegate.swift */; };
 		321B75DC1F9BAD320055EBC4 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321B75DB1F9BAD320055EBC4 /* SignInViewController.swift */; };
 		321B75DF1F9BAD320055EBC4 /* SignIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 321B75DD1F9BAD320055EBC4 /* SignIn.storyboard */; };
@@ -127,6 +128,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		320CF59720E7E6EF003F91EC /* Either.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Either.swift; sourceTree = "<group>"; };
 		321B75D61F9BAD320055EBC4 /* ConArtist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConArtist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		321B75D91F9BAD320055EBC4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		321B75DB1F9BAD320055EBC4 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -509,6 +511,7 @@
 				32B36EE3204226B100DA4593 /* ConventionUserInfo.swift */,
 				32B36EC0203BE0E600DA4593 /* ConventionExtraInfo.swift */,
 				32BC33E71FEEF2070006256A /* Expense.swift */,
+				320CF59720E7E6EF003F91EC /* Either.swift */,
 				324592A91FEC2E7900DE89BB /* Model.swift */,
 				32E80BD3201700100008EC27 /* Money.swift */,
 				32BC33E91FEEF2420006256A /* Price.swift */,
@@ -725,7 +728,6 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Apollo/Apollo.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
-				"${BUILT_PRODUCTS_DIR}/Gloss/Gloss.framework",
 				"${BUILT_PRODUCTS_DIR}/PrettyString/PrettyString.framework",
 				"${BUILT_PRODUCTS_DIR}/RxAlamofire/RxAlamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
@@ -741,7 +743,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Apollo.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Gloss.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PrettyString.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAlamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
@@ -791,6 +792,7 @@
 				32DFCF5720DDDD35007FFE70 /* MapViewController.swift in Sources */,
 				32F12C0E20353E840045D0BC /* FancyButton.swift in Sources */,
 				32B36ECD203FB8DD00DA4593 /* ConventionExtraInfoTableViewCell.swift in Sources */,
+				320CF59820E7E6EF003F91EC /* Either.swift in Sources */,
 				3245929C1FEB19DA00DE89BB /* GraphQL.swift in Sources */,
 				322AFB3F20574622005E56C8 /* String+JSON.swift in Sources */,
 				32B36EDB2041FFF100DA4593 /* API.swift in Sources */,

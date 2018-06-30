@@ -25,9 +25,4 @@ struct Config {
         typealias V = String
         static let key = "BaseURL"
     }
-
-    struct SilentGloss: ConfigKey {
-        typealias V = Bool
-        static let key = "SilentGloss"
-    }
 }

@@ -8,7 +8,6 @@
 
 import UIKit
 import PrettyString
-import Gloss
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,12 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         application.statusBarStyle = .lightContent
         PrettyString.Config.default = .regular
-        if Config.retrieve(Config.SilentGloss.self) {
-            // prevent all that console clutter from gloss
-            struct SilentLogger: Gloss.Logger { func log(message: String) {} }
-            Gloss.Decoder.logger = SilentLogger()
-        }
-
         return true
     }
 

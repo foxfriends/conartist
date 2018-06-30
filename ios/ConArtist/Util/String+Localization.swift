@@ -7,7 +7,10 @@
 //
 
 import Foundation
-import Gloss
+
+private struct PlatformSpecific: Codable {
+    let ios: String
+}
 
 postfix operator ¡
 
@@ -37,20 +40,15 @@ extension String {
                 ?? localize(Array(locales.dropFirst()))
     }
 
-    private func forIOS(_ json: JSON) -> String? {
-        guard let entry: JSON = self <~~ json else {
-            return self <~~ json
-        }
-        return "ios" <~~ entry
-    }
-
     private func localize(from path: String?) -> String? {
         return path
             .map(URL.init(fileURLWithPath:))
             .flatMap { try? Data(contentsOf: $0) }
-            .flatMap { try? JSONSerialization.jsonObject(with: $0, options: []) }
-            .flatMap { $0 as? JSON }
-            .flatMap(forIOS)
+            .flatMap { try? JSONSerialization.jsonObject(with: $0, options: .allowFragments) }
+            .flatMap { $0 as? [String: Data] }
+            .flatMap { $0[self] }
+            .flatMap { try? JSONDecoder().decode(Either<PlatformSpecific, String>.self, from: $0) }
+            .flatMap { $0.left?.ios ?? $0.right }
     }
 
     private func localize<S: StringProtocol>(onePart locale: S) -> String? {

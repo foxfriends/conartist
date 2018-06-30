@@ -6,33 +6,30 @@
 //  Copyright © 2017 Cameron Eldridge. All rights reserved.
 //
 
-import Gloss
-
-enum ConRequest<T>: JSONDecodable {
+enum ConRequest<T: Decodable>: Decodable {
     case success(data: T)
     case failure(error: String)
     
-    private enum Status: String {
-        case Success, Failure
+    private enum Status: String, Codable {
+        case success = "Success"
+        case failure = "Failure"
     }
     
     // MARK: - Deserialization
+
+    private enum CodingKeys: String, CodingKey {
+        case status
+        case data
+        case error
+    }
     
-    init?(json: JSON) {
-        guard let status: Status = "status" <~~ json else {
-            self = .failure(error: "Invalid response format received")
-            return
-        }
-        
-        switch status {
-        case .Success:
-            guard let data: T = "data" <~~ json else {
-                self = .failure(error: "Response data was not of the expected type")
-                return
-            }
-            self = .success(data: data)
-        case .Failure:
-            self = .failure(error: "error" <~~ json ?? "")
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        switch try container.decode(Status.self, forKey: .status) {
+        case .success:
+            self = .success(data: try container.decode(T.self, forKey: .data))
+        case .failure:
+            self = .failure(error: try container.decode(String.self, forKey: .error))
         }
     }
 }

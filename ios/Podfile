@@ -7,7 +7,6 @@ target 'ConArtist' do
   # Pods for ConArtist
   pod 'Apollo', '~> 0.7.0'
   pod 'Alamofire', '~> 4.5'
-  pod 'Gloss', '~> 2.0'
   pod 'Strongbox'
   pod 'SwiftMoment'
   pod 'RxSwift'

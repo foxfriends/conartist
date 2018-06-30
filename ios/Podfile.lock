@@ -9,7 +9,6 @@ PODS:
   - CocoaLumberjack/Default (3.3.0)
   - CocoaLumberjack/Extensions (3.3.0):
     - CocoaLumberjack/Default
-  - Gloss (2.0.0)
   - pop (1.0.10)
   - PrettyString (0.1.1)
   - RxAlamofire (4.0.0):
@@ -30,7 +29,6 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 4.5)
   - Apollo (~> 0.7.0)
-  - Gloss (~> 2.0)
   - PrettyString (~> 0.1)
   - RxAlamofire
   - RxCocoa
@@ -54,7 +52,6 @@ SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
   Apollo: d6649ac06168660e70c6226c4eadfc0770791ba5
   CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
-  Gloss: b67617f327406adfd47adf20172d00680a3a31bd
   pop: 82ca6b068ce9278fd350fd9dd09482a0ce9492e6
   PrettyString: 186adc5eb395894d0914c920ae3dc7fecfa8ca12
   RxAlamofire: 6ea579ac53bf14cb4bc7049a3866e5a769989b1d
@@ -65,6 +62,6 @@ SPEC CHECKSUMS:
   SVGKit: 4055d9e809b5db8633755979cfb3b02dc5a8c20d
   SwiftMoment: dc6dd27012e267819104cbb03f74ff9192dd0b42
 
-PODFILE CHECKSUM: fb1db34de8f7a28761a6f39b255ead54dbb97934
+PODFILE CHECKSUM: cff897f37f8198d5172b8bd66e2b5794f50556b8
 
 COCOAPODS: 1.4.0

@@ -8,7 +8,6 @@
 
 import Alamofire
 import Apollo
-import Gloss
 import RxSwift
 import RxAlamofire
 
@@ -44,7 +43,7 @@ extension ConArtist.API {
                 "psw": password
             ]
             return RxAlamofire
-                .requestJSON(.post, SignInURL, parameters: parameters, encoding: JSONEncoding.default)
+                .requestData(.post, SignInURL, parameters: parameters, encoding: JSONEncoding.default)
                 .map(handleConRequest)
                 .map(setAuthToken)
                 .flatMap(loadUser)
@@ -57,21 +56,18 @@ extension ConArtist.API {
                 "Authorization": "Bearer \(authToken)"
             ]
             return RxAlamofire
-                .requestJSON(.get, SignInURL, headers: headers)
+                .requestData(.get, SignInURL, headers: headers)
                 .map(handleConRequest)
                 .map(setAuthToken)
                 .flatMap(loadUser)
                 .map(ConArtist.model.merge(graphQL:))
         }
 
-        private static func handleConRequest<T>(_ response: (HTTPURLResponse, Any)) throws -> T {
-            guard let json = response.1 as? JSON else {
-                throw ConArtist.Error(msg: "Error parsing JSON for ConRequest: \(response)")
-            }
-            switch ConRequest<T>.init(json: json)! {
-            case .success(data: let data):
+        private static func handleConRequest<T: Decodable>(_ response: (HTTPURLResponse, Data)) throws -> T {
+            switch try JSONDecoder().decode(ConRequest<T>.self, from: response.1) {
+            case .success(let data):
                 return data
-            case .failure(error: let error):
+            case .failure(let error):
                 throw ConArtist.Error(msg: error)
             }
         }

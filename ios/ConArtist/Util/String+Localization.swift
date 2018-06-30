@@ -8,10 +8,6 @@
 
 import Foundation
 
-private struct PlatformSpecific: Codable {
-    let ios: String
-}
-
 postfix operator ¡
 
 /// Provides custom localization of strings, rather than using NSLocalizedString, so that the localization files can
@@ -45,10 +41,16 @@ extension String {
             .map(URL.init(fileURLWithPath:))
             .flatMap { try? Data(contentsOf: $0) }
             .flatMap { try? JSONSerialization.jsonObject(with: $0, options: .allowFragments) }
-            .flatMap { $0 as? [String: Data] }
+            .flatMap { $0 as? [String: Any] }
             .flatMap { $0[self] }
-            .flatMap { try? JSONDecoder().decode(Either<PlatformSpecific, String>.self, from: $0) }
-            .flatMap { $0.left?.ios ?? $0.right }
+            .flatMap { item in
+                if let string = item as? String {
+                    return string
+                } else if let dict = item as? [String: String] {
+                    return dict["ios"]
+                }
+                return nil
+            }
     }
 
     private func localize<S: StringProtocol>(onePart locale: S) -> String? {

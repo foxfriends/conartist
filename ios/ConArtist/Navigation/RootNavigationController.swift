@@ -13,8 +13,16 @@ class RootNavigationController: RxNavigationController {
     static let ID = "Root"
 
     override func viewDidLoad() {
-        øviews = ConArtist.model.page.asObservable()
+        views = ConArtist.model.page.asObservable()
         super.viewDidLoad()
         SplashScreenViewController.show()
+    }
+}
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension RootNavigationController {
+    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return viewCount > 3
     }
 }

@@ -11,19 +11,23 @@ import RxSwift
 
 class RxNavigationController: UINavigationController {
     let disposeBag = DisposeBag()
-    var øviews: Observable<[Model.Presentation]>!
+    var views: Observable<[Model.Presentation]>!
+    var viewCount: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
         isNavigationBarHidden = true
+        interactivePopGestureRecognizer?.addTarget(self, action: #selector(handleInteractivePopGesture))
+        interactivePopGestureRecognizer?.delegate = self
 
-        øviews
+        views
             .asDriver(onErrorJustReturn: [])
             .scan(([], [])) { previous, next in
                 return (next, previous.0)
             }
             .map { views, previous in (views, views.count < previous.count ? previous.last : nil) }
             .drive(onNext: { [unowned self] views, toDismiss in
+                self.viewCount = views.count
                 // to ensure the main thread is not asleep at this time? or something?
                 // there were some cases where the views would not appear on time
                 CFRunLoopWakeUp(CFRunLoopGetCurrent())
@@ -48,11 +52,11 @@ class RxNavigationController: UINavigationController {
                 }
                 if hasPresentedView {
                     if viewControllers.last?.presentedViewController == nil {
-                        let øtheirViews = self.øviews
+                        let theirViews = self.views
                             .map { $0.dropFirst(myViews.count) }
                             .map(Array.init)
                             .filter { !$0.isEmpty }
-                        let controller = RxNavigationController.create(basedOn: øtheirViews)
+                        let controller = RxNavigationController.create(basedOn: theirViews)
                         let item = views[myViews.count]
                         if case .Over = item {
                             controller.modalPresentationStyle = .overFullScreen
@@ -65,10 +69,32 @@ class RxNavigationController: UINavigationController {
     }
 }
 
+// MARK: - UIGestureRecognizerDelegate
+
+extension RxNavigationController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return viewCount > 1
+    }
+
+    @objc private func handleInteractivePopGesture(_ gesture: UIScreenEdgePanGestureRecognizer) {
+        switch gesture.state {
+        case .ended:
+            // NOTE: a little sketchy, but it will have to do for now...
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                if self.viewControllers.count != self.viewCount {
+                    ConArtist.model.navigate(back: 1)
+                }
+            }
+        default:
+            break
+        }
+    }
+}
+
 extension RxNavigationController {
-    class func create(basedOn øviews: Observable<[Model.Presentation]>) -> RxNavigationController {
+    class func create(basedOn views: Observable<[Model.Presentation]>) -> RxNavigationController {
         let controller = RxNavigationController()
-        controller.øviews = øviews
+        controller.views = views
         return controller
     }
 }

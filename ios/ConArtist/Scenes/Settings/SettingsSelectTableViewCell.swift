@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxCocoa
 import RxSwift
 
 class SettingsSelectTableViewCell: UITableViewCell {
@@ -17,7 +18,7 @@ class SettingsSelectTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var valueLabel: UILabel!
 
-    func setup(title: String, value: Variable<String>) {
+    func setup(title: String, value: BehaviorRelay<String>) {
         disposeBag = DisposeBag()
         titleLabel.text = title
 

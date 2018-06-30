@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 class Model: Codable {
     private enum CodingKeys: String, CodingKey {
@@ -51,17 +52,17 @@ class Model: Codable {
         static func ==(_ a: Presentation, _ b: Presentation) -> Bool { return a.viewController == b.viewController }
     }
 
-    let name = Variable<String?>(nil)
-    let email = Variable<String?>(nil)
-    let conventions = Variable<[Convention]>([])
-    let page = Variable<[Presentation]>([])
-    let settings = Variable<Settings>(Settings.default)
+    let name = BehaviorRelay<String?>(value: nil)
+    let email = BehaviorRelay<String?>(value: nil)
+    let conventions = BehaviorRelay<[Convention]>(value: [])
+    let page = BehaviorRelay<[Presentation]>(value: [])
+    let settings = BehaviorRelay<Settings>(value: Settings.default)
 
     /// Merges the retrieved fragment with the existing model, overriding where possible, but keeping references to
     /// original classes in the case of `Convention`s and the `Model` itself
     func merge(graphQL user: UserFragment) {
-        name.value = user.name
-        email.value = user.email
+        name.accept(user.name)
+        email.accept(user.email)
         var existingConventions = conventions.value
         for convention in user.conventions {
             if let existing = existingConventions.first(where: { $0.id == convention.id }) {
@@ -70,8 +71,8 @@ class Model: Codable {
                 existingConventions.append(convention)
             }
         }
-        conventions.value = existingConventions.sorted(by: { $0.start > $1.start })
-        settings.value = Settings(graphQL: user.settings.fragments.settingsFragment) ?? Settings.default
+        conventions.accept(existingConventions.sorted(by: { $0.start > $1.start }))
+        settings.accept(Settings(graphQL: user.settings.fragments.settingsFragment) ?? Settings.default)
         ConArtist.Persist.persist()
     }
 
@@ -80,10 +81,10 @@ class Model: Codable {
     // MARK: Decodable
     required init(from decoder: Decoder) throws {
         let json = try decoder.container(keyedBy: CodingKeys.self)
-        name.value = try json.decode(String.self, forKey: .name)
-        email.value = try json.decode(String.self, forKey: .email)
-        settings.value = try json.decode(Settings.self, forKey: .settings)
-        conventions.value = try json.decode([Convention].self, forKey: .conventions)
+        name.accept(try json.decode(String.self, forKey: .name))
+        email.accept(try json.decode(String.self, forKey: .email))
+        settings.accept(try json.decode(Settings.self, forKey: .settings))
+        conventions.accept(try json.decode([Convention].self, forKey: .conventions))
     }
 
     // MARK: Encodable
@@ -96,10 +97,10 @@ class Model: Codable {
     }
 
     func clear() {
-        name.value = nil
-        email.value = nil
-        settings.value = Settings.default
-        conventions.value = []
+        name.accept(nil)
+        email.accept(nil)
+        settings.accept(Settings.default)
+        conventions.accept([])
         ConArtist.Persist.persist()
     }
 }
@@ -107,19 +108,19 @@ class Model: Codable {
 // MARK: - Navigation
 extension Model {
     func navigate(replace vc: UIViewController) {
-        page.value.append(.Appear(vc))
+        page.accept(page.value + [.Appear(vc)])
     }
 
     func navigate(push vc: UIViewController) {
-        page.value.append(.Push(vc))
+        page.accept(page.value + [.Push(vc)])
     }
 
     func navigate(present vc: UIViewController) {
-        page.value.append(.Modal(vc))
+        page.accept(page.value + [.Modal(vc)])
     }
 
     func navigate(show vc: UIViewController) {
-        page.value.append(.Over(vc))
+        page.accept(page.value + [.Over(vc)])
     }
 
     func navigate(backTo vc: UIViewController) {
@@ -127,7 +128,7 @@ extension Model {
         while newValue.last.map({ $0.viewController }).map((==) <- vc) == false {
             newValue.removeLast()
         }
-        page.value = newValue
+        page.accept(newValue)
     }
 
     func navigate(backTo vcClass: UIViewController.Type) {
@@ -135,10 +136,10 @@ extension Model {
         while newValue.last.map({ type(of: $0.viewController) }).map((==) <- vcClass) == false {
             newValue.removeLast()
         }
-        page.value = newValue
+        page.accept(newValue)
     }
 
     func navigate(back pages: Int) {
-        page.value.removeLast(pages)
+        page.accept(Array(page.value.dropLast()))
     }
 }

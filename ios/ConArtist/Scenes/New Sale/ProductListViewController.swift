@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxCocoa
 import RxSwift
 
 class ProductListViewController: UIViewController {
@@ -18,7 +19,7 @@ class ProductListViewController: UIViewController {
     fileprivate var productType: ProductType!
     fileprivate var records: [Record]!
     fileprivate var products: [Product]!
-    fileprivate var øselected: Variable<[Product]>!
+    fileprivate var selected: BehaviorRelay<[Product]>!
 }
 
 // MARK: - Lifecycle
@@ -46,7 +47,7 @@ extension ProductListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProductTableViewCell.ID) as! ProductTableViewCell
         let product = products[indexPath.row]
-        cell.setup(with: product, records: records, count: øselected.value.count(occurrencesOf: product))
+        cell.setup(with: product, records: records, count: selected.value.count(occurrencesOf: product))
         return cell
     }
 }
@@ -54,16 +55,16 @@ extension ProductListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension ProductListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        øselected.value.append(products[indexPath.row])
+        selected.accept(selected.value + [products[indexPath.row]])
         tableView.reloadRows(at: [indexPath], with: .none)
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let product = products[indexPath.row]
         var actions: [UIContextualAction] = []
-        if øselected.value.count(occurrencesOf: product) > 0 {
-            let removeAllAction = UIContextualAction(style: .normal, title: "Remove all"¡) { [øselected, products, productsTableView] _, _, reset in
-                øselected?.value = øselected!.value.filter((!=) <- products![indexPath.row])
+        if selected.value.count(occurrencesOf: product) > 0 {
+            let removeAllAction = UIContextualAction(style: .normal, title: "Remove all"¡) { [selected, products, productsTableView] _, _, reset in
+                selected?.accept(selected!.value.filter((!=) <- products![indexPath.row]))
                 (productsTableView?.cellForRow(at: indexPath) as? ProductTableViewCell)?.countView.isHidden = true
                 reset(true)
             }
@@ -81,12 +82,12 @@ extension ProductListViewController: ViewControllerNavigation {
     static let Storyboard: Storyboard = .Sale
     static let ID = "ProductList"
 
-    static func show(for productType: ProductType, and products: [Product], records: [Record], selected øselected: Variable<[Product]>) {
+    static func show(for productType: ProductType, and products: [Product], records: [Record], selected: BehaviorRelay<[Product]>) {
         let controller = instantiate()
         controller.productType = productType
         controller.products = products
         controller.records = records
-        controller.øselected = øselected
+        controller.selected = selected
         ConArtist.model.navigate(push: controller)
     }
 }

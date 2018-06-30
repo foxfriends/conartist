@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 class RecordsOverviewViewController: UIViewController {
     fileprivate struct Section {
@@ -42,7 +43,7 @@ class RecordsOverviewViewController: UIViewController {
     @IBOutlet weak var netProfitAmountLabel: UILabel!
 
     fileprivate var convention: Convention!
-    fileprivate let øsections = Variable<[Section]>([])
+    fileprivate let sections = BehaviorRelay<[Section]>(value: [])
 
     fileprivate let disposeBag = DisposeBag()
     fileprivate let refreshControl = UIRefreshControl()
@@ -115,18 +116,18 @@ extension RecordsOverviewViewController {
     fileprivate func setupSubscriptions() {
         // NOTE: this expression is 'very complex'... too much so for the Swift compiler to really work out sometimes,
         //       so I've put type annotations in to hopefully make it easier
-        let øitems = Observable
+        let items = Observable
             .combineLatest(
                 convention.expenses.map { $0.map { ItemType.Expense($0) } },
                 convention.records.map { $0.map { ItemType.Record($0) } }
             )
             .map { (expenses: [ItemType], records: [ItemType]) -> [ItemType] in expenses + records }
 
-        øitems
+        items
             .map { (items: [ItemType]) -> [ItemType] in items.sorted { $0.time < $1.time } }
             .map { (items: [ItemType]) -> [[ItemType]] in items.split { $0.time.roundToDay() < $1.time.roundToDay() } }
             .map { (itemss: [[ItemType]]) -> [[[ItemType]]] in itemss.map { (items: [ItemType]) -> [[ItemType]] in items.split { $0.isExpense || $1.isExpense } } }
-            .map { [øsections] (itemsss: [[[ItemType]]]) -> [Section] in
+            .map { [sections] (itemsss: [[[ItemType]]]) -> [Section] in
                 itemsss.enumerated().map { (index: Int, itemss: [[ItemType]]) -> Section in
                     let date = itemss.first!.first!.time.roundToDay()
                     let items = itemss.map { (items: [ItemType]) -> Item in
@@ -135,13 +136,13 @@ extension RecordsOverviewViewController {
                         case .Record: return .Records(items.map { $0.record! })
                         }
                     }
-                    return Section(date: date, items: items, expanded: øsections.value.nth(index)?.expanded ?? true)
+                    return Section(date: date, items: items, expanded: sections.value.nth(index)?.expanded ?? true)
                 }
             }
-            .bind(to: øsections)
+            .bind(to: sections)
             .disposed(by: disposeBag)
 
-        øitems
+        items
             .map { $0.map { $0.price } }
             .map { $0.reduce(Money.zero, +) }
             .map { $0.toString() }
@@ -149,7 +150,7 @@ extension RecordsOverviewViewController {
             .drive(netProfitAmountLabel.rx.text)
             .disposed(by: disposeBag)
 
-        øsections
+        sections
             .asDriver()
             .drive(onNext: { [recordsTableView] _ in recordsTableView?.reloadData() })
             .disposed(by: disposeBag)
@@ -163,7 +164,7 @@ extension RecordsOverviewViewController {
 // MARK: - UITableViewDataSource
 extension RecordsOverviewViewController: UITableViewDataSource {
     fileprivate func section(at section: Int) -> Section? {
-        return øsections.value.nth(section)
+        return sections.value.nth(section)
     }
 
     fileprivate func item(for indexPath: IndexPath) -> Item? {
@@ -171,7 +172,7 @@ extension RecordsOverviewViewController: UITableViewDataSource {
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return øsections.value.count
+        return sections.value.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -247,9 +248,11 @@ extension RecordsOverviewViewController: UITableViewDelegate {
     }
 
     private func toggleSectionExpanded(_ index: Int) {
-        øsections.value = øsections.value
-            .enumerated()
-            .map { i, section in i == index ? section.toggleExpanded() : section }
+        sections.accept(
+            sections.value
+                .enumerated()
+                .map { i, section in i == index ? section.toggleExpanded() : section }
+        )
     }
 }
 

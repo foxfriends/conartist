@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxCocoa
 import RxSwift
 
 class FancyTextField: UITextField {
@@ -15,8 +16,8 @@ class FancyTextField: UITextField {
     private let titleLabel = UILabel()
     private let formattedLabel = UILabel()
 
-    let isValid = Variable<Bool>(true)
-    private let isUnderlineHighlighted = Variable<Bool>(false)
+    let isValid = BehaviorRelay(value: true)
+    private let isUnderlineHighlighted = BehaviorRelay(value: false)
 
     var format: ((String) -> String)?
 
@@ -121,14 +122,14 @@ class FancyTextField: UITextField {
     @discardableResult
     override func becomeFirstResponder() -> Bool {
         let success = super.becomeFirstResponder()
-        isUnderlineHighlighted.value = success
+        isUnderlineHighlighted.accept(success)
         return success
     }
 
     @discardableResult
     override func resignFirstResponder() -> Bool {
         let success = super.resignFirstResponder()
-        isUnderlineHighlighted.value = false
+        isUnderlineHighlighted.accept(false)
         return success
     }
 }

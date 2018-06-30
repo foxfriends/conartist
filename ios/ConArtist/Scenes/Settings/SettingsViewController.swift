@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import RxCocoa
 import RxSwift
 
 class SettingsViewController: UIViewController {
     enum Setting {
         case Action(String, () -> Void)
-        case Boolean(String, Variable<Bool>)
-        case Select(String, Variable<String>, [String])
+        case Boolean(String, BehaviorRelay<Bool>)
+        case Select(String, BehaviorRelay<String>, [String])
     }
     
     struct Group {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxCocoa
 import RxSwift
 
 class ConventionUserInfoListViewController: UIViewController {
@@ -17,7 +18,7 @@ class ConventionUserInfoListViewController: UIViewController {
 
     fileprivate let disposeBag = DisposeBag()
     fileprivate var convention: Convention!
-    fileprivate let øinformation = Variable<[ConventionUserInfo]>([])
+    fileprivate let information = BehaviorRelay<[ConventionUserInfo]>(value: [])
     fileprivate let refreshControl = UIRefreshControl()
 }
 
@@ -55,7 +56,7 @@ extension ConventionUserInfoListViewController {
 // MARK: - Subscriptions
 extension ConventionUserInfoListViewController {
     fileprivate func setupSubscriptions() {
-        øinformation
+        information
             .asDriver()
             .drive(onNext: reloadView)
             .disposed(by: disposeBag)
@@ -89,12 +90,12 @@ extension ConventionUserInfoListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? øinformation.value.count : 0
+        return section == 0 ? information.value.count : 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ConventionUserInfoTableViewCell.ID, for: indexPath) as! ConventionUserInfoTableViewCell
-        cell.setup(for: øinformation.value[indexPath.row])
+        cell.setup(for: information.value[indexPath.row])
         return cell
     }
 
@@ -111,7 +112,7 @@ extension ConventionUserInfoListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension ConventionUserInfoListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let information = øinformation.value[indexPath.row]
+        let information = self.information.value[indexPath.row]
         var actions: [UIContextualAction] = []
         if information.vote != .up {
             let upvoteAction = UIContextualAction(style: .normal, title: "Upvote"¡) { [convention] _, _, reset in
@@ -127,7 +128,7 @@ extension ConventionUserInfoListViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let information = øinformation.value[indexPath.row]
+        let information = self.information.value[indexPath.row]
         var actions: [UIContextualAction] = []
         if information.vote != .down {
             let downvoteAction = UIContextualAction(style: .normal, title: "Downvote"¡) { [convention] _, _, reset in
@@ -154,7 +155,7 @@ extension ConventionUserInfoListViewController: ViewControllerNavigation {
         controller.convention = convention
         convention.userInfo
             .map { $0.sorted().reversed() }
-            .bind(to: controller.øinformation)
+            .bind(to: controller.information)
             .disposed(by: controller.disposeBag)
 
         ConArtist.model.navigate(push: controller)

@@ -7,12 +7,12 @@ target 'ConArtist' do
   # Pods for ConArtist
   pod 'Apollo', '~> 0.7.0'
   pod 'Alamofire', '~> 4.5'
-  pod 'Strongbox'
-  pod 'SwiftMoment'
-  pod 'RxSwift'
-  pod 'RxCocoa'
-  pod 'RxAlamofire'
-  pod 'SexyTooltip'
+  pod 'Strongbox', '~> 0.5'
+  pod 'SwiftMoment', '~> 0.7'
+  pod 'RxSwift', '~> 4.2'
+  pod 'RxCocoa', '~> 4.2'
+  pod 'RxAlamofire', '~> 4.2'
+  pod 'SexyTooltip', '~> 1.2'
   pod 'SVGKit', :git => 'https://github.com/SVGKit/SVGKit.git', :branch => '2.x'
   pod 'PrettyString', '~> 0.1'
 end

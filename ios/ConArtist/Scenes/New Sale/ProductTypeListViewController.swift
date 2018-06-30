@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 import SVGKit
 
 class ProductTypeListViewController: UIViewController {
@@ -21,18 +22,18 @@ class ProductTypeListViewController: UIViewController {
     @IBOutlet weak var noteLabel: UILabel!
 
     fileprivate let disposeBag = DisposeBag()
-    fileprivate let øproductTypes = Variable<[ProductType]>([])
-    fileprivate let øproducts = Variable<[Product]>([])
-    fileprivate let øprices = Variable<[Price]>([])
-    fileprivate let øselected = Variable<[Product]>([])
-    fileprivate let ørecords = Variable<[Record]>([])
-    fileprivate let ømoney = Variable<Money?>(nil)
+    fileprivate let productTypes = BehaviorRelay<[ProductType]>(value: [])
+    fileprivate let products = BehaviorRelay<[Product]>(value: [])
+    fileprivate let prices = BehaviorRelay<[Price]>(value: [])
+    fileprivate let selected = BehaviorRelay<[Product]>(value: [])
+    fileprivate let records = BehaviorRelay<[Record]>(value: [])
+    fileprivate let money = BehaviorRelay<Money?>(value: nil)
 
     fileprivate var convention: Convention!
     fileprivate var editingRecord: Record?
     fileprivate let results = PublishSubject<([Product], Money, String)>()
 
-    fileprivate let øexpectedInfoViewBottomConstraintConstant = Variable<CGFloat>(-150)
+    fileprivate let expectedInfoViewBottomConstraintConstant = BehaviorRelay<CGFloat>(value: -150)
 }
 
 // MARK: - Lifecycle
@@ -46,9 +47,9 @@ extension ProductTypeListViewController {
         priceField.format = { Money.parse(as: ConArtist.model.settings.value.currency, $0)?.toString() ?? $0 }
         if let record = editingRecord {
             infoTextView.text = record.info
-            øselected.value = record.products.filterMap(convention.product(withId:))
+            selected.accept(record.products.filterMap(convention.product(withId:)))
             priceField.text = "\(record.price.numericValue())"
-            ømoney.value = record.price
+            money.accept(record.price)
         }
     }
 
@@ -78,7 +79,7 @@ extension ProductTypeListViewController {
 // MARK: - Subscriptions
 extension ProductTypeListViewController {
     fileprivate func setupSubscriptions() {
-        øproductTypes.asDriver()
+        productTypes.asDriver()
             .drive(onNext: { [productTypeTableView] _ in productTypeTableView?.reloadData() })
             .disposed(by: disposeBag)
 
@@ -88,21 +89,21 @@ extension ProductTypeListViewController {
 
         Observable
             .merge(
-                øselected.asObservable().discard(),
+                selected.asObservable().discard(),
                 priceField.rx.text.discard()
             )
             .withLatestFrom(priceField.rx.text)
             .map { [weak self] text -> Money? in
-                guard let text = text, !text.isEmpty else { return self?.calculatePrice(self!.øselected.value) }
+                guard let text = text, !text.isEmpty else { return self?.calculatePrice(self!.selected.value) }
                 return Money.parse(as: ConArtist.model.settings.value.currency, text)
             }
-            .bind(to: ømoney)
+            .bind(to: money)
             .disposed(by: disposeBag)
 
         Observable
             .combineLatest(
-                øselected.asObservable().map { !$0.isEmpty },
-                ømoney.asObservable().map { $0 != nil }
+                selected.asObservable().map { !$0.isEmpty },
+                money.asObservable().map { $0 != nil }
             )
             .map { $0 && $1 }
             .bind(to: navBar.rightButton.rx.isEnabled)
@@ -111,8 +112,8 @@ extension ProductTypeListViewController {
         navBar.rightButton.rx.tap
             .withLatestFrom(
                 Observable.combineLatest(
-                    øselected.asObservable(),
-                    ømoney.asObservable().filterMap { [weak self] in $0 ?? self?.calculatePrice(self!.øselected.value) },
+                    selected.asObservable(),
+                    money.asObservable().filterMap { [weak self] in $0 ?? self?.calculatePrice(self!.selected.value) },
                     infoTextView.rx.text.map { $0 ?? "" }
                 )
             )
@@ -122,7 +123,7 @@ extension ProductTypeListViewController {
             })
             .disposed(by: disposeBag)
 
-        øselected
+        selected
             .asObservable()
             .map(calculatePrice)
             .map { [placeholder = priceField.placeholder] money in money?.toString() ?? placeholder }
@@ -130,19 +131,19 @@ extension ProductTypeListViewController {
             .drive(onNext: { [priceField] text in priceField?.placeholder = text })
             .disposed(by: disposeBag)
 
-        øselected
+        selected
             .asObservable()
             .subscribe(onNext: { [productTypeTableView] _ in productTypeTableView?.reloadData() })
             .disposed(by: disposeBag)
 
         infoExpandButton.rx.tap
-            .subscribe(onNext: { [view, øexpectedInfoViewBottomConstraintConstant] _ in
+            .subscribe(onNext: { [view, expectedInfoViewBottomConstraintConstant] _ in
                 view?.endEditing(true)
-                øexpectedInfoViewBottomConstraintConstant.value = øexpectedInfoViewBottomConstraintConstant.value >= 0 ? -150 : 0
+                expectedInfoViewBottomConstraintConstant.accept(expectedInfoViewBottomConstraintConstant.value >= 0 ? -150 : 0)
             })
             .disposed(by: disposeBag)
 
-        øexpectedInfoViewBottomConstraintConstant
+        expectedInfoViewBottomConstraintConstant
             .asObservable()
             .subscribe(onNext: { [view, infoViewBottomConstraint, infoExpandButtonImage] amount in
                 infoViewBottomConstraint?.constant = amount
@@ -166,9 +167,9 @@ extension ProductTypeListViewController {
         let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
 
         if notification.name == Notification.Name.UIKeyboardWillHide {
-            infoViewBottomConstraint.constant = øexpectedInfoViewBottomConstraintConstant.value
+            infoViewBottomConstraint.constant = expectedInfoViewBottomConstraintConstant.value
         } else {
-            infoViewBottomConstraint.constant = øexpectedInfoViewBottomConstraintConstant.value + keyboardViewEndFrame.height
+            infoViewBottomConstraint.constant = expectedInfoViewBottomConstraintConstant.value + keyboardViewEndFrame.height
         }
         UIView.animate(withDuration: duration) { self.view.layoutIfNeeded() }
     }
@@ -181,14 +182,14 @@ extension ProductTypeListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? øproductTypes.value.count : 0
+        return section == 0 ? productTypes.value.count : 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProductTypeTableViewCell.ID, for: indexPath) as! ProductTypeTableViewCell
-        if indexPath.row < øproductTypes.value.count {
-            let item = øproductTypes.value[indexPath.row]
-            cell.fill(with: item, selected: øselected.value)
+        if indexPath.row < productTypes.value.count {
+            let item = productTypes.value[indexPath.row]
+            cell.fill(with: item, selected: selected.value)
         }
         return cell
     }
@@ -197,9 +198,9 @@ extension ProductTypeListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension ProductTypeListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let productType = øproductTypes.value[indexPath.row]
-        let products = øproducts.value.filter { $0.typeId == productType.id }
-        ProductListViewController.show(for: productType, and: products, records: ørecords.value, selected: øselected)
+        let productType = productTypes.value[indexPath.row]
+        let products = self.products.value.filter { $0.typeId == productType.id }
+        ProductListViewController.show(for: productType, and: products, records: records.value, selected: selected)
     }
 }
 
@@ -226,7 +227,7 @@ extension ProductTypeListViewController {
     }
 
     fileprivate func calculatePrice(_ selected: [Product]) -> Money? {
-        let prices = øprices.value
+        let prices = self.prices.value
         guard prices.count > 0 else { return nil }
         let matters = prices.filterMap { $0.productId }
         let items: [Key: Int] = selected.reduce([:]) { counts, product in
@@ -272,16 +273,16 @@ extension ProductTypeListViewController: ViewControllerNavigation {
         controller.editingRecord = record
         controller.convention = convention
         convention.records
-            .bind(to: controller.ørecords)
+            .bind(to: controller.records)
             .disposed(by: controller.disposeBag)
         convention.products
-            .bind(to: controller.øproducts)
+            .bind(to: controller.products)
             .disposed(by: controller.disposeBag)
         convention.productTypes
-            .bind(to: controller.øproductTypes)
+            .bind(to: controller.productTypes)
             .disposed(by: controller.disposeBag)
         convention.prices
-            .bind(to: controller.øprices)
+            .bind(to: controller.prices)
             .disposed(by: controller.disposeBag)
 
         ConArtist.model.navigate(present: controller)

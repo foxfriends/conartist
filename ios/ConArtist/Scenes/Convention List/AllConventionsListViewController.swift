@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 extension Convention {
     fileprivate var cellIdentifier: String {
@@ -21,7 +22,7 @@ extension Convention {
 
 
 class AllConventionsListViewController: UIViewController {
-    fileprivate let øconventions = Variable<[Convention]>([])
+    fileprivate let conventions = BehaviorRelay<[Convention]>(value: [])
     fileprivate let disposeBag = DisposeBag()
 
     @IBOutlet weak var navBar: FakeNavBar!
@@ -54,7 +55,7 @@ extension AllConventionsListViewController {
             .subscribe(onNext: { ConArtist.model.navigate(back: 1) })
             .disposed(by: disposeBag)
 
-        øconventions
+        conventions
             .asObservable()
             .discard()
             .subscribe(onNext: { [conventionsTableView] in conventionsTableView?.reloadData() })
@@ -69,11 +70,11 @@ extension AllConventionsListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return øconventions.value.count
+        return conventions.value.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let convention = øconventions.value.nth(indexPath.row) else {
+        guard let convention = conventions.value.nth(indexPath.row) else {
             return UITableViewCell()
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: convention.cellIdentifier, for: indexPath) as! ConventionTableViewCell
@@ -85,7 +86,7 @@ extension AllConventionsListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension AllConventionsListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let convention = øconventions.value.nth(indexPath.row) else {
+        guard let convention = conventions.value.nth(indexPath.row) else {
             return
         }
         ConventionDetailsViewController.show(for: convention)
@@ -100,7 +101,7 @@ extension AllConventionsListViewController: ViewControllerNavigation {
     static func show(conventions: Observable<[Convention]>) {
         let controller = instantiate()
         conventions
-            .bind(to: controller.øconventions)
+            .bind(to: controller.conventions)
             .disposed(by: controller.disposeBag)
         ConArtist.model.navigate(push: controller)
     }

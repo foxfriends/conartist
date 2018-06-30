@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (4.6.0)
+  - Alamofire (4.7.2)
   - Apollo (0.7.0):
     - Apollo/Core (= 0.7.0)
   - Apollo/Core (0.7.0)
@@ -11,17 +11,17 @@ PODS:
     - CocoaLumberjack/Default
   - pop (1.0.10)
   - PrettyString (0.1.1)
-  - RxAlamofire (4.0.0):
-    - RxAlamofire/Core (= 4.0.0)
-  - RxAlamofire/Core (4.0.0):
+  - RxAlamofire (4.2.0):
+    - RxAlamofire/Core (= 4.2.0)
+  - RxAlamofire/Core (4.2.0):
     - Alamofire (~> 4.5)
+    - RxSwift (~> 4)
+  - RxCocoa (4.2.0):
     - RxSwift (~> 4.0)
-  - RxCocoa (4.0.0):
-    - RxSwift (~> 4.0)
-  - RxSwift (4.0.0)
+  - RxSwift (4.2.0)
   - SexyTooltip (1.2.6):
     - pop (~> 1.0)
-  - Strongbox (0.4.0)
+  - Strongbox (0.5.1)
   - SVGKit (2.0.1):
     - CocoaLumberjack (~> 3.x)
   - SwiftMoment (0.7)
@@ -30,13 +30,13 @@ DEPENDENCIES:
   - Alamofire (~> 4.5)
   - Apollo (~> 0.7.0)
   - PrettyString (~> 0.1)
-  - RxAlamofire
-  - RxCocoa
-  - RxSwift
-  - SexyTooltip
-  - Strongbox
+  - RxAlamofire (~> 4.2)
+  - RxCocoa (~> 4.2)
+  - RxSwift (~> 4.2)
+  - SexyTooltip (~> 1.2)
+  - Strongbox (~> 0.5)
   - SVGKit (from `https://github.com/SVGKit/SVGKit.git`, branch `2.x`)
-  - SwiftMoment
+  - SwiftMoment (~> 0.7)
 
 EXTERNAL SOURCES:
   SVGKit:
@@ -49,19 +49,19 @@ CHECKOUT OPTIONS:
     :git: https://github.com/SVGKit/SVGKit.git
 
 SPEC CHECKSUMS:
-  Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
+  Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
   Apollo: d6649ac06168660e70c6226c4eadfc0770791ba5
   CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
   pop: 82ca6b068ce9278fd350fd9dd09482a0ce9492e6
   PrettyString: 186adc5eb395894d0914c920ae3dc7fecfa8ca12
-  RxAlamofire: 6ea579ac53bf14cb4bc7049a3866e5a769989b1d
-  RxCocoa: d62846ca96495d862fa4c59ea7d87e5031d7340e
-  RxSwift: fd680d75283beb5e2559486f3c0ff852f0d35334
+  RxAlamofire: 87a9c588541210cc3e4a1f843ccc3ecf3eb98b31
+  RxCocoa: 0b54909c902e1e581212a03e690bbd94032d8baa
+  RxSwift: 99e10317ddfcc7fbe01356aafd118fde4a0be104
   SexyTooltip: 47654d390fbb85f31b8e49f4e48c5f1eec58a4c9
-  Strongbox: d7386b85bd4f50ea9da5154919ad998989fceb2f
+  Strongbox: f49a3922237c1dcde2cabbb882edd37d2aa75a23
   SVGKit: 4055d9e809b5db8633755979cfb3b02dc5a8c20d
   SwiftMoment: dc6dd27012e267819104cbb03f74ff9192dd0b42
 
-PODFILE CHECKSUM: cff897f37f8198d5172b8bd66e2b5794f50556b8
+PODFILE CHECKSUM: c7f351012ed1fa9fa6982f540dfeec87fdd54727
 
 COCOAPODS: 1.4.0

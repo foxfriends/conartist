@@ -8,15 +8,16 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 // TODO: show a loading thing when these are loading
 class NetworkImageView: UIImageView {
     private let disposeBag = DisposeBag()
 
-    private let øimageId = Variable<String?>(nil)
+    private let _imageId = BehaviorRelay<String?>(value: nil)
     @IBInspectable var imageId: String? {
-        get { return øimageId.value }
-        set { øimageId.value = newValue }
+        get { return _imageId.value }
+        set { _imageId.accept(newValue) }
     }
 
     override init(frame: CGRect) {
@@ -30,7 +31,7 @@ class NetworkImageView: UIImageView {
     }
 
     private func doInit() {
-        øimageId.asObservable()
+        _imageId.asObservable()
             .flatBindMap(ConArtist.API.Images.load(imageId:))
             .asDriver(onErrorJustReturn: nil)
             .drive(rx.image)

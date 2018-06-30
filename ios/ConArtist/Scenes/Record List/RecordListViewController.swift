@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxCocoa
 import RxSwift
 
 class RecordListViewController: UIViewController {
@@ -14,8 +15,8 @@ class RecordListViewController: UIViewController {
     @IBOutlet weak var navBar: FakeNavBar!
 
     fileprivate var convention: Convention!
-    fileprivate let ørecords = Variable<[Record]>([])
-    fileprivate let øproducts = Variable<[Product]>([])
+    fileprivate let records = BehaviorRelay<[Record]>(value: [])
+    fileprivate let products = BehaviorRelay<[Product]>(value: [])
 
     fileprivate var after: Date?
     fileprivate var before: Date?
@@ -32,18 +33,18 @@ extension RecordListViewController {
 
         convention.records
             .map { [after, before] records in records.filter { record in (after.map { record.time >= $0 } ?? true) && (before.map { record.time <= $0 } ?? true) } }
-            .bind(to: ørecords)
+            .bind(to: records)
             .disposed(by: disposeBag)
 
         convention.products
-            .bind(to: øproducts)
+            .bind(to: products)
             .disposed(by: disposeBag)
 
         navBar.leftButton.rx.tap
             .subscribe(onNext: { ConArtist.model.navigate(back: 1) })
             .disposed(by: disposeBag)
 
-        Observable.merge(øproducts.asObservable().discard(), ørecords.asObservable().discard())
+        Observable.merge(products.asObservable().discard(), records.asObservable().discard())
             .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [recordsTableView] in recordsTableView?.reloadData() })
             .disposed(by: disposeBag)
@@ -73,13 +74,13 @@ extension RecordListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? ørecords.value.count : 0
+        return section == 0 ? records.value.count : 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RecordTableViewCell.ID, for: indexPath) as! RecordTableViewCell
-        if let record = ørecords.value.nth(indexPath.row) {
-            cell.setup(for: record, with: øproducts.value)
+        if let record = records.value.nth(indexPath.row) {
+            cell.setup(for: record, with: products.value)
         }
         return cell
     }
@@ -88,13 +89,13 @@ extension RecordListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension RecordListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let record = ørecords.value.nth(indexPath.row) {
+        if let record = records.value.nth(indexPath.row) {
             RecordDetailsOverlayViewController.show(for: record, in: convention, after: after)
         }
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let record = ørecords.value[indexPath.row]
+        let record = records.value[indexPath.row]
         var actions: [UIContextualAction] = []
         if !convention.isEnded {
             let deleteAction = UIContextualAction(style: .normal, title: "Delete"¡) { [convention] _, _, reset in

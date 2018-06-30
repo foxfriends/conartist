@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxCocoa
 import RxSwift
 
 class SettingsSelectViewController: UIViewController {
@@ -16,7 +17,7 @@ class SettingsSelectViewController: UIViewController {
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var optionsTableView: UITableView!
 
-    fileprivate var value: Variable<String>!
+    fileprivate var value: BehaviorRelay<String>!
     fileprivate var options: [String]!
 }
 
@@ -57,7 +58,7 @@ extension SettingsSelectViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension SettingsSelectViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        value.value = options[indexPath.row]
+        value.accept(options[indexPath.row])
     }
 }
 
@@ -66,7 +67,7 @@ extension SettingsSelectViewController: ViewControllerNavigation {
     static let Storyboard: Storyboard = .Settings
     static let ID = "SettingsSelect"
 
-    static func show(title: String, value: Variable<String>, options: [String]) {
+    static func show(title: String, value: BehaviorRelay<String>, options: [String]) {
         let controller = instantiate()
         controller.value = value
         controller.options = options

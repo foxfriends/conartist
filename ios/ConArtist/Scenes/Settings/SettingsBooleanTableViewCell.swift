@@ -18,14 +18,13 @@ class SettingsBooleanTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var valueSwitch: UISwitch!
 
-    func setup(title: String, value: Variable<Bool>) {
+    func setup(title: String, value: BehaviorRelay<Bool>) {
         disposeBag = DisposeBag()
         titleLabel.text = title
 
         valueSwitch.isOn = value.value
-        valueSwitch.rx
-            .isOn
-            .subscribe(onNext: { on in value.value = on })
+        valueSwitch.rx.isOn
+            .bind(to: value)
             .disposed(by: disposeBag)
     }
 }

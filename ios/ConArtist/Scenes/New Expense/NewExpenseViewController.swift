@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 class NewExpenseViewController: UIViewController {
     @IBOutlet weak var navBar: FakeNavBar!
@@ -19,9 +20,9 @@ class NewExpenseViewController: UIViewController {
     fileprivate let disposeBag = DisposeBag()
     fileprivate var editingExpense: Expense?
     fileprivate let results = PublishSubject<(String, String, Money)>()
-    fileprivate let øcategory = Variable<String>("")
-    fileprivate let ødescription = Variable<String>("")
-    fileprivate let ømoney = Variable<Money?>(nil)
+    fileprivate let category = BehaviorRelay<String>(value: "")
+    fileprivate let note = BehaviorRelay<String>(value: "")
+    fileprivate let money = BehaviorRelay<Money?>(value: nil)
 }
 
 // MARK: - Lifecycle
@@ -32,15 +33,15 @@ extension NewExpenseViewController {
         noteLabel.font = noteLabel.font.usingFeatures([.smallCaps])
         amountTextField.format = { Money.parse(as: ConArtist.model.settings.value.currency, $0)?.toString() ?? $0 }
         if let expense = editingExpense {
-            øcategory.value = expense.category
-            ødescription.value = expense.description
-            ømoney.value = expense.price
+            category.accept(expense.category)
+            note.accept(expense.description)
+            money.accept(expense.price)
             DispatchQueue.main.async {
                 self.descriptionTextView.text = expense.description
                 self.categoryTextField.text = expense.category
-                self.categoryTextField.isValid.value = true
+                self.categoryTextField.isValid.accept(true)
                 self.amountTextField.text = "\(expense.price.numericValue())"
-                self.amountTextField.isValid.value = true
+                self.amountTextField.isValid.accept(true)
             }
         }
     }
@@ -72,27 +73,27 @@ extension NewExpenseViewController {
         amountTextField.rx.text
             .map { $0 ?? "" }
             .map { Money.parse(as: ConArtist.model.settings.value.currency, $0) }
-            .bind(to: ømoney)
+            .bind(to: money)
             .disposed(by: disposeBag)
 
         categoryTextField.rx.text
             .map { $0 ?? "" }
-            .bind(to: øcategory)
+            .bind(to: category)
             .disposed(by: disposeBag)
 
         descriptionTextView.rx.text
             .map { $0 ?? "" }
-            .bind(to: ødescription)
+            .bind(to: note)
             .disposed(by: disposeBag)
 
-        let øform = Observable.combineLatest(
-            øcategory.asObservable(),
-            ødescription.asObservable(),
-            ømoney.asObservable().filterMap(identity)
+        let form = Observable.combineLatest(
+            category.asObservable(),
+            note.asObservable(),
+            money.asObservable().filterMap(identity)
         )
 
         navBar.rightButton.rx.tap
-            .withLatestFrom(øform)
+            .withLatestFrom(form)
             .subscribe(onNext: { [results, view] result in
                 results.onNext(result)
                 view?.endEditing(true)
@@ -114,7 +115,7 @@ extension NewExpenseViewController {
             .subscribe(onNext: { [descriptionTextView] _ in descriptionTextView?.becomeFirstResponder() })
             .disposed(by: disposeBag)
 
-        ømoney
+        money
             .asObservable()
             .map { $0 != nil }
             .bind(to: amountTextField.isValid)

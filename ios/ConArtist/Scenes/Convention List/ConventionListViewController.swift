@@ -9,6 +9,7 @@
 import Strongbox
 import Foundation
 import RxSwift
+import RxCocoa
 
 class ConventionListViewController: UIViewController {
     static let MaxConventionsPerSection = 2
@@ -62,8 +63,8 @@ class ConventionListViewController: UIViewController {
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var conventionsTableView: UITableView!
 
-    fileprivate let øconventions = ConArtist.model.conventions
-    fileprivate let øsections = Variable<[Section]>([])
+    fileprivate let conventions = ConArtist.model.conventions
+    fileprivate let sections = BehaviorRelay<[Section]>(value: [])
     fileprivate let disposeBag = DisposeBag()
 
     fileprivate var present: [Convention] = []
@@ -77,12 +78,12 @@ class ConventionListViewController: UIViewController {
 // MARK: - Settings
 extension ConventionListViewController {
     fileprivate func openSettings() {
-        let øcurrency = Variable(ConArtist.model.settings.value.currency.rawValue)
+        let currency = BehaviorRelay(value: ConArtist.model.settings.value.currency.rawValue)
         let settings = [
             SettingsViewController.Group(
                 title: "General"¡,
                 items: [
-                    .Select("Currency"¡, øcurrency, CurrencyCode.variants.map { $0.rawValue })
+                    .Select("Currency"¡, currency, CurrencyCode.variants.map { $0.rawValue })
                 ]
             ),
             SettingsViewController.Group(
@@ -146,25 +147,25 @@ extension ConventionListViewController {
 // MARK: - Subscriptions
 extension ConventionListViewController {
     fileprivate func setupSubscriptions() {
-        let øpast = øconventions.asObservable().map { cons in cons.filter { $0.end < Date.today() } }
-        let øpresent = øconventions.asObservable().map { cons in cons.filter { $0.start <= Date.today() && $0.end >= Date.today() } }
-        let øfuture = øconventions.asObservable().map { cons in cons.filter { $0.start > Date.today() } }
+        let past = conventions.asObservable().map { cons in cons.filter { $0.end < Date.today() } }
+        let present = conventions.asObservable().map { cons in cons.filter { $0.start <= Date.today() && $0.end >= Date.today() } }
+        let future = conventions.asObservable().map { cons in cons.filter { $0.start > Date.today() } }
 
-        øpast.subscribe(onNext: { [weak self] in self?.past = $0 }).disposed(by: disposeBag)
-        øfuture.subscribe(onNext: { [weak self] in self?.future = $0 }).disposed(by: disposeBag)
-        øpresent.subscribe(onNext: { [weak self] in self?.present = $0 }).disposed(by: disposeBag)
+        past.subscribe(onNext: { [weak self] in self?.past = $0 }).disposed(by: disposeBag)
+        future.subscribe(onNext: { [weak self] in self?.future = $0 }).disposed(by: disposeBag)
+        present.subscribe(onNext: { [weak self] in self?.present = $0 }).disposed(by: disposeBag)
 
         // Always fill today's conventions
-        øpresent.subscribe(onNext: { cons in cons.forEach { let _ = $0.fill() } }).disposed(by: disposeBag)
+        present.subscribe(onNext: { cons in cons.forEach { let _ = $0.fill() } }).disposed(by: disposeBag)
 
-        Observable.combineLatest([øpresent, øfuture, øpast])
+        Observable.combineLatest([present, future, past])
             .map { conventionss in conventionss.map { conventions in conventions.isEmpty } }
             .map { empty in zip(empty, [Section.Present, .Future, .Past]) }
             .map { sections in sections.map { empty, section in empty ? section.empty : section } }
-            .bind(to: øsections)
+            .bind(to: sections)
             .disposed(by: disposeBag)
 
-        øsections
+        sections
             .asDriver()
             .drive(onNext: { [weak self] sections in
                 self?.sectionTitles = sections.map { $0.title }
@@ -196,7 +197,7 @@ extension ConventionListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let section = øsections.value.nth(section) else { return 0 }
+        guard let section = sections.value.nth(section) else { return 0 }
         return min(ConventionListViewController.MaxConventionsPerSection, max(conventions(for: section).count, 1))
     }
 
@@ -205,7 +206,7 @@ extension ConventionListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let section = øsections.value.nth(indexPath.section) {
+        if let section = sections.value.nth(indexPath.section) {
             let cell = tableView.dequeueReusableCell(withIdentifier: section.cellIdentifier, for: indexPath) as! ConventionTableViewCell
             if let convention = conventions(for: section).nth(indexPath.row) {
                 cell.fill(with: convention)
@@ -222,21 +223,21 @@ extension ConventionListViewController: UITableViewDataSource {
 extension ConventionListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard
-            let section = øsections.value.nth(indexPath.section),
+            let section = sections.value.nth(indexPath.section),
             let convention = conventions(for: section).nth(indexPath.row)
         else { return }
         ConventionDetailsViewController.show(for: convention)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let section = øsections.value.nth(indexPath.section) else { return 0 }
+        guard let section = sections.value.nth(indexPath.section) else { return 0 }
         return section.cellHeight
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let title = self.tableView(tableView, titleForHeaderInSection: section) else { return nil }
-        let conCount = øsections.value.nth(section).map(conventions(for:))?.count ?? 0
-        let conventions = øsections.asObservable()
+        let conCount = sections.value.nth(section).map(conventions(for:))?.count ?? 0
+        let conventions = sections.asObservable()
             .map { sections in sections.nth(section) }
             .map { [unowned self] section in self.conventions(for: section!) }
         let showMore = conCount > ConventionListViewController.MaxConventionsPerSection

@@ -12,7 +12,7 @@ impl DefaultTo {
     pub fn new(url: &'static str) -> Self { Self { url } }
 }
 impl AroundMiddleware for DefaultTo {
-    fn around(self, handler: Box<Handler>) -> Box<Handler> {
+    fn around(self, handler: Box<dyn Handler>) -> Box<dyn Handler> {
         Box::new(Fallback::new(self.url, handler))
     }
 }

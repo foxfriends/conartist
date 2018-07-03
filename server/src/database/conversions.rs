@@ -42,7 +42,7 @@ impl ToSql<Text, Pg> for Money {
 }
 
 impl FromSqlRow<Text, Pg> for Money {
-    fn build_from_row<R: ::diesel::row::Row<Pg>>(row: &mut R) -> Result<Self, Box<Error+Send+Sync>> {
+    fn build_from_row<R: ::diesel::row::Row<Pg>>(row: &mut R) -> Result<Self, Box<dyn Error+Send+Sync>> {
         FromSql::<Text, Pg>::from_sql(row.take())
     }
 }
@@ -81,7 +81,7 @@ impl ToSql<Text, Pg> for Currency {
 }
 
 impl FromSqlRow<Text, Pg> for Currency {
-    fn build_from_row<R: ::diesel::row::Row<Pg>>(row: &mut R) -> Result<Self, Box<Error+Send+Sync>> {
+    fn build_from_row<R: ::diesel::row::Row<Pg>>(row: &mut R) -> Result<Self, Box<dyn Error+Send+Sync>> {
         FromSql::<Text, Pg>::from_sql(row.take())
     }
 }

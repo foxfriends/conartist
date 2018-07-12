@@ -19,6 +19,7 @@ import { EditProductCard } from './edit-product-card'
 import { Input } from '../../common/input'
 import { Cover } from '../../common/cover'
 import { Button } from '../../common/button'
+import { reordered as navigationItemReordered } from '../../navigation/item'
 import { events, SaveProducts } from '../../event'
 import { SaveProductType } from '../../api/save-product-type'
 import { SaveProduct } from '../../api/save-product'
@@ -80,8 +81,8 @@ export class EditProducts extends ReactX.Component<Props, State> {
   static getDerivedStateFromProps({ products, productTypes }: Props, state: State): ?$Shape<State> {
     if (!state || (state.products.length === 0 && state.productTypes.length === 0)) {
       return {
-        products: products.sort(by(['sort', Asc], ['id', Asc])).map(editableProduct()),
-        productTypes: productTypes.sort(by(['sort', Asc], ['id', Asc])).map(editableProductType),
+        products: products.sort(by(['discontinued', Desc], ['sort', Asc], ['id', Asc])).map(editableProduct()),
+        productTypes: productTypes.sort(by(['discontinued', Desc], ['sort', Asc], ['id', Asc])).map(editableProductType),
       }
     } else {
       return null
@@ -94,10 +95,14 @@ export class EditProducts extends ReactX.Component<Props, State> {
     toolbarStatus.next(defaultToolbar)
 
     this.state = {
-      products: this.props.products.sort(by(['sort', Asc], ['id', Asc])).map(editableProduct()),
-      productTypes: this.props.productTypes.sort(by(['sort', Asc], ['id', Asc])).map(editableProductType),
+      products: this.props.products.sort(by(['discontinued', Desc], ['sort', Asc], ['id', Asc])).map(editableProduct()),
+      productTypes: this.props.productTypes.sort(by(['discontinued', Desc], ['sort', Asc], ['id', Asc])).map(editableProductType),
       editingEnabled: true,
     }
+
+    navigationItemReordered
+      .pipe(takeUntil(this.unmounted))
+      .subscribe(([start, index]) => this.handleProductTypeSortChange(start, index))
 
     const saveButtonPressed = events
       .pipe(
@@ -210,15 +215,17 @@ export class EditProducts extends ReactX.Component<Props, State> {
     }
   }
 
-  handleProductSortChange(id: Id, sort: number) {
-    const original = this.state.products.find(product => product.id === id)
+  handleProductSortChange(typeId: Id, start: number, sort: number) {
+    const original = this.state.products
+      .filter(product => product.typeId === typeId)
+      .sort(by(['discontinued', Desc], ['sort', Asc], ['id', Asc]))[start]
     if (!original) { throw new Error("Trying to edit non-existent product") }
     if (original.sort < sort) {
       sort -= 1
     }
     const products =
       this.state.products.map(product => {
-        if (product.id === id) {
+        if (product.id === original.id) {
           return { ...product, sort }
         } else if (product.typeId === original.typeId) {
           if (product.sort >= sort && product.sort < original.sort) {
@@ -232,15 +239,16 @@ export class EditProducts extends ReactX.Component<Props, State> {
     this.setState(this.validate({ products, productTypes: this.state.productTypes }))
   }
 
-  handleProductTypeSortChange(id: Id, sort: number) {
-    const original = this.state.productTypes.find(type => type.id === id)
+  handleProductTypeSortChange(start: number, sort: number) {
+    const original = [...this.state.productTypes]
+      .sort(by(['discontinued', Desc], ['sort', Asc], ['id', Asc]))[start]
     if (!original) { throw new Error("Trying to edit non-existent product type") }
     if (original.sort < sort) {
       sort -= 1
     }
     const productTypes =
       this.state.productTypes.map(productType => {
-        if (productType.id === id) {
+        if (productType.id === original.id) {
           return { ...productType, sort }
         } else if (productType.sort >= sort && productType.sort < original.sort) {
           return { ...productType, sort: productType.sort + 1 }
@@ -371,7 +379,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
                 onProductNameChange={(id, name) => this.handleProductNameChange(id, name)}
                 onProductQuantityChange={(id, quantity) => this.handleProductQuantityChange(id, quantity)}
                 onProductToggleDiscontinue={id => this.handleProductDiscontinueToggled(id)}
-                onProductReorder={(id, index) => this.handleProductSortChange(id, index)}
+                onProductReorder={(start, index) => this.handleProductSortChange(productType.id, start, index)}
                 key={`product_type_${productType.id}`}
                 />
           }

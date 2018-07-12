@@ -12,6 +12,7 @@ import { Content } from './content'
 import { Dialog } from './dialog'
 import { model } from './model'
 import { toast, Toast } from './toast'
+import { by, Asc } from './util/sort'
 import * as page from './model/page'
 import type { Model } from './model'
 import type { Props as ToolbarProps } from './toolbar'
@@ -72,25 +73,39 @@ export class ConArtist extends React.Component<Props, State> {
       case 'products':
         state.toolbar = { primary: toolbarAction.EditProducts, secondary: toolbarAction.ExportProducts, pageIcon: 'shopping_basket' }
         state.content = { name: 'products', productTypes: model.productTypes, products: model.products }
-        state.navigation = NavInfo.default.select('Products', [].concat(...model.productTypes.map(NavInfo.forProductType)))
+        state.navigation = NavInfo.default.select('Products', [].concat(
+          ...model.productTypes.sort(by(['sort', Asc], ['id', Asc])).map(NavInfo.forProductType)
+        ))
         break
 
       case 'edit-products':
         state.toolbar = toolbar
         state.content = { name: 'edit-products', productTypes: model.productTypes, products: model.products, pageIcon: 'shopping_basket' }
-        state.navigation = NavInfo.default.select('Products', [].concat(...model.productTypes.map(NavInfo.forProductType))).disable()
+        state.navigation = NavInfo.default
+          .select('Products', [].concat(
+            ...model.productTypes
+              .sort(by(['sort', Asc], ['id', Asc]))
+              .map(NavInfo.forReorderableProductType)
+          ))
+          .disable()
         break
 
       case 'prices':
         state.toolbar = { primary: model.productTypes.filter(({ discontinued }) => !discontinued).length ? toolbarAction.EditPrices : null, secondary: null, pageIcon: 'attach_money' }
         state.content = { name: 'prices', prices: model.prices, productTypes: model.productTypes, products: model.products }
-        state.navigation = NavInfo.default.select('Prices', [].concat(...model.productTypes.map(NavInfo.forProductType)))
+        state.navigation = NavInfo.default.select('Prices', [].concat(
+          ...model.productTypes.sort(by(['sort', Asc], ['id', Asc])).map(NavInfo.forProductType)
+        ))
         break
 
       case 'edit-prices':
         state.toolbar = toolbar
         state.content = { name: 'edit-prices', prices: model.prices, productTypes: model.productTypes, products: model.products, pageIcon: 'attach_money' }
-        state.navigation = NavInfo.default.select('Prices', [].concat(...model.productTypes.map(NavInfo.forProductType))).disable()
+        state.navigation = NavInfo.default
+          .select('Prices', [].concat(
+            ...model.productTypes.sort(by(['sort', Asc], ['id', Asc])).map(NavInfo.forProductType)
+          ))
+          .disable()
         break
 
       case 'conventions':

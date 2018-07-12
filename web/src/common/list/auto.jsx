@@ -8,32 +8,41 @@ import { dragStart, dragEvents } from '../../drag'
 import type { Props as ItemProps } from './item'
 import S from './index.css'
 
-type Transformer<T, U> = (T, number, $Shape<ItemProps<U>>) => React.Node
+type Transformer<T> = (T, number, $Shape<ItemProps>) => React.Node
 
-export type Props<T, U> = {
+export type Props<T> = {
   className?: string,
   style?: { [string]: string | number },
-  children: Transformer<T, U> | [React.Node, Transformer<T, U>] | [React.Node, Transformer<T, U>, React.Node],
+  children: Transformer<T> | [React.Node, Transformer<T>] | [React.Node, Transformer<T>, React.Node],
   dataSource: Iterable<T>,
-  reorderable?: (U, number) => void,
+  reorderable?: ?((number, number) => void),
 }
 
-type State<U> = {
-  dragValue: U | null,
+type State<T> = {
+  data: T[],
+  dragValue: number | null,
   dragIndex: number | null,
 }
 
 // $FlowIgnore
-export class AutoList<T, U> extends ReactX.Component<Props<T, U>, State<U>> {
+export class AutoList<T> extends ReactX.Component<Props<T>, State<T>> {
   dragIdentifier: Symbol
   // $FlowIgnore
   containerRef: React.Ref<HTMLDivElement>
 
-  constructor(props: Props<T, U>) {
+  static getDerivedStateFromProps(props: Props<T>) {
+    return {
+      data: [...props.dataSource],
+    }
+  }
+
+  constructor(props: Props<T>) {
     super(props)
     this.dragIdentifier = Symbol()
     this.containerRef = React.createRef()
     this.state = {
+      data: [...props.dataSource],
+
       dragValue: null,
       dragIndex: null,
       dragPosition: null,
@@ -44,10 +53,12 @@ export class AutoList<T, U> extends ReactX.Component<Props<T, U>, State<U>> {
         takeUntil(this.unmounted),
         tap(event => {
           const { reorderable } = this.props
-          const { dragValue, dragIndex } = this.state
+          const { dragValue, dragIndex, data: [...data] } = this.state
           if (reorderable && dragIndex !== null && dragValue !== null && !event.target) {
+            const [removed] = data.splice(dragValue, 1)
+            data.splice(dragIndex > dragValue ? dragIndex - 1 : dragIndex, 0, removed)
             reorderable(dragValue, dragIndex)
-            this.setState({ dragIndex: null, dragValue: null })
+            this.setState({ data, dragIndex: null, dragValue: null })
           }
         }),
         filter(event => event.target === this.dragIdentifier),
@@ -55,24 +66,23 @@ export class AutoList<T, U> extends ReactX.Component<Props<T, U>, State<U>> {
         map(position => {
           const { current: currentRef } = this.containerRef
           if (!currentRef) { return null }
-          const { dataSource } = this.props
+          const { data } = this.state
           const [, absY] = position
           const { top } = currentRef.getBoundingClientRect()
           const relY = absY - top
           const rowHeight = 50
-          return Math.min(Math.max(0, Math.round(relY / rowHeight)), [...dataSource].length)
+          return Math.min(Math.max(0, Math.round(relY / rowHeight)), data.length)
         })
       )
       .subscribe(dragIndex => this.setState({ dragIndex }))
   }
 
   render() {
-    const { className, style, dataSource, children, reorderable } = this.props
-    const { dragIndex } = this.state
+    const { className, style, children, reorderable } = this.props
+    const { data, dragIndex } = this.state
     const [ emptyState, transformer, footer ] = children instanceof Array
       ? [...children]
       : [, children, ]
-    const data = [...dataSource]
     const onDragStart = reorderable
       ? ((value, index) => {
         this.setState({ dragValue: value, dragIndex: index })
@@ -80,7 +90,7 @@ export class AutoList<T, U> extends ReactX.Component<Props<T, U>, State<U>> {
       })
       : null
 
-    const contents = data.map((item, index) => transformer(item, index, { onDragStart }))
+    const contents = data.map((item, index) => transformer(item, index, { index, onDragStart }))
     if (dragIndex !== null) {
       contents.splice(dragIndex, 0, <div key='drag-indicator' className={S.dragIndicator} />)
     }

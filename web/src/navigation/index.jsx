@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { merge } from 'rxjs/observable/merge'
 import { timer } from 'rxjs/observable/timer'
-import { takeUntil, mapTo, switchMap, share } from 'rxjs/operators'
+import { takeUntil, mapTo, filter, switchMap, share } from 'rxjs/operators'
 
 import * as ReactX from '../react-ext'
 import * as navigate from '../update/navigate'
@@ -15,6 +15,7 @@ import type { Props as ItemProps, Direct, Indirect } from './item'
 import S from './index.css'
 
 export type Props = {
+  someAreDisabled: boolean,
   items: ItemInfo[],
 }
 
@@ -32,6 +33,7 @@ export class Navigation extends ReactX.Component<Props, State> {
     const base = focused
       .pipe(
         takeUntil(this.unmounted),
+        filter(() => !this.props.someAreDisabled),
         share(),
       )
 
@@ -62,6 +64,7 @@ export class Navigation extends ReactX.Component<Props, State> {
 
 export class NavInfo {
   items: ItemInfo[]
+  someAreDisabled: boolean
 
   /**
    * The standard all deselected options
@@ -84,6 +87,7 @@ export class NavInfo {
 
   constructor(items: ItemInfo[]) {
     this.items = items
+    this.someAreDisabled = false
   }
 
   /**
@@ -111,6 +115,7 @@ export class NavInfo {
    * Disables all the options
    */
   disable(nested: boolean = false): NavInfo {
+    this.someAreDisabled = true
     this.items = this.items.map(item => item.enable(false, nested))
     return this
   }
@@ -118,5 +123,10 @@ export class NavInfo {
   static forProductType({ id, name, discontinued }: ProductType): ItemInfo[] {
     if (discontinued) { return [] }
     return [new ItemInfo(name, 'remove', navigate.scrollTo('product-type', id))]
+  }
+
+  static forReorderableProductType({ id, name, discontinued }: ProductType): ItemInfo[] {
+    if (discontinued) { return [] }
+    return [new ItemInfo(name, 'remove', navigate.scrollTo('product-type', id)).reorderable()]
   }
 }

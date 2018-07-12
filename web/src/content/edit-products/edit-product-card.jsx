@@ -67,7 +67,7 @@ export type Props = {
   onProductNameChange: (Id, string) => void,
   onProductQuantityChange: (Id, string) => void,
   onProductToggleDiscontinue: (Id) => void,
-  onProductReorder: (Id, number) => void,
+  onProductReorder: (number, number) => void,
 }
 
 export function EditProductCard({ productType, products, topAction, bottomAction, onProductTypeNameChange, onProductTypeColorChange, onProductNameChange, onProductQuantityChange, onProductToggleDiscontinue, onProductReorder }: Props) {
@@ -93,7 +93,7 @@ export function EditProductCard({ productType, products, topAction, bottomAction
             {l`No products yet... add one!`}
           </div>
           {(product, _, extraProps) =>
-            <Item key={`product_${product.id}`} className={product.discontinued ? S.discontinued : ''} value={product.id} {...extraProps}>
+            <Item key={`product_${product.id}`} className={product.discontinued ? S.discontinued : ''} reorderable={!product.discontinued} {...extraProps}>
               <Input
                 defaultValue={product.name}
                 placeholder={l`New product`}

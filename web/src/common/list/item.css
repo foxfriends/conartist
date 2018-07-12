@@ -13,3 +13,12 @@
     --background-color: var(--color--hover-highlight);
   }
 }
+
+.dragHandle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--height--row);
+  color: var(--color--text-placeholder);
+}

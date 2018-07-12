@@ -3,7 +3,7 @@ import { Subject } from 'rxjs/Subject'
 import { share } from 'rxjs/operators'
 import type { Observable } from 'rxjs/Observable'
 
-export opaque type Event = typeof SaveProducts
+export opaque type Event = typeof SaveProducts | typeof SavePrices
 export const SaveProducts: Event = Symbol()
 export const SavePrices: Event = Symbol()
 

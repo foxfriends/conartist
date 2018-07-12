@@ -89,11 +89,11 @@ export class ExportRecords extends React.Component<Props, State> {
         throw new Error('Unreachable case');
       }
     })()
-    // $FlowIgnore
     return [
       'time',
       ...productColumns,
       'price',
+      // $FlowIgnore
       includeInfo ? 'info' : null,
     ].filter(x => x)
   }

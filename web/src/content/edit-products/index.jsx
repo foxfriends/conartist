@@ -80,8 +80,8 @@ export class EditProducts extends ReactX.Component<Props, State> {
   static getDerivedStateFromProps({ products, productTypes }: Props, state: State): ?$Shape<State> {
     if (!state || (state.products.length === 0 && state.productTypes.length === 0)) {
       return {
-        products: products.map(editableProduct()),
-        productTypes: productTypes.map(editableProductType),
+        products: products.sort(by(['sort', Asc], ['id', Asc])).map(editableProduct()),
+        productTypes: productTypes.sort(by(['sort', Asc], ['id', Asc])).map(editableProductType),
       }
     } else {
       return null
@@ -94,8 +94,8 @@ export class EditProducts extends ReactX.Component<Props, State> {
     toolbarStatus.next(defaultToolbar)
 
     this.state = {
-      products: this.props.products.map(editableProduct()),
-      productTypes: this.props.productTypes.map(editableProductType),
+      products: this.props.products.sort(by(['sort', Asc], ['id', Asc])).map(editableProduct()),
+      productTypes: this.props.productTypes.sort(by(['sort', Asc], ['id', Asc])).map(editableProductType),
       editingEnabled: true,
     }
 
@@ -213,26 +213,43 @@ export class EditProducts extends ReactX.Component<Props, State> {
   handleProductSortChange(id: Id, sort: number) {
     const original = this.state.products.find(product => product.id === id)
     if (!original) { throw new Error("Trying to edit non-existent product") }
+    if (original.sort < sort) {
+      sort -= 1
+    }
     const products =
-      this.state.products.map(product => product.id === id
-        ? { ...product, sort }
-        : product.typeId === original.typeId && product.sort >= sort && product.sort < original.sort
-          ? { ...product, sort: product.sort + 1 }
-          : product
-      )
-      this.setState(this.validate({ products, productTypes: this.state.productTypes }))
+      this.state.products.map(product => {
+        if (product.id === id) {
+          return { ...product, sort }
+        } else if (product.typeId === original.typeId) {
+          if (product.sort >= sort && product.sort < original.sort) {
+            return { ...product, sort: product.sort + 1 }
+          } else if (product.sort > original.sort && product.sort <= sort) {
+            return { ...product, sort: product.sort - 1 }
+          }
+        }
+        return product
+      })
+    this.setState(this.validate({ products, productTypes: this.state.productTypes }))
   }
 
   handleProductTypeSortChange(id: Id, sort: number) {
     const original = this.state.productTypes.find(type => type.id === id)
     if (!original) { throw new Error("Trying to edit non-existent product type") }
+    if (original.sort < sort) {
+      sort -= 1
+    }
     const productTypes =
-      this.state.productTypes.map(productType => productType.id === id
-        ? { ...productType, sort }
-        : productType.sort >= sort && productType.sort < original.sort
-          ? { ...productType, sort: productType.sort + 1 }
-          : productType
-      )
+      this.state.productTypes.map(productType => {
+        if (productType.id === id) {
+          return { ...productType, sort }
+        } else if (productType.sort >= sort && productType.sort < original.sort) {
+          return { ...productType, sort: productType.sort + 1 }
+        } else if (productType.sort > original.sort && productType.sort <= sort) {
+          return { ...productType, sort: productType.sort - 1 }
+        }
+        return productType
+      })
+    this.setState(this.validate({ products: this.state.products, productTypes }))
   }
 
   createProductType() {
@@ -319,14 +336,14 @@ export class EditProducts extends ReactX.Component<Props, State> {
   render() {
     const { products, productTypes, editingEnabled } = this.state
     const sortedProducts = [...products]
-      .sort(by(['discontinued', Desc], ['id', Asc]))
+      .sort(by(['discontinued', Desc], ['sort', Asc], ['id', Asc]))
       .reduce(
         (sortedProducts, product) => sortedProducts.set(product.typeId, [...sortedProducts.get(product.typeId), product]),
         new DefaultMap([], []),
       )
 
     const dataSource = [...productTypes]
-      .sort(by(['discontinued', Desc], ['id', Asc]))
+      .sort(by(['discontinued', Desc], ['sort', Asc], ['id', Asc]))
       .map(productType => [ productType, sortedProducts.get(productType.id) ])
 
     const toggleDiscontinueProductType = ({ id, discontinued }) => ({

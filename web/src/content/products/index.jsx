@@ -23,6 +23,7 @@ export type Props = {
 export function Products({ products, productTypes }: Props) {
   const sortedProducts = products
     .filter(({ discontinued }) => !discontinued)
+    .sort(by(['sort', Asc], ['id', Asc]))
     .reduce(
       (sortedProducts, product) => sortedProducts.set(product.typeId, [...sortedProducts.get(product.typeId), product]),
       new DefaultMap([], [])
@@ -30,7 +31,7 @@ export function Products({ products, productTypes }: Props) {
 
   const dataSource = productTypes
     .filter(({ discontinued }) => !discontinued)
-    .sort(by(['id', Asc]))
+    .sort(by(['sort', Asc], ['id', Asc]))
     .map(productType => [ productType, sortedProducts.get(productType.id) ])
 
   return (

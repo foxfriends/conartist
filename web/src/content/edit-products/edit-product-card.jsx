@@ -92,8 +92,8 @@ export function EditProductCard({ productType, products, topAction, bottomAction
           <div className={S.placeholder}>
             {l`No products yet... add one!`}
           </div>
-          {(product, _) =>
-            <Item key={`product_${product.id}`} className={product.discontinued ? S.discontinued : ''} value={product.id}>
+          {(product, _, extraProps) =>
+            <Item key={`product_${product.id}`} className={product.discontinued ? S.discontinued : ''} value={product.id} {...extraProps}>
               <Input
                 defaultValue={product.name}
                 placeholder={l`New product`}

@@ -28,7 +28,7 @@ extension UIFont {
             case .tabularFigures:
                 let tabularFigures = [
                     UIFontDescriptor.FeatureKey.featureIdentifier: kNumberSpacingType,
-                    .typeIdentifier: kProportionalNumbersSelector,
+                    .typeIdentifier: kMonospacedNumbersSelector,
                 ]
                 return [tabularFigures]
             }

@@ -147,9 +147,17 @@ extension ConventionListViewController {
 // MARK: - Subscriptions
 extension ConventionListViewController {
     fileprivate func setupSubscriptions() {
-        let past = conventions.asObservable().map { cons in cons.filter { $0.end < Date.today() } }
-        let present = conventions.asObservable().map { cons in cons.filter { $0.start <= Date.today() && $0.end >= Date.today() } }
-        let future = conventions.asObservable().map { cons in cons.filter { $0.start > Date.today() } }
+        let conventions = self.conventions
+            .asObservable()
+            .share()
+        let past = conventions
+            .map { cons in cons.filter { $0.end < Date.today() } }
+            .map { cons in cons.sorted { $0.start > $1.start } }
+        let present = conventions
+            .map { cons in cons.filter { $0.start <= Date.today() && $0.end >= Date.today() } }
+        let future = conventions
+            .map { cons in cons.filter { $0.start > Date.today() } }
+            .map { cons in cons.sorted { $0.start < $1.start } }
 
         past.subscribe(onNext: { [weak self] in self?.past = $0 }).disposed(by: disposeBag)
         future.subscribe(onNext: { [weak self] in self?.future = $0 }).disposed(by: disposeBag)

@@ -1,16 +1,16 @@
 PODS:
-  - Alamofire (4.7.2)
+  - Alamofire (4.7.3)
   - Apollo (0.7.0):
     - Apollo/Core (= 0.7.0)
   - Apollo/Core (0.7.0)
-  - CocoaLumberjack (3.3.0):
-    - CocoaLumberjack/Default (= 3.3.0)
-    - CocoaLumberjack/Extensions (= 3.3.0)
-  - CocoaLumberjack/Default (3.3.0)
-  - CocoaLumberjack/Extensions (3.3.0):
+  - CocoaLumberjack (3.4.2):
+    - CocoaLumberjack/Default (= 3.4.2)
+    - CocoaLumberjack/Extensions (= 3.4.2)
+  - CocoaLumberjack/Default (3.4.2)
+  - CocoaLumberjack/Extensions (3.4.2):
     - CocoaLumberjack/Default
   - pop (1.0.10)
-  - PrettyString (0.1.1)
+  - PrettyString (0.1.2)
   - RxAlamofire (4.2.0):
     - RxAlamofire/Core (= 4.2.0)
   - RxAlamofire/Core (4.2.0):
@@ -38,6 +38,20 @@ DEPENDENCIES:
   - SVGKit (from `https://github.com/SVGKit/SVGKit.git`, branch `2.x`)
   - SwiftMoment (~> 0.7)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - Apollo
+    - CocoaLumberjack
+    - pop
+    - PrettyString
+    - RxAlamofire
+    - RxCocoa
+    - RxSwift
+    - SexyTooltip
+    - Strongbox
+    - SwiftMoment
+
 EXTERNAL SOURCES:
   SVGKit:
     :branch: 2.x
@@ -45,15 +59,15 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   SVGKit:
-    :commit: 34781db59cb2c97a1c66067cd8847c6c512ccdd6
+    :commit: d239c2b1b1476667e0470fc7d794649f70cff5a1
     :git: https://github.com/SVGKit/SVGKit.git
 
 SPEC CHECKSUMS:
-  Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   Apollo: d6649ac06168660e70c6226c4eadfc0770791ba5
-  CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
+  CocoaLumberjack: db7cc9e464771f12054c22ff6947c5a58d43a0fd
   pop: 82ca6b068ce9278fd350fd9dd09482a0ce9492e6
-  PrettyString: 186adc5eb395894d0914c920ae3dc7fecfa8ca12
+  PrettyString: 88cd4e1b6d756718d4fb4dc55ca2ac53aaee3550
   RxAlamofire: 87a9c588541210cc3e4a1f843ccc3ecf3eb98b31
   RxCocoa: 0b54909c902e1e581212a03e690bbd94032d8baa
   RxSwift: 99e10317ddfcc7fbe01356aafd118fde4a0be104
@@ -64,4 +78,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: c7f351012ed1fa9fa6982f540dfeec87fdd54727
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.3

@@ -591,7 +591,6 @@
 				321B75D41F9BAD320055EBC4 /* Resources */,
 				327C5D7D20818371007EEF71 /* Copy Configuration Files */,
 				693BFD9862FF5ADE35690E83 /* [CP] Embed Pods Frameworks */,
-				654CC0E21C11159954340169 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -702,21 +701,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "CONFIG_FILE=\"${SRCROOT}/${PRODUCT_NAME}/Config/${CONFIGURATION}.plist\"\nBUILD_APP_DIR=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\"\necho \"Copying ${CONFIG_FILE} to ${BUILD_APP_DIR}/Config.plist\"\ncp -v \"${CONFIG_FILE}\" \"${BUILD_APP_DIR}/Config.plist\"";
-		};
-		654CC0E21C11159954340169 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ConArtist/Pods-ConArtist-resources.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		693BFD9862FF5ADE35690E83 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

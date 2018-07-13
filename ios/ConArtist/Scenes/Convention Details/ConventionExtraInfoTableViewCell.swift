@@ -30,7 +30,9 @@ class ConventionExtraInfoTableViewCell: UITableViewCell {
         actionLabel?.text = info.actionText
 
         infoLabel?.text = info.info
-        infoLabel?.font = infoLabel!.font.usingFeatures([.tabularFigures])
+        if case .Hours = info {
+            infoLabel?.font = infoLabel!.font.usingFeatures([.tabularFigures])
+        }
         infoLabel?.numberOfLines = 0
     }
 }

@@ -53,7 +53,7 @@ extension ConventionDetailsViewController {
     //       if this starts to cause problems it can be memoized
     private var tableViewHeight: CGFloat {
         return (0..<tableView(infoTableView, numberOfRowsInSection: 0))
-            .map { infoTableView.cellForRow(at: IndexPath(row: $0, section: 0))!.frame.height }
+            .map { tableView(infoTableView, cellForRowAt: IndexPath(row: $0, section: 0)).frame.height }
             .reduce(0, +)
     }
 

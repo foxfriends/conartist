@@ -41,7 +41,7 @@ extension ProductListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? products.count : 0
+        return products.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -63,9 +63,11 @@ extension ProductListViewController: UITableViewDelegate {
         let product = products[indexPath.row]
         var actions: [UIContextualAction] = []
         if selected.value.count(occurrencesOf: product) > 0 {
-            let removeAllAction = UIContextualAction(style: .normal, title: "Remove all"¡) { [selected, products, productsTableView] _, _, reset in
+            let removeAllAction = UIContextualAction(style: .normal, title: "Remove all"¡) { [selected, products, productsTableView, records] _, _, reset in
                 selected?.accept(selected!.value.filter((!=) <- products![indexPath.row]))
-                (productsTableView?.cellForRow(at: indexPath) as? ProductTableViewCell)?.countView.isHidden = true
+                if let cell = productsTableView?.cellForRow(at: indexPath) as? ProductTableViewCell {
+                    cell.setup(with: product, records: records!, count: selected!.value.count(occurrencesOf: product))
+                }
                 reset(true)
             }
             removeAllAction.backgroundColor = ConArtist.Color.Warn

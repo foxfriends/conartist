@@ -91,6 +91,14 @@ extension AllConventionsListViewController: UITableViewDelegate {
         }
         ConventionDetailsViewController.show(for: convention)
     }
+
+    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.isHighlighted = true
+    }
+
+    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.isHighlighted = false
+    }
 }
 
 // MARK: - Navigation

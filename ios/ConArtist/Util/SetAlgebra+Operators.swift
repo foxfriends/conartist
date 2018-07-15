@@ -1,5 +1,5 @@
 //
-//  OptionSet+Operators.swift
+//  SetAlgebra+Operators.swift
 //  ConArtist
 //
 //  Created by Cameron Eldridge on 2018-03-16.

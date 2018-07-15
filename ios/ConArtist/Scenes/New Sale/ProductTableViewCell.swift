@@ -14,6 +14,13 @@ class ProductTableViewCell: UITableViewCell {
     @IBOutlet weak var countView: UIView!
     @IBOutlet weak var countLabel: UILabel!
     @IBOutlet weak var inventoryLabel: UILabel!
+
+    override var isHighlighted: Bool {
+        didSet {
+            contentView.backgroundColor = isHighlighted ? ConArtist.Color.DividerDark : nil
+        }
+    }
+
     func setup(with product: Product, records: [Record], count: Int) {
         nameLabel.text = product.name
         countLabel.text = "\(count)"

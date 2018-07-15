@@ -114,7 +114,7 @@
 		32D4BB13205B446600B0A397 /* RecordDetailsItemsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4BB12205B446600B0A397 /* RecordDetailsItemsTableViewCell.swift */; };
 		32D4BB15205B44E000B0A397 /* RecordDetailsItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4BB14205B44E000B0A397 /* RecordDetailsItemCollectionViewCell.swift */; };
 		32D65DBA20BCFA5000F03BC2 /* AllConventionsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D65DB920BCFA5000F03BC2 /* AllConventionsListViewController.swift */; };
-		32DD973B205B803E0045DF41 /* OptionSet+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DD973A205B803E0045DF41 /* OptionSet+Operators.swift */; };
+		32DD973B205B803E0045DF41 /* SetAlgebra+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DD973A205B803E0045DF41 /* SetAlgebra+Operators.swift */; };
 		32DFCF5720DDDD35007FFE70 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DFCF5620DDDD35007FFE70 /* MapViewController.swift */; };
 		32DFCF5920DDE592007FFE70 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DFCF5820DDE592007FFE70 /* Location.swift */; };
 		32DFCF5B20DDE697007FFE70 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DFCF5A20DDE697007FFE70 /* URL.swift */; };
@@ -237,7 +237,7 @@
 		32D4BB12205B446600B0A397 /* RecordDetailsItemsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailsItemsTableViewCell.swift; sourceTree = "<group>"; };
 		32D4BB14205B44E000B0A397 /* RecordDetailsItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailsItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		32D65DB920BCFA5000F03BC2 /* AllConventionsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllConventionsListViewController.swift; sourceTree = "<group>"; };
-		32DD973A205B803E0045DF41 /* OptionSet+Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OptionSet+Operators.swift"; sourceTree = "<group>"; };
+		32DD973A205B803E0045DF41 /* SetAlgebra+Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SetAlgebra+Operators.swift"; sourceTree = "<group>"; };
 		32DFCF5620DDDD35007FFE70 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		32DFCF5820DDE592007FFE70 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		32DFCF5A20DDE697007FFE70 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
@@ -481,8 +481,8 @@
 				32B36EBE203BD67800DA4593 /* UIView+Customizable.swift */,
 				32B36EC4203E5E7D00DA4593 /* UIView+Shadows.swift */,
 				32C39C1D201E870600071E26 /* UIView+Tooltip.swift */,
+				32DD973A205B803E0045DF41 /* SetAlgebra+Operators.swift */,
 				32CFB1D220DCAE4800672EC9 /* ViewControllerNavigation.swift */,
-				32DD973A205B803E0045DF41 /* OptionSet+Operators.swift */,
 				32B91027204B3289002F9C94 /* SVG */,
 			);
 			path = Util;
@@ -855,7 +855,7 @@
 				32D65DBA20BCFA5000F03BC2 /* AllConventionsListViewController.swift in Sources */,
 				32B910192047C821002F9C94 /* Settings.swift in Sources */,
 				32B36ED82041FF3200DA4593 /* NetworkImageView.swift in Sources */,
-				32DD973B205B803E0045DF41 /* OptionSet+Operators.swift in Sources */,
+				32DD973B205B803E0045DF41 /* SetAlgebra+Operators.swift in Sources */,
 				32EEC27520E031620016DFCA /* PrettyString+Styles.swift in Sources */,
 				32C39C33201EA5B400071E26 /* ProductTypeTableViewCell.swift in Sources */,
 				32D45CB820A3F96200F7A67F /* Persist.swift in Sources */,

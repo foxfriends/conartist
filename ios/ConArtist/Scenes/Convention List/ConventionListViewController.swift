@@ -237,6 +237,14 @@ extension ConventionListViewController: UITableViewDelegate {
         ConventionDetailsViewController.show(for: convention)
     }
 
+    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.isHighlighted = true
+    }
+
+    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.isHighlighted = false
+    }
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let section = sections.value.nth(indexPath.section) else { return 0 }
         return section.cellHeight

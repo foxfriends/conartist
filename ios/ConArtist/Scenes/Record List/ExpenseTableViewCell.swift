@@ -15,6 +15,12 @@ class ExpenseTableViewCell: UITableViewCell {
     @IBOutlet weak var amountLabel: UILabel!
     @IBOutlet weak var modifiedMarkView: UIView!
 
+    override var isHighlighted: Bool {
+        didSet {
+            contentView.backgroundColor = isHighlighted ? ConArtist.Color.DividerDark : nil
+        }
+    }
+
     func setup(for expense: Expense) {
         DispatchQueue.main.async {
             self.categoryLabel.text = expense.category

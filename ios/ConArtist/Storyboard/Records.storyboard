@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -275,7 +275,6 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <color key="backgroundColor" name="Background"/>
                                             <constraints>
                                                 <constraint firstItem="x1o-Ay-Are" firstAttribute="top" secondItem="zeC-9z-30B" secondAttribute="top" id="30g-r7-gEq"/>
                                                 <constraint firstItem="Auf-EB-7gA" firstAttribute="leading" secondItem="zeC-9z-30B" secondAttribute="leading" id="8Dd-vS-Wre"/>
@@ -287,6 +286,7 @@
                                                 <constraint firstItem="x1o-Ay-Are" firstAttribute="leading" secondItem="zeC-9z-30B" secondAttribute="leading" id="ugo-Py-BPS"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" name="Background"/>
                                         <connections>
                                             <outlet property="modifiedMarkView" destination="x1o-Ay-Are" id="3Ep-Vc-wGU"/>
                                             <outlet property="priceLabel" destination="0f7-Tu-KMF" id="Lg6-qn-U1J"/>
@@ -755,6 +755,9 @@
         </scene>
     </scenes>
     <resources>
+        <namedColor name="Background">
+            <color red="0.20000000298023224" green="0.20000000298023224" blue="0.20000000298023224" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="Background">
             <color red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

@@ -77,6 +77,14 @@ extension ProductListViewController: UITableViewDelegate {
         config.performsFirstActionWithFullSwipe = true
         return config
     }
+
+    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.isHighlighted = true
+    }
+
+    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.isHighlighted = false
+    }
 }
 
 // MARK: - Navigation

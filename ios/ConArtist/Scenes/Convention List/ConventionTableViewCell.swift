@@ -27,6 +27,12 @@ class ConventionTableViewCell: UITableViewCell {
     @IBOutlet weak var timeLabel: UILabel?
     @IBOutlet weak var cardView: UIView?
 
+    override var isHighlighted: Bool {
+        didSet {
+            contentView.backgroundColor = isHighlighted ? ConArtist.Color.DividerDark : nil
+        }
+    }
+
     func fill(with item: Convention) {
         titleLabel?.text = item.name
         dateLabel?.text = item.dateString

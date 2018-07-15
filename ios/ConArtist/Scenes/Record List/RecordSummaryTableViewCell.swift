@@ -15,6 +15,12 @@ class RecordSummaryTableViewCell: UITableViewCell {
     @IBOutlet weak var countLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
 
+    override var isHighlighted: Bool {
+        didSet {
+            contentView.backgroundColor = isHighlighted ? ConArtist.Color.DividerDark : nil
+        }
+    }
+
     func setup(for price: Money, and count: Int) {
         priceLabel.text = price.toString()
         priceLabel.font = priceLabel.font.usingFeatures([.tabularFigures])

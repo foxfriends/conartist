@@ -14,6 +14,12 @@ class ProductTypeTableViewCell: UITableViewCell {
     @IBOutlet weak var quantityLabel: UILabel!
     @IBOutlet weak var quantityView: UIView!
 
+    override var isHighlighted: Bool {
+        didSet {
+            contentView.backgroundColor = isHighlighted ? ConArtist.Color.DividerDark : nil
+        }
+    }
+
     func fill(with type: ProductType, selected: [Product]) {
         nameLabel.text = type.name
         let selectedCount = selected.filter { $0.typeId == type.id }.count

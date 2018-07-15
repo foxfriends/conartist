@@ -15,6 +15,12 @@ class RecordTableViewCell: UITableViewCell {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var modifiedMarkView: UIView!
 
+    override var isHighlighted: Bool {
+        didSet {
+            contentView.backgroundColor = isHighlighted ? ConArtist.Color.DividerDark : nil
+        }
+    }
+
     func setup(for item: Record, with products: [Product]) {
         DispatchQueue.main.async {
             self.productsListLabel.text = item.products

@@ -202,6 +202,14 @@ extension ProductTypeListViewController: UITableViewDelegate {
         let products = self.products.value.filter { $0.typeId == productType.id }
         ProductListViewController.show(for: productType, and: products, records: records.value, selected: selected)
     }
+
+    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.isHighlighted = true
+    }
+
+    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.isHighlighted = false
+    }
 }
 
 // MARK: - Price calculation

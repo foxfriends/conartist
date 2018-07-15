@@ -11,17 +11,19 @@ import RxSwift
 import RxCocoa
 
 class RecordsOverviewViewController: UIViewController {
-    fileprivate struct Section {
+    fileprivate class Section {
         let date: Date
         let items: [Item]
-        let expanded: Bool
+        var expanded: Bool
 
-        func toggleExpanded() -> Section {
-            return Section(
-                date: date,
-                items: items,
-                expanded: !expanded
-            )
+        init(date: Date, items: [Item], expanded: Bool) {
+            self.date = date
+            self.items = items
+            self.expanded = expanded
+        }
+
+        func toggleExpanded() {
+            expanded = !expanded
         }
     }
 
@@ -114,30 +116,35 @@ extension RecordsOverviewViewController {
     }
 
     fileprivate func setupSubscriptions() {
-        // NOTE: this expression is 'very complex'... too much so for the Swift compiler to really work out sometimes,
-        //       so I've put type annotations in to hopefully make it easier
         let items = Observable
             .combineLatest(
                 convention.expenses.map { $0.map { ItemType.Expense($0) } },
                 convention.records.map { $0.map { ItemType.Record($0) } }
             )
             .map { (expenses: [ItemType], records: [ItemType]) -> [ItemType] in expenses + records }
+            .share()
 
         items
-            .map { (items: [ItemType]) -> [ItemType] in items.sorted { $0.time < $1.time } }
-            .map { (items: [ItemType]) -> [[ItemType]] in items.split { $0.time.roundToDay() < $1.time.roundToDay() } }
-            .map { (itemss: [[ItemType]]) -> [[[ItemType]]] in itemss.map { (items: [ItemType]) -> [[ItemType]] in items.split { $0.isExpense || $1.isExpense } } }
-            .map { [sections] (itemsss: [[[ItemType]]]) -> [Section] in
-                itemsss.enumerated().map { (index: Int, itemss: [[ItemType]]) -> Section in
-                    let date = itemss.first!.first!.time.roundToDay()
-                    let items = itemss.map { (items: [ItemType]) -> Item in
-                        switch items.first! {
-                        case .Expense(let expense): return .Expense(expense)
-                        case .Record: return .Records(items.map { $0.record! })
+            .map { [sections] (items: [ItemType]) -> [Section] in
+                items
+                    .sorted { $0.time < $1.time }
+                    .split { $0.time.roundToDay() < $1.time.roundToDay() }
+                    .map { items in items.split { $0.isExpense || $1.isExpense } }
+                    .enumerated()
+                    .map { (index: Int, itemss: [[ItemType]]) -> Section in
+                        let date = itemss.first!.first!.time.roundToDay()
+                        let items = itemss.map { (items: [ItemType]) -> Item in
+                            switch items.first! {
+                            case .Expense(let expense): return .Expense(expense)
+                            case .Record: return .Records(items.map { $0.record! })
+                            }
                         }
+                        return Section(
+                            date: date,
+                            items: items,
+                            expanded: sections.value.nth(index)?.expanded ?? true
+                        )
                     }
-                    return Section(date: date, items: items, expanded: sections.value.nth(index)?.expanded ?? true)
-                }
             }
             .bind(to: sections)
             .disposed(by: disposeBag)
@@ -152,7 +159,7 @@ extension RecordsOverviewViewController {
 
         sections
             .asDriver()
-            .drive(onNext: { [recordsTableView] _ in recordsTableView?.reloadData() })
+            .drive(onNext: { [recordsTableView] sections in recordsTableView?.reloadData() })
             .disposed(by: disposeBag)
 
         navBar.leftButton.rx.tap
@@ -256,11 +263,8 @@ extension RecordsOverviewViewController: UITableViewDelegate {
     }
 
     private func toggleSectionExpanded(_ index: Int) {
-        sections.accept(
-            sections.value
-                .enumerated()
-                .map { i, section in i == index ? section.toggleExpanded() : section }
-        )
+        sections.value[index].toggleExpanded()
+        recordsTableView.reloadSections(IndexSet(integer: index), with: .automatic)
     }
 }
 

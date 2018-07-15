@@ -11,7 +11,13 @@ import UIKit
 class SettingsActionTableViewCell: UITableViewCell {
     static let ID = "SettingsActionCell"
     @IBOutlet weak var titleLabel: UILabel!
-    
+
+    override var isHighlighted: Bool {
+        didSet {
+            backgroundColor = isHighlighted ? ConArtist.Color.DividerDark : nil
+        }
+    }
+
     func setup(title: String) {
         titleLabel.text = title
     }

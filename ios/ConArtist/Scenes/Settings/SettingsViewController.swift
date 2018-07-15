@@ -77,10 +77,6 @@ extension SettingsViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension SettingsViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return self.tableView(tableView, titleForHeaderInSection: section).map { TableHeaderView(title: $0, showBar: false, showMore: false) }
-    }
-
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = settings[indexPath.section].items[indexPath.row]
         switch item {
@@ -92,6 +88,14 @@ extension SettingsViewController: UITableViewDelegate {
         }
     }
 
+    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.isHighlighted = true
+    }
+
+    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.isHighlighted = false
+    }
+
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         let item = settings[indexPath.section].items[indexPath.row]
         switch item {
@@ -99,6 +103,10 @@ extension SettingsViewController: UITableViewDelegate {
              .Select:   return indexPath
         default:        return nil
         }
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return self.tableView(tableView, titleForHeaderInSection: section).map { TableHeaderView(title: $0, showBar: false, showMore: false) }
     }
 }
 

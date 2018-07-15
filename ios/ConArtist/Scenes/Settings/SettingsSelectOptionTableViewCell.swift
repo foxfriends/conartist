@@ -12,6 +12,12 @@ class SettingsSelectOptionTableViewCell: UITableViewCell {
     static let ID = "SettingsSelectOptionCell"
     @IBOutlet weak var titleLabel: UILabel!
 
+    override var isHighlighted: Bool {
+        didSet {
+            backgroundColor = isHighlighted ? ConArtist.Color.DividerDark : nil
+        }
+    }
+
     func setup(title: String, selected: Bool) {
         titleLabel.text = title
         accessoryType = selected ? .checkmark : .none

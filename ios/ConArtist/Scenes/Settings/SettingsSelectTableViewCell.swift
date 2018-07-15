@@ -18,6 +18,12 @@ class SettingsSelectTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var valueLabel: UILabel!
 
+    override var isHighlighted: Bool {
+        didSet {
+            backgroundColor = isHighlighted ? ConArtist.Color.DividerDark : nil
+        }
+    }
+
     func setup(title: String, value: BehaviorRelay<String>) {
         disposeBag = DisposeBag()
         titleLabel.text = title

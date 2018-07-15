@@ -16,12 +16,6 @@ class ConventionExtraInfoTableViewCell: UITableViewCell {
 
     private var info: ConventionExtraInfo!
 
-    override var isHighlighted: Bool {
-        didSet {
-            actionLabel?.textColor = isHighlighted ? ConArtist.Color.BrandVariant : ConArtist.Color.Brand
-        }
-    }
-
     func setup(with info: ConventionExtraInfo) {
         self.info = info
         titleLabel?.text = info.title¡

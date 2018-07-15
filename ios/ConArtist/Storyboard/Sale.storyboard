@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -14,10 +15,6 @@
         <scene sceneID="QSp-uL-WrT">
             <objects>
                 <viewController storyboardIdentifier="NewExpense" id="n4e-Xy-9na" customClass="NewExpenseViewController" customModule="ConArtist" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="czP-3o-cGn"/>
-                        <viewControllerLayoutGuide type="bottom" id="Ahc-ct-G5N"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="2sb-XV-I3X">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -103,16 +100,16 @@
                         </subviews>
                         <color key="backgroundColor" name="Background"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="l5T-CR-Rqt" secondAttribute="trailing" id="7Up-hw-bui"/>
-                            <constraint firstItem="l5T-CR-Rqt" firstAttribute="bottom" secondItem="czP-3o-cGn" secondAttribute="bottom" constant="44" id="B57-6R-oSe"/>
+                            <constraint firstItem="rqU-lk-GuS" firstAttribute="trailing" secondItem="l5T-CR-Rqt" secondAttribute="trailing" id="7Up-hw-bui"/>
+                            <constraint firstItem="l5T-CR-Rqt" firstAttribute="bottom" secondItem="rqU-lk-GuS" secondAttribute="top" constant="44" id="B57-6R-oSe"/>
                             <constraint firstAttribute="bottom" secondItem="YVt-kY-owF" secondAttribute="bottom" id="CZQ-mZ-Jnd"/>
-                            <constraint firstItem="l5T-CR-Rqt" firstAttribute="leading" secondItem="2sb-XV-I3X" secondAttribute="leading" id="N2A-i4-QeT"/>
-                            <constraint firstAttribute="trailing" secondItem="YVt-kY-owF" secondAttribute="trailing" id="h99-1f-EbS"/>
+                            <constraint firstItem="l5T-CR-Rqt" firstAttribute="leading" secondItem="rqU-lk-GuS" secondAttribute="leading" id="N2A-i4-QeT"/>
+                            <constraint firstItem="rqU-lk-GuS" firstAttribute="trailing" secondItem="YVt-kY-owF" secondAttribute="trailing" id="h99-1f-EbS"/>
                             <constraint firstItem="l5T-CR-Rqt" firstAttribute="top" secondItem="2sb-XV-I3X" secondAttribute="top" id="lEq-ru-2Q7"/>
                             <constraint firstItem="YVt-kY-owF" firstAttribute="top" secondItem="l5T-CR-Rqt" secondAttribute="bottom" id="lzN-ac-iYT"/>
-                            <constraint firstItem="YVt-kY-owF" firstAttribute="leading" secondItem="2sb-XV-I3X" secondAttribute="leading" id="t7i-t0-vSW"/>
+                            <constraint firstItem="YVt-kY-owF" firstAttribute="leading" secondItem="rqU-lk-GuS" secondAttribute="leading" id="t7i-t0-vSW"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="vRw-SP-bAl"/>
+                        <viewLayoutGuide key="safeArea" id="rqU-lk-GuS"/>
                     </view>
                     <connections>
                         <outlet property="amountTextField" destination="wwb-tV-gFD" id="08S-da-FDP"/>
@@ -130,10 +127,6 @@
         <scene sceneID="Mcm-5q-Ruc">
             <objects>
                 <viewController storyboardIdentifier="ProductTypeList" id="trK-WU-C7w" customClass="ProductTypeListViewController" customModule="ConArtist" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Bs6-7G-AhH"/>
-                        <viewControllerLayoutGuide type="bottom" id="yEx-Jz-VQq"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="wuV-Je-3t5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -293,22 +286,22 @@
                         <color key="backgroundColor" name="Background"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="VIT-Ri-35g" secondAttribute="bottom" id="06w-KE-7Df"/>
-                            <constraint firstAttribute="trailing" secondItem="cTO-V3-9md" secondAttribute="trailing" id="CNs-wc-txk"/>
-                            <constraint firstItem="yEx-Jz-VQq" firstAttribute="top" secondItem="pYE-sc-Z3Y" secondAttribute="bottom" constant="-150" id="Hyh-Tk-Bxm"/>
-                            <constraint firstItem="pYE-sc-Z3Y" firstAttribute="leading" secondItem="wuV-Je-3t5" secondAttribute="leading" id="NYK-kd-70d"/>
-                            <constraint firstItem="8Vn-Ux-d5t" firstAttribute="bottom" secondItem="Bs6-7G-AhH" secondAttribute="bottom" constant="44" id="PI0-Bf-a0H"/>
-                            <constraint firstAttribute="trailing" secondItem="VIT-Ri-35g" secondAttribute="trailing" id="ShV-OI-ACU"/>
-                            <constraint firstItem="cTO-V3-9md" firstAttribute="leading" secondItem="wuV-Je-3t5" secondAttribute="leading" id="VuV-sr-Gen"/>
-                            <constraint firstItem="8Vn-Ux-d5t" firstAttribute="leading" secondItem="wuV-Je-3t5" secondAttribute="leading" id="XEC-wg-mdT"/>
-                            <constraint firstItem="yEx-Jz-VQq" firstAttribute="top" secondItem="VIT-Ri-35g" secondAttribute="top" id="ZTB-4Q-Jla"/>
-                            <constraint firstItem="VIT-Ri-35g" firstAttribute="leading" secondItem="wuV-Je-3t5" secondAttribute="leading" id="ets-i4-QuX"/>
+                            <constraint firstItem="1Oc-nX-wkQ" firstAttribute="trailing" secondItem="cTO-V3-9md" secondAttribute="trailing" id="CNs-wc-txk"/>
+                            <constraint firstItem="1Oc-nX-wkQ" firstAttribute="bottom" secondItem="pYE-sc-Z3Y" secondAttribute="bottom" constant="-150" id="Hyh-Tk-Bxm"/>
+                            <constraint firstItem="pYE-sc-Z3Y" firstAttribute="leading" secondItem="1Oc-nX-wkQ" secondAttribute="leading" id="NYK-kd-70d"/>
+                            <constraint firstItem="8Vn-Ux-d5t" firstAttribute="bottom" secondItem="1Oc-nX-wkQ" secondAttribute="top" constant="44" id="PI0-Bf-a0H"/>
+                            <constraint firstItem="1Oc-nX-wkQ" firstAttribute="trailing" secondItem="VIT-Ri-35g" secondAttribute="trailing" id="ShV-OI-ACU"/>
+                            <constraint firstItem="cTO-V3-9md" firstAttribute="leading" secondItem="1Oc-nX-wkQ" secondAttribute="leading" id="VuV-sr-Gen"/>
+                            <constraint firstItem="8Vn-Ux-d5t" firstAttribute="leading" secondItem="1Oc-nX-wkQ" secondAttribute="leading" id="XEC-wg-mdT"/>
+                            <constraint firstItem="1Oc-nX-wkQ" firstAttribute="bottom" secondItem="VIT-Ri-35g" secondAttribute="top" id="ZTB-4Q-Jla"/>
+                            <constraint firstItem="VIT-Ri-35g" firstAttribute="leading" secondItem="1Oc-nX-wkQ" secondAttribute="leading" id="ets-i4-QuX"/>
                             <constraint firstItem="pYE-sc-Z3Y" firstAttribute="top" secondItem="cTO-V3-9md" secondAttribute="bottom" id="jHA-in-yQe"/>
                             <constraint firstItem="8Vn-Ux-d5t" firstAttribute="top" secondItem="wuV-Je-3t5" secondAttribute="top" id="q0M-Q4-Y1C"/>
-                            <constraint firstAttribute="trailing" secondItem="8Vn-Ux-d5t" secondAttribute="trailing" id="vPR-Dk-KqX"/>
-                            <constraint firstAttribute="trailing" secondItem="pYE-sc-Z3Y" secondAttribute="trailing" id="wcw-JJ-2KX"/>
+                            <constraint firstItem="1Oc-nX-wkQ" firstAttribute="trailing" secondItem="8Vn-Ux-d5t" secondAttribute="trailing" id="vPR-Dk-KqX"/>
+                            <constraint firstItem="1Oc-nX-wkQ" firstAttribute="trailing" secondItem="pYE-sc-Z3Y" secondAttribute="trailing" id="wcw-JJ-2KX"/>
                             <constraint firstItem="cTO-V3-9md" firstAttribute="top" secondItem="8Vn-Ux-d5t" secondAttribute="bottom" id="xX9-MP-vfa"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="sd3-lS-mS5"/>
+                        <viewLayoutGuide key="safeArea" id="1Oc-nX-wkQ"/>
                     </view>
                     <connections>
                         <outlet property="infoExpandButton" destination="PVy-qZ-Eu7" id="kUz-6f-Ng6"/>
@@ -329,10 +322,6 @@
         <scene sceneID="ADz-cD-z44">
             <objects>
                 <viewController storyboardIdentifier="ProductList" id="EiY-3q-r22" customClass="ProductListViewController" customModule="ConArtist" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="VSn-FJ-LmJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="PND-C6-bxC"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="E7Q-Yk-DUp">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -420,16 +409,16 @@
                         </subviews>
                         <color key="backgroundColor" name="Background"/>
                         <constraints>
-                            <constraint firstItem="6AW-bi-o5M" firstAttribute="bottom" secondItem="VSn-FJ-LmJ" secondAttribute="bottom" constant="44" id="3mm-dF-Ed0"/>
-                            <constraint firstAttribute="trailing" secondItem="6AW-bi-o5M" secondAttribute="trailing" id="AeL-6c-cPm"/>
-                            <constraint firstItem="6AW-bi-o5M" firstAttribute="leading" secondItem="E7Q-Yk-DUp" secondAttribute="leading" id="KVa-8Y-RVb"/>
+                            <constraint firstItem="6AW-bi-o5M" firstAttribute="bottom" secondItem="R3k-ci-nhs" secondAttribute="top" constant="44" id="3mm-dF-Ed0"/>
+                            <constraint firstItem="R3k-ci-nhs" firstAttribute="trailing" secondItem="6AW-bi-o5M" secondAttribute="trailing" id="AeL-6c-cPm"/>
+                            <constraint firstItem="6AW-bi-o5M" firstAttribute="leading" secondItem="R3k-ci-nhs" secondAttribute="leading" id="KVa-8Y-RVb"/>
                             <constraint firstItem="6AW-bi-o5M" firstAttribute="top" secondItem="E7Q-Yk-DUp" secondAttribute="top" id="QRH-sh-OR8"/>
                             <constraint firstAttribute="bottom" secondItem="ixm-cx-1c0" secondAttribute="bottom" id="YtH-pT-eRK"/>
                             <constraint firstItem="ixm-cx-1c0" firstAttribute="top" secondItem="6AW-bi-o5M" secondAttribute="bottom" id="cff-3L-vRH"/>
-                            <constraint firstItem="ixm-cx-1c0" firstAttribute="leading" secondItem="E7Q-Yk-DUp" secondAttribute="leading" id="eeh-Ry-LXM"/>
-                            <constraint firstAttribute="trailing" secondItem="ixm-cx-1c0" secondAttribute="trailing" id="kv1-dm-7R1"/>
+                            <constraint firstItem="ixm-cx-1c0" firstAttribute="leading" secondItem="R3k-ci-nhs" secondAttribute="leading" id="eeh-Ry-LXM"/>
+                            <constraint firstItem="R3k-ci-nhs" firstAttribute="trailing" secondItem="ixm-cx-1c0" secondAttribute="trailing" id="kv1-dm-7R1"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="bpC-nP-act"/>
+                        <viewLayoutGuide key="safeArea" id="R3k-ci-nhs"/>
                     </view>
                     <connections>
                         <outlet property="navBar" destination="6AW-bi-o5M" id="atn-nd-6hQ"/>

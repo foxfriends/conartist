@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -15,10 +16,6 @@
         <scene sceneID="g1I-Xk-ljU">
             <objects>
                 <viewController storyboardIdentifier="ConventionList" id="TWI-x2-Goi" customClass="ConventionListViewController" customModule="ConArtist" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Prq-5C-arn"/>
-                        <viewControllerLayoutGuide type="bottom" id="pZA-8s-7yl"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="2e3-iK-pDw">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -329,16 +326,16 @@ You should go find one you like!</string>
                         </subviews>
                         <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="NT2-k5-dsd" firstAttribute="leading" secondItem="2e3-iK-pDw" secondAttribute="leading" id="0n0-cE-XFe"/>
-                            <constraint firstAttribute="trailing" secondItem="mAC-xU-LCJ" secondAttribute="trailing" id="Dhd-8S-XfX"/>
-                            <constraint firstItem="mAC-xU-LCJ" firstAttribute="leading" secondItem="2e3-iK-pDw" secondAttribute="leading" id="FDy-Ga-o8w"/>
+                            <constraint firstItem="NT2-k5-dsd" firstAttribute="leading" secondItem="Bgs-a2-jfc" secondAttribute="leading" id="0n0-cE-XFe"/>
+                            <constraint firstItem="Bgs-a2-jfc" firstAttribute="trailing" secondItem="mAC-xU-LCJ" secondAttribute="trailing" id="Dhd-8S-XfX"/>
+                            <constraint firstItem="mAC-xU-LCJ" firstAttribute="leading" secondItem="Bgs-a2-jfc" secondAttribute="leading" id="FDy-Ga-o8w"/>
                             <constraint firstItem="NT2-k5-dsd" firstAttribute="top" secondItem="mAC-xU-LCJ" secondAttribute="bottom" id="IBX-8F-TgO"/>
                             <constraint firstAttribute="bottom" secondItem="NT2-k5-dsd" secondAttribute="bottom" id="m09-Q3-7Yt"/>
                             <constraint firstItem="mAC-xU-LCJ" firstAttribute="top" secondItem="2e3-iK-pDw" secondAttribute="top" id="vI0-Ti-mOW"/>
-                            <constraint firstAttribute="trailing" secondItem="NT2-k5-dsd" secondAttribute="trailing" id="wHa-GR-WKn"/>
-                            <constraint firstItem="mAC-xU-LCJ" firstAttribute="bottom" secondItem="Prq-5C-arn" secondAttribute="bottom" constant="44" id="wSc-Kd-aoI"/>
+                            <constraint firstItem="Bgs-a2-jfc" firstAttribute="trailing" secondItem="NT2-k5-dsd" secondAttribute="trailing" id="wHa-GR-WKn"/>
+                            <constraint firstItem="mAC-xU-LCJ" firstAttribute="bottom" secondItem="Bgs-a2-jfc" secondAttribute="top" constant="44" id="wSc-Kd-aoI"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="z0L-bl-ARk"/>
+                        <viewLayoutGuide key="safeArea" id="Bgs-a2-jfc"/>
                     </view>
                     <connections>
                         <outlet property="conventionsTableView" destination="NT2-k5-dsd" id="khy-Wb-EZl"/>
@@ -353,10 +350,6 @@ You should go find one you like!</string>
         <scene sceneID="6GN-8l-D3J">
             <objects>
                 <viewController storyboardIdentifier="AllConventionsList" id="pno-X8-Ja9" customClass="AllConventionsListViewController" customModule="ConArtist" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="HXk-QA-PFn"/>
-                        <viewControllerLayoutGuide type="bottom" id="Fqy-mj-XPv"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ERf-iS-PPx">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -482,16 +475,16 @@ You should go find one you like!</string>
                         </subviews>
                         <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="GmT-cf-GdD" secondAttribute="trailing" id="0pG-d2-x4Q"/>
-                            <constraint firstAttribute="trailing" secondItem="3e6-Nc-bPG" secondAttribute="trailing" id="HD3-MQ-mCF"/>
-                            <constraint firstItem="GmT-cf-GdD" firstAttribute="bottom" secondItem="HXk-QA-PFn" secondAttribute="bottom" constant="44" id="HpS-R6-hxf"/>
-                            <constraint firstItem="GmT-cf-GdD" firstAttribute="leading" secondItem="ERf-iS-PPx" secondAttribute="leading" id="WvW-vK-RKr"/>
-                            <constraint firstItem="3e6-Nc-bPG" firstAttribute="leading" secondItem="ERf-iS-PPx" secondAttribute="leading" id="d8W-WK-DbK"/>
+                            <constraint firstItem="wpR-fG-3E4" firstAttribute="trailing" secondItem="GmT-cf-GdD" secondAttribute="trailing" id="0pG-d2-x4Q"/>
+                            <constraint firstItem="wpR-fG-3E4" firstAttribute="trailing" secondItem="3e6-Nc-bPG" secondAttribute="trailing" id="HD3-MQ-mCF"/>
+                            <constraint firstItem="GmT-cf-GdD" firstAttribute="bottom" secondItem="wpR-fG-3E4" secondAttribute="top" constant="44" id="HpS-R6-hxf"/>
+                            <constraint firstItem="GmT-cf-GdD" firstAttribute="leading" secondItem="wpR-fG-3E4" secondAttribute="leading" id="WvW-vK-RKr"/>
+                            <constraint firstItem="3e6-Nc-bPG" firstAttribute="leading" secondItem="wpR-fG-3E4" secondAttribute="leading" id="d8W-WK-DbK"/>
                             <constraint firstItem="3e6-Nc-bPG" firstAttribute="top" secondItem="GmT-cf-GdD" secondAttribute="bottom" id="pe5-YW-n6P"/>
                             <constraint firstAttribute="bottom" secondItem="3e6-Nc-bPG" secondAttribute="bottom" id="qOr-TZ-VoU"/>
                             <constraint firstItem="GmT-cf-GdD" firstAttribute="top" secondItem="ERf-iS-PPx" secondAttribute="top" id="xZL-Kg-69F"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="ZCz-nd-lNM"/>
+                        <viewLayoutGuide key="safeArea" id="wpR-fG-3E4"/>
                     </view>
                     <connections>
                         <outlet property="conventionsTableView" destination="3e6-Nc-bPG" id="A2U-4b-nZK"/>

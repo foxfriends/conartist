@@ -1,6 +1,6 @@
 /* @flow */
-import type { Observable } from 'rxjs/Observable'
-import { of } from 'rxjs/observable/of'
+import type { Observable } from 'rxjs'
+import { of } from 'rxjs'
 import { map } from 'rxjs/operators'
 
 import { parse } from '../model/product'

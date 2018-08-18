@@ -1,8 +1,8 @@
 /* @flow */
 import * as React from 'react'
-import type { Observable } from 'rxjs/Observable'
-import { combineLatest } from 'rxjs/observable/combineLatest'
-import { map } from 'rxjs/operators/map'
+import { combineLatest } from 'rxjs'
+import { map } from 'rxjs/operators'
+import type { Observable } from 'rxjs'
 
 import { Toolbar, status as toolbarStatus } from './toolbar'
 import * as toolbarAction from './toolbar/action'

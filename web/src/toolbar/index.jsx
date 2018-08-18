@@ -1,7 +1,7 @@
 /* @flow */
 import * as React from 'react'
-import type { Subject } from 'rxjs/Subject'
-import { BehaviorSubject } from 'rxjs/BehaviorSubject'
+import type { Subject } from 'rxjs'
+import { BehaviorSubject } from 'rxjs'
 
 import LOGO from '../../icons/apple-icon-180x180.png'
 import S from './index.css'

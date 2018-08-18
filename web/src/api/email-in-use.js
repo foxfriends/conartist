@@ -1,7 +1,7 @@
 /* @flow */
-import { of } from 'rxjs/observable/of'
+import { of } from 'rxjs'
 import { tap } from 'rxjs/operators'
-import type { Observable } from 'rxjs/Observable'
+import type { Observable } from 'rxjs'
 
 import { GetRequest } from './index'
 import type { Response, APIError } from './index'

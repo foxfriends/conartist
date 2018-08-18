@@ -1,8 +1,6 @@
 /* @flow */
 import * as React from 'react'
-import { BehaviorSubject } from 'rxjs/BehaviorSubject'
-import { combineLatest } from 'rxjs/observable/combineLatest'
-import { fromPromise } from 'rxjs/observable/fromPromise'
+import { BehaviorSubject, combineLatest } from 'rxjs'
 import { skip, switchMap } from 'rxjs/operators'
 
 import LOGO from '../../../icons/apple-icon-180x180.png'
@@ -58,7 +56,7 @@ export class EmailForm extends React.Component<Props, State> {
     combineLatest(this.email, this.confirmEmail)
       .pipe(
         skip(1),
-        switchMap(([email, confirmEmail]) => fromPromise(this.validate(email, confirmEmail))),
+        switchMap(([email, confirmEmail]) => this.validate(email, confirmEmail)),
       )
       .subscribe(validations => this.setState({ ...validations }, () => {
         this.props.onValidate(this.state.emailValidation.state === VALID && this.state.mismatchValidation.state === VALID)

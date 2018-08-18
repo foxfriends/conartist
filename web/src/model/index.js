@@ -1,5 +1,5 @@
 /* @flow */
-import { BehaviorSubject } from 'rxjs/BehaviorSubject'
+import { BehaviorSubject } from 'rxjs'
 
 import { Storage } from '../storage'
 import { splash, dashboard } from './page'

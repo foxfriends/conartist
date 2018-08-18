@@ -1,8 +1,8 @@
 /* @flow */
 import * as React from 'react'
-import { Subject } from 'rxjs/Subject'
+import { Subject } from 'rxjs'
 import { share } from 'rxjs/operators'
-import type { Observable } from 'rxjs/Observable'
+import type { Observable } from 'rxjs'
 
 import { focus } from './focus'
 import { Icon } from '../common/icon'

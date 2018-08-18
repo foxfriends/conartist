@@ -1,6 +1,6 @@
 /* @flow */
-import type { Observable } from 'rxjs/Observable'
-import { of } from 'rxjs/observable/of'
+import type { Observable } from 'rxjs'
+import { of } from 'rxjs'
 import { tap, switchMap, catchError } from 'rxjs/operators'
 
 import { PostRequest } from './index'

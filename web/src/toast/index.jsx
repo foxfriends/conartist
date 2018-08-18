@@ -1,8 +1,8 @@
 /* @flow */
 import * as React from 'react'
-import { BehaviorSubject } from 'rxjs/BehaviorSubject'
+import { BehaviorSubject } from 'rxjs'
 import { share } from 'rxjs/operators'
-import type { Observable } from 'rxjs/Observable'
+import type { Observable } from 'rxjs'
 import S from './index.css'
 
 export type Props<E: React.ElementType> = {

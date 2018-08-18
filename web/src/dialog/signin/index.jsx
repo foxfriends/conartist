@@ -1,6 +1,6 @@
 /* @flow */
 import * as React from 'react'
-import { Observable } from 'rxjs/Observable'
+import { Observable } from 'rxjs'
 
 import * as API from '../../api'
 const { GraphQLQuery } = API

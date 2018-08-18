@@ -1,9 +1,7 @@
 /* @flow */
-import { Subject } from 'rxjs/Subject'
+import { Subject, combineLatest, fromEvent } from 'rxjs'
 import { share, map, distinctUntilChanged } from 'rxjs/operators'
-import { fromEvent } from 'rxjs/observable/fromEvent'
-import { combineLatest } from 'rxjs/observable/combineLatest'
-import type { Observable } from 'rxjs/Observable'
+import type { Observable } from 'rxjs'
 
 export type Event = {
   target: Symbol,

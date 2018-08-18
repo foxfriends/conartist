@@ -1,7 +1,7 @@
 /* @flow */
-import { Subject } from 'rxjs/Subject'
+import { Subject } from 'rxjs'
 import { share } from 'rxjs/operators'
-import type { Observable } from 'rxjs/Observable'
+import type { Observable } from 'rxjs'
 
 export opaque type Event = typeof SaveProducts | typeof SavePrices
 export const SaveProducts: Event = Symbol()

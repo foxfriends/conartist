@@ -2,8 +2,7 @@
 import * as React from 'react'
 import moment from 'moment'
 
-import { forkJoin } from 'rxjs/observable/forkJoin'
-import { of } from 'rxjs/observable/of'
+import { forkJoin, of } from 'rxjs'
 import { switchMap, tap, map, filter } from 'rxjs/operators'
 
 import { CreateConvention } from '../../api/create-convention'

@@ -1,7 +1,6 @@
 /* @flow */
 import * as React from 'react'
-import { merge } from 'rxjs/observable/merge'
-import { timer } from 'rxjs/observable/timer'
+import { merge, timer } from 'rxjs'
 import { takeUntil, mapTo, filter, switchMap, share } from 'rxjs/operators'
 
 import * as ReactX from '../react-ext'

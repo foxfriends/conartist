@@ -1,5 +1,5 @@
 /* @flow */
-import { Observable } from 'rxjs/Observable'
+import { Observable } from 'rxjs'
 import type { Operation, Query, Mutation } from './apollo'
 import { graphql } from './apollo'
 

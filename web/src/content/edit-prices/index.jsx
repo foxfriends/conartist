@@ -1,15 +1,9 @@
 /* @flow */
 import * as React from 'react'
 import * as ReactX from '../../react-ext'
-import { Observable } from 'rxjs/Observable'
-import { Subject } from 'rxjs/Subject'
-import type { Subscription } from 'rxjs/Subscription'
-
-import { forkJoin } from 'rxjs/observable/forkJoin'
-import { merge } from 'rxjs/observable/merge'
-import { of } from 'rxjs/observable/of'
-
+import { Observable, Subject, forkJoin, merge, of } from 'rxjs'
 import { tap, filter, pluck, map, mapTo, switchMap, takeUntil, share, partition, defaultIfEmpty } from 'rxjs/operators'
+import type { Subscription } from 'rxjs'
 
 import DefaultMap from '../../util/default-map'
 import Set from '../../util/set'

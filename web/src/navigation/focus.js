@@ -1,6 +1,6 @@
 /* @flow */
-import { Subject } from 'rxjs/Subject'
-import type { Observable } from 'rxjs/Observable'
+import { Subject } from 'rxjs'
+import type { Observable } from 'rxjs'
 import { share } from 'rxjs/operators'
 
 const subject: Subject<boolean> = new Subject()

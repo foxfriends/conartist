@@ -1,5 +1,5 @@
 /* @flow */
-import type { FullConventionFragmentFragment } from '../api/schema'
+import type { FullConventionFragment } from '../api/schema'
 import { parse as parseMetaConvention } from './meta-convention'
 import { parse as parseProduct } from './product'
 import { parse as parseProductType } from './product-type'
@@ -21,7 +21,7 @@ export type FullConvention = MetaConvention & {|
   expenses: Expense[],
 |}
 
-export function parse({ products, productTypes, prices, records, expenses, ...meta }: FullConventionFragmentFragment): FullConvention {
+export function parse({ products, productTypes, prices, records, expenses, ...meta }: FullConventionFragment): FullConvention {
   // $FlowIgnore: Not good at spread with exact types
   return {
     ...parseMetaConvention(meta),

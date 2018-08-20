@@ -3,7 +3,7 @@
 import Apollo
 
 public final class ImageQuery: GraphQLQuery {
-  public static let operationString =
+  public let operationDefinition =
     "query Image($imageId: String!) {\n  image(imageId: $imageId)\n}"
 
   public var imageId: String
@@ -23,22 +23,22 @@ public final class ImageQuery: GraphQLQuery {
       GraphQLField("image", arguments: ["imageId": GraphQLVariable("imageId")], type: .nonNull(.scalar(String.self))),
     ]
 
-    public var snapshot: Snapshot
+    public private(set) var resultMap: ResultMap
 
-    public init(snapshot: Snapshot) {
-      self.snapshot = snapshot
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
     }
 
     public init(image: String) {
-      self.init(snapshot: ["__typename": "Query", "image": image])
+      self.init(unsafeResultMap: ["__typename": "Query", "image": image])
     }
 
     public var image: String {
       get {
-        return snapshot["image"]! as! String
+        return resultMap["image"]! as! String
       }
       set {
-        snapshot.updateValue(newValue, forKey: "image")
+        resultMap.updateValue(newValue, forKey: "image")
       }
     }
   }

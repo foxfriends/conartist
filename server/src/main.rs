@@ -11,6 +11,7 @@ extern crate juniper_iron;
 extern crate mount;
 extern crate router;
 extern crate params;
+extern crate logger;
 extern crate staticfile;
 extern crate bodyparser;
 extern crate jsonwebtoken as jwt;
@@ -23,6 +24,7 @@ extern crate base64;
 extern crate r2d2;
 extern crate r2d2_diesel;
 extern crate uuid;
+extern crate env_logger;
 
 #[macro_use] mod macros;
 mod web;
@@ -38,6 +40,7 @@ mod devtools;
 
 use std::env;
 use mount::Mount;
+use logger::Logger;
 use iron::prelude::*;
 use iron_cors::CorsMiddleware;
 use juniper::EmptyMutation;
@@ -51,6 +54,8 @@ const DATABASE_URL: &'static str = "postgresql://conartist_app:temporary-passwor
 const DEFAULT_PORT: &'static str = "8080";
 
 fn main() {
+    env_logger::init();
+
     println!();
     println!("Starting ConArtist server...");
 
@@ -118,6 +123,11 @@ fn main() {
 
     let mut chain = Chain::new(mount);
     chain.link_around(cors);
+
+    let (pre, post) = Logger::new(None);
+    chain
+        .link_before(pre)
+        .link_after(post);
 
     let port = env::var("PORT").unwrap_or(DEFAULT_PORT.to_string());
     let host = "0.0.0.0";

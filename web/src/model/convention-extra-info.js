@@ -1,5 +1,5 @@
 /* @flow */
-import type { ExtraInfoFragmentFragment } from '../api/schema'
+import type { ExtraInfoFragment } from '../api/schema'
 
 export type ConventionExtraInfo = {|
   title: string,
@@ -8,7 +8,7 @@ export type ConventionExtraInfo = {|
   actionText: ?string,
 |}
 
-export function parse({ title, info, action, actionText }: ExtraInfoFragmentFragment): ConventionExtraInfo {
+export function parse({ title, info, action, actionText }: ExtraInfoFragment): ConventionExtraInfo {
   return {
     title,
     info,

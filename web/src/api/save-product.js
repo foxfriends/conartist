@@ -7,11 +7,12 @@ import { parse } from '../model/product'
 import { GraphQLMutation } from './index'
 import type { Response, APIRequest, APIError } from './index'
 import type {
-  AddProductMutationVariables,
-  AddProductMutation,
-  ModProductMutationVariables,
-  ModProductMutation,
+  AddProductVariables,
+  AddProduct as AddProductMutation,
+  ModProductVariables,
+  ModProduct as ModProductMutation,
 } from './schema'
+import type { Product } from '../model/product'
 import type { EditableProduct } from '../content/edit-products/schema'
 
 // $FlowIgnore: trouble importing graphql files
@@ -19,19 +20,19 @@ import addProduct from './graphql/mutation/add-product.graphql'
 // $FlowIgnore: trouble importing graphql files
 import modProduct from './graphql/mutation/mod-product.graphql'
 
-export class SaveProduct implements APIRequest<EditableProduct, EditableProduct> {
-  addProduct: GraphQLMutation<AddProductMutationVariables, AddProductMutation>
-  modProduct: GraphQLMutation<ModProductMutationVariables, ModProductMutation>
+export class SaveProduct implements APIRequest<EditableProduct, Product> {
+  addProduct: GraphQLMutation<AddProductVariables, AddProductMutation>
+  modProduct: GraphQLMutation<ModProductVariables, ModProductMutation>
 
   constructor() {
     this.addProduct = new GraphQLMutation(addProduct)
     this.modProduct = new GraphQLMutation(modProduct)
   }
 
-  send(product: EditableProduct): Observable<Response<EditableProduct, string>> {
+  send(product: EditableProduct): Observable<Response<Product, string>> {
     const { product: original } = product;
     if (original && typeof product.id === 'number') {
-      const variables: ModProductMutationVariables = {
+      const variables: ModProductVariables = {
         product: {
           productId: product.id,
         }
@@ -50,19 +51,20 @@ export class SaveProduct implements APIRequest<EditableProduct, EditableProduct>
       }
       if (Object.keys(variables.product).length === 1) {
         // Unmodified
-        return of({ state: 'retrieved', value: product })
+        // $FlowIgnore: We just confirmed original is a Product
+        return of({ state: 'retrieved', value: original })
       } else {
         // TODO: save
         return this.modProduct.send(variables)
           .pipe(
             map(response => response.state === 'retrieved'
-              ? { state: 'retrieved', value: { ...parse(response.value.modUserProduct), product } }
+              ? { state: 'retrieved', value: parse(response.value.modUserProduct) }
               : response
             )
           )
       }
     } else if (typeof product.typeId === 'number') {
-      const variables: AddProductMutationVariables = {
+      const variables: AddProductVariables = {
         product: {
           typeId: product.typeId,
           name: product.name,
@@ -73,7 +75,7 @@ export class SaveProduct implements APIRequest<EditableProduct, EditableProduct>
       return this.addProduct.send(variables)
         .pipe(
           map(response => response.state === 'retrieved'
-            ? { state: 'retrieved', value: { ...parse(response.value.addUserProduct), product } }
+            ? { state: 'retrieved', value: parse(response.value.addUserProduct) }
             : response
           )
         )

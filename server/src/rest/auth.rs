@@ -22,11 +22,11 @@ struct Auth { database: Database }
 impl Handler for Auth {
     fn handle(&self, req: &mut Request) -> IronResult<Response> {
         let params = itry!{ req.get_ref::<Params>(), status::BadRequest };
-        let usr = iexpect!{ params.get("usr") }.lowercased();
+        let usr = iexpect!{ params.get("usr") };
         let psw = iexpect!{ params.get("psw") };
 
         if let (&Value::String(ref email), &Value::String(ref password)) = (usr, psw) {
-            if let Ok(usr) = self.database.get_user_for_email(email) {
+            if let Ok(usr) = self.database.get_user_for_email(&email.to_lowercase()) {
                 if itry! { bcrypt::verify(password, usr.password.as_str()) } {
                     let authtoken = itry! { authtoken::new(usr.user_id) };
                     return cr::ok(authtoken)

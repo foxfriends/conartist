@@ -1,5 +1,5 @@
 /* @flow */
-import type { UserInfoFragmentFragment } from '../api/schema'
+import type { UserInfoFragment } from '../api/schema'
 
 export type ConventionUserInfo = {|
   id: number,
@@ -9,7 +9,7 @@ export type ConventionUserInfo = {|
   downvotes: number,
 |}
 
-export function parse({ id, info, vote, upvotes, downvotes }: UserInfoFragmentFragment): ConventionUserInfo {
+export function parse({ id, info, vote, upvotes, downvotes }: UserInfoFragment): ConventionUserInfo {
   return {
     id,
     info,

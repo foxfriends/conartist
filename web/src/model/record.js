@@ -1,5 +1,5 @@
 /* @flow */
-import type { RecordFragmentFragment } from '../api/schema'
+import type { RecordFragment } from '../api/schema'
 import { Money } from './money'
 
 export type Record = {|
@@ -12,7 +12,7 @@ export type Record = {|
   info: string,
 |}
 
-export function parse({ id, uuid, products, price, time, info }: RecordFragmentFragment): Record {
+export function parse({ id, uuid, products, price, time, info }: RecordFragment): Record {
   return {
     name: 'record',
     id,

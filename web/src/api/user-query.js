@@ -7,17 +7,17 @@ import { GraphQLQuery } from './index'
 import query from './graphql/query/full-user.graphql'
 import { parse } from '../model/user'
 import type { Response, APIRequest, APIError } from './index'
-import type { FullUserQueryVariables, FullUserQuery } from './schema'
+import type { FullUserVariables, FullUser as FullUserQuery } from './schema'
 import type { User } from '../model/user'
 
-export class UserQuery implements APIRequest<FullUserQueryVariables, User> {
-  query: GraphQLQuery<FullUserQueryVariables, FullUserQuery>
+export class UserQuery implements APIRequest<FullUserVariables, User> {
+  query: GraphQLQuery<FullUserVariables, FullUserQuery>
 
   constructor() {
     this.query = new GraphQLQuery(query)
   }
 
-  send(variables: FullUserQueryVariables = { id: null }): Observable<Response<User, APIError>> {
+  send(variables: FullUserVariables = { id: null }): Observable<Response<User, APIError>> {
     return this.query.send(variables)
       .pipe(
         map(response => response.state === 'retrieved'

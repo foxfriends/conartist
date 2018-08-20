@@ -1,5 +1,5 @@
 /* @flow */
-import type { ProductFragmentFragment } from '../api/schema'
+import type { ProductFragment } from '../api/schema'
 
 export type Product = {|
   id: number,
@@ -10,7 +10,7 @@ export type Product = {|
   discontinued: boolean,
 |}
 
-export function parse({ id, typeId, name, quantity, sort, discontinued }: ProductFragmentFragment): Product {
+export function parse({ id, typeId, name, quantity, sort, discontinued }: ProductFragment): Product {
   return {
     id,
     typeId,

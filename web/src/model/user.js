@@ -1,5 +1,5 @@
 /* @flow */
-import type { FullUserFragmentFragment } from '../api/schema'
+import type { FullUserFragment } from '../api/schema'
 import { parse as parseSettings } from './settings'
 import { parse as parseConvention } from './meta-convention'
 import { parse as parseProductType } from './product-type'
@@ -22,7 +22,7 @@ export type User = {|
   clearance: number,
 |}
 
-export function parse({ name, email, settings, productTypes, products, prices, conventions, clearance }: FullUserFragmentFragment): User {
+export function parse({ name, email, settings, productTypes, products, prices, conventions, clearance }: FullUserFragment): User {
   return {
     name,
     email,

@@ -28,7 +28,7 @@ impl Handler for Create {
         }
         let hashed = itry!{ bcrypt::hash(&body.password, bcrypt::DEFAULT_COST) };
 
-        self.database.create_user(body.email.lowercased(), body.name, hashed)
+        self.database.create_user(body.email.to_lowercase(), body.name, hashed)
             .and_then(|user| authtoken::new(user.user_id).map_err(|reason| format!("Failed to generate JWT: {}", reason)))
             .map(|authtoken| cr::ok(authtoken))
             .unwrap_or_else(|s| cr::fail(&s))
@@ -40,7 +40,7 @@ impl Handler for Exists {
     fn handle(&self, req: &mut Request) -> IronResult<Response> {
         let params = iexpect!{ req.extensions.get::<Router>() };
         let email = iexpect!{ params.find("email") };
-        cr::ok(self.database.get_user_for_email(email.lowercased()).map(|_| true).unwrap_or(false))
+        cr::ok(self.database.get_user_for_email(&email.to_lowercase()).map(|_| true).unwrap_or(false))
     }
 }
 

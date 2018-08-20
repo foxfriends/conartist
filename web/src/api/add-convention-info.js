@@ -5,22 +5,22 @@ import { map } from 'rxjs/operators'
 import { GraphQLMutation } from './index'
 import type { Response, APIRequest, APIError } from './index'
 import type {
-  AddConventionInfoMutation,
-  AddConventionInfoMutationVariables,
+  AddConventionInfo as AddConventionInfoMutation,
+  AddConventionInfoVariables,
 } from './schema'
 
 // $FlowIgnore: trouble importing graphql files
 import addConventionInfo from './graphql/mutation/add-convention-info.graphql'
 
 // Admin use only, for adding convention extra info
-export class AddConventionInfo implements APIRequest<AddConventionInfoMutationVariables, void> {
-  addConventionInfo: GraphQLMutation<AddConventionInfoMutationVariables, AddConventionInfoMutation>
+export class AddConventionInfo implements APIRequest<AddConventionInfoVariables, null> {
+  addConventionInfo: GraphQLMutation<AddConventionInfoVariables, AddConventionInfoMutation>
 
   constructor() {
     this.addConventionInfo = new GraphQLMutation(addConventionInfo)
   }
 
-  send(variables: AddConventionInfoMutationVariables): Observable<Response<void, string>> {
+  send(variables: AddConventionInfoVariables): Observable<Response<null, string>> {
     return this.addConventionInfo.send(variables)
       .pipe(
         map(response => response.state === 'retrieved'

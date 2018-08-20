@@ -44,8 +44,8 @@ export class Toast<E: React.ElementType> extends React.Component<Props<E>, State
 
 const subject = new BehaviorSubject(null)
 
-export function show(toast: React.Element<React.ElementType>) {
+export function show(toast: ?React.Element<React.ElementType>) {
   subject.next(toast)
 }
 
-export const toast: Observable<React.Element<React.ElementType>> = subject.asObservable().pipe(share())
+export const toast: Observable<?React.Element<React.ElementType>> = subject.asObservable().pipe(share())

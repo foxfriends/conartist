@@ -1,5 +1,5 @@
 /* @flow */
-import type { PriceFragmentFragment } from '../api/schema'
+import type { PriceFragment } from '../api/schema'
 import { Money } from './money'
 
 export type Price = {|
@@ -9,7 +9,7 @@ export type Price = {|
   price: Money,
 |}
 
-export function parse({ typeId, productId, quantity, price }: PriceFragmentFragment): Price {
+export function parse({ typeId, productId, quantity, price }: PriceFragment): Price {
   return {
     typeId,
     productId,

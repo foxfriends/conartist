@@ -4,3 +4,4 @@ node_modules
 *.min.js
 *.min.css
 *.css.flow
+flow-typed/npm

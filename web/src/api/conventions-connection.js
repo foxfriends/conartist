@@ -5,8 +5,8 @@ import { map } from 'rxjs/operators'
 import { GraphQLQuery } from './index'
 import type { Response, APIRequest, APIError } from './index'
 import type {
-  ConventionsConnectionQuery,
-  ConventionsConnectionQueryVariables,
+  ConventionsConnection as ConventionsConnectionQuery,
+  ConventionsConnectionVariables,
 } from './schema'
 import type { Connection } from '../model/connection'
 
@@ -21,7 +21,7 @@ export type Params = {
 }
 
 export class ConventionsConnection implements APIRequest<Params, Connection<MetaConvention>> {
-  conventionsConnection: GraphQLQuery<ConventionsConnectionQueryVariables, ConventionsConnectionQuery>
+  conventionsConnection: GraphQLQuery<ConventionsConnectionVariables, ConventionsConnectionQuery>
 
   constructor() {
     this.conventionsConnection = new GraphQLQuery(conventionsConnection)

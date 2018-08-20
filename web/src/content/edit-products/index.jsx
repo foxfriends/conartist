@@ -130,7 +130,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
     savedProducts
       .pipe(
         pluck('value'),
-        tap(products => update.setProducts(products.map(nonEditableProduct))),
+        tap(products => update.setProducts(products)),
       )
       .subscribe(() => navigate.products())
 

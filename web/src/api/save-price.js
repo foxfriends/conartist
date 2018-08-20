@@ -7,10 +7,10 @@ import { parse } from '../model/price'
 import { GraphQLMutation } from './index'
 import type { Response, APIRequest, APIError } from './index'
 import type {
-  AddPriceMutation,
-  AddPriceMutationVariables,
-  DeletePriceMutation,
-  DeletePriceMutationVariables,
+  AddPrice as AddPriceMutation,
+  AddPriceVariables,
+  DeletePrice as DeletePriceMutation,
+  DeletePriceVariables,
 } from './schema'
 import type { Price } from '../model/price'
 
@@ -23,8 +23,8 @@ export type Add = { operation: 'add', price: Price }
 export type Delete = { operation: 'delete', price: Price }
 
 export class SavePrice implements APIRequest<Add | Delete, ?Price> {
-  addPrice: GraphQLMutation<AddPriceMutationVariables, AddPriceMutation>
-  deletePrice: GraphQLMutation<DeletePriceMutationVariables, DeletePriceMutation>
+  addPrice: GraphQLMutation<AddPriceVariables, AddPriceMutation>
+  deletePrice: GraphQLMutation<DeletePriceVariables, DeletePriceMutation>
 
   constructor() {
     this.addPrice = new GraphQLMutation(addPrice)
@@ -34,7 +34,7 @@ export class SavePrice implements APIRequest<Add | Delete, ?Price> {
   send(input: Add | Delete): Observable<Response<?Price, string>> {
     const { operation, price } = input;
     if (operation === 'add') {
-      const variables: AddPriceMutationVariables = {
+      const variables: AddPriceVariables = {
         price: {
           typeId: price.typeId,
           productId: price.productId,
@@ -50,7 +50,7 @@ export class SavePrice implements APIRequest<Add | Delete, ?Price> {
           )
         )
     } else if (operation === 'delete') {
-      const variables: DeletePriceMutationVariables = {
+      const variables: DeletePriceVariables = {
         price: {
           typeId: price.typeId,
           productId: price.productId,

@@ -16,7 +16,7 @@ export class EmailInUseRequest extends GetRequest<string, boolean> {
 
   send(params: string): Observable<Response<boolean, APIError>> {
     if (this.cache.has(params)) {
-      return of({ state: 'retrieved', value: this.cache.get(params) })
+      return of({ state: 'retrieved', value: !!this.cache.get(params) })
     }
     return super.send(params)
       .pipe(

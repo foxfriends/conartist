@@ -1,4 +1,4 @@
-FROM rust:1.26.0
+FROM rust:1.28.0
 RUN cargo install diesel_cli --no-default-features --features "postgres"
 
 COPY /migrations /migrations

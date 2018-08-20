@@ -1,5 +1,5 @@
 /* @flow */
-import type { SettingsFragmentFragment } from '../api/schema'
+import type { SettingsFragment } from '../api/schema'
 import type { Currency } from './money'
 
 export type Settings = {|
@@ -7,7 +7,7 @@ export type Settings = {|
   language: string,
 |}
 
-export function parse({ currency, language }: SettingsFragmentFragment): Settings {
+export function parse({ currency, language }: SettingsFragment): Settings {
   return {
     currency,
     language,

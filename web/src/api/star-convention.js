@@ -7,21 +7,21 @@ import { parse } from '../model/meta-convention'
 import type { MetaConvention } from '../model/meta-convention'
 import type { Response, APIRequest, APIError } from './index'
 import type {
-  AddUserConventionMutation,
-  AddUserConventionMutationVariables,
+  AddUserConvention as AddUserConventionMutation,
+  AddUserConventionVariables,
 } from './schema'
 
 // $FlowIgnore: trouble importing graphql files
 import addUserConvention from './graphql/mutation/add-user-convention.graphql'
 
-export class StarConvention implements APIRequest<AddUserConventionMutationVariables, MetaConvention> {
-  addUserConvention: GraphQLMutation<AddUserConventionMutationVariables, AddUserConventionMutation>
+export class StarConvention implements APIRequest<AddUserConventionVariables, MetaConvention> {
+  addUserConvention: GraphQLMutation<AddUserConventionVariables, AddUserConventionMutation>
 
   constructor() {
     this.addUserConvention = new GraphQLMutation(addUserConvention)
   }
 
-  send(variables: AddUserConventionMutationVariables): Observable<Response<MetaConvention, string>> {
+  send(variables: AddUserConventionVariables): Observable<Response<MetaConvention, string>> {
     return this.addUserConvention.send(variables)
       .pipe(
         map(response => response.state === 'retrieved'

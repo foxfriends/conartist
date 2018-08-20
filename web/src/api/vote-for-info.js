@@ -7,10 +7,10 @@ import { GraphQLMutation } from './index'
 import type { ConventionUserInfo } from '../model/convention-user-info'
 import type { Response, APIRequest, APIError } from './index'
 import type {
-  DownvoteConventionInfoMutation,
-  DownvoteConventionInfoMutationVariables,
-  UpvoteConventionInfoMutation,
-  UpvoteConventionInfoMutationVariables,
+  DownvoteConventionInfo as DownvoteConventionInfoMutation,
+  DownvoteConventionInfoVariables,
+  UpvoteConventionInfo as UpvoteConventionInfoMutation,
+  UpvoteConventionInfoVariables,
 } from './schema'
 
 // $FlowIgnore: trouble importing graphql files
@@ -28,18 +28,21 @@ export type Votes = {
   downvotes: number,
 }
 
+// $FlowIgnore: doing some types magic here
 function parse(info: UpvoteConventionInfoMutation | DownvoteConventionInfoMutation) {
   const data = info.upvoteConventionInfo || info.downvoteConventionInfo
   return {
+    // $FlowIgnore: doing some types magic here
     upvotes: data.upvotes,
+    // $FlowIgnore: doing some types magic here
     downvotes: data.downvotes,
     vote: info.upvoteConventionInfo ? 1 : -1,
   }
 }
 
 export class VoteForInfo implements APIRequest<Params, Votes> {
-  downvote: GraphQLMutation<DownvoteConventionInfoMutationVariables, DownvoteConventionInfoMutation>
-  upvote: GraphQLMutation<UpvoteConventionInfoMutationVariables, UpvoteConventionInfoMutation>
+  downvote: GraphQLMutation<DownvoteConventionInfoVariables, DownvoteConventionInfoMutation>
+  upvote: GraphQLMutation<UpvoteConventionInfoVariables, UpvoteConventionInfoMutation>
 
   constructor() {
     this.downvote = new GraphQLMutation(downvoteConventionInfo)
@@ -64,6 +67,6 @@ export class VoteForInfo implements APIRequest<Params, Votes> {
           )
         )
     }
-    return of({ state: 'failed', value: 'Can only up or downvote, not "no" vote' })
+    return of({ state: 'failed', error: 'Can only up or downvote, not "no" vote' })
   }
 }

@@ -1,10 +1,10 @@
 /* @flow */
-import type { ConventionImageFragmentFragment } from '../api/schema'
+import type { ConventionImageFragment } from '../api/schema'
 
 export type ConventionImage = {|
   id: string,
 |}
 
-export function parse({ id }: ConventionImageFragmentFragment): ConventionImage {
+export function parse({ id }: ConventionImageFragment): ConventionImage {
   return { id }
 }

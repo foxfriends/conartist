@@ -1,5 +1,5 @@
 /* @flow */
-import type { ExpenseFragmentFragment } from '../api/schema'
+import type { ExpenseFragment } from '../api/schema'
 import { Money } from './money'
 
 export type Expense = {|
@@ -12,7 +12,7 @@ export type Expense = {|
   time: Date,
 |}
 
-export function parse({ id, uuid, category, description, price, time }: ExpenseFragmentFragment): Expense {
+export function parse({ id, uuid, category, description, price, time }: ExpenseFragment): Expense {
   return {
     name: 'expense',
     id,

@@ -5,8 +5,8 @@ target 'ConArtist' do
   inhibit_all_warnings!
 
   # Pods for ConArtist
-  pod 'Apollo', '~> 0.7.0'
-  pod 'Alamofire', '~> 4.5'
+  pod 'Apollo', '~> 0.9'
+  pod 'Alamofire', '~> 4.7'
   pod 'Strongbox', '~> 0.5'
   pod 'SwiftMoment', '~> 0.7'
   pod 'RxSwift', '~> 4.2'

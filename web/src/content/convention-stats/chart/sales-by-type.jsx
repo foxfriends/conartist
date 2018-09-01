@@ -109,7 +109,6 @@ export class SalesByTypeChart extends React.Component<Props, State> {
       tooltips: {
         callbacks: {
           label: ({ yLabel }) => {
-            console.log(yLabel)
             if (metric === 'Money') {
               return new Money(model.getValue().settings.currency, yLabel)
             } else {

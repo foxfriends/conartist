@@ -4,6 +4,7 @@ import { SecondaryCardFade as Fade } from '../../common/animation/fade/secondary
 import { CardView } from '../card-view'
 import { InventoryChart } from './chart/inventory'
 import { SalesByTypeChart } from './chart/sales-by-type'
+import { SalesOverTimeChart } from './chart/sales-over-time'
 import type { Convention } from '../../model/convention'
 
 export type Props = {
@@ -36,6 +37,7 @@ export class ConventionStats extends React.Component<Props, State> {
       <CardView>
         <InventoryChart productTypes={productTypes} products={products} records={records} showSettings={showSettings} />
         <SalesByTypeChart productTypes={productTypes} products={products} records={records} prices={prices} showSettings={showSettings} />
+        <SalesOverTimeChart records={records} showSettings={showSettings} />
         <Fade>
           {/* $FlowIgnore */}
           { settings || null }

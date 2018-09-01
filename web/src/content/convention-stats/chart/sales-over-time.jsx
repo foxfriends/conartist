@@ -100,6 +100,8 @@ function averages(grouping: number = 1): ((Item[]) => Item[]) {
       }
     }
 
+    buckets.push(bucket)
+
     if (buckets.length) {
       const last = buckets[buckets.length - 1].time + minutes / 2
 

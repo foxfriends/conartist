@@ -24,6 +24,11 @@ type State = {
   grouping: number,
 }
 
+type Item = {|
+  time: Date,
+  price: Money,
+|}
+
 const colors = [
   '#8bc2ae',
   '#9c63c6',
@@ -34,7 +39,7 @@ const colors = [
   '#9cd0b4',
 ]
 
-function splitByDays(items) {
+function splitByDays(items: Item[]) {
   const days = []
   let day = []
   let currentDay = moment(items[0].time).startOf('day').valueOf()
@@ -52,23 +57,29 @@ function splitByDays(items) {
   return days
 }
 
-function dailyTotals(data) {
+function dailyTotals(data: Item[]): Item[] {
   const startAmount = data[0].price || Money.zero
   return data.map(({ time, price }) => ({ time, price: price.add(startAmount.negate()) }))
 }
 
-function deltas(data) {
+function deltas(data: Item[]): Item[] {
   return data.map(({ time, price }, i, arr) => ({
     time,
     price: price.add(((arr[i - 1] || {}).price || Money.zero).negate()),
   }))
 }
 
-function averages(grouping = 1) {
+type Bucket = {
+  time: number,
+  count: number,
+  total: Money,
+}
+
+function averages(grouping: number = 1): ((Item[]) => Item[]) {
   const minutes = Math.max(Math.abs(grouping), 1) * 1000 * 60
   return data => {
-    const buckets = []
-    let bucket = { count: 0, total: Money.zero }
+    const buckets: Bucket[] = []
+    let bucket: Bucket = { time: 0, count: 0, total: Money.zero }
     for (const item of data) {
       if (!bucket.time) {
         bucket.time = item.time.getTime() + (minutes / 2)
@@ -89,10 +100,14 @@ function averages(grouping = 1) {
       }
     }
 
-    const last = buckets[buckets.length - 1].time + minutes / 2
+    if (buckets.length) {
+      const last = buckets[buckets.length - 1].time + minutes / 2
 
-    const averaged = buckets.map(({ time, count, total }) => ({ time: new Date(time), price: total.multiply(1 / count) }))
-    return [...averaged, { time: new Date(last), price: Money.zero }]
+      const averaged = buckets.map(({ time, count, total }) => ({ time: new Date(time), price: total.multiply(1 / count) }))
+      return [...averaged, { time: new Date(last), price: Money.zero }]
+    } else {
+      return []
+    }
   }
 }
 
@@ -136,7 +151,7 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
         .reduce((acc, { time, price }) => ([...acc, { time, price: price.add((acc[acc.length - 1] || {}).price || Money.zero) }]), [])
     )
 
-    let daysData
+    let daysData: Item[][]
     switch (mode) {
       case 'Total':
         daysData = totalOverTime.map(dailyTotals)
@@ -144,6 +159,8 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
       case 'Average':
         daysData = totalOverTime.map(dailyTotals).map(deltas).map(averages(grouping))
         break
+      default:
+        return <NotEnoughData />
     }
 
     const data = {

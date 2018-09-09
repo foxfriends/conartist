@@ -63,15 +63,22 @@ export class SalesByTypeChart extends React.Component<Props, State> {
           const soldProducts = sold.map(product => products.find(({ id }) => id === product)).filter(x => x)
           // $FlowIgnore
           const totalPrice = calculatePrice(soldProducts, prices)
-          const ratio = price.amount / totalPrice.amount
+          const ratio = price.amount / (totalPrice.amount || 1)
           const productsByType = soldProducts.reduce((types, product) =>
             types.set(product.typeId, [...types.get(product.typeId), product])
           , new Map([], []))
-          const pricesByType = [...productsByType].map(([typeId, soldProducts]) =>
-            [typeId, calculatePrice(soldProducts, prices).multiply(ratio)]
-          )
+          const pricesByType = [...productsByType].map(([typeId, soldProducts]) => {
+            const priceForType = calculatePrice(soldProducts, prices)
+            return [typeId, priceForType.multiply(ratio)]
+          })
+          const uncountedMoney = [...pricesByType].reduce((total, [, price]) => total.add(price.negate()), price)
           for (const [typeId, price] of pricesByType) {
-            types.set(typeId, types.get(typeId).add(price))
+            if (price.amount === 0) {
+              const numberOfProducts = productsByType.get(typeId).length
+              types.set(typeId, types.get(typeId).add(uncountedMoney.multiply(1 / numberOfProducts)))
+            } else {
+              types.set(typeId, types.get(typeId).add(price))
+            }
           }
           return types
         }, new Map([], Money.zero))

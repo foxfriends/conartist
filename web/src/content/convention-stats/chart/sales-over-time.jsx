@@ -48,6 +48,7 @@ function splitByDays(items: Item[]) {
     if (moment(item.time).startOf('day').valueOf() === currentDay) {
       day.push(item)
     } else {
+      currentDay = moment(item.time).startOf('day').valueOf()
       days.push(day)
       day = [item]
     }
@@ -127,7 +128,7 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
     this.ref = { current: null }
     this.state = {
       mode: 'Average',
-      grouping: 15,
+      grouping: 30,
     }
   }
 
@@ -170,7 +171,7 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
         cubicInterpolationMode: 'monotone',
         fill: false,
         label: days[i],
-        borderColor: days.map((_, i) => colors[i % 7]),
+        borderColor: colors[i % 7],
         data: data.map(({ time, price }) => ({
           x: timeInDay(time),
           y: price.amount,
@@ -243,7 +244,7 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
             </Select>
             <Select
               title={l`Grouping`}
-              options={[5, 10, 15, 30, 60]}
+              options={[5, 10, 15, 30, 60, 120]}
               defaultValue={grouping}
               onChange={grouping => this.setState({ grouping })}
               >

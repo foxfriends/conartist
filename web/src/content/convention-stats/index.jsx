@@ -37,7 +37,7 @@ export class ConventionStats extends React.Component<Props, State> {
       <CardView>
         <InventoryChart productTypes={productTypes} products={products} records={records} showSettings={showSettings} />
         <SalesByTypeChart productTypes={productTypes} products={products} records={records} prices={prices} showSettings={showSettings} />
-        {/* <SalesOverTimeChart records={records} showSettings={showSettings} /> */}
+        <SalesOverTimeChart records={records} showSettings={showSettings} />
         <Fade>
           {/* $FlowIgnore */}
           { settings || null }

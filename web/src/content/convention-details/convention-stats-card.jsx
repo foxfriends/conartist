@@ -23,7 +23,7 @@ export function ConventionStatsCard({ convention }: Props) {
   // $FlowIgnore: not catching defaulting of missing props
   if ((convention.records || []).length === 0) { return null }
 
-  const totalProfit = convention.recordTotal.add(convention.expenseTotal.negate())
+  const totalProfit = (convention.recordTotal || Money.zero).add((convention.expenseTotal || Money.zero).negate())
   const hours = convention.extraInfo.find(({ title }) => title === 'Hours')
   let profitPerHour = 0
   if (hours) {

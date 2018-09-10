@@ -21,6 +21,7 @@ export type Props = {
 
 type State = {
   mode: 'Average' | 'Total',
+  metric: 'Customers' | 'Money',
   grouping: number,
 }
 
@@ -59,14 +60,16 @@ function splitByDays(items: Item[]) {
 }
 
 function dailyTotals(data: Item[]): Item[] {
-  const startAmount = data[0].price || Money.zero
-  return data.map(({ time, price }) => ({ time, price: price.add(startAmount.negate()) }))
+  const startPrice = data[0].price || Money.zero
+  const startQuantity = data[0].quantity || 0
+  return data.map(({ time, price, quantity }) => ({ time, price: price.add(startPrice.negate()), quantity: quantity - startQuantity }))
 }
 
 function deltas(data: Item[]): Item[] {
   return data.map(({ time, price }, i, arr) => ({
     time,
     price: price.add(((arr[i - 1] || {}).price || Money.zero).negate()),
+    quantity: 1,
   }))
 }
 
@@ -104,10 +107,18 @@ function averages(grouping: number = 1): ((Item[]) => Item[]) {
     buckets.push(bucket)
 
     if (buckets.length) {
-      const last = buckets[buckets.length - 1].time + minutes / 2
-
-      const averaged = buckets.map(({ time, count, total }) => ({ time: new Date(time), price: total.multiply(1 / count) }))
-      return [...averaged, { time: new Date(last), price: Money.zero }]
+      const first = buckets[0].time - minutes
+      const last = buckets[buckets.length - 1].time + minutes
+      const averaged = buckets.map(({ time, count, total }) => ({
+        time: new Date(time),
+        price: total.multiply(1 / count),
+        quantity: count,
+      }))
+      return [
+        { time: new Date(first), price: Money.zero, quantity: 0 },
+        ...averaged,
+        { time: new Date(last), price: Money.zero, quantity: 0 },
+      ]
     } else {
       return []
     }
@@ -128,13 +139,14 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
     this.ref = { current: null }
     this.state = {
       mode: 'Average',
+      metric: 'Customers',
       grouping: 30,
     }
   }
 
   render() {
     const { records, showSettings } = this.props
-    const { mode, grouping } = this.state
+    const { mode, grouping, metric } = this.state
 
     if (records.length <= 1) {
       return <NotEnoughData />
@@ -151,7 +163,11 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
 
     const totalOverTime = splitByDays(
       records
-        .reduce((acc, { time, price }) => ([...acc, { time, price: price.add((acc[acc.length - 1] || {}).price || Money.zero) }]), [])
+        .reduce((acc, { time, price, quantity }) => ([...acc, {
+          time,
+          price: price.add((acc[acc.length - 1] || {}).price || Money.zero),
+          quantity: 1 + ((acc[acc.length - 1] || {}).quantity || 0),
+        }]), [])
     )
 
     let daysData: Item[][]
@@ -172,9 +188,9 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
         fill: false,
         label: days[i],
         borderColor: colors[i % 7],
-        data: data.map(({ time, price }) => ({
+        data: data.map(({ time, price, quantity }) => ({
           x: timeInDay(time),
-          y: price.amount,
+          y: metric === 'Money' ? price.amount : quantity,
         })),
       })),
     }
@@ -186,7 +202,7 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
       tooltips: {
         callbacks: {
           title: ([{ xLabel }]) => moment(xLabel).format(l`h:mma`),
-          label: ({ yLabel }) => new Money(model.getValue().settings.currency, yLabel),
+          label: ({ yLabel }) => metric === 'Money' ? new Money(model.getValue().settings.currency, yLabel) : yLabel,
         },
       },
       scales: {
@@ -207,11 +223,11 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
           {
             type: 'linear',
             ticks: {
-              callback: label => new Money(model.getValue().settings.currency, label),
+              callback: label => metric === 'Money' ? new Money(model.getValue().settings.currency, label) : label,
             },
             scaleLabel: {
               display: true,
-              labelString: localize(mode),
+              labelString: localize(metric),
             },
           },
         ],
@@ -239,6 +255,14 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
               options={['Average', 'Total']}
               defaultValue={mode}
               onChange={mode => this.setState({ mode })}
+              >
+              {localize}
+            </Select>
+            <Select
+              title={l`Metric`}
+              options={['Customers', 'Money']}
+              defaultValue={metric}
+              onChange={metric => this.setState({ metric })}
               >
               {localize}
             </Select>

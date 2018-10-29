@@ -105,7 +105,7 @@ extension ConventionUserInfoListViewController: UITableViewDataSource {
 
     // TODO: the heights sometimes change randomly?? gotta fix that
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
 }
 

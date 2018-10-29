@@ -11,7 +11,9 @@
     "node": "10.0.0",
     "npm": "6.0.0"
   },
-  "cacheDirectories": ["web/node_modules"],
+  "cacheDirectories": [
+    "web/node_modules"
+  ],
   "author": "Cameron Eldridge",
   "license": "MIT"
 }

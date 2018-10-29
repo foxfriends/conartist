@@ -5,7 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "webpack --env=production",
-    "build": "webpack --watch"
+    "build": "webpack",
+    "watch": "webpack --watch"
   },
   "author": "Cameron Eldridge",
   "license": "MIT",

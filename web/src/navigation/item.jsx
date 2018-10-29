@@ -94,49 +94,98 @@ export type Props = ItemInfo & {
   depth?: number,
 }
 
-const DEPTH_INDENT = 34
-
-function onNavigationListReordered(value: number, index: number) {
-  reorderedSubject.next([value, index])
+type State = {
+  order: number[],
 }
 
-export function Item({ title, action, icon, depth, selected, enabled, children, value }: Props) {
-  depth = depth || 0
-  let indicator = S.indicatorDefault
-  if (selected === DIRECT) {
-    indicator = S.indicatorSelected
-  } else if (selected === INDIRECT) {
-    indicator = S.indicatorDeep
+const DEPTH_INDENT = 34
+
+export class Item extends React.Component<Props, State> {
+  static getDerivedStateFromProps(props: Props, { order = [] }: State): State {
+    const children = props.children || [];
+    const isReorderable = (children || []).some(child => child.isReorderable)
+    if (!isReorderable) {
+      return { order: children.map((_, i) => i) }
+    }
+    if (children.length < order.length) {
+      return {
+        order: order.filter(i => i < children.length)
+      }
+    } else if (children.length > order.length) {
+      return {
+        order: children.map((_, i) => order[i] || i),
+      }
+    }
+    return null
   }
 
-  const onClick = () => {
-    focus()
-    if (enabled) {
-      action()
+  constructor(props: Props) {
+    super(props)
+    this.state = {
+      order: (props.children || []).map((_, i) => i),
     }
   }
 
-  const isReorderable = (children || []).some(child => child.isReorderable)
+  onNavigationListReordered(value: number, index: number) {
+    reorderedSubject.next([value, index])
+    if (value < index) {
+      index -= 1
+    }
+    const { order: [...order] } = this.state
+    const [removed] = order.splice(value, 1)
+    order.splice(index, 0, removed)
+    console.log(order)
+    this.setState({ order })
+  }
 
-  return (
-    <div className={S.container} onClick={onClick}>
-      <div className={`${S.item}  ${enabled ? '' : S.disabled}`}>
-        <div className={`${S.indicator} ${indicator}`} />
-        <div className={S.indent} style={{ width: depth * DEPTH_INDENT}} />
-        <Icon name={icon} className={S.icon} />
-        <span className={S.title}>{ localize(title) }</span>
+  render() {
+    const { title, action, icon, depth = 0, selected, enabled, children, value } = this.props
+    const { order } = this.state
+    let indicator = S.indicatorDefault
+    if (selected === DIRECT) {
+      indicator = S.indicatorSelected
+    } else if (selected === INDIRECT) {
+      indicator = S.indicatorDeep
+    }
+
+    const onClick = () => {
+      focus()
+      if (enabled) {
+        action()
+      }
+    }
+
+    const isReorderable = (children || []).some(child => child.isReorderable)
+
+    const orderedChildren = isReorderable
+      ? children.map((_, i) => i)
+        .map(i => order[i] === undefined ? i : order[i])
+        .map(i => children[i])
+      : (children || [])
+
+    if (isReorderable)
+      console.log(order, orderedChildren.map(child => child.title))
+
+    return (
+      <div className={S.container} onClick={onClick}>
+        <div className={`${S.item}  ${enabled ? '' : S.disabled}`}>
+          <div className={`${S.indicator} ${indicator}`} />
+          <div className={S.indent} style={{ width: depth * DEPTH_INDENT}} />
+          <Icon name={icon} className={S.icon} />
+          <span className={S.title}>{ localize(title) }</span>
+        </div>
+        {/* $FlowIgnore: maybe I typed it wrong? but looks like Flow is just dumb */}
+        <Expand className={S.children}>
+          <List dataSource={orderedChildren} reorderable={isReorderable ? (...args) => this.onNavigationListReordered(...args) : null}>
+            { (child, key, extraProps) =>
+                <ListItem key={`child_${key}`} {...extraProps} reorderable={isReorderable}>
+                  {/* $FlowIgnore: apparently can't tell that ItemInfo is Props */}
+                  <Item {...child} depth={depth + 1}/>
+                </ListItem>
+            }
+          </List>
+        </Expand>
       </div>
-      {/* $FlowIgnore: maybe I typed it wrong? but looks like Flow is just dumb */}
-      <Expand className={S.children}>
-        <List dataSource={children || []} reorderable={isReorderable ? onNavigationListReordered : null}>
-          { (child, key, extraProps) =>
-              <ListItem key={`child_${key}`} {...extraProps} reorderable={isReorderable}>
-                {/* $FlowIgnore: apparently can't tell that ItemInfo is Props */}
-                <Item {...child} depth={depth + 1}/>
-              </ListItem>
-          }
-        </List>
-      </Expand>
-    </div>
-  )
+    )
+  }
 }

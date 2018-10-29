@@ -180,5 +180,7 @@
   "<Empty products list message>": "You don't have anything for sale yet…\nEdit this page and write down what you plan to be selling!",
   "<First product type message>": "What kinds of things do you sell?",
   "<Name usage disclaimer>": "Your name will be visible to other artists in the chat.\nYou can use your artist handle if you like.",
-  "<No convention user info>": "No one has shared any information about this convention yet…\nYou could be the first!"
+  "<No convention user info>": "No one has shared any information about this convention yet…\nYou could be the first!",
+  "<Splash body>": "ConArtist brings together all the things you need, streamlining your convention experience. Find conventions, manage inventory, and record sales, all in one place.",
+  "<Splash title>": "Finally it's all in one place"
 }

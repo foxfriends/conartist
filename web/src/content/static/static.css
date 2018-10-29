@@ -8,4 +8,19 @@
 
 .copy {
   font-size: 16px;
-} 
+}
+
+.splashBanner {
+  margin-top: 100px;
+  padding: 20px;
+  width: 60%;
+  min-width: 335px;
+}
+
+.headline {
+  font-size: 32pt;
+}
+
+.paragraph {
+  font-size: 14pt;
+}

@@ -61,7 +61,7 @@ export class ConArtist extends React.Component<Props, State> {
       case 'splash':
         state.toolbar = { primary: toolbarAction.SignUp, secondary: toolbarAction.LogIn }
         state.navigation = null
-        state.content = null
+        state.content = { name: 'static', content: 'splash' }
         break
 
       case 'dashboard':
@@ -207,11 +207,11 @@ export class ConArtist extends React.Component<Props, State> {
   }
 
   render() {
-    let { toolbar, navigation, content, dialog, toast } = this.state
+    const { toolbar, navigation, content, dialog, toast } = this.state
     return (
       <>
         { toolbar ? <Toolbar {...toolbar} /> : null }
-        <div className={S.container}>
+        <div className={`${S.container} ${navigation ? '' : 'signedOut'}`}>
           { navigation ? <Navigation {...navigation} /> : null }
           {/* $FlowIgnore: Flow doesn't understand enums properly */}
           { content ? <Content {...content} /> : null }

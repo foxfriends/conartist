@@ -6,6 +6,7 @@ import { clearCache } from '../api/apollo'
 
 export function signOut() {
   clearCache()
+  window.history.pushState({}, '', '/')
   Storage.remove(Storage.Auth)
   model.next(defaultModel)
 }

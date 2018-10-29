@@ -2,6 +2,7 @@
   position: relative;
   box-sizing: border-box;
   overflow-x: hidden;
+  width: var(--width);
 }
 
 .placeholder {
@@ -14,12 +15,16 @@
 
 @media (min-width: 888px) {
   .container {
-    width: calc(600px + ((100vw - 600px - 280px) / 2));
+    --width: calc(600px + ((100vw - 600px - 280px) / 2));
+  }
+
+  :global(.signedOut) .container {
+    --width: 880px;
   }
 }
 
 @media (max-width: 887px) {
   .container {
-    width: 100%;
+    --width: 100%;
   }
 }

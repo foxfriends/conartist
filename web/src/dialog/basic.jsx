@@ -13,6 +13,7 @@ import S from './basic.css'
 
 export type Props = {
   title: string,
+  footerTitle?: string,
   onContinue?: ?ButtonProps,
   onBack?: ?ButtonProps,
   onClose?: ?IconButtonProps,
@@ -20,7 +21,7 @@ export type Props = {
   children?: React.Node,
 }
 
-export function Basic({ title, onContinue, onBack, onClose, pager, children }: Props) {
+export function Basic({ title, footerTitle, onContinue, onBack, onClose, pager, children }: Props) {
   return (
     <div className={S.dialog}>
       { onClose ? <IconButton {...onClose} priority="tertiary" className={S.closeButton} /> : null }
@@ -33,8 +34,13 @@ export function Basic({ title, onContinue, onBack, onClose, pager, children }: P
       <footer className={S.footer}>
         {/* backwards using row-reverse so the tab index works as expected */}
         { onContinue ? <Button className={S.footerButton} {...onContinue} key='continuebutton' /> : <Button className={S.fakeButton} title='' action={() => {}} key='fakebutton_right' /> }
-        { pager ? <Pager {...pager} /> : <span /> }
-        { onBack ? <Button className={S.footerButton} {...onBack} key='backbutton'/> : <Button className={S.fakeButton} title='' action={() => {}} key='fakebutton_left'/> }
+        { <span className={S.footerTitle}>{footerTitle}</span> || null }
+        { pager
+            ? <Pager {...pager} />
+            : (footerTitle ? null : <span />) }
+        { onBack
+            ? <Button className={S.footerButton} {...onBack} key='backbutton'/>
+            : (footerTitle ? null : <Button className={S.fakeButton} title='' action={() => {}} key='fakebutton_left'/>) }
       </footer>
     </div>
   )

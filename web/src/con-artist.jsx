@@ -35,7 +35,7 @@ export class ConArtist extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = {
-      toolbar: { primary: null, secondary: null },
+      toolbar: { primary: null, secondary: null, tertiary: null },
       navigation: null,
       content: null,
       dialog: null,
@@ -59,19 +59,24 @@ export class ConArtist extends React.Component<Props, State> {
 
     switch(model.page.name) {
       case 'splash':
-        state.toolbar = { primary: toolbarAction.SignUp, secondary: toolbarAction.LogIn }
+        state.toolbar = { primary: toolbarAction.SignUp, secondary: toolbarAction.LogIn, tertiary: null }
         state.navigation = null
         state.content = { name: 'static', content: 'splash' }
         break
 
       case 'dashboard':
-        state.toolbar = { primary: null, secondary: null, pageIcon: 'dashboard' }
+        state.toolbar = { primary: null, secondary: null, tertiary: null, pageIcon: 'dashboard' }
         state.content = { name: 'dashboard' }
         state.navigation = NavInfo.default.select('Dashboard')
         break
 
       case 'products':
-        state.toolbar = { primary: toolbarAction.EditProducts, secondary: toolbarAction.ExportProducts, pageIcon: 'shopping_basket' }
+        state.toolbar = {
+          primary: toolbarAction.EditProducts,
+          secondary: toolbarAction.ExportProducts,
+          tertiary: toolbarAction.ImportProducts,
+          pageIcon: 'shopping_basket',
+        }
         state.content = { name: 'products', productTypes: model.productTypes, products: model.products }
         state.navigation = NavInfo.default.select('Products', [].concat(
           ...model.productTypes.sort(by(['sort', Asc], ['id', Asc])).map(NavInfo.forProductType)
@@ -91,7 +96,7 @@ export class ConArtist extends React.Component<Props, State> {
         break
 
       case 'prices':
-        state.toolbar = { primary: model.productTypes.filter(({ discontinued }) => !discontinued).length ? toolbarAction.EditPrices : null, secondary: null, pageIcon: 'attach_money' }
+        state.toolbar = { primary: model.productTypes.filter(({ discontinued }) => !discontinued).length ? toolbarAction.EditPrices : null, secondary: null, tertiary: null, pageIcon: 'attach_money' }
         state.content = { name: 'prices', prices: model.prices, productTypes: model.productTypes, products: model.products }
         state.navigation = NavInfo.default.select('Prices', [].concat(
           ...model.productTypes.sort(by(['sort', Asc], ['id', Asc])).map(NavInfo.forProductType)
@@ -109,51 +114,51 @@ export class ConArtist extends React.Component<Props, State> {
         break
 
       case 'conventions':
-        state.toolbar = { primary: toolbarAction.SearchConventions, secondary: null, pageIcon: 'event' }
+        state.toolbar = { primary: toolbarAction.SearchConventions, secondary: null, tertiary: null, pageIcon: 'event' }
         state.content = { name: 'conventions', conventions: model.conventions }
         state.navigation = NavInfo.default.select('Conventions')
         break
 
       case 'search-conventions':
-        state.toolbar = { primary: null, secondary: null, pageIcon: 'event' }
+        state.toolbar = { primary: null, secondary: null, tertiary: null, pageIcon: 'event' }
         state.content = { name: 'search-conventions' }
         state.navigation = NavInfo.default.select('Conventions', [], INDIRECT)
         break
 
       case 'convention-details':
-        state.toolbar = { primary: null, secondary: null, pageIcon: 'event' }
+        state.toolbar = { primary: null, secondary: null, tertiary: null, pageIcon: 'event' }
         state.content = { name: 'convention-details', convention: model.page.convention }
         state.navigation = NavInfo.default.select('Conventions', [], INDIRECT)
         break
 
       case 'convention-records':
         const { convention } = model.page
-        state.toolbar = { primary: null, secondary: toolbarAction.ExportRecords(convention), pageIcon: 'event' }
+        state.toolbar = { primary: null, secondary: toolbarAction.ExportRecords(convention), tertiary: null, pageIcon: 'event' }
         state.content = { name: 'convention-records', convention }
         state.navigation = NavInfo.default.select('Conventions', [], INDIRECT)
         break
 
       case 'convention-stats':
-        state.toolbar = { primary: null, secondary: null, pageIcon: 'event' }
+        state.toolbar = { primary: null, secondary: null, tertiary: null, pageIcon: 'event' }
         state.content = { name: 'convention-stats', convention: model.page.convention }
         state.navigation = NavInfo.default.select('Conventions', [], INDIRECT)
         break
 
       case 'convention-user-info':
-        state.toolbar = { primary: null, secondary: null, pageIcon: 'event' }
+        state.toolbar = { primary: null, secondary: null, tertiary: null, pageIcon: 'event' }
         state.content = { name: 'convention-user-info', convention: model.page.convention }
         state.navigation = NavInfo.default.select('Conventions', [], INDIRECT)
         break
 
       case 'settings':
-        state.toolbar = { primary: null, secondary: null, pageIcon: 'settings' }
+        state.toolbar = { primary: null, secondary: null, tertiary: null, pageIcon: 'settings' }
         const { email = '', name: username = '' } = model.user || {}
         state.content = { name: 'settings', email, username, settings: model.settings }
         state.navigation = NavInfo.default.select('Settings')
         break
 
       case 'admin':
-        state.toolbar = { primary: null, secondary: null, pageIcon: 'security' }
+        state.toolbar = { primary: null, secondary: null, tertiary: null, pageIcon: 'security' }
         state.content = { name: 'admin' }
         state.navigation = NavInfo.default.select('Admin')
         break
@@ -190,6 +195,7 @@ export class ConArtist extends React.Component<Props, State> {
           break
 
         case 'export':
+        case 'import':
           state.dialog = model.dialog
           break
 

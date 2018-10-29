@@ -42,6 +42,12 @@
   max-width: 100px;
 }
 
+.footerTitle {
+  margin-left: auto;
+  margin-right: 16px;
+  color: var(--color--text-placeholder);
+}
+
 .fakeButton {
   opacity: 0;
   pointer-events: none;

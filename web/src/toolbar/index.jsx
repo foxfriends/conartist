@@ -14,12 +14,13 @@ import type { Action, Props as ButtonProps } from '../common/button'
 export type Props = {
   primary: ?(Action | ButtonProps),
   secondary: ?(Action | ButtonProps),
+  tertiary: ?(Action | ButtonProps),
   pageIcon?: string,
 }
 
 export const status: Subject<$Shape<Props>> = new BehaviorSubject({ primary: null, secondary: null })
 
-export function Toolbar({ primary, secondary, pageIcon }: Props) {
+export function Toolbar({ primary, secondary, tertiary, pageIcon }: Props) {
   return (
     <div className={S.toolbar}>
       <div className={S.inner}>
@@ -28,6 +29,7 @@ export function Toolbar({ primary, secondary, pageIcon }: Props) {
           { pageIcon ? <Icon className={S.pageIcon} name={pageIcon} /> : null }
         </div>
         <span className={S.title}>ConArtist</span>
+        { tertiary ? <Button {...tertiary} priority="tertiary" className={S.action} /> : null }
         { secondary ? <Button {...secondary} priority="tertiary" className={S.action} /> : null }
         { primary ? <Button {...primary} priority="primary" className={S.action} /> : null }
       </div>

@@ -88,3 +88,7 @@
 .cell {
   padding: 0 16px;
 }
+
+.select {
+  width: 100%;
+}

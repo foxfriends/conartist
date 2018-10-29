@@ -1,6 +1,6 @@
 /* @flow */
 import { showSignupDialog, showSigninDialog } from '../update/splash'
-import { showExportProductsDialog, showExportRecordsDialog } from '../update/dialog'
+import { showExportProductsDialog, showExportRecordsDialog, showImportProductsDialog } from '../update/dialog'
 import * as navigate from '../update/navigate'
 import { send, SaveProducts as SaveProductsEvent, SavePrices as SavePricesEvent } from '../event'
 import type { Action } from '../common/button'
@@ -24,6 +24,11 @@ export const EditProducts: Action = {
 export const ExportProducts: Action = {
   title: 'Export',
   action: showExportProductsDialog,
+}
+
+export const ImportProducts: Action = {
+  title: 'Import',
+  action: showImportProductsDialog,
 }
 
 export const DiscardProducts: Action = {

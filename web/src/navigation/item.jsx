@@ -134,7 +134,6 @@ export class Item extends React.Component<Props, State> {
     const { order: [...order] } = this.state
     const [removed] = order.splice(value, 1)
     order.splice(index, 0, removed)
-    console.log(order)
     this.setState({ order })
   }
 
@@ -162,9 +161,6 @@ export class Item extends React.Component<Props, State> {
         .map(i => order[i] === undefined ? i : order[i])
         .map(i => children[i])
       : (children || [])
-
-    if (isReorderable)
-      console.log(order, orderedChildren.map(child => child.title))
 
     return (
       <div className={S.container} onClick={onClick}>

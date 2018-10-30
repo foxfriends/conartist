@@ -22,8 +22,8 @@ extension UIView {
             attributedText: NSAttributedString(
                 string: text,
                 attributes: [
-                    NSAttributedStringKey.foregroundColor: ConArtist.Color.TextPlaceholder,
-                    NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)
+                    .foregroundColor: ConArtist.Color.TextPlaceholder,
+                    .font: UIFont.systemFont(ofSize: 14)
                 ]
             )
         )

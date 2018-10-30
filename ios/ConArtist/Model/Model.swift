@@ -65,7 +65,7 @@ class Model: Codable {
         email.accept(user.email)
         var existingConventions = conventions.value
         for convention in user.conventions {
-            if let existing = existingConventions.first(where: { $0.id == convention.id }) {
+            if let existing = existingConventions.first(where: { $0.id == convention.fragments.metaConventionFragment.fragments.conventionBasicInfoFragment.id }) {
                 existing.merge(convention.fragments.metaConventionFragment)
             } else if let convention = Convention(graphQL: convention.fragments.metaConventionFragment) {
                 existingConventions.append(convention)

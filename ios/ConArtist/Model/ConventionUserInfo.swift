@@ -29,7 +29,7 @@ struct ConventionUserInfo: Codable {
     init?(graphQL userInfo: UserInfoFragment) {
         id = userInfo.id
         info = userInfo.info
-        rating = userInfo.upvotes - userInfo.downvotes
+        rating = userInfo.fragments.votesFragment.upvotes - userInfo.fragments.votesFragment.downvotes
         switch userInfo.vote {
         case  1: vote = .up
         case -1: vote = .down

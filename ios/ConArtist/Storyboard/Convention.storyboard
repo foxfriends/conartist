@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -48,13 +47,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Underground parking is available" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="100" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YrM-Zg-A0H">
-                                                    <rect key="frame" x="20" y="15" width="307" height="19.5"/>
+                                                    <rect key="frame" x="20" y="15" width="307" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XGc-ko-9qa">
-                                                    <rect key="frame" x="337" y="10" width="18" height="31.5"/>
+                                                    <rect key="frame" x="337" y="9.5" width="18" height="31.5"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="h3Y-Hv-6sv">
                                                             <rect key="frame" x="0.0" y="0.0" width="18" height="18"/>
@@ -467,16 +466,9 @@ Once submitted, you cannot edit this information, so make sure it’s correct!</
                                         <constraints>
                                             <constraint firstAttribute="height" constant="323" id="dei-3D-P9U"/>
                                         </constraints>
-                                        <imageView key="tableHeaderView" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="e3Z-Ce-9CQ" customClass="NetworkImageView" customModule="ConArtist" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="120" id="i1K-Fu-4Qh"/>
-                                            </constraints>
-                                        </imageView>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="SecondaryAction" rowHeight="87" id="p7d-CD-P4h" customClass="ConventionExtraInfoTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="148" width="375" height="87"/>
+                                                <rect key="frame" x="0.0" y="28" width="375" height="87"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="p7d-CD-P4h" id="bKx-JK-IBA">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="87"/>
@@ -524,7 +516,7 @@ Toronto, ON, Canada</string>
                                                 </connections>
                                             </tableViewCell>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="PrimaryAction" id="6Yf-9u-QWh" customClass="ConventionExtraInfoTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="235" width="375" height="44"/>
+                                                <rect key="frame" x="0.0" y="115" width="375" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6Yf-9u-QWh" id="M6R-y8-kYV">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -559,7 +551,7 @@ Toronto, ON, Canada</string>
                                                 </connections>
                                             </tableViewCell>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NoAction" id="jMc-c0-95L" customClass="ConventionExtraInfoTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="279" width="375" height="44"/>
+                                                <rect key="frame" x="0.0" y="159" width="375" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jMc-c0-95L" id="Qfg-HY-Jda">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -663,7 +655,6 @@ Toronto, ON, Canada</string>
                     </view>
                     <connections>
                         <outlet property="expensesAmountLabel" destination="ik1-jI-crX" id="Qnt-GG-4bI"/>
-                        <outlet property="headerImage" destination="e3Z-Ce-9CQ" id="qF5-Ex-Xgo"/>
                         <outlet property="infoTableView" destination="sP1-Tl-Pah" id="VkW-V6-MhN"/>
                         <outlet property="infoTableViewHeightConstraint" destination="dei-3D-P9U" id="kFs-Vk-7iv"/>
                         <outlet property="navBar" destination="4DJ-lX-wXh" id="E98-Mo-fph"/>
@@ -732,22 +723,22 @@ Toronto, ON, Canada</string>
     </scenes>
     <resources>
         <namedColor name="Background">
-            <color red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.20000000298023224" green="0.20000000298023224" blue="0.20000000298023224" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="BackgroundNavBar">
-            <color red="0.067000001670000003" green="0.067000001670000003" blue="0.067000001670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.067000001668930054" green="0.067000001668930054" blue="0.067000001668930054" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="BackgroundOverlay">
-            <color red="0.0" green="0.0" blue="0.0" alpha="0.20000000300000001" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.0" blue="0.0" alpha="0.20000000298023224" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="BackgroundVariant">
-            <color red="0.2669999897" green="0.2669999897" blue="0.2669999897" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.2669999897480011" green="0.2669999897480011" blue="0.2669999897480011" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Brand">
-            <color red="0.85500001910000001" green="0.28200000520000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.85500001907348633" green="0.28200000524520874" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="BrandVariant">
-            <color red="0.851000011" green="0.60000002379999995" blue="0.1180000007" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.85100001096725464" green="0.60000002384185791" blue="0.11800000071525574" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Text">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

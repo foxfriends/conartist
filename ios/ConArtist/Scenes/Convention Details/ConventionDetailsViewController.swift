@@ -18,7 +18,6 @@ class ConventionDetailsViewController : UIViewController {
 
     @IBOutlet weak var infoTableView: UITableView!
     @IBOutlet weak var infoTableViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var headerImage: NetworkImageView!
     @IBOutlet weak var seeAllInfoButton: UIButton!
     @IBOutlet weak var seeAllRecordsButton: UIButton!
 
@@ -59,7 +58,7 @@ extension ConventionDetailsViewController {
 
     override func updateViewConstraints() {
         super.updateViewConstraints()
-        infoTableViewHeightConstraint.constant = tableViewHeight + infoTableView.tableHeaderView!.frame.height
+        infoTableViewHeightConstraint.constant = tableViewHeight
     }
 
     private func setupRefreshControl() {
@@ -87,7 +86,6 @@ extension ConventionDetailsViewController {
         salesAmountLabel.font = salesAmountLabel.font.usingFeatures([.tabularFigures])
         expensesAmountLabel.font = expensesAmountLabel.font.usingFeatures([.tabularFigures])
         netRevenueAmountLabel.font = netRevenueAmountLabel.font.usingFeatures([.tabularFigures])
-        headerImage.imageId = convention.images.first
         seeAllInfoButton.conArtistStyle()
         seeAllRecordsButton.conArtistStyle()
         infoTableView.reloadData()

@@ -71,15 +71,16 @@ class Convention: Codable {
     fileprivate let disposeBag = DisposeBag()
     
     init?(graphQL con: MetaConventionFragment) {
+        let info = con.fragments.conventionBasicInfoFragment
         guard
-            let startDate = con.start.toDate(),
-            let endDate = con.end.toDate()
+            let startDate = info.start.toDate(),
+            let endDate = info.end.toDate()
         else { return nil }
-        id = con.id
-        name = con.name
+        id = info.id
+        name = info.name
         start = startDate
         end = endDate
-        images = con.images.map { $0.fragments.conventionImageFragment.id }
+        images = con.fragments.conventionBasicInfoFragment.images.map { $0.fragments.conventionImageFragment.id }
         recordTotal = con.recordTotal?.toMoney()
         expenseTotal = con.expenseTotal?.toMoney()
         
@@ -88,11 +89,11 @@ class Convention: Codable {
         prices = øprices.asObservable()
         userInfo = øuserInfo.asObservable()
 
-        øuserInfo.value = con.userInfo
+        øuserInfo.value = info.userInfo
             .map { $0.fragments.userInfoFragment }
             .filterMap(ConventionUserInfo.init(graphQL:))
 
-        extraInfo = [.Dates(start, end)] + con.extraInfo
+        extraInfo = [.Dates(start, end)] + info.extraInfo
             .map { $0.fragments.extraInfoFragment }
             .filterMap(ConventionExtraInfo.init(graphQL:))
 
@@ -135,7 +136,8 @@ class Convention: Codable {
                     øaddedRecords,
                     øaddedExpenses
                 ] convention in
-                øuserInfo.value = convention.userInfo
+                let info = convention.fragments.metaConventionFragment.fragments.conventionBasicInfoFragment
+                øuserInfo.value = info.userInfo
                     .map{ $0.fragments.userInfoFragment }
                     .filterMap(ConventionUserInfo.init(graphQL:))
 
@@ -159,9 +161,9 @@ class Convention: Codable {
                     .map { $0.fragments.expenseFragment }
                     .filterMap(Expense.init(graphQL:))
 
-                let rids = convention.records.map { Id.id($0.id) }
+                let rids = convention.records.map { Id.id($0.fragments.recordFragment.id) }
                 øaddedRecords.value = øaddedRecords.value.filter { !rids.contains($0.id) }
-                let eids = convention.expenses.map { Id.id($0.id) }
+                let eids = convention.expenses.map { Id.id($0.fragments.expenseFragment.id) }
                 øaddedExpenses.value = øaddedExpenses.value.filter { !eids.contains($0.id) }
 
                 ConArtist.Persist.persist()
@@ -171,19 +173,19 @@ class Convention: Codable {
 
     func merge(_ con: MetaConventionFragment) {
         guard
-            let startDate = con.start.toDate(),
-            let endDate = con.end.toDate()
+            let startDate = con.fragments.conventionBasicInfoFragment.start.toDate(),
+            let endDate = con.fragments.conventionBasicInfoFragment.end.toDate()
         else { return }
-        name = con.name
+        name = con.fragments.conventionBasicInfoFragment.name
         start = startDate
         end = endDate
-        images = con.images.map { $0.fragments.conventionImageFragment.id }
+        images = con.fragments.conventionBasicInfoFragment.images.map { $0.fragments.conventionImageFragment.id }
         recordTotal = con.recordTotal?.toMoney()
         expenseTotal = con.expenseTotal?.toMoney()
-        extraInfo = [.Dates(start, end)] + con.extraInfo
+        extraInfo = [.Dates(start, end)] + con.fragments.conventionBasicInfoFragment.extraInfo
             .map { $0.fragments.extraInfoFragment }
             .filterMap(ConventionExtraInfo.init(graphQL:))
-        øuserInfo.value = con.userInfo.map { $0.fragments.userInfoFragment }.filterMap(ConventionUserInfo.init(graphQL:))
+        øuserInfo.value = con.fragments.conventionBasicInfoFragment.userInfo.map { $0.fragments.userInfoFragment }.filterMap(ConventionUserInfo.init(graphQL:))
     }
 
     // MARK: Decodable
@@ -304,7 +306,7 @@ extension Convention {
         return øconvention
             .value?
             .products
-            .first { $0.id == id }
+            .first { $0.fragments.productFragment.id == id }
             .map { $0.fragments.productFragment }
             .flatMap(Product.init)
     }
@@ -313,7 +315,7 @@ extension Convention {
         return øconvention
             .value?
             .productTypes
-            .first { $0.id == id }
+            .first { $0.fragments.productTypeFragment.id == id }
             .map { $0.fragments.productTypeFragment }
             .flatMap(ProductType.init)
     }

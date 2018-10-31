@@ -12,9 +12,10 @@ import RxSwift
 
 class SettingsViewController: UIViewController {
     enum Setting {
-        case Action(String, () -> Void)
-        case Boolean(String, BehaviorRelay<Bool>)
-        case Select(String, BehaviorRelay<String>, [String])
+        case currency
+        case signOut
+        case feedback
+        case help
     }
     
     struct Group {
@@ -27,7 +28,10 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var settingsTableView: UITableView!
     @IBOutlet weak var navBar: FakeNavBar!
 
-    fileprivate var settings: [Group] = []
+    fileprivate var settings: [Group] = [
+        Group(title: "General"¡, items: [.currency]),
+        Group(title: "Support"¡, items: [.signOut, .feedback, .help]),
+    ]
 }
 
 // MARK: - Lifecycle
@@ -38,6 +42,11 @@ extension SettingsViewController {
         navBar.leftButtonTitle = "Back"¡
         navBar.leftButton.rx.tap
             .subscribe(onNext: { _ in ConArtist.model.navigate(back: 1) })
+            .disposed(by: disposeBag)
+
+        ConArtist.model.settings
+            .asDriver()
+            .drive(onNext: { [settingsTableView] _ in settingsTableView?.reloadData() })
             .disposed(by: disposeBag)
     }
 }
@@ -59,17 +68,21 @@ extension SettingsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = settings[indexPath.section].items[indexPath.row]
         switch item {
-        case .Action(let title, _):
-            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsActionTableViewCell.ID, for: indexPath) as! SettingsActionTableViewCell
-            cell.setup(title: title)
-            return cell
-        case .Boolean(let title, let value):
-            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsBooleanTableViewCell.ID, for: indexPath) as! SettingsBooleanTableViewCell
-            cell.setup(title: title, value: value)
-            return cell
-        case .Select(let title, let value, _):
+        case .currency:
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsSelectTableViewCell.ID, for: indexPath) as! SettingsSelectTableViewCell
-            cell.setup(title: title, value: value)
+            cell.setup(title: "Currency"¡, value: ConArtist.model.settings.value.currency.rawValue)
+            return cell
+        case .signOut:
+            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsActionTableViewCell.ID, for: indexPath) as! SettingsActionTableViewCell
+            cell.setup(title: "Sign out"¡)
+            return cell
+        case .help:
+            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsActionTableViewCell.ID, for: indexPath) as! SettingsActionTableViewCell
+            cell.setup(title: "Help"¡)
+            return cell
+        case .feedback:
+            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsActionTableViewCell.ID, for: indexPath) as! SettingsActionTableViewCell
+            cell.setup(title: "Report a bug/Request a feature"¡)
             return cell
         }
     }
@@ -80,11 +93,28 @@ extension SettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = settings[indexPath.section].items[indexPath.row]
         switch item {
-        case .Action(_, let action):
-            action()
-        case .Select(let title, let value, let options):
-            SettingsSelectViewController.show(title: title, value: value, options: options)
-        default: break
+        case .signOut:
+            ConArtist.model.navigate(backTo: SignInViewController.self)
+            ConArtist.API.Auth.authToken = ConArtist.API.Auth.Unauthorized
+            ConArtist.model.clear()
+        case .help:
+            break
+        case .feedback:
+            break
+        case .currency:
+            let options = CurrencyCode.variants
+            SettingsSelectViewController.show(
+                title: "Currency"¡,
+                value: options.index(of: ConArtist.model.settings.value.currency) ?? 0,
+                options: options.map { $0.rawValue },
+                handler: { index in
+                    ConArtist.model.settings.accept(ConArtist.model.settings.value.set(currency: options[index]))
+                    _ = ConArtist.API.GraphQL.observe(mutation:
+                            UpdateCurrencyMutation(currency: options[index].rawValue)
+                        )
+                        .subscribe()
+                }
+            )
         }
     }
 
@@ -99,9 +129,10 @@ extension SettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         let item = settings[indexPath.section].items[indexPath.row]
         switch item {
-        case .Action,
-             .Select:   return indexPath
-        default:        return nil
+        case .currency,
+             .signOut,
+             .help,
+             .feedback: return indexPath
         }
     }
 
@@ -115,9 +146,8 @@ extension SettingsViewController: ViewControllerNavigation {
     static let Storyboard: Storyboard = .Settings
     static let ID = "Settings"
 
-    static func show(for settings: [Group]) {
+    static func show() {
         let controller = instantiate()
-        controller.settings = settings
         ConArtist.model.navigate(present: controller)
     }
 }

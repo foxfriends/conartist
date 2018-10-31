@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum CurrencyCode: String, Codable {
+enum CurrencyCode: String, Codable, Equatable {
     case AUTO, CAD, USD
 
     static var variants: [CurrencyCode] {

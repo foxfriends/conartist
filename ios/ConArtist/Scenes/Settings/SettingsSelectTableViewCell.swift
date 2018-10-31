@@ -7,13 +7,9 @@
 //
 
 import UIKit
-import RxCocoa
-import RxSwift
 
 class SettingsSelectTableViewCell: UITableViewCell {
     static let ID = "SettingsSelectCell"
-
-    private var disposeBag = DisposeBag()
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var valueLabel: UILabel!
@@ -24,10 +20,8 @@ class SettingsSelectTableViewCell: UITableViewCell {
         }
     }
 
-    func setup(title: String, value: BehaviorRelay<String>) {
-        disposeBag = DisposeBag()
+    func setup(title: String, value: String) {
         titleLabel.text = title
-
-        value.asDriver().drive(valueLabel.rx.text).disposed(by: disposeBag)
+        valueLabel.text = value
     }
 }

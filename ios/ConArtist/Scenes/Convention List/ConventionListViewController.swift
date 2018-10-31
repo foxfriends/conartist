@@ -78,38 +78,7 @@ class ConventionListViewController: UIViewController {
 // MARK: - Settings
 extension ConventionListViewController {
     fileprivate func openSettings() {
-        let currency = BehaviorRelay(value: ConArtist.model.settings.value.currency.rawValue)
-        let settings = [
-            SettingsViewController.Group(
-                title: "General"¡,
-                items: [
-                    .Select("Currency"¡, currency, CurrencyCode.variants.map { $0.rawValue })
-                ]
-            ),
-            SettingsViewController.Group(
-                title: "Support"¡,
-                items: [
-                    .Action("Sign out"¡, signOut),
-                    .Action("Report a bug/Request a feature"¡, contactSupport),
-                    .Action("Help"¡, showHelp)
-                ]
-            ),
-        ]
-        SettingsViewController.show(for: settings)
-    }
-
-    private func signOut() {
-        ConArtist.model.navigate(backTo: SignInViewController.self)
-        ConArtist.API.Auth.authToken = ConArtist.API.Auth.Unauthorized
-        ConArtist.model.clear()
-    }
-
-    private func contactSupport() {
-        // TODO: make a contact page
-    }
-
-    private func showHelp() {
-        // TODO: make a help page
+        SettingsViewController.show()
     }
 }
 

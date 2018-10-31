@@ -20,8 +20,20 @@ struct Settings: Codable {
         language = Locale.preferredLanguages.map { $0.split(separator: "-").prefix(2).joined(separator: "-") }
     }
 
+    private init(currency: CurrencyCode, language: [String]) {
+        self.currency = currency
+        self.language = language
+    }
+
     init?(graphQL settings: SettingsFragment) {
         currency = CurrencyCode(rawValue: settings.currency) ?? Settings.default.currency
         language = Settings.default.language
+    }
+
+    func set(currency: CurrencyCode) -> Settings {
+        return Settings(
+            currency: currency,
+            language: language
+        )
     }
 }

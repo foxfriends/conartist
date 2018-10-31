@@ -17,7 +17,8 @@ class SettingsSelectViewController: UIViewController {
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var optionsTableView: UITableView!
 
-    fileprivate var value: BehaviorRelay<String>!
+    fileprivate var madeSelection: ((Int) -> Void)!
+    fileprivate var value: BehaviorRelay<Int>!
     fileprivate var options: [String]!
 }
 
@@ -33,17 +34,16 @@ extension SettingsSelectViewController {
             .disposed(by: disposeBag)
 
         navBar.rightButton.rx.tap
-            .subscribe(onNext: { ConArtist.model.navigate(back: 1) })
+            .subscribe(onNext: { [madeSelection, value] _ in
+                ConArtist.model.navigate(back: 1)
+                madeSelection!(value!.value)
+            })
             .disposed(by: disposeBag)
     }
 }
 
 // MARK: - UITableViewDataSource
 extension SettingsSelectViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
         tableView.cellForRow(at: indexPath)?.isHighlighted = true
     }
@@ -58,7 +58,7 @@ extension SettingsSelectViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SettingsSelectOptionTableViewCell.ID, for: indexPath) as! SettingsSelectOptionTableViewCell
-        cell.setup(title: options[indexPath.row], selected: value.value == options[indexPath.row])
+        cell.setup(title: options[indexPath.row], selected: value.value == indexPath.row)
         return cell
     }
 }
@@ -66,7 +66,7 @@ extension SettingsSelectViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension SettingsSelectViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        value.accept(options[indexPath.row])
+        value.accept(indexPath.row)
     }
 }
 
@@ -75,11 +75,17 @@ extension SettingsSelectViewController: ViewControllerNavigation {
     static let Storyboard: Storyboard = .Settings
     static let ID = "SettingsSelect"
 
-    static func show(title: String, value: BehaviorRelay<String>, options: [String]) {
+    static func show(
+        title: String,
+        value: Int,
+        options: [String],
+        handler: @escaping (Int) -> Void
+    ) {
         let controller = instantiate()
-        controller.value = value
+        controller.value = BehaviorRelay(value: value)
         controller.options = options
         controller.navBarTitle = title
+        controller.madeSelection = handler
         ConArtist.model.navigate(present: controller)
     }
 }

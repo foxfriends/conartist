@@ -92,16 +92,16 @@ extension ConventionListViewController {
     }
 
     private func setupRefreshControl() {
-        self.conventionsTableView.refreshControl = refreshControl
-        refreshControl.addTarget(self, action: #selector(reloadModel), for: .valueChanged)
-    }
-
-    @objc private func reloadModel() {
-        let _ = ConArtist.API.GraphQL
-            .observe(query: FullUserQuery(), cachePolicy: .fetchIgnoringCacheData)
+        conventionsTableView.refreshControl = refreshControl
+        refreshControl.rx.controlEvent([.valueChanged])
+            .flatMapLatest { ConArtist.API.GraphQL.observe(query: FullUserQuery(), cachePolicy: .fetchIgnoringCacheData) }
+            .observeOn(MainScheduler.instance)
             .map{ $0.user.fragments.fullUserFragment }
-            .do { [weak self] in self?.refreshControl.endRefreshing() }
-            .subscribe(onNext: ConArtist.model.merge)
+            .subscribe(onNext: { [refreshControl] fragment in
+                refreshControl.endRefreshing()
+                ConArtist.model.merge(graphQL: fragment)
+            })
+            .disposed(by: disposeBag)
     }
 }
 

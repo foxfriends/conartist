@@ -14,6 +14,7 @@ class ManageProductsViewController: UIViewController {
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var productsTableView: UITableView!
 
+    fileprivate let refreshControl = UIRefreshControl()
     fileprivate var productType: ProductType!
     fileprivate let products = BehaviorRelay<[Product]>(value: [])
     fileprivate let disposeBag = DisposeBag()
@@ -28,6 +29,20 @@ extension ManageProductsViewController {
         navBar.title = productType.name
         navBar.leftButtonTitle = "Back"¡
         navBar.rightButtonTitle = "Reorder"¡
+        setupRefreshControl()
+    }
+
+    private func setupRefreshControl() {
+        productsTableView.refreshControl = refreshControl
+        refreshControl.rx.controlEvent([.valueChanged])
+            .flatMapLatest { ConArtist.API.GraphQL.observe(query: FullUserQuery(), cachePolicy: .fetchIgnoringCacheData) }
+            .observeOn(MainScheduler.instance)
+            .map { $0.user.fragments.fullUserFragment }
+            .subscribe(onNext: { [refreshControl] fragment in
+                refreshControl.endRefreshing()
+                ConArtist.model.merge(graphQL: fragment)
+            })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -37,6 +52,14 @@ extension ManageProductsViewController {
     fileprivate func setupSubscriptions() {
         navBar.leftButton.rx.tap
             .subscribe(onNext: { [weak self] _ in self?.navigationController?.popViewController(animated: true) })
+            .disposed(by: disposeBag)
+
+        navBar.rightButton.rx.tap
+            .subscribe(onNext: { [navBar, productsTableView = productsTableView!] _ in
+                let editing = !productsTableView.isEditing
+                productsTableView.setEditing(editing, animated: true)
+                navBar?.rightButtonTitle = editing ? "Done"¡ : "Reorder"¡
+            })
             .disposed(by: disposeBag)
 
         ConArtist.model.products
@@ -69,6 +92,7 @@ extension ManageProductsViewController: UITableViewDataSource {
 
 extension ManageProductsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard !tableView.isEditing else { return }
         let product = products.value[indexPath.row]
         _ = product // TODO: show the edit product page
     }
@@ -79,6 +103,53 @@ extension ManageProductsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
         tableView.cellForRow(at: indexPath)?.isHighlighted = false
+    }
+
+    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
+
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .none
+    }
+
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        var moved = products.value
+        moved.insert(moved.remove(at: sourceIndexPath.row), at: destinationIndexPath.row)
+        let low = min(sourceIndexPath.row, destinationIndexPath.row)
+        let hi = max(sourceIndexPath.row, destinationIndexPath.row)
+        Observable
+            .zip(
+                moved
+                    .enumerated()
+                    .dropFirst(low)
+                    .prefix(hi - low + 1)
+                    .map { sort, type in
+                        ModProductMutation(product: ProductMod.init(
+                            productId: type.id,
+                            name: nil,
+                            quantity: nil,
+                            discontinued: nil,
+                            sort: sort
+                        ))
+                    }
+                    .map { ConArtist.API.GraphQL.observe(mutation: $0) }
+            )
+            .flatMapLatest { _ in ConArtist.API.GraphQL.observe(query: FullUserQuery()) }
+            .subscribe(
+                onNext: { user in
+                    ConArtist.model.merge(graphQL: user.user.fragments.fullUserFragment)
+                },
+                onError: { [weak self] error in
+                    self?.showAlert(
+                        title: "An unknown error has occurred"¡,
+                        message: "Some actions might not have been saved. Please try again later"¡
+                    )
+                }
+            )
+            .disposed(by: disposeBag)
+
+        ConArtist.model.products.accept(moved)
     }
 }
 

@@ -63,13 +63,10 @@ extension ConventionDetailsViewController {
 
     private func setupRefreshControl() {
         pageScrollView.refreshControl = refreshControl
-        refreshControl.addTarget(self, action: #selector(reloadConvention), for: .valueChanged)
-    }
-
-    @objc private func reloadConvention() {
-        let _ = convention
-            .fill(true)
-            .subscribe { [refreshControl] _ in refreshControl.endRefreshing() }
+        refreshControl.rx.controlEvent([.valueChanged])
+            .flatMapLatest { [convention] _ in convention!.fill(true) }
+            .subscribe(onNext: { [refreshControl] in refreshControl.endRefreshing() })
+            .disposed(by: disposeBag)
     }
 }
 

@@ -13,6 +13,7 @@ class ManageProductTypesViewController: UIViewController {
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var productTypesTableView: UITableView!
 
+    fileprivate let refreshControl = UIRefreshControl()
     fileprivate let disposeBag = DisposeBag()
 }
 
@@ -25,6 +26,20 @@ extension ManageProductTypesViewController {
         navBar.title = "Manage Products"¡
         navBar.leftButtonTitle = "Back"¡
         navBar.rightButtonTitle = "Edit"¡
+        setupRefreshControl()
+    }
+
+    private func setupRefreshControl() {
+        productTypesTableView.refreshControl = refreshControl
+        refreshControl.rx.controlEvent([.valueChanged])
+            .flatMapLatest { ConArtist.API.GraphQL.observe(query: FullUserQuery(), cachePolicy: .fetchIgnoringCacheData) }
+            .observeOn(MainScheduler.instance)
+            .map { $0.user.fragments.fullUserFragment }
+            .subscribe(onNext: { [refreshControl] fragment in
+                refreshControl.endRefreshing()
+                ConArtist.model.merge(graphQL: fragment)
+            })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -114,12 +129,18 @@ extension ManageProductTypesViewController: UITableViewDelegate {
                     }
                     .map { ConArtist.API.GraphQL.observe(mutation: $0) }
             )
-            .subscribe(onError: { [weak self] error in
-                self?.showAlert(
-                    title: "An unknown error has occurred"¡,
-                    message: "Some actions might not have been saved. Please try again later"¡
-                )
-            })
+            .flatMapLatest { _ in ConArtist.API.GraphQL.observe(query: FullUserQuery()) }
+            .subscribe(
+                onNext: { user in
+                    ConArtist.model.merge(graphQL: user.user.fragments.fullUserFragment)
+                },
+                onError: { [weak self] error in
+                    self?.showAlert(
+                        title: "An unknown error has occurred"¡,
+                        message: "Some actions might not have been saved. Please try again later"¡
+                    )
+                }
+            )
             .disposed(by: disposeBag)
 
         ConArtist.model.productTypes.accept(moved)

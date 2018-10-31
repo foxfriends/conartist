@@ -15,6 +15,7 @@ enum Storyboard: String {
     case Records
     case Sale
     case Settings
+    case Products
 }
 
 protocol ViewControllerNavigation {

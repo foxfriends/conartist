@@ -98,8 +98,8 @@ extension ConventionListViewController {
 
     @objc private func reloadModel() {
         let _ = ConArtist.API.GraphQL
-            .observe(query: UserQuery(), cachePolicy: .fetchIgnoringCacheData)
-            .map{ $0.user.fragments.userFragment }
+            .observe(query: FullUserQuery(), cachePolicy: .fetchIgnoringCacheData)
+            .map{ $0.user.fragments.fullUserFragment }
             .do { [weak self] in self?.refreshControl.endRefreshing() }
             .subscribe(onNext: ConArtist.model.merge)
     }

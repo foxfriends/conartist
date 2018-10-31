@@ -12,6 +12,8 @@ import RxSwift
 
 class SettingsViewController: UIViewController {
     enum Setting {
+        case prices
+        case products
         case currency
         case signOut
         case feedback
@@ -29,6 +31,7 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var navBar: FakeNavBar!
 
     fileprivate var settings: [Group] = [
+        Group(title: "Products"¡, items: [.products, .prices]),
         Group(title: "General"¡, items: [.currency]),
         Group(title: "Support"¡, items: [.signOut, .feedback, .help]),
     ]
@@ -68,6 +71,14 @@ extension SettingsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = settings[indexPath.section].items[indexPath.row]
         switch item {
+        case .products:
+            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsActionTableViewCell.ID, for: indexPath) as! SettingsActionTableViewCell
+            cell.setup(title: "Manage Products"¡)
+            return cell
+        case .prices:
+            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsActionTableViewCell.ID, for: indexPath) as! SettingsActionTableViewCell
+            cell.setup(title: "Manage Prices"¡)
+            return cell
         case .currency:
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsSelectTableViewCell.ID, for: indexPath) as! SettingsSelectTableViewCell
             cell.setup(title: "Currency"¡, value: ConArtist.model.settings.value.currency.rawValue)
@@ -93,6 +104,10 @@ extension SettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = settings[indexPath.section].items[indexPath.row]
         switch item {
+        case .products:
+            ManageProductTypesViewController.present()
+        case .prices:
+            break
         case .signOut:
             ConArtist.model.navigate(backTo: SignInViewController.self)
             ConArtist.API.Auth.authToken = ConArtist.API.Auth.Unauthorized
@@ -127,13 +142,7 @@ extension SettingsViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        let item = settings[indexPath.section].items[indexPath.row]
-        switch item {
-        case .currency,
-             .signOut,
-             .help,
-             .feedback: return indexPath
-        }
+        return indexPath
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -147,7 +156,6 @@ extension SettingsViewController: ViewControllerNavigation {
     static let ID = "Settings"
 
     static func show() {
-        let controller = instantiate()
-        ConArtist.model.navigate(present: controller)
+        ConArtist.model.navigate(present: instantiate())
     }
 }

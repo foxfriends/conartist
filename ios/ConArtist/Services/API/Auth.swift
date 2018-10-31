@@ -76,10 +76,10 @@ extension ConArtist.API {
             ConArtist.API.Auth.authToken = authToken
         }
 
-        private static func loadUser() throws -> Observable<UserFragment> {
+        private static func loadUser() throws -> Observable<FullUserFragment> {
             return ConArtist.API.GraphQL
-                .observe(query: UserQuery(id: nil), cachePolicy: .fetchIgnoringCacheData)
-                .map { $0.user.fragments.userFragment }
+                .observe(query: FullUserQuery(id: nil), cachePolicy: .fetchIgnoringCacheData)
+                .map { $0.user.fragments.fullUserFragment }
         }
     }
 }

@@ -41,6 +41,11 @@
 		325EAB1F2052481200B1BE3E /* ExpenseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EAB1E2052481200B1BE3E /* ExpenseTableViewCell.swift */; };
 		325EAB212052493300B1BE3E /* RecordsOverviewDateHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EAB202052493300B1BE3E /* RecordsOverviewDateHeaderView.swift */; };
 		325EAB2320524C5500B1BE3E /* RecordsOverviewTotalFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EAB2220524C5500B1BE3E /* RecordsOverviewTotalFooterView.swift */; };
+		32637A70218930F7005E2F6C /* Products.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32637A6F218930F7005E2F6C /* Products.storyboard */; };
+		32637A7321893431005E2F6C /* ManageProductTypesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32637A7221893431005E2F6C /* ManageProductTypesViewController.swift */; };
+		32637A7721893EB7005E2F6C /* ManageProductTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32637A7621893EB7005E2F6C /* ManageProductTypeTableViewCell.swift */; };
+		32637A79218940C3005E2F6C /* ManageProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32637A78218940C3005E2F6C /* ManageProductTableViewCell.swift */; };
+		32637A7B21894626005E2F6C /* ManageProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32637A7A21894626005E2F6C /* ManageProductsViewController.swift */; };
 		3266CEF720017E2C0016D5E6 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */; };
 		327C5D7920817A81007EEF71 /* Debug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 327C5D7820817A81007EEF71 /* Debug.plist */; };
 		327C5D7B20817AD1007EEF71 /* Release.plist in Resources */ = {isa = PBXBuildFile; fileRef = 327C5D7A20817AD1007EEF71 /* Release.plist */; };
@@ -164,6 +169,11 @@
 		325EAB1E2052481200B1BE3E /* ExpenseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseTableViewCell.swift; sourceTree = "<group>"; };
 		325EAB202052493300B1BE3E /* RecordsOverviewDateHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsOverviewDateHeaderView.swift; sourceTree = "<group>"; };
 		325EAB2220524C5500B1BE3E /* RecordsOverviewTotalFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsOverviewTotalFooterView.swift; sourceTree = "<group>"; };
+		32637A6F218930F7005E2F6C /* Products.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Products.storyboard; sourceTree = "<group>"; };
+		32637A7221893431005E2F6C /* ManageProductTypesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageProductTypesViewController.swift; sourceTree = "<group>"; };
+		32637A7621893EB7005E2F6C /* ManageProductTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageProductTypeTableViewCell.swift; sourceTree = "<group>"; };
+		32637A78218940C3005E2F6C /* ManageProductTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageProductTableViewCell.swift; sourceTree = "<group>"; };
+		32637A7A21894626005E2F6C /* ManageProductsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageProductsViewController.swift; sourceTree = "<group>"; };
 		3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		327C5D7820817A81007EEF71 /* Debug.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Debug.plist; sourceTree = "<group>"; };
 		327C5D7A20817AD1007EEF71 /* Release.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Release.plist; sourceTree = "<group>"; };
@@ -304,6 +314,17 @@
 			path = ConArtist;
 			sourceTree = "<group>";
 		};
+		32637A712189341E005E2F6C /* Manage Products */ = {
+			isa = PBXGroup;
+			children = (
+				32637A7221893431005E2F6C /* ManageProductTypesViewController.swift */,
+				32637A7A21894626005E2F6C /* ManageProductsViewController.swift */,
+				32637A7621893EB7005E2F6C /* ManageProductTypeTableViewCell.swift */,
+				32637A78218940C3005E2F6C /* ManageProductTableViewCell.swift */,
+			);
+			path = "Manage Products";
+			sourceTree = "<group>";
+		};
 		327C5D77208179D7007EEF71 /* Config */ = {
 			isa = PBXGroup;
 			children = (
@@ -362,6 +383,7 @@
 				32CFB1D820DCB20200672EC9 /* Settings.storyboard */,
 				32CFB1DA20DCB23B00672EC9 /* Sale.storyboard */,
 				32CFB1E220DCBC5D00672EC9 /* Records.storyboard */,
+				32637A6F218930F7005E2F6C /* Products.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -491,6 +513,7 @@
 		32C39C25201EA52800071E26 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				32637A712189341E005E2F6C /* Manage Products */,
 				32B36ECF203FB91000DA4593 /* Convention Details */,
 				32F0B41420425D8500ADF209 /* Convention List */,
 				32B91023204B1470002F9C94 /* New Expense */,
@@ -663,6 +686,7 @@
 				322C6A0B204CC2170021A2D9 /* localization in Resources */,
 				32CFB1D720DCB16300672EC9 /* Convention.storyboard in Resources */,
 				32B9102C204B32C4002F9C94 /* chevron_down.svg in Resources */,
+				32637A70218930F7005E2F6C /* Products.storyboard in Resources */,
 				32CFB1E320DCBC5D00672EC9 /* Records.storyboard in Resources */,
 				32B9100F20439F75002F9C94 /* generate-schemas in Resources */,
 				32CFB1D920DCB20200672EC9 /* Settings.storyboard in Resources */,
@@ -776,6 +800,7 @@
 				32DFCF5720DDDD35007FFE70 /* MapViewController.swift in Sources */,
 				32F12C0E20353E840045D0BC /* FancyButton.swift in Sources */,
 				32B36ECD203FB8DD00DA4593 /* ConventionExtraInfoTableViewCell.swift in Sources */,
+				32637A7B21894626005E2F6C /* ManageProductsViewController.swift in Sources */,
 				320CF59820E7E6EF003F91EC /* Either.swift in Sources */,
 				3245929C1FEB19DA00DE89BB /* GraphQL.swift in Sources */,
 				322AFB3F20574622005E56C8 /* String+JSON.swift in Sources */,
@@ -785,10 +810,12 @@
 				32DFCF5920DDE592007FFE70 /* Location.swift in Sources */,
 				32F12C10203544E60045D0BC /* UIFont+Features.swift in Sources */,
 				32B9101320439F97002F9C94 /* Resources.swift in Sources */,
+				32637A79218940C3005E2F6C /* ManageProductTableViewCell.swift in Sources */,
 				32B9101B2048F049002F9C94 /* SettingsSelectTableViewCell.swift in Sources */,
 				32D4BB15205B44E000B0A397 /* RecordDetailsItemCollectionViewCell.swift in Sources */,
 				324592951FEAFA6000DE89BB /* ConArtist.swift in Sources */,
 				322C6A0D204CC2810021A2D9 /* String+Localization.swift in Sources */,
+				32637A7721893EB7005E2F6C /* ManageProductTypeTableViewCell.swift in Sources */,
 				32B36EBD203BD2F000DA4593 /* UIButton+ConArtist.swift in Sources */,
 				32AE416720253D5C0061EB64 /* RootNavigationController.swift in Sources */,
 				32C39C31201EA5B400071E26 /* RecordTableViewCell.swift in Sources */,
@@ -862,6 +889,7 @@
 				32B36EE22042086500DA4593 /* Monad.swift in Sources */,
 				32BC33E41FEEF1B80006256A /* Product.swift in Sources */,
 				324592A21FEB4B4D00DE89BB /* ConventionListViewController.swift in Sources */,
+				32637A7321893431005E2F6C /* ManageProductTypesViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

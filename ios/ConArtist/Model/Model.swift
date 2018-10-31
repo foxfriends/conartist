@@ -52,6 +52,10 @@ class Model: Codable {
         static func ==(_ a: Presentation, _ b: Presentation) -> Bool { return a.viewController == b.viewController }
     }
 
+    let products = BehaviorRelay<[Product]>(value: [])
+    let productTypes = BehaviorRelay<[ProductType]>(value: [])
+    let prices = BehaviorRelay<[Price]>(value: [])
+
     let name = BehaviorRelay<String?>(value: nil)
     let email = BehaviorRelay<String?>(value: nil)
     let conventions = BehaviorRelay<[Convention]>(value: [])
@@ -60,11 +64,15 @@ class Model: Codable {
 
     /// Merges the retrieved fragment with the existing model, overriding where possible, but keeping references to
     /// original classes in the case of `Convention`s and the `Model` itself
-    func merge(graphQL user: UserFragment) {
-        name.accept(user.name)
-        email.accept(user.email)
+    func merge(graphQL user: FullUserFragment) {
+        products.accept(user.products.filterMap { Product(graphQL: $0.fragments.productFragment) })
+        productTypes.accept(user.productTypes.filterMap { ProductType(graphQL: $0.fragments.productTypeFragment) })
+        prices.accept(user.prices.filterMap { Price(graphQL: $0.fragments.priceFragment) })
+        let basic = user.fragments.userFragment
+        name.accept(basic.name)
+        email.accept(basic.email)
         var existingConventions = conventions.value
-        for convention in user.conventions {
+        for convention in basic.conventions {
             if let existing = existingConventions.first(where: { $0.id == convention.fragments.metaConventionFragment.fragments.conventionBasicInfoFragment.id }) {
                 existing.merge(convention.fragments.metaConventionFragment)
             } else if let convention = Convention(graphQL: convention.fragments.metaConventionFragment) {
@@ -72,7 +80,7 @@ class Model: Codable {
             }
         }
         conventions.accept(existingConventions.sorted(by: { $0.start > $1.start }))
-        settings.accept(Settings(graphQL: user.settings.fragments.settingsFragment) ?? Settings.default)
+        settings.accept(Settings(graphQL: basic.settings.fragments.settingsFragment) ?? Settings.default)
         ConArtist.Persist.persist()
     }
 

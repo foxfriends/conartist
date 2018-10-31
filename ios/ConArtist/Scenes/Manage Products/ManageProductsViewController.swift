@@ -27,6 +27,7 @@ extension ManageProductsViewController {
         setupSubscriptions()
         navBar.title = productType.name
         navBar.leftButtonTitle = "Back"¡
+        navBar.rightButtonTitle = "Reorder"¡
     }
 }
 

@@ -24,6 +24,7 @@ extension ManageProductTypesViewController {
         setupSubscriptions()
         navBar.title = "Manage Products"¡
         navBar.leftButtonTitle = "Back"¡
+        navBar.rightButtonTitle = "Edit"¡
     }
 }
 
@@ -33,6 +34,14 @@ extension ManageProductTypesViewController {
     fileprivate func setupSubscriptions() {
         navBar.leftButton.rx.tap
             .subscribe(onNext: { [weak self] _ in self?.navigationController?.popViewController(animated: true) })
+            .disposed(by: disposeBag)
+
+        navBar.rightButton.rx.tap
+            .subscribe(onNext: { [navBar, productTypesTableView = productTypesTableView!] _ in
+                let editing = !productTypesTableView.isEditing
+                productTypesTableView.setEditing(editing, animated: true)
+                navBar?.rightButtonTitle = editing ? "Done"¡ : "Edit"¡
+            })
             .disposed(by: disposeBag)
 
         ConArtist.model.productTypes
@@ -60,7 +69,11 @@ extension ManageProductTypesViewController: UITableViewDataSource {
 extension ManageProductTypesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let type = ConArtist.model.productTypes.value[indexPath.row]
-        ManageProductsViewController.present(for: type)
+        if tableView.isEditing {
+
+        } else {
+            ManageProductsViewController.present(for: type)
+        }
     }
 
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
@@ -69,6 +82,47 @@ extension ManageProductTypesViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
         tableView.cellForRow(at: indexPath)?.isHighlighted = false
+    }
+
+    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
+
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .none
+    }
+
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        var moved = ConArtist.model.productTypes.value
+        moved.insert(moved.remove(at: sourceIndexPath.row), at: destinationIndexPath.row)
+        let low = min(sourceIndexPath.row, destinationIndexPath.row)
+        let hi = max(sourceIndexPath.row, destinationIndexPath.row)
+        Observable
+            .zip(
+                moved
+                    .enumerated()
+                    .dropFirst(low)
+                    .prefix(hi - low + 1)
+                    .map { sort, type in
+                        ModProductTypeMutation(productType: ProductTypeMod(
+                            typeId: type.id,
+                            name: nil,
+                            color: nil,
+                            discontinued: nil,
+                            sort: sort
+                        ))
+                    }
+                    .map { ConArtist.API.GraphQL.observe(mutation: $0) }
+            )
+            .subscribe(onError: { [weak self] error in
+                self?.showAlert(
+                    title: "An unknown error has occurred"¡,
+                    message: "Some actions might not have been saved. Please try again later"¡
+                )
+            })
+            .disposed(by: disposeBag)
+
+        ConArtist.model.productTypes.accept(moved)
     }
 }
 

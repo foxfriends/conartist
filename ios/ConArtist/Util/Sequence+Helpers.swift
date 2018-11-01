@@ -9,10 +9,6 @@
 import Foundation
 
 extension Sequence {
-    func filterMap<T>(_ transform: (Element) -> T?) -> [T] {
-        return map(transform).filter { $0 != nil } as! [T]
-    }
-
     func replace(with element: Element, where predicate: (Element) -> Bool) -> [Element] {
         return map { predicate($0) ? element : $0 }
     }

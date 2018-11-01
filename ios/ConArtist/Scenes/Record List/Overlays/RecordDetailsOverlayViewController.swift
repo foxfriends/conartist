@@ -35,14 +35,14 @@ class RecordDetailsOverlayViewController: UIViewController {
 
     fileprivate var products: [Product] {
         return record.products
-            .filterMap(convention.product(withId:))
+            .compactMap(convention.product(withId:))
     }
 
     fileprivate var productTypes: [ProductType] {
         return products
             .map { $0.typeId }
             .unique()
-            .filterMap(convention.productType(withId:))
+            .compactMap(convention.productType(withId:))
     }
 }
 

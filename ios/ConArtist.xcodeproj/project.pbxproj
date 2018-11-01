@@ -47,6 +47,8 @@
 		32637A79218940C3005E2F6C /* ManageProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32637A78218940C3005E2F6C /* ManageProductTableViewCell.swift */; };
 		32637A7B21894626005E2F6C /* ManageProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32637A7A21894626005E2F6C /* ManageProductsViewController.swift */; };
 		32637A7D218A1B4A005E2F6C /* UIViewController+Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32637A7C218A1B4A005E2F6C /* UIViewController+Alerts.swift */; };
+		32637A7F218A54E9005E2F6C /* EditProductTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32637A7E218A54E9005E2F6C /* EditProductTypeViewController.swift */; };
+		32637A81218A54F3005E2F6C /* EditProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32637A80218A54F3005E2F6C /* EditProductViewController.swift */; };
 		3266CEF720017E2C0016D5E6 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */; };
 		327C5D7920817A81007EEF71 /* Debug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 327C5D7820817A81007EEF71 /* Debug.plist */; };
 		327C5D7B20817AD1007EEF71 /* Release.plist in Resources */ = {isa = PBXBuildFile; fileRef = 327C5D7A20817AD1007EEF71 /* Release.plist */; };
@@ -176,6 +178,8 @@
 		32637A78218940C3005E2F6C /* ManageProductTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageProductTableViewCell.swift; sourceTree = "<group>"; };
 		32637A7A21894626005E2F6C /* ManageProductsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageProductsViewController.swift; sourceTree = "<group>"; };
 		32637A7C218A1B4A005E2F6C /* UIViewController+Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alerts.swift"; sourceTree = "<group>"; };
+		32637A7E218A54E9005E2F6C /* EditProductTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProductTypeViewController.swift; sourceTree = "<group>"; };
+		32637A80218A54F3005E2F6C /* EditProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProductViewController.swift; sourceTree = "<group>"; };
 		3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		327C5D7820817A81007EEF71 /* Debug.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Debug.plist; sourceTree = "<group>"; };
 		327C5D7A20817AD1007EEF71 /* Release.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Release.plist; sourceTree = "<group>"; };
@@ -321,6 +325,8 @@
 			children = (
 				32637A7221893431005E2F6C /* ManageProductTypesViewController.swift */,
 				32637A7A21894626005E2F6C /* ManageProductsViewController.swift */,
+				32637A7E218A54E9005E2F6C /* EditProductTypeViewController.swift */,
+				32637A80218A54F3005E2F6C /* EditProductViewController.swift */,
 				32637A7621893EB7005E2F6C /* ManageProductTypeTableViewCell.swift */,
 				32637A78218940C3005E2F6C /* ManageProductTableViewCell.swift */,
 			);
@@ -837,6 +843,7 @@
 				32D45CBA20A4A54400F7A67F /* Id.swift in Sources */,
 				32C39C32201EA5B400071E26 /* ConventionTableViewCell.swift in Sources */,
 				32C39C1C201E812D00071E26 /* ApolloClient+Rx.swift in Sources */,
+				32637A7F218A54E9005E2F6C /* EditProductTypeViewController.swift in Sources */,
 				32BC33E21FEEF17E0006256A /* ProductType.swift in Sources */,
 				32B9101F2048F282002F9C94 /* SettingsSelectOptionTableViewCell.swift in Sources */,
 				32CFB1D520DCB0EB00672EC9 /* String+Attributes.swift in Sources */,
@@ -867,6 +874,7 @@
 				32892C4020352D1500F1AD9C /* FancyTextField.swift in Sources */,
 				32B36EE4204226B100DA4593 /* ConventionUserInfo.swift in Sources */,
 				32B36EC1203BE0E600DA4593 /* ConventionExtraInfo.swift in Sources */,
+				32637A81218A54F3005E2F6C /* EditProductViewController.swift in Sources */,
 				325EAB1D205247E900B1BE3E /* RecordSummaryTableViewCell.swift in Sources */,
 				32B36ECB203F97EF00DA4593 /* SplashScreenViewController.swift in Sources */,
 				32D45CBC20A4DBC600F7A67F /* TimeZone+UTC.swift in Sources */,

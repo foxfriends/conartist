@@ -51,7 +51,7 @@ extension ManageProductsViewController {
 extension ManageProductsViewController {
     fileprivate func setupSubscriptions() {
         navBar.leftButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in self?.navigationController?.popViewController(animated: true) })
+            .subscribe(onNext: { _ in ConArtist.model.navigate(back: 1) })
             .disposed(by: disposeBag)
 
         navBar.rightButton.rx.tap
@@ -59,6 +59,7 @@ extension ManageProductsViewController {
                 let editing = !productsTableView.isEditing
                 productsTableView.setEditing(editing, animated: true)
                 navBar?.rightButtonTitle = editing ? "Done"¡ : "Reorder"¡
+                navBar?.leftButton.isEnabled = !editing
             })
             .disposed(by: disposeBag)
 
@@ -159,7 +160,7 @@ extension ManageProductsViewController: ViewControllerNavigation {
     static let Storyboard: Storyboard = .Products
     static let ID = "ManageProducts"
 
-    static func present(for productType: ProductType) {
+    static func show(for productType: ProductType) {
         let controller = instantiate()
         controller.productType = productType
         ConArtist.model.navigate(push: controller)

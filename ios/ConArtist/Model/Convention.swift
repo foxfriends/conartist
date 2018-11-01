@@ -91,11 +91,11 @@ class Convention: Codable {
 
         øuserInfo.value = info.userInfo
             .map { $0.fragments.userInfoFragment }
-            .filterMap(ConventionUserInfo.init(graphQL:))
+            .compactMap(ConventionUserInfo.init(graphQL:))
 
         extraInfo = [.Dates(start, end)] + info.extraInfo
             .map { $0.fragments.extraInfoFragment }
-            .filterMap(ConventionExtraInfo.init(graphQL:))
+            .compactMap(ConventionExtraInfo.init(graphQL:))
 
         records = Observable
             .combineLatest(
@@ -139,27 +139,27 @@ class Convention: Codable {
                 let info = convention.fragments.metaConventionFragment.fragments.conventionBasicInfoFragment
                 øuserInfo.value = info.userInfo
                     .map{ $0.fragments.userInfoFragment }
-                    .filterMap(ConventionUserInfo.init(graphQL:))
+                    .compactMap(ConventionUserInfo.init(graphQL:))
 
                 øproductTypes.value = convention.productTypes
                     .map { $0.fragments.productTypeFragment }
-                    .filterMap(ProductType.init(graphQL:))
+                    .compactMap(ProductType.init(graphQL:))
 
                 øproducts.value = convention.products
                     .map { $0.fragments.productFragment }
-                    .filterMap(Product.init(graphQL:))
+                    .compactMap(Product.init(graphQL:))
 
                 øprices.value = convention.prices
                     .map { $0.fragments.priceFragment }
-                    .filterMap(Price.init(graphQL:))
+                    .compactMap(Price.init(graphQL:))
 
                 ørecords.value = convention.records
                     .map { $0.fragments.recordFragment }
-                    .filterMap(Record.init(graphQL:))
+                    .compactMap(Record.init(graphQL:))
 
                 øexpenses.value = convention.expenses
                     .map { $0.fragments.expenseFragment }
-                    .filterMap(Expense.init(graphQL:))
+                    .compactMap(Expense.init(graphQL:))
 
                 let rids = convention.records.map { Id.id($0.fragments.recordFragment.id) }
                 øaddedRecords.value = øaddedRecords.value.filter { !rids.contains($0.id) }
@@ -184,8 +184,8 @@ class Convention: Codable {
         expenseTotal = con.expenseTotal?.toMoney()
         extraInfo = [.Dates(start, end)] + con.fragments.conventionBasicInfoFragment.extraInfo
             .map { $0.fragments.extraInfoFragment }
-            .filterMap(ConventionExtraInfo.init(graphQL:))
-        øuserInfo.value = con.fragments.conventionBasicInfoFragment.userInfo.map { $0.fragments.userInfoFragment }.filterMap(ConventionUserInfo.init(graphQL:))
+            .compactMap(ConventionExtraInfo.init(graphQL:))
+        øuserInfo.value = con.fragments.conventionBasicInfoFragment.userInfo.map { $0.fragments.userInfoFragment }.compactMap(ConventionUserInfo.init(graphQL:))
     }
 
     // MARK: Decodable

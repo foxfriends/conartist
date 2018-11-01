@@ -22,10 +22,9 @@ class ManageProductTypesViewController: UIViewController {
 extension ManageProductTypesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        productTypesTableView.allowsSelectionDuringEditing = true
         setupSubscriptions()
-        navBar.title = "Manage Products"¡
-        navBar.leftButtonTitle = "Back"¡
-        navBar.rightButtonTitle = "Edit"¡
+        setupLocalization()
         setupRefreshControl()
     }
 
@@ -43,12 +42,22 @@ extension ManageProductTypesViewController {
     }
 }
 
+// MARK: - Localization
+
+extension ManageProductTypesViewController {
+    fileprivate func setupLocalization() {
+        navBar.title = "Manage Products"¡
+        navBar.leftButtonTitle = "Back"¡
+        navBar.rightButtonTitle = "Edit"¡
+    }
+}
+
 // MARK: - Subscriptions
 
 extension ManageProductTypesViewController {
     fileprivate func setupSubscriptions() {
         navBar.leftButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in self?.navigationController?.popViewController(animated: true) })
+            .subscribe(onNext: { _ in ConArtist.model.navigate(back: 1) })
             .disposed(by: disposeBag)
 
         navBar.rightButton.rx.tap
@@ -56,6 +65,7 @@ extension ManageProductTypesViewController {
                 let editing = !productTypesTableView.isEditing
                 productTypesTableView.setEditing(editing, animated: true)
                 navBar?.rightButtonTitle = editing ? "Done"¡ : "Edit"¡
+                navBar?.leftButton.isEnabled = !editing
             })
             .disposed(by: disposeBag)
 
@@ -85,9 +95,9 @@ extension ManageProductTypesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let type = ConArtist.model.productTypes.value[indexPath.row]
         if tableView.isEditing {
-
+            EditProductTypeViewController.show(for: type)
         } else {
-            ManageProductsViewController.present(for: type)
+            ManageProductsViewController.show(for: type)
         }
     }
 

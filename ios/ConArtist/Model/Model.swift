@@ -65,9 +65,9 @@ class Model: Codable {
     /// Merges the retrieved fragment with the existing model, overriding where possible, but keeping references to
     /// original classes in the case of `Convention`s and the `Model` itself
     func merge(graphQL user: FullUserFragment) {
-        products.accept(user.products.filterMap { Product(graphQL: $0.fragments.productFragment) })
-        productTypes.accept(user.productTypes.filterMap { ProductType(graphQL: $0.fragments.productTypeFragment) })
-        prices.accept(user.prices.filterMap { Price(graphQL: $0.fragments.priceFragment) })
+        products.accept(user.products.compactMap { Product(graphQL: $0.fragments.productFragment) })
+        productTypes.accept(user.productTypes.compactMap { ProductType(graphQL: $0.fragments.productTypeFragment) })
+        prices.accept(user.prices.compactMap { Price(graphQL: $0.fragments.priceFragment) })
         let basic = user.fragments.userFragment
         name.accept(basic.name)
         email.accept(basic.email)
@@ -110,6 +110,27 @@ class Model: Codable {
         settings.accept(Settings.default)
         conventions.accept([])
         ConArtist.Persist.persist()
+    }
+}
+
+// MARK: - Updates
+extension Model {
+    func update(productType: ProductType) {
+        var types = productTypes.value
+        guard let index = types.firstIndex(where: { $0.id == productType.id }) else {
+            return
+        }
+        types[index] = productType
+        productTypes.accept(types)
+    }
+
+    func update(product: Product) {
+        var prods = products.value
+        guard let index = prods.firstIndex(where: { $0.id == product.id }) else {
+            return
+        }
+        prods[index] = product
+        products.accept(prods)
     }
 }
 

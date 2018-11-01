@@ -47,7 +47,7 @@ extension ProductTypeListViewController {
         priceField.format = { Money.parse(as: ConArtist.model.settings.value.currency, $0)?.toString() ?? $0 }
         if let record = editingRecord {
             infoTextView.text = record.info
-            selected.accept(record.products.filterMap(convention.product(withId:)))
+            selected.accept(record.products.compactMap(convention.product(withId:)))
             priceField.text = "\(record.price.numericValue())"
             money.accept(record.price)
         }
@@ -237,7 +237,7 @@ extension ProductTypeListViewController {
     fileprivate func calculatePrice(_ selected: [Product]) -> Money? {
         let prices = self.prices.value
         guard prices.count > 0 else { return nil }
-        let matters = prices.filterMap { $0.productId }
+        let matters = prices.compactMap { $0.productId }
         let items: [Key: Int] = selected.reduce([:]) { counts, product in
             let id: Key = matters.contains(product.id) ? .Product(product.id) : .ProductType(product.typeId)
             var updated = counts

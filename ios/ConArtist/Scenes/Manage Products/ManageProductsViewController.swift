@@ -25,10 +25,9 @@ class ManageProductsViewController: UIViewController {
 extension ManageProductsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        productsTableView.allowsSelectionDuringEditing = true
         setupSubscriptions()
-        navBar.title = productType.name
-        navBar.leftButtonTitle = "Back"¡
-        navBar.rightButtonTitle = "Reorder"¡
+        setupLocalization()
         setupRefreshControl()
     }
 
@@ -46,6 +45,16 @@ extension ManageProductsViewController {
     }
 }
 
+// MARK: - Localization
+
+extension ManageProductsViewController {
+    fileprivate func setupLocalization() {
+        navBar.title = productType.name
+        navBar.leftButtonTitle = "Back"¡
+        navBar.rightButtonTitle = "Edit"¡
+    }
+}
+
 // MARK: - Subscriptions
 
 extension ManageProductsViewController {
@@ -58,7 +67,7 @@ extension ManageProductsViewController {
             .subscribe(onNext: { [navBar, productsTableView = productsTableView!] _ in
                 let editing = !productsTableView.isEditing
                 productsTableView.setEditing(editing, animated: true)
-                navBar?.rightButtonTitle = editing ? "Done"¡ : "Reorder"¡
+                navBar?.rightButtonTitle = editing ? "Done"¡ : "Edit"¡
                 navBar?.leftButton.isEnabled = !editing
             })
             .disposed(by: disposeBag)
@@ -93,9 +102,7 @@ extension ManageProductsViewController: UITableViewDataSource {
 
 extension ManageProductsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard !tableView.isEditing else { return }
-        let product = products.value[indexPath.row]
-        _ = product // TODO: show the edit product page
+        EditProductViewController.show(for: products.value[indexPath.row])
     }
 
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {

@@ -384,14 +384,14 @@
 		32B36ED42040E47E00DA4593 /* Storyboard */ = {
 			isa = PBXGroup;
 			children = (
-				321B75E51F9BAD320055EBC4 /* LaunchScreen.storyboard */,
-				321B75DD1F9BAD320055EBC4 /* SignIn.storyboard */,
-				32CFB1DC20DCB3C800672EC9 /* Main.storyboard */,
 				32CFB1D620DCB16300672EC9 /* Convention.storyboard */,
-				32CFB1D820DCB20200672EC9 /* Settings.storyboard */,
-				32CFB1DA20DCB23B00672EC9 /* Sale.storyboard */,
-				32CFB1E220DCBC5D00672EC9 /* Records.storyboard */,
+				321B75E51F9BAD320055EBC4 /* LaunchScreen.storyboard */,
+				32CFB1DC20DCB3C800672EC9 /* Main.storyboard */,
 				32637A6F218930F7005E2F6C /* Products.storyboard */,
+				32CFB1E220DCBC5D00672EC9 /* Records.storyboard */,
+				32CFB1DA20DCB23B00672EC9 /* Sale.storyboard */,
+				32CFB1D820DCB20200672EC9 /* Settings.storyboard */,
+				321B75DD1F9BAD320055EBC4 /* SignIn.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";

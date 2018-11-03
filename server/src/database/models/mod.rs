@@ -7,6 +7,7 @@ mod product;
 mod record;
 mod settings;
 mod user;
+mod time;
 
 pub use self::convention::*;
 pub use self::expense::*;

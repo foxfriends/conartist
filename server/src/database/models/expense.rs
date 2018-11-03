@@ -1,8 +1,8 @@
 //! The Expenses table
-use chrono::NaiveDateTime;
 use uuid::Uuid;
 
 use database::schema::*;
+use super::time::Time;
 use money::Money;
 
 #[derive(Queryable, Clone, Debug)]
@@ -13,7 +13,7 @@ pub struct Expense {
     pub price: Money,
     pub category: String,
     pub description: String,
-    pub spend_time: NaiveDateTime,
+    pub spend_time: Time,
     pub gen_id: Option<Uuid>,
 }
 

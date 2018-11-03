@@ -1,5 +1,5 @@
 //! Holds information about a sale record
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, FixedOffset};
 use uuid::Uuid;
 
 use money::Money;
@@ -13,6 +13,6 @@ graphql_object!(Record: Database |&self| {
     field products() -> &Vec<i32> { &self.products }
     field price() -> Money { self.price }
     field info() -> &String { &self.info }
-    field time() -> DateTime<Utc> { DateTime::from_utc(self.sale_time, Utc) }
+    field time() -> DateTime<FixedOffset> { self.sale_time.0 }
     field uuid() -> Option<Uuid> { self.gen_id }
 });

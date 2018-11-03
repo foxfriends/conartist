@@ -187,7 +187,7 @@ impl Database {
             records::table
                 .select(unnest(records::products))
                 .filter(records::user_id.eq(user_id))
-                .filter(records::sale_time.lt(date))
+                .filter(dsl::sql::<sql_types::Timestamptz>("sale_time::timestamptz").lt(date))
                 .filter(records::con_id.ne(con_id))
                 .load::<i32>(&*conn)
                 .map_err(|reason| format!("Records for user with id {} could not be retrieved. Reason: {}", user_id, reason))?
@@ -255,7 +255,7 @@ impl Database {
         records::table
             .filter(records::user_id.eq(user_id))
             .filter(records::con_id.eq(con_id))
-            .order(records::sale_time.asc())
+            .order(dsl::sql::<sql_types::Timestamptz>("sale_time::timestamptz").asc())
             .load::<Record>(&*conn)
             .map_err(|reason| format!("Records for convention with id {} for user with id {} could not be retrieved. Reason: {}", con_id, user_id, reason))
     }
@@ -266,7 +266,7 @@ impl Database {
         expenses::table
             .filter(expenses::user_id.eq(user_id))
             .filter(expenses::con_id.eq(con_id))
-            .order(expenses::spend_time.asc())
+            .order(dsl::sql::<sql_types::Timestamptz>("spend_time::timestamptz").asc())
             .load::<Expense>(&*conn)
             .map_err(|reason| format!("Expenses for convention with id {} for user with id {} could not be retrieved. Reason: {}", con_id, user_id, reason))
     }

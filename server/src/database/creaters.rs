@@ -1,6 +1,6 @@
 use diesel::{self, dsl};
 use diesel::prelude::*;
-use chrono::{NaiveDateTime, NaiveDate, Utc};
+use chrono::{NaiveDate, Utc, DateTime, FixedOffset};
 use uuid::Uuid;
 use serde_json;
 
@@ -97,7 +97,7 @@ impl Database {
         gen_id: Uuid,
         products: Vec<i32>,
         price: Money,
-        time: NaiveDateTime,
+        time: DateTime<FixedOffset>,
         info: String,
     ) -> Result<Record, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
@@ -109,7 +109,7 @@ impl Database {
                     records::con_id.eq(con_id),
                     records::products.eq(products.clone()),
                     records::price.eq(price.to_string()),
-                    records::sale_time.eq(time),
+                    records::sale_time.eq(time.to_rfc3339()),
                     records::info.eq(info.clone()),
                     records::gen_id.eq(gen_id),
                 ))
@@ -129,7 +129,7 @@ impl Database {
         price: Money,
         category: String,
         description: String,
-        time: NaiveDateTime,
+        time: DateTime<FixedOffset>,
     ) -> Result<Expense, String> {
         let user_id = self.resolve_user_id(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
@@ -141,7 +141,7 @@ impl Database {
                     expenses::price.eq(price.to_string()),
                     expenses::category.eq(category.clone()),
                     expenses::description.eq(description.clone()),
-                    expenses::spend_time.eq(time),
+                    expenses::spend_time.eq(time.to_rfc3339()),
                     expenses::gen_id.eq(gen_id),
                 ))
                 .on_conflict((expenses::user_id, expenses::spend_time, expenses::gen_id))

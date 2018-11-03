@@ -1,8 +1,8 @@
 //! The Records table
-use chrono::NaiveDateTime;
 use uuid::Uuid;
 
 use database::schema::*;
+use super::time::Time;
 use money::Money;
 
 #[derive(Queryable, Clone, Debug)]
@@ -13,7 +13,7 @@ pub struct Record {
     pub price: Money,
     pub products: Vec<i32>,
     pub info: String,
-    pub sale_time: NaiveDateTime,
+    pub sale_time: Time,
     pub gen_id: Option<Uuid>,
 }
 

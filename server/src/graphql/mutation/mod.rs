@@ -166,7 +166,7 @@ graphql_object!(Mutation: Database |&self| {
         dbtry! {
             executor
                 .context()
-                .create_user_record(user_id, record.con_id, record.uuid, record.products, record.price, record.time.naive_utc(), record.info)
+                .create_user_record(user_id, record.con_id, record.uuid, record.products, record.price, record.time, record.info)
         }
     }
 
@@ -202,7 +202,7 @@ graphql_object!(Mutation: Database |&self| {
         dbtry! {
             executor
                 .context()
-                .create_user_expense(user_id, expense.con_id, expense.uuid, expense.price, expense.category, expense.description, expense.time.naive_utc())
+                .create_user_expense(user_id, expense.con_id, expense.uuid, expense.price, expense.category, expense.description, expense.time)
         }
     }
 

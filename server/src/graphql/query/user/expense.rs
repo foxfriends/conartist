@@ -1,5 +1,5 @@
 //! Holds information about a convention expense
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, FixedOffset};
 use uuid::Uuid;
 
 use money::Money;
@@ -13,6 +13,6 @@ graphql_object!(Expense: Database |&self| {
     field price() -> Money { self.price }
     field category() -> &String { &self.category }
     field description() -> &String { &self.description }
-    field time() -> DateTime<Utc> { DateTime::from_utc(self.spend_time, Utc) }
+    field time() -> DateTime<FixedOffset> { self.spend_time.0 }
     field uuid() -> Option<Uuid> { self.gen_id }
 });

@@ -68,17 +68,17 @@ table! {
         price -> Bpchar,
         category -> Varchar,
         description -> Text,
-        spend_time -> Timestamp,
+        spend_time -> Text,
         gen_id -> Nullable<Uuid>,
     }
 }
 
 table! {
     inventory (inventory_id) {
-        inventory_id -> Int4,
         product_id -> Int4,
         quantity -> Int4,
         mod_date -> Timestamp,
+        inventory_id -> Int4,
     }
 }
 
@@ -124,7 +124,7 @@ table! {
         price -> Bpchar,
         products -> Array<Int4>,
         info -> Text,
-        sale_time -> Timestamp,
+        sale_time -> Text,
         gen_id -> Nullable<Uuid>,
     }
 }
@@ -141,10 +141,10 @@ table! {
     users (user_id) {
         user_id -> Int4,
         email -> Varchar,
-        name -> Varchar,
         password -> Varchar,
         keys -> Int4,
         join_date -> Timestamp,
+        name -> Varchar,
     }
 }
 

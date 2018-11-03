@@ -9,13 +9,13 @@
 import UIKit
 
 enum Storyboard: String {
-    case Main
-    case SignIn
-    case Convention
-    case Records
-    case Sale
-    case Settings
-    case Products
+    case main = "Main"
+    case signIn = "SignIn"
+    case convention = "Convention"
+    case Records = "Records"
+    case sale = "Sale"
+    case settings = "Settings"
+    case products = "Products"
 }
 
 protocol ViewControllerNavigation {

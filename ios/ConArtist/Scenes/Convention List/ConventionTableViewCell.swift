@@ -11,9 +11,9 @@ import UIKit
 extension ConventionListViewController.Section {
     fileprivate var emptyStateText: String? {
         switch self {
-        case .PresentEmpty: return "No conventions today"¡
-        case .PastEmpty:    return "You haven't been to any conventions yet..."¡
-        case .FutureEmpty:  return "You don't have any conventions starred... Why don't you go find one you like?"¡
+        case .presentEmpty: return "No conventions today"¡
+        case .pastEmpty:    return "You haven't been to any conventions yet..."¡
+        case .futureEmpty:  return "You don't have any conventions starred... Why don't you go find one you like?"¡
         default:            return nil
         }
     }

@@ -123,7 +123,7 @@ extension SignInViewController {
 
 // MARK: - Navigation
 extension SignInViewController: ViewControllerNavigation {
-    static let Storyboard: Storyboard = .SignIn
+    static let Storyboard: Storyboard = .signIn
     static let ID = "SignIn"
 
     static func show(animated: Bool = true) {

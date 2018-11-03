@@ -113,7 +113,7 @@ extension EditProductTypeViewController {
 // MARK: - Navigation
 
 extension EditProductTypeViewController: ViewControllerNavigation {
-    static let Storyboard: Storyboard = .Products
+    static let Storyboard: Storyboard = .products
     static let ID = "EditProductType"
 
     static func show(for productType: ProductType) {

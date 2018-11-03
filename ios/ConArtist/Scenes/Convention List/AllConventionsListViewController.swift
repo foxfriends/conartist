@@ -103,7 +103,7 @@ extension AllConventionsListViewController: UITableViewDelegate {
 
 // MARK: - Navigation
 extension AllConventionsListViewController: ViewControllerNavigation {
-    static let Storyboard: Storyboard = .Main
+    static let Storyboard: Storyboard = .main
     static let ID = "AllConventionsList"
 
     static func show(conventions: Observable<[Convention]>) {

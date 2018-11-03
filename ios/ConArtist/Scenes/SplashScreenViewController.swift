@@ -34,7 +34,7 @@ extension SplashScreenViewController {
 
 // MARK: - Navigation
 extension SplashScreenViewController: ViewControllerNavigation {
-    static let Storyboard: Storyboard = .SignIn
+    static let Storyboard: Storyboard = .signIn
     static let ID = "SplashScreen"
 
     static func show() {

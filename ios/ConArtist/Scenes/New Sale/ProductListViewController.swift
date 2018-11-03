@@ -89,7 +89,7 @@ extension ProductListViewController: UITableViewDelegate {
 
 // MARK: - Navigation
 extension ProductListViewController: ViewControllerNavigation {
-    static let Storyboard: Storyboard = .Sale
+    static let Storyboard: Storyboard = .sale
     static let ID = "ProductList"
 
     static func show(for productType: ProductType, and products: [Product], records: [Record], selected: BehaviorRelay<[Product]>) {

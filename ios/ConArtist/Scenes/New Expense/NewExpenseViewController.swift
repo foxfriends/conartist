@@ -134,7 +134,7 @@ extension NewExpenseViewController {
 
 // MARK: - Navigation
 extension NewExpenseViewController: ViewControllerNavigation {
-    static let Storyboard: Storyboard = .Sale
+    static let Storyboard: Storyboard = .sale
     static let ID = "NewExpense"
 
     static func show(editing expense: Expense? = nil) -> Observable<(String, String, Money)> {

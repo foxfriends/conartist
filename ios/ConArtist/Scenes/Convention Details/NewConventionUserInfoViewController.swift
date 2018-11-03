@@ -59,7 +59,7 @@ extension NewConventionUserInfoViewController {
 
 // MARK: - Navigation
 extension NewConventionUserInfoViewController: ViewControllerNavigation {
-    static let Storyboard: Storyboard = .Convention
+    static let Storyboard: Storyboard = .convention
     static let ID = "NewConventionUserInfo"
 
     static func show() -> Observable<String> {

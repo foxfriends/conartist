@@ -143,7 +143,7 @@ extension ConventionUserInfoListViewController: UITableViewDelegate {
 
 // MARK: - Navigation
 extension ConventionUserInfoListViewController: ViewControllerNavigation {
-    static let Storyboard: Storyboard = .Convention
+    static let Storyboard: Storyboard = .convention
     static let ID = "ConventionUserInfoList"
 
     static func show(for convention: Convention) {

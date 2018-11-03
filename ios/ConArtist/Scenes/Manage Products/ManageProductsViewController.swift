@@ -164,7 +164,7 @@ extension ManageProductsViewController: UITableViewDelegate {
 // MARK: - Navigation
 
 extension ManageProductsViewController: ViewControllerNavigation {
-    static let Storyboard: Storyboard = .Products
+    static let Storyboard: Storyboard = .products
     static let ID = "ManageProducts"
 
     static func show(for productType: ProductType) {

@@ -256,7 +256,7 @@ extension ConventionDetailsViewController: UITableViewDelegate {
 
 // MARK: - Navigation
 extension ConventionDetailsViewController: ViewControllerNavigation {
-    static let Storyboard: Storyboard = .Convention
+    static let Storyboard: Storyboard = .convention
     static let ID = "ConventionDetails"
 
     static func show(for convention: Convention) {

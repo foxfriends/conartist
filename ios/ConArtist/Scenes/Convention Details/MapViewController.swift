@@ -62,7 +62,7 @@ extension MapViewController {
 // MARK: - Navigations
 
 extension MapViewController: ViewControllerNavigation {
-    static let Storyboard: Storyboard = .Convention
+    static let Storyboard: Storyboard = .convention
     static let ID = "Map"
 
     static func show(location: Location, name: String) {

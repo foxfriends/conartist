@@ -46,6 +46,8 @@ struct ConArtist {
                 static let Down     = SVGKImage(named: "thumb_down.svg")!
                 static let Up       = SVGKImage(named: "thumb_up.svg")!
             }
+
+            static let Add = SVGKImage(named: "add.svg")!
         }
     }
 }

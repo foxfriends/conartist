@@ -8,10 +8,13 @@
 
 import UIKit
 import RxSwift
+import SVGKit
 
 class ManageProductTypesViewController: UIViewController {
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var productTypesTableView: UITableView!
+    @IBOutlet weak var newProductTypeButton: UIButton!
+    @IBOutlet weak var newProductTypeImageView: SVGKFastImageView!
 
     fileprivate let refreshControl = UIRefreshControl()
     fileprivate let disposeBag = DisposeBag()
@@ -23,6 +26,9 @@ extension ManageProductTypesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         productTypesTableView.allowsSelectionDuringEditing = true
+        productTypesTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 88, right: 0)
+        newProductTypeImageView.image = ConArtist.Images.SVG.Add
+        newProductTypeButton.addShadow()
         setupSubscriptions()
         setupLocalization()
         setupRefreshControl()
@@ -61,12 +67,17 @@ extension ManageProductTypesViewController {
             .disposed(by: disposeBag)
 
         navBar.rightButton.rx.tap
-            .subscribe(onNext: { [navBar, productTypesTableView = productTypesTableView!] _ in
+            .subscribe(onNext: { [navBar, productTypesTableView = productTypesTableView!, newProductTypeButton] _ in
                 let editing = !productTypesTableView.isEditing
                 productTypesTableView.setEditing(editing, animated: true)
                 navBar?.rightButtonTitle = editing ? "Done"¡ : "Edit"¡
                 navBar?.leftButton.isEnabled = !editing
+                newProductTypeButton?.isHidden = editing
             })
+            .disposed(by: disposeBag)
+
+        newProductTypeButton.rx.tap
+            .subscribe(onNext: { _ in EditProductTypeViewController.createNewProductType() })
             .disposed(by: disposeBag)
 
         ConArtist.model.productTypes

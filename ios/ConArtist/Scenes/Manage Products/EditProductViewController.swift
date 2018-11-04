@@ -16,7 +16,8 @@ class EditProductViewController: UIViewController {
     @IBOutlet weak var discontinuedSwitch: UISwitch!
     @IBOutlet weak var discontinuedLabel: UILabel!
 
-    fileprivate var product: Product!
+    fileprivate var typeId: Int?
+    fileprivate var product: Product?
     fileprivate let disposeBag = DisposeBag()
 }
 
@@ -35,11 +36,12 @@ extension EditProductViewController {
 
 extension EditProductViewController {
     fileprivate func setupUI() {
-        nameTextField.text = product.name
-        quantityTextField.text = "\(product.quantity)"
-        discontinuedSwitch.isOn = product.discontinued
-        navBar.title = "Editing {}"¡ % product.name
+        nameTextField.text = product?.name ?? ""
+        quantityTextField.text = "\(product?.quantity ?? 0)"
+        discontinuedSwitch.isOn = product?.discontinued ?? false
+        discontinuedSwitch.isHidden = product == nil
         discontinuedLabel.font = discontinuedLabel.font.usingFeatures([.smallCaps])
+        discontinuedLabel.isHidden = discontinuedSwitch.isHidden
     }
 }
 
@@ -54,6 +56,7 @@ extension EditProductViewController {
         quantityTextField.title = "Quantity"¡
         quantityTextField.placeholder = quantityTextField.title
         discontinuedLabel.text = "Discontinued"¡
+        navBar.title = (product?.name).map { "Editing {}"¡ % $0 } ?? "New Product"¡
     }
 }
 
@@ -73,11 +76,31 @@ extension EditProductViewController {
                     discontinuedSwitch.rx.isOn
                 )
             )
-            .map { [product = product!] (name: String, quantity: Int, discontinued: Bool) -> ProductMod in
-                ProductMod(productId: product.id, name: name, quantity: quantity, discontinued: discontinued, sort: nil)
+            .flatMapLatest { [product, typeId] (name: String, quantity: Int, discontinued: Bool) -> Observable<ProductFragment> in
+                if let product = product {
+                    return ConArtist.API.GraphQL
+                        .observe(mutation: ModProductMutation(product: ProductMod(
+                            productId: product.id,
+                            name: name,
+                            quantity: quantity,
+                            discontinued: discontinued,
+                            sort: nil
+                        )))
+                        .map { $0.modUserProduct.fragments.productFragment }
+                } else if let typeId = typeId {
+                    return ConArtist.API.GraphQL
+                        .observe(mutation: AddProductMutation(product: ProductAdd(
+                            typeId: typeId,
+                            name: name,
+                            quantity: quantity,
+                            sort: ConArtist.model.products.value.filter { $0.typeId == typeId }.count
+                        )))
+                        .map { $0.addUserProduct.fragments.productFragment }
+                } else {
+                    fatalError("Unreachable case")
+                }
             }
-            .flatMapLatest { ConArtist.API.GraphQL.observe(mutation: ModProductMutation(product: $0)) }
-            .map { Product(graphQL: $0.modUserProduct.fragments.productFragment) }
+            .map { Product(graphQL: $0) }
             .subscribe(
                 onNext: { product in
                     ConArtist.model.navigate(back: 1)
@@ -99,10 +122,10 @@ extension EditProductViewController {
             .combineLatest(
                 nameTextField.rx.text
                     .map { $0 ?? "" }
-                    .map { [product = product!] in
+                    .map { [product, typeId] in
                         $0.isEmpty || ConArtist.model.products.value
-                            .filter { $0.typeId == product.typeId }
-                            .filter { $0.id != product.id }
+                            .filter { $0.typeId == product?.typeId ?? typeId! }
+                            .filter { product == nil || $0.id != product!.id }
                             .map { $0.name }
                             .contains($0)
                     },
@@ -127,6 +150,12 @@ extension EditProductViewController: ViewControllerNavigation {
     static func show(for product: Product) {
         let controller = instantiate()
         controller.product = product
+        ConArtist.model.navigate(push: controller)
+    }
+
+    static func createNewProduct(ofType productType: ProductType) {
+        let controller = instantiate()
+        controller.typeId = productType.id
         ConArtist.model.navigate(push: controller)
     }
 }

@@ -117,19 +117,21 @@ class Model: Codable {
 extension Model {
     func update(productType: ProductType) {
         var types = productTypes.value
-        guard let index = types.firstIndex(where: { $0.id == productType.id }) else {
-            return
+        if let index = types.firstIndex(where: { $0.id == productType.id }) {
+            types[index] = productType
+        } else {
+            types.append(productType)
         }
-        types[index] = productType
         productTypes.accept(types)
     }
 
     func update(product: Product) {
         var prods = products.value
-        guard let index = prods.firstIndex(where: { $0.id == product.id }) else {
-            return
+        if let index = prods.firstIndex(where: { $0.id == product.id }) {
+            prods[index] = product
+        } else {
+            prods.append(product)
         }
-        prods[index] = product
         products.accept(prods)
     }
 }

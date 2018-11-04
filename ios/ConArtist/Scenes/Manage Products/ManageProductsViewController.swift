@@ -9,10 +9,13 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import SVGKit
 
 class ManageProductsViewController: UIViewController {
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var productsTableView: UITableView!
+    @IBOutlet weak var addProductButton: UIButton!
+    @IBOutlet weak var addProductImageView: SVGKFastImageView!
 
     fileprivate let refreshControl = UIRefreshControl()
     fileprivate var productType: ProductType!
@@ -26,6 +29,9 @@ extension ManageProductsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         productsTableView.allowsSelectionDuringEditing = true
+        productsTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 88, right: 0)
+        addProductImageView.image = ConArtist.Images.SVG.Add
+        addProductButton.addShadow()
         setupSubscriptions()
         setupLocalization()
         setupRefreshControl()
@@ -64,17 +70,28 @@ extension ManageProductsViewController {
             .disposed(by: disposeBag)
 
         navBar.rightButton.rx.tap
-            .subscribe(onNext: { [navBar, productsTableView = productsTableView!] _ in
+            .subscribe(onNext: { [
+                    navBar,
+                    productsTableView = productsTableView!,
+                    addProductButton
+                ] _ in
                 let editing = !productsTableView.isEditing
                 productsTableView.setEditing(editing, animated: true)
                 navBar?.rightButtonTitle = editing ? "Done"¡ : "Edit"¡
                 navBar?.leftButton.isEnabled = !editing
+                addProductButton?.isHidden = editing
             })
             .disposed(by: disposeBag)
 
         ConArtist.model.products
             .map { [productType] in $0.filter { $0.typeId == productType!.id } }
             .bind(to: products)
+            .disposed(by: disposeBag)
+
+        addProductButton.rx.tap
+            .subscribe(onNext: { [productType = productType!] _ in
+                EditProductViewController.createNewProduct(ofType: productType)
+            })
             .disposed(by: disposeBag)
 
         products

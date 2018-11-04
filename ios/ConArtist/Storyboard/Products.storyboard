@@ -71,21 +71,48 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="leftButtonTitle" value="Back"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ypz-RO-0kc">
+                                <rect key="frame" x="307" y="599" width="48" height="48"/>
+                                <color key="backgroundColor" name="Brand"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="JgG-se-LMX"/>
+                                    <constraint firstAttribute="width" constant="48" id="bgn-o6-mPY"/>
+                                </constraints>
+                                <state key="normal">
+                                    <color key="titleColor" name="Text"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="24"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BRz-2I-rK2" customClass="SVGKFastImageView">
+                                <rect key="frame" x="313" y="605" width="36" height="36"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" name="Background"/>
                         <constraints>
                             <constraint firstItem="7En-6K-XAV" firstAttribute="bottom" secondItem="nKv-7e-8Id" secondAttribute="top" constant="44" id="3dd-2u-td8"/>
                             <constraint firstItem="nKv-7e-8Id" firstAttribute="trailing" secondItem="7En-6K-XAV" secondAttribute="trailing" id="FXU-H4-MVA"/>
                             <constraint firstItem="nKv-7e-8Id" firstAttribute="trailing" secondItem="Esf-g0-biJ" secondAttribute="trailing" id="Ml8-QX-yvq"/>
+                            <constraint firstItem="BRz-2I-rK2" firstAttribute="centerX" secondItem="Ypz-RO-0kc" secondAttribute="centerX" id="URz-gS-F2d"/>
                             <constraint firstItem="nKv-7e-8Id" firstAttribute="bottom" secondItem="Esf-g0-biJ" secondAttribute="bottom" id="WEJ-iX-0w9"/>
                             <constraint firstItem="Esf-g0-biJ" firstAttribute="leading" secondItem="nKv-7e-8Id" secondAttribute="leading" id="bZ1-lR-XkP"/>
+                            <constraint firstItem="nKv-7e-8Id" firstAttribute="bottom" secondItem="Ypz-RO-0kc" secondAttribute="bottom" constant="20" id="cYs-8Z-uEt"/>
                             <constraint firstItem="7En-6K-XAV" firstAttribute="top" secondItem="qO8-zF-LoL" secondAttribute="top" id="h7F-Gu-yv9"/>
+                            <constraint firstItem="nKv-7e-8Id" firstAttribute="trailing" secondItem="Ypz-RO-0kc" secondAttribute="trailing" constant="20" id="hih-Rd-dCo"/>
                             <constraint firstItem="7En-6K-XAV" firstAttribute="leading" secondItem="nKv-7e-8Id" secondAttribute="leading" id="m8A-Qg-zJb"/>
+                            <constraint firstItem="BRz-2I-rK2" firstAttribute="centerY" secondItem="Ypz-RO-0kc" secondAttribute="centerY" id="nas-29-Ts4"/>
+                            <constraint firstItem="BRz-2I-rK2" firstAttribute="height" secondItem="Ypz-RO-0kc" secondAttribute="height" constant="-12" id="rGC-DI-TZo"/>
+                            <constraint firstItem="BRz-2I-rK2" firstAttribute="width" secondItem="Ypz-RO-0kc" secondAttribute="width" constant="-12" id="sde-jM-n6t"/>
                             <constraint firstItem="Esf-g0-biJ" firstAttribute="top" secondItem="7En-6K-XAV" secondAttribute="bottom" id="szI-Pv-h1w"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="nKv-7e-8Id"/>
                     </view>
                     <connections>
+                        <outlet property="addProductButton" destination="Ypz-RO-0kc" id="LLV-rh-NJ9"/>
+                        <outlet property="addProductImageView" destination="BRz-2I-rK2" id="Qew-lw-mHj"/>
                         <outlet property="navBar" destination="7En-6K-XAV" id="Exe-fl-Fhi"/>
                         <outlet property="productsTableView" destination="Esf-g0-biJ" id="yjX-Oh-YCp"/>
                     </connections>
@@ -144,22 +171,49 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="leftButtonTitle" value="Back"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VNg-7S-TlH">
+                                <rect key="frame" x="307" y="599" width="48" height="48"/>
+                                <color key="backgroundColor" name="Brand"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="48" id="GBM-nN-TFT"/>
+                                    <constraint firstAttribute="height" constant="48" id="xjk-nO-cMK"/>
+                                </constraints>
+                                <state key="normal">
+                                    <color key="titleColor" name="Text"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="24"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XpJ-kD-dup" customClass="SVGKFastImageView">
+                                <rect key="frame" x="313" y="605" width="36" height="36"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" name="Background"/>
                         <constraints>
                             <constraint firstItem="24E-RO-39E" firstAttribute="trailing" secondItem="iel-US-kY6" secondAttribute="trailing" id="2Np-zQ-Hab"/>
                             <constraint firstItem="iel-US-kY6" firstAttribute="bottom" secondItem="24E-RO-39E" secondAttribute="top" constant="44" id="4bz-uK-Dyv"/>
+                            <constraint firstItem="XpJ-kD-dup" firstAttribute="centerX" secondItem="VNg-7S-TlH" secondAttribute="centerX" id="6hk-sc-Stq"/>
                             <constraint firstItem="xhw-IY-nSe" firstAttribute="leading" secondItem="24E-RO-39E" secondAttribute="leading" id="7H1-Ox-TT7"/>
+                            <constraint firstItem="24E-RO-39E" firstAttribute="bottom" secondItem="VNg-7S-TlH" secondAttribute="bottom" constant="20" id="8pZ-k6-lSw"/>
                             <constraint firstItem="iel-US-kY6" firstAttribute="leading" secondItem="24E-RO-39E" secondAttribute="leading" id="Hxx-pX-DsR"/>
                             <constraint firstItem="24E-RO-39E" firstAttribute="trailing" secondItem="xhw-IY-nSe" secondAttribute="trailing" id="MVP-Ik-0B1"/>
+                            <constraint firstItem="VNg-7S-TlH" firstAttribute="trailing" secondItem="24E-RO-39E" secondAttribute="trailing" constant="-20" id="RHU-eb-eIj"/>
+                            <constraint firstItem="XpJ-kD-dup" firstAttribute="width" secondItem="VNg-7S-TlH" secondAttribute="width" constant="-12" id="RT5-Ju-Nx0"/>
+                            <constraint firstItem="XpJ-kD-dup" firstAttribute="centerY" secondItem="VNg-7S-TlH" secondAttribute="centerY" id="X19-hh-hYf"/>
                             <constraint firstItem="xhw-IY-nSe" firstAttribute="top" secondItem="iel-US-kY6" secondAttribute="bottom" id="XMn-eH-p3D"/>
                             <constraint firstItem="24E-RO-39E" firstAttribute="bottom" secondItem="xhw-IY-nSe" secondAttribute="bottom" id="gP6-Ys-vHj"/>
                             <constraint firstItem="iel-US-kY6" firstAttribute="top" secondItem="gcb-8t-42Z" secondAttribute="top" id="hnK-hN-VzZ"/>
+                            <constraint firstItem="XpJ-kD-dup" firstAttribute="height" secondItem="VNg-7S-TlH" secondAttribute="height" constant="-12" id="yn8-YY-dcs"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="24E-RO-39E"/>
                     </view>
                     <connections>
                         <outlet property="navBar" destination="iel-US-kY6" id="JIx-H7-2Ez"/>
+                        <outlet property="newProductTypeButton" destination="VNg-7S-TlH" id="uA0-Ld-sBT"/>
+                        <outlet property="newProductTypeImageView" destination="XpJ-kD-dup" id="zsI-ge-V12"/>
                         <outlet property="productTypesTableView" destination="xhw-IY-nSe" id="aOL-tz-Pbc"/>
                     </connections>
                 </viewController>

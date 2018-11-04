@@ -15,10 +15,14 @@ type State<E: React.ElementType> = {
 
 export class Fade<E: React.ElementType> extends React.Component<Props<E>, State<E>> {
   static getDerivedStateFromProps({ children }: Props<E>, state: State<E>) {
-    return {
-      previousChildren: state.children,
-      children: children ? React.cloneElement(children) : null,
-      key: !state.key,
+    if (children !== state.children) {
+      return {
+        previousChildren: state.children ? React.cloneElement(state.children) : null,
+        children: children || null,
+        key: !state.key,
+      }
+    } else {
+      return null;
     }
   }
 

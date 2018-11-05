@@ -141,7 +141,7 @@ extension ManageProductTypesViewController: UITableViewDelegate {
             case .products:
                 ManageProductsViewController.show(for: type)
             case .prices:
-                break
+                ManagePricesViewController.show(for: type)
             }
         }
     }

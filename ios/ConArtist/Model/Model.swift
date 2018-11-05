@@ -134,6 +134,16 @@ extension Model {
         }
         products.accept(prods)
     }
+
+    func update(price: Price) {
+        var prices = self.prices.value
+        if let index = prices.firstIndex(where: { $0.id == price.id }) {
+            prices[index] = price
+        } else {
+            prices.append(price)
+        }
+        self.prices.accept(prices)
+    }
 }
 
 // MARK: - Navigation

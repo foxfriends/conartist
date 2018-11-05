@@ -16,6 +16,10 @@ extension String: Display {
     func fmt() -> String { return self }
 }
 
+extension Int: Display {
+    func fmt() -> String { return "\(self)" }
+}
+
 extension String {
     static func %<T>(_ string: String, _ t: T) -> String where T: Display {
         guard let range = string.range(of: "{}") else { return string + t.fmt() }

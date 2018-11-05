@@ -41,6 +41,7 @@ extension EditPriceViewController {
 extension EditPriceViewController {
     fileprivate func setupUI() {
         quantityTextField.text = "\(price?.quantity ?? 0)"
+        priceTextField.format = { Money.parse(as: ConArtist.model.settings.value.currency, $0)?.toString() ?? $0 }
         priceTextField.text = "\(price?.price.numericValue() ?? 0.0)"
     }
 }

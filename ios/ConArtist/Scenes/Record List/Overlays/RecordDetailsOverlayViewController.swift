@@ -9,7 +9,7 @@
 import UIKit
 import RxSwift
 
-class RecordDetailsOverlayViewController: UIViewController {
+class RecordDetailsOverlayViewController : ConArtistViewController {
     fileprivate static let AnimationDuration = 0.25
 
     @IBOutlet weak var navBar: FakeNavBar!
@@ -118,7 +118,7 @@ extension RecordDetailsOverlayViewController {
         amountLabel.text = record.price.toString()
         timeLabel.text = record.time.toString("EEEE MMMM d, yyyy. h:mm a"¡)
         noteLabel.text = record.info.isEmpty ? "Nothing to say..."¡ : record.info
-        noteLabel.textColor = record.info.isEmpty ? ConArtist.Color.TextPlaceholder : ConArtist.Color.Text
+        noteLabel.textColor = record.info.isEmpty ? .textPlaceholder : .text
         backgroundButton.alpha = 0
         let height = productTypes
             .map { productType in self.products.filter { $0.typeId == productType.id }.count }
@@ -189,7 +189,7 @@ extension RecordDetailsOverlayViewController: UITableViewDelegate {
 
 // MARK: - Navigation
 extension RecordDetailsOverlayViewController: ViewControllerNavigation {
-    static let Storyboard: Storyboard = .Records
+    static let Storyboard: Storyboard = .records
     static let ID = "RecordDetailsOverlay"
 
     static func show(for record: Record, in convention: Convention, after: Date?) {

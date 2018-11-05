@@ -22,7 +22,7 @@ extension UIView {
             attributedText: NSAttributedString(
                 string: text,
                 attributes: [
-                    .foregroundColor: ConArtist.Color.TextPlaceholder,
+                    .foregroundColor: UIColor.textPlaceholder,
                     .font: UIFont.systemFont(ofSize: 14)
                 ]
             )
@@ -35,7 +35,7 @@ extension UIView {
         tooltip.cornerRadius = 4
         tooltip.margin = UIEdgeInsets.zero
         tooltip.padding = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
-        tooltip.color = ConArtist.Color.BackgroundVariant
+        tooltip.color = .backgroundVariant
         tooltip.present(from: self)
         tooltip.dismiss(inTimeInterval: 5)
         UIView.openTooltip = tooltip

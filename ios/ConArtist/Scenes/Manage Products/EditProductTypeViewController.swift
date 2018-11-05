@@ -9,7 +9,7 @@
 import UIKit
 import RxSwift
 
-class EditProductTypeViewController: UIViewController {
+class EditProductTypeViewController : ConArtistViewController {
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var nameTextField: FancyTextField!
     @IBOutlet weak var discontinuedSwitch: UISwitch!

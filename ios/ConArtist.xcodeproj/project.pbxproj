@@ -53,6 +53,9 @@
 		32637A8B218EB576005E2F6C /* thumb_up.svg in Resources */ = {isa = PBXBuildFile; fileRef = 32637A86218EB576005E2F6C /* thumb_up.svg */; };
 		32637A8C218EB576005E2F6C /* chevron_down.svg in Resources */ = {isa = PBXBuildFile; fileRef = 32637A87218EB576005E2F6C /* chevron_down.svg */; };
 		32637A8E218EB599005E2F6C /* add.svg in Resources */ = {isa = PBXBuildFile; fileRef = 32637A8D218EB599005E2F6C /* add.svg */; };
+		32637A902190983C005E2F6C /* UIColor+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32637A8F2190983C005E2F6C /* UIColor+Constants.swift */; };
+		32637A922190999C005E2F6C /* SVGKImage+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32637A912190999C005E2F6C /* SVGKImage+Constants.swift */; };
+		32637A9F21909C30005E2F6C /* ConArtistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32637A9E21909C30005E2F6C /* ConArtistViewController.swift */; };
 		3266CEF720017E2C0016D5E6 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */; };
 		327C5D7920817A81007EEF71 /* Debug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 327C5D7820817A81007EEF71 /* Debug.plist */; };
 		327C5D7B20817AD1007EEF71 /* Release.plist in Resources */ = {isa = PBXBuildFile; fileRef = 327C5D7A20817AD1007EEF71 /* Release.plist */; };
@@ -185,6 +188,9 @@
 		32637A86218EB576005E2F6C /* thumb_up.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = thumb_up.svg; sourceTree = "<group>"; };
 		32637A87218EB576005E2F6C /* chevron_down.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = chevron_down.svg; sourceTree = "<group>"; };
 		32637A8D218EB599005E2F6C /* add.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = add.svg; sourceTree = "<group>"; };
+		32637A8F2190983C005E2F6C /* UIColor+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Constants.swift"; sourceTree = "<group>"; };
+		32637A912190999C005E2F6C /* SVGKImage+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SVGKImage+Constants.swift"; sourceTree = "<group>"; };
+		32637A9E21909C30005E2F6C /* ConArtistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConArtistViewController.swift; sourceTree = "<group>"; };
 		3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		327C5D7820817A81007EEF71 /* Debug.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Debug.plist; sourceTree = "<group>"; };
 		327C5D7A20817AD1007EEF71 /* Release.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Release.plist; sourceTree = "<group>"; };
@@ -348,6 +354,109 @@
 			path = SVG;
 			sourceTree = "<group>";
 		};
+		32637A93219099B2005E2F6C /* Sequence */ = {
+			isa = PBXGroup;
+			children = (
+				32892C43203530C800F1AD9C /* Array+Safe.swift */,
+				32C39C1F201E99A100071E26 /* Sequence+Helpers.swift */,
+			);
+			path = Sequence;
+			sourceTree = "<group>";
+		};
+		32637A94219099C1005E2F6C /* RxSwift */ = {
+			isa = PBXGroup;
+			children = (
+				321FDE832027D14B002DF04B /* Observable+Helpers.swift */,
+			);
+			path = RxSwift;
+			sourceTree = "<group>";
+		};
+		32637A95219099D9005E2F6C /* String */ = {
+			isa = PBXGroup;
+			children = (
+				322C6A0C204CC2810021A2D9 /* String+Localization.swift */,
+				32E80BD6201700EB0008EC27 /* String+Conversion.swift */,
+				32CFB1D420DCB0EB00672EC9 /* String+Attributes.swift */,
+				322AFB40205763C0005E56C8 /* String+Escape.swift */,
+				322AFB3E20574622005E56C8 /* String+JSON.swift */,
+				322C6A0E204CC8B40021A2D9 /* String+Display.swift */,
+			);
+			path = String;
+			sourceTree = "<group>";
+		};
+		32637A96219099EF005E2F6C /* Date */ = {
+			isa = PBXGroup;
+			children = (
+				32D45CBB20A4DBC600F7A67F /* TimeZone+UTC.swift */,
+				324592AD1FEC314900DE89BB /* Date+Helpers.swift */,
+			);
+			path = Date;
+			sourceTree = "<group>";
+		};
+		32637A97219099FA005E2F6C /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				32F12C0F203544E60045D0BC /* UIFont+Features.swift */,
+				32637A7C218A1B4A005E2F6C /* UIViewController+Alerts.swift */,
+				32637A9921909A1A005E2F6C /* UIView */,
+				32637A9821909A11005E2F6C /* UIColor */,
+			);
+			path = UIKit;
+			sourceTree = "<group>";
+		};
+		32637A9821909A11005E2F6C /* UIColor */ = {
+			isa = PBXGroup;
+			children = (
+				32637A8F2190983C005E2F6C /* UIColor+Constants.swift */,
+				3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */,
+			);
+			path = UIColor;
+			sourceTree = "<group>";
+		};
+		32637A9921909A1A005E2F6C /* UIView */ = {
+			isa = PBXGroup;
+			children = (
+				32B910142043A0EB002F9C94 /* UIImage+Base64.swift */,
+				32B36EBC203BD2F000DA4593 /* UIButton+ConArtist.swift */,
+				32B36EBE203BD67800DA4593 /* UIView+Customizable.swift */,
+				32B36EC4203E5E7D00DA4593 /* UIView+Shadows.swift */,
+				32C39C1D201E870600071E26 /* UIView+Tooltip.swift */,
+			);
+			path = UIView;
+			sourceTree = "<group>";
+		};
+		32637A9A21909A42005E2F6C /* Apollo */ = {
+			isa = PBXGroup;
+			children = (
+				32C39C1B201E812D00071E26 /* ApolloClient+Rx.swift */,
+			);
+			path = Apollo;
+			sourceTree = "<group>";
+		};
+		32637A9B21909BB0005E2F6C /* PrettyString */ = {
+			isa = PBXGroup;
+			children = (
+				32EEC27420E031620016DFCA /* PrettyString+Styles.swift */,
+			);
+			path = PrettyString;
+			sourceTree = "<group>";
+		};
+		32637A9C21909BBA005E2F6C /* SVGKImage */ = {
+			isa = PBXGroup;
+			children = (
+				32637A912190999C005E2F6C /* SVGKImage+Constants.swift */,
+			);
+			path = SVGKImage;
+			sourceTree = "<group>";
+		};
+		32637A9D21909BC3005E2F6C /* Codables */ = {
+			isa = PBXGroup;
+			children = (
+				322AFB44205769DE005E56C8 /* Tuple.swift */,
+			);
+			path = Codables;
+			sourceTree = "<group>";
+		};
 		327C5D77208179D7007EEF71 /* Config */ = {
 			isa = PBXGroup;
 			children = (
@@ -366,6 +475,7 @@
 				32892C4120352E9D00F1AD9C /* HighlightableView.swift */,
 				32B36ED72041FF3200DA4593 /* NetworkImageView.swift */,
 				32B36EC8203E7A5800DA4593 /* TableHeaderView.swift */,
+				32637A9E21909C30005E2F6C /* ConArtistViewController.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -427,6 +537,9 @@
 		32B36EE02042085400DA4593 /* Functional */ = {
 			isa = PBXGroup;
 			children = (
+				32DD973A205B803E0045DF41 /* SetAlgebra+Operators.swift */,
+				32B36ED52040F57000DA4593 /* Optional+Helpers.swift */,
+				32CFB1E020DCBABA00672EC9 /* Debug.swift */,
 				32B36EC6203E623B00DA4593 /* Base.swift */,
 				32B36EE12042086500DA4593 /* Monad.swift */,
 			);
@@ -472,6 +585,7 @@
 			children = (
 				32AE416620253D5C0061EB64 /* RootNavigationController.swift */,
 				32B91020204A3746002F9C94 /* RxNavigationController.swift */,
+				32CFB1D220DCAE4800672EC9 /* ViewControllerNavigation.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -492,32 +606,15 @@
 			isa = PBXGroup;
 			children = (
 				32B36EE02042085400DA4593 /* Functional */,
-				32CFB1E020DCBABA00672EC9 /* Debug.swift */,
-				32C39C1B201E812D00071E26 /* ApolloClient+Rx.swift */,
-				32892C43203530C800F1AD9C /* Array+Safe.swift */,
-				324592AD1FEC314900DE89BB /* Date+Helpers.swift */,
-				321FDE832027D14B002DF04B /* Observable+Helpers.swift */,
-				32B36ED52040F57000DA4593 /* Optional+Helpers.swift */,
-				32C39C1F201E99A100071E26 /* Sequence+Helpers.swift */,
-				32CFB1D420DCB0EB00672EC9 /* String+Attributes.swift */,
-				322C6A0E204CC8B40021A2D9 /* String+Display.swift */,
-				322AFB40205763C0005E56C8 /* String+Escape.swift */,
-				322AFB3E20574622005E56C8 /* String+JSON.swift */,
-				32D45CBB20A4DBC600F7A67F /* TimeZone+UTC.swift */,
-				322C6A0C204CC2810021A2D9 /* String+Localization.swift */,
-				32EEC27420E031620016DFCA /* PrettyString+Styles.swift */,
-				32E80BD6201700EB0008EC27 /* String+Conversion.swift */,
-				322AFB44205769DE005E56C8 /* Tuple.swift */,
-				32B36EBC203BD2F000DA4593 /* UIButton+ConArtist.swift */,
-				3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */,
-				32F12C0F203544E60045D0BC /* UIFont+Features.swift */,
-				32B910142043A0EB002F9C94 /* UIImage+Base64.swift */,
-				32B36EBE203BD67800DA4593 /* UIView+Customizable.swift */,
-				32B36EC4203E5E7D00DA4593 /* UIView+Shadows.swift */,
-				32C39C1D201E870600071E26 /* UIView+Tooltip.swift */,
-				32637A7C218A1B4A005E2F6C /* UIViewController+Alerts.swift */,
-				32DD973A205B803E0045DF41 /* SetAlgebra+Operators.swift */,
-				32CFB1D220DCAE4800672EC9 /* ViewControllerNavigation.swift */,
+				32637A9A21909A42005E2F6C /* Apollo */,
+				32637A93219099B2005E2F6C /* Sequence */,
+				32637A96219099EF005E2F6C /* Date */,
+				32637A94219099C1005E2F6C /* RxSwift */,
+				32637A95219099D9005E2F6C /* String */,
+				32637A97219099FA005E2F6C /* UIKit */,
+				32637A9B21909BB0005E2F6C /* PrettyString */,
+				32637A9C21909BBA005E2F6C /* SVGKImage */,
+				32637A9D21909BC3005E2F6C /* Codables */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -822,6 +919,7 @@
 				32B36EDF204202DB00DA4593 /* Keychain.swift in Sources */,
 				32DFCF5920DDE592007FFE70 /* Location.swift in Sources */,
 				32F12C10203544E60045D0BC /* UIFont+Features.swift in Sources */,
+				32637A902190983C005E2F6C /* UIColor+Constants.swift in Sources */,
 				32B9101320439F97002F9C94 /* Resources.swift in Sources */,
 				32637A79218940C3005E2F6C /* ManageProductTableViewCell.swift in Sources */,
 				32B9101B2048F049002F9C94 /* SettingsSelectTableViewCell.swift in Sources */,
@@ -861,6 +959,8 @@
 				32C39C36201EA66800071E26 /* ConventionDetailsViewController.swift in Sources */,
 				324592971FEAFEE000DE89BB /* ConRequest.swift in Sources */,
 				32AE4169202553CF0061EB64 /* ProductTypeListViewController.swift in Sources */,
+				32637A922190999C005E2F6C /* SVGKImage+Constants.swift in Sources */,
+				32637A9F21909C30005E2F6C /* ConArtistViewController.swift in Sources */,
 				32892C4220352E9D00F1AD9C /* HighlightableView.swift in Sources */,
 				3266CEF720017E2C0016D5E6 /* UIColor+Hex.swift in Sources */,
 				32BC33EA1FEEF2420006256A /* Price.swift in Sources */,

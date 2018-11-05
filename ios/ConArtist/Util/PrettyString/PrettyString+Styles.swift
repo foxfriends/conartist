@@ -15,7 +15,7 @@ extension PrettyString.Config {
             PrettyString.Config.Rule(
                 name: "action",
                 attributes: [
-                    .foregroundColor(ConArtist.Color.Brand),
+                    .foregroundColor(.brand),
                 ]
             )
         ]
@@ -27,7 +27,7 @@ extension PrettyString.Config {
             PrettyString.Config.Rule(
                 name: "action",
                 attributes: [
-                    .foregroundColor(ConArtist.Color.BrandVariant),
+                    .foregroundColor(.brandVariant),
                 ]
             )
         ]

@@ -9,7 +9,7 @@
 import UIKit
 import RxSwift
 
-class ConventionDetailsViewController : UIViewController {
+class ConventionDetailsViewController  : ConArtistViewController {
     fileprivate let disposeBag = DisposeBag()
 
     @IBOutlet weak var navBar: FakeNavBar!
@@ -196,7 +196,7 @@ extension ConventionDetailsViewController {
                 $0.map { info in
                     let label = UILabel()
                     label.text = info.info
-                    label.textColor = ConArtist.Color.Text
+                    label.textColor = .text
                     label.font = UIFont.systemFont(ofSize: 15)
                     return label
                 }
@@ -210,7 +210,7 @@ extension ConventionDetailsViewController {
                     let label = UILabel()
                     label.textAlignment = .center
                     label.font = UIFont.systemFont(ofSize: 15).usingFeatures([.smallCaps])
-                    label.textColor = ConArtist.Color.TextPlaceholder.withAlphaComponent(0.25)
+                    label.textColor = UIColor.textPlaceholder.withAlphaComponent(0.25)
                     label.text = "There's nothing here..."¡
                     userSuppliedInfoPreview.addArrangedSubview(label)
                 }

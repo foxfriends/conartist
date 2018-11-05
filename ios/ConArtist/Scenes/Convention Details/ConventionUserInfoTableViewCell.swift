@@ -10,8 +10,8 @@ import UIKit
 import SVGKit
 
 class ConventionUserInfoTableViewCell: UITableViewCell {
-    private static let ThumbsUpImage = ConArtist.Images.SVG.Thumb.Up.uiImage.withRenderingMode(.alwaysTemplate)
-    private static let ThumbsDownImage = ConArtist.Images.SVG.Thumb.Down.uiImage.withRenderingMode(.alwaysTemplate)
+    private static let ThumbsUpImage = SVGKImage.thumbUp.uiImage.withRenderingMode(.alwaysTemplate)
+    private static let ThumbsDownImage = SVGKImage.thumbDown.uiImage.withRenderingMode(.alwaysTemplate)
 
     static let ID = "ConventionUserInfo"
     @IBOutlet weak var ratingLabel: UILabel!
@@ -24,9 +24,9 @@ class ConventionUserInfoTableViewCell: UITableViewCell {
             ? ConventionUserInfoTableViewCell.ThumbsDownImage
             : ConventionUserInfoTableViewCell.ThumbsUpImage
         switch info.vote {
-        case .down: thumbIcon.tintColor = ConArtist.Color.Warn
-        case .up:   thumbIcon.tintColor = ConArtist.Color.Success
-        default:    thumbIcon.tintColor = ConArtist.Color.Text
+        case .down: thumbIcon.tintColor = .warn
+        case .up:   thumbIcon.tintColor = .success
+        default:    thumbIcon.tintColor = .text
         }
         infoLabel.text = info.info
     }

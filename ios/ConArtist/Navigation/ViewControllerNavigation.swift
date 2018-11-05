@@ -12,7 +12,7 @@ enum Storyboard: String {
     case main = "Main"
     case signIn = "SignIn"
     case convention = "Convention"
-    case Records = "Records"
+    case records = "Records"
     case sale = "Sale"
     case settings = "Settings"
     case products = "Products"

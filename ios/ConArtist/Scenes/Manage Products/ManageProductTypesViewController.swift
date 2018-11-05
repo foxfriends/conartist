@@ -10,12 +10,18 @@ import UIKit
 import RxSwift
 import SVGKit
 
-class ManageProductTypesViewController: UIViewController {
+enum Mode {
+    case products
+    case prices
+}
+
+class ManageProductTypesViewController : ConArtistViewController {
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var productTypesTableView: UITableView!
     @IBOutlet weak var newProductTypeButton: UIButton!
     @IBOutlet weak var newProductTypeImageView: SVGKFastImageView!
 
+    fileprivate var mode: Mode!
     fileprivate let refreshControl = UIRefreshControl()
     fileprivate let disposeBag = DisposeBag()
 }
@@ -25,10 +31,7 @@ class ManageProductTypesViewController: UIViewController {
 extension ManageProductTypesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        productTypesTableView.allowsSelectionDuringEditing = true
-        productTypesTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 88, right: 0)
-        newProductTypeImageView.image = ConArtist.Images.SVG.Add
-        newProductTypeButton.addShadow()
+        setupUI()
         setupSubscriptions()
         setupLocalization()
         setupRefreshControl()
@@ -48,13 +51,37 @@ extension ManageProductTypesViewController {
     }
 }
 
+// MARK: - UI
+
+extension ManageProductTypesViewController {
+    fileprivate func setupUI() {
+        switch mode! {
+        case .products:
+            productTypesTableView.allowsSelectionDuringEditing = true
+            productTypesTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 88, right: 0)
+            newProductTypeImageView.image = .add
+            newProductTypeButton.addShadow()
+        case .prices:
+            newProductTypeButton.isHidden = true
+            newProductTypeImageView.isHidden = true
+        }
+    }
+}
+
 // MARK: - Localization
 
 extension ManageProductTypesViewController {
     fileprivate func setupLocalization() {
-        navBar.title = "Manage Products"¡
-        navBar.leftButtonTitle = "Back"¡
-        navBar.rightButtonTitle = "Edit"¡
+        switch mode! {
+        case .products:
+            navBar.title = "Manage Products"¡
+            navBar.leftButtonTitle = "Back"¡
+            navBar.rightButtonTitle = "Edit"¡
+        case .prices:
+            navBar.title = "Manage Prices"¡
+            navBar.leftButtonTitle = "Back"¡
+            navBar.rightButtonTitle = nil
+        }
     }
 }
 
@@ -66,19 +93,21 @@ extension ManageProductTypesViewController {
             .subscribe(onNext: { _ in ConArtist.model.navigate(back: 1) })
             .disposed(by: disposeBag)
 
-        navBar.rightButton.rx.tap
-            .subscribe(onNext: { [navBar, productTypesTableView = productTypesTableView!, newProductTypeButton] _ in
-                let editing = !productTypesTableView.isEditing
-                productTypesTableView.setEditing(editing, animated: true)
-                navBar?.rightButtonTitle = editing ? "Done"¡ : "Edit"¡
-                navBar?.leftButton.isEnabled = !editing
-                newProductTypeButton?.isHidden = editing
-            })
-            .disposed(by: disposeBag)
+        if case .products = mode! {
+            navBar.rightButton.rx.tap
+                .subscribe(onNext: { [navBar, productTypesTableView = productTypesTableView!, newProductTypeButton] _ in
+                    let editing = !productTypesTableView.isEditing
+                    productTypesTableView.setEditing(editing, animated: true)
+                    navBar?.rightButtonTitle = editing ? "Done"¡ : "Edit"¡
+                    navBar?.leftButton.isEnabled = !editing
+                    newProductTypeButton?.isHidden = editing
+                })
+                .disposed(by: disposeBag)
 
-        newProductTypeButton.rx.tap
-            .subscribe(onNext: { _ in EditProductTypeViewController.createNewProductType() })
-            .disposed(by: disposeBag)
+            newProductTypeButton.rx.tap
+                .subscribe(onNext: { _ in EditProductTypeViewController.createNewProductType() })
+                .disposed(by: disposeBag)
+        }
 
         ConArtist.model.productTypes
             .subscribe(onNext: { [productTypesTableView] _ in productTypesTableView?.reloadData() })
@@ -108,7 +137,12 @@ extension ManageProductTypesViewController: UITableViewDelegate {
         if tableView.isEditing {
             EditProductTypeViewController.show(for: type)
         } else {
-            ManageProductsViewController.show(for: type)
+            switch mode! {
+            case .products:
+                ManageProductsViewController.show(for: type)
+            case .prices:
+                break
+            }
         }
     }
 
@@ -174,7 +208,9 @@ extension ManageProductTypesViewController: ViewControllerNavigation {
     static let Storyboard: Storyboard = .products
     static let ID = "ManageProductTypes"
 
-    static func present() {
-        ConArtist.model.navigate(push: instantiate())
+    static func present(mode: Mode = .products) {
+        let controller = instantiate()
+        controller.mode = mode
+        ConArtist.model.navigate(push: controller)
     }
 }

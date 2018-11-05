@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class SignInViewController: UIViewController {
+class SignInViewController : ConArtistViewController {
     fileprivate enum ErrorState {
         case IncorrectCredentials
         

@@ -10,7 +10,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-class SettingsSelectViewController: UIViewController {
+class SettingsSelectViewController : ConArtistViewController {
     let disposeBag = DisposeBag()
 
     fileprivate var navBarTitle: String?

@@ -10,7 +10,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-class ProductListViewController: UIViewController {
+class ProductListViewController : ConArtistViewController {
     fileprivate let disposeBag = DisposeBag()
 
     @IBOutlet weak var navBar: FakeNavBar!
@@ -70,7 +70,7 @@ extension ProductListViewController: UITableViewDelegate {
                 }
                 reset(true)
             }
-            removeAllAction.backgroundColor = ConArtist.Color.Warn
+            removeAllAction.backgroundColor = .warn
             actions.append(removeAllAction)
         }
         let config = UISwipeActionsConfiguration(actions: actions)

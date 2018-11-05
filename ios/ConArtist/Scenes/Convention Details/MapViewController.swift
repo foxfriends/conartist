@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import RxSwift
 
-class MapViewController: UIViewController {
+class MapViewController : ConArtistViewController {
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var mapView: MKMapView!
 

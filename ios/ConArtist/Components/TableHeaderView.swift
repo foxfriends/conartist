@@ -35,7 +35,7 @@ class TableHeaderView: UIView {
 
         titleLabel.text = title
         titleLabel.font = UIFont.systemFont(ofSize: 12).usingFeatures([.smallCaps])
-        titleLabel.textColor = ConArtist.Color.TextPlaceholder
+        titleLabel.textColor = .textPlaceholder
 
         seeAllButton.setTitle("See all"¡, for: .normal)
 

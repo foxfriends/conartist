@@ -38,15 +38,15 @@ class RecordsOverviewTotalFooterView: UIView {
         lineView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         lineView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         lineView.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        lineView.backgroundColor = ConArtist.Color.DividerDark
+        lineView.backgroundColor = .dividerDark
 
         titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
-        titleLabel.textColor = ConArtist.Color.Text
+        titleLabel.textColor = .text
         amountLabel.font = UIFont.systemFont(ofSize: 14, weight: .bold).usingFeatures([.tabularFigures])
-        amountLabel.textColor = ConArtist.Color.Text
+        amountLabel.textColor = .text
         amountLabel.textAlignment = .right
 
-        backgroundColor = ConArtist.Color.BackgroundOverlay
+        backgroundColor = .backgroundOverlay
 
         self.titleLabel = titleLabel
         self.amountLabel = amountLabel

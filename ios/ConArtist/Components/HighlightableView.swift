@@ -9,14 +9,14 @@
 import UIKit
 
 class HighlightableView: UIView {
-    @IBInspectable var defaultColor: UIColor = ConArtist.Color.Divider {
+    @IBInspectable var defaultColor: UIColor = .divider {
         didSet {
             if backgroundColor == oldValue {
                 backgroundColor = defaultColor
             }
         }
     }
-    @IBInspectable var highlightColor: UIColor = ConArtist.Color.Brand {
+    @IBInspectable var highlightColor: UIColor = .brand {
         didSet {
             if backgroundColor == oldValue {
                 backgroundColor = highlightColor

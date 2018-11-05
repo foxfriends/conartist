@@ -82,11 +82,11 @@ class FakeNavBar: UIView {
         rightButton.isHidden = true
         rightButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         titleLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
-        titleLabel.textColor = ConArtist.Color.Text
+        titleLabel.textColor = .text
         titleLabel.textAlignment = .center
         titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         subtitleLabel.font = UIFont.systemFont(ofSize: 10)
-        subtitleLabel.textColor = ConArtist.Color.TextPlaceholder
+        subtitleLabel.textColor = .textPlaceholder
         subtitleLabel.textAlignment = .center
         subtitleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }

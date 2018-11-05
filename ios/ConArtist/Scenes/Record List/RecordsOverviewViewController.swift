@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class RecordsOverviewViewController: UIViewController {
+class RecordsOverviewViewController : ConArtistViewController {
     fileprivate class Section {
         let date: Date
         let items: [Item]
@@ -251,7 +251,7 @@ extension RecordsOverviewViewController: UITableViewDelegate {
                 let _ = convention?.deleteExpense(expense).subscribe()
                 reset(true)
             }
-            deleteAction.backgroundColor = ConArtist.Color.Warn
+            deleteAction.backgroundColor = .warn
             actions.append(deleteAction)
         }
         let config = UISwipeActionsConfiguration(actions: actions)
@@ -267,7 +267,7 @@ extension RecordsOverviewViewController: UITableViewDelegate {
 
 // MARK: - Navigation
 extension RecordsOverviewViewController: ViewControllerNavigation {
-    static let Storyboard: Storyboard = .Records
+    static let Storyboard: Storyboard = .records
     static let ID = "RecordsOverview"
 
     static func show(for convention: Convention) {

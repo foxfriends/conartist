@@ -10,7 +10,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-class RecordListViewController: UIViewController {
+class RecordListViewController : ConArtistViewController {
     @IBOutlet weak var recordsTableView: UITableView!
     @IBOutlet weak var navBar: FakeNavBar!
 
@@ -107,7 +107,7 @@ extension RecordListViewController: UITableViewDelegate {
                 let _ = convention?.deleteRecord(record).subscribe()
                 reset(true)
             }
-            deleteAction.backgroundColor = ConArtist.Color.Warn
+            deleteAction.backgroundColor = .warn
             actions.append(deleteAction)
         }
         let config = UISwipeActionsConfiguration(actions: actions)
@@ -118,7 +118,7 @@ extension RecordListViewController: UITableViewDelegate {
 
 // MARK: - Navigation
 extension RecordListViewController: ViewControllerNavigation {
-    static let Storyboard: Storyboard = .Records
+    static let Storyboard: Storyboard = .records
     static let ID = "RecordList"
 
     static func show(for convention: Convention, after: Date, before: Date) {

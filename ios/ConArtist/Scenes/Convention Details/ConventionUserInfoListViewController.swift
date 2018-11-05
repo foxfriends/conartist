@@ -10,7 +10,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-class ConventionUserInfoListViewController: UIViewController {
+class ConventionUserInfoListViewController : ConArtistViewController {
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var infoTableView: UITableView!
     @IBOutlet weak var emptyStateView: UIView!
@@ -116,7 +116,7 @@ extension ConventionUserInfoListViewController: UITableViewDelegate {
                 convention?.setVote(for: information, to: .up)
                 reset(true)
             }
-            upvoteAction.backgroundColor = ConArtist.Color.Success
+            upvoteAction.backgroundColor = .success
             actions.append(upvoteAction)
         }
         let config = UISwipeActionsConfiguration(actions: actions)
@@ -132,7 +132,7 @@ extension ConventionUserInfoListViewController: UITableViewDelegate {
                 convention?.setVote(for: information, to: .down)
                 reset(true)
             }
-            downvoteAction.backgroundColor = ConArtist.Color.Warn
+            downvoteAction.backgroundColor = .warn
             actions.append(downvoteAction)
         }
         let config = UISwipeActionsConfiguration(actions: actions)

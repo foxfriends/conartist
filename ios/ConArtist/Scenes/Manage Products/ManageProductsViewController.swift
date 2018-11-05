@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import SVGKit
 
-class ManageProductsViewController: UIViewController {
+class ManageProductsViewController : ConArtistViewController {
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var productsTableView: UITableView!
     @IBOutlet weak var addProductButton: UIButton!
@@ -30,7 +30,7 @@ extension ManageProductsViewController {
         super.viewDidLoad()
         productsTableView.allowsSelectionDuringEditing = true
         productsTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 88, right: 0)
-        addProductImageView.image = ConArtist.Images.SVG.Add
+        addProductImageView.image = .add
         addProductButton.addShadow()
         setupSubscriptions()
         setupLocalization()

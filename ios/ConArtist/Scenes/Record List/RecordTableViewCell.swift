@@ -17,7 +17,7 @@ class RecordTableViewCell: UITableViewCell {
 
     override var isHighlighted: Bool {
         didSet {
-            backgroundColor = isHighlighted ? ConArtist.Color.DividerDark : nil
+            backgroundColor = isHighlighted ? .dividerDark : nil
         }
     }
 
@@ -46,7 +46,7 @@ class RecordTableViewCell: UITableViewCell {
             self.priceLabel.font = self.priceLabel.font.usingFeatures([.tabularFigures])
             self.priceLabel.text = item.price.toString()
             self.timeLabel.text = item.time.toString("E h:mm")
-            self.modifiedMarkView.backgroundColor = item.id.isTemp ? ConArtist.Color.BrandVariant : ConArtist.Color.BackgroundVariant
+            self.modifiedMarkView.backgroundColor = item.id.isTemp ? .brandVariant : .backgroundVariant
         }
     }
 }

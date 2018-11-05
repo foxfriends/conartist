@@ -9,7 +9,7 @@
 import UIKit
 import RxSwift
 
-class ExpenseDetailsOverlayViewController: UIViewController {
+class ExpenseDetailsOverlayViewController : ConArtistViewController {
     fileprivate static let AnimationDuration = 0.25
 
     @IBOutlet weak var titleLabel: UILabel!
@@ -106,7 +106,7 @@ extension ExpenseDetailsOverlayViewController {
         amountLabel.text = expense.price.toString()
         timeLabel.text = expense.time.toString("EEEE MMMM d, yyyy. h:mm a"¡)
         noteLabel.text = expense.description.isEmpty ? "Nothing to say..."¡ : expense.description
-        noteLabel.textColor = expense.description.isEmpty ? ConArtist.Color.TextPlaceholder : ConArtist.Color.Text
+        noteLabel.textColor = expense.description.isEmpty ? .textPlaceholder : .text
         backgroundButton.alpha = 0
         navBar.title = convention.name
         navBar.layer.shadowOpacity = 0
@@ -139,7 +139,7 @@ extension ExpenseDetailsOverlayViewController {
 
 // MARK: - Navigation
 extension ExpenseDetailsOverlayViewController: ViewControllerNavigation {
-    static let Storyboard: Storyboard = .Records
+    static let Storyboard: Storyboard = .records
     static let ID = "ExpenseDetailsOverlay"
 
     static func show(for expense: Expense, in convention: Convention) {

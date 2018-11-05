@@ -40,7 +40,7 @@ class FancyTextField: UITextField {
 
     override var placeholder: String? {
         didSet {
-            attributedPlaceholder = placeholder?.withColor(ConArtist.Color.TextPlaceholder)
+            attributedPlaceholder = placeholder?.withColor(.textPlaceholder)
         }
     }
 
@@ -58,9 +58,9 @@ class FancyTextField: UITextField {
         titleLabel.frame = CGRect(x: 20, y: 0, width: frame.width - 20, height: frame.height)
         titleLabel.alpha = 0
         titleLabel.font = UIFont.systemFont(ofSize: 12).usingFeatures([.smallCaps])
-        titleLabel.textColor = ConArtist.Color.TextPlaceholder
+        titleLabel.textColor = .textPlaceholder
         formattedLabel.frame = editingRect(forBounds: bounds.offsetBy(dx: 0, dy: -0.5)) // NOTE: not sure why this has to be -0.5, but it works...
-        attributedPlaceholder = placeholder?.withColor(ConArtist.Color.TextPlaceholder)
+        attributedPlaceholder = placeholder?.withColor(.textPlaceholder)
 
         rx.text
             .map { $0?.isEmpty ?? true }
@@ -83,11 +83,11 @@ class FancyTextField: UITextField {
             .subscribe(onNext: { [weak self, underlineView, titleLabel, formattedLabel] valid, highlighted, text in
                 UIView.animate(withDuration: 0.1) {
                     if valid || text.isEmpty {
-                        underlineView.highlightColor = ConArtist.Color.Brand
-                        titleLabel.textColor = ConArtist.Color.TextPlaceholder
+                        underlineView.highlightColor = .brand
+                        titleLabel.textColor = .textPlaceholder
                     } else {
-                        underlineView.highlightColor = ConArtist.Color.Warn
-                        titleLabel.textColor = ConArtist.Color.Warn
+                        underlineView.highlightColor = .warn
+                        titleLabel.textColor = .warn
                     }
                     underlineView.isHighlighted = highlighted || (!valid && !text.isEmpty)
                     formattedLabel.isHidden = underlineView.isHighlighted || self?.format == nil || self?.isSecureTextEntry != false

@@ -17,7 +17,7 @@ class ExpenseTableViewCell: UITableViewCell {
 
     override var isHighlighted: Bool {
         didSet {
-            backgroundColor = isHighlighted ? ConArtist.Color.DividerDark : nil
+            backgroundColor = isHighlighted ? .dividerDark : nil
         }
     }
 
@@ -26,7 +26,7 @@ class ExpenseTableViewCell: UITableViewCell {
             self.categoryLabel.text = expense.category
             self.amountLabel.text = expense.price.toString()
             self.amountLabel.font = self.amountLabel.font.usingFeatures([.tabularFigures])
-            self.modifiedMarkView.backgroundColor = expense.id.isTemp ? ConArtist.Color.BrandVariant : ConArtist.Color.Brand
+            self.modifiedMarkView.backgroundColor = expense.id.isTemp ? .brandVariant : .brand
         }
     }
 }

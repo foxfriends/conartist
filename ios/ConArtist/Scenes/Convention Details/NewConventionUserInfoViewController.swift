@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import RxSwift
 
-class NewConventionUserInfoViewController: UIViewController {
+class NewConventionUserInfoViewController : ConArtistViewController {
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var infoTextView: UITextView!
     @IBOutlet weak var disclaimerLabel: UILabel!

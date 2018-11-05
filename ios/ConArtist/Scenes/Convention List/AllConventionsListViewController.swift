@@ -21,7 +21,7 @@ extension Convention {
 }
 
 
-class AllConventionsListViewController: UIViewController {
+class AllConventionsListViewController : ConArtistViewController {
     fileprivate let conventions = BehaviorRelay<[Convention]>(value: [])
     fileprivate let disposeBag = DisposeBag()
 

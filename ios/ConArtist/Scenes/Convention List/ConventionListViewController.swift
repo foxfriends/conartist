@@ -11,7 +11,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class ConventionListViewController: UIViewController {
+class ConventionListViewController : ConArtistViewController {
     static let MaxConventionsPerSection = 2
     enum Section {
         case past

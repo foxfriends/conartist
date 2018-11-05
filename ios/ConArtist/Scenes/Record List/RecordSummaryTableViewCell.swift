@@ -17,7 +17,7 @@ class RecordSummaryTableViewCell: UITableViewCell {
 
     override var isHighlighted: Bool {
         didSet {
-            backgroundColor = isHighlighted ? ConArtist.Color.DividerDark : nil
+            backgroundColor = isHighlighted ? .dividerDark : nil
         }
     }
 

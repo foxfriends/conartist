@@ -10,7 +10,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-class SettingsViewController: UIViewController {
+class SettingsViewController : ConArtistViewController {
     enum Setting {
         case prices
         case products
@@ -105,9 +105,9 @@ extension SettingsViewController: UITableViewDelegate {
         let item = settings[indexPath.section].items[indexPath.row]
         switch item {
         case .products:
-            ManageProductTypesViewController.present()
+            ManageProductTypesViewController.present(mode: .products)
         case .prices:
-            break
+            ManageProductTypesViewController.present(mode: .prices)
         case .signOut:
             ConArtist.model.navigate(backTo: SignInViewController.self)
             ConArtist.API.Auth.authToken = ConArtist.API.Auth.Unauthorized

@@ -19,7 +19,7 @@ extension ManageProductTableViewCell {
     func setup(with product: Product) {
         nameLabel.text = product.name
         quantityLabel.text = "\(product.quantity)"
-        nameLabel.textColor = product.discontinued ? ConArtist.Color.TextPlaceholder : ConArtist.Color.Text
+        nameLabel.textColor = product.discontinued ? .textPlaceholder : .text
         quantityLabel.isHidden = product.discontinued
     }
 }

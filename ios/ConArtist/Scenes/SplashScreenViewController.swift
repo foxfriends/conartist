@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SplashScreenViewController: UIViewController {}
+class SplashScreenViewController : ConArtistViewController {}
 
 // MARK: - Lifecycle
 extension SplashScreenViewController {

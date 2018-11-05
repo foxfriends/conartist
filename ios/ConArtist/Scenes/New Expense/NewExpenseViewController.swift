@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class NewExpenseViewController: UIViewController {
+class NewExpenseViewController : ConArtistViewController {
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var categoryTextField: FancyTextField!
     @IBOutlet weak var amountTextField: FancyTextField!

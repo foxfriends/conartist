@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import SVGKit
 
-class ProductTypeListViewController: UIViewController {
+class ProductTypeListViewController : ConArtistViewController {
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var productTypeTableView: UITableView!
     @IBOutlet weak var priceField: FancyTextField!
@@ -42,7 +42,7 @@ extension ProductTypeListViewController {
         super.viewDidLoad()
         setupLocalization()
         setupSubscriptions()
-        infoExpandButtonImage.image = ConArtist.Images.SVG.Chevron.Down
+        infoExpandButtonImage.image = .chevronDown
         noteLabel.font = noteLabel.font.usingFeatures([.smallCaps])
         priceField.format = { Money.parse(as: ConArtist.model.settings.value.currency, $0)?.toString() ?? $0 }
         if let record = editingRecord {
@@ -147,7 +147,7 @@ extension ProductTypeListViewController {
             .asObservable()
             .subscribe(onNext: { [view, infoViewBottomConstraint, infoExpandButtonImage] amount in
                 infoViewBottomConstraint?.constant = amount
-                infoExpandButtonImage?.image = amount == 0 ? ConArtist.Images.SVG.Chevron.Up : ConArtist.Images.SVG.Chevron.Down
+                infoExpandButtonImage?.image = amount == 0 ? .chevronUp : .chevronDown
                 UIView.animate(withDuration: 0.25) { view?.layoutIfNeeded() }
             })
             .disposed(by: disposeBag)

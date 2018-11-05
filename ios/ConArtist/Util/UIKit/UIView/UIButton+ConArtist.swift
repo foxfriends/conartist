@@ -12,9 +12,9 @@ extension UIButton {
     @discardableResult
     func conArtistStyle() -> Self {
         titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold).usingFeatures([.smallCaps])
-        setTitleColor(ConArtist.Color.Brand, for: .normal)
-        setTitleColor(ConArtist.Color.BrandVariant, for: .highlighted)
-        setTitleColor(ConArtist.Color.TextPlaceholder, for: .disabled)
+        setTitleColor(.brand, for: .normal)
+        setTitleColor(.brandVariant, for: .highlighted)
+        setTitleColor(.textPlaceholder, for: .disabled)
         return self
     }
 }

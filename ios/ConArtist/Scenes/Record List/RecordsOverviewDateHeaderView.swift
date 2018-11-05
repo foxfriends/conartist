@@ -27,7 +27,7 @@ class RecordsOverviewDateHeaderView: UIView {
         buildSubviews()
 
         dateLabel.text = date.toString(RecordsOverviewDateHeaderView.DateFormat)
-        expandIcon.image = expanded ? ConArtist.Images.SVG.Chevron.Down : ConArtist.Images.SVG.Chevron.Up
+        expandIcon.image = expanded ? .chevronDown : .chevronUp
 
         subscription?.dispose()
         subscription = toggleButton.rx.tap
@@ -37,14 +37,14 @@ class RecordsOverviewDateHeaderView: UIView {
     private func buildSubviews() {
         guard subviews.isEmpty else { return }
         let dateLabel = UILabel().customizable()
-        let expandIcon = SVGKFastImageView(svgkImage: ConArtist.Images.SVG.Chevron.Down).customizable()
+        let expandIcon = SVGKFastImageView(svgkImage: .chevronDown).customizable()
         let toggleButton = UIButton().customizable()
         addSubview(dateLabel)
         addSubview(expandIcon)
         addSubview(toggleButton)
 
         dateLabel.font = UIFont.systemFont(ofSize: 14).usingFeatures([.smallCaps])
-        dateLabel.textColor = ConArtist.Color.Text
+        dateLabel.textColor = .text
 
         toggleButton.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         toggleButton.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
@@ -55,7 +55,7 @@ class RecordsOverviewDateHeaderView: UIView {
         dateLabel.leadingAnchor.constraint(equalTo: expandIcon.trailingAnchor, constant: 6).isActive = true
         dateLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
 
-        backgroundColor = ConArtist.Color.BackgroundOverlay
+        backgroundColor = .backgroundOverlay
 
         self.dateLabel = dateLabel
         self.expandIcon = expandIcon

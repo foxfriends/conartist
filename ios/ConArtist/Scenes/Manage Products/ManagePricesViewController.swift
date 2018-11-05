@@ -72,6 +72,7 @@ extension ManagePricesViewController {
 
         ConArtist.model.prices
             .map { [productType = productType!] in $0.filter { $0.typeId == productType.id } }
+            .map { $0.sorted() }
             .bind(to: prices)
             .disposed(by: disposeBag)
 

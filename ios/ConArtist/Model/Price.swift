@@ -34,3 +34,16 @@ struct Price: Codable {
         return ConArtist.model.productTypes.value.first { $0.id == typeId }
     }
 }
+
+// MARK: - Comparable
+
+extension Price: Comparable {
+    static func < (lhs: Price, rhs: Price) -> Bool {
+        if lhs.productId == rhs.productId {
+            return lhs.quantity < rhs.quantity
+        }
+        if lhs.productId == nil { return true }
+        if rhs.productId == nil { return false }
+        return lhs.productId! < rhs.productId! // TODO: use product sorts here...?
+    }
+}

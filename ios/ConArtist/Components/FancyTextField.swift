@@ -19,7 +19,13 @@ class FancyTextField: UITextField {
     let isValid = BehaviorRelay(value: true)
     private let isUnderlineHighlighted = BehaviorRelay(value: false)
 
-    var format: ((String) -> String)?
+    var format: ((String) -> String)? {
+        didSet {
+            formattedLabel.text = format?(text ?? "") ?? text
+            formattedLabel.isHidden = underlineView.isHighlighted || format == nil || isSecureTextEntry
+            textColor = formattedLabel.isHidden ? textColor?.withAlphaComponent(1) : textColor?.withAlphaComponent(0)
+        }
+    }
 
     @IBInspectable var title: String? {
         didSet {
@@ -59,7 +65,10 @@ class FancyTextField: UITextField {
         titleLabel.alpha = 0
         titleLabel.font = UIFont.systemFont(ofSize: 12).usingFeatures([.smallCaps])
         titleLabel.textColor = .textPlaceholder
-        formattedLabel.frame = editingRect(forBounds: bounds.offsetBy(dx: 0, dy: -0.5)) // NOTE: not sure why this has to be -0.5, but it works...
+
+        // not sure why this has to be -0.5, but it works...
+        formattedLabel.frame = editingRect(forBounds: bounds.offsetBy(dx: 0, dy: -0.5))
+
         attributedPlaceholder = placeholder?.withColor(.textPlaceholder)
 
         rx.text

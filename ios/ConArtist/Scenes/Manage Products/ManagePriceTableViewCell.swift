@@ -21,7 +21,9 @@ extension ManagePriceTableViewCell {
 
     func setup(with price: Price) {
         nameLabel.text = price.product?.name ?? "Any"¡
-        nameLabel.textColor = price.productId == nil ? .textPlaceholder : .text
+        DispatchQueue.main.async {
+            self.nameLabel.textColor = price.productId == nil ? .textPlaceholder : .text
+        }
         quantityLabel.text = "{}x"¡ % price.quantity
         priceLabel.text = price.price.toString()
     }

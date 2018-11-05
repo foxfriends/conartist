@@ -19,6 +19,8 @@ extension ManageProductTypeTableViewCell {
 
     func setup(with type: ProductType) {
         nameLabel.text = type.name
-        nameLabel.textColor = type.discontinued ? .textPlaceholder : .text
+        DispatchQueue.main.async {
+            self.nameLabel.textColor = type.discontinued ? .textPlaceholder : .text
+        }
     }
 }

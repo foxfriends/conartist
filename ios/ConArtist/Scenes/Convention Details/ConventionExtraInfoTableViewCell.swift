@@ -28,5 +28,6 @@ class ConventionExtraInfoTableViewCell: UITableViewCell {
             infoLabel?.font = infoLabel!.font.usingFeatures([.tabularFigures])
         }
         infoLabel?.numberOfLines = 0
+        layoutIfNeeded()
     }
 }

@@ -13,25 +13,9 @@ class ConventionDetailsViewController  : ConArtistViewController {
     fileprivate let disposeBag = DisposeBag()
 
     @IBOutlet weak var navBar: FakeNavBar!
-
-    @IBOutlet weak var pageScrollView: UIScrollView!
-
     @IBOutlet weak var infoTableView: UITableView!
-    @IBOutlet weak var infoTableViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var seeAllInfoButton: UIButton!
-    @IBOutlet weak var seeAllRecordsButton: UIButton!
-
-    @IBOutlet weak var userSuppliedInfoPreview: UIStackView!
-    @IBOutlet weak var revenueSection: UIView!
-
-    @IBOutlet weak var salesAmountLabel: UILabel!
-    @IBOutlet weak var expensesAmountLabel: UILabel!
-    @IBOutlet weak var netRevenueAmountLabel: UILabel!
-
     @IBOutlet weak var newSaleButton: UIButton!
     @IBOutlet weak var newExpenseButton: UIButton!
-
-    @IBOutlet var smallCapsLabels: [UILabel]!
 
     var convention: Convention!
 
@@ -48,21 +32,8 @@ extension ConventionDetailsViewController {
         setupRefreshControl()
     }
 
-    // NOTE: not the quickest calculation, but it should only be called once anyway...
-    //       if this starts to cause problems it can be memoized
-    private var tableViewHeight: CGFloat {
-        return (0..<tableView(infoTableView, numberOfRowsInSection: 0))
-            .map { tableView(infoTableView, cellForRowAt: IndexPath(row: $0, section: 0)).frame.height }
-            .reduce(0, +)
-    }
-
-    override func updateViewConstraints() {
-        super.updateViewConstraints()
-        infoTableViewHeightConstraint.constant = tableViewHeight
-    }
-
     private func setupRefreshControl() {
-        pageScrollView.refreshControl = refreshControl
+        infoTableView.refreshControl = refreshControl
         refreshControl.rx.controlEvent([.valueChanged])
             .flatMapLatest { [convention] _ in convention!.fill(true) }
             .subscribe(onNext: { [refreshControl] in refreshControl.endRefreshing() })
@@ -74,19 +45,6 @@ extension ConventionDetailsViewController {
 extension ConventionDetailsViewController {
     fileprivate func setupUI() {
         navBar.title = convention.name
-
-        for label in smallCapsLabels {
-            label.font = label.font.usingFeatures([.smallCaps])
-        }
-
-        infoTableView.isScrollEnabled = false
-        salesAmountLabel.font = salesAmountLabel.font.usingFeatures([.tabularFigures])
-        expensesAmountLabel.font = expensesAmountLabel.font.usingFeatures([.tabularFigures])
-        netRevenueAmountLabel.font = netRevenueAmountLabel.font.usingFeatures([.tabularFigures])
-        seeAllInfoButton.conArtistStyle()
-        seeAllRecordsButton.conArtistStyle()
-        infoTableView.reloadData()
-        updateViewConstraints()
     }
 }
 
@@ -94,11 +52,8 @@ extension ConventionDetailsViewController {
 extension ConventionDetailsViewController {
     fileprivate func setupLocalization() {
         navBar.leftButtonTitle = "Back"¡
-        seeAllRecordsButton.setTitle("View records"¡, for: .normal)
         newSaleButton.setTitle("New sale"¡, for: .normal)
         newExpenseButton.setTitle("New expense"¡, for: .normal)
-        seeAllInfoButton.setTitle("See all"¡, for: .normal)
-        smallCapsLabels.forEach { $0.text = $0.text?¡ }
     }
 }
 
@@ -110,6 +65,9 @@ extension ConventionDetailsViewController {
         if convention.isEnded {
             newSaleButton.isHidden = true
             newExpenseButton.isHidden = true
+            infoTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        } else {
+            infoTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 90, right: 0)
         }
         if !convention.isStarted {
             newSaleButton.isHidden = true
@@ -117,10 +75,6 @@ extension ConventionDetailsViewController {
 
         navBar.leftButton.rx.tap
             .subscribe(onNext: { ConArtist.model.navigate(back: 1) })
-            .disposed(by: disposeBag)
-
-        seeAllRecordsButton.rx.tap
-            .subscribe(onNext: { [convention] in RecordsOverviewViewController.show(for: convention!) })
             .disposed(by: disposeBag)
 
         newSaleButton.rx.tap
@@ -144,98 +98,33 @@ extension ConventionDetailsViewController {
             }
             .subscribe()
             .disposed(by: disposeBag)
-
-        seeAllInfoButton.rx.tap
-            .subscribe(onNext: { [convention] _ in ConventionUserInfoListViewController.show(for: convention!) })
-            .disposed(by: disposeBag)
-
-        let øcalculatedSalesTotal = convention.records
-            .map { $0.map { $0.price } }
-            .map { $0.reduce(Money.zero, +) }
-
-        let øcalculatedExpensesTotal = convention.expenses
-            .map { $0.map { $0.price } }
-            .map { $0.reduce(Money.zero, +) }
-
-        let øsalesTotal = Observable
-            .merge(
-                Observable.just(convention.recordTotal ?? Money.zero),
-                øcalculatedSalesTotal
-            )
-
-        øsalesTotal
-            .map { $0.toString() }
-            .bind(to: salesAmountLabel.rx.text)
-            .disposed(by: disposeBag)
-
-        let øexpenseTotal = Observable
-            .merge(
-                Observable.just(convention.expenseTotal ?? Money.zero),
-                øcalculatedExpensesTotal
-            )
-
-        øexpenseTotal
-            .map { $0.toString() }
-            .bind(to: expensesAmountLabel.rx.text)
-            .disposed(by: disposeBag)
-
-        Observable.combineLatest(øsalesTotal, øexpenseTotal)
-            .map(-)
-            .map { $0.toString() }
-            .bind(to: netRevenueAmountLabel.rx.text)
-            .disposed(by: disposeBag)
-
-        Observable.combineLatest(øsalesTotal, øexpenseTotal)
-            .map { $0.0 == Money.zero && $0.1 == Money.zero }
-            .bind(to: revenueSection.rx.isHidden)
-            .disposed(by: disposeBag)
-
-        convention.userInfo
-            .map { Array($0.prefix(2)) }
-            .map {
-                $0.map { info in
-                    let label = UILabel()
-                    label.text = info.info
-                    label.textColor = .text
-                    label.font = UIFont.systemFont(ofSize: 15)
-                    return label
-                }
-            }
-            .asDriver(onErrorJustReturn: [] as [UILabel])
-            .drive(onNext: { [userSuppliedInfoPreview] labels in
-                guard let userSuppliedInfoPreview = userSuppliedInfoPreview else { return }
-                userSuppliedInfoPreview.subviews.forEach { $0.removeFromSuperview() }
-                labels.forEach(userSuppliedInfoPreview.addArrangedSubview)
-                if labels.count == 0 {
-                    let label = UILabel()
-                    label.textAlignment = .center
-                    label.font = UIFont.systemFont(ofSize: 15).usingFeatures([.smallCaps])
-                    label.textColor = UIColor.textPlaceholder.withAlphaComponent(0.25)
-                    label.text = "There's nothing here..."¡
-                    userSuppliedInfoPreview.addArrangedSubview(label)
-                }
-            })
-            .disposed(by: disposeBag)
     }
 }
 
 // MARK: - UITableViewDataSource
 extension ConventionDetailsViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? convention.extraInfo.count : 0
+        return section == 0 ? convention.extraInfo.count : 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let item = convention.extraInfo.nth(indexPath.row) {
+        switch indexPath.section {
+        case 0:
+            let item = convention.extraInfo[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: item.cellIdentifier, for: indexPath) as! ConventionExtraInfoTableViewCell
             cell.setup(with: item)
             return cell
+        case 1:
+            let cell = tableView.dequeueReusableCell(withIdentifier: OtherConventionInfoTableViewCell.ID, for: indexPath) as! OtherConventionInfoTableViewCell
+            cell.setup(with: convention)
+            return cell
+        default:
+            fatalError("Unreachable case")
         }
-        return UITableViewCell()
     }
 }
 
@@ -251,6 +140,10 @@ extension ConventionDetailsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
         tableView.cellForRow(at: indexPath)?.isHighlighted = false
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
     }
 }
 

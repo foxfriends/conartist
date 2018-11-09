@@ -130,6 +130,7 @@
 		32D4BB15205B44E000B0A397 /* RecordDetailsItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4BB14205B44E000B0A397 /* RecordDetailsItemCollectionViewCell.swift */; };
 		32D65DBA20BCFA5000F03BC2 /* AllConventionsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D65DB920BCFA5000F03BC2 /* AllConventionsListViewController.swift */; };
 		32DD973B205B803E0045DF41 /* SetAlgebra+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DD973A205B803E0045DF41 /* SetAlgebra+Operators.swift */; };
+		32DF59B021964B6D006202B1 /* OtherConventionInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DF59AF21964B6D006202B1 /* OtherConventionInfoTableViewCell.swift */; };
 		32DFCF5720DDDD35007FFE70 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DFCF5620DDDD35007FFE70 /* MapViewController.swift */; };
 		32DFCF5920DDE592007FFE70 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DFCF5820DDE592007FFE70 /* Location.swift */; };
 		32DFCF5B20DDE697007FFE70 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DFCF5A20DDE697007FFE70 /* URL.swift */; };
@@ -268,6 +269,7 @@
 		32D4BB14205B44E000B0A397 /* RecordDetailsItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDetailsItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		32D65DB920BCFA5000F03BC2 /* AllConventionsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllConventionsListViewController.swift; sourceTree = "<group>"; };
 		32DD973A205B803E0045DF41 /* SetAlgebra+Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SetAlgebra+Operators.swift"; sourceTree = "<group>"; };
+		32DF59AF21964B6D006202B1 /* OtherConventionInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherConventionInfoTableViewCell.swift; sourceTree = "<group>"; };
 		32DFCF5620DDDD35007FFE70 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		32DFCF5820DDE592007FFE70 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		32DFCF5A20DDE697007FFE70 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
@@ -494,6 +496,7 @@
 			children = (
 				32C39C35201EA66800071E26 /* ConventionDetailsViewController.swift */,
 				32B36ECC203FB8DD00DA4593 /* ConventionExtraInfoTableViewCell.swift */,
+				32DF59AF21964B6D006202B1 /* OtherConventionInfoTableViewCell.swift */,
 				322C6A12204E1D070021A2D9 /* ConventionUserInfoListViewController.swift */,
 				322C6A14204E20570021A2D9 /* ConventionUserInfoTableViewCell.swift */,
 				321F9006204F8CB700E2BA57 /* NewConventionUserInfoViewController.swift */,
@@ -954,6 +957,7 @@
 				32D45CBA20A4A54400F7A67F /* Id.swift in Sources */,
 				32C39C32201EA5B400071E26 /* ConventionTableViewCell.swift in Sources */,
 				32C39C1C201E812D00071E26 /* ApolloClient+Rx.swift in Sources */,
+				32DF59B021964B6D006202B1 /* OtherConventionInfoTableViewCell.swift in Sources */,
 				32637AA32190A77E005E2F6C /* ManagePriceTableViewCell.swift in Sources */,
 				32637A7F218A54E9005E2F6C /* EditProductTypeViewController.swift in Sources */,
 				32BC33E21FEEF17E0006256A /* ProductType.swift in Sources */,
@@ -1161,7 +1165,7 @@
 				INFOPLIST_FILE = ConArtist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = cameldridge.ConArtist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cameldridge.conartist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
@@ -1180,7 +1184,7 @@
 				INFOPLIST_FILE = ConArtist/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = cameldridge.ConArtist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cameldridge.conartist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;

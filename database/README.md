@@ -15,7 +15,7 @@ needed!
 
 Sign in with the root (`postgres`) user, and switch to the ConArtist database (`\c conartist`). I
 have no idea what happens to the users that are listed in the create file. The actual server uses
-one of those, so don't change the credentials.
+one of those when running locally, so don't change the credentials.
 
 ## Copying the production database
 

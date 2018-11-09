@@ -19,7 +19,6 @@ with the latest event information, and see what your fellow artists have to say,
     *   All useful information about each convention kept in one place
 *   Statistics
     *   Compare your performance across conventions
-    *   Compare your performance to other artists
     *   Cool graphs!
 *   Data import/export
     *   Existing spreadsheets of inventory data can be easily imported
@@ -30,6 +29,9 @@ with the latest event information, and see what your fellow artists have to say,
 
 ## Future features
 
+*   More statistics
+    *   Compare your performance to other artists
+    *   Even more cool graphs!
 *   Con chat
     *   Chat with other artists at the same convention (please be civil)
 *   Advanced categorization

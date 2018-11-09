@@ -28,12 +28,21 @@ When testing things it may be helpful to run in dev mode by supplying the `--dev
 exposes the dev tools at `http://localhost:8080/dev`. Running in dev and open mode will be useful
 for testing the GraphQL API as well, to get around the sign in requirements.
 
+## Disable CORS
+
+```bash
+cargo run -- --any-origin
+```
+
+For development purposes, this flag exists. Turning it on will let any CORS request through. Maybe
+not great so turn that off at some point.
+
 ## Deploying to production
 
 Just tell me to do it. I don't know how to set up another person for my Heroku, and don't really
 feel like figuring it out.
 
-The URL for the production server is this: `https://con--artist.herokuapp.com`.
+The URL for the production server is: [https://con--artist.herokuapp.com](https://con--artist.herokuapp.com).
 
 Currently the production build is running with all CORS origins enabled. This should
 be removed when convenient, as it is not secure at all.

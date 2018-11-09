@@ -1,3 +1,5 @@
+[Figma]: https://www.figma.com/file/gARds2JGbWtGTY8PJBO5NEJf/ConArtist-iOS
+
 # ConArtist iOS App
 
 The iOS app is currently early in development, and requires much work, but it is at least in a good
@@ -14,7 +16,7 @@ likely continue to change for a while yet.
 2.  Install XCode from the app store. Get the latest version.
 3.  Ensure Ruby is installed, and install Cocoapods with `gem install cocoapods`.
 4.  Install the dependencies with `pod install`.
-5.  Open the __ConArtist.workspace__ file and continue as usual.
+5.  Open the `ConArtist.workspace` file and continue as usual.
 
 ## API changes
 
@@ -24,7 +26,7 @@ with `apollo-codegen`.
 1.  Set up the server (see `/server/README.md`)
 2.  Make sure you have [Node.js](https://nodejs.org/en/) and NPM installed. Just use the latest
     version of both.
-3.  Install `apollo-codegen` from NPM (`npm install -g apollo-codegen`)
+3.  Install `apollo-cli` from NPM (`npm install -g apollo-cli`)
 4.  Run the server in Open mode
 5.  Go to the iOS directory, and regenerate the `schema.json` and `resources.json` files with
     `./generate-schemas` (it's in the `ConArtist` directory)
@@ -35,7 +37,5 @@ point at the local server would be great.
 
 ## Designs
 
-The design specs are available on [Figma][]. For permission to edit the project, just ask me and
+The design specs are available on [Figma]. For permission to edit the project, just ask me and
 I'll add you.
-
-[Figma]: (https://www.figma.com/file/gARds2JGbWtGTY8PJBO5NEJf/ConArtist-iOS)

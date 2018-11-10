@@ -1,7 +1,7 @@
 /* @flow */
 import type { Observable } from 'rxjs'
 import { of } from 'rxjs'
-import { tap, switchMap, catchError } from 'rxjs/operators'
+import { tap, switchMap } from 'rxjs/operators'
 
 import { PostRequest } from './index'
 import { Storage } from '../storage'
@@ -35,7 +35,6 @@ export class SignUpRequest extends PostRequest<Params, User> {
           ? new UserQuery().send()
           : of(response)
         ),
-        catchError(of),
       )
   }
 }

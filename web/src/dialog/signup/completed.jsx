@@ -1,5 +1,7 @@
 /* @flow */
 import * as React from 'react'
+import { of } from 'rxjs'
+import { catchError } from 'rxjs/operators'
 
 import LOGO from '../../../icons/apple-icon-180x180.png'
 import { l } from '../../localization'
@@ -37,6 +39,12 @@ export class Completed extends React.Component<Props, State> {
   componentDidMount() {
     new SignUpRequest()
       .send(this.props.account)
+      .pipe(
+        catchError(() => of({
+          state: 'failed',
+          error: l`An unknown error has occurred`,
+        })),
+      )
       .subscribe(response => this.setState({ response }, () => {
         if (this.state.response.state === 'retrieved') {
           setUser(this.state.response.value)
@@ -63,12 +71,13 @@ export class Completed extends React.Component<Props, State> {
           </Fragment>
         )
         break
+      default:
       case 'failed':
         heading = l`Oh no...`
         copy = (
           <Fragment>
             {l`It seems something went wrong.`}<br />
-            {l`You'll have to try again later... Sorry for the inconvenience.`}
+            {l`You'll have to try again later... Sorry for the inconvenience.`}<br />
             {this.state.response.error}
           </Fragment>
         )

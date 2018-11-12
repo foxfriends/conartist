@@ -14,6 +14,7 @@ import { ConventionStats } from './convention-stats'
 import { ConventionUserInfo } from './convention-user-info'
 import { Admin } from './admin'
 import { Settings } from './settings'
+import { Suggestions } from './suggestions'
 import type { Props as DashboardProps } from './dashboard'
 import type { Props as ProductsProps } from './products'
 import type { Props as EditProductsProps } from './edit-products'
@@ -28,6 +29,7 @@ import type { Props as ConventionStatsProps } from './convention-stats'
 import type { Props as StaticProps } from './static'
 import type { Props as AdminProps } from './admin'
 import type { Props as SettingsProps } from './settings'
+import type { Props as SuggestionsProps } from './suggestions'
 import S from './index.css'
 
 // TODO: these are just used for placeholder
@@ -100,6 +102,9 @@ export function Content(props: Props) {
       break
     case 'convention-stats':
       content = <ConventionStats {...props} />
+      break
+    case 'suggestions':
+      content = <Suggestions {...props} />
       break
     case 'settings':
       content = <Settings {...props} />

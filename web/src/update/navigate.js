@@ -119,6 +119,13 @@ export function settings() {
   model.next({ ...model.getValue(), page: page.settings })
 }
 
+export function suggestions() {
+  if (model.getValue().page !== page.suggestions) {
+    window.history.pushState({}, '', '/suggestions')
+  }
+  model.next({ ...model.getValue(), page: page.suggestions })
+}
+
 export function admin() {
   if (model.getValue().page !== page.admin) {
     window.history.pushState({}, '', '/admin')

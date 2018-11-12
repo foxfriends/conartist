@@ -1,4 +1,4 @@
 #! /bin/bash
 apollo schema:download --endpoint=http://localhost:8080/api/v2 schema.json
-apollo codegen:generate --queries="$(find ../shared/graphql -name '*.graphql')" --schema=schema.json --target=flow --addTypename --outputFlat ./src/api/schema.js 
+apollo client:codegen ./src/api/schema.js --queries="$(find ../shared/graphql -name '*.graphql')" --target=flow --addTypename --outputFlat
 rm schema.json

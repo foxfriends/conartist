@@ -1,0 +1,11 @@
+#import './public-user.graphql'
+
+fragment SuggestionFragment on Suggestion {
+  id
+  suggestion
+  suggester { name }
+  status
+  suggestedAt
+  rating
+  voted
+}

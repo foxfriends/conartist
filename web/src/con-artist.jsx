@@ -173,6 +173,12 @@ export class ConArtist extends React.Component<Props, State> {
         state.content = { name: 'static', content: 'privacy-policy' }
         break
 
+      case 'suggestions':
+        state.toolbar = { primary: null, secondary: null, tertiary: null, pageIcon: 'settings' }
+        state.content = { name: 'suggestions' }
+        state.navigation = NavInfo.default.select('Settings', [], INDIRECT)
+        break
+
       default:
         console.error(`Unhandled page name: ${model.page.name}! Ignoring`)
     }

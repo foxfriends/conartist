@@ -13,6 +13,7 @@ import {
   conventionUserInfo,
   searchConventions,
   settings,
+  suggestions,
 } from '../model/page'
 import { Storage } from '../storage'
 import { LoadConvention } from '../api/load-convention'
@@ -60,6 +61,7 @@ function stubConvention(id: number): MetaConvention {
 
 const matchUrl = match(
   [ /^\/dashboard\/?$/i, () => dashboard ],
+  [ /^\/suggestions\/?$/i, () => suggestions ],
   [ /^\/settings\/?$/i, () => settings ],
   [ /^\/products\/?$/i, () => products ],
   [ /^\/products\/edit\/?$/i, () => editProducts ],

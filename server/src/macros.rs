@@ -48,7 +48,7 @@ macro_rules! chain {
 
 macro_rules! assert_authorized {
     ($db:expr, $id:expr) => {
-        if !$db.privileged && $id != $db.user_id.unwrap_or(0) {
+        if !$db.privileged && Some($id) != $db.user_id {
             return Err(format!("Not authorized to access user {}", $id))
         }
     };

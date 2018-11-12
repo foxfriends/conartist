@@ -1,8 +1,9 @@
 //! The entry point of a GraphQL query
 
+mod connection;
 mod convention;
 mod user;
-mod connection;
+mod suggestion;
 
 use chrono::{DateTime, Utc, FixedOffset};
 use juniper::FieldResult;
@@ -60,13 +61,35 @@ graphql_object!(Query: Database |&self| {
                 )
         }?;
 
-        let total =
-            executor
-                .context()
-                .count_conventions_after(
-                    earliest_date,
-                );
+        let total = executor
+            .context()
+            .count_conventions_after(
+                earliest_date,
+            );
 
         Ok(Connection::new(conventions, total))
+    }
+
+    field suggestions_connection(
+        &executor,
+        search: Option<String> as "An optional search query. Currently unimplemented",
+        limit = 20: i32 as "The limit on how many suggestions to retrieve",
+        after: Option<String> as "Cursor to search after",
+        before: Option<String> as "Cursor to search before. Currently unimplemented",
+    ) -> FieldResult<Connection<ScoredSuggestion>> as "Retrieves one page of suggestions" {
+        ensure!(after.is_none() || before.is_none());
+
+        let suggestions = dbtry! {
+            executor
+                .context()
+                .get_suggestions(
+                    None,
+                    limit as i64,
+                    after,
+                )
+        }?;
+        let total = executor.context().count_suggestions(None);
+
+        Ok(Connection::new(suggestions, total))
     }
 });

@@ -10,7 +10,7 @@ use money::Currency;
 
 impl Database {
     pub fn set_user_email(&self, maybe_user_id: Option<i32>, email: String) -> Result<User, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         diesel::update(users::table)
             .set(users::email.eq(email))
@@ -20,7 +20,7 @@ impl Database {
     }
 
     pub fn set_user_password(&self, maybe_user_id: Option<i32>, orig_password: String, new_password: String) -> Result<User, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conn.transaction(|| {
                 let original = 
@@ -61,7 +61,7 @@ impl Database {
     }
 
     pub fn set_user_name(&self, maybe_user_id: Option<i32>, name: String) -> Result<User, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         diesel::update(users::table)
             .set(users::name.eq(name))
@@ -71,7 +71,7 @@ impl Database {
     }
 
     pub fn add_user_keys(&self, maybe_user_id: Option<i32>, quantity: i32) -> Result<User, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         diesel::update(users::table)
             .set(users::keys.eq(users::keys + quantity))
@@ -81,7 +81,7 @@ impl Database {
     }
 
     pub fn set_user_settings_currency(&self, maybe_user_id: Option<i32>, currency: Currency) -> Result<Currency, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         diesel::insert_into(usersettings::table)
             .values((usersettings::user_id.eq(user_id), usersettings::currency.eq(currency.to_string())))

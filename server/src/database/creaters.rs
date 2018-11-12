@@ -19,7 +19,7 @@ impl Database {
     }
 
     pub fn create_product_type(&self, maybe_user_id: Option<i32>, name: String, color: i32, sort: i32) -> Result<ProductType, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         diesel::insert_into(producttypes::table)
             .values((producttypes::user_id.eq(user_id), producttypes::name.eq(name), producttypes::color.eq(color), producttypes::sort.eq(sort)))
@@ -28,7 +28,7 @@ impl Database {
     }
 
     pub fn create_product(&self, maybe_user_id: Option<i32>, type_id: i32, name: String, quantity: i32, sort: i32) -> Result<ProductWithQuantity, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conn.transaction(|| -> diesel::result::QueryResult<ProductWithQuantity> {
                 let product =
@@ -53,7 +53,7 @@ impl Database {
         quantity: i32,
         price: Money,
     ) -> Result<Price, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         diesel::insert_into(prices::table)
             .values((prices::user_id.eq(user_id), prices::type_id.eq(type_id), prices::product_id.eq(product_id), prices::quantity.eq(quantity), prices::price.eq(price.to_string())))
@@ -62,7 +62,7 @@ impl Database {
     }
 
     pub fn create_user_convention(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<Convention, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conn.transaction(|| {
                 let convention =
@@ -100,7 +100,7 @@ impl Database {
         time: DateTime<FixedOffset>,
         info: String,
     ) -> Result<Record, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conn.transaction(|| {
             diesel::insert_into(records::table)
@@ -131,7 +131,7 @@ impl Database {
         description: String,
         time: DateTime<FixedOffset>,
     ) -> Result<Expense, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conn.transaction(|| {
             diesel::insert_into(expenses::table)
@@ -153,7 +153,7 @@ impl Database {
     }
 
     pub fn create_convention_user_info(&self, maybe_user_id: Option<i32>, con_id: i32, info: String) -> Result<ConventionUserInfo, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conn.transaction(|| {
                 let convention =
@@ -173,7 +173,7 @@ impl Database {
     }
 
     pub fn create_convention(&self, maybe_user_id: Option<i32>, title: String, start_date: NaiveDate, end_date: NaiveDate) -> Result<Convention, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conn.transaction(|| {
                 let clearance =
@@ -196,7 +196,7 @@ impl Database {
     }
 
     pub fn create_convention_extra_info(&self, maybe_user_id: Option<i32>, con_id: i32, title: String, info: Option<serde_json::Value>, action: Option<String>, action_text: Option<String>) -> Result<ConventionExtraInfo, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conn.transaction(|| {
                 let clearance =

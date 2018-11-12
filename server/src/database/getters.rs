@@ -35,7 +35,7 @@ impl Database {
     }
 
     pub fn get_user_by_id(&self, maybe_user_id: Option<i32>) -> Result<User, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id(maybe_user_id);
         let conn = self.pool.get().unwrap();
         let user =
             users::table
@@ -57,7 +57,7 @@ impl Database {
     }
 
     pub fn get_settings_for_user(&self, maybe_user_id: Option<i32>) -> Result<Settings, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         usersettings::table
             .filter(usersettings::user_id.eq(user_id))
@@ -71,7 +71,7 @@ impl Database {
     }
 
     pub fn get_admin_clearance(&self, maybe_user_id: Option<i32>) -> Result<i32, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         admins::table
             .select(admins::clearance)
@@ -81,7 +81,7 @@ impl Database {
     }
 
     pub fn get_product_types_for_user(&self, maybe_user_id: Option<i32>) -> Result<Vec<ProductType>, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         producttypes::table
             .filter(producttypes::user_id.eq(user_id))
@@ -91,7 +91,7 @@ impl Database {
     }
 
     pub fn get_products_for_user(&self, maybe_user_id: Option<i32>) -> Result<Vec<ProductWithQuantity>, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
 
         // TODO: was nice when the counting could be done in SQL... maybe someday it can be improved
@@ -128,7 +128,7 @@ impl Database {
     }
 
     pub fn get_prices_for_user(&self, maybe_user_id: Option<i32>) -> Result<Vec<Price>, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         return prices::table
             .inner_join(
@@ -149,7 +149,7 @@ impl Database {
     }
 
     pub fn get_conventions_for_user(&self, maybe_user_id: Option<i32>) -> Result<Vec<Convention>, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         user_conventions::table
             .inner_join(conventions::table)
@@ -161,7 +161,7 @@ impl Database {
     }
 
     pub fn get_convention(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<Convention, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conventions::table
             .filter(conventions::con_id.eq(con_id))
@@ -171,7 +171,7 @@ impl Database {
     }
 
     pub fn get_products_for_user_con(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<Vec<ProductWithQuantity>, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
 
         let end_date = conventions::table
@@ -220,7 +220,7 @@ impl Database {
     }
 
     pub fn get_prices_for_user_con(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<Vec<Price>, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
 
         let end_date = conventions::table
@@ -250,7 +250,7 @@ impl Database {
     }
 
     pub fn get_records_for_user_con(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<Vec<Record>, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         records::table
             .filter(records::user_id.eq(user_id))
@@ -261,7 +261,7 @@ impl Database {
     }
 
     pub fn get_expenses_for_user_con(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<Vec<Expense>, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         expenses::table
             .filter(expenses::user_id.eq(user_id))
@@ -317,7 +317,7 @@ impl Database {
     }
 
     pub fn get_user_vote_for_convention_user_info(&self, maybe_user_id: Option<i32>, con_info_id: i32) -> Result<i32, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conventioninforatings::table
             .select(dsl::sql::<sql_types::Int4>("CASE rating WHEN true THEN 1 WHEN false THEN -1 ELSE 0 END"))

@@ -6,6 +6,7 @@ mod product_type;
 mod product;
 mod record;
 mod settings;
+mod suggestion;
 mod user;
 mod time;
 
@@ -16,4 +17,5 @@ pub use self::product_type::*;
 pub use self::product::*;
 pub use self::record::*;
 pub use self::settings::*;
+pub use self::suggestion::*;
 pub use self::user::*;

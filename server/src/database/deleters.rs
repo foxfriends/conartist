@@ -10,7 +10,7 @@ use money::Money;
 
 impl Database {
     pub fn delete_price(&self, maybe_user_id: Option<i32>, type_id: i32, product_id: Option<i32>, quantity: i32) -> Result<bool, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         diesel::insert_into(prices::table)
             .values((prices::user_id.eq(user_id), prices::type_id.eq(type_id), prices::product_id.eq(product_id), prices::quantity.eq(quantity), prices::price.eq(None::<Money>)))
@@ -20,7 +20,7 @@ impl Database {
     }
 
     pub fn delete_record(&self, maybe_user_id: Option<i32>, record_id: Option<i32>, uuid: Option<Uuid>) -> Result<bool, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conn.transaction(|| {
                 let record =
@@ -55,7 +55,7 @@ impl Database {
     }
 
     pub fn delete_expense(&self, maybe_user_id: Option<i32>, expense_id: Option<i32>, uuid: Option<Uuid>) -> Result<bool, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conn.transaction(|| {
                 let expense =
@@ -90,7 +90,7 @@ impl Database {
     }
 
     pub fn delete_user_convention(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<bool, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conn.transaction(|| {
                 let convention =

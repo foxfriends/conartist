@@ -130,6 +130,23 @@ table! {
 }
 
 table! {
+    suggestions (suggestion_id) {
+        suggestion_id -> Int4,
+        user_id -> Int4,
+        suggestion -> Text,
+        create_date -> Timestamptz,
+        status -> Int4,
+    }
+}
+
+table! {
+    suggestionvotes (suggestion_id, user_id) {
+        suggestion_id -> Int4,
+        user_id -> Int4,
+    }
+}
+
+table! {
     user_conventions (user_con_id) {
         user_con_id -> Int4,
         user_id -> Int4,
@@ -172,6 +189,9 @@ joinable!(prices -> users (user_id));
 joinable!(products -> producttypes (type_id));
 joinable!(products -> users (user_id));
 joinable!(producttypes -> users (user_id));
+joinable!(suggestions -> users (user_id));
+joinable!(suggestionvotes -> suggestions (suggestion_id));
+joinable!(suggestionvotes -> users (user_id));
 joinable!(user_conventions -> conventions (con_id));
 joinable!(user_conventions -> users (user_id));
 joinable!(usersettings -> users (user_id));
@@ -190,6 +210,8 @@ allow_tables_to_appear_in_same_query!(
     products,
     producttypes,
     records,
+    suggestions,
+    suggestionvotes,
     user_conventions,
     users,
     usersettings,

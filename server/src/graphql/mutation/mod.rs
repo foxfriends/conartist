@@ -275,4 +275,25 @@ graphql_object!(Mutation: Database |&self| {
                 .create_convention_extra_info(None, con_id, title, info_json, action, action_text)
         }
     }
+
+    // suggestions
+    field create_suggestion(&executor, suggestion: String) -> FieldResult<ScoredSuggestion> {
+        ensure!(suggestion.len() > 0 && suggestion.len() < 1024);
+
+        dbtry! {
+            executor
+                .context()
+                .create_suggestion(suggestion)
+        }
+    }
+
+    field vote_for_suggestion(&executor, suggestion: i32) -> FieldResult<ScoredSuggestion> {
+        ensure!(suggestion > 0);
+
+        dbtry! {
+            executor
+                .context()
+                .vote_for_suggestion(suggestion)
+        }
+    }
 });

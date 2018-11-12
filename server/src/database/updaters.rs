@@ -17,7 +17,7 @@ impl Database {
         discontinued: Option<bool>,
         sort: Option<i32>,
     ) -> Result<ProductType, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         diesel::update(producttypes::table)
             .filter(producttypes::type_id.eq(type_id))
@@ -35,7 +35,7 @@ impl Database {
         discontinued: Option<bool>,
         sort: Option<i32>,
     ) -> Result<ProductWithQuantity, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
 
         conn.transaction(|| {
@@ -95,7 +95,7 @@ impl Database {
     }
 
     pub fn update_record(&self, maybe_user_id: Option<i32>, record_id: i32, products: Option<Vec<i32>>, price: Option<Money>, info: Option<String>) -> Result<Record, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conn.transaction(|| {
                 diesel::update(records::table)
@@ -108,7 +108,7 @@ impl Database {
     }
 
     pub fn update_expense(&self, maybe_user_id: Option<i32>, expense_id: i32, category: Option<String>, price: Option<Money>, description: Option<String>) -> Result<Expense, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conn.transaction(|| {
                 diesel::update(expenses::table)
@@ -121,7 +121,7 @@ impl Database {
     }
 
     pub fn update_convention_user_info_vote(&self, maybe_user_id: Option<i32>, info_id: i32, approved: bool) -> Result<ConventionUserInfo, String> {
-        let user_id = self.resolve_user_id(maybe_user_id)?;
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
 
         conn.transaction(|| {

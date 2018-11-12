@@ -17,8 +17,17 @@ graphql_object!(User: Database |&self| {
 
     field id() -> i32 { self.user_id }
     field name() -> &String { &self.name }
-    field email() -> &String { &self.email }
-    field keys() -> i32 { self.keys }
+
+    field email(&executor) -> FieldResult<&String> {
+        executor.context().protect_me(self.user_id)?;
+        Ok(&self.email)
+    }
+
+    field keys(&executor) -> FieldResult<i32> {
+        executor.context().protect_me(self.user_id)?;
+        Ok(self.keys)
+    }
+
     field join_date() -> DateTime<Utc> { DateTime::from_utc(self.join_date, Utc) }
 
     field product_types(&executor) -> FieldResult<Vec<ProductType>> {

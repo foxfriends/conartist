@@ -28,6 +28,7 @@ export type Model = {|
   page: Page,
   dialog: ?Dialog,
   settings: Settings,
+  suggestions: Suggestion[],
 |}
 
 export const defaultModel: Model = {
@@ -38,6 +39,7 @@ export const defaultModel: Model = {
   conventions: [],
   page: splash,
   dialog: null,
+  suggestions: [],
   settings: {
     language: 'en',
     currency: 'CAD',

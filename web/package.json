@@ -39,7 +39,7 @@
     "apollo-link-batch-http": "^1.2.3",
     "apollo-link-http": "^1.5.5",
     "chart.js": "^2.7.2",
-    "graphql": "^0.13.2",
+    "graphql": "^14.0.2",
     "graphql-tag": "^2.10.0",
     "jszip": "^3.1.5",
     "moment": "^2.22.2",

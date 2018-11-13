@@ -27,6 +27,17 @@ base64 = "0.9"
 diesel = { version = "1.3", features = ["postgres", "chrono", "serde_json", "uuid"] }
 uuid = "0.6"
 env_logger = "0.5"
-juniper = { version = "0.10", features = ["chrono", "uuid"] }
-juniper_codegen = "0.10"
-juniper_iron = "0.2"
+
+# NOTE: using the fork of Juniper because Apollo is unable to download schemas from the original
+#       Juniper for some reason.
+
+[dependencies.juniper]
+git = "https://github.com/oinkiguana/juniper"
+rev = "e6ef2785012761ac064d089f8464ebfd5f5008ba"
+features = ["chrono", "uuid"]
+[dependencies.juniper_codegen]
+git = "https://github.com/oinkiguana/juniper"
+rev = "e6ef2785012761ac064d089f8464ebfd5f5008ba"
+[dependencies.juniper_iron]
+git = "https://github.com/oinkiguana/juniper"
+rev = "e6ef2785012761ac064d089f8464ebfd5f5008ba"

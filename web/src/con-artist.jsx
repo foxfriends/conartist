@@ -175,7 +175,7 @@ export class ConArtist extends React.Component<Props, State> {
 
       case 'suggestions':
         state.toolbar = { primary: null, secondary: null, tertiary: null, pageIcon: 'settings' }
-        state.content = { name: 'suggestions' }
+        state.content = { name: 'suggestions', suggestions: model.suggestions }
         state.navigation = NavInfo.default.select('Settings', [], INDIRECT)
         break
 

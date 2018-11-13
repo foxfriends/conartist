@@ -84,7 +84,7 @@ fn main() {
             println!();
             chain! [
                 GraphQLHandler::new(
-                    move |_| Ok(database.create_privileged()),
+                    move |_| database.create_privileged(),
                     graphql::Query,
                     graphql::Mutation,
                 )
@@ -93,7 +93,7 @@ fn main() {
             chain! [
                 middleware::VerifyJWT::new();
                 GraphQLHandler::new(
-                    move |r| Ok(database.create(r)),
+                    move |r| database.create(r),
                     graphql::Query,
                     graphql::Mutation,
                 )
@@ -102,7 +102,7 @@ fn main() {
 
     let resource =
         GraphQLHandler::new(
-            |_| Ok(Client::new()), // TODO: HTTPS support
+            |_| Client::new(), // TODO: HTTPS support
             resource::Query,
             EmptyMutation::new(),
         );

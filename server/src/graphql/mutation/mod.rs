@@ -287,13 +287,11 @@ graphql_object!(Mutation: Database |&self| {
         }
     }
 
-    field vote_for_suggestion(&executor, suggestion: i32) -> FieldResult<ScoredSuggestion> {
-        ensure!(suggestion > 0);
-
+    field vote_for_suggestion(&executor, suggestion_id: i32) -> FieldResult<ScoredSuggestion> {
         dbtry! {
             executor
                 .context()
-                .vote_for_suggestion(suggestion)
+                .vote_for_suggestion(suggestion_id)
         }
     }
 });

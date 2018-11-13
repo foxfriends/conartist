@@ -1,0 +1,11 @@
+#import '../fragment/suggestion.graphql'
+
+query SuggestionsConnection($search: String, $limit: Int, $before: String, $after: String) {
+  suggestionsConnection(search: $search, limit: $limit, before: $before, after: $after) {
+    nodes {
+      ...SuggestionFragment
+    }
+    endCursor
+    totalNodes
+  }
+}

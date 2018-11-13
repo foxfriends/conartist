@@ -16,13 +16,26 @@
   pointer-events: none;
 }
 
-.thumbUp, .thumbDown {
+.thumbUp, .thumbDown, .thumb {
   cursor: pointer;
   margin: 2px;
   font-size: 18px;
   padding: 0;
 }
 
+/* single use thumb */
+.thumb {
+  transition: color 0.2s;
+  color: var(--color);
+  pointer-events: var(--pointer-events);
+
+  &.up {
+    --color: var(--color--success);
+    --pointer-events: none;
+  }
+}
+
+/* bidirectional thumbs */
 .thumbUp {
   --transform: translateX(1px) translateY(-2px);
 

@@ -16,4 +16,3 @@ fragment ConventionBasicInfoFragment on Convention {
     ...UserInfoFragment
   }
 }
-

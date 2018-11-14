@@ -1,9 +1,6 @@
 use iron::typemap::Key;
-use jwt::{encode, Header};
-use jwt::errors::Error;
-
-// TODO: get a real secret key
-pub const JWT_SECRET: &'static str = "FAKE_SECRET_KEY";
+use jwt::{errors::Error, encode, Header};
+use crate::env::JWT_SECRET;
 
 #[derive(Serialize, Deserialize)]
 pub struct Claims {

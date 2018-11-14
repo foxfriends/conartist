@@ -2,3 +2,4 @@
 Thumbs.db
 database/.env
 database/migrate-prod-db*
+server/start

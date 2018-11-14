@@ -9,21 +9,11 @@ use super::Database;
 use money::Currency;
 
 impl Database {
-    pub fn set_user_email(&self, maybe_user_id: Option<i32>, email: String) -> Result<User, String> {
-        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
-        diesel::update(users::table)
-            .set(users::email.eq(email))
-            .filter(users::user_id.eq(user_id))
-            .get_result::<User>(&*conn)
-            .map_err(|reason| format!("Could not update email of user with id {}. Reason: {}", user_id, reason))
-    }
-
     pub fn set_user_password(&self, maybe_user_id: Option<i32>, orig_password: String, new_password: String) -> Result<User, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conn.transaction(|| {
-                let original = 
+                let original =
                     users::table
                         .select(users::password)
                         .filter(users::user_id.eq(user_id))
@@ -55,7 +45,8 @@ impl Database {
                 diesel::update(users::table)
                     .set(users::password.eq(hashed))
                     .filter(users::user_id.eq(user_id))
-                    .get_result::<User>(&*conn)
+                    .get_result::<RawUser>(&*conn)
+                    .map(RawUser::unwrap)
             })
             .map_err(|reason| format!("Could not update password of user with id {}. Reason: {}", user_id, reason))
     }
@@ -66,7 +57,8 @@ impl Database {
         diesel::update(users::table)
             .set(users::name.eq(name))
             .filter(users::user_id.eq(user_id))
-            .get_result::<User>(&*conn)
+            .get_result::<RawUser>(&*conn)
+            .map(RawUser::unwrap)
             .map_err(|reason| format!("Could not update name of user with id {}. Reason: {}", user_id, reason))
     }
 
@@ -76,7 +68,8 @@ impl Database {
         diesel::update(users::table)
             .set(users::keys.eq(users::keys + quantity))
             .filter(users::user_id.eq(user_id))
-            .get_result::<User>(&*conn)
+            .get_result::<RawUser>(&*conn)
+            .map(RawUser::unwrap)
             .map_err(|reason| format!("Could not update keys of user with id {}. Reason: {}", user_id, reason))
     }
 

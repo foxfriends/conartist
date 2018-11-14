@@ -28,12 +28,13 @@ graphql_object!(Mutation: Database |&self| {
     // Users
     field change_user_email(&executor, user_id: Option<i32>, email: String) -> FieldResult<User> {
         ensure!(email.len() > 0 && email.len() <= 512);
+        unimplemented!();
 
-        dbtry! {
-            executor
-                .context()
-                .set_user_email(user_id, email)
-        }
+        // dbtry! {
+        //     executor
+        //         .context()
+        //         .set_user_email(user_id, email)
+        // }
     }
 
     field change_user_password(&executor, user_id: Option<i32>, orig_password: String, password: String) -> FieldResult<User> {

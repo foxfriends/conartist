@@ -10,14 +10,6 @@ use super::Database;
 use money::Money;
 
 impl Database {
-    pub fn create_user(&self, email: String, name: String, password: String) -> Result<User, String> {
-        let conn = self.pool.get().unwrap();
-        diesel::insert_into(users::table)
-            .values((users::email.eq(&email), users::name.eq(name), users::password.eq(password)))
-            .get_result::<User>(&*conn)
-            .map_err(|reason| format!("Could not create new user for {}. Reason: {}", email, reason))
-    }
-
     pub fn create_product_type(&self, maybe_user_id: Option<i32>, name: String, color: i32, sort: i32) -> Result<ProductType, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();

@@ -13,49 +13,6 @@ use super::views::*;
 // TODO: handle errors more properly, returning Result<_, Error> instead of String
 //       also update the dbtry! macro to resolve that problem correctly
 impl Database {
-    pub fn get_user_for_email(&self, email: &str) -> Result<User, String> {
-        let conn = self.pool.get().unwrap();
-        let user =
-            users::table
-                .filter(users::email.eq(email))
-                .first::<User>(&*conn)
-                .map_err(|reason| format!("User with email {} could not be retrieved. Reason: {}", email, reason))?;
-        let con_count =
-            user_conventions::table
-                .filter(user_conventions::user_id.eq(user.user_id))
-                .count()
-                .get_result::<i64>(&*conn)
-                .unwrap_or(0i64);
-        Ok(
-            User {
-                keys: user.keys - con_count as i32,
-                ..user
-            }
-        )
-    }
-
-    pub fn get_user_by_id(&self, maybe_user_id: Option<i32>) -> Result<User, String> {
-        let user_id = self.resolve_user_id(maybe_user_id);
-        let conn = self.pool.get().unwrap();
-        let user =
-            users::table
-                .filter(users::user_id.eq(user_id))
-                .first::<User>(&*conn)
-                .map_err(|reason| format!("User with id {} could not be retrieved. Reason: {}", user_id, reason))?;
-        let con_count =
-            user_conventions::table
-                .filter(user_conventions::user_id.eq(user.user_id))
-                .count()
-                .get_result::<i64>(&*conn)
-                .unwrap_or(0i64);
-        Ok(
-            User {
-                keys: user.keys - con_count as i32,
-                ..user
-            }
-        )
-    }
-
     pub fn get_settings_for_user(&self, maybe_user_id: Option<i32>) -> Result<Settings, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();

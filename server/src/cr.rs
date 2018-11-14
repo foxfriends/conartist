@@ -15,6 +15,7 @@ pub fn ok<T: Serialize>(v: T) -> IronResult<Response> {
 
 /// The failure type of ConRequest
 pub fn fail(v: &str) -> IronResult<Response> {
+    error!("Error response: {}", v);
     Ok(Response::with((
         "application/json".parse::<Mime>().unwrap(),
         status::Ok,

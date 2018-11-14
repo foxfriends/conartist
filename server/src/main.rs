@@ -1,5 +1,8 @@
 #![warn(bare_trait_objects)]
 
+#[macro_use] extern crate lazy_static;
+#[macro_use] extern crate log;
+extern crate env_logger;
 extern crate serde;
 #[macro_use] extern crate serde_derive;
 #[macro_use] extern crate serde_json;
@@ -24,7 +27,9 @@ extern crate base64;
 extern crate r2d2;
 extern crate r2d2_diesel;
 extern crate uuid;
-extern crate env_logger;
+extern crate ring;
+extern crate lettre;
+extern crate lettre_email;
 
 #[macro_use] mod macros;
 mod web;
@@ -37,8 +42,11 @@ mod cr;
 mod error;
 mod money;
 mod devtools;
+mod rand;
+mod email;
+mod env;
 
-use std::env;
+use std::env::args;
 use mount::Mount;
 use logger::Logger;
 use iron::prelude::*;
@@ -50,23 +58,19 @@ use hyper::client::Client;
 use diesel::pg::PgConnection;
 use r2d2_diesel::ConnectionManager;
 
-const DATABASE_URL: &'static str = "postgresql://conartist_app:temporary-password@localhost/conartist";
-const DEFAULT_PORT: &'static str = "8080";
-
 fn main() {
     env_logger::init();
 
     println!();
     println!("Starting ConArtist server...");
 
-    let conn_str = env::var("DATABASE_URL").unwrap_or(DATABASE_URL.to_string());
-    let manager = ConnectionManager::<PgConnection>::new(conn_str);
+    let manager = ConnectionManager::<PgConnection>::new(env::DATABASE_URL.to_string());
     let pool = r2d2::Pool::builder().build(manager).expect("Failed to create pool");
     let database = database::DatabaseFactory::new(pool);
     let privileged = database.create_privileged();
     let mut mount = Mount::new();
     let cors =
-        if env::args().any(|a| a == "--any-origin") {
+        if args().any(|a| a == "--any-origin") {
             println!();
             println!("{}", "WARNING: Running with no CORS protection. All origins are permitted.".yellow());
             println!("{}", "         Do not run with `--any-origin` flag in production!".yellow());
@@ -77,7 +81,7 @@ fn main() {
         };
 
     let graphql =
-        if env::args().any(|a| a == "--open") {
+        if args().any(|a| a == "--open") {
             println!();
             println!("{}", "WARNING: Running in open mode. No authorization required.".yellow());
             println!("{}", "         Do not run with `--open` flag in production!".yellow());
@@ -102,12 +106,12 @@ fn main() {
 
     let resource =
         GraphQLHandler::new(
-            |_| Client::new(), // TODO: HTTPS support
+            |_| Client::new(),
             resource::Query,
             EmptyMutation::new(),
         );
 
-    if env::args().any(|a| a == "--dev") {
+    if args().any(|a| a == "--dev") {
         println!();
         println!("{}", "WARNING: Running in dev mode. Dev tools page is exposed.".yellow());
         println!("{}", "         Do not run with `--dev` flag in production!".yellow());
@@ -129,8 +133,7 @@ fn main() {
         .link_before(pre)
         .link_after(post);
 
-    let port = env::var("PORT").unwrap_or(DEFAULT_PORT.to_string());
     let host = "0.0.0.0";
-    println!("ConArtist server listening at {}:{}", host, port);
-    Iron::new(chain).http(format!("{}:{}", host, port)).unwrap();
+    println!("ConArtist server listening at {}:{}", host, env::PORT.to_string());
+    Iron::new(chain).http(format!("{}:{}", host, env::PORT.to_string())).unwrap();
 }

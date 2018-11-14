@@ -61,6 +61,16 @@ table! {
 }
 
 table! {
+    emailverifications (verification_code) {
+        verification_code -> Bpchar,
+        user_id -> Int4,
+        email -> Varchar,
+        created -> Timestamp,
+        expires -> Timestamp,
+    }
+}
+
+table! {
     expenses (expense_id) {
         expense_id -> Int4,
         user_id -> Int4,
@@ -79,6 +89,16 @@ table! {
         quantity -> Int4,
         mod_date -> Timestamp,
         inventory_id -> Int4,
+    }
+}
+
+table! {
+    passwordresets (verification_code) {
+        verification_code -> Bpchar,
+        user_id -> Int4,
+        used -> Bool,
+        created -> Timestamp,
+        expires -> Timestamp,
     }
 }
 
@@ -130,6 +150,14 @@ table! {
 }
 
 table! {
+    signinattempts (user_id, attempt_time) {
+        user_id -> Int4,
+        successful -> Bool,
+        attempt_time -> Timestamp,
+    }
+}
+
+table! {
     suggestions (suggestion_id) {
         suggestion_id -> Int4,
         user_id -> Int4,
@@ -157,7 +185,7 @@ table! {
 table! {
     users (user_id) {
         user_id -> Int4,
-        email -> Varchar,
+        email -> Nullable<Varchar>,
         password -> Varchar,
         keys -> Int4,
         join_date -> Timestamp,
@@ -182,13 +210,16 @@ joinable!(conventionratings -> conventions (con_id));
 joinable!(conventionratings -> users (user_id));
 joinable!(conventionuserinfo -> conventions (con_id));
 joinable!(conventionuserinfo -> users (user_id));
+joinable!(emailverifications -> users (user_id));
 joinable!(inventory -> products (product_id));
+joinable!(passwordresets -> users (user_id));
 joinable!(prices -> products (product_id));
 joinable!(prices -> producttypes (type_id));
 joinable!(prices -> users (user_id));
 joinable!(products -> producttypes (type_id));
 joinable!(products -> users (user_id));
 joinable!(producttypes -> users (user_id));
+joinable!(signinattempts -> users (user_id));
 joinable!(suggestions -> users (user_id));
 joinable!(suggestionvotes -> suggestions (suggestion_id));
 joinable!(suggestionvotes -> users (user_id));
@@ -204,12 +235,15 @@ allow_tables_to_appear_in_same_query!(
     conventionratings,
     conventions,
     conventionuserinfo,
+    emailverifications,
     expenses,
     inventory,
+    passwordresets,
     prices,
     products,
     producttypes,
     records,
+    signinattempts,
     suggestions,
     suggestionvotes,
     user_conventions,

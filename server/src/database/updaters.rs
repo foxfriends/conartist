@@ -146,14 +146,4 @@ impl Database {
             })
             .map_err(|reason| format!("Could not change vote for user with id {} on info with id {}. Reason: {}", user_id, info_id, reason))
     }
-
-    pub fn change_password(&self, user_id: i32, hashed_password: String) -> Result<(), String> {
-        let conn = self.pool.get().unwrap();
-        diesel::update(users::table)
-            .set(users::password.eq(hashed_password))
-            .filter(users::user_id.eq(user_id))
-            .execute(&*conn)
-            .map_err(|reason| format!("Could not change password of user with id {}. Reason: {}", user_id, reason))
-            .map(|_| ())
-    }
 }

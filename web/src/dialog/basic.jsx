@@ -34,7 +34,7 @@ export function Basic({ title, footerTitle, onContinue, onBack, onClose, pager, 
       <footer className={S.footer}>
         {/* backwards using row-reverse so the tab index works as expected */}
         { onContinue ? <Button className={S.footerButton} {...onContinue} key='continuebutton' /> : <Button className={S.fakeButton} title='' action={() => {}} key='fakebutton_right' /> }
-        { <span className={S.footerTitle}>{footerTitle}</span> || null }
+        { footerTitle ? <span className={S.footerTitle}>{footerTitle}</span> : null }
         { pager
             ? <Pager {...pager} />
             : (footerTitle ? null : <span />) }

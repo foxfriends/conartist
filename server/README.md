@@ -42,7 +42,7 @@ not great so turn that off at some point.
 Just tell me to do it. I don't know how to set up another person for my Heroku, and don't really
 feel like figuring it out.
 
-The URL for the production server is: [https://con--artist.herokuapp.com](https://con--artist.herokuapp.com).
+The URL for the production server is: [https://conartist.app](https://conartist.app).
 
 Currently the production build is running with all CORS origins enabled. This should
 be removed when convenient, as it is not secure at all.

@@ -28,35 +28,43 @@ impl Error for MoneyError {
     fn description(&self) -> &str { &*self.0 }
 }
 
-#[derive(Debug)]
-pub enum MailerError {
-    Building(lettre_email::error::Error),
-    Sending(lettre::sendmail::error::Error),
-}
+#[cfg(feature="mailer")]
+pub use self::mail::*;
 
-impl Display for MailerError {
-    fn fmt(&self, f: &mut Formatter) -> Result {
-        Debug::fmt(self, f)
+#[cfg(feature="mailer")]
+mod mail {
+    use super::*;
+
+    #[derive(Debug)]
+    pub enum MailerError {
+        Building(lettre_email::error::Error),
+        Sending(lettre::smtp::error::Error),
     }
-}
 
-impl Error for MailerError {
-    fn description(&self) -> &str {
-        match self {
-            MailerError::Building(error) => error.description(),
-            MailerError::Sending(error) => error.description(),
+    impl Display for MailerError {
+        fn fmt(&self, f: &mut Formatter) -> Result {
+            Debug::fmt(self, f)
         }
     }
-}
 
-impl From<lettre_email::error::Error> for MailerError {
-    fn from(error: lettre_email::error::Error) -> Self {
-        MailerError::Building(error)
+    impl Error for MailerError {
+        fn description(&self) -> &str {
+            match self {
+                MailerError::Building(error) => error.description(),
+                MailerError::Sending(error) => error.description(),
+            }
+        }
     }
-}
 
-impl From<lettre::sendmail::error::Error> for MailerError {
-    fn from(error: lettre::sendmail::error::Error) -> Self {
-        MailerError::Sending(error)
+    impl From<lettre_email::error::Error> for MailerError {
+        fn from(error: lettre_email::error::Error) -> Self {
+            MailerError::Building(error)
+        }
+    }
+
+    impl From<lettre::smtp::error::Error> for MailerError {
+        fn from(error: lettre::smtp::error::Error) -> Self {
+            MailerError::Sending(error)
+        }
     }
 }

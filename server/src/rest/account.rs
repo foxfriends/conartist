@@ -9,6 +9,8 @@ use bodyparser;
 use database::Database;
 use cr;
 use super::authtoken;
+
+#[cfg(feature="mailer")]
 use crate::email::confirm_new_account;
 
 #[derive(Clone, Deserialize)]
@@ -31,8 +33,11 @@ impl Handler for Create {
 
         self.database.create_user(body.email.to_lowercase(), body.name, hashed)
             .and_then(|(user, email_verification)| {
+                #[cfg(feature="mailer")]
                 confirm_new_account::send(email_verification.email, email_verification.verification_code)
                     .map_err(|error| format!("{}", error))?;
+                #[cfg(not(feature="mailer"))]
+                self.database.verify_email(&email_verification.verification_code)?;
                 authtoken::new(user.user_id).map_err(|reason| format!("Failed to generate JWT: {}", reason))
             })
             .map(|authtoken| cr::ok(authtoken))

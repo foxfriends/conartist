@@ -28,8 +28,8 @@ extern crate r2d2;
 extern crate r2d2_diesel;
 extern crate uuid;
 extern crate ring;
-extern crate lettre;
-extern crate lettre_email;
+#[cfg(feature="mailer")] extern crate lettre;
+#[cfg(feature="mailer")] extern crate lettre_email;
 
 #[macro_use] mod macros;
 mod web;
@@ -43,7 +43,7 @@ mod error;
 mod money;
 mod devtools;
 mod rand;
-mod email;
+#[cfg(feature="mailer")] mod email;
 mod env;
 
 use std::env::args;

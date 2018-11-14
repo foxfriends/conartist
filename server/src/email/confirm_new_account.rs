@@ -1,5 +1,5 @@
 use lettre_email::EmailBuilder;
-use lettre::{EmailTransport, SendmailTransport};
+use lettre::{EmailTransport, SmtpTransport};
 
 use crate::env::{CONARTIST_BASE_URL, CONARTIST_SERVER_EMAIL};
 use crate::error::MailerError;
@@ -31,7 +31,7 @@ pub fn send(email: String, verification_code: String) -> Result<(), MailerError>
 </html>
 "#, url=CONARTIST_BASE_URL.to_string(), verification_code=verification_code))
         .build()?;
-    let mut sender = SendmailTransport::new();
+    let mut sender = SmtpTransport::simple_builder(&CONARTIST_BASE_URL.to_string())?.build();
     sender.send(&email)?;
     Ok(())
 }

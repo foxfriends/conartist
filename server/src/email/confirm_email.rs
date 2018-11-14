@@ -20,7 +20,7 @@ pub fn send(email: String, verification_code: String) -> Result<(), MailerError>
         Click this link, or paste it into your browser, to confirm your email for ConArtist:
     </p>
     <p>
-        <a href="{url}/verify/{verification_code}">{url}/verify/{verification_code}</a>
+        <a href="https://{url}/verify/{verification_code}">https://{url}/verify/{verification_code}</a>
     </p>
     <p>
         If you didn't change your email, ignore this message and your email will not be changed.

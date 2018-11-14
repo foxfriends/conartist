@@ -22,7 +22,7 @@ pub fn send(email: String, verification_code: String) -> Result<(), MailerError>
         below to do verify:
     </p>
     <p>
-        <a href="{url}/verify/{verification_code}">{url}/verify/{verification_code}</a>
+        <a href="https://{url}/verify/{verification_code}">https://{url}/verify/{verification_code}</a>
     </p>
     <p>
         If you didn't sign up for ConArtist, just ignore this email.

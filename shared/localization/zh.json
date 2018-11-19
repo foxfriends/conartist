@@ -70,6 +70,7 @@
   "Language": "语言",
   "Language & Location": "语言和地方",
   "Let's get started!": "开始了",
+  "Looks good to me": "Looks good to me",
   "Manage Prices": "TODO: Translate",
   "Manage Products": "TODO: Translate",
   "Metric": "TODO: translate",
@@ -144,6 +145,7 @@
   "Today's hours": "TODO: translate",
   "Total": "总收入",
   "Type": "TODO: translate",
+  "Uh oh. You have been logged out!": "TODO: translate",
   "Unknown": "未知",
   "Upcoming": "即将到来",
   "Upvote": "有帮助",
@@ -206,5 +208,7 @@
   "<Name usage disclaimer>": "TODO: translate",
   "<No convention user info>": "TODO: translate",
   "<Splash body>": "TODO: translate",
-  "<Splash title>": "TODO: translate"
+  "<Splash title>": "TODO: translate",
+  "<Verify Account Successful>": "Your account is now secured. Welcome to ConArtist.",
+  "<Verify Account Failed>": "We couldn't verify your account right now. Maybe you should try again?"
 }

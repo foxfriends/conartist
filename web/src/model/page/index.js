@@ -17,6 +17,7 @@ export type Page = Splash
                  | TermsOfService
                  | PrivacyPolicy
                  | Suggestions
+                 | Verify
                  | Admin
 
 export type Splash = {| name: 'splash' |}
@@ -35,6 +36,7 @@ export type Settings = {| name: 'settings' |}
 export type TermsOfService = {| name: 'terms-of-service' |}
 export type PrivacyPolicy = {| name: 'privacy-policy' |}
 export type Suggestions = {| name: 'suggestions' |}
+export type Suggestions = {| name: 'verify', code: string |}
 export type Admin = {| name: 'admin' |}
 
 export const splash: Splash = { name: 'splash' }
@@ -53,4 +55,5 @@ export const settings: Settings = { name: 'settings' }
 export const termsOfService: TermsOfService = { name: 'terms-of-service' }
 export const privacyPolicy: PrivacyPolicy = { name: 'privacy-policy' }
 export const suggestions: Suggestions = { name: 'suggestions' }
+export const verify = (code: string): Verify => ({ name: 'verify', code })
 export const admin: Admin = { name: 'admin' }

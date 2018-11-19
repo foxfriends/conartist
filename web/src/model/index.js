@@ -4,6 +4,11 @@ import { BehaviorSubject } from 'rxjs'
 import { Storage } from '../storage'
 import { splash, dashboard } from './page'
 import { ReauthorizeRequest } from '../api/reauthorize'
+import * as toast from '../toast'
+import { setUser } from '../update/signin'
+import { signOut } from '../update/settings'
+import { resolveRoute } from '../routing'
+import { l } from '../localization'
 import type { Page } from './page'
 import type { Dialog } from './dialog'
 import type { Product } from './product'
@@ -11,9 +16,6 @@ import type { ProductType } from './product-type'
 import type { Convention } from './convention'
 import type { Price } from './price'
 import type { Settings } from './settings'
-import * as navigate from '../update/navigate'
-import { setUser } from '../update/signin'
-import { resolveRoute } from '../routing'
 
 export type Model = {|
   user: ?{
@@ -54,9 +56,9 @@ function init(): Model {
       .subscribe(response => {
         switch (response.state) {
           case 'failed':
-            // TODO: include an error dialog when this happens
+            toast.show(<span>{l`Uh oh. You have been logged out!`}</span>)
             // $FlowIgnore: not good enough at spread
-            navigate.splash()
+            signOut()
             break
           case 'retrieved':
             setUser(response.value)

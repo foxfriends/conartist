@@ -54,13 +54,21 @@ impl Handler for Exists {
     }
 }
 
+#[derive(Clone, Deserialize)]
+struct VerifyData {
+    code: String,
+}
+
 struct Verify { database: Database }
 impl Handler for Verify {
     fn handle(&self, req: &mut Request) -> IronResult<Response> {
-        let params = iexpect!{ req.extensions.get::<Router>() };
-        let code = iexpect!{ params.find("code") };
+        let rbody = itry!{ req.get::<bodyparser::Struct<VerifyData>>(), status::BadRequest };
+        let VerifyData { code } = iexpect!{ rbody };
         info!("Verifying: {}", code);
-        cr::ok(self.database.verify_email(code).is_ok())
+        match self.database.verify_email(&code) {
+            Ok(..) => cr::ok(true),
+            Err(ref error) => cr::fail(error),
+        }
     }
 }
 
@@ -70,7 +78,7 @@ pub fn new(db: Database) -> Router {
     router
         .post("/new", Create{ database: db.clone() }, "account_new")
         .get("/exists/:email", Exists{ database: db.clone() }, "account_exists")
-        .get("/verify/:code", Verify{ database: db }, "account_verify");
+        .post("/verify", Verify{ database: db }, "account_verify");
 
     router
 }

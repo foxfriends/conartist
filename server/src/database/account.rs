@@ -122,7 +122,7 @@ impl Database {
                     .get_result::<RawUser>(&*conn)
                     .map(RawUser::unwrap)
             })
-            .map_err(|reason| format!("Could not verifiy email with code {}. Reason: {}", verification_code, reason))
+            .map_err(|reason| format!("Could not verify email with code {}. Reason: {}", verification_code, reason))
     }
 
     pub fn change_password(&self, user_id: i32, hashed_password: String) -> Result<(), String> {

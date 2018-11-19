@@ -13,6 +13,7 @@ import { Dialog } from './dialog'
 import { model } from './model'
 import { toast, Toast } from './toast'
 import { by, Asc } from './util/sort'
+import { isSignedIn } from './util/is-signed-in'
 import * as page from './model/page'
 import type { Model } from './model'
 import type { Props as ToolbarProps } from './toolbar'
@@ -177,6 +178,17 @@ export class ConArtist extends React.Component<Props, State> {
         state.toolbar = { primary: null, secondary: null, tertiary: null, pageIcon: 'settings' }
         state.content = { name: 'suggestions', suggestions: model.suggestions }
         state.navigation = NavInfo.default.select('Settings', [], INDIRECT)
+        break
+
+      case 'verify':
+        if (isSignedIn()) {
+          state.toolbar = { primary: null, secondary: null, tertiary: null }
+          state.navigation = NavInfo.default
+        } else {
+          state.toolbar = { primary: toolbarAction.LogIn, secondary: null, tertiary: null }
+          state.navigation = null
+        }
+        state.content = { name: 'verify', code: model.page.code }
         break
 
       default:

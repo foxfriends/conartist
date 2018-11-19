@@ -13,12 +13,15 @@ import {
   conventionUserInfo,
   searchConventions,
   settings,
+  termsOfService,
+  privacyPolicy,
   suggestions,
+  verify,
 } from '../model/page'
-import { Storage } from '../storage'
 import { LoadConvention } from '../api/load-convention'
 import * as navigate from '../update/navigate'
 import { setConvention } from '../update/conventions'
+import { isSignedIn } from '../util/is-signed-in'
 import type { Page } from '../model/page'
 import type { MetaConvention } from '../model/meta-convention'
 
@@ -69,18 +72,26 @@ const matchUrl = match(
   [ /^\/prices\/edit\/?$/i, () => editPrices ],
   [ /^\/conventions\/?$/i, () => conventions ],
   [ /^\/conventions\/search\/?$/i, () => searchConventions ],
+  [ /^\/terms\/?$/i, () => termsOfService ],
+  [ /^\/privacy\/?$/i, () => privacyPolicy ],
+  [ /^\/verify\/([0-9a-fA-F]+)\/?$/i, code => verify(code) ],
   [ /^\/convention\/(\d+)\/details\/?$/i, id => conventionDetails(stubConvention(parseInt(id, 10))) ],
   [ /^\/convention\/(\d+)\/records\/?$/i, id => conventionRecords(stubConvention(parseInt(id, 10))) ],
   [ /^\/convention\/(\d+)\/info\/?$/i, id => conventionUserInfo(stubConvention(parseInt(id, 10))) ],
   [ /^\/convention\/(\d+)\/stats\/?$/i, id => conventionStats(stubConvention(parseInt(id, 10))) ],
 )
 
+const noAuth = ['verify', 'terms-of-service', 'privacy-policy', 'splash']
+
 export function resolveRoute(): Page {
-  if (!Storage.retrieve(Storage.Auth)) {
-    window.history.replaceState({ attempted: window.location.pathname }, '', '/')
-    return splash
-  }
   const page = matchUrl(window.location.pathname)
+  if (!isSignedIn()) {
+    if (page && noAuth.includes(page.name)) {
+      window.history.replaceState({ attempted: window.location.pathname }, '', '/')
+      return splash
+    }
+    return page || splash;
+  }
   if (!page) {
     window.history.replaceState({}, '', '/dashboard')
   }

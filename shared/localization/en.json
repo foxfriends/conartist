@@ -71,6 +71,7 @@
   "Language": "Language",
   "Language & Location": "Language & Location",
   "Let's get started!": "Let's get started!",
+  "Looks good to me": "Looks good to me",
   "Manage Prices": "Manage Prices",
   "Manage Products": "Manage Products",
   "Metric": "Metric",
@@ -145,6 +146,7 @@
   "Today's hours": "Today's hours",
   "Total": "Total",
   "Type": "Type",
+  "Uh oh. You have been logged out!": "Uh oh. You have been logged out!",
   "Unknown": "Unknown",
   "Upcoming": "Upcoming",
   "Upvote": "Upvote",
@@ -207,5 +209,7 @@
   "<Name usage disclaimer>": "Your name might one day be visible to other artists.\nYou can use your artist handle if you like.",
   "<No convention user info>": "No one has shared any information about this convention yet…\nYou could be the first!",
   "<Splash body>": "ConArtist brings together all the things you need, streamlining your convention experience. Find conventions, manage inventory, and record sales, all in one place.",
-  "<Splash title>": "The money counter for the busy tabeller"
+  "<Splash title>": "The money counter for the busy tabeller",
+  "<Verify Account Successful>": "Your account is now secured. Welcome to ConArtist.",
+  "<Verify Account Failed>": "We couldn't verify your account right now. Maybe you should try again?"
 }

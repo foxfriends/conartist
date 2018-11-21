@@ -29,7 +29,7 @@ export class Verify extends React.Component<Props, State> {
       .subscribe(response => {
         switch (response.state) {
           case 'retrieved':
-            this.setState({ success: response.data })
+            this.setState({ success: !!response.value })
             break
           case 'failed':
             this.setState({ success: false })

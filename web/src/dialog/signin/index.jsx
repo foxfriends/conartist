@@ -9,9 +9,11 @@ import { l } from '../../localization'
 import { SignInRequest } from '../../api/signin'
 import { closeDialog } from '../action'
 import { completeSignIn } from '../../update/signin'
+import { showResetPasswordDialog } from '../../update/dialog'
 import { Form } from '../form'
 import { Basic } from '../basic'
 import { Input } from '../../common/input'
+import { Link } from '../../common/link'
 import { Button } from '../../common/button'
 import { Icon } from '../../common/icon'
 import { Tooltip } from '../../common/tooltip'
@@ -70,14 +72,14 @@ export class SignIn extends React.Component<Props, State> {
   }
 
   render() {
+    const { email, response, passwordValidation } = this.state
+
     const onContinue: ButtonProps = {
       title: l`Sign in`,
       action: () => this.trySignIn(),
       priority: 'primary',
-      enabled: this.state.response.state !== 'sending',
+      enabled: response.state !== 'sending',
     }
-
-    const { response, passwordValidation } = this.state
 
     return (
       <Basic title={l`Sign in`} onClose={closeDialog}>
@@ -95,6 +97,7 @@ export class SignIn extends React.Component<Props, State> {
             <Button className={SS.button} {...onContinue} />
             <div className={SS.spacing} />
           </div>
+          <Link className={SS.forgotPassword} onClick={() => showResetPasswordDialog(email)}>{l`I forgot my password`}</Link>
         </Form>
       </Basic>
     )

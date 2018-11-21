@@ -16,6 +16,7 @@ import {
   termsOfService,
   privacyPolicy,
   suggestions,
+  resetPassword,
   verify,
 } from '../model/page'
 import { LoadConvention } from '../api/load-convention'
@@ -74,6 +75,7 @@ const matchUrl = match(
   [ /^\/conventions\/search\/?$/i, () => searchConventions ],
   [ /^\/terms\/?$/i, () => termsOfService ],
   [ /^\/privacy\/?$/i, () => privacyPolicy ],
+  [ /^\/reset-password\/([0-9a-fA-F]+)\/?$/i, code => resetPassword(code) ],
   [ /^\/verify\/([0-9a-fA-F]+)\/?$/i, code => verify(code) ],
   [ /^\/convention\/(\d+)\/details\/?$/i, id => conventionDetails(stubConvention(parseInt(id, 10))) ],
   [ /^\/convention\/(\d+)\/records\/?$/i, id => conventionRecords(stubConvention(parseInt(id, 10))) ],
@@ -81,7 +83,7 @@ const matchUrl = match(
   [ /^\/convention\/(\d+)\/stats\/?$/i, id => conventionStats(stubConvention(parseInt(id, 10))) ],
 )
 
-const noAuth = ['verify', 'terms-of-service', 'privacy-policy', 'splash']
+const noAuth = ['verify', 'reset-password', 'terms-of-service', 'privacy-policy', 'splash']
 
 export function resolveRoute(): Page {
   const page = matchUrl(window.location.pathname)

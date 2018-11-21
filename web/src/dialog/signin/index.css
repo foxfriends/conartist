@@ -24,3 +24,9 @@
   align-items: center;
   justify-content: center;
 }
+
+.forgotPassword {
+  align-self: center;
+  font-variant: small-caps;
+  margin-top: 10px;
+}

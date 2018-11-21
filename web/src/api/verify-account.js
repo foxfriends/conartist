@@ -1,13 +1,10 @@
 /* @flow */
 import { of } from 'rxjs'
-import { tap, switchMap, catchError } from 'rxjs/operators'
+import { catchError } from 'rxjs/operators'
 import type { Observable } from 'rxjs'
 
 import { PostRequest } from './index'
-import { Storage } from '../storage'
 import type { Response } from './index'
-import type { User } from '../model/user'
-import { UserQuery } from './user-query'
 
 export class VerifyAccountRequest extends PostRequest<{ code: string }, boolean> {
   constructor() {

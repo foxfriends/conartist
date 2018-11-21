@@ -191,6 +191,12 @@ export class ConArtist extends React.Component<Props, State> {
         state.content = { name: 'verify', code: model.page.code }
         break
 
+      case 'reset-password':
+        state.toolbar = { primary: isSignedIn() ? null : toolbarAction.LogIn, secondary: null, tertiary: null }
+        state.navigation = null
+        state.content = { name: 'reset-password', code: model.page.code }
+        break
+
       default:
         console.error(`Unhandled page name: ${model.page.name}! Ignoring`)
     }
@@ -198,10 +204,7 @@ export class ConArtist extends React.Component<Props, State> {
     if (model.dialog) {
       switch (model.dialog.name) {
         case 'signup':
-          state.dialog = {
-            name: 'signup',
-            step: model.dialog.step,
-          }
+          state.dialog = { name: 'signup', step: model.dialog.step }
           break
 
         case 'signin':
@@ -210,6 +213,10 @@ export class ConArtist extends React.Component<Props, State> {
 
         case 'change-password':
           state.dialog = { name: 'change-password' }
+          break
+
+        case 'reset-password':
+          state.dialog = { name: 'reset-password', email: model.dialog.email }
           break
 
         case 'export':

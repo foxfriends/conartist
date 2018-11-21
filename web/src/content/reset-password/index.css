@@ -1,0 +1,18 @@
+.container {
+  padding: 32px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0;
+  max-width: 450px;
+}
+
+.input {
+  margin: 2px;
+}
+
+.button {
+  margin: 16px;
+}

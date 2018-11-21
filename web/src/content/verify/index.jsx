@@ -40,7 +40,7 @@ export class Verify extends React.Component<Props, State> {
   }
 
   render() {
-    const { className, style, code } = this.props
+    const { code } = this.props
     const { success } = this.state
     return (
       <section className={S.container}>

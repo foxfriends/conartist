@@ -15,6 +15,7 @@ import { ConventionUserInfo } from './convention-user-info'
 import { Admin } from './admin'
 import { Settings } from './settings'
 import { Suggestions } from './suggestions'
+import { ResetPassword } from './reset-password'
 import { Verify } from './verify'
 import type { Props as DashboardProps } from './dashboard'
 import type { Props as ProductsProps } from './products'
@@ -31,6 +32,7 @@ import type { Props as StaticProps } from './static'
 import type { Props as AdminProps } from './admin'
 import type { Props as SettingsProps } from './settings'
 import type { Props as SuggestionsProps } from './suggestions'
+import type { Props as ResetPasswordProps } from './reset-password'
 import type { Props as VerifyProps } from './verify'
 import S from './index.css'
 
@@ -54,6 +56,7 @@ export type Props
   | ConventionUserInfoProps
   | SettingsProps
   | StaticProps
+  | ResetPasswordProps
   | VerifyProps
   | AdminProps
 
@@ -111,6 +114,9 @@ export function Content(props: Props) {
       break
     case 'settings':
       content = <Settings {...props} />
+      break
+    case 'reset-password':
+      content = <ResetPassword {...props} />
       break
     case 'verify':
       content = <Verify {...props} />

@@ -23,15 +23,15 @@ type State = {
   password: string,
   confirmPassword: string,
   processing: boolean,
-  currentPasswordValidation: InputValidation,
   passwordValidation: InputValidation,
   mismatchValidation: InputValidation,
+  currentPasswordValidation: InputValidation,
 }
 
 const MIN_PASSWORD_LENGTH = 8
 
 // NOTE: this component shares a lot of things with sign up password form... Maybe some code sharing
-//       should be done...
+//       should be done... also the reset password form
 export class ChangePassword extends React.Component<Props, State> {
   // $FlowIgnore: Flow definitions not up to date
   passwordInput: React.Ref<Input>
@@ -105,12 +105,37 @@ export class ChangePassword extends React.Component<Props, State> {
     }
     return (
       <Basic title={l`Change Password`} onClose={closeDialogButton} onContinue={save}>
+        {l`Choose a new password`}
         <div className={S.form}>
           {/* $FlowIgnore: Flow definitions not up to date */}
-          <Input className={S.input} type="password" title={l`Current password`} onChange={password => this.handleCurrentPasswordChange(password)} onSubmit={() => this.passwordInput.current && this.passwordInput.current.focus()} validation={currentPasswordValidation} autoFocus />
+          <Input
+            className={S.input}
+            type="password"
+            title={l`Current password`}
+            onChange={password => this.handleCurrentPasswordChange(password)}
+            onSubmit={() => this.passwordInput.current && this.passwordInput.current.focus()}
+            validation={currentPasswordValidation}
+            autoFocus
+            />
           {/* $FlowIgnore: Flow definitions not up to date */}
-          <Input className={S.input} type="password" title={l`New password`} onChange={password => this.handlePasswordChange(password)} onSubmit={() => this.confirmInput.current && this.confirmInput.current.focus()} ref={this.passwordInput} validation={passwordValidation} />
-          <Input className={S.input} type="password" title={l`Confirm new password`} onChange={password => this.handleConfirmPasswordChange(password)} ref={this.confirmInput} onSubmit={() => { this.saveChanges() }} validation={mismatchValidation}/>
+          <Input
+            className={S.input}
+            type="password"
+            title={l`New password`}
+            onChange={password => this.handlePasswordChange(password)}
+            onSubmit={() => this.confirmInput.current && this.confirmInput.current.focus()}
+            ref={this.passwordInput}
+            validation={passwordValidation}
+            />
+          <Input
+            className={S.input}
+            type="password"
+            title={l`Confirm new password`}
+            onChange={password => this.handleConfirmPasswordChange(password)}
+            ref={this.confirmInput}
+            onSubmit={() => { this.saveChanges() }}
+            validation={mismatchValidation}
+            />
         </div>
       </Basic>
     )

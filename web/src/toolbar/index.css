@@ -28,10 +28,23 @@
   padding: 8px;
 }
 
+
+.mobile {
+  --display: block;
+  display: var(--display);
+}
+.desktop {
+  --display: block;
+  display: var(--display);
+  cursor: pointer;
+}
+
 @media (min-width: 888px) {
   .inner {
     --width: 880px;
   }
+
+  .mobile { --display: none; }
 
   .pageIcon {
     display: none !important;
@@ -61,6 +74,10 @@
       border-color: transparent;
       border-left-color: var(--color--background-toolbar-variant);
     }
+  }
+
+  .desktop {
+    display: --none;
   }
 
   .logo {

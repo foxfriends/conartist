@@ -9,7 +9,7 @@ import type { Response } from './index'
 import type { User } from '../model/user'
 import { UserQuery } from './user-query'
 
-export class VerifyAccountRequest extends PostRequest<string, boolean> {
+export class VerifyAccountRequest extends PostRequest<{ code: string }, boolean> {
   constructor() {
     super('/api/account/verify')
   }

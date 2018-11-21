@@ -27,7 +27,15 @@ export class Verify extends React.Component<Props, State> {
     const { code } = this.props
     new VerifyAccountRequest().send(code)
       .subscribe(response => {
-        this.setState({ success: response.state === 'retrieved' && response.data })
+        switch (response.state) {
+          case 'retrieved':
+            this.setState({ success: response.data })
+            break
+          case 'failed':
+            this.setState({ success: false })
+            break
+          default: break
+        }
       })
   }
 

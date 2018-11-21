@@ -1,9 +1,14 @@
 use std::env;
-// TODO: get a real secret key
-lazy_static! {
-    pub static ref JWT_SECRET: String = env::var("JWT_SECRET").unwrap_or(String::from("FAKE_SECRET_KEY"));
-    pub static ref CONARTIST_BASE_URL: String = env::var("CONARTIST_BASE_URL").unwrap_or(String::from("localhost:8080"));
-    pub static ref CONARTIST_SERVER_EMAIL: String = env::var("CONARTIST_SERVER_EMAIL").unwrap_or(String::from("no-reply@conartist.app"));
-    pub static ref DATABASE_URL: String = env::var("DATABASE_URL").unwrap_or(String::from("postgresql://conartist_app:temporary-password@localhost/conartist"));
-    pub static ref PORT: String = env::var("PORT").unwrap_or(String::from("8080"));
+
+macro_rules! env_var {
+    ($name:ident, $default:expr) => (lazy_static! { pub static ref $name: String = env::var(stringify!($name)).unwrap_or(String::from($default)); });
 }
+
+env_var!(JWT_SECRET, "FAKE_SECRET_KEY");
+env_var!(CONARTIST_BASE_URL, "localhost:8080");
+env_var!(CONARTIST_SERVER_EMAIL, "hello@conartist.app");
+env_var!(DATABASE_URL, "postgresql://conartist_app:temporary-password@localhost/conartist");
+env_var!(PORT, "8080");
+env_var!(MAILGUN_USERNAME, "postmaster@mail.conartist.app");
+env_var!(MAILGUN_PASSWORD, "placeholder-password");
+env_var!(MAILGUN_API_KEY, "placeholder-api-key");

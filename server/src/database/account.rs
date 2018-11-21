@@ -1,13 +1,9 @@
-use std::collections::HashMap;
-use diesel::{dsl, sql_types};
+use diesel::dsl;
 use diesel::prelude::*;
-use chrono::{NaiveDate, Utc};
 
 use super::Database;
 use super::models::*;
 use super::schema::*;
-use super::dsl::*;
-use super::views::*;
 
 // TODO: do some caching here for efficiency
 // TODO: handle errors more properly, returning Result<_, Error> instead of String

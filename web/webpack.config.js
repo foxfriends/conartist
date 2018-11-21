@@ -27,5 +27,5 @@ module.exports = env => ({
     extensions: ['.js', '.jsx', '.json'],
   },
   devtool: 'cheap-eval-source-map',
-  plugins: env === 'production' ? [new UglifyJSPlugin()] : []
+  plugins: env === 'production' ? [] : [] // [new UglifyJSPlugin()] : [] // disabled until the prod server is capable of doing it
 });

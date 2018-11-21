@@ -72,13 +72,33 @@ impl Handler for Verify {
     }
 }
 
+#[derive(Clone, Deserialize)]
+struct ResetData {
+    code: String,
+    password: String,
+}
+
+struct Reset { database: Database }
+impl Handler for Reset {
+    fn handle(&self, req: &mut Request) -> IronResult<Response> {
+        let rbody = itry!{ req.get::<bodyparser::Struct<ResetData>>(), status::BadRequest };
+        let ResetData { code, password } = iexpect!{ rbody };
+        info!("Resetting: {}", code);
+        match self.database.force_set_password(&code, &password) {
+            Ok(..) => cr::ok(true),
+            Err(ref error) => cr::fail(error),
+        }
+    }
+}
+
 pub fn new(db: Database) -> Router {
     let mut router = Router::new();
 
     router
         .post("/new", Create{ database: db.clone() }, "account_new")
         .get("/exists/:email", Exists{ database: db.clone() }, "account_exists")
-        .post("/verify", Verify{ database: db }, "account_verify");
+        .post("/verify", Verify{ database: db.clone() }, "account_verify")
+        .post("/reset", Reset { database: db }, "account_reset");
 
     router
 }

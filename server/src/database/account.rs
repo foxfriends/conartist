@@ -1,9 +1,12 @@
 use diesel::dsl;
 use diesel::prelude::*;
+use bcrypt;
 
 use super::Database;
 use super::models::*;
 use super::schema::*;
+use super::views::*;
+use crate::error::StringError;
 
 // TODO: do some caching here for efficiency
 // TODO: handle errors more properly, returning Result<_, Error> instead of String
@@ -23,9 +26,17 @@ impl Database {
             } else {
                 let EmailVerification { email, .. } = emailverifications::table
                     .filter(emailverifications::user_id.eq(user_id))
-                    .filter(emailverifications::expires.gt(dsl::now))
+                    .order_by(emailverifications::expires.desc())
                     .first::<EmailVerification>(&*conn)
                     .map_err(|reason| format!("User with id {} could not be retrieved. Reason: {}", user_id, reason))?;
+                let EmailVerification { user_id, .. } = emailverifications::table
+                    .filter(emailverifications::email.eq(&email))
+                    .order_by(emailverifications::expires.desc())
+                    .first::<EmailVerification>(&*conn)
+                    .map_err(|reason| format!("User with id {} could not be retrieved. Reason: {}", user_id, reason))?;
+                if user_id != raw_user.user_id {
+                    return Err("This account's email has been claimed by another user".to_owned())
+                }
                 raw_user.with_email(email)
             };
         let con_count =
@@ -85,6 +96,13 @@ impl Database {
         let verification_code = crate::rand::nonce().map_err(|_| String::from("A nonce could not be generated"))?;
         conn.transaction(|| {
                 let email = email.clone();
+                let email_in_use = diesel::select(dsl::exists(emailsinuse::table.filter(emailsinuse::email.eq(&email))))
+                    .get_result::<bool>(&*conn)?;
+                if email_in_use {
+                    return Err(diesel::result::Error::DeserializationError(Box::new(StringError(
+                        "The email is already in use by another user".to_owned()
+                    ))))
+                }
                 let user = diesel::insert_into(users::table)
                     .values((users::name.eq(name), users::password.eq(password)))
                     .get_result::<RawUser>(&*conn)?;
@@ -121,14 +139,90 @@ impl Database {
             .map_err(|reason| format!("Could not verify email with code {}. Reason: {}", verification_code, reason))
     }
 
-    pub fn change_password(&self, user_id: i32, hashed_password: String) -> Result<(), String> {
+    pub fn change_email(&self, maybe_user_id: Option<i32>, email: String) -> Result<EmailVerification, String> {
+        let user_id = self.resolve_user_id(maybe_user_id);
+        let conn = self.pool.get().unwrap();
+        let verification_code = crate::rand::nonce().map_err(|_| String::from("A nonce could not be generated"))?;
+        conn.transaction(|| {
+                let email_in_use = diesel::select(dsl::exists(emailsinuse::table.filter(emailsinuse::email.eq(&email))))
+                    .get_result::<bool>(&*conn)?;
+                if email_in_use {
+                    return Err(diesel::result::Error::DeserializationError(Box::new(StringError(
+                        "The email is already in use by another user".to_owned()
+                    ))))
+                }
+                diesel::insert_into(emailverifications::table)
+                    .values((
+                        emailverifications::verification_code.eq(verification_code),
+                        emailverifications::user_id.eq(user_id),
+                        emailverifications::email.eq(&email),
+                    ))
+                    .get_result::<EmailVerification>(&*conn)
+            })
+            .map_err(|reason| format!("Could not change email of user with id {}. Reason: {}", user_id, reason))
+    }
+
+    pub fn set_user_name(&self, maybe_user_id: Option<i32>, name: String) -> Result<User, String> {
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         diesel::update(users::table)
-            .set(users::password.eq(hashed_password))
+            .set(users::name.eq(name))
             .filter(users::user_id.eq(user_id))
-            .execute(&*conn)
-            .map_err(|reason| format!("Could not change password of user with id {}. Reason: {}", user_id, reason))
-            .map(|_| ())
+            .get_result::<RawUser>(&*conn)
+            .map(RawUser::unwrap)
+            .map_err(|reason| format!("Could not update name of user with id {}. Reason: {}", user_id, reason))
+    }
+
+    pub fn set_user_password(&self, maybe_user_id: Option<i32>, orig_password: String, new_password: String) -> Result<User, String> {
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
+        let conn = self.pool.get().unwrap();
+        conn.transaction(|| {
+                let original = users::table
+                    .select(users::password)
+                    .filter(users::user_id.eq(user_id))
+                    .first::<String>(&*conn)?;
+
+                if !bcrypt::verify(&orig_password, &original).unwrap_or(false) {
+                    return Err(diesel::result::Error::DeserializationError(Box::new(StringError(
+                        "Original password is incorrect".to_owned()
+                    ))))
+                }
+
+                let hashed = bcrypt::hash(&new_password, bcrypt::DEFAULT_COST)
+                    .map_err(|reason| diesel::result::Error::DeserializationError(Box::new(StringError(
+                        format!("Couldn't hash password..? Reason: {}", reason)
+                    ))))?;
+
+                diesel::update(users::table)
+                    .set(users::password.eq(hashed))
+                    .filter(users::user_id.eq(user_id))
+                    .get_result::<RawUser>(&*conn)
+                    .map(RawUser::unwrap)
+            })
+            .map_err(|reason| format!("Could not update password of user with id {}. Reason: {}", user_id, reason))
+    }
+
+    pub fn force_set_password(&self, verification_code: &str, password: &str) -> Result<User, String> {
+        let conn = self.pool.get().unwrap();
+        conn.transaction(|| {
+                let PasswordReset { user_id, .. } = diesel::update(passwordresets::table)
+                    .filter(passwordresets::verification_code.eq(verification_code))
+                    .filter(passwordresets::used.eq(false))
+                    .set(passwordresets::used.eq(true))
+                    .get_result::<PasswordReset>(&*conn)?;
+
+                let hashed = bcrypt::hash(password, bcrypt::DEFAULT_COST)
+                    .map_err(|reason| diesel::result::Error::DeserializationError(Box::new(StringError(
+                        format!("Couldn't hash password..? Reason: {}", reason)
+                    ))))?;
+
+                diesel::update(users::table)
+                    .filter(users::user_id.eq(user_id))
+                    .set(users::password.eq(hashed))
+                    .get_result::<RawUser>(&*conn)
+                    .map(RawUser::unwrap)
+            })
+            .map_err(|reason| format!("Could not update password using code {}. Reason: {}", verification_code, reason))
     }
 
     pub fn reset_password(&self, email: &str) -> Result<PasswordReset, String> {

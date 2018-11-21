@@ -10,9 +10,10 @@ mod record;
 mod expense;
 mod settings;
 
-use database::Database;
-use database::models::*;
-use money::Money;
+use crate::database::{Database, models::*};
+use crate::money::Money;
+#[cfg(feature="mailer")]
+use crate::email::confirm_email;
 use self::product::*;
 use self::product_type::*;
 use self::price::*;
@@ -28,13 +29,27 @@ graphql_object!(Mutation: Database |&self| {
     // Users
     field change_user_email(&executor, user_id: Option<i32>, email: String) -> FieldResult<User> {
         ensure!(email.len() > 0 && email.len() <= 512);
-        unimplemented!();
 
-        // dbtry! {
-        //     executor
-        //         .context()
-        //         .set_user_email(user_id, email)
-        // }
+        let EmailVerification { verification_code, email, .. } = dbtry! {
+            executor
+                .context()
+                .change_email(user_id, email)
+        }?;
+
+        #[cfg(feature="mailer")]
+        confirm_email::send(email, verification_code)?;
+        #[cfg(not(feature="mailer"))]
+        let User { .. } = dbtry! {
+            executor
+                .context()
+                .verify_email(&verification_code)
+        }?;
+
+        dbtry! {
+            executor
+                .context()
+                .get_user_by_id(user_id)
+        }
     }
 
     field change_user_password(&executor, user_id: Option<i32>, orig_password: String, password: String) -> FieldResult<User> {

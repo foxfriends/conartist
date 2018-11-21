@@ -10,6 +10,9 @@ use database::Database;
 use middleware::VerifyJWT;
 use cr;
 use bodyparser;
+
+#[cfg(feature="mailer")]
+use crate::email::reset_password;
 use super::authtoken::{self, Claims};
 
 fn reauth(req: &mut Request) -> IronResult<Response> {
@@ -57,17 +60,11 @@ impl Handler for ChangePassword {
     fn handle(&self, req: &mut Request) -> IronResult<Response> {
         let rbody = itry!{ req.get::<bodyparser::Struct<ChangePasswordData>>(), status::BadRequest }.clone();
         let claims = iexpect!{ req.extensions.get::<Claims>() };
-        let body = iexpect!{ rbody };
-        if body.old.is_empty() || body.new.is_empty() {
+        let ChangePasswordData { old, new } = iexpect!{ rbody };
+        if old.is_empty() || new.is_empty() {
             return cr::fail("Invalid request");
         }
-        if let Ok(user) = self.database.get_user_by_id(Some(claims.usr)) {
-            if !itry! { bcrypt::verify(&body.old, user.password.as_str()) } {
-                return cr::fail("Old password is incorrect");
-            }
-        }
-        let hashed = itry!{ bcrypt::hash(&body.new, bcrypt::DEFAULT_COST) };
-        match self.database.change_password(claims.usr, hashed) {
+        match self.database.set_user_password(Some(claims.usr), old, new) {
             Ok(_) => cr::ok(true),
             Err(ref s) => cr::fail(s),
         }
@@ -89,7 +86,8 @@ impl Handler for ResetPassword {
         }
         match self.database.reset_password(&email.to_lowercase()) {
             Ok(password_reset) => {
-                // TODO: send_reset_email();
+                #[cfg(feature="mailer")]
+                reset_password::send(email, password_reset.verification_code);
                 cr::ok(true)
             },
             Err(ref s) => cr::fail(s),

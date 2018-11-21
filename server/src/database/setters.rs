@@ -1,6 +1,5 @@
 use diesel::prelude::*;
 use diesel;
-use bcrypt;
 
 use super::schema::*;
 use super::models::*;
@@ -9,59 +8,6 @@ use super::Database;
 use money::Currency;
 
 impl Database {
-    pub fn set_user_password(&self, maybe_user_id: Option<i32>, orig_password: String, new_password: String) -> Result<User, String> {
-        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
-        conn.transaction(|| {
-                let original =
-                    users::table
-                        .select(users::password)
-                        .filter(users::user_id.eq(user_id))
-                        .first::<String>(&*conn)?;
-
-                if !bcrypt::verify(&orig_password, &original).unwrap_or(false) {
-                    return Err(
-                        diesel::result::Error::DeserializationError(
-                            Box::new(
-                                ::error::StringError(
-                                    "Original password is incorrect".to_owned()
-                                )
-                            )
-                        )
-                    )
-                }
-
-                let hashed = bcrypt::hash(&new_password, bcrypt::DEFAULT_COST)
-                    .map_err(|reason|
-                        diesel::result::Error::DeserializationError(
-                            Box::new(
-                                ::error::StringError(
-                                    format!("Couldn't hash password..? Reason: {}", reason)
-                                )
-                            )
-                        )
-                    )?;
-
-                diesel::update(users::table)
-                    .set(users::password.eq(hashed))
-                    .filter(users::user_id.eq(user_id))
-                    .get_result::<RawUser>(&*conn)
-                    .map(RawUser::unwrap)
-            })
-            .map_err(|reason| format!("Could not update password of user with id {}. Reason: {}", user_id, reason))
-    }
-
-    pub fn set_user_name(&self, maybe_user_id: Option<i32>, name: String) -> Result<User, String> {
-        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
-        diesel::update(users::table)
-            .set(users::name.eq(name))
-            .filter(users::user_id.eq(user_id))
-            .get_result::<RawUser>(&*conn)
-            .map(RawUser::unwrap)
-            .map_err(|reason| format!("Could not update name of user with id {}. Reason: {}", user_id, reason))
-    }
-
     pub fn add_user_keys(&self, maybe_user_id: Option<i32>, quantity: i32) -> Result<User, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();

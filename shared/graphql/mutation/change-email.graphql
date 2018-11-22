@@ -1,0 +1,7 @@
+#import '../fragment/user.graphql'
+
+mutation ChangeEmail($id: Int, $email: String!) {
+  changeUserEmail(userId: $id, email: $email) {
+    ...UserFragment
+  }
+}

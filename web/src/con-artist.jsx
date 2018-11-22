@@ -215,6 +215,15 @@ export class ConArtist extends React.Component<Props, State> {
           state.dialog = { name: 'change-password' }
           break
 
+        case 'change-email':
+          state.dialog = { name: 'change-email' }
+          break
+
+        case 'change-name':
+          state.dialog = { name: 'change-name' }
+          break
+
+
         case 'reset-password':
           state.dialog = { name: 'reset-password', email: model.dialog.email }
           break

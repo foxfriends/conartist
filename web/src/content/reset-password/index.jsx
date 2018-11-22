@@ -8,13 +8,12 @@ import { Input } from '../../common/input'
 import { Button } from '../../common/button'
 import * as navigate from '../../update/navigate'
 import { VALID, EMPTY, INVALID } from '../../model/validation'
+import { MIN_PASSWORD_LENGTH } from '../../constants'
 import S from './index.css'
 
 export type Props = {
   code: string,
 }
-
-const MIN_PASSWORD_LENGTH = 8
 
 type State = {
   password: string,

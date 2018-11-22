@@ -11,6 +11,7 @@ import { Form } from '../form'
 import { Basic } from '../basic'
 import { Input } from '../../common/input'
 import { Button } from '../../common/button'
+import { EMAIL_FORMAT } from '../../constants'
 import S from '../form.css'
 import SS from './index.css'
 const { Fragment } = React
@@ -24,8 +25,6 @@ type State = {
   email: string,
   submitted: boolean,
 }
-
-const EMAIL_FORMAT = /^[^@]+@[^@]+\.[^@]+$/
 
 export class ResetPassword extends React.Component<Props, State> {
   constructor(props: Props) {

@@ -52,16 +52,6 @@ graphql_object!(Mutation: Database |&self| {
         }
     }
 
-    field change_user_password(&executor, user_id: Option<i32>, orig_password: String, password: String) -> FieldResult<User> {
-        ensure!(password.len() > 0);
-
-        dbtry! {
-            executor
-                .context()
-                .set_user_password(user_id, orig_password, password)
-        }
-    }
-
     field change_user_name(&executor, user_id: Option<i32>, name: String) -> FieldResult<User> {
         ensure!(name.len() > 0 && name.len() <= 512);
 

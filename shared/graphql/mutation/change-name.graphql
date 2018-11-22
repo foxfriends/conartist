@@ -1,0 +1,7 @@
+#import '../fragment/user.graphql'
+
+mutation ChangeName($id: Int, $name: String!) {
+  changeUserName(userId: $id, name: $name) {
+    ...UserFragment
+  }
+}

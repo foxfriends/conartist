@@ -12,6 +12,7 @@ import { closeDialog as closeDialogButton } from '../action'
 import { closeDialog } from '../../update/dialog'
 import * as toast from '../../toast'
 import { VALID, EMPTY, INVALID } from '../../model/validation'
+import { MIN_PASSWORD_LENGTH } from '../../constants'
 import S from './index.css'
 
 export type Props = {
@@ -27,8 +28,6 @@ type State = {
   mismatchValidation: InputValidation,
   currentPasswordValidation: InputValidation,
 }
-
-const MIN_PASSWORD_LENGTH = 8
 
 // NOTE: this component shares a lot of things with sign up password form... Maybe some code sharing
 //       should be done... also the reset password form
@@ -105,7 +104,6 @@ export class ChangePassword extends React.Component<Props, State> {
     }
     return (
       <Basic title={l`Change Password`} onClose={closeDialogButton} onContinue={save}>
-        {l`Choose a new password`}
         <div className={S.form}>
           {/* $FlowIgnore: Flow definitions not up to date */}
           <Input

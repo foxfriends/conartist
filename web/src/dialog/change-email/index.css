@@ -1,0 +1,7 @@
+.form {
+  composes: form from '../change-password/index.css';
+}
+
+.input {
+  composes: input from '../change-password/index.css';
+}

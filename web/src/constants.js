@@ -4,3 +4,7 @@ export const LocalStorage = {
 }
 
 export const BaseURL = ''
+
+export const EMAIL_FORMAT = /^[^@]+@[^@]+\.[^@]+$/
+
+export const MIN_PASSWORD_LENGTH = 8

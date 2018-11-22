@@ -22,7 +22,7 @@ export type User = {|
   clearance: number,
 |}
 
-export function parse({ name, email, settings, productTypes, products, prices, conventions, clearance }: FullUserFragment): User {
+export function parse({ name, email, settings, productTypes = [], products = [], prices = [], conventions, clearance }: FullUserFragment): User {
   return {
     name,
     email,

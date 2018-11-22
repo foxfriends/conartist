@@ -3,12 +3,16 @@ import * as React from 'react'
 import { SignUp } from './signup'
 import { SignIn } from './signin'
 import { ChangePassword } from './change-password'
+import { ChangeEmail } from './change-email'
+import { ChangeName } from './change-name'
 import { ResetPassword } from './reset-password'
 import { Export } from './export'
 import { Import } from './import'
 import type { Props as SignUpProps } from './signup'
 import type { Props as SignInProps } from './signin'
 import type { Props as ChangePasswordProps } from './change-password'
+import type { Props as ChangeEmailProps } from './change-email'
+import type { Props as ChangeNameProps } from './change-name'
 import type { Props as ResetPasswordProps } from './reset-password'
 import type { Props as ExportProps } from './export'
 import type { Props as ImportProps } from './import'
@@ -19,6 +23,8 @@ export type Props
   = SignUpProps
   | SignInProps
   | ChangePasswordProps
+  | ChangeEmailProps
+  | ChangeNameProps
   | ResetPasswordProps
   | ExportProps
   | ImportProps
@@ -35,6 +41,12 @@ export function Dialog(props: Props) {
       break
     case 'change-password':
       dialog = <ChangePassword {...props} />
+      break
+    case 'change-email':
+      dialog = <ChangeEmail {...props} />
+      break
+    case 'change-name':
+      dialog = <ChangeName {...props} />
       break
     case 'reset-password':
       dialog = <ResetPassword {...props} />

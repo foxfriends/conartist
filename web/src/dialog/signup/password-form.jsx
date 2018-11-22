@@ -5,9 +5,10 @@ import LOGO from '../../../icons/apple-icon-180x180.png'
 import { l } from '../../localization'
 import { Input } from '../../common/input'
 import { Form } from '../form'
+import { VALID, EMPTY, INVALID } from '../../model/validation'
+import { MIN_PASSWORD_LENGTH } from '../../constants'
 import type { Props as FormProps } from '../form'
 import type { Validation as InputValidation } from '../../common/input'
-import { VALID, EMPTY, INVALID } from '../../model/validation'
 import type { FormDelegate as Props } from './index'
 import S from '../form.css'
 
@@ -17,8 +18,6 @@ type State = {
   passwordValidation: InputValidation,
   mismatchValidation: InputValidation,
 }
-
-const MIN_PASSWORD_LENGTH = 8
 
 export class PasswordForm extends React.Component<Props, State> {
   // $FlowIgnore: Flow definitions not up to date

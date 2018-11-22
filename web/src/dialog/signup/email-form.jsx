@@ -11,6 +11,7 @@ import { Tooltip } from '../../common/tooltip'
 import { Form } from '../form'
 import { EmailInUseRequest } from '../../api/email-in-use'
 import { EMPTY, VALID, INVALID } from '../../model/validation'
+import { EMAIL_FORMAT } from '../../constants'
 import type { Props as FormProps } from '../form'
 import type { Validation as InputValidation } from '../../common/input'
 import type { FormDelegate as Props } from './index'
@@ -22,8 +23,6 @@ type State = {
   emailValidation: InputValidation,
   mismatchValidation: InputValidation,
 }
-
-const EMAIL_FORMAT = /^[^@]+@[^@]+\.[^@]+$/
 
 export class EmailForm extends React.Component<Props, State> {
   // $FlowIgnore: Flow definitions not up to date

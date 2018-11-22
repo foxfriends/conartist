@@ -88,11 +88,11 @@ const noAuth = ['verify', 'reset-password', 'terms-of-service', 'privacy-policy'
 export function resolveRoute(): Page {
   const page = matchUrl(window.location.pathname)
   if (!isSignedIn()) {
-    if (page && noAuth.includes(page.name)) {
+    if (page && !noAuth.includes(page.name)) {
       window.history.replaceState({ attempted: window.location.pathname }, '', '/')
       return splash
     }
-    return page || splash;
+    return page || splash
   }
   if (!page) {
     window.history.replaceState({}, '', '/dashboard')

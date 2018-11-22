@@ -1,9 +1,10 @@
 'use strict';
 
+const webpack = require('webpack');
 const path = require('path');
 
 module.exports = env => ({
-  mode: 'development',
+  mode: env === 'production' ? 'production' : 'development',
   entry: './index.jsx',
   output: {
     path: path.resolve('.', 'static'),
@@ -26,8 +27,10 @@ module.exports = env => ({
     extensions: ['.js', '.jsx', '.json'],
   },
   devtool: 'cheap-eval-source-map',
+  optimization: {
+    minimize: env === 'production',
+  },
   plugins: env === 'production' ? [
     new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify('production') }),
-    new webpack.optimize.UglifyJsPlugin(),
   ] : []
 });

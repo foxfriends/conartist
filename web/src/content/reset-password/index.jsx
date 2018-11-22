@@ -9,7 +9,6 @@ import { Button } from '../../common/button'
 import * as navigate from '../../update/navigate'
 import { VALID, EMPTY, INVALID } from '../../model/validation'
 import S from './index.css'
-const { Fragment } = React
 
 export type Props = {
   code: string,
@@ -121,7 +120,7 @@ export class ResetPassword extends React.Component<Props, State> {
                 title={l`Confirm new password`}
                 onChange={password => this.handleConfirmPasswordChange(password)}
                 ref={this.confirmInput}
-                onSubmit={() => { this.saveChanges() }}
+                onSubmit={() => this.handleSubmit()}
                 validation={mismatchValidation}
                 />
             </div>

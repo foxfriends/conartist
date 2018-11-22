@@ -18,6 +18,9 @@ module.exports = env => ({
       {
         test: /\.css$/,
         exclude: /node_modules/,
+        loader: env === 'production' 
+          ? 'style-loader!css-loader?modules=true&minimize=true!postcss-loader'
+	  : 'style-loader!css-modules-flow-types-loader!css-loader?modules=true!postcss-loader',
         loader: 'style-loader!css-modules-flow-types-loader!css-loader?modules=true&minimize=true!postcss-loader',
       },
       { test: /\.graphql$/, loader: 'graphql-tag/loader' },
@@ -28,7 +31,7 @@ module.exports = env => ({
   },
   devtool: 'cheap-eval-source-map',
   optimization: {
-    minimize: env === 'production',
+    minimize: false, // disabled until the production server is strong enough. env === 'production',
   },
   plugins: env === 'production' ? [
     new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify('production') }),

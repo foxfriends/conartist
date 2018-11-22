@@ -1,5 +1,4 @@
 'use strict';
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 const path = require('path');
 
@@ -27,5 +26,8 @@ module.exports = env => ({
     extensions: ['.js', '.jsx', '.json'],
   },
   devtool: 'cheap-eval-source-map',
-  plugins: env === 'production' ? [] : [] // [new UglifyJSPlugin()] : [] // disabled until the prod server is capable of doing it
+  plugins: env === 'production' ? [
+    new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify('production') }),
+    new webpack.optimize.UglifyJsPlugin(),
+  ] : []
 });

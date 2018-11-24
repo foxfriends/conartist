@@ -8,6 +8,14 @@ pub struct SettingsMutation(pub Option<i32>);
 graphql_object!(SettingsMutation: Database |&self| {
     description: "Mutations to modify a user's settings"
 
+    field language(&executor, language: String) -> FieldResult<String> {
+        dbtry! {
+            executor
+                .context()
+                .set_user_settings_language(self.0, language)
+        }
+    }
+
     field currency(&executor, currency: Currency) -> FieldResult<Currency> {
         dbtry! {
             executor

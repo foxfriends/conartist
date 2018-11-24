@@ -31,4 +31,17 @@ impl Database {
             .get_result::<Currency>(&*conn)
             .map_err(|reason| format!("Could not update currency setting for user with id {}. Reason: {}", user_id, reason))
     }
+
+    pub fn set_user_settings_language(&self, maybe_user_id: Option<i32>, language: String) -> Result<String, String> {
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
+        let conn = self.pool.get().unwrap();
+        diesel::insert_into(usersettings::table)
+            .values((usersettings::user_id.eq(user_id), usersettings::language.eq(&language)))
+            .on_conflict(usersettings::user_id)
+            .do_update()
+            .set(usersettings::language.eq(&language))
+            .returning(usersettings::language)
+            .get_result::<String>(&*conn)
+            .map_err(|reason| format!("Could not update language setting for user with id {}. Reason: {}", user_id, reason))
+    }
 }

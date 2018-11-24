@@ -1,0 +1,5 @@
+mutation UpdateLanguage($id: Int, $language: String!) {
+  updateSettings(userId: $id) {
+    language(language: $language)
+  }
+}

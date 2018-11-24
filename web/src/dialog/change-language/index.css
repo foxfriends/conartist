@@ -1,0 +1,3 @@
+.item {
+  composes: item from '../change-currency/index.css';
+}

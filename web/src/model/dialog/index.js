@@ -3,7 +3,9 @@ import type { SignUp } from './signup'
 import type { SignIn } from './signin'
 import type { ChangePassword } from './change-password'
 import type { ChangeEmail } from './change-email'
-import type { changeName } from './change-name'
+import type { ChangeName } from './change-name'
+import type { ChangeCurrency } from './change-currency'
+import type { ChangeLanguage } from './change-language'
 import type { Export } from './export'
 import type { Import } from './import'
 import type { ResetPassword } from './reset-password'
@@ -14,6 +16,8 @@ export type Dialog
   | ChangePassword
   | ChangeEmail
   | ChangeName
+  | ChangeCurrency
+  | ChangeLanguage
   | Export
   | Import
   | ResetPassword

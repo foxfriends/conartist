@@ -9,11 +9,11 @@ mod schema;
 mod creaters;
 mod updaters;
 mod getters;
-mod setters;
 mod deleters;
 
 mod suggestions;
 mod account;
+mod user;
 
 mod conversions;
 mod dsl;

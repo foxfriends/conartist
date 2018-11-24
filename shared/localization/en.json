@@ -15,7 +15,10 @@
   "Can I get your email?": "Can I get your email?",
   "Cancel": "Cancel",
   "Category": "Category",
+  "Change": "Change",
+  "Change Currency": "Change Currency",
   "Change Email": "Change Email",
+  "Change Language": "Change Language",
   "Change Name": "Change Name",
   "Change Password": "Change Password",
   "Completed": "Completed",
@@ -24,6 +27,7 @@
   "Continue": "Continue",
   "Conventions": "Conventions",
   "Currency": "Currency",
+  "Currency changed successfully": "Currency changed successfully",
   "Current earnings": "Current earnings",
   "Current password": "Current password",
   "Customers": "Customers",
@@ -74,6 +78,7 @@
   "It seems something went wrong.": "It seems something went wrong.",
   "Keep it short and sweet!": "Keep it short and sweet!",
   "Language": "Language",
+  "Language changed successfully": "Language changed successfully",
   "Language & Location": "Language & Location",
   "Let's get started!": "Let's get started!",
   "Looks good to me": "Looks good to me",
@@ -221,5 +226,9 @@
   "<Splash body>": "ConArtist brings together all the things you need, streamlining your convention experience. Find conventions, manage inventory, and record sales, all in one place.",
   "<Splash title>": "The money counter for the busy tabeller",
   "<Verify Account Successful>": "Your account is now secured. Welcome to ConArtist.",
-  "<Verify Account Failed>": "We couldn't verify your account right now. Maybe you should try again?"
+  "<Verify Account Failed>": "We couldn't verify your account right now. Maybe you should try again?",
+
+  "en-ca": "English (Canada)",
+  "en-us": "English (USA)",
+  "zh-Hans": "中文 (简体)"
 }

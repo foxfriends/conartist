@@ -1,0 +1,13 @@
+.item {
+  --background-color: transparent;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  background-color: var(--background-color);
+  font-weight: var(--font-weight--semibold);
+
+  &:hover {
+    --background-color: var(--color--background-hover-highlight)
+  }
+}

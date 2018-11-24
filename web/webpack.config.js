@@ -32,7 +32,7 @@ module.exports = env => ({
   },
   devtool: 'cheap-eval-source-map',
   optimization: {
-    minimize: false, // disabled until the production server is strong enough. env === 'production',
+    minimize: env === 'production',
   },
   plugins: env === 'production' ? [
     new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify('production') }),

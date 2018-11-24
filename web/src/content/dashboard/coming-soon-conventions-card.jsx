@@ -1,6 +1,6 @@
 /* @flow */
 import * as React from 'react'
-import moment from 'moment'
+import formatDate from 'date-fns/format'
 
 import { BasicCard } from '../card-view/basic-card'
 import { Grid } from '../../common/grid'
@@ -18,7 +18,7 @@ export type Props = {
 }
 
 function format(date: Date): string {
-  return moment.utc(date).format(l`MMM. d, yyyy`)
+  return formatDate(date, l`MMM. d, yyyy`)
 }
 
 function bold(text): React.Node {

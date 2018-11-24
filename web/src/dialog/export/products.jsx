@@ -1,7 +1,7 @@
 /* @flow */
 import * as React from 'react'
 import saveAs from 'save-as'
-import Zip from 'jszip'
+const Zip = import(/* webpackChunkName: 'zip' */ 'jszip')
 
 import { Basic } from '../basic'
 import { Grid } from '../../common/grid'
@@ -94,7 +94,7 @@ export class ExportProducts extends React.Component<Props, State> {
       .map(([name, file]) => [name, file.join('\n') + '\n'])
       .map(([name, file]) => [name, new Blob([file], { type: 'text/plain;charset=utf-8' })])
     if (separateTypes) {
-      const zip = new Zip()
+      const zip = new (await Zip)()
       for (const [name, blob] of files) {
         zip.file(`${name}.csv`, blob)
       }

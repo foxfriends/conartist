@@ -1,6 +1,6 @@
 /* @flow */
 import * as React from 'react'
-import moment from 'moment'
+import formatDate from 'date-fns/format'
 
 import { l } from '../../../localization'
 import { Row } from '../../../common/table/row'
@@ -15,11 +15,11 @@ export type Props = {
 }
 
 function format(date: Date): string {
-  return moment(date).format(l`h:mma`)
+  return formatDate(date, l`h:mma`)
 }
 
 function day(date: Date): string {
-  return moment(date).format(l`EEE`)
+  return formatDate(date, l`EEE`)
 }
 
 const isToday = sameDayAs(new Date())

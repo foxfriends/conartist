@@ -1,6 +1,6 @@
 /* @flow */
 import * as React from 'react'
-import moment from 'moment'
+import formatDate from 'date-fns/format'
 
 import { Font } from '../../common/font'
 import { AutoList as List } from '../../common/list/auto'
@@ -24,7 +24,7 @@ export type Props = {
 }
 
 function format(date: Date): string {
-  return moment.utc(date).format(l`EEEE MMMM d, yyyy`)
+  return formatDate(date, l`EEEE MMMM d, yyyy`)
 }
 
 export function RecordsCard({ date, convention, onFocus }: Props) {

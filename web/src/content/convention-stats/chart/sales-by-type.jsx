@@ -1,10 +1,10 @@
 /* @flow */
 import * as React from 'react'
-import { Bar } from 'react-chartjs-2'
 
 import Map from '../../../util/default-map'
 import { calculatePrice } from '../../../util/calculate-price'
 import { ChartCard } from './card'
+import { ChartsLoading } from './charts-loading'
 import { NotEnoughData } from './not-enough-data'
 import { SecondaryCard } from '../../card-view/secondary-card'
 import { Select } from '../../../common/select'
@@ -16,6 +16,9 @@ import type { Product } from '../../../model/product'
 import type { Record } from '../../../model/record'
 import type { Price } from '../../../model/price'
 import S from './chart.css'
+
+const Bar = React.lazy(() => import(/* webpackChunkName: "chart" */ './lazy/bar'))
+const { Suspense } = React
 
 export type Props = {
   productTypes: ProductType[],
@@ -148,12 +151,14 @@ export class SalesByTypeChart extends React.Component<Props, State> {
     return (
       <ChartCard title={l`Sales By Type`} showSettings={showSettings} innerRef={card => this.ref.current = card}>
         <>
-          <Bar
-            data={data}
-            width={600}
-            height={600}
-            options={options}
-            />
+          <Suspense fallback={<ChartsLoading />}>
+            <Bar
+              data={data}
+              width={600}
+              height={600}
+              options={options}
+              />
+          </Suspense>
           { records.length === 0 || productTypes.length === 0
             ? <NotEnoughData />
             : null

@@ -1,6 +1,6 @@
 /* @flow */
 import * as React from 'react'
-import moment from 'moment'
+import formatDate from 'date-fns/format'
 
 import { l } from '../../../localization'
 import { Row } from '../../../common/table/row'
@@ -12,7 +12,7 @@ export type Props = {
 }
 
 function format(date: Date): string {
-  return moment.utc(date).format(l`MMM. d, yyyy`)
+  return formatDate(date, l`MMM. d, yyyy`)
 }
 
 export function DatesInfo({ start, end }: Props) {

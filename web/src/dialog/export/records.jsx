@@ -1,8 +1,8 @@
 /* @flow */
 import * as React from 'react'
 import saveAs from 'save-as'
-import Zip from 'jszip'
-import moment from 'moment'
+const Zip = import(/* webpackChunkName: 'zip' */ 'jszip')
+import format from 'date-fns/format'
 
 import { Basic } from '../basic'
 import { Grid } from '../../common/grid'
@@ -56,11 +56,11 @@ function data(columns: Column[]): (RecordData) => React.Node {
 }
 
 function formatDay(date: Date): string {
-  return moment(date).format(l`MMM. d, yyyy`)
+  return format(date, l`MMM. d, yyyy`)
 }
 
 function formatTime(date: Date): string {
-  return moment(date).format(l`MMMM d yyyy. h:mma`)
+  return format(date, l`MMMM d yyyy. h:mma`)
 }
 
 export class ExportRecords extends React.Component<Props, State> {
@@ -161,7 +161,7 @@ export class ExportRecords extends React.Component<Props, State> {
       .map(([name, file]) => [name, file.join('\n') + '\n'])
       .map(([name, file]) => [name, new Blob([file], { type: 'text/plain;charset=utf-8' })])
     if (separateDays) {
-      const zip = new Zip()
+      const zip = new (await Zip)()
       for (const [name, blob] of files) {
         zip.file(`${name}.csv`, blob)
       }

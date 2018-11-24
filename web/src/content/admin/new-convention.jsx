@@ -1,7 +1,6 @@
 /* @flow */
 import * as React from 'react'
-import moment from 'moment'
-
+import format from 'date-fns/format'
 import { forkJoin, of } from 'rxjs'
 import { switchMap, tap, map, filter } from 'rxjs/operators'
 
@@ -136,14 +135,14 @@ export class NewConvention extends React.Component<Props, State> {
     }
 
     new CreateConvention()
-      .send({ title: name, startDate: moment.utc(startDate).format('YYYY-MM-DD'), endDate: moment.utc(endDate).format('YYYY-MM-DD') })
+      .send({ title: name, startDate: format(startDate, 'yyyy-MM-dd'), endDate: foramt(endDate, 'yyyy-MM-dd') })
       .pipe(
         tap(response => response.state === 'failed' && alert(response.error)),
         filter(response => response.state === 'retrieved'),
         switchMap(({ value: conId }) =>
           forkJoin([
             new AddConventionInfo().send({ conId, title: 'Address', info: JSON.stringify(address), action: 'TODO: coordinates', actionText: null }),
-            new AddConventionInfo().send({ conId, title: 'Hours', info: JSON.stringify(hours.map(day => day.map(time => moment.utc(time || 0).format()))), action: null, actionText: null }),
+            new AddConventionInfo().send({ conId, title: 'Hours', info: JSON.stringify(hours.map(day => day.map(time => format(time || 0, 'yyyy-MM-dd\'T\'HH:mm:ss.SSSX')))), action: null, actionText: null }),
             new AddConventionInfo().send({ conId, title: 'Website', info: null, action: websiteURL, actionText: website }),
           ])
         ),

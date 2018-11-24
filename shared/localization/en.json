@@ -81,6 +81,7 @@
   "Language changed successfully": "Language changed successfully",
   "Language & Location": "Language & Location",
   "Let's get started!": "Let's get started!",
+  "Loading...": "Loading...",
   "Looks good to me": "Looks good to me",
   "Manage Prices": "Manage Prices",
   "Manage Products": "Manage Products",
@@ -190,26 +191,11 @@
   "Your password is incorrect": "Your password is incorrect",
   "Your password is too short": "Your password is too short",
   "Your passwords don't match": "Your passwords don't match",
-  "EEE": {
-    "web": "ddd.",
-    "ios": "EEE."
-  },
-  "EEEE MMMM d, yyyy": {
-    "web": "dddd MMMM D, YYYY",
-    "ios": "EEEE MMMM d, yyyy"
-  },
-  "EEEE MMMM d, yyyy. h:mma": {
-    "web": "dddd MMMM D, YYYY. h:mma",
-    "ios": "EEEE MMMM d, yyyy. h:mma"
-  },
-  "MMMM d yyyy. h:mma": {
-    "web": "MMMM D YYYY. h:mma",
-    "ios": "MMMM d yyyy. h:mma"
-  },
-  "MMM. d, yyyy": {
-    "web": "MMM. D, YYYY",
-    "ios": "MMM. d, yyyy"
-  },
+  "EEE": "EEE.",
+  "EEEE MMMM d, yyyy": "EEEE MMMM d, yyyy",
+  "EEEE MMMM d, yyyy. h:mma": "EEEE MMMM d, yyyy. h:mma",
+  "MMMM d yyyy. h:mma": "MMMM D YYYY. h:mma",
+  "MMM. d, yyyy": "MMM. d, yyyy",
   "h:mma": "h:mma",
   "h:mm": "h:mm",
   "{{}} {is today. Good luck!}": "{{}} {is today. Good luck!}",

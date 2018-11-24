@@ -1,11 +1,12 @@
 /* @flow */
 import * as React from 'react'
-import { Line } from 'react-chartjs-2'
-import moment from 'moment';
+import startOfDay from 'date-fns/startOfDay'
+import format from 'date-fns/format'
 
 import Map from '../../../util/default-map'
 import { ChartCard } from './card'
 import { NotEnoughData } from './not-enough-data'
+import { ChartsLoading } from './charts-loading'
 import { SecondaryCard } from '../../card-view/secondary-card'
 import { Select } from '../../../common/select'
 import { l, localize } from '../../../localization'
@@ -13,6 +14,9 @@ import { Money } from '../../../model/money'
 import { model } from '../../../model'
 import type { Record } from '../../../model/record'
 import S from './chart.css'
+
+const Line = React.lazy(() => import(/* webpackChunkName: "chart" */ './lazy/line'))
+const { Suspense } = React
 
 export type Props = {
   records: Record[],
@@ -43,13 +47,13 @@ const colors = [
 function splitByDays(items: Item[]) {
   const days = []
   let day = []
-  let currentDay = moment(items[0].time).startOf('day').valueOf()
+  let currentDay = startOfDay(items[0].time).valueOf()
 
   for (const item of items) {
-    if (moment(item.time).startOf('day').valueOf() === currentDay) {
+    if (startOfDay(item.time).valueOf() === currentDay) {
       day.push(item)
     } else {
-      currentDay = moment(item.time).startOf('day').valueOf()
+      currentDay = startOfDay(item.time).valueOf()
       days.push(day)
       day = [item]
     }
@@ -60,8 +64,8 @@ function splitByDays(items: Item[]) {
 }
 
 function dailyTotals(data: Item[]): Item[] {
-  const startPrice = data[0].price || Money.zero
-  const startQuantity = data[0].quantity || 0
+  const startPrice = (data[0] || {}).price || Money.zero
+  const startQuantity = (data[0] || {}).quantity || 0
   return data.map(({ time, price, quantity }) => ({ time, price: price.add(startPrice.negate()), quantity: quantity - startQuantity }))
 }
 
@@ -126,7 +130,7 @@ function averages(grouping: number = 1): ((Item[]) => Item[]) {
 }
 
 function timeInDay(time) {
-  return moment(time).valueOf() - moment(time).startOf('day').valueOf()
+  return time - startOfDay(time)
 }
 
 export class SalesOverTimeChart extends React.Component<Props, State> {
@@ -155,11 +159,11 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
     const dates = [...new Set(
       records
         .map(({ time }) => time)
-        .map(time => moment(time).startOf('day').valueOf())
+        .map(time => startOfDay(time))
     )].sort()
 
     const days = dates
-      .map(date => moment(date).format(l`EEE`))
+      .map(date => format(date, l`EEE`))
 
     const totalOverTime = splitByDays(
       records
@@ -201,7 +205,7 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
       },
       tooltips: {
         callbacks: {
-          title: ([{ xLabel }]) => moment(xLabel).format(l`h:mma`),
+          title: ([{ xLabel }]) => format(xLabel, l`h:mma`),
           label: ({ yLabel }) => metric === 'Money' ? new Money(model.getValue().settings.currency, yLabel) : yLabel,
         },
       },
@@ -211,7 +215,7 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
             type: 'linear',
             position: 'bottom',
             ticks: {
-              callback: label => moment(label).format(l`h:mma`),
+              callback: label => format(label, l`h:mma`),
             },
             scaleLabel: {
               display: true,
@@ -237,12 +241,14 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
     return (
       <ChartCard title={l`Sales Over Time`} showSettings={showSettings} innerRef={card => this.ref.current = card}>
         <>
-          <Line
-            data={data}
-            width={600}
-            height={600}
-            options={options}
-            />
+          <Suspense fallback={<ChartsLoading />}>
+            <Line
+              data={data}
+              width={600}
+              height={600}
+              options={options}
+              />
+          </Suspense>
           { records.length <= 1
             ? <NotEnoughData />
             : null

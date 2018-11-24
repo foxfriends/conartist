@@ -1,10 +1,10 @@
 /* @flow */
 import * as React from 'react'
-import { Bar } from 'react-chartjs-2'
 
 import Map from '../../../util/default-map'
 import { ChartCard } from './card'
 import { NotEnoughData } from './not-enough-data'
+import { ChartsLoading } from './charts-loading'
 import { SecondaryCard } from '../../card-view/secondary-card'
 import { Select } from '../../../common/select'
 import { l } from '../../../localization'
@@ -12,6 +12,9 @@ import type { ProductType } from '../../../model/product-type'
 import type { Product } from '../../../model/product'
 import type { Record } from '../../../model/record'
 import S from './chart.css'
+
+const Bar = React.lazy(() => import(/* webpackChunkName: "chart" */ './lazy/bar'))
+const { Suspense } = React
 
 export type Props = {
   productTypes: ProductType[],
@@ -72,16 +75,18 @@ export class InventoryChart extends React.Component<Props, State> {
     return (
       <ChartCard title={l`Inventory`} showSettings={showSettings} innerRef={card => this.ref.current = card}>
         <>
-          <Bar
-            data={data}
-            width={600}
-            height={600}
-            options={options}
-            />
-          { selectedProducts.length === 0
-            ? <NotEnoughData />
-            : null
-          }
+          <Suspense fallback={<ChartsLoading />}>
+            <Bar
+              data={data}
+              width={600}
+              height={600}
+              options={options}
+              />
+          </Suspense>
+            { selectedProducts.length === 0
+              ? <NotEnoughData />
+              : null
+            }
         </>
         <SecondaryCard anchor={this.ref} title={l`Options`} onClose={() => showSettings(null)}>
           <div className={S.options}>

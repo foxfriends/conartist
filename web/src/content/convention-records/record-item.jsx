@@ -1,6 +1,6 @@
 /* @flow */
 import * as React from 'react'
-import moment from 'moment'
+import formatDate from 'date-fns/format'
 
 import Map from '../../util/default-map'
 import { l } from '../../localization'
@@ -18,7 +18,7 @@ export type Props = {
 }
 
 function format(date: Date): string {
-  return moment(date).format(l`h:mm`)
+  return formatDate(date, l`h:mm`)
 }
 
 export function RecordItem({ record, onClick, innerRef }: Props) {

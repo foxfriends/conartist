@@ -1,4 +1,4 @@
 {
   "presets": ["@babel/preset-flow", "@babel/preset-react"],
-  "plugins": ["react-css-modules", "@babel/proposal-object-rest-spread"]
+  "plugins": ["react-css-modules", "@babel/proposal-object-rest-spread", "@babel/plugin-syntax-dynamic-import"]
 }

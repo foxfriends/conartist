@@ -10,6 +10,7 @@ module.exports = env => ({
     path: path.resolve('.', 'static'),
     publicPath: 'static/',
     filename: 'conartist.min.js',
+    chunkFilename: '[name].bundle.js',
   },
   module: {
     rules: [
@@ -18,7 +19,7 @@ module.exports = env => ({
       {
         test: /\.css$/,
         exclude: /node_modules/,
-        loader: env === 'production' 
+        loader: env === 'production'
           ? 'style-loader!css-loader?modules=true&minimize=true!postcss-loader'
 	  : 'style-loader!css-modules-flow-types-loader!css-loader?modules=true!postcss-loader',
         loader: 'style-loader!css-modules-flow-types-loader!css-loader?modules=true&minimize=true!postcss-loader',

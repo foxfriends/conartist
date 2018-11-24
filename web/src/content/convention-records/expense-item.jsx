@@ -1,6 +1,6 @@
 /* @flow */
 import * as React from 'react'
-import moment from 'moment'
+import formatDate from 'date-fns/format'
 
 import { l } from '../../localization'
 import { Item } from '../../common/list/item'
@@ -17,7 +17,7 @@ export type Props = {
 }
 
 function format(date: Date): string {
-  return moment(date).format(l`h:mm`)
+  return formatDate(date, l`h:mm`)
 }
 
 export function ExpenseItem({ expense, onClick, innerRef }: Props) {

@@ -1,6 +1,6 @@
 /* @flow */
 import * as React from 'react'
-import moment from 'moment'
+import differenceInHours from 'date-fns/differenceInHours'
 
 import { Font } from '../../common/font'
 import { Table } from '../../common/table'
@@ -28,7 +28,7 @@ export function ConventionStatsCard({ convention }: Props) {
   let profitPerHour = 0
   if (hours) {
     const totalHours = JSON.parse(hours.info)
-      .map(([start, end]) => moment.duration(moment(end).diff(moment(start))).asHours())
+      .map(([start, end]) => differenceInHours(end, start))
       .reduce((hours, day) => hours + day, 0)
     if (totalHours !== 0) {
       profitPerHour = totalProfit.multiply(1 / totalHours)

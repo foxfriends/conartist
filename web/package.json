@@ -26,6 +26,7 @@
     "flow-bin": "^0.79.1",
     "flow-typed": "^2.5.1",
     "img-loader": "^3.0.1",
+    "mini-css-extract-plugin": "^0.4.5",
     "postcss-custom-properties": "^7.0.0",
     "postcss-loader": "^3.0.0",
     "postcss-nesting": "^6.0.0",

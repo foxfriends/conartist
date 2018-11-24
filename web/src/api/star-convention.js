@@ -1,6 +1,7 @@
 /* @flow */
 import type { Observable } from 'rxjs/Observable'
-import { map } from 'rxjs/operators'
+import { from } from 'rxjs'
+import { map, flatMap } from 'rxjs/operators'
 
 import { GraphQLMutation } from './index'
 import { parse } from '../model/meta-convention'
@@ -11,19 +12,19 @@ import type {
   AddUserConventionVariables,
 } from './schema'
 
-// $FlowIgnore: trouble importing graphql files
-import addUserConvention from './graphql/mutation/add-user-convention.graphql'
-
 export class StarConvention implements APIRequest<AddUserConventionVariables, MetaConvention> {
   addUserConvention: GraphQLMutation<AddUserConventionVariables, AddUserConventionMutation>
 
   constructor() {
-    this.addUserConvention = new GraphQLMutation(addUserConvention)
+    // $FlowIgnore: trouble importing graphql files
+    const addUserConvention = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/add-user-convention.graphql')
+    this.addUserConvention = addUserConvention.then(addUserConvention => new GraphQLMutation(addUserConvention))
   }
 
   send(variables: AddUserConventionVariables): Observable<Response<MetaConvention, string>> {
-    return this.addUserConvention.send(variables)
+    return from(this.addUserConvention)
       .pipe(
+        flatMap(req => req.send(variables)),
         map(response => response.state === 'retrieved'
           ? { state: 'retrieved', value: parse(response.value.addUserConvention) }
           : response

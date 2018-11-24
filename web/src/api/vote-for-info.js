@@ -1,7 +1,7 @@
 /* @flow */
 import type { Observable } from 'rxjs'
-import { of } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { of, from } from 'rxjs'
+import { map, flatMap } from 'rxjs/operators'
 
 import { GraphQLMutation } from './index'
 import type { ConventionUserInfo } from '../model/convention-user-info'
@@ -12,11 +12,6 @@ import type {
   UpvoteConventionInfo as UpvoteConventionInfoMutation,
   UpvoteConventionInfoVariables,
 } from './schema'
-
-// $FlowIgnore: trouble importing graphql files
-import downvoteConventionInfo from './graphql/mutation/downvote-convention-info.graphql'
-// $FlowIgnore: trouble importing graphql files
-import upvoteConventionInfo from './graphql/mutation/upvote-convention-info.graphql'
 
 export type Params = {
   id: number,
@@ -45,22 +40,28 @@ export class VoteForInfo implements APIRequest<Params, Votes> {
   upvote: GraphQLMutation<UpvoteConventionInfoVariables, UpvoteConventionInfoMutation>
 
   constructor() {
-    this.downvote = new GraphQLMutation(downvoteConventionInfo)
-    this.upvote = new GraphQLMutation(upvoteConventionInfo)
+    // $FlowIgnore: trouble importing graphql files
+    const downvoteConventionInfo = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/downvote-convention-info.graphql')
+    // $FlowIgnore: trouble importing graphql files
+    const upvoteConventionInfo = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/upvote-convention-info.graphql')
+    this.downvote = downvoteConventionInfo.then(downvoteConventionInfo => new GraphQLMutation(downvoteConventionInfo))
+    this.upvote = upvoteConventionInfo.then(upvoteConventionInfo => new GraphQLMutation(upvoteConventionInfo))
   }
 
   send({ id, vote }: Params): Observable<Response<Votes, string>> {
     if (vote === 1) {
-      return this.upvote.send({ infoId: id })
+      return from(this.upvote)
         .pipe(
+          flatMap(req => req.send({ infoId: id })),
           map(response => response.state === 'retrieved'
             ? { state: 'retrieved', value: parse(response.value.upvoteConventionInfo) }
             : response
           )
         )
     } else if(vote === -1) {
-      return this.downvote.send({ infoId: id })
+      return from(this.downvote)
         .pipe(
+          flatMap(req => req.send({ infoId: id })),
           map(response => response.state === 'retrieved'
             ? { state: 'retrieved', value: parse(response.value.downvoteConventionInfo) }
             : response

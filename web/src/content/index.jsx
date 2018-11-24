@@ -12,7 +12,6 @@ import { ConventionDetails } from './convention-details'
 import { ConventionRecords } from './convention-records'
 import { ConventionStats } from './convention-stats'
 import { ConventionUserInfo } from './convention-user-info'
-import { Admin } from './admin'
 import { Settings } from './settings'
 import { Suggestions } from './suggestions'
 import { ResetPassword } from './reset-password'
@@ -35,6 +34,9 @@ import type { Props as SuggestionsProps } from './suggestions'
 import type { Props as ResetPasswordProps } from './reset-password'
 import type { Props as VerifyProps } from './verify'
 import S from './index.css'
+
+const Admin = React.lazy(() => import(/* webpackChunkName: 'admin' */ './admin'))
+const { Suspense } = React
 
 // TODO: these are just used for placeholder
 import { l } from '../localization'
@@ -61,17 +63,20 @@ export type Props
   | AdminProps
 
 export function Content(props: Props) {
+  const placeholder = (
+    <CardView>
+      <Card className={S.emptyState}>
+        <div className={S.placeholder}>
+          {l`This page is coming soon!`}
+        </div>
+      </Card>
+    </CardView>
+  )
+
   let content: React.Node
   switch (props.name) {
     case 'placeholder':
-      content =
-        <CardView>
-          <Card className={S.emptyState}>
-            <div className={S.placeholder}>
-              {l`This page is coming soon!`}
-            </div>
-          </Card>
-        </CardView>
+      content = placeholder
       break
     case 'static':
       content = <Static {...props} />
@@ -122,7 +127,7 @@ export function Content(props: Props) {
       content = <Verify {...props} />
       break
     case 'admin':
-      content = <Admin {...props} />
+      content = <Suspense fallback={placeholder}><Admin {...props} /></Suspense>
       break
   }
   return (

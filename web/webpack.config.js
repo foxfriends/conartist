@@ -2,6 +2,7 @@
 
 const webpack = require('webpack');
 const path = require('path');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = env => ({
   mode: env === 'production' ? 'production' : 'development',
@@ -19,10 +20,18 @@ module.exports = env => ({
       {
         test: /\.css$/,
         exclude: /node_modules/,
-        loader: env === 'production'
-          ? 'style-loader!css-loader?modules=true&minimize=true!postcss-loader'
-	  : 'style-loader!css-modules-flow-types-loader!css-loader?modules=true!postcss-loader',
-        loader: 'style-loader!css-modules-flow-types-loader!css-loader?modules=true&minimize=true!postcss-loader',
+        use: env === 'production'
+          ? [
+              MiniCssExtractPlugin.loader,
+              'css-loader?modules=true&minimize=true',
+              'postcss-loader',
+            ]
+          : [
+              'style-loader',
+              'css-modules-flow-types-loader',
+              'css-loader?modules=true',
+              'postcss-loader',
+            ],
       },
       { test: /\.graphql$/, loader: 'graphql-tag/loader' },
     ],
@@ -35,6 +44,7 @@ module.exports = env => ({
     minimize: env === 'production',
   },
   plugins: env === 'production' ? [
-    new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify('production') }),
+    new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify('production') }), // for react
+    new MiniCssExtractPlugin({ filename: '[name].css' }),
   ] : []
 });

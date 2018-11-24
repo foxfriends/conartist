@@ -1,6 +1,7 @@
 /* @flow */
 import type { Observable } from 'rxjs/Observable'
-import { map } from 'rxjs/operators'
+import { from } from 'rxjs'
+import { map, flatMap } from 'rxjs/operators'
 
 import { GraphQLMutation } from './index'
 import type { Response, APIRequest, APIError } from './index'
@@ -9,19 +10,19 @@ import type {
   DeleteUserConventionVariables,
 } from './schema'
 
-// $FlowIgnore: trouble importing graphql files
-import delUserConvention from './graphql/mutation/delete-user-convention.graphql'
-
 export class UnstarConvention implements APIRequest<DeleteUserConventionVariables, null> {
   delUserConvention: GraphQLMutation<DeleteUserConventionVariables, DeleteUserConventionMutation>
 
   constructor() {
-    this.delUserConvention = new GraphQLMutation(delUserConvention)
+    // $FlowIgnore: trouble importing graphql files
+    const delUserConvention = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/delete-user-convention.graphql')
+    this.delUserConvention = delUserConvention.then(delUserConvention => new GraphQLMutation(delUserConvention))
   }
 
   send(variables: DeleteUserConventionVariables): Observable<Response<null, string>> {
-    return this.delUserConvention.send(variables)
+    return from(this.delUserConvention)
       .pipe(
+        flatMap(req => req.send(variables)),
         map(response => response.state === 'retrieved'
           ? { state: 'retrieved', value: null }
           : response

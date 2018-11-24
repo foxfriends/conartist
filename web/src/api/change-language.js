@@ -1,6 +1,7 @@
 /* @flow */
 import type { Observable } from 'rxjs/Observable'
-import { map } from 'rxjs/operators'
+import { from } from 'rxjs';
+import { map, flatMap } from 'rxjs/operators'
 
 import { GraphQLMutation } from './index'
 import { parse } from '../model/user'
@@ -10,19 +11,19 @@ import type {
   ChangeLanguageVariables,
 } from './schema'
 
-// $FlowIgnore: trouble importing graphql files
-import changeLanguage from './graphql/mutation/update-language.graphql'
-
 export class ChangeLanguage implements APIRequest<ChangeLanguageVariables, String> {
   changeLanguage: GraphQLMutation<ChangeLanguageVariables, ChangeLanguageMutation>
 
   constructor() {
-    this.changeLanguage = new GraphQLMutation(changeLanguage)
+    // $FlowIgnore: trouble importing graphql files
+    const changeLanguage = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/update-language.graphql')
+    this.changeLanguage = changeLanguage.then(changeLanguage => new GraphQLMutation(changeLanguage))
   }
 
   send(variables: ChangeLanguageVariables): Observable<Response<User, string>> {
-    return this.changeLanguage.send(variables)
+    return from(this.changeLanguage)
       .pipe(
+        flatMap(req => req.send(variables)),
         map(response => response.state === 'retrieved'
           ? { state: 'retrieved', value: response.value.updateSettings.language }
           : response

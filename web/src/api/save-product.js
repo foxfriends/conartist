@@ -1,7 +1,7 @@
 /* @flow */
 import type { Observable } from 'rxjs'
-import { of } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { of, from } from 'rxjs'
+import { map, flatMap } from 'rxjs/operators'
 
 import { parse } from '../model/product'
 import { GraphQLMutation } from './index'
@@ -15,18 +15,17 @@ import type {
 import type { Product } from '../model/product'
 import type { EditableProduct } from '../content/edit-products/schema'
 
-// $FlowIgnore: trouble importing graphql files
-import addProduct from './graphql/mutation/add-product.graphql'
-// $FlowIgnore: trouble importing graphql files
-import modProduct from './graphql/mutation/mod-product.graphql'
-
 export class SaveProduct implements APIRequest<EditableProduct, Product> {
   addProduct: GraphQLMutation<AddProductVariables, AddProductMutation>
   modProduct: GraphQLMutation<ModProductVariables, ModProductMutation>
 
   constructor() {
-    this.addProduct = new GraphQLMutation(addProduct)
-    this.modProduct = new GraphQLMutation(modProduct)
+    // $FlowIgnore: trouble importing graphql files
+    const addProduct = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/add-product.graphql')
+    // $FlowIgnore: trouble importing graphql files
+    const modProduct = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/mod-product.graphql')
+    this.addProduct = addProduct.then(addProduct => new GraphQLMutation(addProduct))
+    this.modProduct = modProduct.then(modProduct => new GraphQLMutation(modProduct))
   }
 
   send(product: EditableProduct): Observable<Response<Product, string>> {
@@ -54,9 +53,9 @@ export class SaveProduct implements APIRequest<EditableProduct, Product> {
         // $FlowIgnore: We just confirmed original is a Product
         return of({ state: 'retrieved', value: original })
       } else {
-        // TODO: save
-        return this.modProduct.send(variables)
+        return from(this.modProduct)
           .pipe(
+            flatMap(req => req.send(variables)),
             map(response => response.state === 'retrieved'
               ? { state: 'retrieved', value: parse(response.value.modUserProduct) }
               : response
@@ -72,8 +71,9 @@ export class SaveProduct implements APIRequest<EditableProduct, Product> {
           sort: product.sort,
         }
       }
-      return this.addProduct.send(variables)
+      return from(this.addProduct)
         .pipe(
+          flatMap(req => req.send(variables)),
           map(response => response.state === 'retrieved'
             ? { state: 'retrieved', value: parse(response.value.addUserProduct) }
             : response

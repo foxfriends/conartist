@@ -1,7 +1,7 @@
 /* @flow */
 import type { Observable } from 'rxjs'
-import { of } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { of, from } from 'rxjs'
+import { map, flatMap } from 'rxjs/operators'
 
 import { parse } from '../model/price'
 import { GraphQLMutation } from './index'
@@ -14,11 +14,6 @@ import type {
 } from './schema'
 import type { Price } from '../model/price'
 
-// $FlowIgnore: trouble importing graphql files
-import addPrice from './graphql/mutation/add-price.graphql'
-// $FlowIgnore: trouble importing graphql files
-import deletePrice from './graphql/mutation/delete-price.graphql'
-
 export type Add = { operation: 'add', price: Price }
 export type Delete = { operation: 'delete', price: Price }
 
@@ -27,8 +22,12 @@ export class SavePrice implements APIRequest<Add | Delete, ?Price> {
   deletePrice: GraphQLMutation<DeletePriceVariables, DeletePriceMutation>
 
   constructor() {
-    this.addPrice = new GraphQLMutation(addPrice)
-    this.deletePrice = new GraphQLMutation(deletePrice)
+    // $FlowIgnore: trouble importing graphql files
+    const addPrice = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/add-price.graphql')
+    // $FlowIgnore: trouble importing graphql files
+    const deletePrice = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/delete-price.graphql')
+    this.addPrice = addPrice.then(addPrice => new GraphQLMutation(addPrice))
+    this.deletePrice = deletePrice.then(deletePrice => new GraphQLMutation(deletePrice))
   }
 
   send(input: Add | Delete): Observable<Response<?Price, string>> {
@@ -42,8 +41,9 @@ export class SavePrice implements APIRequest<Add | Delete, ?Price> {
           price: price.price.toJSON(),
         }
       }
-      return this.addPrice.send(variables)
+      return from(this.addPrice)
         .pipe(
+          flatMap(req => req.send(variables)),
           map(response => response.state === 'retrieved'
             ? { state: 'retrieved', value: parse(response.value.addUserPrice) }
             : response
@@ -57,8 +57,9 @@ export class SavePrice implements APIRequest<Add | Delete, ?Price> {
           quantity: price.quantity,
         }
       }
-      return this.deletePrice.send(variables)
+      return from(this.deletePrice)
         .pipe(
+          flatMap(req => req.send(variables)),
           map(response => response.state === 'retrieved'
             ? { state: 'retrieved', value: null }
             : response

@@ -1,6 +1,7 @@
 /* @flow */
 import type { Observable } from 'rxjs/Observable'
-import { map } from 'rxjs/operators'
+import { from } from 'rxjs';
+import { map, flatMap } from 'rxjs/operators'
 
 import { GraphQLMutation } from './index'
 import { parse } from '../model/convention-user-info'
@@ -11,19 +12,19 @@ import type {
 } from './schema'
 import type { ConventionUserInfo } from '../model/convention-user-info'
 
-// $FlowIgnore: trouble importing graphql files
-import contributeConventionInfo from './graphql/mutation/contribute-convention-info.graphql'
-
 export class ContributeConventionInfo implements APIRequest<ContributeConventionInfoVariables, ConventionUserInfo> {
   contributeConventionInfo: GraphQLMutation<ContributeConventionInfoVariables, ContributeConventionInfoMutation>
 
   constructor() {
-    this.contributeConventionInfo = new GraphQLMutation(contributeConventionInfo)
+    // $FlowIgnore: trouble importing graphql files
+    const contributeConventionInfo = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/contribute-convention-info.graphql')
+    this.contributeConventionInfo = contributeConventionInfo.then(contributeConventionInfo => new GraphQLMutation(contributeConventionInfo))
   }
 
   send(variables: ContributeConventionInfoVariables): Observable<Response<ConventionUserInfo, string>> {
-    return this.contributeConventionInfo.send(variables)
+    return from(this.contributeConventionInfo)
       .pipe(
+        flatMap(req => req.send(variables)),
         map(response => response.state === 'retrieved'
           ? { state: 'retrieved', value: parse(response.value.addConventionInfo) }
           : response

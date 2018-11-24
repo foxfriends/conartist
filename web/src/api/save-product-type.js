@@ -1,7 +1,7 @@
 /* @flow */
-import { of } from 'rxjs'
-import { map } from 'rxjs/operators'
 import type { Observable } from 'rxjs'
+import { of, from } from 'rxjs'
+import { map, flatMap } from 'rxjs/operators'
 
 import { parse } from '../model/product-type'
 import { GraphQLMutation } from './index'
@@ -14,18 +14,17 @@ import type {
 } from './schema'
 import type { EditableProductType } from '../content/edit-products/schema'
 
-// $FlowIgnore: trouble importing graphql files
-import addProductType from './graphql/mutation/add-product-type.graphql'
-// $FlowIgnore: trouble importing graphql files
-import modProductType from './graphql/mutation/mod-product-type.graphql'
-
 export class SaveProductType implements APIRequest<EditableProductType, $Diff<EditableProductType, { validation: any }>> {
   addProductType: GraphQLMutation<AddProductTypeVariables, AddProductTypeMutation>
   modProductType: GraphQLMutation<ModProductTypeVariables, ModProductTypeMutation>
 
   constructor() {
-    this.addProductType = new GraphQLMutation(addProductType)
-    this.modProductType = new GraphQLMutation(modProductType)
+    // $FlowIgnore: trouble importing graphql files
+    const addProductType = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/add-product-type.graphql')
+    // $FlowIgnore: trouble importing graphql files
+    const modProductType = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/mod-product-type.graphql')
+    this.addProductType = addProductType.then(addProductType => new GraphQLMutation(addProductType))
+    this.modProductType = modProductType.then(modProductType => new GraphQLMutation(modProductType))
   }
 
   send(productType: EditableProductType): Observable<Response<$Diff<EditableProductType, { validation: any }>, APIError>> {
@@ -52,8 +51,9 @@ export class SaveProductType implements APIRequest<EditableProductType, $Diff<Ed
         // unmodified
         return of({ state: 'retrieved', value: productType })
       } else {
-        return this.modProductType.send(variables)
+        return from(this.modProductType)
           .pipe(
+            flatMap(req => req.send(variables)),
             map(response => response.state === 'retrieved'
               ? { state: 'retrieved', value: { ...parse(response.value.modUserProductType), productType } }
               : response
@@ -68,8 +68,9 @@ export class SaveProductType implements APIRequest<EditableProductType, $Diff<Ed
           sort: productType.sort,
         }
       }
-      return this.addProductType.send(variables)
+      return from(this.addProductType)
         .pipe(
+          flatMap(req => req.send(variables)),
           map(response => response.state === 'retrieved'
             ? { state: 'retrieved', value: { ...parse(response.value.addUserProductType), productType } }
             : response

@@ -14,3 +14,5 @@ export function Admin(props: Props) {
     </CardView>
   )
 }
+
+export default Admin

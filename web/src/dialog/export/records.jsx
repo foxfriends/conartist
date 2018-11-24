@@ -1,7 +1,5 @@
 /* @flow */
 import * as React from 'react'
-import saveAs from 'save-as'
-const Zip = import(/* webpackChunkName: 'zip' */ 'jszip')
 import format from 'date-fns/format'
 
 import { Basic } from '../basic'
@@ -152,6 +150,7 @@ export class ExportRecords extends React.Component<Props, State> {
   }
 
   async doExport() {
+    const saveAs = import(/* webpackChunkName: 'zip' */ 'save-as')
     const { columns, dataSource } = this
     const { separateDays, includeTitles } = this.state
     const files: [string, Blob][] = ((separateDays ? [...separate.call(dataSource, 'day')] : [['records', dataSource]]))
@@ -161,15 +160,16 @@ export class ExportRecords extends React.Component<Props, State> {
       .map(([name, file]) => [name, file.join('\n') + '\n'])
       .map(([name, file]) => [name, new Blob([file], { type: 'text/plain;charset=utf-8' })])
     if (separateDays) {
-      const zip = new (await Zip)()
+      const Zip = await import(/* webpackChunkName: 'zip' */ 'jszip')
+      const zip = new Zip()
       for (const [name, blob] of files) {
         zip.file(`${name}.csv`, blob)
       }
       const blob = await zip.generateAsync({ type: 'blob' })
-      saveAs(blob, `${l`Records`.toLowerCase()}.zip`)
+      (await saveAs)(blob, `${l`Records`.toLowerCase()}.zip`)
     } else {
       const [[name, blob]] = files
-      saveAs(blob, `${name}.csv`)
+      (await saveAs)(blob, `${name}.csv`)
     }
   }
 

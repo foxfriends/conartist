@@ -1,7 +1,5 @@
 /* @flow */
 import * as React from 'react'
-import saveAs from 'save-as'
-const Zip = import(/* webpackChunkName: 'zip' */ 'jszip')
 
 import { Basic } from '../basic'
 import { Grid } from '../../common/grid'
@@ -85,6 +83,7 @@ export class ExportProducts extends React.Component<Props, State> {
   }
 
   async doExport() {
+    const saveAs = import(/* webpackChunkName: 'zip' */ 'save-as');
     const { columns, dataSource } = this
     const { separateTypes, includeTitles } = this.state
     const files: [string, Blob][] = ((separateTypes ? [...separate.call(dataSource, 'type')] : [['products', dataSource]]))
@@ -94,15 +93,16 @@ export class ExportProducts extends React.Component<Props, State> {
       .map(([name, file]) => [name, file.join('\n') + '\n'])
       .map(([name, file]) => [name, new Blob([file], { type: 'text/plain;charset=utf-8' })])
     if (separateTypes) {
-      const zip = new (await Zip)()
+      const Zip = await import(/* webpackChunkName: 'zip' */ 'jszip')
+      const zip = new Zip()
       for (const [name, blob] of files) {
         zip.file(`${name}.csv`, blob)
       }
       const blob = await zip.generateAsync({ type: 'blob' })
-      saveAs(blob, `${l`Products`.toLowerCase()}.zip`)
+      (await saveAs)(blob, `${l`Products`.toLowerCase()}.zip`)
     } else {
       const [[name, blob]] = files
-      saveAs(blob, `${name}.csv`)
+      (await saveAs)(blob, `${name}.csv`)
     }
   }
 

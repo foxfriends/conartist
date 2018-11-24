@@ -7,6 +7,7 @@ import { resolveRoute } from './src/routing'
 import './src/global.css'
 
 const root = document.querySelector('#root')
+
 if (root) {
   ReactDom.render(
     <ConArtist />,

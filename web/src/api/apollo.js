@@ -4,7 +4,7 @@ import { ApolloLink, Observable } from 'apollo-link'
 import { BatchHttpLink } from 'apollo-link-batch-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { Storage } from '../storage'
-import { BaseURL } from '../constants'
+import { GraphQLURL } from '../constants'
 
 export type Operation = {
   setContext(context: { headers: { [string]: string } }): void;
@@ -68,7 +68,7 @@ const link = ApolloLink.from([
   requestHandler,
   new BatchHttpLink({
     batchMax: 200,
-    uri: `${BaseURL}/api/v2/`,
+    uri: `${GraphQLURL}/`,
     credentials: 'same-origin',
   }),
 ])

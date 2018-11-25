@@ -13,7 +13,7 @@ type Params = {|
 
 export class ResetPasswordRequest extends PostRequest<Params, boolean> {
   constructor() {
-    super('/api/account/reset')
+    super('/account/reset')
   }
 
   send(params: Params): Observable<Response<boolean, string>> {

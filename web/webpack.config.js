@@ -45,7 +45,16 @@ module.exports = env => ({
     minimize: env === 'production',
   },
   plugins: env === 'production' ? [
-    new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify('production') }), // for react
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production'), // for react
+      'process.env.API_URL': JSON.stringify('https://api.conartist.app'),
+      'process.env.GRAPHQL_URL': JSON.stringify('https://graph.conartist.app'),
+    }),
     new MiniCssExtractPlugin({ filename: '[name].css' }),
-  ] : []
+  ] : [
+    new webpack.DefinePlugin({
+      'process.env.API_URL': JSON.stringify('/api'),
+      'process.env.GRAPHQL_URL': JSON.stringify('/api/v2'),
+    }),
+  ]
 });

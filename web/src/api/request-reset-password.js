@@ -8,7 +8,7 @@ import type { Response } from './index'
 
 export class RequestResetPasswordRequest extends PostRequest<{ email: string }, boolean> {
   constructor() {
-    super('/api/auth/reset-password')
+    super('/auth/reset-password')
   }
 
   send(email: string): Observable<Response<boolean, string>> {

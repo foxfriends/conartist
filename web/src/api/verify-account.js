@@ -8,7 +8,7 @@ import type { Response } from './index'
 
 export class VerifyAccountRequest extends PostRequest<{ code: string }, boolean> {
   constructor() {
-    super('/api/account/verify')
+    super('/account/verify')
   }
 
   send(code: string): Observable<Response<boolean, string>> {

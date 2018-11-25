@@ -77,7 +77,9 @@ fn main() {
             println!();
             CorsMiddleware::with_allow_any()
         } else {
-            CorsMiddleware::with_whitelist(["https://conartist.app".to_string()].into_iter().cloned().collect())
+            CorsMiddleware::with_whitelist([
+                "https://conartist.app".to_string(),
+            ].into_iter().cloned().collect())
         };
 
     let graphql =

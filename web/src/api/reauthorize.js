@@ -11,7 +11,7 @@ import { UserQuery } from './user-query'
 
 export class ReauthorizeRequest extends GetRequest<'', User> {
   constructor() {
-    super('/api/auth')
+    super('/auth')
   }
 
   send(params: '' = ''): Observable<Response<User, string>> {

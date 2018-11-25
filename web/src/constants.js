@@ -3,7 +3,8 @@ export const LocalStorage = {
   Auth: 'ca:auth',
 }
 
-export const BaseURL = ''
+export const APIURL = process.env.API_URL
+export const GraphQLURL = process.env.GRAPHQL_URL
 
 export const EMAIL_FORMAT = /^[^@]+@[^@]+\.[^@]+$/
 

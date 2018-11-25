@@ -38,16 +38,12 @@ extension String {
 
     private func localize(from path: String?) -> String? {
         return path
-            .map(URL.init(fileURLWithPath:))
-            .flatMap { try? Data(contentsOf: $0) }
-            .flatMap { try? JSONSerialization.jsonObject(with: $0, options: .allowFragments) }
-            .flatMap { $0 as? [String: Any] }
-            .flatMap { $0[self] }
-            .flatMap { item in
-                if let string = item as? String {
+            .flatMap { path in try? Toml(contentsOfFile: path) }
+            .flatMap { toml in
+                if let string = toml.string(self) {
                     return string
-                } else if let dict = item as? [String: String] {
-                    return dict["ios"]
+                } else if let table = toml.table(self) {
+                    return table.string("ios")
                 }
                 return nil
             }

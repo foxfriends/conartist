@@ -21,8 +21,18 @@ struct Config {
         return config.object(forKey: key.key) as! K.V
     }
 
-    struct BaseURL: ConfigKey {
+    struct GraphQLURL: ConfigKey {
         typealias V = String
-        static let key = "BaseURL"
+        static let key = "GraphQLURL"
+    }
+
+    struct APIURL: ConfigKey {
+        typealias V = String
+        static let key = "APIURL"
+    }
+
+    struct ResourcesURL: ConfigKey {
+        typealias V = String
+        static let key = "ResourcesURL"
     }
 }

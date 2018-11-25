@@ -13,7 +13,7 @@ import RxAlamofire
 
 extension ConArtist.API {
     struct Auth {
-        static let SignInURL = BaseURL + "/api/auth"
+        static let SignInURL: URL = URL(string: Config.retrieve(Config.APIURL.self) + "/auth")!
         static let Unauthorized = "Unauthorized"
 
         private static var _authToken: String? = ConArtist.Keychain.retrieve(valueFor: .AuthToken)

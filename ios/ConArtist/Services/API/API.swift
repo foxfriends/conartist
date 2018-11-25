@@ -12,9 +12,8 @@ import RxSwift
 
 extension ConArtist {
     struct API {
-        static let BaseURL = Config.retrieve(Config.BaseURL.self)
-        static let GraphQLURL = URL(string: BaseURL + "/api/v2")!
-        static let ResourcesURL = URL(string: BaseURL + "/resource")!
+        static let GraphQLURL = URL(string: Config.retrieve(Config.GraphQLURL.self))!
+        static let ResourcesURL = URL(string: Config.retrieve(Config.ResourcesURL.self))!
         static var GraphQL = ApolloClient(url: ConArtist.API.GraphQLURL)
         static let Resources = ApolloClient(url: ConArtist.API.ResourcesURL)
     }

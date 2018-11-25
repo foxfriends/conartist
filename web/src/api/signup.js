@@ -17,7 +17,7 @@ type Params = {|
 
 export class SignUpRequest extends PostRequest<Params, User> {
   constructor() {
-    super('/api/account/new')
+    super('/account/new')
   }
 
   send(params: Params): Observable<Response<User, string>> {

@@ -16,7 +16,7 @@ type Params = {|
 
 export class SignInRequest extends PostRequest<Params, User> {
   constructor() {
-    super('/api/auth')
+    super('/auth')
   }
 
   send(params: Params): Observable<Response<User, string>> {

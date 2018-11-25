@@ -14,6 +14,6 @@ type Params = {|
 
 export class ChangePasswordRequest extends PostRequest<Params, boolean> {
   constructor() {
-    super('/api/auth/change-password')
+    super('/auth/change-password')
   }
 }

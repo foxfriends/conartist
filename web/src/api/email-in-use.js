@@ -10,7 +10,7 @@ export class EmailInUseRequest extends GetRequest<string, boolean> {
   cache: Map<string, boolean>
 
   constructor() {
-    super('/api/account/exists')
+    super('/account/exists')
     this.cache = new Map()
   }
 

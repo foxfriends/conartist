@@ -30,11 +30,12 @@
 
 
 .mobile {
-  --display: block;
+  --display: unset;
   display: var(--display);
 }
+
 .desktop {
-  --display: block;
+  --display: unset;
   display: var(--display);
   cursor: pointer;
 }

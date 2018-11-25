@@ -34,6 +34,7 @@ module.exports = env => ({
             ],
       },
       { test: /\.graphql$/, loader: 'graphql-tag/loader' },
+      { test: /\.toml$/, loader: 'toml-loader' },
     ],
   },
   resolve: {

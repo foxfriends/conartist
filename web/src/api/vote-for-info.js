@@ -44,8 +44,8 @@ export class VoteForInfo implements APIRequest<Params, Votes> {
     const downvoteConventionInfo = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/downvote-convention-info.graphql')
     // $FlowIgnore: trouble importing graphql files
     const upvoteConventionInfo = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/upvote-convention-info.graphql')
-    this.downvote = downvoteConventionInfo.then(downvoteConventionInfo => new GraphQLMutation(downvoteConventionInfo))
-    this.upvote = upvoteConventionInfo.then(upvoteConventionInfo => new GraphQLMutation(upvoteConventionInfo))
+    this.downvote = downvoteConventionInfo.then(downvoteConventionInfo => new GraphQLMutation(downvoteConventionInfo.default))
+    this.upvote = upvoteConventionInfo.then(upvoteConventionInfo => new GraphQLMutation(upvoteConventionInfo.default))
   }
 
   send({ id, vote }: Params): Observable<Response<Votes, string>> {

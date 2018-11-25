@@ -24,8 +24,8 @@ export class SaveProduct implements APIRequest<EditableProduct, Product> {
     const addProduct = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/add-product.graphql')
     // $FlowIgnore: trouble importing graphql files
     const modProduct = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/mod-product.graphql')
-    this.addProduct = addProduct.then(addProduct => new GraphQLMutation(addProduct))
-    this.modProduct = modProduct.then(modProduct => new GraphQLMutation(modProduct))
+    this.addProduct = addProduct.then(addProduct => new GraphQLMutation(addProduct.default))
+    this.modProduct = modProduct.then(modProduct => new GraphQLMutation(modProduct.default))
   }
 
   send(product: EditableProduct): Observable<Response<Product, string>> {

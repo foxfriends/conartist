@@ -18,7 +18,7 @@ export class ChangeEmail implements APIRequest<ChangeEmailVariables, User> {
   constructor() {
     // $FlowIgnore: trouble importing graphql files
     const changeEmail = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/change-email.graphql')
-    this.changeEmail = changeEmail.then(changeEmail => new GraphQLMutation(changeEmail))
+    this.changeEmail = changeEmail.then(changeEmail => new GraphQLMutation(changeEmail.default))
   }
 
   send(variables: ChangeEmailVariables): Observable<Response<User, string>> {

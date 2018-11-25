@@ -18,7 +18,7 @@ export class ContributeConventionInfo implements APIRequest<ContributeConvention
   constructor() {
     // $FlowIgnore: trouble importing graphql files
     const contributeConventionInfo = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/contribute-convention-info.graphql')
-    this.contributeConventionInfo = contributeConventionInfo.then(contributeConventionInfo => new GraphQLMutation(contributeConventionInfo))
+    this.contributeConventionInfo = contributeConventionInfo.then(contributeConventionInfo => new GraphQLMutation(contributeConventionInfo.default))
   }
 
   send(variables: ContributeConventionInfoVariables): Observable<Response<ConventionUserInfo, string>> {

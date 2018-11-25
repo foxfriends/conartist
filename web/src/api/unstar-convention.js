@@ -16,7 +16,7 @@ export class UnstarConvention implements APIRequest<DeleteUserConventionVariable
   constructor() {
     // $FlowIgnore: trouble importing graphql files
     const delUserConvention = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/delete-user-convention.graphql')
-    this.delUserConvention = delUserConvention.then(delUserConvention => new GraphQLMutation(delUserConvention))
+    this.delUserConvention = delUserConvention.then(delUserConvention => new GraphQLMutation(delUserConvention.default))
   }
 
   send(variables: DeleteUserConventionVariables): Observable<Response<null, string>> {

@@ -18,7 +18,7 @@ export class StarConvention implements APIRequest<AddUserConventionVariables, Me
   constructor() {
     // $FlowIgnore: trouble importing graphql files
     const addUserConvention = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/add-user-convention.graphql')
-    this.addUserConvention = addUserConvention.then(addUserConvention => new GraphQLMutation(addUserConvention))
+    this.addUserConvention = addUserConvention.then(addUserConvention => new GraphQLMutation(addUserConvention.default))
   }
 
   send(variables: AddUserConventionVariables): Observable<Response<MetaConvention, string>> {

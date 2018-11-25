@@ -18,7 +18,7 @@ export class ChangeName implements APIRequest<ChangeNameVariables, User> {
   constructor() {
     // $FlowIgnore: trouble importing graphql files
     const changeName = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/change-name.graphql')
-    this.changeName = changeName.then(changeName => new GraphQLMutation(changeName))
+    this.changeName = changeName.then(changeName => new GraphQLMutation(changeName.default))
   }
 
   send(variables: ChangeNameVariables): Observable<Response<User, string>> {

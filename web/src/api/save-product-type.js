@@ -23,8 +23,8 @@ export class SaveProductType implements APIRequest<EditableProductType, $Diff<Ed
     const addProductType = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/add-product-type.graphql')
     // $FlowIgnore: trouble importing graphql files
     const modProductType = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/mod-product-type.graphql')
-    this.addProductType = addProductType.then(addProductType => new GraphQLMutation(addProductType))
-    this.modProductType = modProductType.then(modProductType => new GraphQLMutation(modProductType))
+    this.addProductType = addProductType.then(addProductType => new GraphQLMutation(addProductType.default))
+    this.modProductType = modProductType.then(modProductType => new GraphQLMutation(modProductType.default))
   }
 
   send(productType: EditableProductType): Observable<Response<$Diff<EditableProductType, { validation: any }>, APIError>> {

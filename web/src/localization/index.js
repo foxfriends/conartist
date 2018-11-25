@@ -3,12 +3,28 @@ import * as React from 'react'
 import { model } from '../model'
 import DefaultMap from '../util/default-map'
 import { newlinesToReact } from '../util/newlines-to-react'
-import en from './lang/en'
-import zh from './lang/zh'
+import en from './lang/en.toml' // include this one statically since it is the most common
+const zh = () => import('./lang/zh.toml')
 
 const { Fragment } = React
 
-const languages = new DefaultMap([['en', en], ['zh', zh]], {})
+const languages = new class LanguageMap {
+  constructor() {
+    this.languages = new DefaultMap([['en', en], ['zh', zh]], {})
+  }
+
+  get(locale: string): { [string]: string | { web: string } } {
+    const language = this.languages.get(locale)
+    if (typeof language === 'function') {
+      language()
+        .then(language => this.languages.set(locale, language))
+        .then(() => model.next({ ...model.getValue() })) // HACK: refresh model to trigger a reload...
+      return en // show something while it loads at least
+    } else {
+      return language
+    }
+  }
+}
 
 function forWeb(entry: ?(string | { web: string })): ?string {
   return entry && typeof entry === 'object'

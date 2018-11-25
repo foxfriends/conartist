@@ -26,8 +26,8 @@ export class SavePrice implements APIRequest<Add | Delete, ?Price> {
     const addPrice = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/add-price.graphql')
     // $FlowIgnore: trouble importing graphql files
     const deletePrice = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/delete-price.graphql')
-    this.addPrice = addPrice.then(addPrice => new GraphQLMutation(addPrice))
-    this.deletePrice = deletePrice.then(deletePrice => new GraphQLMutation(deletePrice))
+    this.addPrice = addPrice.then(addPrice => new GraphQLMutation(addPrice.default))
+    this.deletePrice = deletePrice.then(deletePrice => new GraphQLMutation(deletePrice.default))
   }
 
   send(input: Add | Delete): Observable<Response<?Price, string>> {

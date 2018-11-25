@@ -17,7 +17,7 @@ export class ChangeLanguage implements APIRequest<ChangeLanguageVariables, Strin
   constructor() {
     // $FlowIgnore: trouble importing graphql files
     const changeLanguage = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/update-language.graphql')
-    this.changeLanguage = changeLanguage.then(changeLanguage => new GraphQLMutation(changeLanguage))
+    this.changeLanguage = changeLanguage.then(changeLanguage => new GraphQLMutation(changeLanguage.default))
   }
 
   send(variables: ChangeLanguageVariables): Observable<Response<User, string>> {

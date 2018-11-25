@@ -17,7 +17,7 @@ export class ChangeCurrency implements APIRequest<ChangeCurrencyVariables, Strin
   constructor() {
     // $FlowIgnore: trouble importing graphql files
     const changeCurrency = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/update-currency.graphql')
-    this.changeCurrency = changeCurrency.then(changeCurrency => new GraphQLMutation(changeCurrency))
+    this.changeCurrency = changeCurrency.then(changeCurrency => new GraphQLMutation(changeCurrency.default))
   }
 
   send(variables: ChangeCurrencyVariables): Observable<Response<User, string>> {

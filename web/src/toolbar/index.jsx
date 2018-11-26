@@ -29,7 +29,7 @@ export function Toolbar({ primary, secondary, tertiary, pageIcon }: Props) {
           <img className={S.logo} src={LOGO} height={44} />
         </div>
         <div className={`${S.logoContainer} ${S.mobile}`} onClick={() => focusNavigation()}>
-          <img className={pageIcon ? S.logo : ''} src={LOGO} height={44} />
+          <img className={`${S.logo} ${pageIcon ? S.hidden : ''}`} src={LOGO} height={44} />
           { pageIcon ? <Icon className={S.pageIcon} name={pageIcon} /> : null }
         </div>
         <span className={S.title}>ConArtist</span>

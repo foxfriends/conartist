@@ -30,33 +30,22 @@
 
 
 .mobile {
-  --display: unset;
+  --display: flex;
   display: var(--display);
 }
 
 .desktop {
-  --display: unset;
+  --display: flex;
   display: var(--display);
   cursor: pointer;
 }
 
 @media (min-width: 888px) {
-  .inner {
-    --width: 880px;
-  }
-
+  .inner { --width: 880px; }
   .mobile { --display: none; }
-
-  .pageIcon {
-    display: none !important;
-  }
 }
 
 @media (max-width: 887px) {
-  .inner {
-    --width: 100%;
-  }
-
   .logoContainer {
     position: relative;
     padding-left: 4px;
@@ -77,17 +66,10 @@
     }
   }
 
-  .desktop {
-    display: --none;
-  }
-
-  .logo {
-    display: none;
-  }
-
-  .title {
-    display: none;
-  }
+  .inner { --width: 100%; }
+  .desktop { --display: none; }
+  .hidden { display: none; }
+  .title { display: none; }
 }
 
 .title {

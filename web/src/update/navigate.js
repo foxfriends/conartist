@@ -6,62 +6,6 @@ import type { Convention } from '../model/convention'
 import type { Page } from '../model/page'
 import { setConvention } from '../update/conventions'
 
-export function splash() {
-  if (model.getValue().page !== page.dashboard) {
-    window.history.pushState({}, '', '/')
-  }
-  model.next({ ...model.getValue(), page: page.splash })
-}
-
-export function dashboard() {
-  if (model.getValue().page !== page.dashboard) {
-    window.history.pushState({}, '', '/dashboard')
-  }
-  model.next({ ...model.getValue(), page: page.dashboard })
-}
-
-export function editProducts() {
-  if (model.getValue().page !== page.editProducts) {
-    window.history.pushState({}, '', '/products/edit')
-  }
-  model.next({ ...model.getValue(), page: page.editProducts })
-}
-
-export function products() {
-  if (model.getValue().page !== page.products) {
-    window.history.pushState({}, '', '/products')
-  }
-  model.next({ ...model.getValue(), page: page.products })
-}
-
-export function editPrices() {
-  if (model.getValue().page !== page.editPrices) {
-    window.history.pushState({}, '', '/prices/edit')
-  }
-  model.next({ ...model.getValue(), page: page.editPrices })
-}
-
-export function prices() {
-  if (model.getValue().page !== page.prices) {
-    window.history.pushState({}, '', '/prices')
-  }
-  model.next({ ...model.getValue(), page: page.prices })
-}
-
-export function conventions() {
-  if (model.getValue().page !== page.conventions) {
-    window.history.pushState({}, '', '/conventions')
-  }
-  model.next({ ...model.getValue(), page: page.conventions })
-}
-
-export function searchConventions() {
-  if (model.getValue().page !== page.searchConventions) {
-    window.history.pushState({}, '', '/conventions/search')
-  }
-  model.next({ ...model.getValue(), page: page.searchConventions })
-}
-
 function loadConvention(conId: number) {
   new LoadConvention()
     .send({ conId })
@@ -75,6 +19,27 @@ function loadConvention(conId: number) {
     .then(setConvention)
     .catch(conventions)
 }
+
+function goTo(name, page) {
+  return () => {
+    if (model.getValue().page !== page) {
+      window.history.pushState({}, '', name)
+    }
+    model.next({ ...model.getValue(), page })
+  }
+}
+
+export const splash = goTo('/', page.splash)
+export const dashboard = goTo('/dashboard', page.dashboard)
+export const editProducts = goTo('/products/edit', page.editProducts)
+export const products = goTo('/products', page.products)
+export const editPrices = goTo('/prices/edit', page.editPrices)
+export const prices = goTo('/prices', page.prices)
+export const conventions = goTo('/conventions', page.conventions)
+export const searchConventions = goTo('/conventions/search', page.searchConventions)
+export const settings = goTo('/settings', page.settings)
+export const suggestions = goTo('/suggestions', page.suggestions)
+export const admin = goTo('/admin', page.admin)
 
 export function conventionDetails(convention: Convention) {
   const { page: currentPage } = model.getValue()
@@ -110,27 +75,6 @@ export function conventionUserInfo(convention: Convention) {
   }
   loadConvention(convention.id)
   model.next({ ...model.getValue(), page: page.conventionUserInfo(convention) })
-}
-
-export function settings() {
-  if (model.getValue().page !== page.settings) {
-    window.history.pushState({}, '', '/settings')
-  }
-  model.next({ ...model.getValue(), page: page.settings })
-}
-
-export function suggestions() {
-  if (model.getValue().page !== page.suggestions) {
-    window.history.pushState({}, '', '/suggestions')
-  }
-  model.next({ ...model.getValue(), page: page.suggestions })
-}
-
-export function admin() {
-  if (model.getValue().page !== page.admin) {
-    window.history.pushState({}, '', '/admin')
-  }
-  model.next({ ...model.getValue(), page: page.admin })
 }
 
 export type ScrollTarget = 'product-type'

@@ -94,3 +94,5 @@ export function PrivacyPolicy({ className, style }: Props) {
     </section>
   )
 }
+
+export default PrivacyPolicy

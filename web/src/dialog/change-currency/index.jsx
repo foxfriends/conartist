@@ -38,3 +38,5 @@ export class ChangeCurrency extends React.Component<Props, State> {
     )
   }
 }
+
+export default ChangeCurrency

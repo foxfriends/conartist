@@ -4,7 +4,7 @@ import { model } from '../model'
 import DefaultMap from '../util/default-map'
 import { newlinesToReact } from '../util/newlines-to-react'
 import en from './lang/en.toml' // include this one statically since it is the most common
-const zh = () => import('./lang/zh.toml')
+const zh = () => import(/* webpackChunkName: 'lang-zh' */ './lang/zh.toml')
 
 const { Fragment } = React
 

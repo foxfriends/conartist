@@ -12,3 +12,5 @@ export function Import(props: Props) {
   }
   return null
 }
+
+export default Import

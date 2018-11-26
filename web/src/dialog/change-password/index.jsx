@@ -139,3 +139,5 @@ export class ChangePassword extends React.Component<Props, State> {
     )
   }
 }
+
+export default ChangePassword

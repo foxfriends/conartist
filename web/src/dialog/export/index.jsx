@@ -16,3 +16,5 @@ export function Export(props: Props) {
   }
   return null
 }
+
+export default Export

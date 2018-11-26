@@ -8,16 +8,18 @@ import './src/global.css'
 
 const root = document.querySelector('#root')
 
-if (root) {
-  ReactDom.render(
-    <ConArtist />,
-    root,
-  )
-
-  window.addEventListener('popstate', event => {
-    const { state } = event
-    if (state) {
-      navigateTo(resolveRoute())
-    }
-  })
+if (!root) {
+  throw new Error('Could not find root element')
 }
+
+ReactDom.render(
+  <ConArtist />,
+  root,
+)
+
+window.addEventListener('popstate', event => {
+  const { state } = event
+  if (state) {
+    navigateTo(resolveRoute())
+  }
+})

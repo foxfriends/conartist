@@ -118,3 +118,5 @@ export class ChangeEmail extends React.Component<Props, State> {
     )
   }
 }
+
+export default ChangeEmail

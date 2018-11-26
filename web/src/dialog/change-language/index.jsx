@@ -38,3 +38,5 @@ export class ChangeLanguage extends React.Component<Props, State> {
     )
   }
 }
+
+export default ChangeLanguage

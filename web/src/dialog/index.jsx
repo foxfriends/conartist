@@ -1,15 +1,19 @@
 /* @flow */
 import * as React from 'react'
-import { SignUp } from './signup'
-import { SignIn } from './signin'
-import { ChangePassword } from './change-password'
-import { ChangeEmail } from './change-email'
-import { ChangeName } from './change-name'
-import { ChangeCurrency } from './change-currency'
-import { ChangeLanguage } from './change-language'
-import { ResetPassword } from './reset-password'
-import { Export } from './export'
-import { Import } from './import'
+import { Loading } from './loading'
+
+const Export = React.lazy(() => import(/* webpackChunkName: 'export' */ './export'))
+const Import = React.lazy(() => import(/* webpackChunkName: 'import' */ './import'))
+const SignIn = React.lazy(() => import(/* webpackChunkName: 'signin' */ './signin'))
+const ResetPassword = React.lazy(() => import(/* webpackChunkName: 'signin' */ './reset-password'))
+const SignUp = React.lazy(() => import(/* webpackChunkName: 'signup' */ './signup'))
+
+const ChangePassword = React.lazy(() => import(/* webpackChunkName: 'settings' */ './change-password'))
+const ChangeEmail = React.lazy(() => import(/* webpackChunkName: 'settings' */ './change-email'))
+const ChangeName = React.lazy(() => import(/* webpackChunkName: 'settings' */ './change-name'))
+const ChangeCurrency = React.lazy(() => import(/* webpackChunkName: 'settings' */ './change-currency'))
+const ChangeLanguage = React.lazy(() => import(/* webpackChunkName: 'settings' */ './change-language'))
+
 import type { Props as SignUpProps } from './signup'
 import type { Props as SignInProps } from './signin'
 import type { Props as ChangePasswordProps } from './change-password'
@@ -22,6 +26,8 @@ import type { Props as ExportProps } from './export'
 import type { Props as ImportProps } from './import'
 
 import S from './index.css'
+
+const { Suspense } = React
 
 export type Props
   = SignUpProps
@@ -73,7 +79,7 @@ export function Dialog(props: Props) {
 
   return (
     <div className={S.backdrop}>
-      { dialog }
+      <Suspense fallback={<Loading />}>{ dialog }</Suspense>
     </div>
   )
 }

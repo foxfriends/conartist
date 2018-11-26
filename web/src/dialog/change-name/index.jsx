@@ -64,3 +64,5 @@ export class ChangeName extends React.Component<Props, State> {
     )
   }
 }
+
+export default ChangeName

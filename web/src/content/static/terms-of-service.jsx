@@ -94,3 +94,5 @@ export function TermsOfService({ className, style }: Props) {
     </section>
   )
 }
+
+export default TermsOfService

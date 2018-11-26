@@ -126,3 +126,5 @@ export class SignUp extends React.Component<Props, State> {
     )
   }
 }
+
+export default SignUp

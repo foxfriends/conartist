@@ -69,3 +69,5 @@ export class ResetPassword extends React.Component<Props, State> {
     )
   }
 }
+
+export default ResetPassword

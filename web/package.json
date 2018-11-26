@@ -7,7 +7,8 @@
     "postinstall": "webpack --env=production",
     "build": "webpack",
     "deploy": "webpack --env=production",
-    "watch": "webpack --watch"
+    "watch": "webpack --watch",
+    "clean": "rm -r static"
   },
   "author": "Cameron Eldridge",
   "license": "MIT",

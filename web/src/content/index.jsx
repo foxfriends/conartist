@@ -13,9 +13,11 @@ import { ConventionRecords } from './convention-records'
 import { ConventionStats } from './convention-stats'
 import { ConventionUserInfo } from './convention-user-info'
 import { Settings } from './settings'
-import { Suggestions } from './suggestions'
-import { ResetPassword } from './reset-password'
-import { Verify } from './verify'
+
+const ResetPassword = React.lazy(() => import(/* webpackChunkName: 'verifications' */ './reset-password'))
+const Verify = React.lazy(() => import(/* webpackChunkName: 'verifications' */ './verify'))
+const Suggestions = React.lazy(() => import(/* webpackChunkName: 'suggestions' */ './suggestions'))
+
 import type { Props as DashboardProps } from './dashboard'
 import type { Props as ProductsProps } from './products'
 import type { Props as EditProductsProps } from './edit-products'
@@ -67,7 +69,7 @@ export function Content(props: Props) {
     <CardView>
       <Card className={S.emptyState}>
         <div className={S.placeholder}>
-          {l`This page is coming soon!`}
+          {l`Loading...`}
         </div>
       </Card>
     </CardView>
@@ -114,17 +116,17 @@ export function Content(props: Props) {
     case 'convention-stats':
       content = <ConventionStats {...props} />
       break
-    case 'suggestions':
-      content = <Suggestions {...props} />
-      break
     case 'settings':
       content = <Settings {...props} />
       break
+    case 'suggestions':
+      content = <Suspense fallback={placeholder}><Suggestions {...props} /></Suspense>
+      break
     case 'reset-password':
-      content = <ResetPassword {...props} />
+      content = <Suspense fallback={placeholder}><ResetPassword {...props} /></Suspense>
       break
     case 'verify':
-      content = <Verify {...props} />
+      content = <Suspense fallback={placeholder}><Verify {...props} /></Suspense>
       break
     case 'admin':
       content = <Suspense fallback={placeholder}><Admin {...props} /></Suspense>

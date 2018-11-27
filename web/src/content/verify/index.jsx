@@ -64,3 +64,5 @@ export class Verify extends React.Component<Props, State> {
     )
   }
 }
+
+export default Verify

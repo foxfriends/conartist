@@ -47,3 +47,5 @@ export class Suggestions extends React.Component {
     )
   }
 }
+
+export default Suggestions

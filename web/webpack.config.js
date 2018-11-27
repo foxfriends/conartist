@@ -40,7 +40,7 @@ module.exports = env => ({
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
   },
-  devtool: 'cheap-eval-source-map',
+  devtool: env === 'production' ? 'source-map' : 'cheap-module-eval-source-map',
   optimization: {
     minimize: env === 'production',
     splitChunks: {

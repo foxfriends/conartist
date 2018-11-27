@@ -75,34 +75,21 @@ export function editableProductType(productType: ProductType, index: number): Ed
   }
 }
 
-export function nonEditableProduct(product: EditableProduct): Product {
-  if (isNaN(product.quantity)) {
+export function nonEditableProduct({ id, sort, typeId, name, quantity, discontinued }: EditableProduct): Product {
+  if (isNaN(quantity)) {
     throw new Error('Cannot make a Product with an invalid quantity')
   }
-  if (typeof product.id === 'string' || typeof product.typeId === 'string') {
+  if (typeof id === 'string' || typeof typeId === 'string') {
     throw new Error('Cannot convert an unsaved product to a Product');
   }
-  return {
-    id: product.id,
-    sort: product.sort,
-    typeId: product.typeId,
-    name: product.name,
-    quantity: product.quantity,
-    discontinued: product.discontinued,
-  }
+  return { id, sort, typeId, name, quantity, discontinued }
 }
 
-export function nonEditableProductType(productType: EditableProductType): ProductType {
-  if (typeof productType.id === 'string') {
+export function nonEditableProductType({ id, sort, name, color, discontinued }: EditableProductType): ProductType {
+  if (typeof id === 'string') {
     throw new Error('Cannot convert an unsaved product type to a ProductType');
   }
-  return {
-    id: productType.id,
-    sort: productType.sort,
-    name: productType.name,
-    color: productType.color,
-    discontinued: productType.discontinued,
-  }
+  return { id, sort, name, color, discontinued }
 }
 
 export function setProductTypeIds(products: EditableProduct[], productTypes: EditableProductType[]): EditableProduct[] {

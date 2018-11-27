@@ -14,7 +14,7 @@ graphql_object!(ScoredSuggestion: Database as "Suggestion" |&self| {
     field suggestion() -> &String { &self.suggestion }
     field suggested_at() -> DateTime<Utc> { DateTime::from_utc(self.create_date, Utc) }
     field status() -> i32 { self.status as i32 }
-    field ranking() -> i32 { self.ranking }
+    field ranking() -> i32 { self.ranking as i32 }
 
     field voted(&executor) -> bool { // this one might be kind of slow
         executor.context().check_suggestion_voted(self.suggestion_id)

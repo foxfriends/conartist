@@ -17,7 +17,7 @@ table! {
         suggestion -> Text,
         create_date -> Timestamptz,
         status -> Int4,
-        ranking -> Int4,
+        ranking -> Int8,
     }
 }
 

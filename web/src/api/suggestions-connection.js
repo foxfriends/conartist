@@ -36,8 +36,8 @@ export class SuggestionsConnection implements APIRequest<Params, Connection<Sugg
                 state: 'retrieved',
                 value: {
                   nodes: response.value.suggestionsConnection.nodes.map(parse),
-                  endCursor: response.value.conventionsConnection.endCursor,
-                  totalNodes: response.value.conventionsConnection.totalNodes,
+                  endCursor: response.value.suggestionsConnection.endCursor,
+                  totalNodes: response.value.suggestionsConnection.totalNodes,
                 }
               }
             : response

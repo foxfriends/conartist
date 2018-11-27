@@ -16,6 +16,7 @@ type State = {
 export class Row extends React.PureComponent<Props, State> {
   // $FlowIgnore
   valueRef: React.Ref<HTMLDivElement>
+  titleRef: React.Ref<HTMLDivElement>
 
   constructor(props: Props) {
     super(props)
@@ -23,20 +24,23 @@ export class Row extends React.PureComponent<Props, State> {
       height: 0,
     }
     this.valueRef = React.createRef()
+    this.titleRef = React.createRef()
   }
 
   componentDidMount() {
-    if (this.valueRef.current) {
+    const zero = { clientHeight: 0 }
+    if (this.valueRef.current || this.titleRef.current) {
       // $FlowIgnore
-      const height = this.valueRef.current.clientHeight
+      const height = Math.max((this.titleRef.current || zero).clientHeight, (this.valueRef.current || zero).clientHeight)
       this.setState({ height })
     }
   }
 
   componentDidUpdate() {
-    if (this.valueRef.current) {
+    const zero = { clientHeight: 0 }
+    if (this.valueRef.current || this.titleRef.current) {
       // $FlowIgnore
-      const height = this.valueRef.current.clientHeight
+      const height = Math.max((this.titleRef.current || zero).clientHeight, (this.valueRef.current || zero).clientHeight)
       this.setState({ height })
     }
   }
@@ -62,7 +66,7 @@ export class Row extends React.PureComponent<Props, State> {
     }
     return (
       <Fragment>
-        { title ? <div className={`${S.title}`} style={titleStyle}>{ title }</div> : null }
+        { title ? <div className={`${S.title}`} style={titleStyle}><div ref={this.titleRef}>{ title }</div></div> : null }
         { value ? <div className={S.value} style={valueStyle}><div ref={this.valueRef}>{ value }</div></div> : null }
         { detail ? <div className={`${S.detail}`} style={detailStyle}>{ detail }</div> : null }
       </Fragment>

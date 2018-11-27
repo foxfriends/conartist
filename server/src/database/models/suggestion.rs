@@ -20,7 +20,7 @@ pub struct Suggestion {
 }
 
 impl Suggestion {
-    pub fn with_score(self, ranking: i32) -> ScoredSuggestion {
+    pub fn with_score(self, ranking: i64) -> ScoredSuggestion {
         ScoredSuggestion {
             suggestion_id: self.suggestion_id,
             user_id: self.user_id,
@@ -39,5 +39,5 @@ pub struct ScoredSuggestion {
     pub suggestion: String,
     pub create_date: NaiveDateTime,
     pub status: i32,
-    pub ranking: i32,
+    pub ranking: i64,
 }

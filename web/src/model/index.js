@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs'
 
 import { Storage } from '../storage'
 import { splash, dashboard } from './page'
+import { empty } from './connection'
 import { ReauthorizeRequest } from '../api/reauthorize'
 import * as toast from '../toast'
 import { setUser } from '../update/signin'
@@ -41,7 +42,7 @@ export const defaultModel: Model = {
   conventions: [],
   page: splash,
   dialog: null,
-  suggestions: [],
+  suggestions: empty(),
   settings: {
     language: 'en',
     currency: 'CAD',

@@ -27,7 +27,7 @@ export function Vote({ className, vote, upvotes, downvotes, onChange }: Props) {
         }
         <IconButton quiet priority='secondary' title='thumb_up' className={`${downvotes === null ? S.thumb : S.thumbUp} ${voteClass}`} action={() => onChange && onChange(vote === 1 ? -1 : 1)}/>
       </div>
-      <span className={S.score}>{upvotes - downvotes}</span>
+      <span className={S.score}>{(upvotes || 0) - (downvotes || 0)}</span>
     </div>
   )
 }

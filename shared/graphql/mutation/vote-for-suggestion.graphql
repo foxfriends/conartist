@@ -1,0 +1,7 @@
+#import '../fragment/suggestion.graphql'
+
+mutation VoteForSuggestion($suggestionId: Int!) {
+  voteForSuggestion(suggestionId: $suggestionId) {
+    ...SuggestionFragment
+  }
+}

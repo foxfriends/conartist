@@ -1,5 +1,3 @@
-#include '../fragment/price.graphql'
-
 mutation DeletePrice($userId: Int, $price: PriceDel!) {
   delUserPrice(userId: $userId, price: $price)
 }

@@ -13,6 +13,7 @@ const ChangeEmail = React.lazy(() => import(/* webpackChunkName: 'settings' */ '
 const ChangeName = React.lazy(() => import(/* webpackChunkName: 'settings' */ './change-name'))
 const ChangeCurrency = React.lazy(() => import(/* webpackChunkName: 'settings' */ './change-currency'))
 const ChangeLanguage = React.lazy(() => import(/* webpackChunkName: 'settings' */ './change-language'))
+const CreateSuggestion = React.lazy(() => import(/* webpackChunkName: 'suggestions' */ './create-suggestion'))
 
 import type { Props as SignUpProps } from './signup'
 import type { Props as SignInProps } from './signin'
@@ -22,6 +23,7 @@ import type { Props as ChangeNameProps } from './change-name'
 import type { Props as ChangeCurrencyProps } from './change-currency'
 import type { Props as ChangeLanguageProps } from './change-language'
 import type { Props as ResetPasswordProps } from './reset-password'
+import type { Props as CreateSuggestionProps } from './create-suggestion'
 import type { Props as ExportProps } from './export'
 import type { Props as ImportProps } from './import'
 
@@ -38,6 +40,7 @@ export type Props
   | ChangeCurrencyProps
   | ChangeLanguageProps
   | ResetPasswordProps
+  | CreateSuggestionProps
   | ExportProps
   | ImportProps
 
@@ -68,6 +71,9 @@ export function Dialog(props: Props) {
       break
     case 'reset-password':
       dialog = <ResetPassword {...props} />
+      break
+    case 'create-suggestion':
+      dialog = <CreateSuggestion {...props} />
       break
     case 'export':
       dialog = <Export {...props} />

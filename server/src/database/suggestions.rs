@@ -15,7 +15,7 @@ impl Database {
         if let Some(status) = status {
             scoredsuggestions::table
                 .filter(scoredsuggestions::status.eq(status as i32))
-                .offset(after.clone().and_then(|s| s.parse::<i64>().ok()).unwrap_or(0i64))
+                .offset(after.as_ref().and_then(|s| s.parse::<i64>().ok()).unwrap_or(0i64))
                 .limit(limit)
                 .order((scoredsuggestions::ranking.desc(), scoredsuggestions::create_date.asc()))
                 .load::<ScoredSuggestion>(&*conn)
@@ -23,7 +23,7 @@ impl Database {
         } else {
             scoredsuggestions::table
                 .filter(scoredsuggestions::status.lt(SuggestionStatus::Implemented as i32))
-                .offset(after.clone().and_then(|s| s.parse::<i64>().ok()).unwrap_or(0i64))
+                .offset(after.as_ref().and_then(|s| s.parse::<i64>().ok()).unwrap_or(0i64))
                 .limit(limit)
                 .order((scoredsuggestions::ranking.desc(), scoredsuggestions::create_date.asc()))
                 .load::<ScoredSuggestion>(&*conn)

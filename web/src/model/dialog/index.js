@@ -9,6 +9,7 @@ import type { ChangeLanguage } from './change-language'
 import type { Export } from './export'
 import type { Import } from './import'
 import type { ResetPassword } from './reset-password'
+import type { CreateSuggestion } from './create-suggestion'
 
 export type Dialog
   = SignUp
@@ -21,5 +22,6 @@ export type Dialog
   | Export
   | Import
   | ResetPassword
+  | CreateSuggestion
 
 export type Name = $PropertyType<Dialog, 'name'>

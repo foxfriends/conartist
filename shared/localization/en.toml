@@ -82,6 +82,7 @@ Language = "Language"
 "Let's get started!" = "Let's get started!"
 "Loading..." = "Loading..."
 "Looks good to me" = "Looks good to me"
+"Make a suggestion" = "Make a suggestion"
 "Manage Prices" = "Manage Prices"
 "Manage Products" = "Manage Products"
 Metric = "Metric"
@@ -147,6 +148,7 @@ Sold = "Sold"
 Stats = "Stats"
 Suggestions = "Suggestions"
 Support = "Support"
+"Thanks for your feedback!" = "Thanks for your feedback!"
 "That email is already being used" = "That email is already being used"
 "There are no suggestions yet. Feel free to make a request!" = "There are no suggestions yet. Feel free to make a request!"
 "There's nothing here..." = "There's nothing here…"
@@ -164,6 +166,7 @@ Type = "Type"
 Unknown = "Unknown"
 Upcoming = "Upcoming"
 Upvote = "Upvote"
+"Use lots of details. Make sure we know what you want!" = "Use lots of details. Make sure we know what you want!"
 "Verification email sent" = "Verification email sent"
 "View on map" = "View on map"
 "View records" = "View records"
@@ -178,7 +181,10 @@ Website = "Website"
 "You can charge more than that!" = "You can charge more than that!"
 "You can't have less than none!" = "You can't have less than none!"
 "You can't sell none!" = "You can't sell none!"
-"You don't have any conventions starred... Why don't you go find one you like?" = "You don't have any conventions starred…\nWhy don't you go find one you like?"
+"You don't have any conventions starred... Why don't you go find one you like?" = """
+You don't have any conventions starred…
+Why don't you go find one you like?
+"""
 "You haven't been to any conventions yet..." = "You haven't been to any conventions yet…"
 "You haven't set any prices yet" = "You haven't set any prices yet"
 "You'll have to try again later... Sorry for the inconvenience." = "You'll have to try again later… Sorry for the inconvenience."
@@ -201,17 +207,42 @@ EEE = "EEE."
 "{} - {}" = "{} – {}"
 "{} {} - {}" = "{} {} – {}"
 "{}x" = "{}×"
-"<Convention info contribution disclaimer>" = "Your identity is not shared with the other artists when you contribute information. Please respect that people of all ages can read this information. Any incorrect or offensive information may be removed without notice.\n\nOnce submitted, you cannot edit what you wrote, so make sure it’s correct!"
-"<Email usage disclaimer>" = "Your email is used only for sign-in and verification purposes.\nIt will never be shared with anyone else."
-"<Empty prices list message>" = "You don't have anything for sale yet…\nHead over to the products page and get some items set up!"
-"<Empty products list message>" = "You don't have anything for sale yet…\nEdit this page and write down what you plan to be selling!"
+"<Convention info contribution disclaimer>" = """
+Your identity is not shared with the other artists when you contribute information. Please respect that people of all ages can read this information. Any incorrect or offensive information may be removed without notice.
+
+Once submitted, you cannot edit what you wrote, so make sure it’s correct!
+"""
+"<Email usage disclaimer>" = """
+Your email is used only for sign-in and verification purposes.
+It will never be shared with anyone else.
+"""
+"<Empty prices list message>" = """
+You don't have anything for sale yet…
+Head over to the products page and get some items set up!
+"""
+"<Empty products list message>" = """
+You don't have anything for sale yet…
+Edit this page and write down what you plan to be selling!
+"""
 "<First product type message>" = "What kinds of things do you sell?"
-"<Name usage disclaimer>" = "Your name might one day be visible to other artists.\nYou can use your artist handle if you like."
-"<No convention user info>" = "No one has shared any information about this convention yet…\nYou could be the first!"
+"<Name usage disclaimer>" = """
+Your name may be visible to other artists.
+You can use your artist handle if you like.
+"""
+"<No convention user info>" = """
+No one has shared any information about this convention yet…
+You could be the first!
+"""
 "<Splash body>" = "ConArtist brings together all the things you need, streamlining your convention experience. Find conventions, manage inventory, and record sales, all in one place."
 "<Splash title>" = "The money counter for the busy tabeller"
+"<Suggestion disclaimer>" = """
+Your name may be shared with other artists when you make a suggestion. Please respect that people of all ages can read this information. Any offensive text may be removed without notice.
+
+Once submitted, you cannot edit what you wrote, so make sure it describes what you want in enough detail!
+"""
 "<Verify Account Successful>" = "Your account is now secured. Welcome to ConArtist."
 "<Verify Account Failed>" = "We couldn't verify your account right now. Maybe you should try again?"
+
 en-ca = "English (Canada)"
 en-us = "English (USA)"
 zh-Hans = "中文 (简体)"

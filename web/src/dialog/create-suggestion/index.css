@@ -1,0 +1,16 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  height: 100%;
+}
+
+.full {
+  flex-grow: 1;
+}
+
+.disclaimer {
+  flex-shrink: 0;
+  opacity: 0.5;
+  padding: 16px;
+}

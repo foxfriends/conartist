@@ -3,6 +3,7 @@ import { model } from '../model'
 import { exportProducts, exportRecords } from '../model/dialog/export'
 import { importProducts } from '../model/dialog/import'
 import { resetPassword } from '../model/dialog/reset-password'
+import { createSuggestion } from '../model/dialog/create-suggestion'
 
 import type { Convention } from '../model/convention'
 
@@ -38,5 +39,12 @@ export function showResetPasswordDialog(email: string = '') {
   model.next({
     ...model.getValue(),
     dialog: resetPassword(email),
+  })
+}
+
+export function showCreateSuggestionDialog() {
+  model.next({
+    ...model.getValue(),
+    dialog: createSuggestion,
   })
 }

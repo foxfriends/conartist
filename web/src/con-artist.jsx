@@ -175,7 +175,7 @@ export class ConArtist extends React.Component<Props, State> {
         break
 
       case 'suggestions':
-        state.toolbar = { primary: null, secondary: null, tertiary: null, pageIcon: 'settings' }
+        state.toolbar = { primary: toolbarAction.CreateSuggestion, secondary: null, tertiary: null, pageIcon: 'settings' }
         state.content = { name: 'suggestions', suggestions: model.suggestions }
         state.navigation = NavInfo.default.select('Settings', [], INDIRECT)
         break
@@ -233,6 +233,10 @@ export class ConArtist extends React.Component<Props, State> {
 
         case 'reset-password':
           state.dialog = { name: 'reset-password', email: model.dialog.email }
+          break
+
+        case 'create-suggestion':
+          state.dialog = { name: 'create-suggestion' }
           break
 
         case 'export':

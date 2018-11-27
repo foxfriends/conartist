@@ -1,8 +1,9 @@
 /* @flow */
 import * as React from 'react'
-import { Item } from '../../common/list/item'
+import { Row } from '../../common/table/row'
 import { Vote } from '../../common/vote'
 import { l } from '../../localization'
+import { newlinesToReact } from '../../util/newlines-to-react'
 import type { Suggestion } from '../../model/suggestion'
 import S from './suggestion-item.css'
 
@@ -11,10 +12,8 @@ export type Props = {
 }
 
 export function SuggestionItem({ suggestion: { id, suggestion, ranking, voted } }: Props) {
+  const vote = <Vote className={S.vote} vote={voted ? 1 : 0} upvotes={ranking} downvotes={null} onChange={() => {}} />
   return (
-    <Item className={S.item}>
-      <span className={S.truncation}>{suggestion}</span>
-      <Vote className={S.vote} vote={voted ? 1 : 0} upvotes={ranking} downvotes={null} onChange={() => {}} />
-    </Item>
+    <Row className={S.item} title={newlinesToReact(suggestion)} detail={vote} />
   )
 }

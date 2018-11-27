@@ -28,3 +28,10 @@ export function prepend<T>(connection: Connection<T>, ...elements: [T]): Connect
     totalNodes: connection.totalNodes + elements.length,
   }
 }
+
+export function replaceById<T>(connection: Connection<T>, element: T): Connection<T> {
+  return {
+    ...connection,
+    nodes: connection.nodes.map(node => node.id === element.id ? element : node),
+  }
+}

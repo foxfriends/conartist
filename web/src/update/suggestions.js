@@ -1,6 +1,7 @@
 import { model } from '../model'
-import { empty, extend, prepend } from '../model/connection'
+import { empty, extend, prepend, replaceById } from '../model/connection'
 import { SuggestionsConnection } from '../api/suggestions-connection'
+import { VoteForSuggestion } from '../api/vote-for-suggestion'
 
 export function addSuggestion(suggestion) {
   model.next({
@@ -20,13 +21,34 @@ export function loadSuggestions(fresh: boolean = false) {
   new SuggestionsConnection()
     .send({ after: previous.endCursor })
     .subscribe(({ state, value, error }) => {
-      if (state === 'retrieved') {
-        model.next({
-          ...model.getValue(),
-          suggestions: extend(previous, value),
-        })
-      } else if (state === 'failed') {
-        console.error(error)
+      switch (state) {
+        case 'retrieved':
+          model.next({
+            ...model.getValue(),
+            suggestions: extend(previous, value),
+          })
+          break
+        case 'failed':
+          console.error(error);
+          break
+      }
+    })
+}
+
+export function voteForSuggestion(suggestionId: number) {
+  new VoteForSuggestion()
+    .send({ suggestionId })
+    .subscribe(({ state, value, error }) => {
+      switch (state) {
+        case 'retrieved':
+          model.next({
+            ...model.getValue(),
+            suggestions: replaceById(model.getValue().suggestions, value),
+          })
+          break
+        case 'failed':
+          console.error(error);
+          break
       }
     })
 }

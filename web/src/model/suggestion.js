@@ -12,14 +12,14 @@ export type Suggestion = {|
   time: Date,
 |}
 
-export function parse({ id, suggester: { name }, suggestion, suggestedAt: time, status, voted, rating }: SuggestionFragment): Record {
+export function parse({ id, suggester: { name }, suggestion, suggestedAt: time, status, voted, ranking }: SuggestionFragment): Record {
   return {
     name: 'suggestion',
     id,
     suggestion,
     suggester: name,
     status,
-    rating,
+    ranking,
     voted,
     time,
   }

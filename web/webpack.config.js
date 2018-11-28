@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = env => ({
   mode: env === 'production' ? 'production' : 'development',
-  entry: './index.jsx',
+  entry: './index.js',
   output: {
     path: path.resolve('.', 'static'),
     publicPath: 'static/',
@@ -15,7 +15,7 @@ module.exports = env => ({
   },
   module: {
     rules: [
-      { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader' },
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
       { test: /\.(png|svg|gif|jpe?g)$/, loader: 'file-loader?name=images/[hash].[ext]!img-loader' },
       {
         test: /\.css$/,
@@ -38,7 +38,7 @@ module.exports = env => ({
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.json'],
+    extensions: ['.js', '.json'],
   },
   devtool: env === 'production' ? 'source-map' : 'cheap-module-eval-source-map',
   optimization: {

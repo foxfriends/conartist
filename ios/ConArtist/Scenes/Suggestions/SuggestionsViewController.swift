@@ -23,7 +23,6 @@ class SuggestionsViewController: ConArtistViewController {
 extension SuggestionsViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
         setupLocalization()
         setupSubscriptions()
         setupRefreshControl()
@@ -41,9 +40,6 @@ extension SuggestionsViewController {
 // MARK: - UI
 
 extension SuggestionsViewController {
-    fileprivate func setupUI() {
-    }
-
     fileprivate func setupLocalization() {
         navBar.title = "Suggestions"¡
         navBar.leftButtonTitle = "Back"¡
@@ -55,6 +51,10 @@ extension SuggestionsViewController {
 
 extension SuggestionsViewController {
     fileprivate func setupSubscriptions() {
+        if ConArtist.model.suggestions.value.isEmpty {
+            _ = ConArtist.model.loadSuggestions().subscribe()
+        }
+
         ConArtist.model.suggestions
             .asDriver()
             .drive(onNext: { [suggestionsTableView] _ in suggestionsTableView?.reloadData() })
@@ -65,7 +65,12 @@ extension SuggestionsViewController {
             .disposed(by: disposeBag)
 
         navBar.rightButton.rx.tap
-            .subscribe(onNext: { _ in }) // TODO
+            .flatMap { _ in NewSuggestionViewController.present() }
+            .map { suggestion in CreateSuggestionMutation(suggestion: suggestion) }
+            .flatMap { mutation in ConArtist.API.GraphQL.observe(mutation: mutation) }
+            .map { $0.createSuggestion.fragments.suggestionFragment }
+            .filterMap(Suggestion.init(graphQL:))
+            .subscribe(onNext: ConArtist.model.addSuggestion)
             .disposed(by: disposeBag)
     }
 }

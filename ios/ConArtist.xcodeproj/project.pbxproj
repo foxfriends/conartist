@@ -132,6 +132,7 @@
 		32CD6B1021AF9C0B00387349 /* EmptyStateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B0F21AF9C0B00387349 /* EmptyStateTableViewCell.swift */; };
 		32CD6B1221AF9CA300387349 /* SuggestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B1121AF9CA300387349 /* SuggestionTableViewCell.swift */; };
 		32CD6B1421AF9CF600387349 /* Suggestions.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32CD6B1321AF9CF600387349 /* Suggestions.storyboard */; };
+		32CD6B1621AFA81400387349 /* NewSuggestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B1521AFA81300387349 /* NewSuggestionViewController.swift */; };
 		32CFB1D320DCAE4800672EC9 /* ViewControllerNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CFB1D220DCAE4800672EC9 /* ViewControllerNavigation.swift */; };
 		32CFB1D520DCB0EB00672EC9 /* String+Attributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CFB1D420DCB0EB00672EC9 /* String+Attributes.swift */; };
 		32CFB1D720DCB16300672EC9 /* Convention.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32CFB1D620DCB16300672EC9 /* Convention.storyboard */; };
@@ -290,6 +291,7 @@
 		32CD6B0F21AF9C0B00387349 /* EmptyStateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateTableViewCell.swift; sourceTree = "<group>"; };
 		32CD6B1121AF9CA300387349 /* SuggestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionTableViewCell.swift; sourceTree = "<group>"; };
 		32CD6B1321AF9CF600387349 /* Suggestions.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Suggestions.storyboard; sourceTree = "<group>"; };
+		32CD6B1521AFA81300387349 /* NewSuggestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSuggestionViewController.swift; sourceTree = "<group>"; };
 		32CFB1D220DCAE4800672EC9 /* ViewControllerNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerNavigation.swift; sourceTree = "<group>"; };
 		32CFB1D420DCB0EB00672EC9 /* String+Attributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Attributes.swift"; sourceTree = "<group>"; };
 		32CFB1D620DCB16300672EC9 /* Convention.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Convention.storyboard; sourceTree = "<group>"; };
@@ -775,6 +777,7 @@
 			children = (
 				32CD6B0521AF963900387349 /* SuggestionsViewController.swift */,
 				32CD6B1121AF9CA300387349 /* SuggestionTableViewCell.swift */,
+				32CD6B1521AFA81300387349 /* NewSuggestionViewController.swift */,
 			);
 			path = Suggestions;
 			sourceTree = "<group>";
@@ -1052,6 +1055,7 @@
 				324592A01FEB230600DE89BB /* Auth.swift in Sources */,
 				32B36EC7203E623B00DA4593 /* Base.swift in Sources */,
 				32B36EBF203BD67800DA4593 /* UIView+Customizable.swift in Sources */,
+				32CD6B1621AFA81400387349 /* NewSuggestionViewController.swift in Sources */,
 				321FDE842027D14B002DF04B /* Observable+Helpers.swift in Sources */,
 				321B75DC1F9BAD320055EBC4 /* SignInViewController.swift in Sources */,
 				324592AC1FEC2EA500DE89BB /* Convention.swift in Sources */,

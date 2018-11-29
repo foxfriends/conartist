@@ -80,7 +80,6 @@
                                         <connections>
                                             <outlet property="rankingLabel" destination="iCQ-Ns-wUl" id="QPv-Tj-sUU"/>
                                             <outlet property="suggestionTextLabel" destination="vHz-7D-VWu" id="PLW-4R-H7V"/>
-                                            <outlet property="thumbIcon" destination="nT9-xg-o8J" id="Jf5-pW-Rbg"/>
                                             <outlet property="votedIcon" destination="nT9-xg-o8J" id="pzZ-Oe-J0P"/>
                                         </connections>
                                     </tableViewCell>
@@ -93,7 +92,7 @@
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There's no suggestions!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wf1-pe-wjh">
                                                     <rect key="frame" x="20" y="20" width="335" height="20"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" name="TextPlaceholder"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -169,6 +168,74 @@
             </objects>
             <point key="canvasLocation" x="1425" y="-260"/>
         </scene>
+        <!--New Suggestion View Controller-->
+        <scene sceneID="7Tv-wG-JCL">
+            <objects>
+                <viewController storyboardIdentifier="NewSuggestion" id="4eu-jn-bQ5" customClass="NewSuggestionViewController" customModule="ConArtist" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Dtc-uD-Mdo">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Zgt-0D-x9C">
+                                <rect key="frame" x="10" y="74" width="355" height="128"/>
+                                <color key="backgroundColor" name="BackgroundOverlay"/>
+                                <color key="tintColor" name="Brand"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="JUh-0L-UaM"/>
+                                </constraints>
+                                <color key="textColor" name="Text"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YTL-U2-SJS">
+                                <rect key="frame" x="36" y="222" width="303" height="115"/>
+                                <string key="text">Your identity is not shared with the other artists when you contribute information. Please respect that people of all ages can read this information, and any incorrect or offensive information may be removed without notice.
+
+Once submitted, you cannot edit this information, so make sure it’s correct!</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" name="TextPlaceholder"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6NE-j5-jvP" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <color key="backgroundColor" name="BackgroundNavBar"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="title" value="Share Info"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="leftButtonTitle" value="Cancel"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="rightButtonTitle" value="Save"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="6NE-j5-jvP" firstAttribute="leading" secondItem="ORo-Jr-kL7" secondAttribute="leading" id="31g-x3-LJi"/>
+                            <constraint firstItem="6NE-j5-jvP" firstAttribute="bottom" secondItem="ORo-Jr-kL7" secondAttribute="top" constant="44" id="7u2-bV-wOB"/>
+                            <constraint firstItem="6NE-j5-jvP" firstAttribute="top" secondItem="Dtc-uD-Mdo" secondAttribute="top" id="9Ac-tK-0tt"/>
+                            <constraint firstItem="YTL-U2-SJS" firstAttribute="leading" secondItem="Dtc-uD-Mdo" secondAttribute="leadingMargin" constant="20" id="KjO-gJ-nXP"/>
+                            <constraint firstItem="ORo-Jr-kL7" firstAttribute="trailing" secondItem="Zgt-0D-x9C" secondAttribute="trailing" constant="10" id="Mrb-PX-Sar"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="YTL-U2-SJS" secondAttribute="trailing" constant="20" id="Plp-Vf-zI8"/>
+                            <constraint firstItem="ORo-Jr-kL7" firstAttribute="trailing" secondItem="6NE-j5-jvP" secondAttribute="trailing" id="Th4-d7-qSO"/>
+                            <constraint firstItem="Zgt-0D-x9C" firstAttribute="top" secondItem="6NE-j5-jvP" secondAttribute="bottom" constant="10" id="XJa-LP-Idi"/>
+                            <constraint firstItem="Zgt-0D-x9C" firstAttribute="leading" secondItem="ORo-Jr-kL7" secondAttribute="leading" constant="10" id="bJ4-Nm-E3w"/>
+                            <constraint firstItem="YTL-U2-SJS" firstAttribute="top" secondItem="Zgt-0D-x9C" secondAttribute="bottom" constant="20" id="k5d-zG-4Cu"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ORo-Jr-kL7"/>
+                    </view>
+                    <connections>
+                        <outlet property="disclaimerLabel" destination="YTL-U2-SJS" id="u4q-PY-SNo"/>
+                        <outlet property="navBar" destination="6NE-j5-jvP" id="F8r-BE-TQB"/>
+                        <outlet property="suggestionTextView" destination="Zgt-0D-x9C" id="LCK-sd-Nru"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0j0-Oa-WxK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2100" y="-260"/>
+        </scene>
     </scenes>
     <resources>
         <namedColor name="Background">
@@ -176,6 +243,12 @@
         </namedColor>
         <namedColor name="BackgroundNavBar">
             <color red="0.067000001668930054" green="0.067000001668930054" blue="0.067000001668930054" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="BackgroundOverlay">
+            <color red="0.0" green="0.0" blue="0.0" alpha="0.20000000298023224" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Brand">
+            <color red="0.85500001907348633" green="0.28200000524520874" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Text">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

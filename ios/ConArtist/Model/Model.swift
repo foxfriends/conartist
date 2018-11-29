@@ -157,6 +157,11 @@ extension Model {
             .map { $0.suggestionsConnection }
             .filterMap(Connection<Suggestion>.init(graphQL:))
             .map { [suggestions] new in fresh ? new : suggestions.value.extend(new) }
+            .do(onNext: { [suggestions] updated in suggestions.accept(updated) })
+    }
+
+    func addSuggestion(_ suggestion: Suggestion) {
+        suggestions.accept(suggestions.value.prepend(suggestion))
     }
 }
 

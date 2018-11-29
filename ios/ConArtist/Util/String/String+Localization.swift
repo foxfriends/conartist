@@ -10,6 +10,8 @@ import Foundation
 
 postfix operator ¡
 
+var cachedLocalizations: [String: Toml] = [:]
+
 /// Provides custom localization of strings, rather than using NSLocalizedString, so that the localization files can
 /// be shared across platforms.
 extension String {
@@ -38,7 +40,15 @@ extension String {
 
     private func localize(from path: String?) -> String? {
         return path
-            .flatMap { path in try? Toml(contentsOfFile: path) }
+            .flatMap { path -> Toml? in
+                if cachedLocalizations[path] == nil {
+                    guard let toml = try? Toml(contentsOfFile: path) else {
+                        return nil
+                    }
+                    cachedLocalizations[path] = toml
+                }
+                return cachedLocalizations[path]
+            }
             .flatMap { toml in
                 if let string = toml.string(self) {
                     return string
@@ -50,7 +60,7 @@ extension String {
     }
 
     private func localize<S: StringProtocol>(onePart locale: S) -> String? {
-        return localize(from: Bundle.main.path(forResource: "localization/\(locale)", ofType: "json"))
+        return localize(from: Bundle.main.path(forResource: "localization/\(locale)", ofType: "toml"))
     }
 
     private func localize(twoPart locale: String) -> String? {

@@ -18,6 +18,14 @@ extension Connection {
     var isEmpty: Bool { return nodes.isEmpty }
     var isFull: Bool { return nodes.count == totalNodes && !isEmpty }
 
+    func prepend(_ node: T) -> Connection<T> {
+        return Connection(
+            nodes: [node] + nodes,
+            endCursor: endCursor,
+            totalNodes: totalNodes + 1
+        )
+    }
+
     func extend(_ extender: Connection<T>) -> Connection<T> {
         return Connection(
             nodes: nodes + extender.nodes,

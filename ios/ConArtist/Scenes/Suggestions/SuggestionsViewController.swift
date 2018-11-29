@@ -113,16 +113,13 @@ extension SuggestionsViewController: UITableViewDataSource {
 
 extension SuggestionsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch indexPath.section {
-        case 0: return 60
-        default: return self.tableView(tableView, heightForRowAt: indexPath)
-        }
+        return 60
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
-        case 0: return UITableView.automaticDimension
-        default: return 50
+        case 0, 1: return UITableView.automaticDimension
+        default: return 60
         }
     }
 
@@ -150,7 +147,11 @@ extension SuggestionsViewController: UITableViewDelegate {
                 )
         }
         upvote.backgroundColor = .success
-        return UISwipeActionsConfiguration.init(actions: [upvote])
+        return UISwipeActionsConfiguration(actions: [upvote])
+    }
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        return UISwipeActionsConfiguration(actions: [])
     }
 }
 

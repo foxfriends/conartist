@@ -14,6 +14,8 @@ var cachedLocalizations: [String: Toml] = [:]
 
 /// Provides custom localization of strings, rather than using NSLocalizedString, so that the localization files can
 /// be shared across platforms.
+///
+/// TODO: might want to instead compile the localization files to Localizable.strings files at build time
 extension String {
     /// Localizes the current string using the given locale
     ///

@@ -1,0 +1,7 @@
+[package]
+name = "check-localization"
+version = "0.1.0"
+authors = ["Cameron Eldridge <cameldridge+git@gmail.com>"]
+
+[dependencies]
+toml = "0.4"

@@ -200,7 +200,7 @@ Why don't you go find one you like?
 EEE = "EEE."
 "EEEE MMMM d, yyyy" = "EEEE MMMM d, yyyy"
 "EEEE MMMM d, yyyy. h:mma" = "EEEE MMMM d, yyyy. h:mma"
-"MMMM d yyyy. h:mma" = "MMMM D yyyy. h:mma"
+"MMMM d, yyyy. h:mma" = "MMMM D yyyy. h:mma"
 "MMM. d, yyyy" = "MMM. d, yyyy"
 "h:mma" = "h:mma"
 "h:mm" = "h:mm"

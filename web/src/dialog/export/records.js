@@ -58,7 +58,7 @@ function formatDay(date: Date): string {
 }
 
 function formatTime(date: Date): string {
-  return format(date, l`MMMM d yyyy. h:mma`)
+  return format(date, l`MMMM d, yyyy. h:mma`)
 }
 
 export class ExportRecords extends React.Component<Props, State> {

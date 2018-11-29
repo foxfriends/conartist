@@ -41,4 +41,12 @@ extension Connection where T == Suggestion {
         endCursor = graphQL.endCursor
         totalNodes = graphQL.totalNodes
     }
+
+    func replace(_ suggestion: Suggestion) -> Connection<T> {
+        return Connection(
+            nodes: nodes.replace(with: suggestion, where: { $0.id == suggestion.id }),
+            endCursor: endCursor,
+            totalNodes: totalNodes
+        )
+    }
 }

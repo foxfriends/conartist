@@ -163,6 +163,10 @@ extension Model {
     func addSuggestion(_ suggestion: Suggestion) {
         suggestions.accept(suggestions.value.prepend(suggestion))
     }
+
+    func replaceSuggestion(_ suggestion: Suggestion) {
+        suggestions.accept(suggestions.value.replace(suggestion))
+    }
 }
 
 // MARK: - Navigation

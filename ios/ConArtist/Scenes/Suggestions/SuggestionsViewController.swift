@@ -66,7 +66,7 @@ extension SuggestionsViewController {
 
         navBar.rightButton.rx.tap
             .flatMap { _ in NewSuggestionViewController.present() }
-            .map { suggestion in CreateSuggestionMutation(suggestion: suggestion) }
+            .map(CreateSuggestionMutation.init(suggestion:))
             .flatMap { mutation in ConArtist.API.GraphQL.observe(mutation: mutation) }
             .map { $0.createSuggestion.fragments.suggestionFragment }
             .filterMap(Suggestion.init(graphQL:))
@@ -132,6 +132,25 @@ extension SuggestionsViewController: UITableViewDelegate {
             _ = ConArtist.model.loadSuggestions()
                 .subscribe(onNext: { [weak self] _ in self?.loading = false })
         }
+    }
+
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard indexPath.section == 1 else { return nil }
+        let suggestion = ConArtist.model.suggestions.value.nodes[indexPath.row]
+        guard !suggestion.voted else { return nil }
+        let upvote = UIContextualAction(style: .normal, title: "Recommend"¡) { _, _, complete in
+            _ = ConArtist.API.GraphQL
+                .observe(mutation: VoteForSuggestionMutation(suggestionId: suggestion.id))
+                .map { $0.voteForSuggestion.fragments.suggestionFragment }
+                .map(Suggestion.init(graphQL:))
+                .do(onNext: { suggestion in suggestion.map(ConArtist.model.replaceSuggestion) })
+                .subscribe(
+                    onNext: { suggestion in complete(suggestion != nil) },
+                    onError: { _ in complete(false) }
+                )
+        }
+        upvote.backgroundColor = .success
+        return UISwipeActionsConfiguration.init(actions: [upvote])
     }
 }
 

@@ -62,6 +62,8 @@ class Model: Codable {
     let page = BehaviorRelay<[Presentation]>(value: [])
     let settings = BehaviorRelay<Settings>(value: Settings.default)
 
+    let suggestions = BehaviorRelay<Connection<Suggestion>>(value: .empty)
+
     /// Merges the retrieved fragment with the existing model, overriding where possible, but keeping references to
     /// original classes in the case of `Convention`s and the `Model` itself
     func merge(graphQL user: FullUserFragment) {
@@ -143,6 +145,18 @@ extension Model {
             prices.append(price)
         }
         self.prices.accept(prices)
+    }
+}
+
+// MARK: - Suggestions
+extension Model {
+    func loadSuggestions(fresh: Bool = false) -> Observable<Connection<Suggestion>> {
+        if !fresh && suggestions.value.isFull { return Single.just(suggestions.value).asObservable() }
+        return ConArtist.API.GraphQL
+            .observe(query: SuggestionsConnectionQuery(search: nil, limit: nil, before: nil, after: fresh ? nil : suggestions.value.endCursor))
+            .map { $0.suggestionsConnection }
+            .filterMap(Connection<Suggestion>.init(graphQL:))
+            .map { [suggestions] new in fresh ? new : suggestions.value.extend(new) }
     }
 }
 

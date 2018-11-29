@@ -16,6 +16,7 @@ enum Storyboard: String {
     case sale = "Sale"
     case settings = "Settings"
     case products = "Products"
+    case suggestions = "Suggestions"
 }
 
 protocol ViewControllerNavigation {

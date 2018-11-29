@@ -125,6 +125,13 @@
 		32CD6B0021AB58FD00387349 /* Grammar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A9221AB58FD00387349 /* Grammar.swift */; };
 		32CD6B0121AB58FD00387349 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A9321AB58FD00387349 /* String.swift */; };
 		32CD6B0221AB58FD00387349 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A9421AB58FD00387349 /* Parser.swift */; };
+		32CD6B0621AF963900387349 /* SuggestionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B0521AF963900387349 /* SuggestionsViewController.swift */; };
+		32CD6B0821AF979E00387349 /* Suggestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B0721AF979E00387349 /* Suggestion.swift */; };
+		32CD6B0A21AF97D900387349 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B0921AF97D900387349 /* Connection.swift */; };
+		32CD6B0E21AF9B9200387349 /* LoadingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B0D21AF9B9200387349 /* LoadingTableViewCell.swift */; };
+		32CD6B1021AF9C0B00387349 /* EmptyStateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B0F21AF9C0B00387349 /* EmptyStateTableViewCell.swift */; };
+		32CD6B1221AF9CA300387349 /* SuggestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B1121AF9CA300387349 /* SuggestionTableViewCell.swift */; };
+		32CD6B1421AF9CF600387349 /* Suggestions.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32CD6B1321AF9CF600387349 /* Suggestions.storyboard */; };
 		32CFB1D320DCAE4800672EC9 /* ViewControllerNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CFB1D220DCAE4800672EC9 /* ViewControllerNavigation.swift */; };
 		32CFB1D520DCB0EB00672EC9 /* String+Attributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CFB1D420DCB0EB00672EC9 /* String+Attributes.swift */; };
 		32CFB1D720DCB16300672EC9 /* Convention.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32CFB1D620DCB16300672EC9 /* Convention.storyboard */; };
@@ -276,6 +283,13 @@
 		32CD6A9221AB58FD00387349 /* Grammar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grammar.swift; sourceTree = "<group>"; };
 		32CD6A9321AB58FD00387349 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		32CD6A9421AB58FD00387349 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		32CD6B0521AF963900387349 /* SuggestionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionsViewController.swift; sourceTree = "<group>"; };
+		32CD6B0721AF979E00387349 /* Suggestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Suggestion.swift; sourceTree = "<group>"; };
+		32CD6B0921AF97D900387349 /* Connection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
+		32CD6B0D21AF9B9200387349 /* LoadingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingTableViewCell.swift; sourceTree = "<group>"; };
+		32CD6B0F21AF9C0B00387349 /* EmptyStateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateTableViewCell.swift; sourceTree = "<group>"; };
+		32CD6B1121AF9CA300387349 /* SuggestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionTableViewCell.swift; sourceTree = "<group>"; };
+		32CD6B1321AF9CF600387349 /* Suggestions.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Suggestions.storyboard; sourceTree = "<group>"; };
 		32CFB1D220DCAE4800672EC9 /* ViewControllerNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerNavigation.swift; sourceTree = "<group>"; };
 		32CFB1D420DCB0EB00672EC9 /* String+Attributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Attributes.swift"; sourceTree = "<group>"; };
 		32CFB1D620DCB16300672EC9 /* Convention.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Convention.storyboard; sourceTree = "<group>"; };
@@ -512,6 +526,8 @@
 				32B36ED72041FF3200DA4593 /* NetworkImageView.swift */,
 				32B36EC8203E7A5800DA4593 /* TableHeaderView.swift */,
 				32637A9E21909C30005E2F6C /* ConArtistViewController.swift */,
+				32CD6B0D21AF9B9200387349 /* LoadingTableViewCell.swift */,
+				32CD6B0F21AF9C0B00387349 /* EmptyStateTableViewCell.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -533,10 +549,10 @@
 		32B36ED32040E37300DA4593 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				321FDE7C20269AB0002DF04B /* SettingsViewController.swift */,
 				321FDE7F20269E43002DF04B /* SettingsBooleanTableViewCell.swift */,
 				32B9101A2048F049002F9C94 /* SettingsSelectTableViewCell.swift */,
 				321FDE8120269E67002DF04B /* SettingsActionTableViewCell.swift */,
-				321FDE7C20269AB0002DF04B /* SettingsViewController.swift */,
 				32B9101E2048F282002F9C94 /* SettingsSelectOptionTableViewCell.swift */,
 				32B9101C2048F113002F9C94 /* SettingsSelectViewController.swift */,
 			);
@@ -554,6 +570,7 @@
 				32CFB1DA20DCB23B00672EC9 /* Sale.storyboard */,
 				32CFB1D820DCB20200672EC9 /* Settings.storyboard */,
 				321B75DD1F9BAD320055EBC4 /* SignIn.storyboard */,
+				32CD6B1321AF9CF600387349 /* Suggestions.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -659,6 +676,7 @@
 		32C39C25201EA52800071E26 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				32CD6B0421AF962C00387349 /* Suggestions */,
 				32637A712189341E005E2F6C /* Manage Products */,
 				32B36ECF203FB91000DA4593 /* Convention Details */,
 				32F0B41420425D8500ADF209 /* Convention List */,
@@ -680,6 +698,7 @@
 				32B36EE3204226B100DA4593 /* ConventionUserInfo.swift */,
 				32B36EC0203BE0E600DA4593 /* ConventionExtraInfo.swift */,
 				32BC33E71FEEF2070006256A /* Expense.swift */,
+				32CD6B0921AF97D900387349 /* Connection.swift */,
 				320CF59720E7E6EF003F91EC /* Either.swift */,
 				324592A91FEC2E7900DE89BB /* Model.swift */,
 				32E80BD3201700100008EC27 /* Money.swift */,
@@ -691,6 +710,7 @@
 				32B910182047C821002F9C94 /* Settings.swift */,
 				32D45CB920A4A54400F7A67F /* Id.swift */,
 				32DFCF5820DDE592007FFE70 /* Location.swift */,
+				32CD6B0721AF979E00387349 /* Suggestion.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -748,6 +768,15 @@
 				32CD6A9421AB58FD00387349 /* Parser.swift */,
 			);
 			path = Toml;
+			sourceTree = "<group>";
+		};
+		32CD6B0421AF962C00387349 /* Suggestions */ = {
+			isa = PBXGroup;
+			children = (
+				32CD6B0521AF963900387349 /* SuggestionsViewController.swift */,
+				32CD6B1121AF9CA300387349 /* SuggestionTableViewCell.swift */,
+			);
+			path = Suggestions;
 			sourceTree = "<group>";
 		};
 		32D4BB0F205B3E4400B0A397 /* Overlays */ = {
@@ -867,6 +896,7 @@
 				321B75E41F9BAD320055EBC4 /* Assets.xcassets in Resources */,
 				32CFB1DB20DCB23B00672EC9 /* Sale.storyboard in Resources */,
 				32B9101020439F75002F9C94 /* resources.json in Resources */,
+				32CD6B1421AF9CF600387349 /* Suggestions.storyboard in Resources */,
 				327C5D7B20817AD1007EEF71 /* Release.plist in Resources */,
 				32CFB1DD20DCB3C800672EC9 /* Main.storyboard in Resources */,
 				321B75DF1F9BAD320055EBC4 /* SignIn.storyboard in Resources */,
@@ -1009,6 +1039,7 @@
 				32637A7D218A1B4A005E2F6C /* UIViewController+Alerts.swift in Sources */,
 				32D4BB15205B44E000B0A397 /* RecordDetailsItemCollectionViewCell.swift in Sources */,
 				324592951FEAFA6000DE89BB /* ConArtist.swift in Sources */,
+				32CD6B0821AF979E00387349 /* Suggestion.swift in Sources */,
 				32CD6AFD21AB58FD00387349 /* Toml.swift in Sources */,
 				322C6A0D204CC2810021A2D9 /* String+Localization.swift in Sources */,
 				32637A7721893EB7005E2F6C /* ManageProductTypeTableViewCell.swift in Sources */,
@@ -1017,6 +1048,7 @@
 				32AE416720253D5C0061EB64 /* RootNavigationController.swift in Sources */,
 				32C39C31201EA5B400071E26 /* RecordTableViewCell.swift in Sources */,
 				32B36EC5203E5E7D00DA4593 /* UIView+Shadows.swift in Sources */,
+				32CD6B0A21AF97D900387349 /* Connection.swift in Sources */,
 				324592A01FEB230600DE89BB /* Auth.swift in Sources */,
 				32B36EC7203E623B00DA4593 /* Base.swift in Sources */,
 				32B36EBF203BD67800DA4593 /* UIView+Customizable.swift in Sources */,
@@ -1048,6 +1080,7 @@
 				32BC33DD1FEEED030006256A /* ProductListViewController.swift in Sources */,
 				32B36ED62040F57000DA4593 /* Optional+Helpers.swift in Sources */,
 				32CD6AF721AB58FD00387349 /* Date.swift in Sources */,
+				32CD6B1021AF9C0B00387349 /* EmptyStateTableViewCell.swift in Sources */,
 				322C6A0F204CC8B40021A2D9 /* String+Display.swift in Sources */,
 				32C39C36201EA66800071E26 /* ConventionDetailsViewController.swift in Sources */,
 				324592971FEAFEE000DE89BB /* ConRequest.swift in Sources */,
@@ -1067,8 +1100,10 @@
 				32B36EB720371BC700DA4593 /* FakeNavBar.swift in Sources */,
 				32B910172044F80B002F9C94 /* NewExpenseViewController.swift in Sources */,
 				32CD6B0121AB58FD00387349 /* String.swift in Sources */,
+				32CD6B0621AF963900387349 /* SuggestionsViewController.swift in Sources */,
 				32E80BD7201700EB0008EC27 /* String+Conversion.swift in Sources */,
 				32D4BB11205B3E5500B0A397 /* RecordDetailsOverlayViewController.swift in Sources */,
+				32CD6B0E21AF9B9200387349 /* LoadingTableViewCell.swift in Sources */,
 				32892C4020352D1500F1AD9C /* FancyTextField.swift in Sources */,
 				32B36EE4204226B100DA4593 /* ConventionUserInfo.swift in Sources */,
 				32CD6AF821AB58FD00387349 /* Lexer.swift in Sources */,
@@ -1103,6 +1138,7 @@
 				32BC33E41FEEF1B80006256A /* Product.swift in Sources */,
 				324592A21FEB4B4D00DE89BB /* ConventionListViewController.swift in Sources */,
 				32637A7321893431005E2F6C /* ManageProductTypesViewController.swift in Sources */,
+				32CD6B1221AF9CA300387349 /* SuggestionTableViewCell.swift in Sources */,
 				32CD6AFB21AB58FD00387349 /* Tokens.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

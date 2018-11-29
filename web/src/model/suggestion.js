@@ -7,7 +7,7 @@ export type Suggestion = {|
   suggestion: string,
   suggester: string,
   status: number,
-  rating: number,
+  ranking: number,
   voted: boolean,
   time: Date,
 |}

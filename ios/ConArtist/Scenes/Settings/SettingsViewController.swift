@@ -115,7 +115,7 @@ extension SettingsViewController: UITableViewDelegate {
         case .help:
             break
         case .feedback:
-            break
+            SuggestionsViewController.present()
         case .currency:
             let options = CurrencyCode.variants
             SettingsSelectViewController.show(

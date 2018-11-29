@@ -1621,6 +1621,100 @@ public final class CreateConventionMutation: GraphQLMutation {
   }
 }
 
+public final class CreateSuggestionMutation: GraphQLMutation {
+  public let operationDefinition =
+    "mutation CreateSuggestion($suggestion: String!) {\n  createSuggestion(suggestion: $suggestion) {\n    __typename\n    ...SuggestionFragment\n  }\n}"
+
+  public var queryDocument: String { return operationDefinition.appending(SuggestionFragment.fragmentDefinition) }
+
+  public var suggestion: String
+
+  public init(suggestion: String) {
+    self.suggestion = suggestion
+  }
+
+  public var variables: GraphQLMap? {
+    return ["suggestion": suggestion]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes = ["Mutation"]
+
+    public static let selections: [GraphQLSelection] = [
+      GraphQLField("createSuggestion", arguments: ["suggestion": GraphQLVariable("suggestion")], type: .nonNull(.object(CreateSuggestion.selections))),
+    ]
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(createSuggestion: CreateSuggestion) {
+      self.init(unsafeResultMap: ["__typename": "Mutation", "createSuggestion": createSuggestion.resultMap])
+    }
+
+    public var createSuggestion: CreateSuggestion {
+      get {
+        return CreateSuggestion(unsafeResultMap: resultMap["createSuggestion"]! as! ResultMap)
+      }
+      set {
+        resultMap.updateValue(newValue.resultMap, forKey: "createSuggestion")
+      }
+    }
+
+    public struct CreateSuggestion: GraphQLSelectionSet {
+      public static let possibleTypes = ["Suggestion"]
+
+      public static let selections: [GraphQLSelection] = [
+        GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+        GraphQLFragmentSpread(SuggestionFragment.self),
+      ]
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var fragments: Fragments {
+        get {
+          return Fragments(unsafeResultMap: resultMap)
+        }
+        set {
+          resultMap += newValue.resultMap
+        }
+      }
+
+      public struct Fragments {
+        public private(set) var resultMap: ResultMap
+
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
+        }
+
+        public var suggestionFragment: SuggestionFragment {
+          get {
+            return SuggestionFragment(unsafeResultMap: resultMap)
+          }
+          set {
+            resultMap += newValue.resultMap
+          }
+        }
+      }
+    }
+  }
+}
+
 public final class DeleteExpenseMutation: GraphQLMutation {
   public let operationDefinition =
     "mutation DeleteExpense($id: Int, $expense: ExpenseDel!) {\n  delUserExpense(userId: $id, expense: $expense)\n}"
@@ -2569,6 +2663,100 @@ public final class UpvoteConventionInfoMutation: GraphQLMutation {
         public var votesFragment: VotesFragment {
           get {
             return VotesFragment(unsafeResultMap: resultMap)
+          }
+          set {
+            resultMap += newValue.resultMap
+          }
+        }
+      }
+    }
+  }
+}
+
+public final class VoteForSuggestionMutation: GraphQLMutation {
+  public let operationDefinition =
+    "mutation VoteForSuggestion($suggestionId: Int!) {\n  voteForSuggestion(suggestionId: $suggestionId) {\n    __typename\n    ...SuggestionFragment\n  }\n}"
+
+  public var queryDocument: String { return operationDefinition.appending(SuggestionFragment.fragmentDefinition) }
+
+  public var suggestionId: Int
+
+  public init(suggestionId: Int) {
+    self.suggestionId = suggestionId
+  }
+
+  public var variables: GraphQLMap? {
+    return ["suggestionId": suggestionId]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes = ["Mutation"]
+
+    public static let selections: [GraphQLSelection] = [
+      GraphQLField("voteForSuggestion", arguments: ["suggestionId": GraphQLVariable("suggestionId")], type: .nonNull(.object(VoteForSuggestion.selections))),
+    ]
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(voteForSuggestion: VoteForSuggestion) {
+      self.init(unsafeResultMap: ["__typename": "Mutation", "voteForSuggestion": voteForSuggestion.resultMap])
+    }
+
+    public var voteForSuggestion: VoteForSuggestion {
+      get {
+        return VoteForSuggestion(unsafeResultMap: resultMap["voteForSuggestion"]! as! ResultMap)
+      }
+      set {
+        resultMap.updateValue(newValue.resultMap, forKey: "voteForSuggestion")
+      }
+    }
+
+    public struct VoteForSuggestion: GraphQLSelectionSet {
+      public static let possibleTypes = ["Suggestion"]
+
+      public static let selections: [GraphQLSelection] = [
+        GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+        GraphQLFragmentSpread(SuggestionFragment.self),
+      ]
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var fragments: Fragments {
+        get {
+          return Fragments(unsafeResultMap: resultMap)
+        }
+        set {
+          resultMap += newValue.resultMap
+        }
+      }
+
+      public struct Fragments {
+        public private(set) var resultMap: ResultMap
+
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
+        }
+
+        public var suggestionFragment: SuggestionFragment {
+          get {
+            return SuggestionFragment(unsafeResultMap: resultMap)
           }
           set {
             resultMap += newValue.resultMap

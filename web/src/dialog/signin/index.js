@@ -53,7 +53,7 @@ export class SignIn extends React.Component<Props, State> {
       .send({ usr, psw })
       .subscribe(response => {
         if (response.state === 'failed') {
-          this.setState({ passwordValidation: { state: INVALID, error: l`Your email or password is incorrect` } })
+          this.setState({ passwordValidation: { state: INVALID, error: l`Your password is incorrect` } })
         }
         this.setState({ response }, () => {
           if (this.state.response.state === 'retrieved') {

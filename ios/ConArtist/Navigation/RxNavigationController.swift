@@ -14,6 +14,17 @@ class RxNavigationController: UINavigationController {
     var views: Observable<[Model.Presentation]>!
     var viewCount: Int = 0
 
+    var currentViewController: UIViewController? {
+        let top = self.viewControllers.last
+        if let presented = top?.presentedViewController {
+            if let nav = presented as? RxNavigationController {
+                return nav.currentViewController
+            }
+            return presented
+        }
+        return top
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         isNavigationBarHidden = true
@@ -98,4 +109,3 @@ extension RxNavigationController {
         return controller
     }
 }
-

@@ -8,6 +8,7 @@
 
 import UIKit
 import SVGKit
+import RxSwift
 
 class ConventionSearchTableViewCell: UITableViewCell {
     static let ID = "ConventionSearchCell"
@@ -15,7 +16,24 @@ class ConventionSearchTableViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
+
+    fileprivate var starButtonTapped: Disposable?
+
+    deinit {
+        starButtonTapped?.dispose()
+    }
 }
+
+// MARK: - Lifecycle
+
+extension ConventionSearchTableViewCell {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        starButtonTapped?.dispose()
+    }
+}
+
+// MARK: - Setup
 
 extension ConventionSearchTableViewCell {
     func setup(convention: Convention) {
@@ -33,5 +51,41 @@ extension ConventionSearchTableViewCell {
         starButton.tintColor = starred
             ? .brandVariant
             : .text
+
+        starButtonTapped = starButton.rx.tap
+            .do(onNext: { [starButton] _ in // invert color of button preemptively
+                starButton?.tintColor = !starred
+                    ? .brandVariant
+                    : .text
+            })
+            .flatMapLatest { _ in
+                starred
+                    ? ConArtist.API.GraphQL
+                        .observe(mutation: AddUserConventionMutation(conId: convention.id))
+                        .discard()
+                    : ConArtist.API.GraphQL
+                        .observe(mutation: DeleteUserConventionMutation(conId: convention.id))
+                        .discard()
+            }
+            .subscribe(
+                onNext: { _ in
+                    _ = ConArtist.API.GraphQL
+                        .observe(query: FullUserQuery(), cachePolicy: .fetchIgnoringCacheData)
+                        .observeOn(MainScheduler.instance)
+                        .map{ $0.user.fragments.fullUserFragment }
+                        .subscribe(onNext: { fragment in
+                            ConArtist.model.merge(graphQL: fragment)
+                        })
+                },
+                onError: { [starButton] _ in
+                    starButton?.tintColor = starred
+                        ? .brandVariant
+                        : .text
+                    RootNavigationController.singleton.currentViewController?.showAlert(
+                        title: "It seems something went wrong."¡,
+                        message: "Some actions might not have been saved. Please try again later"¡
+                    )
+                }
+            )
     }
 }

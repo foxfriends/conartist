@@ -10,9 +10,11 @@ import UIKit
 import RxSwift
 
 class RootNavigationController: RxNavigationController {
+    static var singleton: RootNavigationController!
     static let ID = "Root"
 
     override func viewDidLoad() {
+        RootNavigationController.singleton = self
         views = ConArtist.model.page.asObservable()
         super.viewDidLoad()
         SplashScreenViewController.show()

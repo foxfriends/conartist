@@ -44,6 +44,7 @@ extension AllConventionsListViewController {
     fileprivate func setupLocalization() {
         navBar.title = "Conventions"¡
         navBar.leftButtonTitle = "Back"¡
+        navBar.rightButtonTitle = "Search"¡
     }
 }
 
@@ -51,8 +52,11 @@ extension AllConventionsListViewController {
 extension AllConventionsListViewController {
     fileprivate func setupSubscriptions() {
         navBar.leftButton.rx.tap
-            .discard()
-            .subscribe(onNext: { ConArtist.model.navigate(back: 1) })
+            .subscribe(onNext: { _ in ConArtist.model.navigate(back: 1) })
+            .disposed(by: disposeBag)
+
+        navBar.rightButton.rx.tap
+            .subscribe(onNext: { _ in ConventionSearchViewController.present() })
             .disposed(by: disposeBag)
 
         conventions

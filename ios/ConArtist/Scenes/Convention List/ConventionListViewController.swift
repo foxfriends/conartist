@@ -228,13 +228,26 @@ extension ConventionListViewController: UITableViewDelegate {
             .map { sections in sections.nth(section) }
             .map { [unowned self] section in self.conventions(for: section!) }
         let showMore = conCount > ConventionListViewController.MaxConventionsPerSection
-        let headerView = TableHeaderView(title: title, showBar: section != 0, showMore: showMore)
-        headerView.rx.seeAll
-            .subscribe(onNext: { _ in
-                AllConventionsListViewController.show(conventions: conventions)
-            })
-            .disposed(by: headerView.disposeBag)
-        return headerView
+        switch sections.value[section] {
+        case .future where !showMore,
+             .futureEmpty:
+            let headerView = TableHeaderView(title: title, showBar: true, showMore: true)
+            headerView.seeAllButton.setTitle("Search"¡, for: .normal)
+            headerView.rx.seeAll
+                .subscribe(onNext: { _ in
+                    ConventionSearchViewController.present()
+                })
+                .disposed(by: headerView.disposeBag)
+            return headerView
+        default:
+            let headerView = TableHeaderView(title: title, showBar: section != 0, showMore: showMore)
+            headerView.rx.seeAll
+                .subscribe(onNext: { _ in
+                    AllConventionsListViewController.show(conventions: conventions)
+                })
+                .disposed(by: headerView.disposeBag)
+            return headerView
+        }
     }
 }
 

@@ -20,7 +20,7 @@ extension SplashScreenViewController {
                 .subscribe(
                     onError: { error in
                         debug("Sign in failed: \(error)")
-                        if error as? ConArtist.Error != nil {
+                        if error is ConArtist.Error {
                             ConArtist.model.navigate(backTo: SignInViewController.self)
                             ConArtist.API.Auth.authToken = ConArtist.API.Auth.Unauthorized
                         } else {

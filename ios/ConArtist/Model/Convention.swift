@@ -69,7 +69,34 @@ class Convention: Codable {
     fileprivate let øconvention = Variable<FullConventionFragment?>(nil)
 
     fileprivate let disposeBag = DisposeBag()
-    
+
+    fileprivate init?(graphQL info: ConventionBasicInfoFragment) {
+        guard
+            let startDate = info.start.toDate(),
+            let endDate = info.end.toDate()
+        else { return nil }
+        id = info.id
+        name = info.name
+        start = startDate
+        end = endDate
+        images = info.images.map { $0.fragments.conventionImageFragment.id }
+
+        productTypes = .empty()
+        products = .empty()
+        prices = .empty()
+        expenses = .empty()
+        records = .empty()
+        userInfo = øuserInfo.asObservable()
+
+        extraInfo = [.Dates(start, end)] + info.extraInfo
+            .map { $0.fragments.extraInfoFragment }
+            .compactMap(ConventionExtraInfo.init(graphQL:))
+
+        øuserInfo.value = info.userInfo
+            .map { $0.fragments.userInfoFragment }
+            .compactMap(ConventionUserInfo.init(graphQL:))
+    }
+
     init?(graphQL con: MetaConventionFragment) {
         let info = con.fragments.conventionBasicInfoFragment
         guard
@@ -80,7 +107,7 @@ class Convention: Codable {
         name = info.name
         start = startDate
         end = endDate
-        images = con.fragments.conventionBasicInfoFragment.images.map { $0.fragments.conventionImageFragment.id }
+        images = info.images.map { $0.fragments.conventionImageFragment.id }
         recordTotal = con.recordTotal?.toMoney()
         expenseTotal = con.expenseTotal?.toMoney()
         
@@ -88,10 +115,6 @@ class Convention: Codable {
         products = øproducts.asObservable()
         prices = øprices.asObservable()
         userInfo = øuserInfo.asObservable()
-
-        øuserInfo.value = info.userInfo
-            .map { $0.fragments.userInfoFragment }
-            .compactMap(ConventionUserInfo.init(graphQL:))
 
         extraInfo = [.Dates(start, end)] + info.extraInfo
             .map { $0.fragments.extraInfoFragment }
@@ -179,13 +202,16 @@ class Convention: Codable {
         name = con.fragments.conventionBasicInfoFragment.name
         start = startDate
         end = endDate
-        images = con.fragments.conventionBasicInfoFragment.images.map { $0.fragments.conventionImageFragment.id }
+        images = con.fragments.conventionBasicInfoFragment.images
+            .map { $0.fragments.conventionImageFragment.id }
         recordTotal = con.recordTotal?.toMoney()
         expenseTotal = con.expenseTotal?.toMoney()
         extraInfo = [.Dates(start, end)] + con.fragments.conventionBasicInfoFragment.extraInfo
             .map { $0.fragments.extraInfoFragment }
             .compactMap(ConventionExtraInfo.init(graphQL:))
-        øuserInfo.value = con.fragments.conventionBasicInfoFragment.userInfo.map { $0.fragments.userInfoFragment }.compactMap(ConventionUserInfo.init(graphQL:))
+        øuserInfo.value = con.fragments.conventionBasicInfoFragment.userInfo
+            .map { $0.fragments.userInfoFragment }
+            .compactMap(ConventionUserInfo.init(graphQL:))
     }
 
     // MARK: Decodable
@@ -297,6 +323,25 @@ class Convention: Codable {
         try json.encode(øremovedExpenses.value, forKey: .removedExpenses)
         try json.encode(ømodifiedRecords.value, forKey: .modifiedRecords)
         try json.encode(ømodifiedExpenses.value, forKey: .modifiedExpenses)
+    }
+
+    // NOTE: moved here so it can be overridden
+    func fill(_ force: Bool = false) -> Observable<Void> {
+        let doLoad = øconvention.value == nil || force
+        if doLoad {
+            øconvention.value = nil
+            let doFill = full(force).share()
+            let _ = doFill.bind(to: øconvention)
+            return doFill
+                .do(onNext: { [weak self] _ in self?.attemptSaveEverything() })
+                .discard()
+        }
+        return øconvention
+            .asObservable()
+            .skip(doLoad ? 1 : 0)
+            .filterMap(identity)
+            .do(onNext: { [weak self] _ in self?.attemptSaveEverything() })
+            .discard()
     }
 }
 
@@ -584,24 +629,6 @@ extension Convention {
             .catchError { _ in Observable.empty() }
     }
 
-    func fill(_ force: Bool = false) -> Observable<Void> {
-        let doLoad = øconvention.value == nil || force
-        if doLoad {
-            øconvention.value = nil
-            let doFill = full(force).share()
-            let _ = doFill.bind(to: øconvention)
-            return doFill
-                .do(onNext: { [weak self] _ in self?.attemptSaveEverything() })
-                .discard()
-        }
-        return øconvention
-            .asObservable()
-            .skip(doLoad ? 1 : 0)
-            .filterMap(identity)
-            .do(onNext: { [weak self] _ in self?.attemptSaveEverything() })
-            .discard()
-    }
-
     private func attemptSaveEverything() {
         for record in øaddedRecords.value {
             let _ = addRecord(record, save: false)
@@ -627,5 +654,19 @@ extension Convention {
             let _ = updateExpense(expense, save: false)
                 .subscribe()
         }
+    }
+}
+
+class BasicConvention: Convention {
+    override init?(graphQL: ConventionBasicInfoFragment) {
+        super.init(graphQL: graphQL)
+    }
+
+    required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
+
+    override func fill(_ force: Bool) -> Observable<Void> {
+        return .empty()
     }
 }

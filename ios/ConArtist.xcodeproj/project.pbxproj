@@ -133,6 +133,10 @@
 		32CD6B1221AF9CA300387349 /* SuggestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B1121AF9CA300387349 /* SuggestionTableViewCell.swift */; };
 		32CD6B1421AF9CF600387349 /* Suggestions.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32CD6B1321AF9CF600387349 /* Suggestions.storyboard */; };
 		32CD6B1621AFA81400387349 /* NewSuggestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B1521AFA81300387349 /* NewSuggestionViewController.swift */; };
+		32CD6B1821AFC48500387349 /* ConventionSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B1721AFC48500387349 /* ConventionSearchViewController.swift */; };
+		32CD6B1A21B0A62400387349 /* ConventionSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B1921B0A62400387349 /* ConventionSearchTableViewCell.swift */; };
+		32CD6B1D21B0AB3500387349 /* star-outline.svg in Resources */ = {isa = PBXBuildFile; fileRef = 32CD6B1B21B0AB3500387349 /* star-outline.svg */; };
+		32CD6B1E21B0AB3500387349 /* star.svg in Resources */ = {isa = PBXBuildFile; fileRef = 32CD6B1C21B0AB3500387349 /* star.svg */; };
 		32CFB1D320DCAE4800672EC9 /* ViewControllerNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CFB1D220DCAE4800672EC9 /* ViewControllerNavigation.swift */; };
 		32CFB1D520DCB0EB00672EC9 /* String+Attributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CFB1D420DCB0EB00672EC9 /* String+Attributes.swift */; };
 		32CFB1D720DCB16300672EC9 /* Convention.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32CFB1D620DCB16300672EC9 /* Convention.storyboard */; };
@@ -292,6 +296,10 @@
 		32CD6B1121AF9CA300387349 /* SuggestionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionTableViewCell.swift; sourceTree = "<group>"; };
 		32CD6B1321AF9CF600387349 /* Suggestions.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Suggestions.storyboard; sourceTree = "<group>"; };
 		32CD6B1521AFA81300387349 /* NewSuggestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSuggestionViewController.swift; sourceTree = "<group>"; };
+		32CD6B1721AFC48500387349 /* ConventionSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConventionSearchViewController.swift; sourceTree = "<group>"; };
+		32CD6B1921B0A62400387349 /* ConventionSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConventionSearchTableViewCell.swift; sourceTree = "<group>"; };
+		32CD6B1B21B0AB3500387349 /* star-outline.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "star-outline.svg"; sourceTree = "<group>"; };
+		32CD6B1C21B0AB3500387349 /* star.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = star.svg; sourceTree = "<group>"; };
 		32CFB1D220DCAE4800672EC9 /* ViewControllerNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerNavigation.swift; sourceTree = "<group>"; };
 		32CFB1D420DCB0EB00672EC9 /* String+Attributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Attributes.swift"; sourceTree = "<group>"; };
 		32CFB1D620DCB16300672EC9 /* Convention.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Convention.storyboard; sourceTree = "<group>"; };
@@ -396,6 +404,8 @@
 		32637A82218EB576005E2F6C /* SVG */ = {
 			isa = PBXGroup;
 			children = (
+				32CD6B1B21B0AB3500387349 /* star-outline.svg */,
+				32CD6B1C21B0AB3500387349 /* star.svg */,
 				32637A83218EB576005E2F6C /* thumb_down.svg */,
 				32637A84218EB576005E2F6C /* chevron_right.svg */,
 				32637A8D218EB599005E2F6C /* add.svg */,
@@ -799,6 +809,8 @@
 				324592A11FEB4B4D00DE89BB /* ConventionListViewController.swift */,
 				32C39C2F201EA5B300071E26 /* ConventionTableViewCell.swift */,
 				32D65DB920BCFA5000F03BC2 /* AllConventionsListViewController.swift */,
+				32CD6B1921B0A62400387349 /* ConventionSearchTableViewCell.swift */,
+				32CD6B1721AFC48500387349 /* ConventionSearchViewController.swift */,
 			);
 			path = "Convention List";
 			sourceTree = "<group>";
@@ -891,6 +903,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32CD6B1E21B0AB3500387349 /* star.svg in Resources */,
 				32B9101120439F75002F9C94 /* schema.json in Resources */,
 				327C5D7920817A81007EEF71 /* Debug.plist in Resources */,
 				321B75E71F9BAD320055EBC4 /* LaunchScreen.storyboard in Resources */,
@@ -910,6 +923,7 @@
 				32637A70218930F7005E2F6C /* Products.storyboard in Resources */,
 				32CFB1E320DCBC5D00672EC9 /* Records.storyboard in Resources */,
 				32637A8A218EB576005E2F6C /* chevron_up.svg in Resources */,
+				32CD6B1D21B0AB3500387349 /* star-outline.svg in Resources */,
 				32B9100F20439F75002F9C94 /* generate-schemas in Resources */,
 				32CFB1D920DCB20200672EC9 /* Settings.storyboard in Resources */,
 				32637A8E218EB599005E2F6C /* add.svg in Resources */,
@@ -1032,6 +1046,7 @@
 				32B36EDB2041FFF100DA4593 /* API.swift in Sources */,
 				327C5D7F2081845F007EEF71 /* Config.swift in Sources */,
 				32B36EDF204202DB00DA4593 /* Keychain.swift in Sources */,
+				32CD6B1821AFC48500387349 /* ConventionSearchViewController.swift in Sources */,
 				32DFCF5920DDE592007FFE70 /* Location.swift in Sources */,
 				32CD6AFA21AB58FD00387349 /* Evaluator.swift in Sources */,
 				32F12C10203544E60045D0BC /* UIFont+Features.swift in Sources */,
@@ -1061,6 +1076,7 @@
 				324592AC1FEC2EA500DE89BB /* Convention.swift in Sources */,
 				32B3026C2050E09B000F7F2A /* RecordsOverviewViewController.swift in Sources */,
 				324592AA1FEC2E7900DE89BB /* Model.swift in Sources */,
+				32CD6B1A21B0A62400387349 /* ConventionSearchTableViewCell.swift in Sources */,
 				32CFB1E120DCBABA00672EC9 /* Debug.swift in Sources */,
 				325EAB2320524C5500B1BE3E /* RecordsOverviewTotalFooterView.swift in Sources */,
 				32D45CBA20A4A54400F7A67F /* Id.swift in Sources */,

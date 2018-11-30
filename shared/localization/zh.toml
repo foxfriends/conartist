@@ -219,3 +219,7 @@ EEE = "EEE."
 en-ca = "English (Canada)"
 en-us = "English (USA)"
 zh-Hans = "中文 (简体)"
+
+# Convention search
+"There are no conventions right now" = "TODO: translate"
+"<Convention search empty>" = "TODO: translate"

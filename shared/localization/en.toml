@@ -79,6 +79,10 @@ Why don't you go find one you like?
 """
 "You haven't been to any conventions yet..." = "You haven't been to any conventions yet…"
 
+# Convention search
+"There are no conventions right now" = "There are no conventions right now"
+"<Convention search empty>" = "There are no conventions matching your search."
+
 # Convention info
 Address = "Address"
 "Current earnings" = "Current earnings"

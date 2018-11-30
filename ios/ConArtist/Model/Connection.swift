@@ -37,7 +37,9 @@ extension Connection {
 
 extension Connection where T == Suggestion {
     init?(graphQL: SuggestionsConnectionQuery.Data.SuggestionsConnection) {
-        nodes = graphQL.nodes.map { $0.fragments.suggestionFragment }.compactMap(Suggestion.init(graphQL:))
+        nodes = graphQL.nodes
+            .map { $0.fragments.suggestionFragment }
+            .compactMap(Suggestion.init(graphQL:))
         endCursor = graphQL.endCursor
         totalNodes = graphQL.totalNodes
     }
@@ -48,5 +50,15 @@ extension Connection where T == Suggestion {
             endCursor: endCursor,
             totalNodes: totalNodes
         )
+    }
+}
+
+extension Connection where T == Convention {
+    init?(graphQL: ConventionsConnectionQuery.Data.ConventionsConnection) {
+        nodes = graphQL.nodes
+            .map { $0.fragments.conventionBasicInfoFragment }
+            .compactMap(BasicConvention.init(graphQL:))
+        endCursor = graphQL.endCursor
+        totalNodes = graphQL.totalNodes
     }
 }

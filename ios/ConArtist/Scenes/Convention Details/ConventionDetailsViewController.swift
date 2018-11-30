@@ -62,7 +62,7 @@ extension ConventionDetailsViewController {
     fileprivate func setupSubscriptions() {
         let _ = convention.fill().subscribe()
 
-        if convention.isEnded {
+        if convention.isEnded || convention is BasicConvention {
             newSaleButton.isHidden = true
             newExpenseButton.isHidden = true
             infoTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)

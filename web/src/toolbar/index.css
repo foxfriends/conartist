@@ -21,6 +21,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  margin-right: auto;
 }
 
 .pageIcon {
@@ -38,6 +39,8 @@
   --display: flex;
   display: var(--display);
   cursor: pointer;
+  width: 280px;
+  justify-content: flex-start;
 }
 
 @media (min-width: 888px) {
@@ -50,7 +53,6 @@
     position: relative;
     padding-left: 4px;
     height: 100%;
-    margin-right: auto;
     background-color: var(--color--background-toolbar-variant);
 
     &::after {
@@ -69,7 +71,6 @@
   .inner { --width: 100%; }
   .desktop { --display: none; }
   .hidden { display: none; }
-  .title { display: none; }
 }
 
 .title {
@@ -87,4 +88,10 @@
 
 .action {
   margin: 0 16px 0 0;
+}
+
+.textField {
+  flex-basis: 0;
+  flex-grow: 1;
+  margin: 0 20px;
 }

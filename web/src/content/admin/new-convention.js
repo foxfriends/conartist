@@ -135,7 +135,7 @@ export class NewConvention extends React.Component<Props, State> {
     }
 
     new CreateConvention()
-      .send({ title: name, startDate: format(startDate, 'yyyy-MM-dd'), endDate: foramt(endDate, 'yyyy-MM-dd') })
+      .send({ title: name, startDate: format(startDate, 'yyyy-MM-dd'), endDate: format(endDate, 'yyyy-MM-dd') })
       .pipe(
         tap(response => response.state === 'failed' && alert(response.error)),
         filter(response => response.state === 'retrieved'),

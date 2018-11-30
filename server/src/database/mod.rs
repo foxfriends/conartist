@@ -11,8 +11,9 @@ mod updaters;
 mod getters;
 mod deleters;
 
-mod suggestions;
 mod account;
+mod conventions;
+mod suggestions;
 mod user;
 
 mod conversions;

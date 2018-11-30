@@ -27,8 +27,8 @@ export class ConventionsConnection implements APIRequest<Params, Connection<Meta
     this.conventionsConnection = new GraphQLQuery(conventionsConnection)
   }
 
-  send({ after }: Params = {}): Observable<Response<Connection<MetaConvention>, APIError>> {
-    return this.conventionsConnection.send({ after: after || null })
+  send({ search, after }: Params = {}): Observable<Response<Connection<MetaConvention>, APIError>> {
+    return this.conventionsConnection.send({ search: search || null, after: after || null })
       .pipe(
         map(
           response => response.state === 'retrieved'

@@ -8,31 +8,40 @@ import S from './index.css'
 
 import { Button } from '../common/button'
 import { Icon } from '../common/icon'
+import { Input } from '../common/input'
 import { focus as focusNavigation } from '../navigation/focus'
 import * as navigate from '../update/navigate'
 import type { Action, Props as ButtonProps } from '../common/button'
+
+export type TextField = {
+  title: string,
+  onChange?: (string) => void,
+  onSubmit?: (string) => void,
+}
 
 export type Props = {
   primary: ?(Action | ButtonProps),
   secondary: ?(Action | ButtonProps),
   tertiary: ?(Action | ButtonProps),
+  textField?: (TextField),
   pageIcon?: string,
 }
 
 export const status: Subject<$Shape<Props>> = new BehaviorSubject({ primary: null, secondary: null })
 
-export function Toolbar({ primary, secondary, tertiary, pageIcon }: Props) {
+export function Toolbar({ primary, secondary, tertiary, textField, pageIcon }: Props) {
   return (
     <div className={S.toolbar}>
       <div className={S.inner}>
         <div className={`${S.logoContainer} ${S.desktop}`} onClick={navigate.dashboard}>
           <img className={S.logo} src={LOGO} height={44} />
+          <span className={S.title}>ConArtist</span>
         </div>
         <div className={`${S.logoContainer} ${S.mobile}`} onClick={() => focusNavigation()}>
           <img className={`${S.logo} ${pageIcon ? S.hidden : ''}`} src={LOGO} height={44} />
           { pageIcon ? <Icon className={S.pageIcon} name={pageIcon} /> : null }
         </div>
-        <span className={S.title}>ConArtist</span>
+        { textField ? <Input className={S.textField} title={textField.title} onChange={textField.onChange || (() => {})} placeholder={textField.title} onSubmit={textField.onSubmit || (() => {})} /> : null }
         { tertiary ? <Button {...tertiary} priority="tertiary" className={S.action} /> : null }
         { secondary ? <Button {...secondary} priority="tertiary" className={S.action} /> : null }
         { primary ? <Button {...primary} priority="primary" className={S.action} /> : null }

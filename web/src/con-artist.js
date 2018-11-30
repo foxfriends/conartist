@@ -14,6 +14,7 @@ import { model } from './model'
 import { toast, Toast } from './toast'
 import { by, Asc } from './util/sort'
 import { isSignedIn } from './util/is-signed-in'
+import { l } from './localization'
 import * as page from './model/page'
 import type { Model } from './model'
 import type { Props as ToolbarProps } from './toolbar'
@@ -121,8 +122,9 @@ export class ConArtist extends React.Component<Props, State> {
         break
 
       case 'search-conventions':
-        state.toolbar = { primary: null, secondary: null, tertiary: null, pageIcon: 'event' }
-        state.content = { name: 'search-conventions' }
+        const updateSearch = search => this.setState({ content: { ...state.content, search } })
+        state.toolbar = { textField: { title: l`Search`, onChange: updateSearch }, primary: null, secondary: null, tertiary: null, pageIcon: 'event' }
+        state.content = { name: 'search-conventions', search: '' }
         state.navigation = NavInfo.default.select('Conventions', [], INDIRECT)
         break
 

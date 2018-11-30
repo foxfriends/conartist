@@ -55,6 +55,7 @@ graphql_object!(Query: Database |&self| {
             executor
                 .context()
                 .get_conventions_after(
+                    search.as_ref(),
                     earliest_date,
                     limit as i64,
                     after,
@@ -64,6 +65,7 @@ graphql_object!(Query: Database |&self| {
         let total = executor
             .context()
             .count_conventions_after(
+                search.as_ref(),
                 earliest_date,
             );
 

@@ -19,6 +19,7 @@ class ConventionSearchViewController: ConArtistViewController {
     fileprivate var reloadRequest: Disposable?
     fileprivate let disposeBag = DisposeBag()
     fileprivate let refreshControl = UIRefreshControl()
+
     deinit {
         reloadRequest?.dispose()
     }
@@ -72,6 +73,11 @@ extension ConventionSearchViewController {
     fileprivate func setupSubscriptions() {
         navBar.leftButton.rx.tap
             .subscribe(onNext: { _ in ConArtist.model.navigate(back: 1) })
+            .disposed(by: disposeBag)
+
+        conventions
+            .asDriver()
+            .drive(onNext: { [conventionsTableView] _ in conventionsTableView.reloadData() })
             .disposed(by: disposeBag)
 
         searchBarTextField.rx.text

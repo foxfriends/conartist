@@ -6,10 +6,6 @@
   font-size: 18px;
 }
 
-.copy {
-  font-size: 16px;
-}
-
 .splashBanner {
   margin-top: 100px;
   padding: 20px;
@@ -23,4 +19,32 @@
 
 .paragraph {
   font-size: 14pt;
+}
+
+.copy {
+  max-width: 680px;
+  margin: 0 auto;
+
+  & p {
+    text-align: justify;
+    line-height: 1.4;
+    font-size: 14pt;
+  }
+
+  & h1 { font-size: 32pt; }
+  & h2 { font-size: 20pt; }
+
+  & h1, & h2 {
+    margin-left: 20pt;
+  }
+
+  & a:link, & a:visited {
+    color: var(--color--brand);
+    text-decoration: none;
+  }
+
+  & a:hover, & a:active {
+    color: var(--color--brand-variant);
+    text-decoration: none;
+  }
 }

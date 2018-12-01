@@ -12,8 +12,9 @@ import type { Props as FormProps } from '../form'
 import type { Validation as InputValidation } from '../../common/input'
 import type { FormDelegate as Props } from './index'
 import S from '../form.css'
+import SS from './terms.css'
 
-const URLS = [ '/terms-of-service', '/privacy-privacy' ]
+const URLS = [ '/terms', '/privacy' ]
 function link(text: string, i: number): React.Node {
   return <Link href={URLS[i]} target="_blank">{ text }</Link>
 }
@@ -24,11 +25,11 @@ export function TermsForm({ onValidate, onChange }: Props) {
     onChange(`${value ? 'true' : 'false'}`)
   }
   return (
-    <Form image={LOGO}>
+    <div className={SS.terms}>
       <div className={S.question}>
         { l`Now just sign at the bottom.` }
       </div>
-      <div className={S.scrollbox}>
+      <div className={SS.scrollbox}>
         <section>
           <TermsOfService />
         </section>
@@ -36,9 +37,9 @@ export function TermsForm({ onValidate, onChange }: Props) {
           <PrivacyPolicy />
         </section>
       </div>
-      <Checkbox onChange={handleChange} className={S.checkbox}>
+      <Checkbox onChange={handleChange} className={SS.checkbox}>
         {lx`I have read and agree to the {Terms of Service} and {Privacy Policy}`(link)}
       </Checkbox>
-    </Form>
+    </div>
   )
 }

@@ -7,6 +7,7 @@
     "postinstall": "webpack --env=production",
     "build": "webpack",
     "deploy": "webpack --env=production",
+    "staging": "webpack --env=staging",
     "watch": "webpack --watch",
     "clean": "rm -r static"
   },
@@ -26,7 +27,9 @@
     "file-loader": "^1.1.11",
     "flow-bin": "^0.79.1",
     "flow-typed": "^2.5.1",
+    "html-loader": "^0.5.5",
     "img-loader": "^3.0.1",
+    "markdown-loader": "^4.0.0",
     "mini-css-extract-plugin": "^0.4.5",
     "postcss-custom-properties": "^7.0.0",
     "postcss-loader": "^3.0.0",

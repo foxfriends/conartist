@@ -1,7 +1,7 @@
 .container {
   position: relative;
   box-sizing: border-box;
-  overflow-x: hidden;
+  overflow-y: visible;
   width: var(--width);
 }
 

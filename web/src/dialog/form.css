@@ -86,18 +86,3 @@
   margin-top: 4px;
   color: var(--color--text-placeholder);
 }
-
-.scrollbox {
-  box-sizing: border-box;
-  height: 140px;
-  width: 290px;
-  border-radius: 2px;
-  overflow-y: auto;
-  padding: 10px;
-  margin: 6px 0 8px 0;
-  background-color: var(--color--background-overlay);
-}
-
-.checkbox {
-  font-size: 10px;
-}

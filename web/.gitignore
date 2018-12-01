@@ -1,5 +1,6 @@
 node_modules
 /static/
+/staging/
 *.js.map
 *.min.js
 *.min.css

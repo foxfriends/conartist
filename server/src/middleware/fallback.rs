@@ -4,36 +4,49 @@ use iron::prelude::*;
 use iron::{AroundMiddleware, Handler, status};
 use iron::mime::Mime;
 use std::fs::File;
+use std::path::Path;
 
 /// Middleware that wraps a handler, returning a static file in the case of a file-not-found error.
-pub struct DefaultTo { url: &'static str }
-impl DefaultTo {
-    /// Creates a new DefaultTo middleware returning the file at the provided url.
-    pub fn new(url: &'static str) -> Self { Self { url } }
+pub struct DefaultTo<P>
+where P: 'static + AsRef<Path> + Sync + Send {
+    url: P
 }
-impl AroundMiddleware for DefaultTo {
+
+impl<P> DefaultTo<P>
+where P: 'static + AsRef<Path> + Sync + Send {
+    /// Creates a new DefaultTo middleware returning the file at the provided url.
+    pub fn new(url: P) -> Self { Self { url } }
+}
+
+impl<P> AroundMiddleware for DefaultTo<P>
+where P: 'static + AsRef<Path> + Sync + Send {
     fn around(self, handler: Box<dyn Handler>) -> Box<dyn Handler> {
         Box::new(Fallback::new(self.url, handler))
     }
 }
 
 /// Handler that wraps another handler, returning a static file in the case of a file-not-found error.
-pub struct Fallback<T: Handler> {
-    url: &'static str,
+pub struct Fallback<P, T: Handler>
+where P: 'static + AsRef<Path> + Sync + Send {
+    url: P,
     handler: T
 }
-impl<T: Handler> Fallback<T> {
+
+impl<P, T: Handler> Fallback<P, T>
+where P: 'static + AsRef<Path> + Sync + Send {
     /// Creates a new Fallback handler, wrapping the other one with the file at the provided url.
-    pub fn new(url: &'static str, handler: T) -> Self { Self { url, handler } }
+    pub fn new(url: P, handler: T) -> Self { Self { url, handler } }
 }
-impl<T: Handler> Handler for Fallback<T> {
+
+impl<P, T: Handler> Handler for Fallback<P, T>
+where P: 'static + AsRef<Path> + Sync + Send {
     fn handle(&self, req: &mut Request) -> IronResult<Response> {
         match self.handler.handle(req) {
             Err(err) => {
                 match err.response.status {
                     Some(status::NotFound) => {
                         let content_type = "text/html".parse::<Mime>().unwrap();
-                        Ok(Response::with((content_type, status::Ok, File::open(self.url).unwrap())))
+                        Ok(Response::with((content_type, status::Ok, File::open(self.url.as_ref()).unwrap())))
                     }
                     _ => Err(err)
                 }

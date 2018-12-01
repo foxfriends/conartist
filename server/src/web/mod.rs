@@ -6,10 +6,11 @@ use std::path::Path;
 use staticfile::Static;
 
 use super::middleware::DefaultTo;
+use super::env::INDEX_FILE;
 
 pub fn new() -> Chain {
     chain! [
-        #[ DefaultTo::new("../web/index.html") ]
+        #[ DefaultTo::new(format!("../web/{}", INDEX_FILE.to_string())) ]
         Static::new(Path::new("../web/"))
     ]
 }

@@ -74,6 +74,14 @@ class Model: Codable {
         name.accept(basic.name)
         email.accept(basic.email)
         var existingConventions = conventions.value
+
+        // remove deleted conventions
+        let newConventions = basic.conventions
+            .map { $0.fragments.metaConventionFragment }
+            .compactMap(Convention.init(graphQL:))
+        existingConventions.removeAll { convention in !newConventions.contains { $0.id == convention.id }}
+
+        // add in the conventions that are there
         for convention in basic.conventions {
             if let existing = existingConventions.first(where: { $0.id == convention.fragments.metaConventionFragment.fragments.conventionBasicInfoFragment.id }) {
                 existing.merge(convention.fragments.metaConventionFragment)
@@ -81,6 +89,7 @@ class Model: Codable {
                 existingConventions.append(convention)
             }
         }
+
         conventions.accept(existingConventions.sorted(by: { $0.start > $1.start }))
         settings.accept(Settings(graphQL: basic.settings.fragments.settingsFragment) ?? Settings.default)
         ConArtist.Persist.persist()

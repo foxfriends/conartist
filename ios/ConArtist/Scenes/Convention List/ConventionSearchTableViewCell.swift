@@ -41,25 +41,17 @@ extension ConventionSearchTableViewCell {
         dateLabel.text = "{} - {}"¡
             % convention.start.toString("MMM. d, yyyy"¡)
             % convention.end.toString("MMM. d, yyyy"¡)
-        let starred = ConArtist.model.conventions.value.contains { $0.id == convention.id }
-        starButton.setImage(
-            starred
-                ? SVGKImage.star.uiImage.withRenderingMode(.alwaysTemplate)
-                : SVGKImage.starOutline.uiImage.withRenderingMode(.alwaysTemplate),
-            for: .normal
-        )
-        starButton.tintColor = starred
-            ? .brandVariant
-            : .text
+
+        var starred = ConArtist.model.conventions.value.contains { $0.id == convention.id }
+        setStar(starred: starred)
 
         starButtonTapped = starButton.rx.tap
-            .do(onNext: { [starButton] _ in // invert color of button preemptively
-                starButton?.tintColor = !starred
-                    ? .brandVariant
-                    : .text
+            .do(onNext: { [weak self] _ in
+                // invert color of button preemptively
+                self?.setStar(starred: !starred)
             })
             .flatMapLatest { _ in
-                starred
+                !starred
                     ? ConArtist.API.GraphQL
                         .observe(mutation: AddUserConventionMutation(conId: convention.id))
                         .discard()
@@ -69,6 +61,7 @@ extension ConventionSearchTableViewCell {
             }
             .subscribe(
                 onNext: { _ in
+                    starred = !starred
                     _ = ConArtist.API.GraphQL
                         .observe(query: FullUserQuery(), cachePolicy: .fetchIgnoringCacheData)
                         .observeOn(MainScheduler.instance)
@@ -77,15 +70,25 @@ extension ConventionSearchTableViewCell {
                             ConArtist.model.merge(graphQL: fragment)
                         })
                 },
-                onError: { [starButton] _ in
-                    starButton?.tintColor = starred
-                        ? .brandVariant
-                        : .text
+                onError: { [weak self] _ in
+                    self?.setStar(starred: starred)
                     RootNavigationController.singleton.currentViewController?.showAlert(
                         title: "It seems something went wrong."¡,
                         message: "Some actions might not have been saved. Please try again later"¡
                     )
                 }
             )
+    }
+
+    fileprivate func setStar(starred: Bool) {
+        starButton.setImage(
+            starred
+                ? SVGKImage.star.uiImage.withRenderingMode(.alwaysTemplate)
+                : SVGKImage.starOutline.uiImage.withRenderingMode(.alwaysTemplate),
+            for: .normal
+        )
+        starButton.tintColor = starred
+            ? .brandVariant
+            : .text
     }
 }

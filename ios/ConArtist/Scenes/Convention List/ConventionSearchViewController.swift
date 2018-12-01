@@ -77,14 +77,13 @@ extension ConventionSearchViewController {
 
         conventions
             .asDriver()
-            .drive(onNext: { [conventionsTableView] _ in conventionsTableView.reloadData() })
+            .drive(onNext: { [conventionsTableView] _ in conventionsTableView?.reloadData() })
             .disposed(by: disposeBag)
 
         searchBarTextField.rx.text
             .map { $0 ?? "" }
             .distinctUntilChanged()
             .do(onNext: { [weak self] _ in
-                self?.conventions.accept(.empty)
                 self?.reloadRequest?.dispose()
                 self?.reloadRequest = nil
             })
@@ -96,7 +95,6 @@ extension ConventionSearchViewController {
             }
             .map { $0.conventionsConnection }
             .filterMap(Connection<Convention>.init(graphQL:))
-            .map { [conventions] new in conventions.value.extend(new) }
             .bind(to: conventions)
             .disposed(by: disposeBag)
     }

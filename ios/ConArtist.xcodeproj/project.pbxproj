@@ -135,7 +135,7 @@
 		32CD6B1621AFA81400387349 /* NewSuggestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B1521AFA81300387349 /* NewSuggestionViewController.swift */; };
 		32CD6B1821AFC48500387349 /* ConventionSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B1721AFC48500387349 /* ConventionSearchViewController.swift */; };
 		32CD6B1A21B0A62400387349 /* ConventionSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B1921B0A62400387349 /* ConventionSearchTableViewCell.swift */; };
-		32CD6B1D21B0AB3500387349 /* star-outline.svg in Resources */ = {isa = PBXBuildFile; fileRef = 32CD6B1B21B0AB3500387349 /* star-outline.svg */; };
+		32CD6B1D21B0AB3500387349 /* star_outline.svg in Resources */ = {isa = PBXBuildFile; fileRef = 32CD6B1B21B0AB3500387349 /* star_outline.svg */; };
 		32CD6B1E21B0AB3500387349 /* star.svg in Resources */ = {isa = PBXBuildFile; fileRef = 32CD6B1C21B0AB3500387349 /* star.svg */; };
 		32CFB1D320DCAE4800672EC9 /* ViewControllerNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CFB1D220DCAE4800672EC9 /* ViewControllerNavigation.swift */; };
 		32CFB1D520DCB0EB00672EC9 /* String+Attributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CFB1D420DCB0EB00672EC9 /* String+Attributes.swift */; };
@@ -298,7 +298,7 @@
 		32CD6B1521AFA81300387349 /* NewSuggestionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSuggestionViewController.swift; sourceTree = "<group>"; };
 		32CD6B1721AFC48500387349 /* ConventionSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConventionSearchViewController.swift; sourceTree = "<group>"; };
 		32CD6B1921B0A62400387349 /* ConventionSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConventionSearchTableViewCell.swift; sourceTree = "<group>"; };
-		32CD6B1B21B0AB3500387349 /* star-outline.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "star-outline.svg"; sourceTree = "<group>"; };
+		32CD6B1B21B0AB3500387349 /* star_outline.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = star_outline.svg; sourceTree = "<group>"; };
 		32CD6B1C21B0AB3500387349 /* star.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = star.svg; sourceTree = "<group>"; };
 		32CFB1D220DCAE4800672EC9 /* ViewControllerNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerNavigation.swift; sourceTree = "<group>"; };
 		32CFB1D420DCB0EB00672EC9 /* String+Attributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Attributes.swift"; sourceTree = "<group>"; };
@@ -404,7 +404,7 @@
 		32637A82218EB576005E2F6C /* SVG */ = {
 			isa = PBXGroup;
 			children = (
-				32CD6B1B21B0AB3500387349 /* star-outline.svg */,
+				32CD6B1B21B0AB3500387349 /* star_outline.svg */,
 				32CD6B1C21B0AB3500387349 /* star.svg */,
 				32637A83218EB576005E2F6C /* thumb_down.svg */,
 				32637A84218EB576005E2F6C /* chevron_right.svg */,
@@ -923,7 +923,7 @@
 				32637A70218930F7005E2F6C /* Products.storyboard in Resources */,
 				32CFB1E320DCBC5D00672EC9 /* Records.storyboard in Resources */,
 				32637A8A218EB576005E2F6C /* chevron_up.svg in Resources */,
-				32CD6B1D21B0AB3500387349 /* star-outline.svg in Resources */,
+				32CD6B1D21B0AB3500387349 /* star_outline.svg in Resources */,
 				32B9100F20439F75002F9C94 /* generate-schemas in Resources */,
 				32CFB1D920DCB20200672EC9 /* Settings.storyboard in Resources */,
 				32637A8E218EB599005E2F6C /* add.svg in Resources */,

@@ -263,29 +263,29 @@ class Convention: Codable {
 
         let addedRecords = try json.decode([Record].self, forKey: .addedRecords)
         for record in addedRecords {
-            let _ = addRecord(record, save: false).subscribe()
+            _ = addRecord(record, save: false).subscribe()
         }
         let addedExpenses = try json.decode([Expense].self, forKey: .addedExpenses)
         for expense in addedExpenses {
-            let _ = addExpense(expense, save: false).subscribe()
+            _ = addExpense(expense, save: false).subscribe()
         }
 
         let removedRecords = try json.decode([Id].self, forKey: .removedRecords)
         for recordId in removedRecords {
-            let _ = deleteRecordById(recordId, save: false).subscribe()
+            _ = deleteRecordById(recordId, save: false).subscribe()
         }
         let removedExpenses = try json.decode([Id].self, forKey: .removedExpenses)
         for expenseId in removedExpenses {
-            let _ = deleteExpenseById(expenseId, save: false).subscribe()
+            _ = deleteExpenseById(expenseId, save: false).subscribe()
         }
 
         let modifiedRecords = try json.decode([Record].self, forKey: .modifiedRecords)
         for record in modifiedRecords {
-            let _ = updateRecord(record, save: false).subscribe()
+            _ = updateRecord(record, save: false).subscribe()
         }
         let modifiedExpenses = try json.decode([Expense].self, forKey: .modifiedExpenses)
         for expense in modifiedExpenses {
-            let _ = updateExpense(expense, save: false).subscribe()
+            _ = updateExpense(expense, save: false).subscribe()
         }
 
         if !addedRecords.isEmpty
@@ -294,7 +294,7 @@ class Convention: Codable {
             || !removedExpenses.isEmpty
             || !modifiedRecords.isEmpty
             || !modifiedExpenses.isEmpty {
-            let _ = fill().subscribe()
+            _ = fill().subscribe()
         }
     }
 
@@ -331,7 +331,7 @@ class Convention: Codable {
         if doLoad {
             øconvention.value = nil
             let doFill = full(force).share()
-            let _ = doFill.bind(to: øconvention)
+            _ = doFill.bind(to: øconvention)
             return doFill
                 .do(onNext: { [weak self] _ in self?.attemptSaveEverything() })
                 .discard()
@@ -585,7 +585,7 @@ extension Convention {
         let newInfo = ConventionUserInfo(info: info)
         let index = øuserInfo.value.count
         øuserInfo.value.append(newInfo)
-        let _ = ConArtist.API.GraphQL
+        _ = ConArtist.API.GraphQL
             .observe(mutation: ContributeConventionInfoMutation(conId: id, info: info))
             .map { $0.addConventionInfo.fragments.userInfoFragment }
             .filterMap(ConventionUserInfo.init(graphQL:))
@@ -609,7 +609,7 @@ extension Convention {
         case .none: request = Observable.empty()
         }
         øuserInfo.value = øuserInfo.value.replace(with: updatedInfo) { $0.id == info.id }
-        let _ = request
+        _ = request
             .catchError { _ in Observable.empty() }
             .subscribe(onNext: { [øuserInfo] votes in
                 øuserInfo.value = øuserInfo.value.map { info in info.id == updatedInfo.id ? info.adjustVotes(votes) : info }
@@ -631,27 +631,27 @@ extension Convention {
 
     private func attemptSaveEverything() {
         for record in øaddedRecords.value {
-            let _ = addRecord(record, save: false)
+            _ = addRecord(record, save: false)
                 .subscribe()
         }
         for expense in øaddedExpenses.value {
-            let _ = addExpense(expense, save: false)
+            _ = addExpense(expense, save: false)
                 .subscribe()
         }
         for record in øremovedRecords.value {
-            let _ = deleteRecordById(record, save: false)
+            _ = deleteRecordById(record, save: false)
                 .subscribe()
         }
         for expense in øremovedExpenses.value {
-            let _ = deleteExpenseById(expense, save: false)
+            _ = deleteExpenseById(expense, save: false)
                 .subscribe()
         }
         for record in ømodifiedRecords.value {
-            let _ = updateRecord(record, save: false)
+            _ = updateRecord(record, save: false)
                 .subscribe()
         }
         for expense in ømodifiedExpenses.value {
-            let _ = updateExpense(expense, save: false)
+            _ = updateExpense(expense, save: false)
                 .subscribe()
         }
     }
@@ -667,6 +667,6 @@ class BasicConvention: Convention {
     }
 
     override func fill(_ force: Bool) -> Observable<Void> {
-        return .empty()
+        return .just(())
     }
 }

@@ -1,9 +1,21 @@
-CREATE ROLE conartist_app WITH LOGIN PASSWORD 'temporary-password';
+DO
+$do$
+BEGIN
+   IF NOT EXISTS (
+      SELECT                       -- SELECT list can stay empty for this
+      FROM   pg_catalog.pg_roles
+      WHERE  rolname = 'conartist_app') THEN
+
+      CREATE ROLE conartist_app WITH LOGIN PASSWORD 'temporary-password';
+   END IF;
+END
+$do$;
+
 ALTER DEFAULT PRIVILEGES IN SCHEMA public
-  GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO conartist_app;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO conartist_app;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO conartist_app;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public
-  GRANT USAGE ON SEQUENCES TO conartist_app;
+GRANT USAGE ON SEQUENCES TO conartist_app;
 GRANT USAGE ON ALL SEQUENCES IN SCHEMA public TO conartist_app;
 
 CREATE TABLE Users (

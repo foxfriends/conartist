@@ -4,7 +4,6 @@
   "description": "ConArtist web dashboard",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "webpack --env=production",
     "build": "webpack",
     "deploy": "webpack --env=production",
     "staging": "webpack --env=staging",

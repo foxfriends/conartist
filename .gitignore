@@ -1,5 +1,8 @@
 .DS_Store
 Thumbs.db
 database/.env
+database/.staging
+database/.production
 database/migrate-prod-db*
 server/start
+server/staging

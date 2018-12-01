@@ -6,11 +6,11 @@ use std::path::Path;
 use staticfile::Static;
 
 use super::middleware::DefaultTo;
-use super::env::INDEX_FILE;
+use crate::env::{WEB_ROOT, INDEX_FILE};
 
 pub fn new() -> Chain {
     chain! [
-        #[ DefaultTo::new(format!("../web/{}", INDEX_FILE.to_string())) ]
-        Static::new(Path::new("../web/"))
+        #[ DefaultTo::new(INDEX_FILE.to_string()) ]
+        Static::new(Path::new(&WEB_ROOT.to_string()))
     ]
 }

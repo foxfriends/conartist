@@ -12,4 +12,5 @@ env_var!(PORT, "8080");
 env_var!(MAILGUN_USERNAME, "postmaster@mail.conartist.app");
 env_var!(MAILGUN_PASSWORD, "placeholder-password");
 env_var!(MAILGUN_API_KEY, "placeholder-api-key");
-env_var!(INDEX_FILE, "index.html");
+env_var!(WEB_ROOT, "../web");
+env_var!(INDEX_FILE, "../web/index.html");

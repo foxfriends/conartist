@@ -35,8 +35,8 @@ module.exports = env => {
     mode: env === PROD || env === STAGING ? 'production' : 'development',
     entry: './index.js',
     output: {
-      path: env === STAGING ? path.resolve('staging') : path.resolve('.', 'static'),
-      publicPath: env === STAGING ? 'staging/' : 'static/',
+      path: env === STAGING ? path.resolve('./', 'staging', 'static') : path.resolve('.', 'static'),
+      publicPath: 'static/',
       filename: 'conartist.min.js',
       chunkFilename: '[name].bundle.js',
     },

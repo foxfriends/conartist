@@ -29,6 +29,7 @@ module.exports = env => {
         'process.env.API_URL': JSON.stringify('/api'),
         'process.env.GRAPHQL_URL': JSON.stringify('/api/v2'),
       }));
+      break;
   }
 
   return {

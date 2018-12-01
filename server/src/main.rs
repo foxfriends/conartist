@@ -58,6 +58,8 @@ use hyper::client::Client;
 use diesel::pg::PgConnection;
 use r2d2_diesel::ConnectionManager;
 
+use env::CONARTIST_BASE_URL;
+
 fn main() {
     env_logger::init();
 
@@ -78,7 +80,7 @@ fn main() {
             CorsMiddleware::with_allow_any()
         } else {
             CorsMiddleware::with_whitelist([
-                "https://conartist.app".to_string(),
+                format!("https://{}", CONARTIST_BASE_URL.to_string()),
             ].into_iter().cloned().collect())
         };
 

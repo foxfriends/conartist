@@ -1,5 +1,6 @@
 //! The Prices table
 use chrono::NaiveDateTime;
+use diesel::Queryable;
 use crate::money::Money;
 
 #[derive(Queryable, Clone, Debug)]

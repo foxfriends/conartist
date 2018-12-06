@@ -40,7 +40,7 @@ where P: 'static + AsRef<Path> + Sync + Send {
 
 impl<P, T: Handler> Handler for Fallback<P, T>
 where P: 'static + AsRef<Path> + Sync + Send {
-    fn handle(&self, req: &mut Request) -> IronResult<Response> {
+    fn handle(&self, req: &mut Request<'_, '_>) -> IronResult<Response> {
         match self.handler.handle(req) {
             Err(err) => {
                 match err.response.status {

@@ -1,6 +1,6 @@
 //! Holds information about a convention
 use chrono::{DateTime, Utc};
-use juniper::FieldResult;
+use juniper::{graphql_object, FieldResult};
 
 mod extra_info;
 mod user_info;

@@ -13,7 +13,7 @@ impl DatabaseFactory {
         Self{ pool }
     }
 
-    pub fn create(&self, request: &Request) -> super::Database {
+    pub fn create(&self, request: &Request<'_, '_>) -> super::Database {
         let id = request.extensions.get::<Claims>().map(|c| c.usr).unwrap_or(0);
         super::Database::new(self.pool.clone(), id)
     }

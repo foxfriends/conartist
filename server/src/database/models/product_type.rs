@@ -1,5 +1,6 @@
 //! The ProductTypes table
 use super::super::schema::*;
+use diesel::{Queryable, AsChangeset};
 
 #[derive(Queryable, Clone, Debug)]
 pub struct ProductType {

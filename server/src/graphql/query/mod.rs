@@ -6,7 +6,7 @@ mod user;
 mod suggestion;
 
 use chrono::{DateTime, Utc, FixedOffset};
-use juniper::FieldResult;
+use juniper::{graphql_object, FieldResult};
 use crate::database::Database;
 use crate::database::models::*;
 use self::connection::Connection;

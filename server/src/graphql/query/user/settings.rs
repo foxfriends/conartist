@@ -1,4 +1,5 @@
 //! Holds information about a user's settings
+use juniper::graphql_object;
 use crate::money::Currency;
 use crate::database::Database;
 use crate::database::models::*;

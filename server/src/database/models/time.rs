@@ -4,6 +4,7 @@ use diesel::sql_types::Text;
 use diesel::deserialize::{self, FromSql, FromSqlRow};
 use diesel::serialize::{self, Output, ToSql};
 use diesel::Queryable;
+
 use std::io::Write;
 use std::error::Error;
 
@@ -18,7 +19,7 @@ impl FromSql<Text, Pg> for Time {
 }
 
 impl ToSql<Text, Pg> for Time {
-    fn to_sql<W: Write>(&self, w: &mut Output<W, Pg>) -> serialize::Result {
+    fn to_sql<W: Write>(&self, w: &mut Output<'_, W, Pg>) -> serialize::Result {
         ToSql::<Text, Pg>::to_sql(&self.0.to_rfc3339(), w)
     }
 }

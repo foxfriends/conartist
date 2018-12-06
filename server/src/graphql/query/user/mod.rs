@@ -1,5 +1,5 @@
 //! Holds information about a user and their products, prices, and conventions
-use juniper::FieldResult;
+use juniper::{graphql_object, FieldResult};
 use chrono::{DateTime, Utc};
 
 use crate::database::Database;

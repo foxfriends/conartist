@@ -1,4 +1,5 @@
 //! Holds information about a product type
+use juniper::graphql_object;
 use crate::database::Database;
 use crate::database::models::*;
 

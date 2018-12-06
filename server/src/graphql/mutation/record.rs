@@ -1,6 +1,8 @@
 //! Input objects needed to modify sales records
+use juniper::GraphQLInputObject;
 use chrono::{DateTime,FixedOffset};
 use uuid::Uuid;
+
 use crate::money::Money;
 
 #[derive(Clone, GraphQLInputObject)]

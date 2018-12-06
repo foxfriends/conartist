@@ -1,5 +1,6 @@
 //! The Users table
 use chrono::NaiveDateTime;
+use diesel::Queryable;
 
 #[derive(Queryable, Clone, Debug)]
 pub struct RawUser {

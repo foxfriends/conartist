@@ -1,3 +1,4 @@
+use lazy_static::lazy_static;
 use std::env;
 
 macro_rules! env_var {

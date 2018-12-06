@@ -1,4 +1,5 @@
 //! Input objects needed to modify prices
+use juniper::GraphQLInputObject;
 use crate::money::Money;
 
 #[derive(Clone, GraphQLInputObject)]

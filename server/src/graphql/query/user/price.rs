@@ -1,4 +1,5 @@
 //! Holds information about the price of a product or product type
+use juniper::graphql_object;
 use crate::database::Database;
 use crate::database::models::*;
 use crate::money::Money;

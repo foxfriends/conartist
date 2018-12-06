@@ -1,5 +1,6 @@
 use iron::typemap::Key;
-use crate::jwt::{errors::Error, encode, Header};
+use jsonwebtoken::{errors::Error, encode, Header};
+use serde_derive::{Serialize, Deserialize};
 use crate::env::JWT_SECRET;
 
 #[derive(Serialize, Deserialize)]

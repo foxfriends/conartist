@@ -1,5 +1,5 @@
 //! Holds user contributed information about a convention
-use juniper::FieldResult;
+use juniper::{graphql_object, FieldResult};
 
 use crate::database::Database;
 use crate::database::models::*;

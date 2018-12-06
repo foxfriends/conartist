@@ -1,5 +1,6 @@
 //! A global SystemRandom instance
 
+use lazy_static::lazy_static;
 use chrono::offset::Utc;
 use ring::rand::{SystemRandom, SecureRandom};
 

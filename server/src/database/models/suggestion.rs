@@ -1,5 +1,6 @@
 //! The Suggestions table
 use chrono::NaiveDateTime;
+use diesel::Queryable;
 
 #[allow(dead_code)]
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]

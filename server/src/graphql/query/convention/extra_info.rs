@@ -1,4 +1,6 @@
 //! Holds extra information about a convention
+use juniper::graphql_object;
+
 use crate::database::models::*;
 use crate::database::Database;
 
@@ -10,4 +12,3 @@ graphql_object!(ConventionExtraInfo: Database |&self| {
     field action() -> &Option<String> { &self.action }
     field action_text() -> &Option<String> { &self.action_text }
 });
-

@@ -1,4 +1,6 @@
+use diesel::Queryable;
 use chrono::NaiveDateTime;
+
 #[derive(Queryable, Clone, Debug)]
 pub struct EmailVerification {
     pub verification_code: String,

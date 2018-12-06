@@ -5,6 +5,7 @@ use std::fmt::{Display, Formatter};
 use std::ops::Add;
 use serde_json;
 use serde::{Serialize, Deserialize, Serializer, Deserializer};
+use serde_derive::{Serialize, Deserialize};
 
 /// Represents a specific currency. Strings are more versatile here, but not as stable.
 #[derive(Copy, Clone, PartialEq, Eq, Debug, Serialize, Deserialize)]
@@ -13,7 +14,7 @@ pub enum Currency {
     USD,
 }
 impl Display for Currency {
-    fn fmt(&self, f: &mut Formatter) -> ::std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> ::std::fmt::Result {
         write!(f, "{:?}", self)
     }
 }
@@ -72,7 +73,7 @@ impl<'a> Deserialize<'a> for Money {
 }
 
 impl Display for Money {
-    fn fmt(&self, _f: &mut Formatter) -> ::std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> ::std::fmt::Result {
         unimplemented!() // TODO: currency symbols and proper locale formatting
     }
 }

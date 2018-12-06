@@ -1,5 +1,6 @@
 //! Mutations to modify a user's settings
-use juniper::FieldResult;
+use juniper::{graphql_object, FieldResult};
+
 use crate::database::Database;
 use crate::money::Currency;
 

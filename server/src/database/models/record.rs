@@ -1,5 +1,6 @@
 //! The Records table
 use uuid::Uuid;
+use diesel::{Queryable, AsChangeset};
 
 use crate::database::schema::*;
 use crate::money::Money;

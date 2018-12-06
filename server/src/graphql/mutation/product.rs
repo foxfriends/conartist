@@ -1,4 +1,5 @@
 //! Input objects needed to modify products
+use juniper::GraphQLInputObject;
 
 #[derive(Clone, GraphQLInputObject)]
 #[graphql(description="Information required to create a new product")]

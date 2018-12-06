@@ -1,35 +1,8 @@
-#![warn(bare_trait_objects)]
+#![deny(bare_trait_objects)]
 
-#[macro_use] extern crate lazy_static;
-#[macro_use] extern crate log;
-extern crate env_logger;
-extern crate serde;
-#[macro_use] extern crate serde_derive;
-#[macro_use] extern crate serde_json;
-#[macro_use] extern crate diesel;
+// waiting for these crates to update their macros
 #[macro_use] extern crate juniper;
-#[macro_use] extern crate juniper_codegen;
-extern crate juniper_iron;
-#[macro_use] extern crate iron;
-extern crate mount;
-extern crate router;
-extern crate params;
-extern crate logger;
-extern crate staticfile;
-extern crate bodyparser;
-extern crate jsonwebtoken as jwt;
-extern crate bcrypt;
-extern crate chrono;
-extern crate colored;
-extern crate iron_cors;
-extern crate hyper;
-extern crate base64;
-extern crate r2d2;
-extern crate r2d2_diesel;
-extern crate uuid;
-extern crate ring;
-#[cfg(feature="mailer")] extern crate lettre;
-#[cfg(feature="mailer")] extern crate lettre_email;
+#[macro_use] extern crate diesel;
 
 #[macro_use] mod macros;
 mod web;

@@ -1,5 +1,6 @@
+use lazy_static::lazy_static;
 use lettre::smtp::{
-    SmtpTransport, 
+    SmtpTransport,
     authentication::{Mechanism, Credentials},
     extension::ClientId,
 };

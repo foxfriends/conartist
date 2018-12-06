@@ -1,14 +1,14 @@
 //! Handles account creation and queries about existing accounts that require unauthenticated
 //! access
 
+use log::info;
 use iron::prelude::*;
-use iron::{status, Handler};
+use iron::{status, Handler, iexpect, itry};
 use router::Router;
-use bcrypt;
-use bodyparser;
 use crate::database::Database;
 use crate::cr;
 use super::authtoken;
+use serde_derive::Deserialize;
 
 #[cfg(feature="mailer")]
 use crate::email::confirm_new_account;
@@ -22,7 +22,7 @@ struct CreateAccountData {
 
 struct Create { database: Database }
 impl Handler for Create {
-    fn handle(&self, req: &mut Request) -> IronResult<Response> {
+    fn handle(&self, req: &mut Request<'_, '_>) -> IronResult<Response> {
         let rbody = itry!{ req.get::<bodyparser::Struct<CreateAccountData>>(), status::BadRequest };
         let body = iexpect!{ rbody };
         if body.email == "" || body.name == "" || body.password == "" {
@@ -47,7 +47,7 @@ impl Handler for Create {
 
 struct Exists { database: Database }
 impl Handler for Exists {
-    fn handle(&self, req: &mut Request) -> IronResult<Response> {
+    fn handle(&self, req: &mut Request<'_, '_>) -> IronResult<Response> {
         let params = iexpect!{ req.extensions.get::<Router>() };
         let email = iexpect!{ params.find("email") };
         cr::ok(self.database.get_user_for_email(&email.to_lowercase()).is_ok())
@@ -61,7 +61,7 @@ struct VerifyData {
 
 struct Verify { database: Database }
 impl Handler for Verify {
-    fn handle(&self, req: &mut Request) -> IronResult<Response> {
+    fn handle(&self, req: &mut Request<'_, '_>) -> IronResult<Response> {
         let rbody = itry!{ req.get::<bodyparser::Struct<VerifyData>>(), status::BadRequest };
         let VerifyData { code } = iexpect!{ rbody };
         info!("Verifying: {}", code);
@@ -80,7 +80,7 @@ struct ResetData {
 
 struct Reset { database: Database }
 impl Handler for Reset {
-    fn handle(&self, req: &mut Request) -> IronResult<Response> {
+    fn handle(&self, req: &mut Request<'_, '_>) -> IronResult<Response> {
         let rbody = itry!{ req.get::<bodyparser::Struct<ResetData>>(), status::BadRequest };
         let ResetData { code, password } = iexpect!{ rbody };
         info!("Resetting: {}", code);

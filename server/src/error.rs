@@ -6,7 +6,7 @@ use std::fmt::{Display, Debug, Formatter, Result};
 pub struct StringError(pub String);
 
 impl Display for StringError {
-    fn fmt(&self, f: &mut Formatter) -> Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         Debug::fmt(self, f)
     }
 }
@@ -19,7 +19,7 @@ impl Error for StringError {
 pub struct MoneyError(pub String);
 
 impl Display for MoneyError {
-    fn fmt(&self, f: &mut Formatter) -> Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         Debug::fmt(self, f)
     }
 }

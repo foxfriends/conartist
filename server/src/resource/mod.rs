@@ -2,7 +2,7 @@
 use std::io::Read;
 use hyper::client::Client;
 use hyper::status::StatusCode;
-use juniper::{FieldResult, FieldError, Value};
+use juniper::{graphql_object, FieldResult, FieldError, Value};
 
 mod image;
 

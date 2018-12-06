@@ -1,3 +1,5 @@
+use juniper::graphql_object;
+
 use super::super::connection::{Connectable, Connection, Edge};
 use crate::database::Database;
 use crate::database::models::*;

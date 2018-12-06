@@ -1,4 +1,5 @@
 //! Holds information about a convention expense
+use juniper::graphql_object;
 use chrono::{DateTime, FixedOffset};
 use uuid::Uuid;
 

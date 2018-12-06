@@ -1,5 +1,6 @@
 //! The Product and Inventory tables
 use chrono::NaiveDateTime;
+use diesel::{Queryable, AsChangeset};
 use super::super::schema::*;
 
 #[derive(Queryable, Clone, Debug)]

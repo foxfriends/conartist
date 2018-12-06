@@ -1,5 +1,6 @@
 //! The UserSettings table
 use crate::money::Currency;
+use diesel::Queryable;
 
 #[derive(Queryable, Clone, Debug)]
 pub struct Settings {

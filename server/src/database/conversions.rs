@@ -4,7 +4,7 @@ use diesel::sql_types::Text;
 use diesel::deserialize::{self, FromSql, FromSqlRow};
 use diesel::serialize::{self, Output, ToSql};
 use diesel::Queryable;
-use juniper::Value;
+use juniper::{Value, graphql_scalar};
 use std::error::Error;
 use std::str::FromStr;
 use crate::money::{Money, Currency};
@@ -36,7 +36,7 @@ impl FromSql<Text, Pg> for Money {
 }
 
 impl ToSql<Text, Pg> for Money {
-    fn to_sql<W: Write>(&self, w: &mut Output<W, Pg>) -> serialize::Result {
+    fn to_sql<W: Write>(&self, w: &mut Output<'_, W, Pg>) -> serialize::Result {
         ToSql::<Text, Pg>::to_sql(&self.to_string(), w)
     }
 }
@@ -75,7 +75,7 @@ impl FromSql<Text, Pg> for Currency {
 }
 
 impl ToSql<Text, Pg> for Currency {
-    fn to_sql<W: Write>(&self, w: &mut Output<W, Pg>) -> serialize::Result {
+    fn to_sql<W: Write>(&self, w: &mut Output<'_, W, Pg>) -> serialize::Result {
         ToSql::<Text, Pg>::to_sql(&self.to_string(), w)
     }
 }

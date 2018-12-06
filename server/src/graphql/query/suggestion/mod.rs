@@ -4,8 +4,8 @@ use juniper::FieldResult;
 
 mod connection;
 
-use database::models::*;
-use database::Database;
+use crate::database::models::*;
+use crate::database::Database;
 
 graphql_object!(ScoredSuggestion: Database as "Suggestion" |&self| {
     description: "Holds information about a suggestion made by a user to improve the app"

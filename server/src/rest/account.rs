@@ -6,8 +6,8 @@ use iron::{status, Handler};
 use router::Router;
 use bcrypt;
 use bodyparser;
-use database::Database;
-use cr;
+use crate::database::Database;
+use crate::cr;
 use super::authtoken;
 
 #[cfg(feature="mailer")]

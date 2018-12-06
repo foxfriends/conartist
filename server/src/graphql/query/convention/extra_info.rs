@@ -1,6 +1,6 @@
 //! Holds extra information about a convention
-use database::models::*;
-use database::Database;
+use crate::database::models::*;
+use crate::database::Database;
 
 graphql_object!(ConventionExtraInfo: Database |&self| {
     description: "Extra information about the convention, provided by the service"

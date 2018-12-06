@@ -5,7 +5,7 @@ use super::schema::*;
 use super::models::*;
 use super::Database;
 
-use money::Currency;
+use crate::money::Currency;
 
 impl Database {
     pub fn add_user_keys(&self, maybe_user_id: Option<i32>, quantity: i32) -> Result<User, String> {

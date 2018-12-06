@@ -7,8 +7,8 @@ mod suggestion;
 
 use chrono::{DateTime, Utc, FixedOffset};
 use juniper::FieldResult;
-use database::Database;
-use database::models::*;
+use crate::database::Database;
+use crate::database::models::*;
 use self::connection::Connection;
 
 pub struct Query;

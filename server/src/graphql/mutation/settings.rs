@@ -1,7 +1,7 @@
 //! Mutations to modify a user's settings
 use juniper::FieldResult;
-use database::Database;
-use money::Currency;
+use crate::database::Database;
+use crate::money::Currency;
 
 pub struct SettingsMutation(pub Option<i32>);
 

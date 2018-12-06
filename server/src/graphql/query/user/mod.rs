@@ -2,8 +2,8 @@
 use juniper::FieldResult;
 use chrono::{DateTime, Utc};
 
-use database::Database;
-use database::models::*;
+use crate::database::Database;
+use crate::database::models::*;
 
 mod product_type;
 mod product;

@@ -6,9 +6,9 @@ use iron::{status, Handler};
 use router::Router;
 use params::{Params, Value};
 use bcrypt;
-use database::Database;
-use middleware::VerifyJWT;
-use cr;
+use crate::database::Database;
+use crate::middleware::VerifyJWT;
+use crate::cr;
 use bodyparser;
 
 #[cfg(feature="mailer")]
@@ -85,7 +85,7 @@ impl Handler for ResetPassword {
             return cr::fail("Invalid request");
         }
         match self.database.reset_password(&email.to_lowercase()) {
-            Ok(password_reset) => {
+            Ok(_password_reset) => {
                 #[cfg(feature="mailer")] {
                     if let Err(error) = reset_password::send(email, password_reset.verification_code) {
                         cr::fail(&format!("{}", error))

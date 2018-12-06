@@ -1,5 +1,5 @@
 //! Input objects needed to modify prices
-use money::Money;
+use crate::money::Money;
 
 #[derive(Clone, GraphQLInputObject)]
 #[graphql(description="Information required to create a new price")]

@@ -1,6 +1,6 @@
 //! Holds information about a product type
-use database::Database;
-use database::models::*;
+use crate::database::Database;
+use crate::database::models::*;
 
 graphql_object!(ProductType: Database |&self| {
     description: "Holds information about a product type"

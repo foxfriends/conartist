@@ -7,9 +7,9 @@ mod user_info;
 mod image;
 mod connection;
 
-use money::Money;
-use database::models::*;
-use database::Database;
+use crate::money::Money;
+use crate::database::models::*;
+use crate::database::Database;
 
 graphql_object!(Convention: Database |&self| {
     description: "Holds information about a convention and a user's records at that convention"

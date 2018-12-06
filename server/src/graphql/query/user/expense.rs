@@ -2,9 +2,9 @@
 use chrono::{DateTime, FixedOffset};
 use uuid::Uuid;
 
-use money::Money;
-use database::Database;
-use database::models::*;
+use crate::money::Money;
+use crate::database::Database;
+use crate::database::models::*;
 
 graphql_object!(Expense: Database |&self| {
     description: "Holds information about a convention expense"

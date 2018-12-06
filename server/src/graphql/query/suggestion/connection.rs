@@ -1,6 +1,6 @@
 use super::super::connection::{Connectable, Connection, Edge};
-use database::Database;
-use database::models::*;
+use crate::database::Database;
+use crate::database::models::*;
 
 impl Connectable for ScoredSuggestion {
     fn cursor(&self) -> String {

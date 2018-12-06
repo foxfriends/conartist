@@ -58,7 +58,7 @@ use hyper::client::Client;
 use diesel::pg::PgConnection;
 use r2d2_diesel::ConnectionManager;
 
-use env::CONARTIST_BASE_URL;
+use crate::env::CONARTIST_BASE_URL;
 
 fn main() {
     env_logger::init();

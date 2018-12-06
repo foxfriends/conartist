@@ -1,5 +1,5 @@
 //! Provides a means for representing monetary values in any currency
-use error::MoneyError;
+use crate::error::MoneyError;
 use std::str::FromStr;
 use std::fmt::{Display, Formatter};
 use std::ops::Add;

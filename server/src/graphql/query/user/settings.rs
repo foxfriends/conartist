@@ -1,7 +1,7 @@
 //! Holds information about a user's settings
-use money::Currency;
-use database::Database;
-use database::models::*;
+use crate::money::Currency;
+use crate::database::Database;
+use crate::database::models::*;
 
 graphql_object!(Settings: Database |&self| {
     description: "Holds information about a user's settings"

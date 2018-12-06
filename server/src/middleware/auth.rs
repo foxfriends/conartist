@@ -3,10 +3,10 @@
 use iron::prelude::*;
 use iron::headers::{Authorization, Bearer};
 use iron::{BeforeMiddleware, status};
-use jwt::{decode, Validation};
+use crate::jwt::{decode, Validation};
 
-use rest::authtoken::Claims;
-use error::StringError;
+use crate::rest::authtoken::Claims;
+use crate::error::StringError;
 use crate::env::JWT_SECRET; 
 
 /// Middleware that wraps a handler, returning a static file in the case of a file-not-found error.

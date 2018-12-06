@@ -7,7 +7,7 @@ use diesel::Queryable;
 use juniper::Value;
 use std::error::Error;
 use std::str::FromStr;
-use money::{Money, Currency};
+use crate::money::{Money, Currency};
 
 graphql_scalar!(Money {
     description: "Represents a monetary value and a currency as a string, such as CAD150 for $1.50 in CAD"

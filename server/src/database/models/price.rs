@@ -1,6 +1,6 @@
 //! The Prices table
 use chrono::NaiveDateTime;
-use money::Money;
+use crate::money::Money;
 
 #[derive(Queryable, Clone, Debug)]
 pub struct Price {

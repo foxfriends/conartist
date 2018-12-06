@@ -1,6 +1,6 @@
 //! Holds information about a product
-use database::Database;
-use database::models::*;
+use crate::database::Database;
+use crate::database::models::*;
 
 graphql_object!(ProductWithQuantity: Database as "Product" |&self| {
     description: "Holds information about a product"

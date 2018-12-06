@@ -2,7 +2,7 @@ use iron::Request;
 use diesel::PgConnection;
 use r2d2::Pool;
 use r2d2_diesel::ConnectionManager;
-use rest::authtoken::Claims;
+use crate::rest::authtoken::Claims;
 
 pub struct DatabaseFactory {
     pool: Pool<ConnectionManager<PgConnection>>, 

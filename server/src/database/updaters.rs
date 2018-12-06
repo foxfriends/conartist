@@ -6,7 +6,7 @@ use super::Database;
 use super::models::*;
 use super::schema::*;
 use super::dsl::*;
-use money::Money;
+use crate::money::Money;
 
 impl Database {
     pub fn update_product_type(&self,

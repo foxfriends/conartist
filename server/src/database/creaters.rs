@@ -7,7 +7,7 @@ use serde_json;
 use super::schema::*;
 use super::models::*;
 use super::Database;
-use money::Money;
+use crate::money::Money;
 
 impl Database {
     pub fn create_product_type(&self, maybe_user_id: Option<i32>, name: String, color: i32, sort: i32) -> Result<ProductType, String> {
@@ -66,7 +66,7 @@ impl Database {
                     return Err(
                         diesel::result::Error::DeserializationError(
                             Box::new(
-                                ::error::StringError(
+                                crate::error::StringError(
                                     format!("Convention with id {} is already over", convention.con_id)
                                 )
                             )

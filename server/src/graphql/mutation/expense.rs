@@ -1,7 +1,7 @@
 //! Input objects needed to modify convention expense
 use chrono::{DateTime,FixedOffset};
 use uuid::Uuid;
-use money::Money;
+use crate::money::Money;
 
 #[derive(Clone, GraphQLInputObject)]
 #[graphql(description="Information required to create a convention expense")]

@@ -1,5 +1,5 @@
 use iron::typemap::Key;
-use jwt::{errors::Error, encode, Header};
+use crate::jwt::{errors::Error, encode, Header};
 use crate::env::JWT_SECRET;
 
 #[derive(Serialize, Deserialize)]

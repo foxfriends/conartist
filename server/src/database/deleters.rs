@@ -6,7 +6,7 @@ use uuid::Uuid;
 use super::schema::*;
 use super::models::*;
 use super::Database;
-use money::Money;
+use crate::money::Money;
 
 impl Database {
     pub fn delete_price(&self, maybe_user_id: Option<i32>, type_id: i32, product_id: Option<i32>, quantity: i32) -> Result<bool, String> {
@@ -38,7 +38,7 @@ impl Database {
                         return Err(
                             diesel::result::Error::DeserializationError(
                                 Box::new(
-                                    ::error::StringError(
+                                    crate::error::StringError(
                                         "Could not retrieve record with no id or uuid".to_owned()
                                     )
                                 )
@@ -73,7 +73,7 @@ impl Database {
                         return Err(
                             diesel::result::Error::DeserializationError(
                                 Box::new(
-                                    ::error::StringError(
+                                    crate::error::StringError(
                                         "Could not retrieve expense with no id or uuid".to_owned()
                                     )
                                 )
@@ -102,7 +102,7 @@ impl Database {
                     return Err(
                         diesel::result::Error::DeserializationError(
                             Box::new(
-                                ::error::StringError(
+                                crate::error::StringError(
                                     format!("Convention with id {} has already started", convention.con_id)
                                 )
                             )

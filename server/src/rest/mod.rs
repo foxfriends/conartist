@@ -5,7 +5,7 @@ pub mod account;
 pub mod authtoken;
 
 use mount::Mount;
-use database::Database;
+use crate::database::Database;
 
 pub fn new(db: Database) -> Mount {
     let mut mount = Mount::new();

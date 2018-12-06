@@ -1,9 +1,9 @@
 //! The Records table
 use uuid::Uuid;
 
-use database::schema::*;
+use crate::database::schema::*;
+use crate::money::Money;
 use super::time::Time;
-use money::Money;
 
 #[derive(Queryable, Clone, Debug)]
 pub struct Record {

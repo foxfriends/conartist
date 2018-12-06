@@ -1,8 +1,8 @@
 //! Holds user contributed information about a convention
 use juniper::FieldResult;
 
-use database::Database;
-use database::models::*;
+use crate::database::Database;
+use crate::database::models::*;
 
 graphql_object!(ConventionUserInfo: Database |&self| {
     description: "Extra information about the convention, provided by users and ranked for trustworthiness"

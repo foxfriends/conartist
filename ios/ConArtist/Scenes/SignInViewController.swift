@@ -12,11 +12,11 @@ import RxCocoa
 
 class SignInViewController : ConArtistViewController {
     fileprivate enum ErrorState {
-        case IncorrectCredentials
+        case incorrectCredentials
         
         func message() -> String {
             switch self {
-            case .IncorrectCredentials:
+            case .incorrectCredentials:
                 return "Your email or password is incorrect"¡
             }
         }
@@ -26,8 +26,12 @@ class SignInViewController : ConArtistViewController {
     @IBOutlet weak var emailTextField: FancyTextField!
     @IBOutlet weak var passwordTextField: FancyTextField!
     @IBOutlet weak var signInButton: FancyButton!
-    
-    fileprivate let øerrorState = PublishSubject<ErrorState>()
+    @IBOutlet weak var signUpButton: UIButton!
+    @IBOutlet weak var privacyButton: UIButton!
+    @IBOutlet weak var termsButton: UIButton!
+
+
+    fileprivate let errorState = PublishSubject<ErrorState>()
     
     let disposeBag = DisposeBag()
 }
@@ -36,6 +40,7 @@ class SignInViewController : ConArtistViewController {
 extension SignInViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
         setupLocalization()
         setupSubscriptions()
     }
@@ -53,6 +58,25 @@ extension SignInViewController {
     }
 }
 
+// MARK: - UI
+extension SignInViewController {
+    fileprivate func setupUI() {
+        signUpButton.conArtistStyle()
+        privacyButton.conArtistStyle()
+        termsButton.conArtistStyle()
+
+        signUpButton.setTitleColor(.lightText, for: .normal)
+        signUpButton.setTitleColor(.lightText, for: .highlighted)
+        signUpButton.tintColor = .lightText
+        privacyButton.setTitleColor(.textPlaceholder, for: .normal)
+        privacyButton.setTitleColor(.textPlaceholder, for: .highlighted)
+        privacyButton.alpha = 0.7
+        termsButton.setTitleColor(.textPlaceholder, for: .normal)
+        termsButton.setTitleColor(.textPlaceholder, for: .highlighted)
+        termsButton.alpha = 0.7
+    }
+}
+
 // MARK: - Localization
 extension SignInViewController {
     fileprivate func setupLocalization() {
@@ -61,6 +85,11 @@ extension SignInViewController {
         passwordTextField.title = "Password"¡
         passwordTextField.placeholder = "Password"¡
         signInButton.setTitle("Sign in"¡, for: .normal)
+
+        signUpButton.setAttributedTitle(try! "Sign up at conartist.app"¡.prettify(), for: .normal)
+        signUpButton.setAttributedTitle(try! "Sign up at conartist.app"¡.prettify(.highlighted), for: .highlighted)
+        privacyButton.setTitle("Privacy Policy"¡, for: .normal)
+        termsButton.setTitle("Terms of Service"¡, for: .normal)
     }
 }
 
@@ -68,18 +97,19 @@ extension SignInViewController {
 extension SignInViewController {
     fileprivate func setupSubscriptions() {
         let øcredentials = Observable.combineLatest(emailTextField.rx.text, passwordTextField.rx.text)
-        Observable.merge(
-            signInButton.rx.tap.map(const(())),
-            passwordTextField.rx.controlEvent([.editingDidEndOnExit]).map(const(()))
-        )
+        Observable
+            .merge(
+                signInButton.rx.tap.map(const(())),
+                passwordTextField.rx.controlEvent([.editingDidEndOnExit]).map(const(()))
+            )
             .filter { [signInButton] in signInButton?.isEnabled ?? false }
             .do(onNext: { [signInButton] in signInButton?.isEnabled = false })
             .withLatestFrom(øcredentials)
-            .flatMap { [øerrorState] credentials in
+            .flatMap { [errorState] credentials in
                 ConArtist.API.Auth.signIn(email: credentials.0 ?? "", password: credentials.1 ?? "")
                     .map(const(true))
                     .catchError { _ in
-                        øerrorState.on(.next(.IncorrectCredentials))
+                        errorState.on(.next(.incorrectCredentials))
                         return Observable.just(false)
                     }
             }
@@ -92,7 +122,16 @@ extension SignInViewController {
             .subscribe(onNext: { [passwordTextField] _ in passwordTextField?.becomeFirstResponder() })
             .disposed(by: disposeBag)
 
-        øerrorState
+        Observable
+            .merge(
+                signUpButton.rx.tap.map(const(URL.conartist)),
+                privacyButton.rx.tap.map(const(URL.privacyPolicy)),
+                termsButton.rx.tap.map(const(URL.termsOfService))
+            )
+            .subscribe(onNext: { url in UIApplication.shared.open(url, options: [:]) })
+            .disposed(by: disposeBag)
+
+        errorState
             .map { $0.message() }
             .asDriver(onErrorJustReturn: "An unknown error has occurred"¡)
             .drive(onNext: { [emailTextField] in emailTextField?.showTooltip(text: $0) })

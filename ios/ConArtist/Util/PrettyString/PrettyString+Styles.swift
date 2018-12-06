@@ -17,6 +17,12 @@ extension PrettyString.Config {
                 attributes: [
                     .foregroundColor(.brand),
                 ]
+            ),
+            PrettyString.Config.Rule(
+                name: "light",
+                attributes: [
+                    .foregroundColor(.textPlaceholder),
+                ]
             )
         ]
     )

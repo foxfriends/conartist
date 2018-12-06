@@ -18,6 +18,9 @@ class SettingsViewController : ConArtistViewController {
         case signOut
         case feedback
         case help
+        case privacy
+        case terms
+        case version
     }
     
     struct Group {
@@ -34,6 +37,7 @@ class SettingsViewController : ConArtistViewController {
         Group(title: "Products"¡, items: [.products, .prices]),
         Group(title: "General"¡, items: [.currency]),
         Group(title: "Support"¡, items: [.signOut, .feedback, .help]),
+        Group(title: "About"¡, items: [.version, .privacy, .terms]),
     ]
 }
 
@@ -95,6 +99,19 @@ extension SettingsViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsActionTableViewCell.ID, for: indexPath) as! SettingsActionTableViewCell
             cell.setup(title: "Report a bug/Request a feature"¡)
             return cell
+        case .privacy:
+            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsActionTableViewCell.ID, for: indexPath) as! SettingsActionTableViewCell
+            cell.setup(title: "Privacy Policy"¡)
+            return cell
+        case .terms:
+            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsActionTableViewCell.ID, for: indexPath) as! SettingsActionTableViewCell
+            cell.setup(title: "Terms of Service"¡)
+            return cell
+        case .version:
+            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsActionTableViewCell.ID, for: indexPath) as! SettingsActionTableViewCell
+            let versionString = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
+            cell.setup(title: try! ("Version"¡ % versionString).prettify())
+            return cell
         }
     }
 }
@@ -130,6 +147,11 @@ extension SettingsViewController: UITableViewDelegate {
                         .subscribe()
                 }
             )
+        case .privacy:
+            UIApplication.shared.open(.privacyPolicy, options: [:])
+        case .terms:
+            UIApplication.shared.open(.termsOfService, options: [:])
+        case .version: break
         }
     }
 

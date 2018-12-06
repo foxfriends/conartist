@@ -220,6 +220,14 @@ en-ca = "English (Canada)"
 en-us = "English (USA)"
 zh-Hans = "中文 (简体)"
 
+# Sign in
+"Sign up at conartist.app" = "在{action:conartist.app}上注册"
+
 # Convention search
 "There are no conventions right now" = "TODO: translate"
 "<Convention search empty>" = "TODO: translate"
+
+# Settings
+"Privacy Policy" = "隐私政策"
+"Terms of Service" = "服务条款"
+Version = { ios = "版本: {light:{}}", web = "版本" }

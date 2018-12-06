@@ -27,6 +27,8 @@ Upvote = "Upvote"
 "Sign out" = "Sign out"
 "Your password is incorrect" = "Your password is incorrect"
 "Welcome back" = "Welcome back"
+# ios
+"Sign up at conartist.app" = "Sign up at {action:conartist.app}"
 
 # Sign up
 "... You're in!" = "… You're in!"
@@ -146,6 +148,10 @@ Name = "Name"
 "Report a bug/Request a feature" = "Report a bug/Request a feature"
 Settings = "Settings"
 Support = "Support"
+"Privacy Policy" = "Privacy Policy"
+"Terms of Service" = "Terms of Service"
+Version = { ios = "Version: {light:{}}", web = "Version" }
+
 # Change name
 "Change Name" = "Change Name"
 "Name changed successfully" = "Name changed successfully"

@@ -14,6 +14,7 @@ extension UIButton {
         titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold).usingFeatures([.smallCaps])
         setTitleColor(.brand, for: .normal)
         setTitleColor(.brandVariant, for: .highlighted)
+        setTitleColor(.brandVariant, for: .focused)
         setTitleColor(.textPlaceholder, for: .disabled)
         return self
     }

@@ -21,4 +21,8 @@ class SettingsActionTableViewCell: UITableViewCell {
     func setup(title: String) {
         titleLabel.text = title
     }
+
+    func setup(title: NSAttributedString) {
+        titleLabel.attributedText = title
+    }
 }

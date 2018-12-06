@@ -73,13 +73,45 @@
                                             <color key="titleColor" name="Text"/>
                                         </state>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sq4-Yb-buU">
+                                        <rect key="frame" x="90" y="532" width="195" height="37"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <inset key="contentEdgeInsets" minX="20" minY="10" maxX="20" maxY="10"/>
+                                        <state key="normal" title="Sign up at conartist.app"/>
+                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f1l-xq-F7w">
+                                        <rect key="frame" x="78" y="609" width="219" height="29"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ysT-qn-KjY">
+                                                <rect key="frame" x="110" y="0.0" width="109" height="29"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <state key="normal" title="Terms of Service"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J2a-yL-jtu">
+                                                <rect key="frame" x="0.0" y="0.0" width="90" height="29"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <state key="normal" title="Privacy Policy"/>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="J2a-yL-jtu" firstAttribute="top" secondItem="f1l-xq-F7w" secondAttribute="top" id="7mt-O2-2GR"/>
+                                            <constraint firstItem="J2a-yL-jtu" firstAttribute="centerY" secondItem="ysT-qn-KjY" secondAttribute="centerY" id="SKU-hL-XGO"/>
+                                            <constraint firstItem="ysT-qn-KjY" firstAttribute="top" secondItem="f1l-xq-F7w" secondAttribute="top" id="SWm-JB-211"/>
+                                            <constraint firstAttribute="trailing" secondItem="ysT-qn-KjY" secondAttribute="trailing" id="aXq-WZ-LoL"/>
+                                            <constraint firstAttribute="bottom" secondItem="ysT-qn-KjY" secondAttribute="bottom" id="iFB-KR-MZD"/>
+                                            <constraint firstItem="ysT-qn-KjY" firstAttribute="leading" secondItem="J2a-yL-jtu" secondAttribute="trailing" constant="20" id="n9n-0Z-UUd"/>
+                                            <constraint firstItem="J2a-yL-jtu" firstAttribute="leading" secondItem="f1l-xq-F7w" secondAttribute="leading" id="tUX-1B-r84"/>
+                                            <constraint firstAttribute="bottom" secondItem="J2a-yL-jtu" secondAttribute="bottom" id="tvh-bI-lUB"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="umd-fc-6co" firstAttribute="top" secondItem="Xpn-RP-goK" secondAttribute="bottom" id="2U1-tI-nSw"/>
+                                    <constraint firstItem="f1l-xq-F7w" firstAttribute="centerX" secondItem="OkM-Vc-wV4" secondAttribute="centerX" id="57u-WF-6PA"/>
                                     <constraint firstItem="Xpn-RP-goK" firstAttribute="width" secondItem="OkM-Vc-wV4" secondAttribute="width" id="ADt-UC-jHu"/>
+                                    <constraint firstItem="Sq4-Yb-buU" firstAttribute="top" secondItem="ry9-iF-0mD" secondAttribute="bottom" constant="20" id="DCh-2m-MFl"/>
                                     <constraint firstItem="ry9-iF-0mD" firstAttribute="leading" secondItem="OkM-Vc-wV4" secondAttribute="leadingMargin" constant="40" id="OA4-aA-1yL"/>
                                     <constraint firstItem="VJ9-2q-zrw" firstAttribute="top" secondItem="AMZ-uh-Pve" secondAttribute="bottom" constant="30" id="PYd-dL-KJy"/>
-                                    <constraint firstAttribute="bottom" secondItem="ry9-iF-0mD" secondAttribute="bottom" id="RS5-fL-uVp"/>
                                     <constraint firstItem="VJ9-2q-zrw" firstAttribute="leading" secondItem="OkM-Vc-wV4" secondAttribute="leadingMargin" constant="40" id="YAs-Fb-PEL"/>
                                     <constraint firstItem="ry9-iF-0mD" firstAttribute="top" secondItem="VJ9-2q-zrw" secondAttribute="bottom" constant="30" id="ZTi-DD-wVr"/>
                                     <constraint firstAttribute="trailing" secondItem="Xpn-RP-goK" secondAttribute="trailing" id="aBi-N0-7a8"/>
@@ -88,6 +120,9 @@
                                     <constraint firstItem="umd-fc-6co" firstAttribute="centerX" secondItem="OkM-Vc-wV4" secondAttribute="centerX" id="m2Q-i1-kSV"/>
                                     <constraint firstAttribute="trailingMargin" secondItem="ry9-iF-0mD" secondAttribute="trailing" constant="40" id="nBE-lZ-AAJ"/>
                                     <constraint firstAttribute="trailingMargin" secondItem="VJ9-2q-zrw" secondAttribute="trailing" constant="40" id="r5W-q6-7wr"/>
+                                    <constraint firstAttribute="bottom" secondItem="f1l-xq-F7w" secondAttribute="bottom" constant="20" id="tKY-Eb-pb7"/>
+                                    <constraint firstItem="f1l-xq-F7w" firstAttribute="top" secondItem="Sq4-Yb-buU" secondAttribute="bottom" constant="40" id="tqD-hK-lcF"/>
+                                    <constraint firstItem="Sq4-Yb-buU" firstAttribute="centerX" secondItem="OkM-Vc-wV4" secondAttribute="centerX" id="vmK-rI-dkC"/>
                                     <constraint firstItem="AMZ-uh-Pve" firstAttribute="leading" secondItem="OkM-Vc-wV4" secondAttribute="leadingMargin" constant="40" id="yOu-Ap-7vv"/>
                                     <constraint firstItem="AMZ-uh-Pve" firstAttribute="top" secondItem="umd-fc-6co" secondAttribute="bottom" constant="30" id="zHX-ls-si9"/>
                                 </constraints>
@@ -108,12 +143,15 @@
                         <outlet property="contentScrollView" destination="OkM-Vc-wV4" id="TO3-GN-41p"/>
                         <outlet property="emailTextField" destination="AMZ-uh-Pve" id="eyj-e1-KhA"/>
                         <outlet property="passwordTextField" destination="VJ9-2q-zrw" id="X7Z-5w-tFI"/>
+                        <outlet property="privacyButton" destination="J2a-yL-jtu" id="hvG-85-iOa"/>
                         <outlet property="signInButton" destination="ry9-iF-0mD" id="Wrt-4l-n45"/>
+                        <outlet property="signUpButton" destination="Sq4-Yb-buU" id="F9C-Xm-t1R"/>
+                        <outlet property="termsButton" destination="ysT-qn-KjY" id="dMr-bF-Cm3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="39" y="399"/>
+            <point key="canvasLocation" x="37.600000000000001" y="398.95052473763121"/>
         </scene>
         <!--Root Navigation Controller-->
         <scene sceneID="HmB-fC-Vsy">

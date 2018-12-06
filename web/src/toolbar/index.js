@@ -11,9 +11,11 @@ import { Icon } from '../common/icon'
 import { Input } from '../common/input'
 import { focus as focusNavigation } from '../navigation/focus'
 import * as navigate from '../update/navigate'
+import { isSignedIn } from '../util/is-signed-in'
 import type { Action, Props as ButtonProps } from '../common/button'
 
 export type TextField = {
+  className: string,
   title: string,
   onChange?: (string) => void,
   onSubmit?: (string) => void,
@@ -29,11 +31,11 @@ export type Props = {
 
 export const status: Subject<$Shape<Props>> = new BehaviorSubject({ primary: null, secondary: null })
 
-export function Toolbar({ primary, secondary, tertiary, textField, pageIcon }: Props) {
+export function Toolbar({ className, primary, secondary, tertiary, textField, pageIcon }: Props) {
   return (
-    <div className={S.toolbar}>
+    <div className={`${S.toolbar} ${className}`}>
       <div className={S.inner}>
-        <div className={`${S.logoContainer} ${S.desktop}`} onClick={navigate.dashboard}>
+        <div className={`${S.logoContainer} ${S.desktop}`} onClick={() => isSignedIn() && navigate.dashboard}>
           <img className={S.logo} src={LOGO} height={44} />
           <span className={S.title}>ConArtist</span>
         </div>

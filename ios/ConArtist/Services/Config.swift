@@ -35,4 +35,9 @@ struct Config {
         typealias V = String
         static let key = "ResourcesURL"
     }
+
+    struct WebURL: ConfigKey {
+        typealias V = String
+        static let key = "WebURL"
+    }
 }

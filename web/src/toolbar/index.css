@@ -38,9 +38,13 @@
 .desktop {
   --display: flex;
   display: var(--display);
-  cursor: pointer;
   width: 280px;
   justify-content: flex-start;
+  cursor: pointer;
+}
+
+:global(.signedOut) .desktop {
+  cursor: default;
 }
 
 @media (min-width: 888px) {

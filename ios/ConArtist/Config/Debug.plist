@@ -2,11 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>WebURL</key>
+	<string>https://staging.conartist.app</string>
 	<key>APIURL</key>
-	<string>https://api.conartist.app</string>
+	<string>https://api.staging.conartist.app</string>
 	<key>GraphQLURL</key>
-	<string>https://graph.conartist.app</string>
+	<string>https://graph.staging.conartist.app</string>
 	<key>ResourcesURL</key>
-	<string>https://api.conartist.app/resource</string>
+	<string>https://api.staging,conartist.app/resource</string>
 </dict>
 </plist>

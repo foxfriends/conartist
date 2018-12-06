@@ -18,6 +18,7 @@
 		321FDE8020269E43002DF04B /* SettingsBooleanTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321FDE7F20269E43002DF04B /* SettingsBooleanTableViewCell.swift */; };
 		321FDE8220269E67002DF04B /* SettingsActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321FDE8120269E67002DF04B /* SettingsActionTableViewCell.swift */; };
 		321FDE842027D14B002DF04B /* Observable+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321FDE832027D14B002DF04B /* Observable+Helpers.swift */; };
+		3224A61421B8BA41004CF20B /* URL+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3224A61321B8BA41004CF20B /* URL+Constants.swift */; };
 		32254DDF205F4CDD003E021F /* ExpenseDetailsOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32254DDE205F4CDD003E021F /* ExpenseDetailsOverlayViewController.swift */; };
 		322AFB3F20574622005E56C8 /* String+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AFB3E20574622005E56C8 /* String+JSON.swift */; };
 		322AFB41205763C0005E56C8 /* String+Escape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AFB40205763C0005E56C8 /* String+Escape.swift */; };
@@ -181,6 +182,7 @@
 		321FDE7F20269E43002DF04B /* SettingsBooleanTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBooleanTableViewCell.swift; sourceTree = "<group>"; };
 		321FDE8120269E67002DF04B /* SettingsActionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsActionTableViewCell.swift; sourceTree = "<group>"; };
 		321FDE832027D14B002DF04B /* Observable+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+Helpers.swift"; sourceTree = "<group>"; };
+		3224A61321B8BA41004CF20B /* URL+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Constants.swift"; sourceTree = "<group>"; };
 		32254DDE205F4CDD003E021F /* ExpenseDetailsOverlayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseDetailsOverlayViewController.swift; sourceTree = "<group>"; };
 		322AFB3E20574622005E56C8 /* String+JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+JSON.swift"; sourceTree = "<group>"; };
 		322AFB40205763C0005E56C8 /* String+Escape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Escape.swift"; sourceTree = "<group>"; };
@@ -681,6 +683,7 @@
 				32637A9B21909BB0005E2F6C /* PrettyString */,
 				32637A9C21909BBA005E2F6C /* SVGKImage */,
 				32637A9D21909BC3005E2F6C /* Codables */,
+				3224A61321B8BA41004CF20B /* URL+Constants.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -1079,6 +1082,7 @@
 				32CD6B1A21B0A62400387349 /* ConventionSearchTableViewCell.swift in Sources */,
 				32CFB1E120DCBABA00672EC9 /* Debug.swift in Sources */,
 				325EAB2320524C5500B1BE3E /* RecordsOverviewTotalFooterView.swift in Sources */,
+				3224A61421B8BA41004CF20B /* URL+Constants.swift in Sources */,
 				32D45CBA20A4A54400F7A67F /* Id.swift in Sources */,
 				32C39C32201EA5B400071E26 /* ConventionTableViewCell.swift in Sources */,
 				32C39C1C201E812D00071E26 /* ApolloClient+Rx.swift in Sources */,

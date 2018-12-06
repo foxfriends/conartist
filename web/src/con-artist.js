@@ -263,7 +263,7 @@ export class ConArtist extends React.Component<Props, State> {
     const { toolbar, navigation, content, dialog, toast } = this.state
     return (
       <>
-        { toolbar ? <Toolbar {...toolbar} /> : null }
+        { toolbar ? <Toolbar {...toolbar} className={navigation ? '' : 'signedOut'} /> : null }
         <div className={`${S.container} ${navigation ? '' : 'signedOut'}`}>
           { navigation ? <Navigation {...navigation} /> : null }
           {/* $FlowIgnore: Flow doesn't understand enums properly */}

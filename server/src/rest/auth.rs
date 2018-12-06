@@ -87,7 +87,7 @@ impl Handler for ResetPassword {
             return cr::fail("Invalid request");
         }
         match self.database.reset_password(&email.to_lowercase()) {
-            Ok(_password_reset) => {
+            Ok(password_reset) => {
                 #[cfg(feature="mailer")] {
                     if let Err(error) = reset_password::send(email, password_reset.verification_code) {
                         cr::fail(&format!("{}", error))

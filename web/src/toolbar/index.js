@@ -35,11 +35,11 @@ export function Toolbar({ className, primary, secondary, tertiary, textField, pa
   return (
     <div className={`${S.toolbar} ${className}`}>
       <div className={S.inner}>
-        <div className={`${S.logoContainer} ${S.desktop}`} onClick={() => isSignedIn() && navigate.dashboard}>
+        <div className={`${S.logoContainer} ${S.desktop}`} onClick={() => isSignedIn() ? navigate.dashboard() : navigate.splash()}>
           <img className={S.logo} src={LOGO} height={44} />
           <span className={S.title}>ConArtist</span>
         </div>
-        <div className={`${S.logoContainer} ${S.mobile}`} onClick={() => focusNavigation()}>
+        <div className={`${S.logoContainer} ${S.mobile}`} onClick={() => isSignedIn() ? focusNavigation() : navigate.splash()}>
           <img className={`${S.logo} ${pageIcon ? S.hidden : ''}`} src={LOGO} height={44} />
           { pageIcon ? <Icon className={S.pageIcon} name={pageIcon} /> : null }
         </div>

@@ -43,10 +43,6 @@
   cursor: pointer;
 }
 
-:global(.signedOut) .desktop {
-  cursor: default;
-}
-
 @media (min-width: 888px) {
   .inner { --width: 880px; }
   .mobile { --display: none; }

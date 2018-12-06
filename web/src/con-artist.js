@@ -167,12 +167,12 @@ export class ConArtist extends React.Component<Props, State> {
         break
 
       case 'terms-of-service':
-        state.navigation = null
+        state.navigation = isSignedIn() ? NavInfo.default : null
         state.content = { name: 'static', content: 'terms-of-service' }
         break
 
       case 'privacy-policy':
-        state.navigation = null
+        state.navigation = isSignedIn() ? NavInfo.default : null
         state.content = { name: 'static', content: 'privacy-policy' }
         break
 

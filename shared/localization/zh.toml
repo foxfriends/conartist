@@ -220,6 +220,9 @@ en-ca = "English (Canada)"
 en-us = "English (USA)"
 zh-Hans = "中文 (简体)"
 
+# General
+View = "看"
+
 # Sign in
 "Sign up at conartist.app" = "在{action:conartist.app}上注册"
 

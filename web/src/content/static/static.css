@@ -23,12 +23,7 @@
 
 .copy {
   box-sizing: border-box;
-  max-width: 680px;
-  margin: 0 auto;
-
-  @media (max-width: 640px) {
-    padding: 0 20px;
-  }
+  max-width: 600px;
 
   & p {
     text-align: justify;
@@ -51,5 +46,13 @@
   & a:hover, & a:active {
     color: var(--color--brand-variant);
     text-decoration: none;
+  }
+}
+
+:global(.signedOut) .copy {
+  margin: 0 auto;
+  max-width: 680px;
+  @media (max-width: 640px) {
+    padding: 0 20px;
   }
 }

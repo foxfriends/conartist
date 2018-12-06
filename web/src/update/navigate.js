@@ -40,6 +40,8 @@ export const searchConventions = goTo('/conventions/search', page.searchConventi
 export const settings = goTo('/settings', page.settings)
 export const suggestions = goTo('/suggestions', page.suggestions)
 export const admin = goTo('/admin', page.admin)
+export const privacy = goTo('/privacy', page.privacyPolicy)
+export const terms = goTo('/terms', page.termsOfService)
 
 export function conventionDetails(convention: Convention) {
   const { page: currentPage } = model.getValue()

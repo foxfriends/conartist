@@ -13,7 +13,9 @@ export function Help() {
   return (
     <BasicCard title={l`Help`}>
       <Table>
-        <Row title={l`Report a bug/Request a feature`} detail={<Link onClick={navigate.suggestions}>→</Link>} />
+        <Row title={l`Report a bug/Request a feature`} detail={<Link onClick={navigate.suggestions}>{l`View`}</Link>} />
+        <Row title={l`Privacy Policy`} detail={<Link onClick={navigate.privacy}>{l`View`}</Link>} />
+        <Row title={l`Terms of Service`} detail={<Link onClick={navigate.terms}>{l`View`}</Link>} />
       </Table>
     </BasicCard>
   )

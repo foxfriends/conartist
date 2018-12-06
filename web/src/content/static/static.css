@@ -22,8 +22,13 @@
 }
 
 .copy {
+  box-sizing: border-box;
   max-width: 680px;
   margin: 0 auto;
+
+  @media (max-width: 640px) {
+    padding: 0 20px;
+  }
 
   & p {
     text-align: justify;

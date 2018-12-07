@@ -1,0 +1,2 @@
+Disallow: /static/
+Sitemap: https://conartist.app/sitemap.txt

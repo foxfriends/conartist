@@ -612,7 +612,12 @@ extension Convention {
         _ = request
             .catchError { _ in Observable.empty() }
             .subscribe(onNext: { [øuserInfo] votes in
-                øuserInfo.value = øuserInfo.value.map { info in info.id == updatedInfo.id ? info.adjustVotes(votes) : info }
+                øuserInfo.value = øuserInfo.value
+                    .map { info in
+                        info.id == updatedInfo.id
+                            ? updatedInfo.adjustVotes(votes)
+                            : info
+                    }
             })
     }
 }

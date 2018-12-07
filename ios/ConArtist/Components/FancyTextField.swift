@@ -12,7 +12,7 @@ import RxSwift
 
 class FancyTextField: UITextField {
     private let disposeBag = DisposeBag()
-    private let underlineView = HighlightableView()
+    private let underlineView = HighlightableView().customizable()
     private let titleLabel = UILabel()
     private let formattedLabel = UILabel()
 
@@ -60,7 +60,10 @@ class FancyTextField: UITextField {
         formattedLabel.textAlignment = textAlignment
 
         // TODO: should this be done with autolayout instead?
-        underlineView.frame = CGRect(x: 10, y: frame.height - 1, width: frame.width - 20, height: 1)
+        underlineView.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
+        underlineView.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
+        underlineView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        underlineView.heightAnchor.constraint(equalToConstant: 1).isActive = true
         titleLabel.frame = CGRect(x: 20, y: 0, width: frame.width - 20, height: frame.height)
         titleLabel.alpha = 0
         titleLabel.font = UIFont.systemFont(ofSize: 12).usingFeatures([.smallCaps])

@@ -51,16 +51,7 @@ extension ProductTypeListViewController {
             priceField.text = "\(record.price.numericValue())"
             money.accept(record.price)
         }
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         startAdjustingForKeyboard()
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -144,8 +135,9 @@ extension ProductTypeListViewController {
             .disposed(by: disposeBag)
 
         expectedInfoViewBottomConstraintConstant
-            .asObservable()
-            .subscribe(onNext: { [view, infoViewBottomConstraint, infoExpandButtonImage] amount in
+            .asDriver()
+            .skip(1)
+            .drive(onNext: { [view, infoViewBottomConstraint, infoExpandButtonImage] amount in
                 infoViewBottomConstraint?.constant = amount
                 infoExpandButtonImage?.image = amount == 0 ? .chevronUp : .chevronDown
                 UIView.animate(withDuration: 0.25) { view?.layoutIfNeeded() }
@@ -157,11 +149,15 @@ extension ProductTypeListViewController {
 // MARK: - Keyboard handling
 extension ProductTypeListViewController {
     fileprivate func startAdjustingForKeyboard() {
-        NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
+            .subscribe(onNext: { [weak self] notification in self?.adjustForKeyboard(notification: notification) })
+            .disposed(by: disposeBag)
+        NotificationCenter.default.rx.notification(UIResponder.keyboardWillChangeFrameNotification)
+            .subscribe(onNext: { [weak self] notification in self?.adjustForKeyboard(notification: notification) })
+            .disposed(by: disposeBag)
     }
 
-    @objc func adjustForKeyboard(notification: Notification) {
+    private func adjustForKeyboard(notification: Notification) {
         let keyboardScreenEndFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         let duration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
         let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)

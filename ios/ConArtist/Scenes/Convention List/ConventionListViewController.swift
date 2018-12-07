@@ -209,6 +209,11 @@ extension ConventionListViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        guard sections.value
+            .nth(indexPath.section)
+            .flatMap({ self.conventions(for: $0).nth(indexPath.row) })
+            != nil
+        else { return }
         tableView.cellForRow(at: indexPath)?.isHighlighted = true
     }
 

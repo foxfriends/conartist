@@ -54,7 +54,6 @@ extension SignInViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -142,11 +141,15 @@ extension SignInViewController {
 // MARK: - Keyboard handling
 extension SignInViewController {
     fileprivate func startAdjustingForKeyboard() {
-        NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
+            .subscribe(onNext: { [weak self] notification in self?.adjustForKeyboard(notification: notification) })
+            .disposed(by: disposeBag)
+        NotificationCenter.default.rx.notification(UIResponder.keyboardWillChangeFrameNotification)
+            .subscribe(onNext: { [weak self] notification in self?.adjustForKeyboard(notification: notification) })
+            .disposed(by: disposeBag)
     }
 
-    @objc func adjustForKeyboard(notification: Notification) {
+    private func adjustForKeyboard(notification: Notification) {
         let keyboardScreenEndFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
 

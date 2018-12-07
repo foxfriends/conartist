@@ -38,7 +38,7 @@ struct ConventionUserInfo: Codable {
     }
 
     func adjustVotes(_ votes: VotesFragment) -> ConventionUserInfo {
-        return ConventionUserInfo(id: id, info: info, rating: votes.upvotes - votes.downvotes)
+        return ConventionUserInfo(id: id, info: info, rating: votes.upvotes - votes.downvotes, vote: vote)
     }
 
     func setVote(to vote: Vote) -> ConventionUserInfo {

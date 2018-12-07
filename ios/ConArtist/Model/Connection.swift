@@ -16,7 +16,7 @@ struct Connection<T> {
 
 extension Connection {
     var isEmpty: Bool { return nodes.isEmpty }
-    var isFull: Bool { return nodes.count == totalNodes && !isEmpty }
+    var isFull: Bool { return nodes.count >= totalNodes && !isEmpty }
 
     func prepend(_ node: T) -> Connection<T> {
         return Connection(

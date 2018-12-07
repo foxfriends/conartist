@@ -40,10 +40,11 @@
                                         <color key="tintColor" name="Brand"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="Zb1-Dc-rla"/>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="400" id="c5p-BD-gBm"/>
                                         </constraints>
                                         <color key="textColor" name="Text"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" keyboardAppearance="alert" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="email"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" keyboardAppearance="alert" returnKeyType="next" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="email"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="string" keyPath="title" value="Email"/>
                                         </userDefinedRuntimeAttributes>
@@ -53,6 +54,7 @@
                                         <color key="tintColor" name="Brand"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="y4M-Uc-t0G"/>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="400" id="zib-T4-aTu"/>
                                         </constraints>
                                         <color key="textColor" name="Text"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -65,6 +67,7 @@
                                         <rect key="frame" x="48" y="462" width="279" height="50"/>
                                         <color key="backgroundColor" name="Brand"/>
                                         <constraints>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="400" id="fdv-eS-YIM"/>
                                             <constraint firstAttribute="height" constant="50" id="t5J-o1-78H"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
@@ -110,20 +113,23 @@
                                     <constraint firstItem="f1l-xq-F7w" firstAttribute="centerX" secondItem="OkM-Vc-wV4" secondAttribute="centerX" id="57u-WF-6PA"/>
                                     <constraint firstItem="Xpn-RP-goK" firstAttribute="width" secondItem="OkM-Vc-wV4" secondAttribute="width" id="ADt-UC-jHu"/>
                                     <constraint firstItem="Sq4-Yb-buU" firstAttribute="top" secondItem="ry9-iF-0mD" secondAttribute="bottom" constant="20" id="DCh-2m-MFl"/>
-                                    <constraint firstItem="ry9-iF-0mD" firstAttribute="leading" secondItem="OkM-Vc-wV4" secondAttribute="leadingMargin" constant="40" id="OA4-aA-1yL"/>
+                                    <constraint firstItem="ry9-iF-0mD" firstAttribute="centerX" secondItem="OkM-Vc-wV4" secondAttribute="centerX" id="JqL-az-m6I"/>
+                                    <constraint firstItem="ry9-iF-0mD" firstAttribute="leading" secondItem="OkM-Vc-wV4" secondAttribute="leadingMargin" priority="750" constant="40" id="OA4-aA-1yL"/>
                                     <constraint firstItem="VJ9-2q-zrw" firstAttribute="top" secondItem="AMZ-uh-Pve" secondAttribute="bottom" constant="30" id="PYd-dL-KJy"/>
-                                    <constraint firstItem="VJ9-2q-zrw" firstAttribute="leading" secondItem="OkM-Vc-wV4" secondAttribute="leadingMargin" constant="40" id="YAs-Fb-PEL"/>
+                                    <constraint firstItem="VJ9-2q-zrw" firstAttribute="leading" secondItem="OkM-Vc-wV4" secondAttribute="leadingMargin" priority="750" constant="40" id="YAs-Fb-PEL"/>
                                     <constraint firstItem="ry9-iF-0mD" firstAttribute="top" secondItem="VJ9-2q-zrw" secondAttribute="bottom" constant="30" id="ZTi-DD-wVr"/>
                                     <constraint firstAttribute="trailing" secondItem="Xpn-RP-goK" secondAttribute="trailing" id="aBi-N0-7a8"/>
                                     <constraint firstItem="Xpn-RP-goK" firstAttribute="leading" secondItem="OkM-Vc-wV4" secondAttribute="leading" id="dIg-q8-jh8"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="AMZ-uh-Pve" secondAttribute="trailing" constant="40" id="kM0-bc-9tN"/>
+                                    <constraint firstItem="VJ9-2q-zrw" firstAttribute="centerX" secondItem="OkM-Vc-wV4" secondAttribute="centerX" id="fJH-CI-ojq"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="AMZ-uh-Pve" secondAttribute="trailing" priority="750" constant="40" id="kM0-bc-9tN"/>
                                     <constraint firstItem="umd-fc-6co" firstAttribute="centerX" secondItem="OkM-Vc-wV4" secondAttribute="centerX" id="m2Q-i1-kSV"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="ry9-iF-0mD" secondAttribute="trailing" constant="40" id="nBE-lZ-AAJ"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="VJ9-2q-zrw" secondAttribute="trailing" constant="40" id="r5W-q6-7wr"/>
+                                    <constraint firstItem="AMZ-uh-Pve" firstAttribute="centerX" secondItem="OkM-Vc-wV4" secondAttribute="centerX" id="mGZ-au-dfZ"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="ry9-iF-0mD" secondAttribute="trailing" priority="750" constant="40" id="nBE-lZ-AAJ"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="VJ9-2q-zrw" secondAttribute="trailing" priority="750" constant="40" id="r5W-q6-7wr"/>
                                     <constraint firstAttribute="bottom" secondItem="f1l-xq-F7w" secondAttribute="bottom" constant="20" id="tKY-Eb-pb7"/>
                                     <constraint firstItem="f1l-xq-F7w" firstAttribute="top" secondItem="Sq4-Yb-buU" secondAttribute="bottom" constant="40" id="tqD-hK-lcF"/>
                                     <constraint firstItem="Sq4-Yb-buU" firstAttribute="centerX" secondItem="OkM-Vc-wV4" secondAttribute="centerX" id="vmK-rI-dkC"/>
-                                    <constraint firstItem="AMZ-uh-Pve" firstAttribute="leading" secondItem="OkM-Vc-wV4" secondAttribute="leadingMargin" constant="40" id="yOu-Ap-7vv"/>
+                                    <constraint firstItem="AMZ-uh-Pve" firstAttribute="leading" secondItem="OkM-Vc-wV4" secondAttribute="leadingMargin" priority="750" constant="40" id="yOu-Ap-7vv"/>
                                     <constraint firstItem="AMZ-uh-Pve" firstAttribute="top" secondItem="umd-fc-6co" secondAttribute="bottom" constant="30" id="zHX-ls-si9"/>
                                 </constraints>
                             </scrollView>

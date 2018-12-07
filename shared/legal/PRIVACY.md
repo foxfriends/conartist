@@ -1,9 +1,11 @@
+[security@conartist.app]: mailto:security@conartist.app
+
 # Privacy policy
 
 This policy (the "Privacy Policy") describes the information gathering practices of ConArtist, in
-the use of the ConArtist website and mobile application, and the services they provide (together the
-"Services"). By using the Services, you are consenting to the Privacy Policy and the collection of
-any personal information outlined herein.
+the use of the ConArtist website (our "Website") and mobile application (our "App"), and the
+services they provide (together the "Services"). By using the Services, you are consenting to the
+Privacy Policy and the collection of any personal information outlined herein.
 
 We may update the Privacy Policy from time to time and you are responsible for periodically
 reviewing the most current version of the Privacy Policy on our Website. Your continued use of the
@@ -70,10 +72,10 @@ are not in use.
 
 All users of the Services are provided the rights to access, correct, and request deletion of your
 personal information. All users may change any of their personal information at any time using the
-account settings, or by contacting us at by email at privacy@conartist.app.
+account settings, or by contacting us at by email at [security@conartist.app][].
 
 If you request, we will delete or anonymize your personal data so that it no longer identifies you.
-You may make this request by contacting us by email at privacy@conartist.app.
+You may make this request by contacting us by email at [security@conartist.app][].
 
 If you would like to request a full report of all your personal information that we have collected,
-you make make this request by contacting us by email at privacy@conartist.app.
+you make make this request by contacting us by email at [security@conartist.app][].

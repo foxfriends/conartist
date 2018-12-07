@@ -1,4 +1,3 @@
-extern crate toml;
 use std::collections::{BTreeMap, BTreeSet};
 use std::{fs, io};
 

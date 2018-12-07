@@ -1,0 +1,14 @@
+[package]
+name = "import-conventions"
+version = "0.1.0"
+authors = ["Cameron Eldridge <cameldridge+git@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+toml = "0.4"
+serde = "1.0"
+serde_json = "1.0"
+serde_derive = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
+diesel = { version = "1.3", features = ["postgres", "chrono", "serde_json"] }
+dotenv = "0.13"

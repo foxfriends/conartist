@@ -3,6 +3,7 @@ import * as React from 'react'
 import { model } from '../model'
 import DefaultMap from '../util/default-map'
 import { newlinesToReact } from '../util/newlines-to-react'
+import { Storage } from '../storage'
 import en from './lang/en.toml' // include this one statically since it is the most common
 const zh = () => import(/* webpackChunkName: 'lang-zh' */ './lang/zh.toml')
 
@@ -11,15 +12,20 @@ const { Fragment } = React
 const languages = new class LanguageMap {
   constructor() {
     this.languages = new DefaultMap([['en', en], ['zh', zh]], {})
+    this.storedDefault = Storage.retrieve(Storage.Localization) || en // most likely language to be needed on page load
   }
 
   get(locale: string): { [string]: string | { web: string } } {
     const language = this.languages.get(locale)
     if (typeof language === 'function') {
       language()
-        .then(language => this.languages.set(locale, language))
+        .then(language => {
+          this.languages.set(locale, language)
+          Storage.store(Storage.Localization, language)
+          this.storedDefault = language
+        })
         .then(() => model.next({ ...model.getValue() })) // HACK: refresh model to trigger a reload...
-      return en // show something while it loads at least
+      return this.storedDefault // show the previous language while it loads
     } else {
       return language
     }
@@ -40,6 +46,7 @@ function doLocalize(key: string, locale: string | string[]): ?string {
 
 export function localize(key: string, locale: ?(string | string[])): string {
   locale = locale || model.getValue().settings.language.split('-', 1)
+  Storage.store(Storage.Language, locale instanceof Array ? locale.join('-') : locale) // some locale caching
   return doLocalize(key, locale) || key
 }
 

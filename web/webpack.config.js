@@ -48,6 +48,7 @@ module.exports = env => {
       rules: [
         { test: /\.md$/, loader: 'html-loader!markdown-loader?smartypants=true' },
         { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
+        { test: /\.(woff2?)$/, loader: 'file-loader?name=fonts/[hash].[ext]' },
         { test: /\.(png|svg|gif|jpe?g)$/, loader: 'file-loader?name=images/[hash].[ext]!img-loader' },
         {
           test: /\.css$/,

@@ -2,14 +2,21 @@
 
 type StorageScheme = {
   Auth: string,
+  Language: string,
+  Localization: { [string]: string | { web: string } },
 }
 
 type StorageKey = $Keys<StorageScheme>
 
 export const Storage = new class Storage {
   Auth: *
+  Localization: *
+  Language: *
+
   constructor() {
     this.Auth = 'Auth'
+    this.Localization = 'Localization'
+    this.Language = 'Language'
   }
 
   store<K: StorageKey>(key: K, value: $ElementType<StorageScheme, K>) {

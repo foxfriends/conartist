@@ -44,7 +44,7 @@ export const defaultModel: Model = {
   dialog: null,
   suggestions: empty(),
   settings: {
-    language: 'en',
+    language: Storage.retrieve(Storage.Language) || 'en-ca',
     currency: 'CAD',
   },
 }

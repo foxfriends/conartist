@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'FZHei-B01S';
+    src: local('FZHei-B01S'), local('FZHTJW--GB1-0'),
+        url('./subset-FZHTJW--GB1-0.woff2') format('woff2'),
+        url('./subset-FZHTJW--GB1-0.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    unicode-range: U+4E00-9FFF,U+3400-4DBF;
+}

@@ -146,12 +146,18 @@ Language = "Language"
 "Language & Location" = "Language & Location"
 "Language changed successfully" = "Language changed successfully"
 Name = "Name"
-"Report a bug/Request a feature" = "Report a bug/Request a feature"
+"Report a bug/Request a feature" = "Make a Suggestion"
 Settings = "Settings"
 Support = "Support"
 "Privacy Policy" = "Privacy Policy"
 "Terms of Service" = "Terms of Service"
 Version = { ios = "Version: {light:{}}", web = "Version" }
+"Contact Support" = "Contact Support"
+"<Support description>" = """
+Feel free to contact support for any reason! This can include requests for conventions to be added, issues with the app you need to discuss personally, or if you just have a question about how something works.
+
+If you have just making general feature request, you can use the "Make a Suggestion" feature instead to gather support from other users.
+"""
 
 # Change name
 "Change Name" = "Change Name"
@@ -258,6 +264,8 @@ Suggestions = "Suggestions"
 "There are no suggestions yet. Feel free to make a request!" = "There are no suggestions yet. Feel free to make a request!"
 "Use lots of details. Make sure we know what you want!" = "Use lots of details. Make sure we know what you want!"
 "<Suggestion disclaimer>" = """
+Suggestions are to provide feedback about the ConArtist platform. If you want to request a convention to be added, there is a separate link to do this on the Settings page.
+
 Your name may be shared with other artists when you make a suggestion. Please respect that people of all ages can read this information. Any offensive text may be removed without notice.
 
 Once submitted, you cannot edit what you wrote, so make sure it describes what you want in enough detail!

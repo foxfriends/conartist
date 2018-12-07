@@ -7,7 +7,7 @@ import { Button } from '../../common/button'
 import { Row } from './row'
 import { l } from '../../localization'
 import * as update from '../../update/settings'
-import S from './account-settings.css'
+import S from './settings.css'
 
 export type Props = {
   email: string,

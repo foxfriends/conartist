@@ -5,6 +5,7 @@ export const LocalStorage = {
 
 export const APIURL = process.env.API_URL
 export const GraphQLURL = process.env.GRAPHQL_URL
+export const SUPPORT_EMAIL = process.env.SUPPORT_EMAIL
 
 export const EMAIL_FORMAT = /^[^@]+@[^@]+\.[^@]+$/
 

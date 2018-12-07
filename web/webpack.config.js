@@ -15,6 +15,7 @@ module.exports = env => {
         'process.env.NODE_ENV': JSON.stringify('production'), // for react
         'process.env.API_URL': JSON.stringify('https://api.conartist.app'),
         'process.env.GRAPHQL_URL': JSON.stringify('https://graph.conartist.app'),
+        'process.env.SUPPORT_EMAIL': JSON.stringify('support@conartist.app'),
       }));
       break;
     case STAGING:
@@ -22,12 +23,14 @@ module.exports = env => {
         'process.env.NODE_ENV': JSON.stringify('production'), // for react
         'process.env.API_URL': JSON.stringify('https://api.staging.conartist.app'),
         'process.env.GRAPHQL_URL': JSON.stringify('https://graph.staging.conartist.app'),
+        'process.env.SUPPORT_EMAIL': JSON.stringify('support@staging.conartist.app'),
       }));
       break;
     default:
       plugins.push(new webpack.DefinePlugin({
         'process.env.API_URL': JSON.stringify('/api'),
         'process.env.GRAPHQL_URL': JSON.stringify('/api/v2'),
+        'process.env.SUPPORT_EMAIL': JSON.stringify('support@staging.conartist.app'),
       }));
       break;
   }

@@ -1,0 +1,19 @@
+.signOutButton {
+  height: 32px;
+  margin-left: auto;
+}
+
+.caps {
+  font-variant-caps: all-small-caps;
+}
+
+.value {
+  text-align: left;
+  color: var(--color--text-placeholder);
+}
+
+.description {
+  padding: 0 20px;
+  color: var(--color--text-placeholder);
+  font-size: 10pt;
+}

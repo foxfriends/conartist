@@ -37,7 +37,7 @@ module.exports = env => {
 
   return {
     mode: env === PROD || env === STAGING ? 'production' : 'development',
-    entry: './index.js',
+    entry: './src/index.js',
     output: {
       path: env === STAGING ? path.resolve('./', 'public_html', 'staging', 'static') : path.resolve('.', 'public_html', 'static'),
       publicPath: 'static/',

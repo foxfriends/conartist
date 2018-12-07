@@ -1,10 +1,10 @@
 /* @flow */
 import * as React from 'react'
 import * as ReactDom from 'react-dom'
-import { ConArtist } from './src/con-artist'
-import { to as navigateTo } from './src/update/navigate'
-import { resolveRoute } from './src/routing'
-import './src/styles/global.css'
+import { ConArtist } from './con-artist'
+import { to as navigateTo } from './update/navigate'
+import { resolveRoute } from './routing'
+import './styles/global.css'
 
 const root = document.querySelector('#root')
 

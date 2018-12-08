@@ -1,0 +1,16 @@
+title = "Toronto Comicon"
+start_date = 2019-03-15
+end_date = 2019-03-17
+
+[website]
+title = "www.comicontoronto.com"
+url = "https://www.comicontoronto.com/"
+
+[address]
+address = "Metro Toronto Convention Centre\nToronto, ON, Canada\nM5V 2W6"
+city = "Toronto, ON"
+
+[address.coordinates]
+lat = 43.643776
+lon = -79.386986
+

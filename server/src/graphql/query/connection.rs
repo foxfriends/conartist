@@ -1,28 +1,28 @@
-pub trait Connectable {
-    fn cursor(&self) -> String;
-}
-
-pub struct Connection<T: Connectable> {
+pub struct Connection<T> {
     pub nodes: Vec<T>,
+    pub offset: i64,
     pub total: i64,
 }
 
-pub struct Edge<T: Connectable> {
+pub struct Edge<T, C> {
     pub node: T,
+    pub cursor: C,
 }
 
-impl<T: Connectable> Edge<T> {
-    pub fn new(node: T) -> Self {
+impl<T, C> Edge<T, C> {
+    pub fn new(node: T, cursor: C) -> Self {
         Self {
             node,
+            cursor,
         }
     }
 }
 
-impl<T: Connectable> Connection<T> {
-    pub fn new(nodes: Vec<T>, total: i64) -> Self {
+impl<T> Connection<T> {
+    pub fn new(nodes: Vec<T>, offset: i64, total: i64) -> Self {
         Self {
             nodes,
+            offset,
             total,
         }
     }

@@ -1,0 +1,16 @@
+title = "YetiCon"
+start_date = 2019-06-14
+end_date = 2019-06-16
+
+[website]
+title = "www.yeticon.org"
+url = "https://www.yeticon.org/"
+
+[address]
+address = "Blue Mountain Resort\nThe Blue Mountains, ON, Canada\nL9Y 3Z2"
+city = "The Blue Mountains, ON"
+
+[address.coordinates]
+lat = 44.50365
+lon = -80.311226
+

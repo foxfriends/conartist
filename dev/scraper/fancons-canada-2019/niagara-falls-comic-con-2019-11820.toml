@@ -1,0 +1,16 @@
+title = "Niagara Falls Comic Con"
+start_date = 2019-06-07
+end_date = 2019-06-09
+
+[website]
+title = "nfcomiccon.com"
+url = "http://nfcomiccon.com/"
+
+[address]
+address = "Scotiabank Convention Centre\nNiagara Falls, ON, Canada\nL2G 3Y9"
+city = "Niagara Falls, ON"
+
+[address.coordinates]
+lat = 43.07572
+lon = -79.08493
+

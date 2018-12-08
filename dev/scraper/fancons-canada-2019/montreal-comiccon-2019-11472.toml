@@ -1,0 +1,16 @@
+title = "Montreal Comiccon"
+start_date = 2019-07-05
+end_date = 2019-07-07
+
+[website]
+title = "www.montrealcomiccon.com"
+url = "https://www.montrealcomiccon.com/"
+
+[address]
+address = "Palais des congr&egrave;s de Montr&eacute;al\nMontreal, QC, Canada\nH2Z 1H5"
+city = "Montreal, QC"
+
+[address.coordinates]
+lat = 45.50493
+lon = -73.56002
+

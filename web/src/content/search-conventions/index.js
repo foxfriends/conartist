@@ -8,7 +8,7 @@ import { ConventionCard } from '../conventions/convention-card'
 import { AutoCardView as CardView } from '../card-view/auto'
 import { Card } from '../card-view/card'
 import { l } from '../../localization'
-import { empty, extend } from '../../model/connection'
+import { empty, extend, isFull, isEmpty } from '../../model/connection'
 import type { Convention } from '../../model/convention'
 import type { Connection } from '../../model/connection'
 import S from './index.css'
@@ -20,6 +20,7 @@ export type Props = {
 
 type State = {
   conventions: Connection<Convention>,
+  loading: boolean,
 }
 
 export class SearchConventions extends React.Component<Props, State> {
@@ -30,6 +31,7 @@ export class SearchConventions extends React.Component<Props, State> {
 
     this.state = {
       conventions: empty(),
+      loading: false,
     }
 
     this.conventionsConnection = new ConventionsConnection()
@@ -47,20 +49,24 @@ export class SearchConventions extends React.Component<Props, State> {
 
   loadConventions(fresh: boolean = false) {
     const { search } = this.props
-    this.conventionsConnection.send({ search, after: fresh ? null : this.state.conventions.endCursor })
-      .pipe(
-        filter(({ state }) => state === 'retrieved'),
-        pluck('value'),
-        map(extension => fresh ? extension : extend(this.state.conventions, extension)),
-      )
-      .subscribe(conventions => this.setState({ conventions }))
+    const { conventions } = this.state
+    if (fresh || !isFull(conventions)) {
+      this.setState({ loading: true })
+      this.conventionsConnection.send({ search, after: fresh ? null : conventions.endCursor })
+        .pipe(
+          filter(({ state }) => state === 'retrieved'),
+          pluck('value'),
+          map(extension => fresh ? extension : extend(conventions, extension)),
+        )
+        .subscribe(conventions => this.setState({ conventions, loading: false }))
+    }
   }
 
   render() {
     const { search } = this.props
-    const { conventions: { nodes: conventions } } = this.state
+    const { conventions, loading } = this.state
     return (
-      <CardView dataSource={conventions}>
+      <CardView dataSource={conventions.nodes} loadMore={(!loading && !isFull(conventions) && !isEmpty(conventions)) ? (() => this.loadConventions()) : null}>
         <Card className={S.emptyState}>
           <div className={S.placeholder}>
             {search
@@ -70,6 +76,7 @@ export class SearchConventions extends React.Component<Props, State> {
           </div>
         </Card>
         { convention => <ConventionCard showDetails starrable convention={convention} key={`convention_${convention.id}`}/> }
+        { loading ? <Card className={S.loadMore}>{l`Loading...`}</Card> : null }
       </CardView>
     )
   }

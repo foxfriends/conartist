@@ -10,7 +10,7 @@ use super::views::*;
 // TODO: handle errors more properly, returning Result<_, Error> instead of String
 //       also update the dbtry! macro to resolve that problem correctly
 impl Database {
-    pub fn get_suggestions(&self, status: Option<SuggestionStatus>, limit: i64, after: Option<String>) -> Result<Vec<ScoredSuggestion>, String> {
+    pub fn get_suggestions(&self, status: Option<SuggestionStatus>, limit: i64, after: Option<&String>) -> Result<Vec<ScoredSuggestion>, String> {
         let conn = self.pool.get().unwrap();
         if let Some(status) = status {
             scoredsuggestions::table

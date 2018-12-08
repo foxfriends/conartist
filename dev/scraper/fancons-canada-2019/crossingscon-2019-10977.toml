@@ -1,0 +1,16 @@
+title = "CrossingsCon"
+start_date = 2019-06-21
+end_date = 2019-06-23
+
+[website]
+title = "www.crossingscon.org"
+url = "https://www.crossingscon.org/"
+
+[address]
+address = "Hyatt Regency Montreal\nMontreal, QC, Canada\nH5B 1E5"
+city = "Montreal, QC"
+
+[address.coordinates]
+lat = 45.507275
+lon = -73.565445
+

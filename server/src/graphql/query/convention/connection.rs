@@ -1,19 +1,13 @@
 use juniper::graphql_object;
-use super::super::connection::{Connectable, Connection, Edge};
+use super::super::connection::{Connection, Edge};
 use crate::database::Database;
 use crate::database::models::*;
-
-impl Connectable for Convention {
-    fn cursor(&self) -> String {
-        return self.con_id.to_string()
-    }
-}
 
 graphql_object!(Connection<Convention>: Database as "ConventionsConnection" |&self| {
     description: "A series of conventions"
 
-    field edges() -> Vec<Edge<Convention>> {
-        self.nodes.iter().cloned().map(Edge::new).collect()
+    field edges() -> Vec<Edge<Convention, i64>> {
+        self.nodes.iter().cloned().enumerate().map(|(i, n)| Edge::new(n, i as i64 + self.offset)).collect()
     }
 
     field nodes() -> &Vec<Convention> {
@@ -21,11 +15,11 @@ graphql_object!(Connection<Convention>: Database as "ConventionsConnection" |&se
     }
 
     field start_cursor() -> Option<String> {
-        self.nodes.first().map(Connectable::cursor)
+        Some(self.offset.to_string())
     }
 
     field end_cursor() -> Option<String> {
-        self.nodes.last().map(Connectable::cursor)
+        Some((self.offset + self.nodes.len() as i64).to_string())
     }
 
     field total_nodes() -> i32 {
@@ -33,7 +27,7 @@ graphql_object!(Connection<Convention>: Database as "ConventionsConnection" |&se
     }
 });
 
-graphql_object!(Edge<Convention>: Database as "ConventionsConnectionEdge" |&self| {
+graphql_object!(Edge<Convention, i64>: Database as "ConventionsConnectionEdge" |&self| {
     description: "An edge in the conventions connection"
 
     field node() -> &Convention {
@@ -41,6 +35,6 @@ graphql_object!(Edge<Convention>: Database as "ConventionsConnectionEdge" |&self
     }
 
     field cursor() -> String {
-        self.node.cursor()
+        self.cursor.to_string()
     }
 });

@@ -1,0 +1,16 @@
+title = "Red Deer Mini Con"
+start_date = 2019-10-25
+end_date = 2019-10-26
+
+[website]
+title = "www.reddeerminicon.ca"
+url = "https://www.reddeerminicon.ca/"
+
+[address]
+address = "Baymont by Wyndham Red Deer\nRed Deer, AB, Canada\nT4N 5Y7"
+city = "Red Deer, AB"
+
+[address.coordinates]
+lat = 52.26227
+lon = -113.810646
+

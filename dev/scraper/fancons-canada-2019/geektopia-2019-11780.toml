@@ -1,0 +1,16 @@
+title = "Geektopia"
+start_date = 2019-07-06
+end_date = 2019-07-06
+
+[website]
+title = "www.geektopia.ca"
+url = "https://www.geektopia.ca/"
+
+[address]
+address = "Harbour Event Centre\nVancouver, BC, Canada\nV6Z 2R8"
+city = "Vancouver, BC"
+
+[address.coordinates]
+lat = 49.275642
+lon = -123.1099
+

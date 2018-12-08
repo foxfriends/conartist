@@ -1,0 +1,16 @@
+title = "Anirevo Summer"
+start_date = 2019-08-09
+end_date = 2019-08-11
+
+[website]
+title = "summer.animerevolution.ca"
+url = "https://summer.animerevolution.ca/"
+
+[address]
+address = "Vancouver Convention Centre\nVancouver, BC, Canada\nV6C 0C3"
+city = "Vancouver, BC"
+
+[address.coordinates]
+lat = 49.28911
+lon = -123.11606
+

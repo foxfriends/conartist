@@ -1,49 +1,14 @@
 #[macro_use] extern crate diesel;
 
-use serde_derive::Deserialize;
 use chrono::{NaiveDate, DateTime, FixedOffset};
 use std::{fs, io, env};
 use serde_json::json;
 use diesel::{prelude::*, pg::PgConnection};
 
 mod schema;
+mod model;
+use crate::model::*;
 use crate::schema::{conventions, conventionextrainfo};
-
-#[derive(Deserialize, Debug)]
-struct Hours {
-    pub start: toml::value::Datetime,
-    pub end: toml::value::Datetime,
-}
-
-#[derive(Deserialize, Debug)]
-struct Website {
-    pub title: String,
-    pub url: String,
-}
-
-#[derive(Deserialize, Debug)]
-struct Coordinates {
-    pub lat: f32,
-    pub lon: f32,
-}
-
-#[derive(Deserialize, Debug)]
-struct Address {
-    pub address: String,
-    pub city: String,
-    pub coordinates: Coordinates,
-}
-
-#[derive(Deserialize, Debug)]
-struct Convention {
-    pub title: String,
-    pub start_date: toml::value::Datetime,
-    pub end_date: toml::value::Datetime,
-    pub predecessor: Option<i32>,
-    pub hours: Vec<Hours>,
-    pub website: Website,
-    pub address: Address,
-}
 
 fn main() -> io::Result<()> {
     dotenv::dotenv().unwrap();
@@ -90,21 +55,23 @@ fn main() -> io::Result<()> {
                         conventionextrainfo::action.eq(&convention.website.url),
                     ))
                     .execute(&connection)?;
-                let hours_json = json!(
-                    convention.hours
-                        .iter()
-                        .map(|Hours { start, end }|
-                            vec![start.to_string(), end.to_string()]
-                        )
-                        .collect::<Vec<_>>()
+                if let Some(ref hours) = convention.hours {
+                    let hours_json = json!(
+                        hours
+                            .iter()
+                            .map(|Hours { start, end }|
+                                vec![start.to_string(), end.to_string()]
+                            )
+                            .collect::<Vec<_>>()
                     );
-                diesel::insert_into(conventionextrainfo::table)
-                    .values((
-                        conventionextrainfo::con_id.eq(id),
-                        conventionextrainfo::title.eq("Hours"),
-                        conventionextrainfo::info.eq(hours_json),
-                    ))
-                    .execute(&connection)?;
+                    diesel::insert_into(conventionextrainfo::table)
+                        .values((
+                            conventionextrainfo::con_id.eq(id),
+                            conventionextrainfo::title.eq("Hours"),
+                            conventionextrainfo::info.eq(hours_json),
+                        ))
+                        .execute(&connection)?;
+                }
                 Ok(())
             })
             .map_err(|reason| format!("Failed when attempting to add convention {:?}: {}", convention, reason))

@@ -1,0 +1,16 @@
+title = "Cornwall & Area Pop Event"
+start_date = 2019-04-27
+end_date = 2019-04-28
+
+[website]
+title = "www.cornwallpopevent.com"
+url = "http://www.cornwallpopevent.com/"
+
+[address]
+address = "Benson Centre\nCornwall, ON, Canada\nK6J 0A3"
+city = "Cornwall, ON"
+
+[address.coordinates]
+lat = 45.016888
+lon = -74.75074
+

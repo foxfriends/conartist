@@ -1,0 +1,14 @@
+[package]
+name = "scraper"
+version = "0.1.0"
+authors = ["Cameron Eldridge <cameldridge+git@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+toml = "0.4"
+serde = "1.0"
+serde_derive = "1.0"
+lazy_static = "1.2"
+reqwest = "0.9"
+scraper = "0.9"
+regex = "1.1"

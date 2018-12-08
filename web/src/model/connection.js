@@ -13,6 +13,14 @@ export function empty<T>(): Connection<T> {
   }
 }
 
+export function isFull<T>(connection: Connection<T>) {
+  return connection.nodes.length >= connection.totalNodes && !isEmpty(connection)
+}
+
+export function isEmpty<T>(connection: Connection<T>) {
+  return connection.nodes.length === 0 || connection.totalNodes === 0
+}
+
 export function extend<T>(old: Connection<T>, extension: Connection<T>): Connection<T> {
   return {
     nodes: [...old.nodes, ...extension.nodes],

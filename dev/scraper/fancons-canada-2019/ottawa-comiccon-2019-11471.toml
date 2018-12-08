@@ -1,0 +1,16 @@
+title = "Ottawa Comiccon"
+start_date = 2019-05-10
+end_date = 2019-05-12
+
+[website]
+title = "www.ottawacomiccon.com"
+url = "http://www.ottawacomiccon.com/"
+
+[address]
+address = "EY Centre\nOttawa, ON, Canada\nK1V 2N6"
+city = "Ottawa, ON"
+
+[address.coordinates]
+lat = 45.332138
+lon = -75.654175
+

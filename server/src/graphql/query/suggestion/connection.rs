@@ -1,20 +1,14 @@
 use juniper::graphql_object;
 
-use super::super::connection::{Connectable, Connection, Edge};
+use super::super::connection::{Connection, Edge};
 use crate::database::Database;
 use crate::database::models::*;
-
-impl Connectable for ScoredSuggestion {
-    fn cursor(&self) -> String {
-        return self.suggestion_id.to_string()
-    }
-}
 
 graphql_object!(Connection<ScoredSuggestion>: Database as "SuggestionsConnection" |&self| {
     description: "A series of suggestions"
 
-    field edges() -> Vec<Edge<ScoredSuggestion>> {
-        self.nodes.iter().cloned().map(Edge::new).collect()
+    field edges() -> Vec<Edge<ScoredSuggestion, i64>> {
+        self.nodes.iter().cloned().enumerate().map(|(i, n)| Edge::new(n, i as i64 + self.offset)).collect()
     }
 
     field nodes() -> &Vec<ScoredSuggestion> {
@@ -22,11 +16,11 @@ graphql_object!(Connection<ScoredSuggestion>: Database as "SuggestionsConnection
     }
 
     field start_cursor() -> Option<String> {
-        self.nodes.first().map(Connectable::cursor)
+        Some(self.offset.to_string())
     }
 
     field end_cursor() -> Option<String> {
-        self.nodes.last().map(Connectable::cursor)
+        Some((self.offset + self.nodes.len() as i64).to_string())
     }
 
     field total_nodes() -> i32 {
@@ -34,7 +28,7 @@ graphql_object!(Connection<ScoredSuggestion>: Database as "SuggestionsConnection
     }
 });
 
-graphql_object!(Edge<ScoredSuggestion>: Database as "SuggestionsConnectionEdge" |&self| {
+graphql_object!(Edge<ScoredSuggestion, i64>: Database as "SuggestionsConnectionEdge" |&self| {
     description: "An edge in the suggestions connection"
 
     field node() -> &ScoredSuggestion {
@@ -42,6 +36,6 @@ graphql_object!(Edge<ScoredSuggestion>: Database as "SuggestionsConnectionEdge" 
     }
 
     field cursor() -> String {
-        self.node.cursor()
+        self.cursor.to_string()
     }
 });

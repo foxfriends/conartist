@@ -1,0 +1,16 @@
+title = "Island Entertainment Expo"
+start_date = 2019-03-30
+end_date = 2019-03-31
+
+[website]
+title = "islandexpo.ca"
+url = "http://islandexpo.ca/"
+
+[address]
+address = "Prince Edward Island Convention Centre\nCharlottetown, PE, Canada\nC1A 4A2"
+city = "Charlottetown, PE"
+
+[address.coordinates]
+lat = 46.230927
+lon = -63.122826
+

@@ -1,0 +1,16 @@
+title = "VancouFur"
+start_date = 2019-03-07
+end_date = 2019-03-10
+
+[website]
+title = "vancoufur.org"
+url = "https://vancoufur.org/"
+
+[address]
+address = "Sheraton Vancouver Airport Hotel\nRichmond, BC, Canada\nV6X 1A3"
+city = "Richmond, BC"
+
+[address.coordinates]
+lat = 49.17105
+lon = -123.141594
+

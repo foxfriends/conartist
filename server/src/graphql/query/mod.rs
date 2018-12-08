@@ -58,7 +58,7 @@ graphql_object!(Query: Database |&self| {
                     search.as_ref(),
                     earliest_date,
                     limit as i64,
-                    after,
+                    after.as_ref(),
                 )
         }?;
 
@@ -69,7 +69,7 @@ graphql_object!(Query: Database |&self| {
                 earliest_date,
             );
 
-        Ok(Connection::new(conventions, total))
+        Ok(Connection::new(conventions, after.and_then(|s| s.parse().ok()).unwrap_or(0), total))
     }
 
     field suggestions_connection(
@@ -87,11 +87,11 @@ graphql_object!(Query: Database |&self| {
                 .get_suggestions(
                     None,
                     limit as i64,
-                    after,
+                    after.as_ref(),
                 )
         }?;
         let total = executor.context().count_suggestions(None);
 
-        Ok(Connection::new(suggestions, total))
+        Ok(Connection::new(suggestions, after.and_then(|s| s.parse().ok()).unwrap_or(0), total))
     }
 });

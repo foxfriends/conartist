@@ -1,0 +1,16 @@
+title = "Animaritime"
+start_date = 2019-06-28
+end_date = 2019-06-30
+
+[website]
+title = "animaritime.weebly.com"
+url = "https://animaritime.weebly.com/"
+
+[address]
+address = "Fredericton Convention Centre\nFredericton, NB, Canada\nE3B 1C2"
+city = "Fredericton, NB"
+
+[address.coordinates]
+lat = 45.96029
+lon = -66.63869
+

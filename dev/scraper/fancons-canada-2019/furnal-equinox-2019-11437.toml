@@ -1,0 +1,16 @@
+title = "Furnal Equinox"
+start_date = 2019-03-15
+end_date = 2019-03-17
+
+[website]
+title = "www.furnalequinox.com"
+url = "https://www.furnalequinox.com/"
+
+[address]
+address = "The Westin Harbour Castle Conference Centre\nToronto, ON, Canada\nM5J 1A6"
+city = "Toronto, ON"
+
+[address.coordinates]
+lat = 43.641766
+lon = -79.37675
+

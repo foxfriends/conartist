@@ -1,0 +1,16 @@
+title = "Brampton ComiCon"
+start_date = 2019-06-16
+end_date = 2019-06-16
+
+[website]
+title = "www.popculturecanada.ca"
+url = "http://www.popculturecanada.ca/"
+
+[address]
+address = "Century Gardens Recreation Centre\nBrampton, ON, Canada\nL6V 2N2"
+city = "Brampton, ON"
+
+[address.coordinates]
+lat = 43.70836
+lon = -79.75413
+

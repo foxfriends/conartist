@@ -1,0 +1,16 @@
+title = "Animini"
+start_date = 2019-01-12
+end_date = 2019-01-13
+
+[website]
+title = "animini.ca"
+url = "https://animini.ca/"
+
+[address]
+address = "Fantasyland Hotel\nEdmonton, AB, Canada\nT5T 4V4"
+city = "Edmonton, AB"
+
+[address.coordinates]
+lat = 53.522278
+lon = -113.62811
+

@@ -20,7 +20,7 @@ impl Database {
             .map_err(|reason| format!("Convention with id {} could not be retrieved. Reason: {}", con_id, reason))
     }
 
-    pub fn get_conventions_after<S: AsRef<str>>(&self, search: Option<S>, date: NaiveDate, limit: i64, after: Option<String>) -> Result<Vec<Convention>, String> {
+    pub fn get_conventions_after<S: AsRef<str>>(&self, search: Option<S>, date: NaiveDate, limit: i64, after: Option<&String>) -> Result<Vec<Convention>, String> {
         let conn = self.pool.get().unwrap();
         if let Some(search) = search {
             let query = format!("%{}%", search.as_ref());

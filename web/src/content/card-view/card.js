@@ -12,6 +12,7 @@ export type Props<E: React.ElementType> = {
   defaultCollapsed?: boolean,
   bottomAction?: ?Action,
   className?: string,
+  onClick?: () => void,
   collapsible?: boolean | () => void,
   style?: { [string]: string | number },
   children: React.Element<E> | [React.Node, React.Element<E>] | [React.Node, React.Element<E>, React.Node],
@@ -41,14 +42,14 @@ export class Card<E: React.ElementType> extends React.Component<Props<E>, State>
   }
 
   render() {
-    const { children, collapsible, topAction, bottomAction, id, className, style, innerRef } = this.props
+    const { children, collapsible, topAction, bottomAction, id, className, style, innerRef, onClick } = this.props
     const { collapsed } = this.state
     const isCollapsed = collapsed && collapsible
     const [header, content, footer] = children instanceof Array
       ? [...children]
       : [, children, ]
     return (
-      <div className={`${S.card} ${className || ''}`} id={id || ''} style={style || {}} ref={innerRef}>
+      <div className={`${S.card} ${className || ''}`} id={id || ''} style={style || {}} ref={innerRef} onClick={onClick || null}>
         { header
             ? <div className={S.header}>
                 { header }

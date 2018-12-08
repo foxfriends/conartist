@@ -1,0 +1,16 @@
+title = "Peterborough ComiCon"
+start_date = 2019-09-22
+end_date = 2019-09-22
+
+[website]
+title = "www.popculturecanada.ca"
+url = "http://www.popculturecanada.ca/"
+
+[address]
+address = "Evinrude Centre\nPeterborough, ON, Canada\nK9J 5K5"
+city = "Peterborough, ON"
+
+[address.coordinates]
+lat = 44.287262
+lon = -78.33247
+

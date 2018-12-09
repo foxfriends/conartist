@@ -8,16 +8,10 @@
 
 import UIKit
 
-class SettingsActionTableViewCell: UITableViewCell {
+class SettingsActionTableViewCell: ConArtistTableViewCell {
     static let ID = "SettingsActionCell"
     @IBOutlet weak var titleLabel: UILabel!
-
-    override var isHighlighted: Bool {
-        didSet {
-            backgroundColor = isHighlighted ? .dividerDark : nil
-        }
-    }
-
+    
     func setup(title: String) {
         titleLabel.text = title
     }

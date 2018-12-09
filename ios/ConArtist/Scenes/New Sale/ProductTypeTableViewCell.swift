@@ -8,17 +8,11 @@
 
 import UIKit
 
-class ProductTypeTableViewCell: UITableViewCell {
+class ProductTypeTableViewCell: ConArtistTableViewCell {
     static let ID = "ProductTypeCell"
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var quantityLabel: UILabel!
     @IBOutlet weak var quantityView: UIView!
-
-    override var isHighlighted: Bool {
-        didSet {
-            backgroundColor = isHighlighted ? .dividerDark : nil
-        }
-    }
 
     func fill(with type: ProductType, selected: [Product]) {
         nameLabel.text = type.name

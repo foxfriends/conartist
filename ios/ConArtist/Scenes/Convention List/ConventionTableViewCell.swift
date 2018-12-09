@@ -19,19 +19,13 @@ extension ConventionListViewController.Section {
     }
 }
 
-class ConventionTableViewCell: UITableViewCell {
+class ConventionTableViewCell: ConArtistTableViewCell {
     @IBOutlet weak var dateLabel: UILabel?
     @IBOutlet weak var titleLabel: UILabel?
     @IBOutlet weak var moneyLabel: UILabel?
     @IBOutlet weak var locationLabel: UILabel?
     @IBOutlet weak var timeLabel: UILabel?
     @IBOutlet weak var cardView: UIView?
-
-    override var isHighlighted: Bool {
-        didSet {
-            backgroundColor = isHighlighted ? .dividerDark : nil
-        }
-    }
 
     func fill(with item: Convention) {
         titleLabel?.text = item.name

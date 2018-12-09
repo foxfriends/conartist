@@ -8,18 +8,12 @@
 
 import UIKit
 
-class ProductTableViewCell: UITableViewCell {
+class ProductTableViewCell: ConArtistTableViewCell {
     static let ID = "ProductCell"
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var countView: UIView!
     @IBOutlet weak var countLabel: UILabel!
     @IBOutlet weak var inventoryLabel: UILabel!
-
-    override var isHighlighted: Bool {
-        didSet {
-            backgroundColor = isHighlighted ? .dividerDark : nil
-        }
-    }
 
     func setup(with product: Product, records: [Record], count: Int) {
         nameLabel.text = product.name

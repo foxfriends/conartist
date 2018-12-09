@@ -8,18 +8,12 @@
 
 import UIKit
 
-class RecordTableViewCell: UITableViewCell {
+class RecordTableViewCell: ConArtistTableViewCell {
     static let ID = "RecordCell"
     @IBOutlet weak var productsListLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var modifiedMarkView: UIView!
-
-    override var isHighlighted: Bool {
-        didSet {
-            backgroundColor = isHighlighted ? .dividerDark : nil
-        }
-    }
 
     func setup(for item: Record, with products: [Product]) {
         DispatchQueue.main.async {

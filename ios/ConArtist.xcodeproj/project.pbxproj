@@ -28,6 +28,7 @@
 		322C6A0F204CC8B40021A2D9 /* String+Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322C6A0E204CC8B40021A2D9 /* String+Display.swift */; };
 		322C6A13204E1D070021A2D9 /* ConventionUserInfoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322C6A12204E1D070021A2D9 /* ConventionUserInfoListViewController.swift */; };
 		322C6A15204E20570021A2D9 /* ConventionUserInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322C6A14204E20570021A2D9 /* ConventionUserInfoTableViewCell.swift */; };
+		3235AD7721BC9BE500F023E5 /* ConArtistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3235AD7621BC9BE500F023E5 /* ConArtistTableViewCell.swift */; };
 		324592951FEAFA6000DE89BB /* ConArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592941FEAFA6000DE89BB /* ConArtist.swift */; };
 		324592971FEAFEE000DE89BB /* ConRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592961FEAFEE000DE89BB /* ConRequest.swift */; };
 		3245929C1FEB19DA00DE89BB /* GraphQL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3245929B1FEB19DA00DE89BB /* GraphQL.swift */; };
@@ -192,6 +193,7 @@
 		322C6A0E204CC8B40021A2D9 /* String+Display.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Display.swift"; sourceTree = "<group>"; };
 		322C6A12204E1D070021A2D9 /* ConventionUserInfoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConventionUserInfoListViewController.swift; sourceTree = "<group>"; };
 		322C6A14204E20570021A2D9 /* ConventionUserInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConventionUserInfoTableViewCell.swift; sourceTree = "<group>"; };
+		3235AD7621BC9BE500F023E5 /* ConArtistTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConArtistTableViewCell.swift; sourceTree = "<group>"; };
 		324592941FEAFA6000DE89BB /* ConArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConArtist.swift; sourceTree = "<group>"; };
 		324592961FEAFEE000DE89BB /* ConRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConRequest.swift; sourceTree = "<group>"; };
 		3245929B1FEB19DA00DE89BB /* GraphQL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphQL.swift; sourceTree = "<group>"; };
@@ -542,6 +544,7 @@
 				32637A9E21909C30005E2F6C /* ConArtistViewController.swift */,
 				32CD6B0D21AF9B9200387349 /* LoadingTableViewCell.swift */,
 				32CD6B0F21AF9C0B00387349 /* EmptyStateTableViewCell.swift */,
+				3235AD7621BC9BE500F023E5 /* ConArtistTableViewCell.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1034,6 +1037,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				325EAB1F2052481200B1BE3E /* ExpenseTableViewCell.swift in Sources */,
+				3235AD7721BC9BE500F023E5 /* ConArtistTableViewCell.swift in Sources */,
 				322AFB41205763C0005E56C8 /* String+Escape.swift in Sources */,
 				32AE416B202554AD0061EB64 /* RecordListViewController.swift in Sources */,
 				32BC33E81FEEF2070006256A /* Expense.swift in Sources */,

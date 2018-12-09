@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ManageProductTypeTableViewCell: UITableViewCell {
+class ManageProductTypeTableViewCell: ConArtistTableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
 }
 

@@ -10,7 +10,7 @@ import UIKit
 import SVGKit
 import RxSwift
 
-class ConventionSearchTableViewCell: UITableViewCell {
+class ConventionSearchTableViewCell: ConArtistTableViewCell {
     static let ID = "ConventionSearchCell"
     @IBOutlet weak var starButton: UIButton!
     @IBOutlet weak var nameLabel: UILabel!

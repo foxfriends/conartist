@@ -8,15 +8,9 @@
 
 import UIKit
 
-class SettingsSelectOptionTableViewCell: UITableViewCell {
+class SettingsSelectOptionTableViewCell: ConArtistTableViewCell {
     static let ID = "SettingsSelectOptionCell"
     @IBOutlet weak var titleLabel: UILabel!
-
-    override var isHighlighted: Bool {
-        didSet {
-            backgroundColor = isHighlighted ? .dividerDark : nil
-        }
-    }
 
     func setup(title: String, selected: Bool) {
         titleLabel.text = title

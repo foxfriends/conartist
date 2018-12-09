@@ -144,6 +144,17 @@ extension ConventionSearchViewController: UITableViewDelegate {
         ConventionDetailsViewController.show(for: conventions.value.nodes[indexPath.row])
     }
 
+    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        guard indexPath.section == 1 else { return }
+        tableView.cellForRow(at: indexPath)?.isHighlighted = true
+    }
+
+    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        guard indexPath.section == 1 else { return }
+        tableView.cellForRow(at: indexPath)?.isHighlighted = false
+    }
+
+
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard indexPath.section == 2, reloadRequest == nil else { return }
         let filter = searchBarTextField.text ?? ""

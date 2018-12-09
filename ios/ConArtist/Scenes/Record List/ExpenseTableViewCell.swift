@@ -8,18 +8,12 @@
 
 import UIKit
 
-class ExpenseTableViewCell: UITableViewCell {
+class ExpenseTableViewCell: ConArtistTableViewCell {
     static let ID = "ExpenseCell"
 
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var amountLabel: UILabel!
     @IBOutlet weak var modifiedMarkView: UIView!
-
-    override var isHighlighted: Bool {
-        didSet {
-            backgroundColor = isHighlighted ? .dividerDark : nil
-        }
-    }
 
     func setup(for expense: Expense) {
         DispatchQueue.main.async {

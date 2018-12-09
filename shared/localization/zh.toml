@@ -242,3 +242,6 @@ View = "看→"
 Version = { ios = "版本: {light:{}}", web = "版本" }
 "Contact Support" = "联系支持"
 "<Support description>" = "TODO: translate"
+"Support Us on Ko-fi" = "在Ko-fi上支持我们"
+Contribute = "有助于"
+Donate = "捐款"

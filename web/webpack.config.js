@@ -16,6 +16,8 @@ module.exports = env => {
         'process.env.API_URL': JSON.stringify('https://api.conartist.app'),
         'process.env.GRAPHQL_URL': JSON.stringify('https://graph.conartist.app'),
         'process.env.SUPPORT_EMAIL': JSON.stringify('support@conartist.app'),
+        'process.env.DONATE_URL': JSON.stringify('https://ko-fi.com/oinkiguana'),
+        'process.env.REPOSITORY_URL': JSON.stringify('https://github.com/OinkIguana/conartist'),
       }));
       break;
     case STAGING:
@@ -24,6 +26,8 @@ module.exports = env => {
         'process.env.API_URL': JSON.stringify('https://api.staging.conartist.app'),
         'process.env.GRAPHQL_URL': JSON.stringify('https://graph.staging.conartist.app'),
         'process.env.SUPPORT_EMAIL': JSON.stringify('support@staging.conartist.app'),
+        'process.env.DONATE_URL': JSON.stringify('https://ko-fi.com/oinkiguana'),
+        'process.env.REPOSITORY_URL': JSON.stringify('https://github.com/OinkIguana/conartist'),
       }));
       break;
     default:
@@ -31,6 +35,8 @@ module.exports = env => {
         'process.env.API_URL': JSON.stringify('/api'),
         'process.env.GRAPHQL_URL': JSON.stringify('/api/v2'),
         'process.env.SUPPORT_EMAIL': JSON.stringify('support@staging.conartist.app'),
+        'process.env.DONATE_URL': JSON.stringify('https://ko-fi.com/oinkiguana'),
+        'process.env.REPOSITORY_URL': JSON.stringify('https://github.com/OinkIguana/conartist'),
       }));
       break;
   }

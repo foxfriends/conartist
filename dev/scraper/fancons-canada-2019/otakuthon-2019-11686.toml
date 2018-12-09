@@ -7,10 +7,9 @@ title = "www.otakuthon.com"
 url = "http://www.otakuthon.com/"
 
 [address]
-address = "Palais des congr&egrave;s de Montr&eacute;al\nMontr&eacute;al, QC, Canada\nH2Z 1H5"
-city = "Montr&eacute;al, QC"
+address = "Palais des congrès de Montréal\nMontréal, QC, Canada\nH2Z 1H5"
+city = "Montréal, QC"
 
 [address.coordinates]
 lat = 45.50485
 lon = -73.55996
-

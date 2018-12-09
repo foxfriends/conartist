@@ -7,10 +7,9 @@ title = "hiver.ganime.ca"
 url = "https://hiver.ganime.ca/"
 
 [address]
-address = "Palais des Congr&egrave;s de Gatineau\nGatineau, QC, Canada\nJ9J 0R6"
+address = "Palais des Congrès de Gatineau\nGatineau, QC, Canada\nJ9J 0R6"
 city = "Gatineau, QC"
 
 [address.coordinates]
 lat = 45.426685
 lon = -75.7151
-

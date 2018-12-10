@@ -15,7 +15,6 @@ export function Help() {
   return (
     <BasicCard title={l`Help`}>
       <Table>
-        <Row title={l`Report a bug/Request a feature`} detail={<Link onClick={navigate.suggestions} className={S.caps}>{l`View`}</Link>} />
         <Row title={l`Privacy Policy`} detail={<Link onClick={navigate.privacy} className={S.caps}>{l`View`}</Link>} />
         <Row title={l`Terms of Service`} detail={<Link onClick={navigate.terms} className={S.caps}>{l`View`}</Link>} />
         <Row title={l`Contact Support`} detail={<Link href={`mailto:${SUPPORT_EMAIL}`} className={S.caps}>{SUPPORT_EMAIL}</Link>} />

@@ -7,10 +7,9 @@ title = "rubikcon.ca"
 url = "http://rubikcon.ca/"
 
 [address]
-address = "C&eacute;gep de Drummondville\nDrummondville, QC, Canada\nJ2C 6A2"
+address = "Cégep de Drummondville\nDrummondville, QC, Canada\nJ2C 6A2"
 city = "Drummondville, QC"
 
 [address.coordinates]
 lat = 45.873962
 lon = -72.50532
-

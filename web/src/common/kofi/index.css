@@ -1,0 +1,11 @@
+.kofiButton {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  padding: 0 16px 0 12px;
+}
+
+.kofiImage {
+  height: 20px;
+  margin-right: 6px;
+}

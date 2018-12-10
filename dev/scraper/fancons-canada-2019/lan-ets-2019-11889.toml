@@ -7,10 +7,9 @@ title = "lanets.ca"
 url = "https://lanets.ca/"
 
 [address]
-address = "Palais des Congr&egrave;s de Montr&eacute;al\nMontreal, QC, Canada\nH2Z 1X7"
-city = "Montreal, QC"
+address = "Palais des Congrès de Montréal\nMontréal, QC, Canada\nH2Z 1X7"
+city = "Montréal, QC"
 
 [address.coordinates]
 lat = 45.504967
 lon = -73.56002
-

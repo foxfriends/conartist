@@ -19,7 +19,7 @@ export function AccountSettings({ email, name }: Props) {
     <Card>
       <BasicHeader>
         {l`Account`}
-        <Button className={S.signOutButton} priority='secondary' title='Sign out' action={() => update.signOut()}>{l`Sign out`}</Button>
+        <Button className={S.headerButton} priority='secondary' title='Sign out' action={() => update.signOut()}>{l`Sign out`}</Button>
       </BasicHeader>
       <Table>
         <Row title={l`Email`} value={email} onEdit={update.changeEmail} />

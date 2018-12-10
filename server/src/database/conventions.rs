@@ -1,4 +1,3 @@
-use std::collections::HashMap;
 use diesel::{dsl, sql_types};
 use diesel::prelude::*;
 use chrono::NaiveDate;
@@ -6,8 +5,6 @@ use chrono::NaiveDate;
 use super::Database;
 use super::models::*;
 use super::schema::*;
-use super::dsl::*;
-use super::views::*;
 
 impl Database {
     pub fn get_convention(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<Convention, String> {

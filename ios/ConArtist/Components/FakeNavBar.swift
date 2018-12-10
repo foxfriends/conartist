@@ -55,19 +55,21 @@ class FakeNavBar: UIView {
         titleView.addSubview(subtitleLabel)
 
         NSLayoutConstraint.activate([
-            // TODO: would be nice to make this consistent...
-            NSLayoutConstraint(item: navView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: -FakeNavBar.NavBarHeight),
-            NSLayoutConstraint(item: navView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: navView, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: navView, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: 0),
+            navView.topAnchor.constraint(equalTo: bottomAnchor, constant: -FakeNavBar.NavBarHeight),
+            navView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            navView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            navView.trailingAnchor.constraint(equalTo: trailingAnchor),
             leftButton.leadingAnchor.constraint(equalTo: navView.leadingAnchor),
             leftButton.topAnchor.constraint(equalTo: navView.topAnchor),
             leftButton.bottomAnchor.constraint(equalTo: navView.bottomAnchor),
             rightButton.trailingAnchor.constraint(equalTo: navView.trailingAnchor),
             rightButton.topAnchor.constraint(equalTo: navView.topAnchor),
             rightButton.bottomAnchor.constraint(equalTo: navView.bottomAnchor),
-            NSLayoutConstraint(item: titleView, attribute: .centerY, relatedBy: .equal, toItem: navView, attribute: .centerY, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: titleView, attribute: .centerX, relatedBy: .equal, toItem: navView, attribute: .centerX, multiplier: 1, constant: 0),
+            titleView.centerYAnchor.constraint(equalTo: navView.centerYAnchor),
+            titleView.centerXAnchor.constraint(equalTo: navView.centerXAnchor),
+            titleView.leadingAnchor.constraint(equalTo: leftButton.trailingAnchor),
+            titleView.trailingAnchor.constraint(equalTo: rightButton.leadingAnchor),
+            titleView.centerXAnchor.constraint(equalTo: navView.centerXAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor),
             titleLabel.topAnchor.constraint(equalTo: titleView.topAnchor),
@@ -79,16 +81,22 @@ class FakeNavBar: UIView {
 
         leftButton.isHidden = true
         leftButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        leftButton.setContentHuggingPriority(.required, for: .horizontal)
+        leftButton.setContentCompressionResistancePriority(.required, for: .horizontal)
         rightButton.isHidden = true
         rightButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        rightButton.setContentHuggingPriority(.required, for: .horizontal)
+        rightButton.setContentCompressionResistancePriority(.required, for: .horizontal)
         titleLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
         titleLabel.textColor = .text
         titleLabel.textAlignment = .center
         titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        titleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         subtitleLabel.font = UIFont.systemFont(ofSize: 10)
         subtitleLabel.textColor = .textPlaceholder
         subtitleLabel.textAlignment = .center
         subtitleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        subtitleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
 
     override init(frame: CGRect) {

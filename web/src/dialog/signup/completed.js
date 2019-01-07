@@ -3,7 +3,7 @@ import * as React from 'react'
 import { of } from 'rxjs'
 import { catchError } from 'rxjs/operators'
 
-import IMAGE from '../../../images/name.png'
+import IMAGE from '../../../images/welcome.png'
 import { l } from '../../localization'
 import * as API from '../../api'
 import { SignUpRequest } from '../../api/signup'

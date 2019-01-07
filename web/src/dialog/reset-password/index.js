@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { Observable } from 'rxjs'
 
-import LOGO from '../../../icons/apple-icon-180x180.png'
+import IMAGE from '../../../images/email.png'
 import { l } from '../../localization'
 import { RequestResetPasswordRequest } from '../../api/request-reset-password'
 import { closeDialog } from '../action'
@@ -46,7 +46,7 @@ export class ResetPassword extends React.Component<Props, State> {
 
     return (
       <Basic title={l`Forgot Password`} onClose={closeDialog}>
-        <Form image={LOGO}>
+        <Form image={IMAGE} imageWidth={200}>
           { submitted
             ? l`An email has been sent with your reset password link.`
             : <Fragment>

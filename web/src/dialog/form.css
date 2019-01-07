@@ -4,7 +4,7 @@
   height: 100%;
   display: flex;
   flex-direction: row;
-  padding: 4px;
+  padding: 16px;
 }
 
 .image {
@@ -22,16 +22,17 @@
 }
 
 .formContent, .form {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  max-width: var(--max-width);
+  padding: var(--padding);
 }
 
 @media (min-width: 560px) {
   .formContent, .form {
-    --max-width: 280px;
+    --padding: 0 16px;
   }
 }
 

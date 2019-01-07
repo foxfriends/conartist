@@ -1,7 +1,7 @@
 /* @flow */
 import * as React from 'react'
 
-import LOGO from '../../../icons/apple-icon-180x180.png'
+import IMAGE from '../../../images/password.png'
 import { l } from '../../localization'
 import { Input } from '../../common/input'
 import { Form } from '../form'
@@ -68,7 +68,7 @@ export class PasswordForm extends React.Component<Props, State> {
     const { onSubmit } = this.props
     const { passwordValidation, mismatchValidation } = this.state
     return (
-      <Form image={LOGO}>
+      <Form image={IMAGE} imageWidth={200}>
         <div className={S.question}>
           { l`Pick a password. I'm not looking.` }
         </div>

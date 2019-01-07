@@ -4,7 +4,7 @@ import { Observable } from 'rxjs'
 
 import * as API from '../../api'
 const { GraphQLQuery } = API
-import LOGO from '../../../icons/apple-icon-180x180.png'
+import IMAGE from '../../../images/sign-in.png'
 import { l } from '../../localization'
 import { SignInRequest } from '../../api/signin'
 import { closeDialog } from '../action'
@@ -83,7 +83,7 @@ export class SignIn extends React.Component<Props, State> {
 
     return (
       <Basic title={l`Sign in`} onClose={closeDialog}>
-        <Form image={LOGO}>
+        <Form image={IMAGE} imageWidth={200} className={SS.form}>
           <div className={S.question}>
             {l`Welcome back`}
           </div>

@@ -8,6 +8,10 @@
   margin-top: 0;
 }
 
+.form {
+  justify-content: flex-end;
+}
+
 .signInFooter {
   margin-top: 10px;
   width: 100%;

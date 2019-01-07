@@ -3,7 +3,7 @@ import * as React from 'react'
 import { BehaviorSubject, combineLatest } from 'rxjs'
 import { skip, switchMap } from 'rxjs/operators'
 
-import LOGO from '../../../icons/apple-icon-180x180.png'
+import IMAGE from '../../../images/email.png'
 import { l, lx } from '../../localization'
 import { Input } from '../../common/input'
 import { Icon } from '../../common/icon'
@@ -102,7 +102,7 @@ export class EmailForm extends React.Component<Props, State> {
     const { onSubmit } = this.props
     const { emailValidation, mismatchValidation } = this.state
     return (
-      <Form image={LOGO}>
+      <Form image={IMAGE} imageWidth={200}>
         <div className={S.question}>
           { l`Can I get your email?` }
           <Tooltip title={lx`<Email usage disclaimer>`(_ => _)}>

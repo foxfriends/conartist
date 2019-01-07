@@ -1,7 +1,7 @@
 /* @flow */
 import * as React from 'react'
 
-import LOGO from '../../../icons/apple-icon-180x180.png'
+import IMAGE from '../../../images/name.png'
 import { l, lx } from '../../localization'
 import { Input } from '../../common/input'
 import { Icon } from '../../common/icon'
@@ -26,7 +26,7 @@ export function NameForm({ onValidate, onChange, onSubmit }: Props) {
     onValidate(validator(trimmed).state === 'valid')
   }
   return (
-    <Form image={LOGO}>
+    <Form image={IMAGE} imageWidth={200}>
       <div className={S.question}>
         { l`What do people call you?` }
         <Tooltip title={lx`<Name usage disclaimer>`(_ => _)}>

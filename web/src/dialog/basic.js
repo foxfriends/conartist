@@ -25,7 +25,7 @@ export function Basic({ title, footerTitle, onContinue, onBack, onClose, pager, 
   return (
     <div className={S.dialog}>
       { onClose ? <IconButton {...onClose} priority="tertiary" className={S.closeButton} /> : null }
-     <header className={S.header}>
+      <header className={S.header}>
         { title }
       </header>
       <div className={S.contents}>

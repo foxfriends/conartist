@@ -2,7 +2,18 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "ms-icon-310x310.png"
+      "filename" : "logo-transparent-180x180.png",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "logo-transparent-180x180@2.png",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "logo-transparent-180x180@3.png",
+      "scale" : "3x"
     }
   ],
   "info" : {

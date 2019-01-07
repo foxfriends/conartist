@@ -3,7 +3,7 @@
 @import './font/stylesheet.css';
 
 :global(:root) {
-  --color--brand: #da4800;
+  --color--brand: #cf4516;
   --color--brand-variant: #d9991e;
   --color--background: #333333;
   --color--background-variant: #444444;

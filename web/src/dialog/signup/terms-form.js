@@ -1,7 +1,6 @@
 /* @flow */
 import * as React from 'react'
 
-import LOGO from '../../../icons/apple-icon-180x180.png'
 import { l, lx } from '../../localization'
 import { Form } from '../form'
 import { Link } from '../../common/link'

@@ -3,7 +3,7 @@ import * as React from 'react'
 import { of } from 'rxjs'
 import { catchError } from 'rxjs/operators'
 
-import LOGO from '../../../icons/apple-icon-180x180.png'
+import IMAGE from '../../../images/name.png'
 import { l } from '../../localization'
 import * as API from '../../api'
 import { SignUpRequest } from '../../api/signup'
@@ -86,7 +86,7 @@ export class Completed extends React.Component<Props, State> {
     return (
       <div className={S.container}>
         <h1 className={S.heading}>{ heading }</h1>
-        <img src={LOGO} className={S.banner} />
+        { this.state.response.state === 'retrieved' ? <img src={IMAGE} className={S.banner} /> : null }
         <p className={S.copy}>
           { copy }
         </p>

@@ -3,7 +3,7 @@ import * as React from 'react'
 import type { Subject } from 'rxjs'
 import { BehaviorSubject } from 'rxjs'
 
-import LOGO from '../../icons/apple-icon-180x180.png'
+import LOGO from '../../images/logo.png'
 import S from './index.css'
 
 import { Button } from '../common/button'

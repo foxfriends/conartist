@@ -30,6 +30,7 @@
   flex-basis: 0;
   flex-grow: 1;
   overflow: visible;
+  max-height: 295px;
 }
 
 .footer {

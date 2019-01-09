@@ -40,4 +40,9 @@ struct Config {
         typealias V = String
         static let key = "WebURL"
     }
+
+    struct SupportEmail: ConfigKey {
+        typealias V = String
+        static let key = "SupportEmail"
+    }
 }

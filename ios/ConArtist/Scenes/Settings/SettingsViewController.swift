@@ -93,7 +93,7 @@ extension SettingsViewController: UITableViewDataSource {
             return cell
         case .help:
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsActionTableViewCell.ID, for: indexPath) as! SettingsActionTableViewCell
-            cell.setup(title: "Help"¡)
+            cell.setup(title: try! ("Contact Support"¡ % Config.retrieve(Config.SupportEmail.self)).prettify())
             return cell
         case .feedback:
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsActionTableViewCell.ID, for: indexPath) as! SettingsActionTableViewCell
@@ -130,7 +130,7 @@ extension SettingsViewController: UITableViewDelegate {
             ConArtist.API.Auth.authToken = ConArtist.API.Auth.Unauthorized
             ConArtist.model.clear()
         case .help:
-            break
+            UIApplication.shared.open(.mailto(Config.retrieve(Config.SupportEmail.self)), options: [:])
         case .feedback:
             SuggestionsViewController.present()
         case .currency:

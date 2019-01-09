@@ -154,7 +154,7 @@ Support = "Support"
 "Privacy Policy" = "Privacy Policy"
 "Terms of Service" = "Terms of Service"
 Version = { ios = "Version: {light:{}}", web = "Version" }
-"Contact Support" = "Contact Support"
+"Contact Support" = { ios = "Contact Support: {light:{}}", web = "Contact Support" }
 "<Support description>" = """
 Feel free to contact support for any reason! This can include requests for conventions to be added, issues with the app you need to discuss personally, or if you have a question about how something works.
 

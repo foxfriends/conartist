@@ -11,6 +11,7 @@ import { setUser } from '../update/signin'
 import { signOut } from '../update/settings'
 import { resolveRoute } from '../routing'
 import { l } from '../localization'
+import { PAGE_NO_AUTH } from '../constants'
 import type { Page } from './page'
 import type { Dialog } from './dialog'
 import type { Product } from './product'
@@ -52,7 +53,7 @@ export const defaultModel: Model = {
 
 function init(): Model {
   const page = resolveRoute()
-  if (page.name !== 'splash') {
+  if (!PAGE_NO_AUTH.includes(page.name)) {
     new ReauthorizeRequest()
       .send()
       .subscribe(response => {

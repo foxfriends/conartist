@@ -23,6 +23,7 @@ import { LoadConvention } from '../api/load-convention'
 import * as navigate from '../update/navigate'
 import { setConvention } from '../update/conventions'
 import { isSignedIn } from '../util/is-signed-in'
+import { PAGE_NO_AUTH } from '../constants'
 import type { Page } from '../model/page'
 import type { MetaConvention } from '../model/meta-convention'
 
@@ -83,12 +84,10 @@ const matchUrl = match(
   [ /^\/convention\/(\d+)\/stats\/?$/i, id => conventionStats(stubConvention(parseInt(id, 10))) ],
 )
 
-const noAuth = ['verify', 'reset-password', 'terms-of-service', 'privacy-policy', 'splash']
-
 export function resolveRoute(): Page {
   const page = matchUrl(window.location.pathname)
   if (!isSignedIn()) {
-    if (page && !noAuth.includes(page.name)) {
+    if (page && !PAGE_NO_AUTH.includes(page.name)) {
       window.history.replaceState({ attempted: window.location.pathname }, '', '/')
       return splash
     }

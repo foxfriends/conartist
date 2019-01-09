@@ -16,3 +16,5 @@ export const MIN_PASSWORD_LENGTH = 8
 export const LANGUAGES = ['en-ca', 'en-us', 'zh-Hans']
 
 export const CURRENCIES = ['CAD', 'USD']
+
+export const PAGE_NO_AUTH = ['verify', 'reset-password', 'terms-of-service', 'privacy-policy', 'splash']

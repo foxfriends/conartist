@@ -69,6 +69,7 @@ extension String {
     private func localize(twoPart locale: String) -> String? {
         return localize(onePart: locale)
             ?? localize(onePart: locale.split(separator: "-").first!)
+            ?? localize(onePart: "en")
     }
 
     static postfix func ¡(_ string: String) -> String { return string.localize() ?? string }

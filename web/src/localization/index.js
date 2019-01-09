@@ -11,7 +11,7 @@ const { Fragment } = React
 
 const languages = new class LanguageMap {
   constructor() {
-    this.languages = new DefaultMap([['en', en], ['zh', zh]], {})
+    this.languages = new DefaultMap([['en', en]], {}) //, ['zh', zh]], {})
     this.storedDefault = Storage.retrieve(Storage.Localization) || en // most likely language to be needed on page load
   }
 

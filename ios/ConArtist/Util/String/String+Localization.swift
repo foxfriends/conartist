@@ -62,7 +62,8 @@ extension String {
     }
 
     private func localize<S: StringProtocol>(onePart locale: S) -> String? {
-        return localize(from: Bundle.main.path(forResource: "localization/\(locale)", ofType: "toml"))
+        return localize(from: Bundle.main.path(forResource: "localization/en", ofType: "toml"))
+        // return localize(from: Bundle.main.path(forResource: "localization/\(locale)", ofType: "toml"))
     }
 
     private func localize(twoPart locale: String) -> String? {

@@ -95,7 +95,7 @@ extension SignInViewController {
 // MARK: - Subscriptions
 extension SignInViewController {
     fileprivate func setupSubscriptions() {
-        let øcredentials = Observable.combineLatest(emailTextField.rx.text, passwordTextField.rx.text)
+        let credentials = Observable.combineLatest(emailTextField.rx.text, passwordTextField.rx.text)
         Observable
             .merge(
                 signInButton.rx.tap.map(const(())),
@@ -103,9 +103,9 @@ extension SignInViewController {
             )
             .filter { [signInButton] in signInButton?.isEnabled ?? false }
             .do(onNext: { [signInButton] in signInButton?.isEnabled = false })
-            .withLatestFrom(øcredentials)
+            .withLatestFrom(credentials)
             .flatMap { [errorState] credentials in
-                ConArtist.API.Auth.signIn(email: credentials.0 ?? "", password: credentials.1 ?? "")
+                ConArtist.API.Auth.signIn(email: credentials.0?.trim() ?? "", password: credentials.1 ?? "")
                     .map(const(true))
                     .catchError { _ in
                         errorState.on(.next(.incorrectCredentials))

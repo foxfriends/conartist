@@ -9,6 +9,15 @@
 import UIKit
 import RxSwift
 
+private extension ConventionExtraInfo {
+    var shouldRender: Bool {
+        switch self {
+        case .City: return false
+        default: return true
+        }
+    }
+}
+
 class ConventionDetailsViewController  : ConArtistViewController {
     fileprivate let disposeBag = DisposeBag()
 
@@ -108,13 +117,13 @@ extension ConventionDetailsViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? convention.extraInfo.count : 1
+        return section == 0 ? convention.extraInfo.filter { $0.shouldRender }.count : 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            let item = convention.extraInfo[indexPath.row]
+            let item = convention.extraInfo.filter { $0.shouldRender }[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: item.cellIdentifier, for: indexPath) as! ConventionExtraInfoTableViewCell
             cell.setup(with: item)
             return cell
@@ -131,7 +140,7 @@ extension ConventionDetailsViewController: UITableViewDataSource {
 //MARK: - UITableViewDelegate
 extension ConventionDetailsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        convention.extraInfo.nth(indexPath.row)?.performAction()
+        convention.extraInfo.filter { $0.shouldRender }.nth(indexPath.row)?.performAction()
     }
 
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {

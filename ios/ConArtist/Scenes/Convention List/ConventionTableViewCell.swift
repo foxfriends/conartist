@@ -35,7 +35,14 @@ class ConventionTableViewCell: ConArtistTableViewCell {
         moneyLabel?.text = recordTotal != Money.zero || expenseTotal != Money.zero ? (recordTotal - expenseTotal).toString() : nil
         cardView?.layer.cornerRadius = 10
         cardView?.addShadow()
-        if case .Hours(let hours)? = item.extraInfo.first(where: { info in if case .Hours = info { return true } else { return false } }),
+        let city = item.extraInfo
+            .first(where: { if case .City = $0 { return true } else { return false } })
+        if case let .some(.City(city)) = city {
+            locationLabel?.text = city
+        }
+        let hours = item.extraInfo
+            .first(where: { if case .Hours = $0 { return true } else { return false } })
+        if case .Hours(let hours)? = hours,
             let (open, close) = hours.first(where: { start, end in start.roundToDay() == Date().roundToDay()}) {
             timeLabel?.text = "{} - {}"¡
                 % open.toString(ConventionExtraInfo.ShortHourFormat)

@@ -15,6 +15,7 @@ enum ConventionExtraInfo: Codable {
         case dates
         case website
         case address
+        case city
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -24,6 +25,7 @@ enum ConventionExtraInfo: Codable {
         case website
         case address
         case location
+        case city
     }
 
     static var HourFormat: String { return "h:mma"¡ }
@@ -34,6 +36,7 @@ enum ConventionExtraInfo: Codable {
     case Dates(Date, Date)
     case Website(display: String, url: String)
     case Address(display: String, location: Location)
+    case City(String)
 
     init?(graphQL conventionInfo: ExtraInfoFragment) {
         switch conventionInfo.title {
@@ -50,6 +53,9 @@ enum ConventionExtraInfo: Codable {
         case "Website":
             guard let info = conventionInfo.actionText, let url = conventionInfo.action else { return nil }
             self = .Website(display: info, url: url)
+        case "City":
+            guard let city: String = conventionInfo.info?.parseJSON() else { return nil }
+            self = .City(city)
         default: return nil
         }
     }
@@ -60,6 +66,7 @@ enum ConventionExtraInfo: Codable {
         case .Dates: return "Dates"¡
         case .Website: return "Website"¡
         case .Address: return "Address"¡
+        case .City: return "City"¡
         }
     }
 
@@ -78,6 +85,8 @@ enum ConventionExtraInfo: Codable {
             return Convention.formatDateRange(start: dates.0, end: dates.1)
         case .Address(let display, _):
             return display
+        case .City(let city):
+            return city
         default: return nil
         }
     }
@@ -121,6 +130,9 @@ enum ConventionExtraInfo: Codable {
         case .website:
             let (display, url) = try json.decode(Pair<String>.self, forKey: .website).raw
             self = .Website(display: display, url: url)
+        case .city:
+            let city = try json.decode(String.self, forKey: .city)
+            self = .City(city)
         }
     }
 
@@ -141,6 +153,9 @@ enum ConventionExtraInfo: Codable {
         case .Dates(let start, let end):
             try json.encode(Cases.dates, forKey: .case)
             try json.encode(Pair((start, end)), forKey: .dates)
+        case .City(let city):
+            try json.encode(Cases.city, forKey: .case)
+            try json.encode(city, forKey: .city)
         }
     }
 }

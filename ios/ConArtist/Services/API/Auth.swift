@@ -11,9 +11,27 @@ import Apollo
 import RxSwift
 import RxAlamofire
 
+private func handleConRequest<T: Decodable>(_ response: (HTTPURLResponse, Data)) throws -> T {
+    switch try JSONDecoder().decode(ConRequest<T>.self, from: response.1) {
+    case .success(let data):
+        return data
+    case .failure(let error):
+        throw ConArtist.Error(msg: error)
+    }
+}
+
+private func setAuthToken(_ authToken: String) -> Void {
+    ConArtist.API.Auth.authToken = authToken
+}
+
+private func loadUser() throws -> Observable<FullUserFragment> {
+    return ConArtist.API.GraphQL
+        .observe(query: FullUserQuery(id: nil), cachePolicy: .fetchIgnoringCacheData)
+        .map { $0.user.fragments.fullUserFragment }
+}
+
 extension ConArtist.API {
     struct Auth {
-        static let SignInURL: URL = URL(string: Config.retrieve(Config.APIURL.self) + "/auth")!
         static let Unauthorized = "Unauthorized"
 
         private static var _authToken: String? = ConArtist.Keychain.retrieve(valueFor: .AuthToken)
@@ -43,7 +61,7 @@ extension ConArtist.API {
                 "psw": password
             ]
             return RxAlamofire
-                .requestData(.post, SignInURL, parameters: parameters, encoding: JSONEncoding.default)
+                .requestData(.post, URL.signIn, parameters: parameters, encoding: JSONEncoding.default)
                 .map(handleConRequest)
                 .map(setAuthToken)
                 .flatMap(loadUser)
@@ -56,30 +74,33 @@ extension ConArtist.API {
                 "Authorization": "Bearer \(authToken)"
             ]
             return RxAlamofire
-                .requestData(.get, SignInURL, headers: headers)
+                .requestData(.get, URL.signIn, headers: headers)
                 .map(handleConRequest)
                 .map(setAuthToken)
                 .flatMap(loadUser)
                 .map(ConArtist.model.merge(graphQL:))
         }
+    }
 
-        private static func handleConRequest<T: Decodable>(_ response: (HTTPURLResponse, Data)) throws -> T {
-            switch try JSONDecoder().decode(ConRequest<T>.self, from: response.1) {
-            case .success(let data):
-                return data
-            case .failure(let error):
-                throw ConArtist.Error(msg: error)
-            }
+    struct Account {
+        static func emailInUse(_ email: String) -> Observable<Bool> {
+            return RxAlamofire
+                .requestData(.get, URL.accountExists(email), parameters: nil, encoding: JSONEncoding.default)
+                .map(handleConRequest)
         }
 
-        private static func setAuthToken(_ authToken: String) -> Void {
-            ConArtist.API.Auth.authToken = authToken
-        }
-
-        private static func loadUser() throws -> Observable<FullUserFragment> {
-            return ConArtist.API.GraphQL
-                .observe(query: FullUserQuery(id: nil), cachePolicy: .fetchIgnoringCacheData)
-                .map { $0.user.fragments.fullUserFragment }
+        static func create(name: String, email: String, password: String) -> Observable<Void> {
+            let parameters: [String: String] = [
+                "name": name,
+                "email": email,
+                "password": password,
+            ]
+            return RxAlamofire
+                .requestData(.post, URL.createAccount, parameters: parameters, encoding: JSONEncoding.default)
+                .map(handleConRequest)
+                .map(setAuthToken)
+                .flatMap(loadUser)
+                .map(ConArtist.model.merge(graphQL:))
         }
     }
 }

@@ -84,7 +84,7 @@ class RxNavigationController: UINavigationController {
 
 extension RxNavigationController: UIGestureRecognizerDelegate {
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        return viewCount > 1
+        return viewCount > 1 && !(topViewController is ConventionListViewController)
     }
 
     @objc private func handleInteractivePopGesture(_ gesture: UIScreenEdgePanGestureRecognizer) {

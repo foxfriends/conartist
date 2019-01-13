@@ -26,10 +26,10 @@ class SignInViewController : ConArtistViewController {
     @IBOutlet weak var emailTextField: FancyTextField!
     @IBOutlet weak var passwordTextField: FancyTextField!
     @IBOutlet weak var signInButton: FancyButton!
+    @IBOutlet weak var visitWebButton: UIButton!
     @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var privacyButton: UIButton!
     @IBOutlet weak var termsButton: UIButton!
-
 
     fileprivate let errorState = PublishSubject<ErrorState>()
     
@@ -51,25 +51,28 @@ extension SignInViewController {
         emailTextField.text = nil
         passwordTextField.text = nil
     }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
 }
 
 // MARK: - UI
 extension SignInViewController {
     fileprivate func setupUI() {
+        visitWebButton.conArtistStyle()
         signUpButton.conArtistStyle()
         privacyButton.conArtistStyle()
         termsButton.conArtistStyle()
 
-        signUpButton.setTitleColor(.lightText, for: .normal)
-        signUpButton.setTitleColor(.lightText, for: .highlighted)
-        signUpButton.tintColor = .lightText
+        visitWebButton.setTitleColor(.text, for: .normal)
+        visitWebButton.setTitleColor(.text, for: .highlighted)
+        visitWebButton.tintColor = .text
+
+        signUpButton.setTitleColor(.text, for: .normal)
+        signUpButton.setTitleColor(.text, for: .highlighted)
+        signUpButton.tintColor = .text
+
         privacyButton.setTitleColor(.textPlaceholder, for: .normal)
         privacyButton.setTitleColor(.textPlaceholder, for: .highlighted)
         privacyButton.alpha = 0.7
+
         termsButton.setTitleColor(.textPlaceholder, for: .normal)
         termsButton.setTitleColor(.textPlaceholder, for: .highlighted)
         termsButton.alpha = 0.7
@@ -85,8 +88,10 @@ extension SignInViewController {
         passwordTextField.placeholder = "Password"¡
         signInButton.setTitle("Sign in"¡, for: .normal)
 
-        signUpButton.setAttributedTitle(try! "Sign up at conartist.app"¡.prettify(), for: .normal)
-        signUpButton.setAttributedTitle(try! "Sign up at conartist.app"¡.prettify(.highlighted), for: .highlighted)
+        visitWebButton.setAttributedTitle(try! "Visit conartist.app"¡.prettify(), for: .normal)
+        visitWebButton.setAttributedTitle(try! "Visit conartist.app"¡.prettify(.highlighted), for: .highlighted)
+
+        signUpButton.setTitle("Sign up"¡, for: .normal)
         privacyButton.setTitle("Privacy Policy"¡, for: .normal)
         termsButton.setTitle("Terms of Service"¡, for: .normal)
     }
@@ -123,11 +128,15 @@ extension SignInViewController {
 
         Observable
             .merge(
-                signUpButton.rx.tap.map(const(URL.conartist)),
+                visitWebButton.rx.tap.map(const(URL.conartist)),
                 privacyButton.rx.tap.map(const(URL.privacyPolicy)),
                 termsButton.rx.tap.map(const(URL.termsOfService))
             )
             .subscribe(onNext: { url in UIApplication.shared.open(url, options: [:]) })
+            .disposed(by: disposeBag)
+
+        signUpButton.rx.tap
+            .subscribe(onNext: { _ in SignUpViewController.present() })
             .disposed(by: disposeBag)
 
         errorState

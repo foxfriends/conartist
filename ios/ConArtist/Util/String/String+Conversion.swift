@@ -30,3 +30,13 @@ extension String {
         return Money(currency: currency, amount: amount)
     }
 }
+
+// MARK: - Email
+
+fileprivate let emailFormat = try! NSRegularExpression(pattern: "^.+@.+\\..+$")
+
+extension String {
+    var isEmail: Bool {
+        return emailFormat.firstMatch(in: self, range: NSRange(location: 0, length: self.utf16.count)) != nil
+    }
+}

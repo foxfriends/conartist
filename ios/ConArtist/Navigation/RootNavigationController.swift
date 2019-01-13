@@ -25,6 +25,6 @@ class RootNavigationController: RxNavigationController {
 
 extension RootNavigationController {
     override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        return viewCount > 3
+        return !(topViewController is ConventionListViewController)
     }
 }

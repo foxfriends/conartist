@@ -30,7 +30,7 @@ View = "View"
 "Your password is incorrect" = "Your password is incorrect"
 "Welcome back" = "Welcome back"
 # ios
-"Sign up at conartist.app" = "Sign up at {action:conartist.app}"
+"Visit conartist.app" = "Visit {action:conartist.app}"
 
 # Sign up
 "... You're in!" = "… You're in!"
@@ -43,6 +43,7 @@ View = "View"
 "Pick a password. I'm not looking." = "Pick a password. I'm not looking"
 "Promise." = "Promise."
 "Sign up" = "Sign up"
+"Sign Up" = "Sign Up"
 "Your password is too short" = "Your password is too short"
 "Your passwords don't match" = "Your passwords don't match"
 "We won't send you anything." = "We won't send you anything."

@@ -164,6 +164,7 @@ If you are just making a general feature request, you can use the "Make a Sugges
 "Support Us on Ko-fi" = "Support Us on Ko-fi"
 Contribute = "Contribute"
 Donate = "Donate"
+FAQ = "FAQ"
 
 # Change name
 "Change Name" = "Change Name"
@@ -306,6 +307,8 @@ EEE = "EEE."
 # Splash page
 "<Splash body>" = "ConArtist brings together all the things you need, streamlining your convention experience. Find conventions, manage inventory, and record sales, all in one place."
 "<Splash title>" = "The money counter for the busy tabeller"
+"Chat on Discord" = "Chat on Discord"
+"Download on the App Store" = "Download on the App Store"
 
 # Language tags
 en-ca = "English (Canada)"

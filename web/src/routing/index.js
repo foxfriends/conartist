@@ -18,6 +18,7 @@ import {
   suggestions,
   resetPassword,
   verify,
+  faq,
 } from '../model/page'
 import { LoadConvention } from '../api/load-convention'
 import * as navigate from '../update/navigate'
@@ -76,6 +77,7 @@ const matchUrl = match(
   [ /^\/conventions\/search\/?$/i, () => searchConventions ],
   [ /^\/terms\/?$/i, () => termsOfService ],
   [ /^\/privacy\/?$/i, () => privacyPolicy ],
+  [ /^\/faq\/?$/i, () => faq ],
   [ /^\/reset-password\/([0-9a-fA-F]+)\/?$/i, code => resetPassword(code) ],
   [ /^\/verify\/([0-9a-fA-F]+)\/?$/i, code => verify(code) ],
   [ /^\/convention\/(\d+)\/details\/?$/i, id => conventionDetails(stubConvention(parseInt(id, 10))) ],

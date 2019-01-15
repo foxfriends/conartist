@@ -16,6 +16,7 @@ export type Page = Splash
                  | Settings
                  | TermsOfService
                  | PrivacyPolicy
+                 | FAQ
                  | Suggestions
                  | ResetPassword
                  | Verify
@@ -36,6 +37,7 @@ export type ConventionUserInfo = {| name: 'convention-user-info', convention: Co
 export type Settings = {| name: 'settings' |}
 export type TermsOfService = {| name: 'terms-of-service' |}
 export type PrivacyPolicy = {| name: 'privacy-policy' |}
+export type FAQ = {| name: 'faq' |}
 export type Suggestions = {| name: 'suggestions' |}
 export type Verify = {| name: 'verify', code: string |}
 export type ResetPassword = {| name: 'reset-password', code: string |}
@@ -56,6 +58,7 @@ export const conventionUserInfo = (convention: Convention): ConventionUserInfo =
 export const settings: Settings = { name: 'settings' }
 export const termsOfService: TermsOfService = { name: 'terms-of-service' }
 export const privacyPolicy: PrivacyPolicy = { name: 'privacy-policy' }
+export const faq: FAQ = { name: 'faq' }
 export const suggestions: Suggestions = { name: 'suggestions' }
 export const verify = (code: string): Verify => ({ name: 'verify', code })
 export const resetPassword = (code: string): ResetPassword => ({ name: 'reset-password', code })

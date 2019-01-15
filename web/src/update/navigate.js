@@ -42,6 +42,7 @@ export const suggestions = goTo('/suggestions', page.suggestions)
 export const admin = goTo('/admin', page.admin)
 export const privacy = goTo('/privacy', page.privacyPolicy)
 export const terms = goTo('/terms', page.termsOfService)
+export const faq = goTo('/faq', page.faq)
 
 export function conventionDetails(convention: Convention) {
   const { page: currentPage } = model.getValue()

@@ -246,3 +246,6 @@ Version = { ios = "版本: {light:{}}", web = "版本" }
 "Support Us on Ko-fi" = "在Ko-fi上支持我们"
 Contribute = "有助于"
 Donate = "捐款"
+FAQ = "常问问题"
+"Chat on Discord" = "TODO: translate"
+"Download on the App Store" = "TODO: translate"

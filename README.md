@@ -1,4 +1,4 @@
-# ConArtist
+# [<img src="./shared/images/logo.png" height="55" alt="" />](https://conartist.app) ConArtist
 
 [![Download on the App Store](./shared/images/app-store.svg)](https://itunes.apple.com/us/app/conartist/id1448972207)
 [<img src="./shared/images/discord-color.svg" height="40" alt="Chat on Discord" />](https://discordapp.com/invite/kh9hmt3)

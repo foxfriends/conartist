@@ -1,5 +1,8 @@
 # ConArtist
 
+[![Download on the App Store](./shared/images/app-store.svg)](https://itunes.apple.com/us/app/conartist/id1448972207)
+[<img src="./shared/images/discord-color.svg" height="40" alt="Chat on Discord" />](https://discordapp.com/invite/kh9hmt3)
+
 The ultimate solution for con(vention) artists. Keep records of sales and inventory, stay up to date
 with the latest event information, and see what your fellow artists have to say, all in one handy app!
 

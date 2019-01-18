@@ -67,7 +67,7 @@ impl Database {
             } else {
                 let EmailVerification { email: retrieved, user_id, .. } = emailverifications::table
                     .filter(emailverifications::email.eq(email))
-                    .filter(emailverifications::expires.gt(dsl::now))
+                    .order_by(emailverifications::expires.desc())
                     .first::<EmailVerification>(&*conn)
                     .map_err(|reason| format!("EmailVerification for user with email {} could not be retrieved. Reason: {}", email, reason))?;
                 users::table
@@ -83,12 +83,17 @@ impl Database {
                 .count()
                 .get_result::<i64>(&*conn)
                 .unwrap_or(0i64);
-        Ok(
-            User {
-                keys: user.keys - con_count as i32,
-                ..user
-            }
-        )
+        Ok(User {
+            keys: user.keys - con_count as i32,
+            ..user
+        })
+    }
+
+    pub fn valid_account_exist_for_email(&self, email: &str) -> Result<bool, String> {
+        let conn = self.pool.get().unwrap();
+        diesel::select(dsl::exists(emailsinuse::table.filter(emailsinuse::email.eq(email))))
+            .get_result::<bool>(&*conn)
+            .map_err(|reason| format!("Could not check if email {} is in use. Reason: {}", email, reason))
     }
 
     pub fn create_user(&self, email: String, name: String, password: String) -> Result<(User, EmailVerification), String> {
@@ -123,7 +128,6 @@ impl Database {
         conn.transaction(|| {
                 let verification = emailverifications::table
                     .filter(emailverifications::verification_code.eq(verification_code))
-                    .filter(emailverifications::expires.gt(dsl::now))
                     .get_result::<EmailVerification>(&*conn)?;
 
                 dsl::delete(emailverifications::table)

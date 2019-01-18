@@ -50,7 +50,10 @@ impl Handler for Exists {
     fn handle(&self, req: &mut Request<'_, '_>) -> IronResult<Response> {
         let params = iexpect!{ req.extensions.get::<Router>() };
         let email = iexpect!{ params.find("email") };
-        cr::ok(self.database.get_user_for_email(&email.to_lowercase()).is_ok())
+        match self.database.valid_account_exist_for_email(&email.to_lowercase()) {
+            Ok(exists) => cr::ok(exists),
+            Err(ref error) => cr::fail(error),
+        }
     }
 }
 

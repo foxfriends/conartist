@@ -42,8 +42,10 @@ export class NewSale extends React.Component<Props, State> {
   constructor(props) {
     super(props)
 
+    const { products } = this.props.convention
+
     this.state = {
-      products: props.record ? props.record.products : [],
+      products: props.record ? props.record.products.map(id => products.find(product => product.id === id)).filter(x => x) : [],
       amount: props.record ? props.record.price.toString() : Money.zero.toString(),
       note: props.record ? props.record.info : '',
       processing: false,

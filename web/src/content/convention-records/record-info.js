@@ -4,11 +4,14 @@ import formatDate from 'date-fns/format'
 
 import Map from '../../util/default-map'
 import { List } from '../../common/list'
+import { Link } from '../../common/link'
+import { Icon } from '../../common/icon'
 import { Font } from '../../common/font'
 import { Item } from '../../common/list/item'
 import { model } from '../../model'
 import { l } from '../../localization'
 import { SecondaryCard } from '../card-view/secondary-card'
+import * as dialog from '../../update/dialog'
 import type { Record } from '../../model/record'
 import type { Product } from '../../model/product'
 import type { ProductType } from '../../model/product-type'
@@ -35,8 +38,16 @@ export function RecordInfo({ record, anchor, onClose }: Props) {
     // $FlowIgnore
     .map(([typeId, products]) => [productTypes.find(type => type.id === typeId), products])
 
+  const editRecord = () => {
+    dialog.showNewSaleDialog(record)
+    onClose()
+  }
+  const title = (
+    <><Link onClick={editRecord}><Icon className={S.editIcon} name='edit' /></Link> {l`Sale`}</>
+  )
+
   return (
-    <SecondaryCard title={l`Sale`} anchor={anchor} onClose={onClose}>
+    <SecondaryCard title={title} anchor={anchor} onClose={onClose}>
       <List>
         <Item className={S.info}>
           <Font smallCaps semibold>{l`Price`}</Font>

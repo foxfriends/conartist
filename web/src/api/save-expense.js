@@ -56,7 +56,7 @@ export class SaveExpense implements APIRequest<Params, Expense> {
     this.deleteExpense = deleteExpense.then(deleteExpense => new GraphQLMutation(deleteExpense.default))
   }
 
-  send(action: Params): Observable<Response<MetaConvention, string>> {
+  send(action: Params): Observable<Response<Expense, string>> {
     switch (action.action) {
       case 'create': {
         const variables = {

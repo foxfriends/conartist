@@ -49,4 +49,5 @@
 
 :global(.material-icons) {
   font-size: unset;
+  font-variant-caps: normal;
 }

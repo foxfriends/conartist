@@ -1,0 +1,79 @@
+.title {
+  display: flex;
+  align-items: center;
+}
+
+.backButton {
+  margin-right: 32px;
+  font-weight: var(--font-weight--semibold);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.form {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 16px 0 16px;
+  height: 120px;
+}
+
+.formItem {
+  margin-bottom: 8px;
+}
+
+.full {
+  flex-grow: 1;
+}
+
+.row {
+  align-items: center;
+  &:hover {
+    background-color: var(--color--background-hover-highlight)
+  }
+}
+
+.name {
+  margin: 0 16px;
+  font-weight: var(--font-weight--semibold);
+}
+
+.selectedCount {
+  display: flex;
+  color: var(--color--background-variant);
+  background-color: var(--color--text);
+  border-radius: 12px;
+  min-width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight--semibold);
+  margin-left: auto;
+  margin-right: 16px;
+  user-select: none;
+}
+
+.tooltipContainer {
+  margin-left: auto;
+}
+
+.selectedCount + .detail, .tooltipContainer + .detail {
+  --margin-left: 0;
+}
+
+.detail {
+  --margin-left: auto;
+  margin-left: var(--margin-left);
+  margin-right: 16px;
+  color: var(--color--text-placeholder);
+}
+
+.removable:hover {
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.1s;
+}

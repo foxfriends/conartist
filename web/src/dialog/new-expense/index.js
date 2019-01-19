@@ -26,6 +26,8 @@ type State = {
   category: string,
   amount: Money,
   note: string,
+  processing: boolean,
+  moneyValidation: Validation,
 }
 
 export class NewExpense extends React.Component<Props, State> {
@@ -41,7 +43,7 @@ export class NewExpense extends React.Component<Props, State> {
     }
   }
 
-  setAmount(amount: Money) {
+  setAmount(amount: string) {
     let moneyValidation = { state: VALID };
     try {
       const money = Money.parse(amount);

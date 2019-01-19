@@ -143,6 +143,8 @@ Type = "Type"
 "Sale saved" = "Sale saved"
 "The amount cannot be zero" = "The amount cannot be zero"
 "The amount is invalid" = "The amount is invalid"
+"The price is invalid" = "The price is invalid"
+Remove = "Remove"
 
 # Settings
 General = "General"

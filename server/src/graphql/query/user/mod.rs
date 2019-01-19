@@ -17,6 +17,13 @@ graphql_object!(User: Database |&self| {
 
     field id() -> i32 { self.user_id }
     field name() -> &String { &self.name }
+    field verified(&executor) -> FieldResult<bool> {
+        dbtry! {
+            executor
+                .context()
+                .is_email_verified(self.user_id)
+        }
+    }
 
     field email(&executor) -> FieldResult<&String> {
         executor.context().protect_me(self.user_id)?;

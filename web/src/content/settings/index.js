@@ -11,13 +11,14 @@ export type Props = {
   name: 'settings',
   email: string,
   username: string,
+  verified: boolean,
   settings: SettingsT,
 }
 
-export function Settings({ username, email, settings }: Props) {
+export function Settings({ username, email, verified, settings }: Props) {
   return (
     <CardView>
-      <AccountSettings name={username} email={email} />
+      <AccountSettings name={username} email={email} verified={verified} />
       <LocaleSettings currency={settings.currency} language={settings.language} />
       <Contribute />
       <Help />

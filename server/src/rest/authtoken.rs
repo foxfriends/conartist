@@ -1,18 +1,30 @@
+use chrono::{Utc, Duration};
 use iron::typemap::Key;
 use jsonwebtoken::{errors::Error, encode, Header};
 use serde_derive::{Serialize, Deserialize};
 use crate::env::JWT_SECRET;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Copy, Clone, Serialize, Deserialize, Debug)]
 pub struct Claims {
     pub usr: i32,
+    exp: i64,
 }
 impl Key for Claims { type Value = Claims; }
 
 pub fn new(usr: i32) -> Result<String, Error> {
-    with_claims(&Claims { usr })
+    let exp = Utc::now() + Duration::days(7);
+    with_claims(&Claims { usr, exp: exp.timestamp() })
 }
 
-pub fn with_claims(claims: &Claims) -> Result<String, Error> {
+pub fn updating_claims(claims: &Claims) -> Result<String, Error> {
+    let exp = Utc::now() + Duration::days(7);
+    let claims = Claims {
+        exp: exp.timestamp(),
+        ..*claims
+    };
+    encode(&Header::default(), &claims, JWT_SECRET.as_ref())
+}
+
+fn with_claims(claims: &Claims) -> Result<String, Error> {
     encode(&Header::default(), claims, JWT_SECRET.as_ref())
 }

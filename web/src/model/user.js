@@ -14,6 +14,7 @@ import type { Price } from './price'
 export type User = {|
   name: string,
   email: string,
+  verified: boolean,
   settings: Settings,
   productTypes: ProductType[],
   products: Product[],
@@ -22,10 +23,11 @@ export type User = {|
   clearance: number,
 |}
 
-export function parse({ name, email, settings, productTypes = [], products = [], prices = [], conventions, clearance }: FullUserFragment): User {
+export function parse({ name, email, verified, settings, productTypes = [], products = [], prices = [], conventions, clearance }: FullUserFragment): User {
   return {
     name,
     email,
+    verified,
     settings: parseSettings(settings),
     productTypes: productTypes.map(parseProductType),
     products: products.map(parseProduct),

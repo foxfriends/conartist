@@ -4,6 +4,7 @@
 fragment UserFragment on User {
   name
   email
+  verified
   settings {
     ...SettingsFragment
   }

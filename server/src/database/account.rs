@@ -96,6 +96,37 @@ impl Database {
             .map_err(|reason| format!("Could not check if email {} is in use. Reason: {}", email, reason))
     }
 
+    pub fn is_email_verified(&self, user_id: i32) -> Result<bool, String> {
+        let conn = self.pool.get().unwrap();
+        // not verified if there's an existing verification
+        let pending_verification = diesel
+            ::select(dsl::exists(
+                emailverifications::table
+                    .filter(emailverifications::user_id.eq(user_id))
+                    .filter(emailverifications::expires.gt(dsl::now))
+            ))
+            .get_result::<bool>(&*conn)
+            .map_err(|reason| format!("Cannot check email verifications for user with id {}. Reason: {}", user_id, reason))?;
+        if pending_verification {
+            return Ok(false);
+        }
+        // also not verified if there's no email
+        let RawUser { email, .. } = users::table
+            .filter(users::user_id.eq(user_id))
+            .get_result::<RawUser>(&*conn)
+            .map_err(|reason| format!("Cannot check email for user with id {}. Reason: {}", user_id, reason))?;
+        Ok(email.is_some())
+    }
+
+    pub fn get_email_verification(&self, user_id: i32) -> Result<EmailVerification, String> {
+        let conn = self.pool.get().unwrap();
+        emailverifications::table
+            .filter(emailverifications::user_id.eq(user_id))
+            .order_by(emailverifications::expires.desc())
+            .first::<EmailVerification>(&*conn)
+            .map_err(|reason| format!("Cannot find email verification for user with id {}. Reason: {}", user_id, reason))
+    }
+
     pub fn create_user(&self, email: String, name: String, password: String) -> Result<(User, EmailVerification), String> {
         let conn = self.pool.get().unwrap();
         let verification_code = crate::rand::nonce().map_err(|_| String::from("A nonce could not be generated"))?;
@@ -130,8 +161,14 @@ impl Database {
                     .filter(emailverifications::verification_code.eq(verification_code))
                     .get_result::<EmailVerification>(&*conn)?;
 
+                // remove all verifications for this user
                 dsl::delete(emailverifications::table)
-                    .filter(emailverifications::verification_code.eq(verification_code))
+                    .filter(emailverifications::user_id.eq(verification.user_id))
+                    .execute(&*conn)?;
+
+                // also all verifications for this email, in case of weird stuff going on
+                dsl::delete(emailverifications::table)
+                    .filter(emailverifications::email.eq(&verification.email))
                     .execute(&*conn)?;
 
                 dsl::update(users::table)

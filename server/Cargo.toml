@@ -23,8 +23,8 @@ bodyparser = "0.8"
 hyper = "0.10"
 
 # Auth
-jsonwebtoken = "4.0"
-ring = "0.12.1" # must be held for compatibility with jsonwebtoken
+jsonwebtoken = "5.0"
+ring = "0.13.5" # must be held for compatibility with jsonwebtoken
 bcrypt = "0.2"
 
 # Database

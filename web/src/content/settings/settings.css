@@ -17,3 +17,11 @@
   color: var(--color--text-placeholder);
   font-size: 10pt;
 }
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.verificationStatus {
+  margin-right: 4px;
+}

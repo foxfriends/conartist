@@ -44,7 +44,7 @@
   }
 }
 
-.target:hover + .tooltip, .target:focus + .tooltip {
+.target:hover + .tooltip, .target.clickable:focus + .tooltip {
   --opacity: 1;
   --transform: translateX(-50%) scale(1);
 }

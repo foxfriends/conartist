@@ -155,8 +155,8 @@ export class ConArtist extends React.Component<Props, State> {
 
       case 'settings':
         state.toolbar = { primary: null, secondary: null, tertiary: null, pageIcon: 'settings' }
-        const { email = '', name: username = '' } = model.user || {}
-        state.content = { name: 'settings', email, username, settings: model.settings }
+        const { email = '', name: username = '', verified } = model.user || {}
+        state.content = { name: 'settings', email, username, verified, settings: model.settings }
         state.navigation = NavInfo.default.select('Settings')
         break
 

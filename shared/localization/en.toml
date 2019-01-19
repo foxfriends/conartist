@@ -165,6 +165,8 @@ If you are just making a general feature request, you can use the "Make a Sugges
 Contribute = "Contribute"
 Donate = "Donate"
 FAQ = "FAQ"
+"Your email is verified" = "Your email is verified"
+"Your email is not verified! (Click to resend verification email)" = "Your email is not verified! (Click to resend verification email)"
 
 # Change name
 "Change Name" = "Change Name"

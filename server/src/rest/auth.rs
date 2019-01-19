@@ -19,7 +19,7 @@ use super::authtoken::{self, Claims};
 
 fn reauth(req: &mut Request<'_, '_>) -> IronResult<Response> {
     let claims = iexpect!{ req.extensions.get::<Claims>() };
-    let authtoken = itry! { authtoken::with_claims(&claims) };
+    let authtoken = itry! { authtoken::updating_claims(&claims) };
     return cr::ok(authtoken);
 }
 

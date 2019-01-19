@@ -6,8 +6,9 @@ use iron::prelude::*;
 use iron::{status, Handler, iexpect, itry};
 use router::Router;
 use crate::database::Database;
+use crate::middleware::VerifyJWT;
 use crate::cr;
-use super::authtoken;
+use super::authtoken::{self, Claims};
 use serde_derive::Deserialize;
 
 #[cfg(feature="mailer")]
@@ -94,14 +95,39 @@ impl Handler for Reset {
     }
 }
 
+struct ResendVerification { database: Database }
+impl Handler for ResendVerification {
+    fn handle(&self, req: &mut Request<'_, '_>) -> IronResult<Response> {
+        let Claims { usr, .. } = iexpect!{ req.extensions.get::<Claims>() };
+        info!("Resending verification email");
+        match self.database.get_email_verification(*usr) {
+            Ok(email_verification) => {
+                #[cfg(feature="mailer")]
+                match confirm_email::send(email_verification.email, email_verification.verification_code) {
+                    Ok(..) => cr::ok(()),
+                    Err(error) => cr::fail(&format!("{}", error)),
+                }
+                #[cfg(not(feature="mailer"))]
+                match self.database.verify_email(&email_verification.verification_code) {
+                    Ok(..) => cr::ok(()),
+                    Err(error) => cr::fail(&format!("{}", error)),
+                }
+            }
+            Err(ref error) => cr::fail(error),
+        }
+    }
+}
+
+
 pub fn new(db: Database) -> Router {
     let mut router = Router::new();
 
     router
-        .post("/new", Create{ database: db.clone() }, "account_new")
         .get("/exists/:email", Exists{ database: db.clone() }, "account_exists")
+        .post("/new", Create{ database: db.clone() }, "account_new")
         .post("/verify", Verify{ database: db.clone() }, "account_verify")
-        .post("/reset", Reset { database: db }, "account_reset");
+        .post("/reset", Reset { database: db.clone() }, "account_reset")
+        .post("/resend-verification", chain![ VerifyJWT::new(); ResendVerification { database: db } ], "resend_verification");
 
     router
 }

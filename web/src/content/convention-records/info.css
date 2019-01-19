@@ -46,3 +46,8 @@
 .placeholder {
   color: var(--color--text-placeholder);
 }
+
+.editIcon {
+  padding: 8px;
+  margin-left: -8px;
+}

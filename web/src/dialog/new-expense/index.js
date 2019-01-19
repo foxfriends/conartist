@@ -34,10 +34,10 @@ export class NewExpense extends React.Component<Props, State> {
 
     this.state = {
       category: props.expense ? props.expense.category : '',
-      amount: props.expense ? props.expense.amount.toString() : Money.zero.toString(),
-      note: props.expense ? props.expense.note : '',
+      amount: props.expense ? props.expense.price.toString() : Money.zero.toString(),
+      note: props.expense ? props.expense.description : '',
       processing: false,
-      moneyValidation: { state: EMPTY },
+      moneyValidation: props.expense ? { state: VALID } : { state: EMPTY },
     }
   }
 
@@ -60,7 +60,7 @@ export class NewExpense extends React.Component<Props, State> {
     this.setState({ processing: true })
     let action
     if (expense) {
-      action = { action: 'update', category, amount: Money.parse(amount), note }
+      action = { action: 'update', expenseId: expense.id, category, amount: Money.parse(amount), note }
     } else {
       action = { action: 'create', conId, category, amount: Money.parse(amount), note }
     }

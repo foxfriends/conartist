@@ -87,10 +87,9 @@ extension ConventionSearchViewController {
                 self?.reloadRequest?.dispose()
                 self?.reloadRequest = nil
             })
-            .flatMapLatest { [conventions] filter in
+            .flatMapLatest { filter in
                 ConArtist.API.GraphQL.observe(query: ConventionsConnectionQuery(
-                    search: filter.isEmpty ? nil : filter,
-                    after: conventions.value.endCursor
+                    search: filter.isEmpty ? nil : filter
                 ))
             }
             .map { $0.conventionsConnection }

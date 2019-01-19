@@ -17,4 +17,9 @@ struct ConArtist {
     }
 
     static let NoID = 0
+
+    static func signOut() {
+        ConArtist.model.navigate(backTo: SignInViewController.self)
+        ConArtist.API.Auth.authToken = ConArtist.API.Auth.Unauthorized
+    }
 }

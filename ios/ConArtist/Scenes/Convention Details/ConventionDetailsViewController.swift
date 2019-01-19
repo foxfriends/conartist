@@ -69,7 +69,8 @@ extension ConventionDetailsViewController {
 // MARK: - Subscriptions
 extension ConventionDetailsViewController {
     fileprivate func setupSubscriptions() {
-        let _ = convention.fill().subscribe()
+        // it may have been preloaded, but force a reload so that it will update again!
+        let _ = convention.fill(true).subscribe()
 
         if convention.isEnded || convention is BasicConvention {
             newSaleButton.isHidden = true

@@ -14,7 +14,19 @@ extension ConArtist {
     struct API {
         static let GraphQLURL = URL(string: Config.retrieve(Config.GraphQLURL.self))!
         static let ResourcesURL = URL(string: Config.retrieve(Config.ResourcesURL.self))!
-        static var GraphQL = ApolloClient(url: ConArtist.API.GraphQLURL)
+        static var GraphQL = createApolloClient()
         static let Resources = ApolloClient(url: ConArtist.API.ResourcesURL)
+
+        static func createApolloClient() -> ApolloClient {
+            let config = URLSessionConfiguration.default
+            config.httpAdditionalHeaders = ["Authorization": "Bearer \(API.Auth.authToken)"]
+
+            return ApolloClient(
+                networkTransport: HTTPNetworkTransport(
+                    url: ConArtist.API.GraphQLURL,
+                    configuration: config
+                )
+            )
+        }
     }
 }

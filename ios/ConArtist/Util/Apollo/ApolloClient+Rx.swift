@@ -37,7 +37,17 @@ extension ApolloClient {
                 }
                 return Disposables.create()
             }
-            .catchError { error in throw debug(error) }
+            .catchError { error in
+                switch error {
+                case let error as GraphQLHTTPResponseError:
+                    if error.response.statusCode == 401 {
+                        ConArtist.signOut()
+                    }
+                    fallthrough
+                default:
+                    throw debug(error)
+                }
+            }
     }
 
     func observe<Mutation: GraphQLMutation>(mutation: Mutation, queue: DispatchQueue = DispatchQueue.main) -> Observable<Mutation.Data> {

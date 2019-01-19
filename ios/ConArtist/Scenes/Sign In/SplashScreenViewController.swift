@@ -6,6 +6,7 @@
 //  Copyright © 2018 Cameron Eldridge. All rights reserved.
 //
 
+import Alamofire
 import UIKit
 
 class SplashScreenViewController : ConArtistViewController {}
@@ -19,12 +20,15 @@ extension SplashScreenViewController {
             let _ = ConArtist.API.Auth.reauthorize()
                 .subscribe(
                     onError: { error in
-                        debug("Sign in failed: \(error)")
-                        if error is ConArtist.Error {
-                            ConArtist.model.navigate(backTo: SignInViewController.self)
-                            ConArtist.API.Auth.authToken = ConArtist.API.Auth.Unauthorized
-                        } else {
+                        debug("Sign in failed")
+                        debug(error)
+                        switch error {
+                        case is ConArtist.Error,
+                             AFError.responseValidationFailed(.unacceptableStatusCode) as AFError:
+                            ConArtist.signOut()
+                        default:
                             // probably ok... just no internet connection or something
+                            break
                         }
                     }
                 )

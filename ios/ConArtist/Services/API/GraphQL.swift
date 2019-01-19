@@ -5141,7 +5141,7 @@ public struct UserInfoFragment: GraphQLFragment {
 
 public struct UserFragment: GraphQLFragment {
   public static let fragmentDefinition =
-    "fragment UserFragment on User {\n  __typename\n  name\n  email\n  settings {\n    __typename\n    ...SettingsFragment\n  }\n  conventions {\n    __typename\n    ...MetaConventionFragment\n  }\n}"
+    "fragment UserFragment on User {\n  __typename\n  name\n  email\n  verified\n  settings {\n    __typename\n    ...SettingsFragment\n  }\n  conventions {\n    __typename\n    ...MetaConventionFragment\n  }\n}"
 
   public static let possibleTypes = ["User"]
 
@@ -5149,6 +5149,7 @@ public struct UserFragment: GraphQLFragment {
     GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
     GraphQLField("name", type: .nonNull(.scalar(String.self))),
     GraphQLField("email", type: .nonNull(.scalar(String.self))),
+    GraphQLField("verified", type: .nonNull(.scalar(Bool.self))),
     GraphQLField("settings", type: .nonNull(.object(Setting.selections))),
     GraphQLField("conventions", type: .nonNull(.list(.nonNull(.object(Convention.selections))))),
   ]
@@ -5159,8 +5160,8 @@ public struct UserFragment: GraphQLFragment {
     self.resultMap = unsafeResultMap
   }
 
-  public init(name: String, email: String, settings: Setting, conventions: [Convention]) {
-    self.init(unsafeResultMap: ["__typename": "User", "name": name, "email": email, "settings": settings.resultMap, "conventions": conventions.map { (value: Convention) -> ResultMap in value.resultMap }])
+  public init(name: String, email: String, verified: Bool, settings: Setting, conventions: [Convention]) {
+    self.init(unsafeResultMap: ["__typename": "User", "name": name, "email": email, "verified": verified, "settings": settings.resultMap, "conventions": conventions.map { (value: Convention) -> ResultMap in value.resultMap }])
   }
 
   public var __typename: String {
@@ -5187,6 +5188,15 @@ public struct UserFragment: GraphQLFragment {
     }
     set {
       resultMap.updateValue(newValue, forKey: "email")
+    }
+  }
+
+  public var verified: Bool {
+    get {
+      return resultMap["verified"]! as! Bool
+    }
+    set {
+      resultMap.updateValue(newValue, forKey: "verified")
     }
   }
 

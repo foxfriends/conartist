@@ -42,15 +42,7 @@ extension ConArtist.API {
                 if !ConArtist.Keychain.store(value: authToken, for: .AuthToken) {
                     debug("Archival of authToken has failed. User will need to sign in again later")
                 }
-                let config = URLSessionConfiguration.default
-                config.httpAdditionalHeaders = ["Authorization": "Bearer \(authToken)"]
-
-                GraphQL = ApolloClient(
-                    networkTransport: HTTPNetworkTransport(
-                        url: ConArtist.API.GraphQLURL,
-                        configuration: config
-                    )
-                )
+                GraphQL = createApolloClient()
             }
         }
 

@@ -11,6 +11,10 @@
     "clean": "rm -r static"
   },
   "author": "Cameron Eldridge",
+  "repository": {
+    "type": "git",
+    "url" : "https://github.com/oinkiguana/conartist.git"
+  },
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.1.2",

@@ -201,7 +201,7 @@ export class NewSale extends React.Component<Props, State> {
                     </Tooltip>
                   )
                   : null }
-                <span className={S.detail}>{product.quantity - totalSold}</span>
+                <span className={S.detail}>{Math.max(0, product.quantity - totalSold)}</span>
               </Item>
             )
           }}

@@ -12,7 +12,7 @@ use super::authtoken::{self, Claims};
 use serde_derive::Deserialize;
 
 #[cfg(feature="mailer")]
-use crate::email::confirm_new_account;
+use crate::email::{confirm_new_account, confirm_email};
 
 #[derive(Clone, Deserialize)]
 struct CreateAccountData {

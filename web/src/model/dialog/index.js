@@ -10,6 +10,8 @@ import type { Export } from './export'
 import type { Import } from './import'
 import type { ResetPassword } from './reset-password'
 import type { CreateSuggestion } from './create-suggestion'
+import type { NewSale } from './new-sale'
+import type { NewExpense } from './new-expense'
 
 export type Dialog
   = SignUp
@@ -23,5 +25,7 @@ export type Dialog
   | Import
   | ResetPassword
   | CreateSuggestion
+  | NewExpense
+  | NewSale
 
 export type Name = $PropertyType<Dialog, 'name'>

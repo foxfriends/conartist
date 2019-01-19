@@ -237,6 +237,10 @@ View = "看→"
 "There are no conventions right now" = "现在没有博览会"
 "<Convention search empty>" = "TODO: translate"
 
+# Convention details
+# Records
+"<Empty recods list message>" = "你还没有卖出任何东西"
+
 # Settings
 "Privacy Policy" = "隐私政策"
 "Terms of Service" = "服务条款"

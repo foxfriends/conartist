@@ -4,6 +4,8 @@ import { exportProducts, exportRecords } from '../model/dialog/export'
 import { importProducts } from '../model/dialog/import'
 import { resetPassword } from '../model/dialog/reset-password'
 import { createSuggestion } from '../model/dialog/create-suggestion'
+import { newSale } from '../model/dialog/new-sale'
+import { newExpense } from '../model/dialog/new-expense'
 
 import type { Convention } from '../model/convention'
 
@@ -46,5 +48,19 @@ export function showCreateSuggestionDialog() {
   model.next({
     ...model.getValue(),
     dialog: createSuggestion,
+  })
+}
+
+export function showNewSaleDialog() {
+  model.next({
+    ...model.getValue(),
+    dialog: newSale,
+  })
+}
+
+export function showNewExpenseDialog() {
+  model.next({
+    ...model.getValue(),
+    dialog: newExpense,
   })
 }

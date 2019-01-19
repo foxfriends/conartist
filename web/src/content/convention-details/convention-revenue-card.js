@@ -15,6 +15,7 @@ import { l } from '../../localization'
 import { Money } from '../../model/money'
 import * as navigate from '../../update/navigate'
 import * as dialog from '../../update/dialog'
+import { model } from '../../model'
 import type { Convention } from '../../model/convention'
 import S from '../conventions/card.css'
 import SS from './card.css'
@@ -24,6 +25,7 @@ export type Props = {
 }
 
 export function ConventionRevenueCard({ convention }: Props) {
+  const selected = model.getValue().conventions.some(({ id }) => id === convention.id)
   return (
     <Card>
       <BasicHeader>
@@ -35,13 +37,18 @@ export function ConventionRevenueCard({ convention }: Props) {
         <MoneyInfo title={l`Total expenses`} amount={convention.expenseTotal} />
         <NetProfit sales={convention.recordTotal} expenses={convention.expenseTotal} />
       </Table>
-      <BasicFooter className={SS.footer}>
-        { convention.start < new Date() && convention.end > new Date()
-          ? <Button priority='primary' className={SS.button} action={() => dialog.showNewSaleDialog()}>{l`New sale`}</Button>
-          : null
-        }
-        <Button priority='secondary' className={SS.button} action={() => dialog.showNewExpenseDialog()}>{l`New expense`}</Button>
-      </BasicFooter>
+      { selected
+        ? (
+          <BasicFooter className={SS.footer}>
+            { convention.start < new Date() && convention.end > new Date()
+              ? <Button priority='primary' className={SS.button} action={() => dialog.showNewSaleDialog()}>{l`New sale`}</Button>
+              : null
+            }
+            <Button priority='secondary' className={SS.button} action={() => dialog.showNewExpenseDialog()}>{l`New expense`}</Button>
+          </BasicFooter>
+        )
+        : null
+      }
     </Card>
   )
 }

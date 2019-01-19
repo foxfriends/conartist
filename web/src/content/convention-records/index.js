@@ -1,10 +1,13 @@
 /* @flow */
 import * as React from 'react'
+import { l } from '../../localization'
 import { SecondaryCardFade as Fade } from '../../common/animation/fade/secondary-card'
 import { AutoCardView as CardView } from '../card-view/auto'
+import { Card } from '../card-view/card'
 import { RecordsCard } from './records-card'
 import { toLocal, toUTC, justDay, justUTCDay } from '../../util/date'
 import type { Convention } from '../../model/convention'
+import S from './records-card.css'
 
 export type Props = {
   name: 'convention-records',
@@ -41,7 +44,11 @@ export class ConventionRecords extends React.Component<Props, State> {
     }
     return (
       <CardView dataSource={dates.sort().map(time => toLocal(new Date(time)))}>
-        <></>
+        <Card className={S.emptyState}>
+          <div className={S.placeholder}>
+            {l`<Empty recods list message>`}
+          </div>
+        </Card>
         {(date, i) => <RecordsCard date={date} convention={convention} key={`records_${date.getTime()}`} onFocus={focus => this.setState({ focus })} />}
         <Fade>
           {/* $FlowIgnore */}

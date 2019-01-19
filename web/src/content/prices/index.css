@@ -3,7 +3,7 @@
 }
 
 .emptyState {
-  composes: emptyState from '../products/index.css';
+  composes: emptyState from '../../common/styles.css';
 }
 
 .any {

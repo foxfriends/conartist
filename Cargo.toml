@@ -1,2 +1,2 @@
 [workspace]
-members = ["server"]
+members = ["server", "dev/import-conventions", "dev/scraper", "dev/check-localization"]

@@ -1,3 +1,7 @@
 .placeholder {
   composes: placeholder from '../../common/styles.css';
 }
+
+.emptyState {
+  composes: emptyState from '../../common/styles.css';
+}

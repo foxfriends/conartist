@@ -3,5 +3,5 @@
 }
 
 .emptyState {
-  opacity: 0.5;
+  composes: emptyState from '../../common/styles.css';
 }

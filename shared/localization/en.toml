@@ -137,6 +137,8 @@ Sold = "Sold"
 Stats = "Stats"
 Total = "Total"
 Type = "Type"
+# Records
+"<Empty recods list message>" = "You haven't sold anything yet"
 
 # Settings
 General = "General"

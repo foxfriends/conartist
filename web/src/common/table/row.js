@@ -7,6 +7,7 @@ export type Props = {
   title?: React.Node,
   value?: React.Node,
   detail?: React.Node,
+  truncate: boolean,
 }
 
 type State = {
@@ -46,7 +47,7 @@ export class Row extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { title, value, detail } = this.props
+    const { title, value, detail, truncate = false } = this.props
     const { height } = this.state
     const rows = Math.ceil(height / 50)
     const titleStyle = {
@@ -66,9 +67,9 @@ export class Row extends React.PureComponent<Props, State> {
     }
     return (
       <Fragment>
-        { title ? <div className={`${S.title}`} style={titleStyle}><div ref={this.titleRef}>{ title }</div></div> : null }
-        { value ? <div className={S.value} style={valueStyle}><div ref={this.valueRef}>{ value }</div></div> : null }
-        { detail ? <div className={`${S.detail}`} style={detailStyle}>{ detail }</div> : null }
+        { title ? <div className={`${S.title} ${truncate ? S.truncate : ''}`} style={titleStyle}><div ref={this.titleRef}>{ title }</div></div> : null }
+        { value ? <div className={`${S.value} ${truncate ? S.truncate : ''}`} style={valueStyle}><div ref={this.valueRef}>{ value }</div></div> : null }
+        { detail ? <div className={`${S.detail} ${truncate ? S.truncate : ''}`} style={detailStyle}>{ detail }</div> : null }
       </Fragment>
     )
   }

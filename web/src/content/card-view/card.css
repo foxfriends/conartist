@@ -2,13 +2,15 @@
   position: relative;
   overflow: visible;
   background-color: var(--color--background-variant);
-  margin: 16px;
+  --margin: 16px 0;
+  margin: var(--margin);
   width: var(--width);
   max-width: var(--max-width);
 }
 
 @media (min-width: 440px) {
   .card {
+    --margin: 16px;
     --width: calc(100vw - 68px);
   }
 }

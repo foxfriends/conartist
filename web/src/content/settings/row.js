@@ -17,6 +17,6 @@ export function Row({ title, value, onEdit }: Props) {
   const formattedTitle = <span className={S.caps}>{title}</span>
 
   return (
-    <DefaultRow title={formattedTitle} value={formattedValue} detail={onEdit ? editButton : null} />
+    <DefaultRow truncate title={formattedTitle} value={formattedValue} detail={onEdit ? editButton : null} />
   )
 }

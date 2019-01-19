@@ -1,5 +1,10 @@
 .title, .value, .detail {
   padding: 16px;
+  &.truncate {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
 }
 
 .value, .detail {

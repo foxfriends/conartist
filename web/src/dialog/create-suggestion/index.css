@@ -1,7 +1,8 @@
 .form {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  padding: 16px;
+  padding: 16px 16px 0 16px;
   height: 100%;
 }
 
@@ -12,5 +13,8 @@
 .disclaimer {
   flex-shrink: 0;
   opacity: 0.5;
-  padding: 16px;
+  margin: 8px;
+  padding: 8px;
+  max-height: 40%;
+  overflow-y: auto;
 }

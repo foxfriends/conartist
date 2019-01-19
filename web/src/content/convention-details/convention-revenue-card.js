@@ -36,8 +36,8 @@ export function ConventionRevenueCard({ convention }: Props) {
         <NetProfit sales={convention.recordTotal} expenses={convention.expenseTotal} />
       </Table>
       <BasicFooter className={SS.footer}>
-        <Button priority='primary' className={SS.button} onClick={dialog.showNewSaleDialog}>{l`New sale`}</Button>
-        <Button priority='secondary' className={SS.button} onClick={dialog.showNewExpenseDialog}>{l`New expense`}</Button>
+        <Button priority='primary' className={SS.button} action={() => dialog.showNewSaleDialog()}>{l`New sale`}</Button>
+        <Button priority='secondary' className={SS.button} action={() => dialog.showNewExpenseDialog()}>{l`New expense`}</Button>
       </BasicFooter>
     </Card>
   )

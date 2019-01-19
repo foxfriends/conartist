@@ -1,24 +1,9 @@
 /* @flow */
 import { model } from '../model'
 import * as page from '../model/page'
-import { LoadConvention } from '../api/load-convention'
 import type { Convention } from '../model/convention'
 import type { Page } from '../model/page'
-import { setConvention } from '../update/conventions'
-
-function loadConvention(conId: number) {
-  new LoadConvention()
-    .send({ conId })
-    .toPromise()
-    .then(response => {
-      if(response.state === 'retrieved') {
-        return response.value
-      }
-      throw new Error()
-    })
-    .then(setConvention)
-    .catch(conventions)
-}
+import { loadConvention } from './helpers'
 
 function goTo(name, page) {
   return () => {
@@ -50,6 +35,7 @@ export function conventionDetails(convention: Convention) {
     window.history.pushState({}, '', `/convention/${convention.id}/details`)
   }
   loadConvention(convention.id)
+    .catch(conventions)
   model.next({ ...model.getValue(), page: page.conventionDetails(convention) })
 }
 
@@ -59,6 +45,7 @@ export function conventionRecords(convention: Convention) {
     window.history.pushState({}, '', `/convention/${convention.id}/records`)
   }
   loadConvention(convention.id)
+    .catch(conventions)
   model.next({ ...model.getValue(), page: page.conventionRecords(convention) })
 }
 
@@ -68,6 +55,7 @@ export function conventionStats(convention: Convention) {
     window.history.pushState({}, '', `/convention/${convention.id}/stats`)
   }
   loadConvention(convention.id)
+    .catch(conventions)
   model.next({ ...model.getValue(), page: page.conventionStats(convention) })
 }
 
@@ -77,6 +65,7 @@ export function conventionUserInfo(convention: Convention) {
     window.history.pushState({}, '', `/convention/${convention.id}/info`)
   }
   loadConvention(convention.id)
+    .catch(conventions)
   model.next({ ...model.getValue(), page: page.conventionUserInfo(convention) })
 }
 

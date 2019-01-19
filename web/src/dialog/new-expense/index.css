@@ -1,0 +1,15 @@
+.form {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 16px 0 16px;
+  height: 100%;
+}
+
+.formItem {
+  margin-bottom: 8px;
+}
+
+.full {
+  flex-grow: 1;
+}

@@ -139,6 +139,10 @@ Total = "Total"
 Type = "Type"
 # Records
 "<Empty recods list message>" = "You haven't sold anything yet"
+"Expense saved" = "Expense saved"
+"Sale saved" = "Sale saved"
+"The amount cannot be zero" = "The amount cannot be zero"
+"The amount is invalid" = "The amount is invalid"
 
 # Settings
 General = "General"

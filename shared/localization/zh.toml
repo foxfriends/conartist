@@ -240,6 +240,10 @@ View = "看→"
 # Convention details
 # Records
 "<Empty recods list message>" = "你还没有卖出任何东西"
+"Expense saved" = "TODO: traslate"
+"Sale saved" = "TODO: translate"
+"The amount cannot be zero" = "TODO: translate"
+"The amount is invalid" = "TODO: translate"
 
 # Settings
 "Privacy Policy" = "隐私政策"

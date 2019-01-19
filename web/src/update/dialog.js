@@ -51,16 +51,16 @@ export function showCreateSuggestionDialog() {
   })
 }
 
-export function showNewSaleDialog() {
+export function showNewSaleDialog(sale?: ?Record) {
   model.next({
     ...model.getValue(),
-    dialog: newSale,
+    dialog: newSale(sale),
   })
 }
 
-export function showNewExpenseDialog() {
+export function showNewExpenseDialog(expense?: ?Expense) {
   model.next({
     ...model.getValue(),
-    dialog: newExpense,
+    dialog: newExpense(expense),
   })
 }

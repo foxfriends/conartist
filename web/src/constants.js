@@ -20,3 +20,5 @@ export const LANGUAGES = ['en-ca', 'en-us'] // , 'zh-Hans']
 export const CURRENCIES = ['CAD', 'USD']
 
 export const PAGE_NO_AUTH = ['verify', 'reset-password', 'terms-of-service', 'privacy-policy', 'splash', 'faq']
+
+export const RFC3339 = 'yyyy-MM-dd\'T\'hh:mm:ssXXX'

@@ -1,6 +1,6 @@
 //! Input objects needed to modify convention expense
 use juniper::GraphQLInputObject;
-use chrono::{DateTime,FixedOffset};
+use chrono::{DateTime, FixedOffset};
 use uuid::Uuid;
 use crate::money::Money;
 

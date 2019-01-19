@@ -171,10 +171,10 @@ export class ConArtist extends React.Component<Props, State> {
         state.content = { name: 'static', content: 'terms-of-service' }
         break
 
-        case 'privacy-policy':
-          state.navigation = isSignedIn() ? NavInfo.default : null
-          state.content = { name: 'static', content: 'privacy-policy' }
-          break
+      case 'privacy-policy':
+        state.navigation = isSignedIn() ? NavInfo.default : null
+        state.content = { name: 'static', content: 'privacy-policy' }
+        break
 
       case 'faq':
         state.navigation = isSignedIn() ? NavInfo.default : null
@@ -244,6 +244,14 @@ export class ConArtist extends React.Component<Props, State> {
 
         case 'create-suggestion':
           state.dialog = { name: 'create-suggestion' }
+          break
+
+        case 'new-sale':
+          state.dialog = { name: 'new-sale', convention: model.page.convention, record: model.dialog.record }
+          break
+
+        case 'new-expense':
+          state.dialog = { name: 'new-expense', convention: model.page.convention, expense: model.dialog.expense }
           break
 
         case 'export':

@@ -92,15 +92,29 @@ Today section, and you'll be able to record sales!
 Until the convention starts you cannot record sales, but you can put some expenses in early (like
 table fees or arranged hotel costs) so you don't forget.
 
-For now you can only input sales from the app.
-
 ## A convention I plan to attend is not listed. What to do?
 
 Just send an email, or a message on Discord, and we'll try to add your convention as soon as
 possible. There are links to contact us on the settings page!
 
+Provide as much of this information as you can find:
+
+*   Convention name
+*   Dates
+*   Website
+*   Address
+*   Geographic coordinates (plug the address into Google Maps)
+*   Artist Alley hours
+
+If you want to be super helpful (and are willing to get a bit more technical), fill in
+[this template](https://github.com/OinkIguana/conartist/blob/master/dev/import-conventions/sample/convention.toml)
+to the best of your abilities, and send that to me!
+
 ## I use an Android phone. Can I use this app?
 
-Right now, unfortunately not. It takes some time to develop an app, but an Android app is definitely
-in the plans for the future. Feel free to send some motivating messages, and maybe we'll try to
-speed up development a bit!
+Right now, unfortunately not. It takes some time to develop an app, and I wanted to get the iOS
+version out as soon as possible, but an Android app is definitely in the plans for the future. Feel
+free to send some motivating messages, and maybe I'll try to speed up development a bit!
+
+You can, however, visit the website from your phone. It has pretty much all the same features as
+the app!

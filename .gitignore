@@ -7,3 +7,4 @@ server/start
 server/staging
 target/
 .env
+.metals

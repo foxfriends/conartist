@@ -1,0 +1,19 @@
+title = "Edmonton Comic & Entertainment Expo"
+start_date = 2019-09-20
+end_date = 2019-09-22
+
+[address]
+address = """
+Edmonton EXPO Centre
+7515 118 Ave NW
+Edmonton, AB
+"""
+city = "Edmonton, AB"
+
+[address.coordinates]
+lat = 53.56834
+lon = -113.457952
+
+[website]
+title = "edmontonexpo.com"
+url = "https://edmontonexpo.com/"

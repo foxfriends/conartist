@@ -1,0 +1,19 @@
+title = "Toronto Comic Arts Festival"
+start_date = 2019-05-11
+end_date = 2019-05-12
+
+[address]
+city = "Toronto, ON"
+address = """
+Toronto Reference Library
+789 Yonge Street
+Toronto, ON
+"""
+
+[address.coordinates]
+lat = 43.6719053
+lon = -79.3888805
+
+[website]
+title = "torontocomics.com"
+url = "http://torontocomics.com/"

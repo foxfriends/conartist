@@ -1,0 +1,19 @@
+title = "Sailor Moon Celebration"
+start_date = 2019-07-20
+end_date = 2019-07-21
+
+[address]
+city = "Toronto, ON"
+address = """
+Japanese Canadian Cultural Centre
+6 Garamond Ct
+North York, ON
+"""
+
+[address.coordinates]
+lat = 44.6334519
+lon = -77.6021011
+
+[website]
+title = "sailormooncelebration.com"
+url = "http://sailormooncelebration.com"

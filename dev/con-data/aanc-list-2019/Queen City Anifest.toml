@@ -1,0 +1,19 @@
+title = "Queen City Anifest"
+start_date = 2019-08-24
+end_date = 2019-08-24
+
+[address]
+city = "Regina, SK"
+address = """
+Conexus Arts Centre
+200 Lakeshore Dr
+Regina, SK
+"""
+
+[address.coordinates]
+lat = 50.428385
+lon = -104.600036
+
+[website]
+title = "qcanifest.com"
+url = "https://qcanifest.com/"

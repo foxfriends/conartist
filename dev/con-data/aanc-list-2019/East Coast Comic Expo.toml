@@ -1,0 +1,19 @@
+title = "East Coast Comic Expo"
+start_date = 2019-05-17
+end_date = 2019-05-18
+
+[address]
+address = """
+Moncton Coliseum
+377 Killam Drive (Entrance C)
+Moncton, NB
+"""
+city = "Moncton, NB"
+
+[address.coordinates]
+lat = 46.0957336
+lon = -64.8319252
+
+[website]
+title = "eastcoastcomicexpo.com"
+url = "http://eastcoastcomicexpo.com"

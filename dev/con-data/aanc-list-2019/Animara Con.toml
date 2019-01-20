@@ -1,0 +1,15 @@
+title = "Animara Con"
+start_date = 2019-09-21
+end_date = 2019-09-22
+
+[address]
+city = "Sherbrooke, QC"
+address = "Hôtel Delta Sherbrooke\n2685 King Ouest\nSherbrooke, QC"
+
+[address.coordinates]
+lat = 45.3996478
+lon = -71.9414806
+
+[website]
+title = "animaracon.com"
+url = "http://animaracon.com"

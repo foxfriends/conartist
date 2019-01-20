@@ -1,0 +1,19 @@
+title = "TFcon"
+start_date = 2019-07-12
+end_date = 2019-07-14
+
+[address]
+city = "Mississauga, ON"
+address = """
+Hilton Mississauga/Meadowvale
+6750 Mississauga Road
+Mississauga, ON
+"""
+
+[address.coordinates]
+lat = 43.6016029
+lon = -79.74441
+
+[website]
+title = "tfcon.ca"
+url = "https://tfcon.ca"

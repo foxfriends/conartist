@@ -23,4 +23,7 @@ address = """
 Waterloo, ON, Canada
 N2L 5L3
 """
-coordinates = { lat = 43.4480745, lon = -80.5724649 }
+
+[address.coordinates]
+lat = 43.4480745
+lon = -80.5724649

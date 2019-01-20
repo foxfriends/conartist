@@ -1,0 +1,22 @@
+title = "Aurora Con"
+start_date = 2019-05-03
+end_date = 2019-05-04
+
+[[hours]]
+start = 2019-05-03T12:00:00-06:00
+end   = 2019-05-03T20:00:00-06:00
+[[hours]]
+start = 2019-05-04T09:00:00-06:00
+end   = 2019-05-04T16:00:00-06:00
+
+[address]
+address = "HLPS Gymnasium\n9701 105 Ave\nHigh Level, AB"
+city = "High Level, AB"
+
+[address.coordinates]
+lat = 58.512597
+lon = -117.137792
+
+[website]
+title = "aurora-con.com"
+url = "https://aurora-con.com"

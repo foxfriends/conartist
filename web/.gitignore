@@ -1,4 +1,3 @@
-node_modules
 /public_html/static/
 /public_html/staging/
 *.js.map

@@ -1,0 +1,15 @@
+{
+  "name": "aanc-list-2019",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "csv": "^5.1.1",
+    "toml-js": "0.0.8"
+  }
+}

@@ -1,0 +1,19 @@
+title = "Spring Geequinox"
+start_date = 2019-04-20
+end_date = 2019-04-21
+
+[address]
+city = "Halifax, NS"
+address = """
+Halifax Forum (MPC Room)
+2901 Windsor Street
+Halifax, NS
+"""
+
+[address.coordinates]
+lat = 44.6552593
+lon = -63.606261
+
+[website]
+title = "geequinox.ca"
+url = "http://geequinox.ca"

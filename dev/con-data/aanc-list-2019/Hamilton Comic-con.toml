@@ -1,0 +1,19 @@
+title = "Hamilton Comic-con"
+start_date = 2019-10-19
+end_date = 2019-10-20
+
+[address]
+city = "Hamilton, ON"
+address = """
+Hamilton Convention Centre
+1 Summers Lane
+Hamilton, Ontario
+"""
+
+[address.coordinates]
+lat = 43.2567649
+lon = -79.874287
+
+[website]
+title = "hamiltoncomiccon.com"
+url = "https://hamiltoncomiccon.com/"

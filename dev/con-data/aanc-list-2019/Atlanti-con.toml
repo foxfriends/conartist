@@ -1,0 +1,15 @@
+title = "Atlanti-con"
+start_date = 2019-09-27
+end_date = 2019-09-29
+
+[address]
+city = "Corner Brook, NL"
+address = "1 Canada Games Place\nCorner Brook, NL"
+
+[address.coordinates]
+lat = 48.9395813
+lon = -57.9419964
+
+[website]
+title = "atlanti-con.com"
+url = "http://atlanti-con.com"

@@ -1,0 +1,19 @@
+title = "Saskatchewan Entertainment Expo"
+start_date = 2019-05-04
+end_date = 2019-05-05
+
+[address]
+city = "Regina, SK"
+address = """
+Evraz Place
+1700 Elphinstone Street
+Regina, SK
+"""
+
+[address.coordinates]
+lat = 50.4524871
+lon = -104.6395447
+
+[website]
+title = "saskexpo.com"
+url = "https://saskexpo.com/"

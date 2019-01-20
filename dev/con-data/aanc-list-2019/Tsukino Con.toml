@@ -1,0 +1,19 @@
+title = "Tsukino Con"
+start_date = 2019-02-22
+end_date = 2019-02-24
+
+[address]
+city = "Victoria, BC"
+address = """
+University of Victoria
+3800 Finnerty Rd
+Victoria, BC
+"""
+
+[address.coordinates]
+lat = 48.4634072
+lon = -123.313892
+
+[website]
+title = "tsukinocon.com"
+url = "https://tsukinocon.com/"

@@ -1,0 +1,19 @@
+title = "Drumheller Dinosaur and Comic Expo"
+start_date = 2019-08-24
+end_date = 2019-08-25
+
+[address]
+address = """
+Drumheller Badlands Community Facility
+80 Veterans Way
+Drumheller, AB
+"""
+city = "Drumheller, AB"
+
+[address.coordinates]
+lat = 51.4671328
+lon = -112.7082966
+
+[website]
+title = "drumhellerdinoexpo.com"
+url = "https://drumhellerdinoexpo.com/"

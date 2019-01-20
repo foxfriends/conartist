@@ -1,0 +1,15 @@
+title = "Avalon Expo"
+start_date = 2019-09-06
+end_date = 2019-09-08
+
+[address]
+address = "The RE/MAX Centre\n135 Mayor Ave\nSt. John's, NL"
+city = "St. John's, NL"
+
+[address.coordinates]
+lat = 47.5694282
+lon = -52.7266639
+
+[website]
+title = "avalonexpo.com"
+url = "https://www.avalonexpo.com/"

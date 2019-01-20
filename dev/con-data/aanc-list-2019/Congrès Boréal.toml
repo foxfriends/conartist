@@ -1,0 +1,19 @@
+title = "Congrès Boréal"
+start_date = 2019-05-03
+end_date = 2019-05-05
+
+[address]
+address = """
+Grand Hôtel Times
+1 Rue Belvédère S
+Sherbrooke, QC
+"""
+city = "Sherbrooke, QC"
+
+[address.coordinates]
+lat = 45.398184
+lon = -71.898994
+
+[website]
+title = "congresboreal.ca"
+url = "https://congresboreal.ca/"

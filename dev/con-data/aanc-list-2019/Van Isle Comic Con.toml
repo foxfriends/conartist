@@ -1,0 +1,19 @@
+title = "Van Isle Comic Con"
+start_date = 2019-06-09
+end_date = 2019-06-09
+
+[address]
+city = "Victoria, BC"
+address = """
+Mary Winspear Centre
+2243 Beacon Ave W
+Sidney, BC
+"""
+
+[address.coordinates]
+lat = 48.6483102
+lon = -123.4073496
+
+[website]
+title = "vanislecomiccon.com"
+url = "https://vanislecomiccon.com/"

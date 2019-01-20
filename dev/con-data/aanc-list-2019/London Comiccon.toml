@@ -1,0 +1,19 @@
+title = "London Comiccon"
+start_date = 2019-10-05
+end_date = 2019-10-06
+
+[address]
+city = "London, ON"
+address = """
+London Convention Centre
+300 York St.
+London ON
+"""
+
+[address.coordinates]
+lat = 42.9830616
+lon = -81.2452675
+
+[website]
+title = "londoncomiccon.ca"
+url = "http://londoncomiccon.ca/"

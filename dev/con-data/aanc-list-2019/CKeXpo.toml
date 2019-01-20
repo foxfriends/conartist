@@ -1,0 +1,23 @@
+title = "CKeXpo"
+start_date = 2019-04-27
+end_date = 2019-04-27
+
+[[hours]]
+start = 2019-04-27T10:00:00-04:00
+end = 2019-04-27T18:00:00-04:00
+
+[address]
+address = """
+Chatham-Kent John D. Bradley Convention Centre
+565 Richmond St
+Chatham, ON
+"""
+city = "Chatham, ON"
+
+[address.coordinates]
+lat = 42.3908219
+lon = -82.2717325
+
+[website]
+title = "ckexpo.ca"
+url = "https://ckexpo.ca"

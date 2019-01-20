@@ -1,0 +1,15 @@
+title = "Caper Con"
+start_date = 2019-09-20
+end_date = 2019-09-22
+
+[address]
+address = "481 George St\nSydney, NS"
+city = "Sydney, NS"
+
+[address.coordinates]
+lat = 46.1370431
+lon = -60.1923846
+
+[website]
+title = "capercon.ca"
+url = "http://capercon.ca/"

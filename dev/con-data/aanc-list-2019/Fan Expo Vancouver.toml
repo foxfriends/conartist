@@ -1,0 +1,19 @@
+title = "Fan Expo Vancouver"
+start_date = 2019-03-01
+end_date = 2019-03-03
+
+[address]
+address = """
+Vancouver Convention Centre
+1055 Canada Pl
+Vancouver, BC
+"""
+city = "Vancouver, BC"
+
+[address.coordinates]
+lat = 49.2886128
+lon = -123.1178788
+
+[website]
+title = "fanexpovancouver.com"
+url = "https://fanexpovancouver.com/"

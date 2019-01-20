@@ -6,5 +6,6 @@ database/migrate-prod-db*
 server/start
 server/staging
 target/
+node_modules/
 .env
 .metals

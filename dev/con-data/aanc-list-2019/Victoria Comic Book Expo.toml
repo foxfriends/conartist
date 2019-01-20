@@ -1,0 +1,19 @@
+title = "Victoria Comic Book Expo"
+start_date = 2019-02-17
+end_date = 2019-02-17
+
+[address]
+city = "Victoria, BC"
+address = """
+Comfort Inn & Suites
+3020 Blanshard St
+Victoria, BC
+"""
+
+[address.coordinates]
+lat = 48.4439972
+lon = -123.3691932
+
+[website]
+title = "victoriacomicbookexpo.ca"
+url = "https://victoriacomicbookexpo.ca"

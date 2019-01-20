@@ -1,0 +1,26 @@
+title = "Calgary Horror Con"
+start_date = 2019-06-22
+end_date = 2019-06-23
+
+[[hours]]
+start = 2019-06-22T11:00:00-06:00
+end   = 2019-06-22T19:00:00-06:00
+[[hours]]
+start = 2019-06-23T11:00:00-06:00
+end   = 2019-06-23T19:00:00-06:00
+
+[address]
+address = """
+Clarion Hotel
+2120 16 Ave NE
+Calgary, AB T2E 1L4
+"""
+city = "Calgary, AB"
+
+[address.coordinates]
+lat = 51.067498
+lon = -114.0125061
+
+[website]
+title = "horror-con.ca"
+url = "http://horror-con.ca"

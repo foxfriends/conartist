@@ -8,4 +8,3 @@ server/staging
 target/
 node_modules/
 .env
-.metals

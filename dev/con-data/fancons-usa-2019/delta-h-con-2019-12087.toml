@@ -1,0 +1,16 @@
+title = "Delta H Con"
+start_date = 2019-09-20
+end_date = 2019-09-22
+
+[website]
+title = "deltahcon.com"
+url = "https://deltahcon.com/"
+
+[address]
+address = "Houston Marriott Westchase\nHouston, TX, USA\n77042"
+city = "Houston, TX"
+
+[address.coordinates]
+lat = 29.73431
+lon = -95.55029
+

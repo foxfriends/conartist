@@ -1,0 +1,16 @@
+title = "Toyhio Toy Show"
+start_date = 2019-06-22
+end_date = 2019-06-22
+
+[website]
+title = "www.toyhiotoyshow.com"
+url = "http://www.toyhiotoyshow.com/"
+
+[address]
+address = "Metroplex Expo Center\nGirard, OH, USA\n44420"
+city = "Girard, OH"
+
+[address.coordinates]
+lat = 41.157276
+lon = -80.66651
+

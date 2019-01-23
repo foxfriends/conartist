@@ -1,0 +1,15 @@
+title = "Uchi-con"
+start_date = 2019-02-09
+end_date = 2019-02-09
+
+[website]
+title = "uchi-con.com"
+url = "http://uchi-con.com/"
+
+[address]
+address = "University of Chicago\nIda Noyes Hall & Harper Memorial Building\nChicago, IL, USA\n60637"
+city = "Chicago, IL"
+
+[address.coordinates]
+lat = 41.78809
+lon = -87.59556

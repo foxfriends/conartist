@@ -1,0 +1,16 @@
+title = "RTX Austin"
+start_date = 2019-07-05
+end_date = 2019-07-07
+
+[website]
+title = "www.rtxaustin.com"
+url = "https://www.rtxaustin.com/"
+
+[address]
+address = "Austin Convention Center\nAustin, TX, USA\n78701"
+city = "Austin, TX"
+
+[address.coordinates]
+lat = 30.264183
+lon = -97.73981
+

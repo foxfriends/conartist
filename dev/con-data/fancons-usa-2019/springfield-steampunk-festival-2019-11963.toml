@@ -1,0 +1,16 @@
+title = "Springfield Steampunk Festival"
+start_date = 2019-09-21
+end_date = 2019-09-22
+
+[website]
+title = "springfieldvtsteampunkfest.com"
+url = "http://springfieldvtsteampunkfest.com/"
+
+[address]
+address = "Hartness House Inn\nSpringfield, VT, USA\n05156"
+city = "Springfield, VT"
+
+[address.coordinates]
+lat = 43.301586
+lon = -72.47764
+

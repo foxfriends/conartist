@@ -1,0 +1,16 @@
+title = "Motor City Furry Con"
+start_date = 2019-04-12
+end_date = 2019-04-14
+
+[website]
+title = "motorcityfurrycon.org"
+url = "https://motorcityfurrycon.org/"
+
+[address]
+address = "The Westin Southfield Detroit\nSouthfield, MI, USA\n48075"
+city = "Southfield, MI"
+
+[address.coordinates]
+lat = 42.475998
+lon = -83.24482
+

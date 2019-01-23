@@ -1,0 +1,16 @@
+title = "MinCon"
+start_date = 2019-07-13
+end_date = 2019-07-13
+
+[website]
+title = "www.mineolalibrary.info"
+url = "https://www.mineolalibrary.info/mincon"
+
+[address]
+address = "Mineola Memorial Library\nMineola, NY, USA\n11501"
+city = "Mineola, NY"
+
+[address.coordinates]
+lat = 40.74394
+lon = -73.64617
+

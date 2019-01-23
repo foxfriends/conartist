@@ -1,0 +1,16 @@
+title = "AnimeFest"
+start_date = 2019-08-16
+end_date = 2019-08-19
+
+[website]
+title = "animefest.org"
+url = "https://animefest.org/"
+
+[address]
+address = "Sheraton Dallas Hotel\nDallas, TX, USA\n75201"
+city = "Dallas, TX"
+
+[address.coordinates]
+lat = 32.785088
+lon = -96.79479
+

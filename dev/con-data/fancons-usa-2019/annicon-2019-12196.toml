@@ -1,0 +1,16 @@
+title = "AnniCon"
+start_date = 2019-03-02
+end_date = 2019-03-02
+
+[website]
+title = "www.annicon.com"
+url = "https://www.annicon.com/"
+
+[address]
+address = "Anniston City Meeting Center\nAnniston, AL, USA\n36201"
+city = "Anniston, AL"
+
+[address.coordinates]
+lat = 33.66564
+lon = -85.82884
+

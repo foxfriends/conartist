@@ -1,0 +1,16 @@
+title = "Gallifrey One"
+start_date = 2019-02-15
+end_date = 2019-02-17
+
+[website]
+title = "www.gallifreyone.com"
+url = "http://www.gallifreyone.com/"
+
+[address]
+address = "Los Angeles Airport Marriott\nLos Angeles, CA, USA\n90045"
+city = "Los Angeles, CA"
+
+[address.coordinates]
+lat = 33.946507
+lon = -118.38461
+

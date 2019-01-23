@@ -1,0 +1,16 @@
+title = "NekoCon"
+start_date = 2019-11-01
+end_date = 2019-11-03
+
+[website]
+title = "www.nekocon.com"
+url = "https://www.nekocon.com/"
+
+[address]
+address = "Hampton Roads Convention Center\nHampton, VA, USA\n23666"
+city = "Hampton, VA"
+
+[address.coordinates]
+lat = 37.037212
+lon = -76.38285
+

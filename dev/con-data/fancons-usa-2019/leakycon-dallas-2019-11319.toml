@@ -1,0 +1,16 @@
+title = "LeakyCon Dallas"
+start_date = 2019-08-09
+end_date = 2019-08-11
+
+[website]
+title = "www.leakycon.com"
+url = "http://www.leakycon.com/"
+
+[address]
+address = "Kay Bailey Hutchison Convention Center Dallas\nDallas, TX, USA\n75202"
+city = "Dallas, TX"
+
+[address.coordinates]
+lat = 32.774296
+lon = -96.80036
+

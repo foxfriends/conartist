@@ -1,0 +1,16 @@
+title = "IndyFurCon"
+start_date = 2019-08-23
+end_date = 2019-08-25
+
+[website]
+title = "indyfurcon.com"
+url = "https://indyfurcon.com/"
+
+[address]
+address = "Indianapolis Marriott East\nIndianapolis, IN, USA\n46219"
+city = "Indianapolis, IN"
+
+[address.coordinates]
+lat = 39.797306
+lon = -86.04123
+

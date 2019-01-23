@@ -1,0 +1,16 @@
+title = "Ghostbusters Fan Fest"
+start_date = 2019-06-08
+end_date = 2019-06-09
+
+[website]
+title = "wizardworld.com"
+url = "https://wizardworld.com/comiccon/ghostbusters-fan-fest"
+
+[address]
+address = "Sony Pictures Entertainment\nCulver City, CA, USA\n90232"
+city = "Culver City, CA"
+
+[address.coordinates]
+lat = 34.01765
+lon = -118.401405
+

@@ -1,0 +1,16 @@
+title = "ClexaCon Las Vegas"
+start_date = 2019-04-11
+end_date = 2019-04-15
+
+[website]
+title = "www.clexacon.com"
+url = "https://www.clexacon.com/"
+
+[address]
+address = "Tropicana Las Vegas\nLas Vegas, NV, USA\n89109"
+city = "Las Vegas, NV"
+
+[address.coordinates]
+lat = 36.099796
+lon = -115.17175
+

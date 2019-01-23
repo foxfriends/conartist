@@ -1,0 +1,16 @@
+title = "(Re)Generation Who"
+start_date = 2019-03-29
+end_date = 2019-03-31
+
+[website]
+title = "regenerationwho.com"
+url = "https://regenerationwho.com/"
+
+[address]
+address = "Bethesda North Marriott Hotel & Conference Center\nRockville, MD, USA\n20852"
+city = "Rockville, MD"
+
+[address.coordinates]
+lat = 39.04707
+lon = -77.11568
+

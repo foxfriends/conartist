@@ -1,0 +1,16 @@
+title = "Lexington Comic & Toy Convention"
+start_date = 2019-03-21
+end_date = 2019-03-24
+
+[website]
+title = "www.lexingtoncomiccon.com"
+url = "http://www.lexingtoncomiccon.com/"
+
+[address]
+address = "Lexington Convention Center\nLexington, KY, USA\n40507"
+city = "Lexington, KY"
+
+[address.coordinates]
+lat = 38.049873
+lon = -84.5019
+

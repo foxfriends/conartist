@@ -1,0 +1,16 @@
+title = "Anthrocon"
+start_date = 2019-07-04
+end_date = 2019-07-07
+
+[website]
+title = "www.anthrocon.org"
+url = "https://www.anthrocon.org/"
+
+[address]
+address = "David L. Laurence Convention Center\nPittsburgh, PA, USA\n15222"
+city = "Pittsburgh, PA"
+
+[address.coordinates]
+lat = 40.445576
+lon = -79.9961
+

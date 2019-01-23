@@ -1,0 +1,16 @@
+title = "Hazard Con"
+start_date = 2019-07-26
+end_date = 2019-07-28
+
+[website]
+title = "hazardcon.org"
+url = "http://hazardcon.org/"
+
+[address]
+address = "Ambassador Banquet and Conference Center\nErie, PA, USA\n16509"
+city = "Erie, PA"
+
+[address.coordinates]
+lat = 42.04963
+lon = -80.08427
+

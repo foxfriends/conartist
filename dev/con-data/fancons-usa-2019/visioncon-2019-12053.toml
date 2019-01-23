@@ -1,0 +1,16 @@
+title = "Visioncon"
+start_date = 2019-05-10
+end_date = 2019-05-12
+
+[website]
+title = "visioncon.net"
+url = "http://visioncon.net/"
+
+[address]
+address = "Springfield Expo Center\nSpringfield, MO, USA\n65806"
+city = "Springfield, MO"
+
+[address.coordinates]
+lat = 37.209396
+lon = -93.28534
+

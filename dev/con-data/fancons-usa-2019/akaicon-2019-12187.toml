@@ -1,0 +1,16 @@
+title = "AkaiCon"
+start_date = 2019-07-26
+end_date = 2019-07-28
+
+[website]
+title = "akaicon.com"
+url = "https://akaicon.com/"
+
+[address]
+address = "Wilson County Exposition Center\nLebanon, TN, USA\n37087"
+city = "Lebanon, TN"
+
+[address.coordinates]
+lat = 36.198612
+lon = -86.271935
+

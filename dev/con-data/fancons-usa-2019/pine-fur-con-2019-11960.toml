@@ -1,0 +1,16 @@
+title = "Pine Fur Con"
+start_date = 2019-04-05
+end_date = 2019-04-07
+
+[website]
+title = "pinefurcon.org"
+url = "https://pinefurcon.org/"
+
+[address]
+address = "DoubleTree by Hilton Hotel Portland, ME\nSouth Portland, ME, USA\n04106"
+city = "South Portland, ME"
+
+[address.coordinates]
+lat = 43.635433
+lon = -70.338936
+

@@ -1,0 +1,16 @@
+title = "Playthrough"
+start_date = 2019-03-30
+end_date = 2019-03-31
+
+[website]
+title = "www.playthroughgc.com"
+url = "https://www.playthroughgc.com/"
+
+[address]
+address = "Raleigh Convention Center\nRaleigh, NC, USA\n27601"
+city = "Raleigh, NC"
+
+[address.coordinates]
+lat = 35.773685
+lon = -78.64147
+

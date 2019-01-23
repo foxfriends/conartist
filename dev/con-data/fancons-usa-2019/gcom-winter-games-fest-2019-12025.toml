@@ -1,0 +1,16 @@
+title = "GCOM Winter Games Fest"
+start_date = 2019-01-25
+end_date = 2019-01-27
+
+[website]
+title = "winterfest.gamesclubofmd.org"
+url = "https://winterfest.gamesclubofmd.org/"
+
+[address]
+address = "Harry L Cooper VFW Post 160\nGlen Burnie, MD, USA\n21061"
+city = "Glen Burnie, MD"
+
+[address.coordinates]
+lat = 39.160778
+lon = -76.67755
+

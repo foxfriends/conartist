@@ -1,0 +1,16 @@
+title = "Clandestine Comic Book Show"
+start_date = 2019-02-03
+end_date = 2019-02-03
+
+[website]
+title = "clandestinecomics.com"
+url = "http://clandestinecomics.com/"
+
+[address]
+address = "La Quinta Inn & Suites Baltimore South Glen Burnie\nGlen Burnie, MD, USA\n21061"
+city = "Glen Burnie, MD"
+
+[address.coordinates]
+lat = 39.202938
+lon = -76.613205
+

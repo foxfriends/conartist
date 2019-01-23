@@ -1,0 +1,16 @@
+title = "FanimeCon"
+start_date = 2019-05-24
+end_date = 2019-05-27
+
+[website]
+title = "www.fanime.com"
+url = "https://www.fanime.com/"
+
+[address]
+address = "San Jose McEnery Convention Center\nSan Jose, CA, USA\n95113-2005"
+city = "San Jose, CA"
+
+[address.coordinates]
+lat = 37.329063
+lon = -121.888855
+

@@ -1,0 +1,16 @@
+title = "Shuto Con"
+start_date = 2019-03-22
+end_date = 2019-03-24
+
+[website]
+title = "www.shutocon.com"
+url = "http://www.shutocon.com/"
+
+[address]
+address = "Radisson Hotel Lansing at the Capitol\nLansing, MI, USA\n48933"
+city = "Lansing, MI"
+
+[address.coordinates]
+lat = 42.733994
+lon = -84.55123
+

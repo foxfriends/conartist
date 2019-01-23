@@ -1,0 +1,16 @@
+title = "Polar Vortex"
+start_date = 2019-01-25
+end_date = 2019-01-27
+
+[website]
+title = "polarvortex.games"
+url = "https://polarvortex.games/"
+
+[address]
+address = "College of DuPage\nGlen Ellyn, IL, USA\n60137"
+city = "Glen Ellyn, IL"
+
+[address.coordinates]
+lat = 41.842407
+lon = -88.0735
+

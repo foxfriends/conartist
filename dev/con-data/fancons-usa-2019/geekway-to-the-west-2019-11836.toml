@@ -1,0 +1,16 @@
+title = "Geekway to the West"
+start_date = 2019-05-16
+end_date = 2019-05-19
+
+[website]
+title = "geekwaytothewest.com"
+url = "https://geekwaytothewest.com/"
+
+[address]
+address = "St. Charles Convention Center\nSt. Charles, MO, USA\n63303"
+city = "St. Charles, MO"
+
+[address.coordinates]
+lat = 38.76914
+lon = -90.50238
+

@@ -1,0 +1,16 @@
+title = "Indy PopCon"
+start_date = 2019-06-07
+end_date = 2019-06-09
+
+[website]
+title = "indypopcon.com"
+url = "https://indypopcon.com/"
+
+[address]
+address = "Indiana Convention Center\nIndianapolis, IN, USA\n46225"
+city = "Indianapolis, IN"
+
+[address.coordinates]
+lat = 39.76436
+lon = -86.164345
+

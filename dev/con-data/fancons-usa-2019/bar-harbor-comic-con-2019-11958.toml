@@ -1,0 +1,16 @@
+title = "Bar Harbor Comic Con"
+start_date = 2019-05-04
+end_date = 2019-05-04
+
+[website]
+title = "www.barharborcomiccon.com"
+url = "https://www.barharborcomiccon.com/"
+
+[address]
+address = "Atlantic Oceanside Hotel & Event Center\nBar Harbor, ME, USA\n04609"
+city = "Bar Harbor, ME"
+
+[address.coordinates]
+lat = 44.397038
+lon = -68.22505
+

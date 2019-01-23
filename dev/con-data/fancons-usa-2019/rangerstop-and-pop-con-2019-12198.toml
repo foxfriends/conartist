@@ -1,0 +1,16 @@
+title = "Rangerstop & Pop Con"
+start_date = 2019-06-21
+end_date = 2019-06-23
+
+[website]
+title = "rangerstopatlanta.com"
+url = "https://rangerstopatlanta.com/"
+
+[address]
+address = "Sheraton Atlanta Hotel\nAtlanta, GA, USA\n30303"
+city = "Atlanta, GA"
+
+[address.coordinates]
+lat = 33.758957
+lon = -84.383224
+

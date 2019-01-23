@@ -1,0 +1,16 @@
+title = "Wizard World Comic Con Columbus"
+start_date = 2019-10-18
+end_date = 2019-10-20
+
+[website]
+title = "wizardworld.com"
+url = "https://wizardworld.com/comiccon/columbus"
+
+[address]
+address = "Greater Columbus Convention Center\nColumbus, OH, USA\n43215"
+city = "Columbus, OH"
+
+[address.coordinates]
+lat = 39.972507
+lon = -83.00121
+

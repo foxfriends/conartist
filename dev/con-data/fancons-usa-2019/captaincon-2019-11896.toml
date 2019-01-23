@@ -1,0 +1,16 @@
+title = "CaptainCon"
+start_date = 2019-02-08
+end_date = 2019-02-10
+
+[website]
+title = "captaincon.com"
+url = "http://captaincon.com/"
+
+[address]
+address = "Crowne Plaza Providence-Warwick (Airport)\nWarwick, RI, USA\n02886"
+city = "Warwick, RI"
+
+[address.coordinates]
+lat = 41.715267
+lon = -71.4674
+

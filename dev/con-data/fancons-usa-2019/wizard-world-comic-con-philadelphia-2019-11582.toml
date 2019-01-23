@@ -1,0 +1,16 @@
+title = "Wizard World Comic Con Philadelphia"
+start_date = 2019-06-13
+end_date = 2019-06-16
+
+[website]
+title = "wizardworld.com"
+url = "https://wizardworld.com/comiccon/philadelphia"
+
+[address]
+address = "Philadelphia Convention Center\nPhiladelphia, PA, USA\n19107-2208"
+city = "Philadelphia, PA"
+
+[address.coordinates]
+lat = 39.95509
+lon = -75.160194
+

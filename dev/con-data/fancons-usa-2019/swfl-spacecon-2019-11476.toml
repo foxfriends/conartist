@@ -1,0 +1,16 @@
+title = "SWFL SpaceCon"
+start_date = 2019-06-08
+end_date = 2019-06-08
+
+[website]
+title = "www.swflspacecon.com"
+url = "http://www.swflspacecon.com/"
+
+[address]
+address = "Araba Shrine Temple\nFort Myers, FL, USA\n33901"
+city = "Fort Myers, FL"
+
+[address.coordinates]
+lat = 26.622053
+lon = -81.87061
+

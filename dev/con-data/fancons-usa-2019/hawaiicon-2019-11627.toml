@@ -1,0 +1,16 @@
+title = "HawaiiCon"
+start_date = 2019-09-26
+end_date = 2019-09-29
+
+[website]
+title = "www.hawaiicon.com"
+url = "http://www.hawaiicon.com/"
+
+[address]
+address = "Sheraton Kona Resort & Spa at Keauhou Bay\nKailua-Kona, HI, USA\n96740"
+city = "Kailua-Kona, HI"
+
+[address.coordinates]
+lat = 19.558622
+lon = -155.96506
+

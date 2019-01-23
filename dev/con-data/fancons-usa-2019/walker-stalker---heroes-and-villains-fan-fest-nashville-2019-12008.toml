@@ -1,0 +1,16 @@
+title = "Walker Stalker / Heroes & Villains Fan Fest Nashville"
+start_date = 2019-08-24
+end_date = 2019-08-25
+
+[website]
+title = "walkerstalkercon.com"
+url = "https://walkerstalkercon.com/nashville/"
+
+[address]
+address = "Gaylord Opryland Resort & Convention Center\nNashville, TN, USA\n37214"
+city = "Nashville, TN"
+
+[address.coordinates]
+lat = 36.21149
+lon = -86.6944
+

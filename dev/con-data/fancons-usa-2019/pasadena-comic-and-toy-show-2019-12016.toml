@@ -1,0 +1,16 @@
+title = "Pasadena Comic and Toy Show"
+start_date = 2019-01-27
+end_date = 2019-01-27
+
+[website]
+title = "www.pasadenacomicandtoyshow.com"
+url = "http://www.pasadenacomicandtoyshow.com/"
+
+[address]
+address = "Pasadena Convention Center\nPasadena, CA, USA\n91101"
+city = "Pasadena, CA"
+
+[address.coordinates]
+lat = 34.14413
+lon = -118.143486
+

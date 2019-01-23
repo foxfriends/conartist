@@ -1,0 +1,16 @@
+title = "WhimsyCon"
+start_date = 2019-03-01
+end_date = 2019-03-03
+
+[website]
+title = "www.whimsycon.org"
+url = "https://www.whimsycon.org/"
+
+[address]
+address = "Hyatt Regency Denver Tech Center\nDenver, CO, USA\n80237"
+city = "Denver, CO"
+
+[address.coordinates]
+lat = 39.630287
+lon = -104.89886
+

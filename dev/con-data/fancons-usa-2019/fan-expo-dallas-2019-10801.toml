@@ -1,0 +1,16 @@
+title = "Fan Expo Dallas"
+start_date = 2019-05-03
+end_date = 2019-05-05
+
+[website]
+title = "www.fanexpodallas.com"
+url = "https://www.fanexpodallas.com/"
+
+[address]
+address = "Kay Bailey Hutchison Convention Center Dallas\nDallas, TX, USA\n75202"
+city = "Dallas, TX"
+
+[address.coordinates]
+lat = 32.77434
+lon = -96.8006
+

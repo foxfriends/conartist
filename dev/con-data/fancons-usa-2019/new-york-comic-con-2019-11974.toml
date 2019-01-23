@@ -1,0 +1,16 @@
+title = "New York Comic Con"
+start_date = 2019-10-03
+end_date = 2019-10-06
+
+[website]
+title = "www.newyorkcomiccon.com"
+url = "https://www.newyorkcomiccon.com/"
+
+[address]
+address = "Jacob K. Javits Center\nNew York, NY, USA\n10001-1114"
+city = "New York, NY"
+
+[address.coordinates]
+lat = 40.757164
+lon = -74.00203
+

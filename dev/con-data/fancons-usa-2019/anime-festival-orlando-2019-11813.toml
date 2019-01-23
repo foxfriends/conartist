@@ -1,0 +1,16 @@
+title = "Anime Festival Orlando"
+start_date = 2019-08-09
+end_date = 2019-08-11
+
+[website]
+title = "animefestivalorlando.com"
+url = "https://animefestivalorlando.com/"
+
+[address]
+address = "Wyndham Orlando Resort International Drive\nOrlando, FL, USA\n32819"
+city = "Orlando, FL"
+
+[address.coordinates]
+lat = 28.448517
+lon = -81.468254
+

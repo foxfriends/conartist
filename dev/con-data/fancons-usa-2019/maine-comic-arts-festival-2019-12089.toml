@@ -1,0 +1,16 @@
+title = "Maine Comic Arts Festival"
+start_date = 2019-06-01
+end_date = 2019-06-01
+
+[website]
+title = "www.mainecomicsfestival.com"
+url = "http://www.mainecomicsfestival.com/"
+
+[address]
+address = "Portland Public Library\nPortland, ME, USA\n04101"
+city = "Portland, ME"
+
+[address.coordinates]
+lat = 43.65792
+lon = -70.259544
+

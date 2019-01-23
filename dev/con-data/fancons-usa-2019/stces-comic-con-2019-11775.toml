@@ -1,0 +1,16 @@
+title = "STCE's Comic Con"
+start_date = 2019-01-26
+end_date = 2019-01-27
+
+[website]
+title = "www.stcelaredo.com"
+url = "https://www.stcelaredo.com/"
+
+[address]
+address = "Texas A&M International University Student Center\nLaredo, TX, USA\n78041"
+city = "Laredo, TX"
+
+[address.coordinates]
+lat = 27.571732
+lon = -99.43559
+

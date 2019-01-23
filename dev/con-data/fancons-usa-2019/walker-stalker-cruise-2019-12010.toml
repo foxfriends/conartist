@@ -1,0 +1,15 @@
+title = "Walker Stalker Cruise"
+start_date = 2019-02-21
+end_date = 2019-02-25
+
+[website]
+title = "www.walkerstalkercruise.com"
+url = "http://www.walkerstalkercruise.com/"
+
+[address]
+address = "Norwegian Pearl\nDeparting from Tampa, FL, USA\n33602"
+city = "Tampa, FL"
+
+[address.coordinates]
+lat = 27.943207
+lon = -82.4459

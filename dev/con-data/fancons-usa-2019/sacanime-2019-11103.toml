@@ -1,0 +1,16 @@
+title = "SacAnime"
+start_date = 2019-06-07
+end_date = 2019-06-09
+
+[website]
+title = "www.sacanime.com"
+url = "https://www.sacanime.com/"
+
+[address]
+address = "Sacramento Convention Center / Sheraton Grand Sacramento\nSacramento, CA, USA\n95814"
+city = "Sacramento, CA"
+
+[address.coordinates]
+lat = 38.578438
+lon = -121.48862
+

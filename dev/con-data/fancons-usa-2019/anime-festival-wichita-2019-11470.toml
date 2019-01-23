@@ -1,0 +1,16 @@
+title = "Anime Festival Wichita"
+start_date = 2019-06-28
+end_date = 2019-06-30
+
+[website]
+title = "www.afwcon.org"
+url = "http://www.afwcon.org/"
+
+[address]
+address = "Hyatt Regency Wichita\nWichita, KS, USA\n67202"
+city = "Wichita, KS"
+
+[address.coordinates]
+lat = 37.682823
+lon = -97.34148
+

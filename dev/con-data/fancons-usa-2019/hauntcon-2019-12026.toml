@@ -1,0 +1,16 @@
+title = "HAuNTcon"
+start_date = 2019-01-25
+end_date = 2019-01-27
+
+[website]
+title = "www.hauntcon.com"
+url = "https://www.hauntcon.com/"
+
+[address]
+address = "Ernest N Morial Convention Center\nNew Orleans, LA, USA\n70130"
+city = "New Orleans, LA"
+
+[address.coordinates]
+lat = 29.937347
+lon = -90.06316
+

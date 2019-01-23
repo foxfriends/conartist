@@ -1,0 +1,16 @@
+title = "Otakon"
+start_date = 2019-07-26
+end_date = 2019-07-28
+
+[website]
+title = "www.otakon.com"
+url = "https://www.otakon.com/"
+
+[address]
+address = "Walter E. Washington Convention Center\nWashington, DC, USA\n20001"
+city = "Washington, DC"
+
+[address.coordinates]
+lat = 38.903587
+lon = -77.02316
+

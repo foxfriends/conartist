@@ -1,0 +1,16 @@
+title = "Minicon"
+start_date = 2019-04-19
+end_date = 2019-04-21
+
+[website]
+title = "mnstf.org"
+url = "http://mnstf.org/minicon54/"
+
+[address]
+address = "DoubleTree by Hilton Minneapolis - Park Place\nMinneapolis, MN, USA\n55416"
+city = "Minneapolis, MN"
+
+[address.coordinates]
+lat = 44.968575
+lon = -93.3511
+

@@ -1,0 +1,16 @@
+title = "Colorado Springs Comic Con"
+start_date = 2019-08-23
+end_date = 2019-08-25
+
+[website]
+title = "www.cscomiccon.com"
+url = "http://www.cscomiccon.com/"
+
+[address]
+address = "Chapel Hills Mall Event Center\nColorado Springs, CO, USA\n80920"
+city = "Colorado Springs, CO"
+
+[address.coordinates]
+lat = 38.947453
+lon = -104.795166
+

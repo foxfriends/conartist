@@ -1,0 +1,16 @@
+title = "Comic Book & Non-Sports Card Show"
+start_date = 2019-01-26
+end_date = 2019-01-26
+
+[website]
+title = "shoffpromotions.com"
+url = "http://shoffpromotions.com/"
+
+[address]
+address = "Annandale Volunteer Fire Department\nAnnandale, VA, USA\n22003"
+city = "Annandale, VA"
+
+[address.coordinates]
+lat = 38.832714
+lon = -77.19204
+

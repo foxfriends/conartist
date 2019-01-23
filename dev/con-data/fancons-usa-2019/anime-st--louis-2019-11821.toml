@@ -1,0 +1,16 @@
+title = "Anime St. Louis"
+start_date = 2019-05-03
+end_date = 2019-05-05
+
+[website]
+title = "animestl.net"
+url = "http://animestl.net/"
+
+[address]
+address = "St. Charles Convention Center\nSt. Charles, MO, USA\n63303"
+city = "St. Charles, MO"
+
+[address.coordinates]
+lat = 38.769253
+lon = -90.5025
+

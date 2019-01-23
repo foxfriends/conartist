@@ -1,0 +1,16 @@
+title = "Tails and Tornadoes Fur Con"
+start_date = 2019-08-30
+end_date = 2019-09-01
+
+[website]
+title = "tailsandtornadoes.org"
+url = "https://tailsandtornadoes.org/"
+
+[address]
+address = "Marriott Tulsa Hotel Southern Hills\nTulsa, OK, USA\n74136"
+city = "Tulsa, OK"
+
+[address.coordinates]
+lat = 36.05969
+lon = -95.961494
+

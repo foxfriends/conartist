@@ -1,0 +1,16 @@
+title = "Sawa Con"
+start_date = 2019-06-07
+end_date = 2019-06-08
+
+[website]
+title = "www.sawa-con.com"
+url = "https://www.sawa-con.com/"
+
+[address]
+address = "Clarion Inn & Suites Conference Center\nCovington, LA, USA\n70433"
+city = "Covington, LA"
+
+[address.coordinates]
+lat = 30.437307
+lon = -90.08469
+

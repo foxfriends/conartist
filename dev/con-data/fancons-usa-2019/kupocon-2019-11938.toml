@@ -1,0 +1,16 @@
+title = "KupoCon"
+start_date = 2019-06-29
+end_date = 2019-06-29
+
+[website]
+title = "kupocon.com"
+url = "http://kupocon.com/bgp/"
+
+[address]
+address = "Best Western Plus Robert Treat Hotel\nNewark, NJ, USA\n07102"
+city = "Newark, NJ"
+
+[address.coordinates]
+lat = 40.738945
+lon = -74.1685
+

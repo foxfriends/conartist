@@ -1,0 +1,16 @@
+title = "San Diego Comic Fest"
+start_date = 2019-03-07
+end_date = 2019-03-10
+
+[website]
+title = "www.sdcomicfest.org"
+url = "https://www.sdcomicfest.org/"
+
+[address]
+address = "Four Points by Sheraton San Diego\nSan Diego, CA, USA\n92123"
+city = "San Diego, CA"
+
+[address.coordinates]
+lat = 32.810753
+lon = -117.14871
+

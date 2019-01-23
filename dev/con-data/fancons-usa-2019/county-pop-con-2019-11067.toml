@@ -1,0 +1,16 @@
+title = "County Pop Con"
+start_date = 2019-05-25
+end_date = 2019-05-25
+
+[website]
+title = "countypopcon.com"
+url = "https://countypopcon.com/"
+
+[address]
+address = "Lake County Fairgrounds\nGrayslake, IL, USA\n60030"
+city = "Grayslake, IL"
+
+[address.coordinates]
+lat = 42.311054
+lon = -88.02048
+

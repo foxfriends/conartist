@@ -1,0 +1,16 @@
+title = "Baltimore Comic-Con"
+start_date = 2019-10-18
+end_date = 2019-10-20
+
+[website]
+title = "www.baltimorecomiccon.com"
+url = "http://www.baltimorecomiccon.com/"
+
+[address]
+address = "Baltimore Convention Center\nBaltimore, MD, USA\n21201"
+city = "Baltimore, MD"
+
+[address.coordinates]
+lat = 39.285515
+lon = -76.61682
+

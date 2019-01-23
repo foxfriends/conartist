@@ -1,0 +1,16 @@
+title = "HarmonyCon"
+start_date = 2019-02-08
+end_date = 2019-02-10
+
+[website]
+title = "harmonycon.org"
+url = "https://harmonycon.org/"
+
+[address]
+address = "Crowne Plaza Dallas Near Galleria-Addison\nAddison, TX, USA\n75001"
+city = "Addison, TX"
+
+[address.coordinates]
+lat = 32.94509
+lon = -96.84023
+

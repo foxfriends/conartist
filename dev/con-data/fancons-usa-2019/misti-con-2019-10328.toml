@@ -1,0 +1,16 @@
+title = "MISTI-Con"
+start_date = 2019-07-18
+end_date = 2019-07-21
+
+[website]
+title = "www.misti-con.org"
+url = "https://www.misti-con.org/"
+
+[address]
+address = "DoubleTree by Hilton Hotel Tarrytown\nTarrytown, NY, USA\n10591"
+city = "Tarrytown, NY"
+
+[address.coordinates]
+lat = 41.06061
+lon = -73.86346
+

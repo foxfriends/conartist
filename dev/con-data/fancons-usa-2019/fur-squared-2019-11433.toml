@@ -1,0 +1,16 @@
+title = "Fur Squared"
+start_date = 2019-02-22
+end_date = 2019-02-24
+
+[website]
+title = "fursquared.com"
+url = "https://fursquared.com/"
+
+[address]
+address = "Sheraton Milwaukee Brookfield Hotel\nBrookfield, WI, USA\n53005"
+city = "Brookfield, WI"
+
+[address.coordinates]
+lat = 43.02735
+lon = -88.10911
+

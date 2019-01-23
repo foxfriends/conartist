@@ -1,0 +1,16 @@
+title = "Savannah Animazing Con"
+start_date = 2019-03-30
+end_date = 2019-03-31
+
+[website]
+title = "www.savannahanimazingcon.com"
+url = "http://www.savannahanimazingcon.com/"
+
+[address]
+address = "National Guard Armory\nSavannah, GA, USA\n31406"
+city = "Savannah, GA"
+
+[address.coordinates]
+lat = 32.007618
+lon = -81.09691
+

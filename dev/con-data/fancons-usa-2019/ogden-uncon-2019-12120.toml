@@ -1,0 +1,16 @@
+title = "Ogden UnCon"
+start_date = 2019-06-07
+end_date = 2019-06-09
+
+[website]
+title = "www.ogdenuncon.com"
+url = "http://www.ogdenuncon.com/"
+
+[address]
+address = "Ogden Eccles Conference Center\nOgden, UT, USA\n84401"
+city = "Ogden, UT"
+
+[address.coordinates]
+lat = 41.222137
+lon = -111.9711
+

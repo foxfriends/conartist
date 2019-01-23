@@ -1,0 +1,16 @@
+title = "Fan Expo Boston"
+start_date = 2019-08-16
+end_date = 2019-08-18
+
+[website]
+title = "bostoncomiccon.com"
+url = "http://bostoncomiccon.com/"
+
+[address]
+address = "Boston Convention and Exhibition Center\nBoston, MA, USA\n02210"
+city = "Boston, MA"
+
+[address.coordinates]
+lat = 42.345646
+lon = -71.04643
+

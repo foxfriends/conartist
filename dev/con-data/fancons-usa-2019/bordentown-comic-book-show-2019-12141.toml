@@ -1,0 +1,16 @@
+title = "Bordentown Comic Book Show"
+start_date = 2019-02-24
+end_date = 2019-02-24
+
+[website]
+title = "centraljerseycomicbookshows.com"
+url = "http://centraljerseycomicbookshows.com/bordentown.html"
+
+[address]
+address = "Holiday Inn Express Bordentown - Trenton South\nBordentown, NJ, USA\n08505"
+city = "Bordentown, NJ"
+
+[address.coordinates]
+lat = 40.14701
+lon = -74.69925
+

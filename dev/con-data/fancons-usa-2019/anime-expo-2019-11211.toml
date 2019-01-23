@@ -1,0 +1,16 @@
+title = "Anime Expo"
+start_date = 2019-07-03
+end_date = 2019-07-07
+
+[website]
+title = "www.anime-expo.org"
+url = "https://www.anime-expo.org/"
+
+[address]
+address = "Los Angeles Convention Center\nLos Angeles, CA, USA\n90015-1308"
+city = "Los Angeles, CA"
+
+[address.coordinates]
+lat = 34.04121
+lon = -118.269135
+

@@ -1,0 +1,16 @@
+title = "Anime Detour"
+start_date = 2019-03-29
+end_date = 2019-03-31
+
+[website]
+title = "animedetour.com"
+url = "https://animedetour.com/"
+
+[address]
+address = "Hyatt Regency Minneapolis\nMinneapolis, MN, USA\n55403"
+city = "Minneapolis, MN"
+
+[address.coordinates]
+lat = 44.970844
+lon = -93.27821
+

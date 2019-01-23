@@ -1,0 +1,16 @@
+title = "Painted Desert Fur Con"
+start_date = 2019-02-01
+end_date = 2019-02-03
+
+[website]
+title = "painteddesertfc.com"
+url = "https://painteddesertfc.com/"
+
+[address]
+address = "The Scottsdale Plaza Resort\nParadise Valley, AZ, USA\n85253"
+city = "Paradise Valley, AZ"
+
+[address.coordinates]
+lat = 33.54145
+lon = -111.92664
+

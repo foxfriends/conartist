@@ -1,0 +1,16 @@
+title = "Rustycon"
+start_date = 2019-09-06
+end_date = 2019-09-08
+
+[website]
+title = "www.rustycon.org"
+url = "https://www.rustycon.org/"
+
+[address]
+address = "Hilton Bellevue\nBellevue, WA, USA\n98004"
+city = "Bellevue, WA"
+
+[address.coordinates]
+lat = 47.60728
+lon = -122.18878
+

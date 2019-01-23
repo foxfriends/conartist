@@ -1,0 +1,16 @@
+title = "Costume-Con"
+start_date = 2019-03-22
+end_date = 2019-03-25
+
+[website]
+title = "costumecon37.com"
+url = "http://costumecon37.com/"
+
+[address]
+address = "DoubleTree by Hilton Hotel Boston North Shore\nDanvers, MA, USA\n01923"
+city = "Danvers, MA"
+
+[address.coordinates]
+lat = 42.597454
+lon = -70.96935
+

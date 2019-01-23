@@ -1,0 +1,16 @@
+title = "Bangor Comic & Toy Con"
+start_date = 2019-04-05
+end_date = 2019-04-07
+
+[website]
+title = "www.bangorcomiccon.net"
+url = "https://www.bangorcomiccon.net/"
+
+[address]
+address = "Cross Insurance Center\nBangor, ME, USA\n04401"
+city = "Bangor, ME"
+
+[address.coordinates]
+lat = 44.788834
+lon = -68.7793
+

@@ -1,0 +1,16 @@
+title = "New Jersey Gamer Con"
+start_date = 2019-07-26
+end_date = 2019-07-28
+
+[website]
+title = "njgamercon.com"
+url = "https://njgamercon.com/"
+
+[address]
+address = "Crowne Plaza Philadelphia-Cherry Hill\nCherry Hill, NJ, USA\n08002"
+city = "Cherry Hill, NJ"
+
+[address.coordinates]
+lat = 39.926216
+lon = -75.05369
+

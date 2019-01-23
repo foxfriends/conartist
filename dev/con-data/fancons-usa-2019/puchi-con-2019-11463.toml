@@ -1,0 +1,16 @@
+title = "Puchi Con!"
+start_date = 2019-09-21
+end_date = 2019-09-21
+
+[website]
+title = "www.puchicon.com"
+url = "https://www.puchicon.com/"
+
+[address]
+address = "Game Room Studio\nBrooklyn, NY, USA\n11222"
+city = "Brooklyn, NY"
+
+[address.coordinates]
+lat = 40.72639
+lon = -73.95214
+

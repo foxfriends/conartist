@@ -1,0 +1,16 @@
+title = "Plastic City Comic Con"
+start_date = 2019-07-13
+end_date = 2019-07-13
+
+[website]
+title = "www.plasticcitycomiccon.com"
+url = "http://www.plasticcitycomiccon.com/"
+
+[address]
+address = "Wallace Civic Center\nFitchburg, MA, USA\n01420"
+city = "Fitchburg, MA"
+
+[address.coordinates]
+lat = 42.594994
+lon = -71.78438
+

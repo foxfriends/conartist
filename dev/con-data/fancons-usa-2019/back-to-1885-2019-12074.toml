@@ -1,0 +1,15 @@
+title = "Back to 1885"
+start_date = 2019-09-05
+end_date = 2019-09-08
+
+[website]
+title = "www.BackTo1885.com"
+url = "http://www.BackTo1885.com/"
+
+[address]
+address = "Columbia State Historic Park\nColumbia, CA, USA\n95310"
+city = "Columbia, CA"
+
+[address.coordinates]
+lat = 38.03489
+lon = -120.40095

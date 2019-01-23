@@ -1,0 +1,16 @@
+title = "DerpyCon"
+start_date = 2019-10-25
+end_date = 2019-10-27
+
+[website]
+title = "www.derpycon.com"
+url = "https://www.derpycon.com/"
+
+[address]
+address = "Hyatt Regency Morristown New Jersey at Headquarters Plaza\nMorristown, NJ, USA\n07960"
+city = "Morristown, NJ"
+
+[address.coordinates]
+lat = 40.79976
+lon = -74.480865
+

@@ -1,0 +1,16 @@
+title = "Anime Crossroads"
+start_date = 2019-02-08
+end_date = 2019-02-10
+
+[website]
+title = "animecrossroads.com"
+url = "http://animecrossroads.com/"
+
+[address]
+address = "Wyndham Indianapolis West\nIndianapolis, IN, USA\n46241"
+city = "Indianapolis, IN"
+
+[address.coordinates]
+lat = 39.728443
+lon = -86.25849
+

@@ -1,0 +1,16 @@
+title = "MomoCon"
+start_date = 2019-05-23
+end_date = 2019-05-26
+
+[website]
+title = "www.momocon.com"
+url = "https://www.momocon.com/"
+
+[address]
+address = "Georgia World Congress Center\nAtlanta, GA, USA\n30329"
+city = "Atlanta, GA"
+
+[address.coordinates]
+lat = 33.759876
+lon = -84.397
+

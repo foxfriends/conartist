@@ -1,0 +1,16 @@
+title = "Furry Migration"
+start_date = 2019-09-06
+end_date = 2019-09-08
+
+[website]
+title = "www.furrymigration.org"
+url = "https://www.furrymigration.org/"
+
+[address]
+address = "Hyatt Regency Minneapolis\nMinneapolis, MN, USA\n55403"
+city = "Minneapolis, MN"
+
+[address.coordinates]
+lat = 44.970776
+lon = -93.27837
+

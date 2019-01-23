@@ -1,0 +1,16 @@
+title = "Powerhouse Comic Con"
+start_date = 2019-07-21
+end_date = 2019-07-21
+
+[website]
+title = "www.powerhousecomiccon.com"
+url = "https://www.powerhousecomiccon.com/"
+
+[address]
+address = "Alameda County Fairgrounds\nPleasanton, CA, USA\n94566"
+city = "Pleasanton, CA"
+
+[address.coordinates]
+lat = 37.659172
+lon = -121.88627
+

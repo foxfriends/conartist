@@ -1,0 +1,16 @@
+title = "Bakuretsu Con"
+start_date = 2019-10-18
+end_date = 2019-10-20
+
+[website]
+title = "bakuretsucon.org"
+url = "https://bakuretsucon.org/"
+
+[address]
+address = "Hampton Inn by Hilton Colchester\nColchester, VT, USA\n05446"
+city = "Colchester, VT"
+
+[address.coordinates]
+lat = 44.506218
+lon = -73.179306
+

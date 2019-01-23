@@ -1,0 +1,16 @@
+title = "CinciClassic"
+start_date = 2019-05-18
+end_date = 2019-05-18
+
+[website]
+title = "cinciclassic.net"
+url = "https://cinciclassic.net/"
+
+[address]
+address = "Highlander Event Center\nFort Thomas, KY, USA\n41075"
+city = "Fort Thomas, KY"
+
+[address.coordinates]
+lat = 39.069912
+lon = -84.46756
+

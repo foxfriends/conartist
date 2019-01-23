@@ -1,0 +1,16 @@
+title = "NashiCon"
+start_date = 2019-04-05
+end_date = 2019-04-07
+
+[website]
+title = "nashicon.com"
+url = "https://nashicon.com/"
+
+[address]
+address = "Columbia Metropolitan Convention Center\nColumbia, SC, USA\n29201-3133"
+city = "Columbia, SC"
+
+[address.coordinates]
+lat = 33.997368
+lon = -81.03809
+

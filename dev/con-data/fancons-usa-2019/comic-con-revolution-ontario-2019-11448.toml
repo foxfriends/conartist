@@ -1,0 +1,16 @@
+title = "Comic Con Revolution Ontario"
+start_date = 2019-05-18
+end_date = 2019-05-19
+
+[website]
+title = "www.comicconrevolution.com"
+url = "http://www.comicconrevolution.com/ontario/"
+
+[address]
+address = "Ontario Convention Center\nOntario, CA, USA\n91764"
+city = "Ontario, CA"
+
+[address.coordinates]
+lat = 34.065685
+lon = -117.60668
+

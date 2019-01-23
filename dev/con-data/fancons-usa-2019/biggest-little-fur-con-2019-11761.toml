@@ -1,0 +1,16 @@
+title = "Biggest Little Fur Con"
+start_date = 2019-05-16
+end_date = 2019-05-19
+
+[website]
+title = "www.goblfc.org"
+url = "https://www.goblfc.org/"
+
+[address]
+address = "Grand Sierra Resort and Casino\nReno, NV, USA\n89595"
+city = "Reno, NV"
+
+[address.coordinates]
+lat = 39.52337
+lon = -119.779175
+

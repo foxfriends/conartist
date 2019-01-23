@@ -1,0 +1,16 @@
+title = "AggieCon"
+start_date = 2019-03-22
+end_date = 2019-03-24
+
+[website]
+title = "cepheid.org"
+url = "https://cepheid.org/aggiecon"
+
+[address]
+address = "Hilton College Station & Conference Center\nCollege Station, TX, USA\n77840"
+city = "College Station, TX"
+
+[address.coordinates]
+lat = 30.635654
+lon = -96.32696
+

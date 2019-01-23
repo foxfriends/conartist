@@ -1,0 +1,16 @@
+title = "Golden State Fur Con"
+start_date = 2019-04-19
+end_date = 2019-04-21
+
+[website]
+title = "gsfurcon.com"
+url = "https://gsfurcon.com/"
+
+[address]
+address = "Hilton Irvine/Orange County Airport\nIrvine, CA, USA\n92612"
+city = "Irvine, CA"
+
+[address.coordinates]
+lat = 33.674744
+lon = -117.861046
+

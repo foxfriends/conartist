@@ -1,0 +1,16 @@
+title = "Omni Fandom Expo"
+start_date = 2019-03-15
+end_date = 2019-03-17
+
+[website]
+title = "www.omniexpo.com"
+url = "http://www.omniexpo.com/"
+
+[address]
+address = "The Florida Hotel & Conference Center\nOrlando, FL, USA\n32809"
+city = "Orlando, FL"
+
+[address.coordinates]
+lat = 28.44492
+lon = -81.39555
+

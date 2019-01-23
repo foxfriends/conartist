@@ -1,0 +1,16 @@
+title = "GalaxyFest"
+start_date = 2019-02-01
+end_date = 2019-02-03
+
+[website]
+title = "galaxyfest.org"
+url = "https://galaxyfest.org/"
+
+[address]
+address = "The Antlers, A Wyndham Hotel\nColorado Springs, CO, USA\n80903"
+city = "Colorado Springs, CO"
+
+[address.coordinates]
+lat = 38.833595
+lon = -104.826706
+

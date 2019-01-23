@@ -1,0 +1,16 @@
+title = "Seishun Con"
+start_date = 2019-02-08
+end_date = 2019-02-10
+
+[website]
+title = "seishun-con.com"
+url = "http://seishun-con.com/"
+
+[address]
+address = "Atlanta Marriott Marquis\nAtlanta, GA, USA\n30303"
+city = "Atlanta, GA"
+
+[address.coordinates]
+lat = 33.76159
+lon = -84.38518
+

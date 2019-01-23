@@ -1,0 +1,16 @@
+title = "AnimeNEXT"
+start_date = 2019-06-07
+end_date = 2019-06-09
+
+[website]
+title = "www.animenext.org"
+url = "http://www.animenext.org/"
+
+[address]
+address = "Atlantic City Convention Center\nAtlantic City, NJ, USA\n08401"
+city = "Atlantic City, NJ"
+
+[address.coordinates]
+lat = 39.36377
+lon = -74.44023
+

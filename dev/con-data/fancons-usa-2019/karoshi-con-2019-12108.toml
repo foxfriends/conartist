@@ -1,0 +1,16 @@
+title = "Karoshi-Con"
+start_date = 2019-04-20
+end_date = 2019-04-20
+
+[website]
+title = "niuanime.x10host.com"
+url = "http://niuanime.x10host.com/karoshicon-general.html"
+
+[address]
+address = "Northern Illinois University, Holmes Student Center\nDeKalb, IL, USA\n60115-2825"
+city = "DeKalb, IL"
+
+[address.coordinates]
+lat = 41.93573
+lon = -88.76643
+

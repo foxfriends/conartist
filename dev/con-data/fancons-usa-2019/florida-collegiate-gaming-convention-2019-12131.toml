@@ -1,0 +1,16 @@
+title = "Florida Collegiate Gaming Convention"
+start_date = 2019-03-09
+end_date = 2019-03-09
+
+[website]
+title = "vgcusf.club"
+url = "https://vgcusf.club/"
+
+[address]
+address = "University of South Florida, Yuengling Center\nTampa, FL, USA\n33620"
+city = "Tampa, FL"
+
+[address.coordinates]
+lat = 28.059204
+lon = -82.40657
+

@@ -1,0 +1,16 @@
+title = "Silicon Valley Comic Con"
+start_date = 2019-08-16
+end_date = 2018-08-18
+
+[website]
+title = "www.svcomiccon.com"
+url = "http://www.svcomiccon.com/"
+
+[address]
+address = "San Jose Convention Center\nSan Jose, CA, USA\n95113"
+city = "San Jose, CA"
+
+[address.coordinates]
+lat = 37.329098
+lon = -121.888885
+

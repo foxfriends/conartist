@@ -1,0 +1,16 @@
+title = "Arizona Game Fair"
+start_date = 2019-03-29
+end_date = 2019-03-31
+
+[website]
+title = "www.arizonagamefair.com"
+url = "http://www.arizonagamefair.com/"
+
+[address]
+address = "Mesa Convention Center\nMesa, AZ, USA\n85201"
+city = "Mesa, AZ"
+
+[address.coordinates]
+lat = 33.419968
+lon = -111.82954
+

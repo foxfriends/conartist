@@ -1,0 +1,15 @@
+title = "Senpai Cosplay Cruise"
+start_date = 2019-03-02
+end_date = 2019-03-09
+
+[website]
+title = "cosplay-cruise.com"
+url = "https://cosplay-cruise.com/"
+
+[address]
+address = "Norwegian Bliss\nDeparting from Miami, FL, USA\n33132"
+city = "Miami, FL"
+
+[address.coordinates]
+lat = 25.775393
+lon = -80.167885

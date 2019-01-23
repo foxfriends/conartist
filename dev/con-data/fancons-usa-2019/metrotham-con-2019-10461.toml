@@ -1,0 +1,16 @@
+title = "Metrotham Con"
+start_date = 2019-03-22
+end_date = 2019-03-24
+
+[website]
+title = "metrothamcon.com"
+url = "https://metrothamcon.com/"
+
+[address]
+address = "Arena Camp Jordan\nEast Ridge, TN, USA\n37412"
+city = "East Ridge, TN"
+
+[address.coordinates]
+lat = 34.999336
+lon = -85.19812
+

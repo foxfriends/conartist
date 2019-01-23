@@ -1,0 +1,16 @@
+title = "Cincinnati Toy & Collectible Show"
+start_date = 2019-10-13
+end_date = 2019-10-13
+
+[website]
+title = "www.ctspromotions.com"
+url = "http://www.ctspromotions.com/"
+
+[address]
+address = "Sharonville Convention Center\nCincinnati, OH, USA\n45246"
+city = "Cincinnati, OH"
+
+[address.coordinates]
+lat = 39.27928
+lon = -84.44505
+

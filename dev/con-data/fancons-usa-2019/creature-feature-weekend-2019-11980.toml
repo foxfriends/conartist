@@ -1,0 +1,16 @@
+title = "Creature Feature Weekend"
+start_date = 2019-08-30
+end_date = 2019-09-01
+
+[website]
+title = "www.creaturefeatureweekend.com"
+url = "http://www.creaturefeatureweekend.com/"
+
+[address]
+address = "Wyndham Gettysburg\nGettysburg, PA, USA\n17325-8397"
+city = "Gettysburg, PA"
+
+[address.coordinates]
+lat = 39.841473
+lon = -77.19235
+

@@ -1,0 +1,16 @@
+title = "RadCon"
+start_date = 2019-02-15
+end_date = 2019-02-17
+
+[website]
+title = "www.radcon.org"
+url = "https://www.radcon.org/"
+
+[address]
+address = "Red Lion Hotel Pasco\nPasco, WA, USA\n99301"
+city = "Pasco, WA"
+
+[address.coordinates]
+lat = 46.24992
+lon = -119.11509
+

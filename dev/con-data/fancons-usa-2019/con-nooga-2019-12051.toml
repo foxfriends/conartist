@@ -1,0 +1,16 @@
+title = "Con Nooga"
+start_date = 2019-02-22
+end_date = 2019-02-24
+
+[website]
+title = "www.connooga.com"
+url = "http://www.connooga.com/"
+
+[address]
+address = "Chattanooga Convention Center\nChattanooga, TN, USA\n37402"
+city = "Chattanooga, TN"
+
+[address.coordinates]
+lat = 35.0421
+lon = -85.31273
+

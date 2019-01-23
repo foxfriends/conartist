@@ -1,0 +1,16 @@
+title = "Zenkaikon"
+start_date = 2019-03-22
+end_date = 2019-03-24
+
+[website]
+title = "zenkaikon.com"
+url = "https://zenkaikon.com/"
+
+[address]
+address = "Lancaster County Convention Center\nLancaster, PA, USA\n17603"
+city = "Lancaster, PA"
+
+[address.coordinates]
+lat = 40.036976
+lon = -76.304924
+

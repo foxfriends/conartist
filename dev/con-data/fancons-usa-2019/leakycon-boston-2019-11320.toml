@@ -1,0 +1,16 @@
+title = "LeakyCon Boston"
+start_date = 2019-10-11
+end_date = 2019-10-13
+
+[website]
+title = "www.leakycon.com"
+url = "http://www.leakycon.com/"
+
+[address]
+address = "Seaport Hotel / Seaport World Trade Center\nBoston, MA, USA\n02210"
+city = "Boston, MA"
+
+[address.coordinates]
+lat = 42.34967
+lon = -71.04129
+

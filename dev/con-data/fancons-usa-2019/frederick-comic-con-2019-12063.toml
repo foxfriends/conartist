@@ -1,0 +1,16 @@
+title = "Frederick Comic Con"
+start_date = 2019-02-24
+end_date = 2019-02-24
+
+[website]
+title = "shoffpromotions.com"
+url = "http://shoffpromotions.com/"
+
+[address]
+address = "Clarion Inn Frederick Event Center\nFrederick, MD, USA\n21703"
+city = "Frederick, MD"
+
+[address.coordinates]
+lat = 39.378696
+lon = -77.40552
+

@@ -1,0 +1,16 @@
+title = "Anime Midwest"
+start_date = 2019-07-05
+end_date = 2019-07-07
+
+[website]
+title = "www.animemidwest.com"
+url = "https://www.animemidwest.com/"
+
+[address]
+address = "Hyatt Regency O'Hare / Stephens Convention Center\nRosemont, IL, USA\n60018"
+city = "Rosemont, IL"
+
+[address.coordinates]
+lat = 41.98064
+lon = -87.85997
+

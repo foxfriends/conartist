@@ -1,0 +1,16 @@
+title = "Animazement"
+start_date = 2019-05-23
+end_date = 2019-05-26
+
+[website]
+title = "animazement.com"
+url = "https://animazement.com/"
+
+[address]
+address = "Raleigh Convention Center\nRaleigh, NC, USA\n27601"
+city = "Raleigh, NC"
+
+[address.coordinates]
+lat = 35.77371
+lon = -78.6415
+

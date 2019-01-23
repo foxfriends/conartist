@@ -1,0 +1,16 @@
+title = "Hill Country Comicon"
+start_date = 2019-03-16
+end_date = 2019-03-17
+
+[website]
+title = "www.hillcountrycomicon.com"
+url = "https://www.hillcountrycomicon.com/"
+
+[address]
+address = "New Braunfels Civic/Convention Center\nNew Braunfels, TX, USA\n78130"
+city = "New Braunfels, TX"
+
+[address.coordinates]
+lat = 29.700058
+lon = -98.12176
+

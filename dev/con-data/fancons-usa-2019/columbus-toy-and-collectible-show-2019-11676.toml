@@ -1,0 +1,16 @@
+title = "Columbus Toy & Collectible Show"
+start_date = 2019-03-17
+end_date = 2019-03-17
+
+[website]
+title = "www.ctspromotions.com"
+url = "http://www.ctspromotions.com/"
+
+[address]
+address = "Ohio Expo Center, Lausche Building\nColumbus, OH, USA\n43211"
+city = "Columbus, OH"
+
+[address.coordinates]
+lat = 40.003014
+lon = -82.99178
+

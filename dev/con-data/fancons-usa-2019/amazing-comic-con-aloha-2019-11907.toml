@@ -1,0 +1,16 @@
+title = "Amazing Comic Con Aloha"
+start_date = 2019-02-22
+end_date = 2019-02-24
+
+[website]
+title = "www.amazingcomicconaloha.com"
+url = "https://www.amazingcomicconaloha.com/"
+
+[address]
+address = "Hawaii Convention Center\nHonolulu, HI, USA\n96815"
+city = "Honolulu, HI"
+
+[address.coordinates]
+lat = 21.28958
+lon = -157.83617
+

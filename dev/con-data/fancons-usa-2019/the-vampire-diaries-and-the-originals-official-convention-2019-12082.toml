@@ -1,0 +1,15 @@
+title = "The Vampire Diaries and The Originals Official Convention"
+start_date = 2019-02-08
+end_date = 2019-02-10
+
+[website]
+title = "www.creationent.com"
+url = "https://www.creationent.com/cal/tvd_nash.html"
+
+[address]
+address = "Sheraton Music City\nNashville, TN, USA\n37214"
+city = "Nashville, TN"
+
+[address.coordinates]
+lat = 36.14442
+lon = -86.68299

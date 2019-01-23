@@ -1,0 +1,16 @@
+title = "Colossalcon"
+start_date = 2019-05-30
+end_date = 2019-06-02
+
+[website]
+title = "colossalcon.com"
+url = "http://colossalcon.com/"
+
+[address]
+address = "Kalahari Resort and Convention Center\nSandusky, OH, USA\n44870"
+city = "Sandusky, OH"
+
+[address.coordinates]
+lat = 41.38444
+lon = -82.6421
+

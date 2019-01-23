@@ -1,0 +1,16 @@
+title = "Blerdcon"
+start_date = 2019-07-12
+end_date = 2019-07-14
+
+[website]
+title = "blerdcon.com"
+url = "https://blerdcon.com/"
+
+[address]
+address = "Hyatt Regency Crystal City at Reagan National Airport\nArlington, VA, USA\n22202"
+city = "Arlington, VA"
+
+[address.coordinates]
+lat = 38.848747
+lon = -77.05172
+

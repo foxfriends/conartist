@@ -1,0 +1,16 @@
+title = "AnthrOhio"
+start_date = 2019-05-23
+end_date = 2019-05-26
+
+[website]
+title = "www.anthrohio.org"
+url = "http://www.anthrohio.org/"
+
+[address]
+address = "Crowne Plaza Columbus North - Worthington\nColumbus, OH, USA\n43229"
+city = "Columbus, OH"
+
+[address.coordinates]
+lat = 40.099346
+lon = -82.98652
+

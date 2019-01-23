@@ -1,0 +1,16 @@
+title = "C.O.G.S. Expo"
+start_date = 2019-05-17
+end_date = 2019-05-19
+
+[website]
+title = "cogsexpo.com"
+url = "http://cogsexpo.com/"
+
+[address]
+address = "Sheraton Parsippany Hotel\nParsippany, NJ, USA\n07054"
+city = "Parsippany, NJ"
+
+[address.coordinates]
+lat = 40.86186
+lon = -74.41232
+

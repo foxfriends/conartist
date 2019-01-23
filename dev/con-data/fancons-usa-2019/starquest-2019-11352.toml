@@ -1,0 +1,16 @@
+title = "StarQuest"
+start_date = 2019-07-26
+end_date = 2019-07-27
+
+[website]
+title = "www.starquestconvention.com"
+url = "http://www.starquestconvention.com/"
+
+[address]
+address = "Hampton Inn Frederick\nFrederick, MD, USA\n21704"
+city = "Frederick, MD"
+
+[address.coordinates]
+lat = 39.37886
+lon = -77.40845
+

@@ -1,0 +1,16 @@
+title = "Midwest FurFest"
+start_date = 2019-12-05
+end_date = 2019-12-08
+
+[website]
+title = "www.furfest.org"
+url = "https://www.furfest.org/"
+
+[address]
+address = "Donald E Stephens Convention Center\nRosemont, IL, USA\n60018"
+city = "Rosemont, IL"
+
+[address.coordinates]
+lat = 41.979366
+lon = -87.8605
+

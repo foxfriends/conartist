@@ -1,0 +1,16 @@
+title = "Ani-Medford"
+start_date = 2019-08-17
+end_date = 2019-08-17
+
+[website]
+title = "www.ani-medford.com"
+url = "https://www.ani-medford.com/"
+
+[address]
+address = "Ramada Medford Hotel and Conference Center\nMedford, OR, USA\n97504"
+city = "Medford, OR"
+
+[address.coordinates]
+lat = 42.350193
+lon = -122.8718
+

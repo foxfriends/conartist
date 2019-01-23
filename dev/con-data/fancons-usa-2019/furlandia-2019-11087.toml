@@ -1,0 +1,16 @@
+title = "Furlandia"
+start_date = 2019-05-24
+end_date = 2019-05-26
+
+[website]
+title = "furlandia.org"
+url = "https://furlandia.org/"
+
+[address]
+address = "Sheraton Portland Airport Hotel\nPortland, OR, USA\n97220"
+city = "Portland, OR"
+
+[address.coordinates]
+lat = 45.58302
+lon = -122.57524
+

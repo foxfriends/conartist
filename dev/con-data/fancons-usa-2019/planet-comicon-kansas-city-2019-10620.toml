@@ -1,0 +1,16 @@
+title = "Planet Comicon Kansas City"
+start_date = 2019-03-29
+end_date = 2019-03-31
+
+[website]
+title = "planetcomicon.com"
+url = "http://planetcomicon.com/"
+
+[address]
+address = "Kansas City Convention Center\nKansas City, MO, USA\n64105"
+city = "Kansas City, MO"
+
+[address.coordinates]
+lat = 39.098232
+lon = -94.5878
+

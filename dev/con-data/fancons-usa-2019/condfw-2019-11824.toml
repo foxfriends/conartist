@@ -1,0 +1,16 @@
+title = "ConDFW"
+start_date = 2019-02-15
+end_date = 2019-02-17
+
+[website]
+title = "www.condfw.org"
+url = "http://www.condfw.org/"
+
+[address]
+address = "Radisson Hotel Fort Worth North-Fossil Creek\nFort Worth, TX, USA\n76106"
+city = "Fort Worth, TX"
+
+[address.coordinates]
+lat = 32.82385
+lon = -97.31499
+

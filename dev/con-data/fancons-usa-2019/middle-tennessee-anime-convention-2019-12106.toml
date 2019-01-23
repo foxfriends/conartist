@@ -1,0 +1,16 @@
+title = "Middle Tennessee Anime Convention"
+start_date = 2019-04-19
+end_date = 2019-04-21
+
+[website]
+title = "mtac.net"
+url = "http://mtac.net/"
+
+[address]
+address = "Sheraton Music City Hotel / Embassy Suites Nashville Airport\nNashville, TN, USA\n37214"
+city = "Nashville, TN"
+
+[address.coordinates]
+lat = 36.144566
+lon = -86.68279
+

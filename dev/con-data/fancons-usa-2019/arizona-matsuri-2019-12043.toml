@@ -1,0 +1,16 @@
+title = "Arizona Matsuri"
+start_date = 2019-02-23
+end_date = 2019-02-24
+
+[website]
+title = "www.azmatsuri.org"
+url = "https://www.azmatsuri.org/"
+
+[address]
+address = "Heritage and Science Park\nPhoenix, AZ, USA\n85004"
+city = "Phoenix, AZ"
+
+[address.coordinates]
+lat = 33.44998
+lon = -112.06574
+

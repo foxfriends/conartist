@@ -1,0 +1,16 @@
+title = "Nan Desu Kan"
+start_date = 2019-08-23
+end_date = 2019-08-25
+
+[website]
+title = "ndkdenver.org"
+url = "https://ndkdenver.org/"
+
+[address]
+address = "Sheraton Denver Downtown Hotel\nDenver, CO, USA\n80202"
+city = "Denver, CO"
+
+[address.coordinates]
+lat = 39.741814
+lon = -104.98987
+

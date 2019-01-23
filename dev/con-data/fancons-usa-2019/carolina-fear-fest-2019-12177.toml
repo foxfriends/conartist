@@ -1,0 +1,16 @@
+title = "Carolina Fear Fest"
+start_date = 2019-05-25
+end_date = 2019-05-26
+
+[website]
+title = "www.carolinafearfest.com"
+url = "http://www.carolinafearfest.com/"
+
+[address]
+address = "NC Fairgrounds, Jim Graham Building\nRaleigh, NC, USA\n27607"
+city = "Raleigh, NC"
+
+[address.coordinates]
+lat = 35.79347
+lon = -78.71171
+

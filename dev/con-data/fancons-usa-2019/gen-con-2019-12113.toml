@@ -1,0 +1,16 @@
+title = "Gen Con"
+start_date = 2019-08-01
+end_date = 2019-08-04
+
+[website]
+title = "www.gencon.com"
+url = "http://www.gencon.com/"
+
+[address]
+address = "Indianapolis Convention Center\nIndianapolis, IN, USA\n46237"
+city = "Indianapolis, IN"
+
+[address.coordinates]
+lat = 39.765114
+lon = -86.162926
+

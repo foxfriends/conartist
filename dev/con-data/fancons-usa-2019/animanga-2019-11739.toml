@@ -1,0 +1,16 @@
+title = "Animanga"
+start_date = 2019-08-02
+end_date = 2019-08-04
+
+[website]
+title = "www.animangausa.com"
+url = "https://www.animangausa.com/"
+
+[address]
+address = "Fairplex\nPomona, CA, USA\n91768"
+city = "Pomona, CA"
+
+[address.coordinates]
+lat = 34.08092
+lon = -117.76526
+

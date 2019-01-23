@@ -1,0 +1,16 @@
+title = "Arctic Comic Con"
+start_date = 2019-05-04
+end_date = 2019-05-05
+
+[website]
+title = "arcticcomiccon.com"
+url = "http://arcticcomiccon.com/"
+
+[address]
+address = "Dena'ina Civic and Convention Center\nAnchorage, AK, USA\n99501"
+city = "Anchorage, AK"
+
+[address.coordinates]
+lat = 61.215076
+lon = -149.89462
+

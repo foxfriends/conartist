@@ -1,0 +1,16 @@
+title = "Fargo Moorhead Comicon"
+start_date = 2019-02-23
+end_date = 2019-02-24
+
+[website]
+title = "www.fargomoorheadcomiccon.com"
+url = "http://www.fargomoorheadcomiccon.com/"
+
+[address]
+address = "Ramada Fargo\nFargo, ND, USA\n58103"
+city = "Fargo, ND"
+
+[address.coordinates]
+lat = 46.86254
+lon = -96.83424
+

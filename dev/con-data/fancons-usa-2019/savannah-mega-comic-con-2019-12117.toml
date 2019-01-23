@@ -1,0 +1,16 @@
+title = "Savannah Mega Comic Con"
+start_date = 2019-06-08
+end_date = 2019-06-09
+
+[website]
+title = "www.savannahmegacomiccon.com"
+url = "http://www.savannahmegacomiccon.com/"
+
+[address]
+address = "Savannah Civic Center\nSavannah, GA, USA\n31401"
+city = "Savannah, GA"
+
+[address.coordinates]
+lat = 32.07682
+lon = -81.09698
+

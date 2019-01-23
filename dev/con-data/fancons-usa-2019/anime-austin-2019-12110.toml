@@ -1,0 +1,16 @@
+title = "Anime Austin"
+start_date = 2019-08-16
+end_date = 2019-08-18
+
+[website]
+title = "www.animeaustin.com"
+url = "https://www.animeaustin.com/"
+
+[address]
+address = "Crowne Plaza Austin\nAustin, TX, USA\n78752"
+city = "Austin, TX"
+
+[address.coordinates]
+lat = 30.323927
+lon = -97.70466
+

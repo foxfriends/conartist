@@ -1,0 +1,16 @@
+title = "Florida Supercon"
+start_date = 2019-07-04
+end_date = 2019-07-07
+
+[website]
+title = "floridasupercon.com"
+url = "https://floridasupercon.com/"
+
+[address]
+address = "Miami Beach Convention Center\nMiami Beach, FL, USA\n33139"
+city = "Miami Beach, FL"
+
+[address.coordinates]
+lat = 25.794897
+lon = -80.13342
+

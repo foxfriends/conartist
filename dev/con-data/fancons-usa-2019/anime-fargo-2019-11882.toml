@@ -1,0 +1,16 @@
+title = "Anime Fargo"
+start_date = 2019-09-13
+end_date = 2019-09-15
+
+[website]
+title = "www.animefargo.org"
+url = "http://www.animefargo.org/"
+
+[address]
+address = "Ramada by Wyndham Fargo\nFargo, ND, USA\n58103-3404"
+city = "Fargo, ND"
+
+[address.coordinates]
+lat = 46.862522
+lon = -96.83406
+

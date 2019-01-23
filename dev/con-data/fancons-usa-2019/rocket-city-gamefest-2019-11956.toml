@@ -1,0 +1,16 @@
+title = "Rocket City Gamefest"
+start_date = 2019-01-25
+end_date = 2019-01-27
+
+[website]
+title = "www.rocketcitygamefest.com"
+url = "https://www.rocketcitygamefest.com/"
+
+[address]
+address = "Holiday Inn Huntsville-Research Park\nHuntsville, AL, USA\n35806"
+city = "Huntsville, AL"
+
+[address.coordinates]
+lat = 34.74043
+lon = -86.66816
+

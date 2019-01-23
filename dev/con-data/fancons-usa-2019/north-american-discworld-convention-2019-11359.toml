@@ -1,0 +1,16 @@
+title = "North American Discworld Convention"
+start_date = 2019-07-12
+end_date = 2019-07-15
+
+[website]
+title = "nadwcon2019.org"
+url = "https://nadwcon2019.org/"
+
+[address]
+address = "Los Angeles Airport Marriott\nLos Angeles, CA, USA\n90045"
+city = "Los Angeles, CA"
+
+[address.coordinates]
+lat = 33.946537
+lon = -118.38492
+

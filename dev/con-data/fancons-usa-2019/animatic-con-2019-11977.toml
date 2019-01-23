@@ -1,0 +1,16 @@
+title = "Animatic Con"
+start_date = 2019-03-22
+end_date = 2019-03-24
+
+[website]
+title = "www.animaticcon.com"
+url = "http://www.animaticcon.com/"
+
+[address]
+address = "Holiday Inn Hotel & Suites Cincinnati-Eastgate (I-275E)\nCincinnati, OH, USA\n45245"
+city = "Cincinnati, OH"
+
+[address.coordinates]
+lat = 39.099724
+lon = -84.27509
+

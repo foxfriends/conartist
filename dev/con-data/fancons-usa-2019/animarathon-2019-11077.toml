@@ -1,0 +1,16 @@
+title = "Animarathon"
+start_date = 2019-03-30
+end_date = 2019-03-31
+
+[website]
+title = "animarathon.com"
+url = "https://animarathon.com/"
+
+[address]
+address = "Bowling Green State University, Bowen-Thompson Student Union\nBowling Green, OH, USA\n43403"
+city = "Bowling Green, OH"
+
+[address.coordinates]
+lat = 41.377117
+lon = -83.64072
+

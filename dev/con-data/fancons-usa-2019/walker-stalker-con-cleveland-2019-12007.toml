@@ -1,0 +1,16 @@
+title = "Walker Stalker Con Cleveland"
+start_date = 2019-08-03
+end_date = 2019-08-04
+
+[website]
+title = "walkerstalkercon.com"
+url = "https://walkerstalkercon.com/cleveland/"
+
+[address]
+address = "Huntington Convention Center of Cleveland\nCleveland, OH, USA\n44114"
+city = "Cleveland, OH"
+
+[address.coordinates]
+lat = 41.502144
+lon = -81.695
+

@@ -1,0 +1,16 @@
+title = "World Boardgaming Championships"
+start_date = 2019-07-20
+end_date = 2019-07-28
+
+[website]
+title = "www.boardgamers.org"
+url = "https://www.boardgamers.org/wbcindex.html"
+
+[address]
+address = "Seven Springs Mountain Resort\nChampion, PA, USA\n15622"
+city = "Champion, PA"
+
+[address.coordinates]
+lat = 40.023155
+lon = -79.2979
+

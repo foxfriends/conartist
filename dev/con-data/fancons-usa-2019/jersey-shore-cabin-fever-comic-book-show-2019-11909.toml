@@ -1,0 +1,15 @@
+title = "Jersey Shore Cabin Fever Comic Book Show"
+start_date = 2019-01-27
+end_date = 2019-01-27
+
+[website]
+title = "jerseyshorecomicbookshow.com"
+url = "http://www.jerseyshorecomicbookshow.com/cabin-fever-toms-river.html"
+
+[address]
+address = "Toms River Elks Lodge\nToms River, NJ, USA\n08753"
+city = "Toms River, NJ"
+
+[address.coordinates]
+lat = 39.95322
+lon = -74.17579

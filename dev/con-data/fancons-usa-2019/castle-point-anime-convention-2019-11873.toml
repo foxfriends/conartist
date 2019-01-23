@@ -1,0 +1,16 @@
+title = "Castle Point Anime Convention"
+start_date = 2019-04-27
+end_date = 2019-04-28
+
+[website]
+title = "www.castlepointanime.com"
+url = "https://www.castlepointanime.com/"
+
+[address]
+address = "Meadowlands Exposition Center / Holiday Inn Meadowlands\nSecaucus, NJ, USA\n07094"
+city = "Secaucus, NJ"
+
+[address.coordinates]
+lat = 40.788006
+lon = -74.04254
+

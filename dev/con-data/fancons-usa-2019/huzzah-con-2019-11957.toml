@@ -1,0 +1,16 @@
+title = "Huzzah! Con"
+start_date = 2019-05-17
+end_date = 2019-05-19
+
+[website]
+title = "www.huzzahcon.com"
+url = "http://www.huzzahcon.com/"
+
+[address]
+address = "DoubleTree by Hilton Hotel Portland, ME\nSouth Portland, ME, USA\n04106"
+city = "South Portland, ME"
+
+[address.coordinates]
+lat = 43.6355
+lon = -70.33886
+

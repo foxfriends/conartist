@@ -1,0 +1,16 @@
+title = "ES Con"
+start_date = 2019-01-25
+end_date = 2019-01-27
+
+[website]
+title = "www.jandjgames.com"
+url = "http://www.jandjgames.com/escon/"
+
+[address]
+address = "California State University San Marcos\nSan Marcos, CA, USA\n92078"
+city = "San Marcos, CA"
+
+[address.coordinates]
+lat = 33.128746
+lon = -117.16285
+

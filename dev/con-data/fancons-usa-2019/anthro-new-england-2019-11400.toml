@@ -1,0 +1,16 @@
+title = "Anthro New England"
+start_date = 2019-02-21
+end_date = 2019-02-24
+
+[website]
+title = "www.anthronewengland.com"
+url = "http://www.anthronewengland.com/"
+
+[address]
+address = "Boston Park Plaza\nBoston, MA, USA\n02116"
+city = "Boston, MA"
+
+[address.coordinates]
+lat = 42.351013
+lon = -71.06975
+

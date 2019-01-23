@@ -1,0 +1,16 @@
+title = "Stranger Con"
+start_date = 2019-05-03
+end_date = 2019-05-05
+
+[website]
+title = "www.creationent.com"
+url = "https://www.creationent.com/calendar.htm#strnj"
+
+[address]
+address = "Meadowlands Exposition Center\nSecaucus, NJ, USA\n07094"
+city = "Secaucus, NJ"
+
+[address.coordinates]
+lat = 40.788242
+lon = -74.04233
+

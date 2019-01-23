@@ -1,0 +1,16 @@
+title = "Life, the Universe, and Everything"
+start_date = 2019-02-14
+end_date = 2019-02-16
+
+[website]
+title = "www.ltue.net"
+url = "http://www.ltue.net/"
+
+[address]
+address = "Provo Marriott Hotel & Conference Center\nProvo, UT, USA\n84601"
+city = "Provo, UT"
+
+[address.coordinates]
+lat = 40.234608
+lon = -111.66141
+

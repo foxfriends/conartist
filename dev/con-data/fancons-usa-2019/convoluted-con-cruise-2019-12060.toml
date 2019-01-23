@@ -1,0 +1,15 @@
+title = "ConVoluted Con Cruise"
+start_date = 2019-02-25
+end_date = 2019-03-02
+
+[website]
+title = "www.con-voluted.com"
+url = "http://www.con-voluted.com/"
+
+[address]
+address = "Carnival Sensation\nDeparting from Miami, FL, USA\n33132"
+city = "Miami, FL"
+
+[address.coordinates]
+lat = 25.779585
+lon = -80.177284

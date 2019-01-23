@@ -1,0 +1,16 @@
+title = "GaMExpo"
+start_date = 2019-03-15
+end_date = 2019-03-17
+
+[website]
+title = "www.thegamexpo.com"
+url = "http://www.thegamexpo.com/"
+
+[address]
+address = "Hilton San Antonio Airport\nSan Antonio, TX, USA\n78216"
+city = "San Antonio, TX"
+
+[address.coordinates]
+lat = 29.521461
+lon = -98.50233
+

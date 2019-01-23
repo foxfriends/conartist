@@ -1,0 +1,16 @@
+title = "AnthroExpo"
+start_date = 2019-10-18
+end_date = 2019-10-20
+
+[website]
+title = "www.anthroexpo.net"
+url = "https://www.anthroexpo.net/"
+
+[address]
+address = "Wyndham Oklahoma City\nOklahoma City, OK, USA\n73112"
+city = "Oklahoma City, OK"
+
+[address.coordinates]
+lat = 35.527836
+lon = -97.56756
+

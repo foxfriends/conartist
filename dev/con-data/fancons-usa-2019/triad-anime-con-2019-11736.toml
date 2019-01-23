@@ -1,0 +1,16 @@
+title = "Triad Anime Con"
+start_date = 2019-03-15
+end_date = 2019-03-17
+
+[website]
+title = "triadanimecon.com"
+url = "http://triadanimecon.com/"
+
+[address]
+address = "Benton Convention Center\nWinston-Salem, NC, USA\n27101"
+city = "Winston-Salem, NC"
+
+[address.coordinates]
+lat = 36.100388
+lon = -80.24795
+

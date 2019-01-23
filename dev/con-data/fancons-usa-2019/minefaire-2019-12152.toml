@@ -1,0 +1,16 @@
+title = "Minefaire"
+start_date = 2019-02-09
+end_date = 2019-02-10
+
+[website]
+title = "minefaire.com"
+url = "http://minefaire.com/"
+
+[address]
+address = "San Mateo County Event Center\nSan Mateo, CA, USA\n94403"
+city = "San Mateo, CA"
+
+[address.coordinates]
+lat = 37.546173
+lon = -122.30211
+

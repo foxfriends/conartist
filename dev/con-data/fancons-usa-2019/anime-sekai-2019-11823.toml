@@ -1,0 +1,16 @@
+title = "Anime Sekai"
+start_date = 2019-09-20
+end_date = 2019-09-22
+
+[website]
+title = "www.animesekaitx.com"
+url = "http://www.animesekaitx.com/"
+
+[address]
+address = "Abilene Convention Center\nAbilene, TX, USA\n79601"
+city = "Abilene, TX"
+
+[address.coordinates]
+lat = 32.45531
+lon = -99.73376
+

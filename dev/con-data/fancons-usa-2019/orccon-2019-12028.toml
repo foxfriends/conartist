@@ -1,0 +1,16 @@
+title = "Orccon"
+start_date = 2019-02-15
+end_date = 2019-02-18
+
+[website]
+title = "www.strategicon.net"
+url = "http://www.strategicon.net/"
+
+[address]
+address = "Hilton Los Angeles Airport\nLos Angeles, CA, USA\n90045"
+city = "Los Angeles, CA"
+
+[address.coordinates]
+lat = 33.94626
+lon = -118.38274
+

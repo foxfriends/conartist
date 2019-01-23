@@ -1,0 +1,16 @@
+title = "Gamex"
+start_date = 2019-05-24
+end_date = 2019-05-27
+
+[website]
+title = "www.strategicon.net"
+url = "http://www.strategicon.net/"
+
+[address]
+address = "Hilton Los Angeles Airport\nLos Angeles, CA, USA\n90045"
+city = "Los Angeles, CA"
+
+[address.coordinates]
+lat = 33.94626
+lon = -118.38274
+

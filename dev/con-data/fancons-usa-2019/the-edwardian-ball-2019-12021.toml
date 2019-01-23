@@ -1,0 +1,16 @@
+title = "The Edwardian Ball"
+start_date = 2019-01-25
+end_date = 2019-01-26
+
+[website]
+title = "www.edwardianball.com"
+url = "https://www.edwardianball.com/"
+
+[address]
+address = "The Regency Ballroom\nSan Francisco, CA, USA\n94109"
+city = "San Francisco, CA"
+
+[address.coordinates]
+lat = 37.78777
+lon = -122.42147
+

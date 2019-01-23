@@ -1,0 +1,16 @@
+title = "Pop Culture Convention"
+start_date = 2019-06-01
+end_date = 2019-06-01
+
+[website]
+title = "www.popcultureconvention.com"
+url = "https://www.popcultureconvention.com/"
+
+[address]
+address = "Utah Valley Convention Center\nProvo, UT, USA\n84601"
+city = "Provo, UT"
+
+[address.coordinates]
+lat = 40.234756
+lon = -111.66272
+

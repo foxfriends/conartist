@@ -1,0 +1,16 @@
+title = "Great Lakes Comic-Con"
+start_date = 2019-02-22
+end_date = 2019-02-23
+
+[website]
+title = "www.greatlakescomiccon.org"
+url = "http://www.greatlakescomiccon.org/"
+
+[address]
+address = "Macomb Community College\nWarren, MI, USA\n48088"
+city = "Warren, MI"
+
+[address.coordinates]
+lat = 42.505924
+lon = -82.973915
+

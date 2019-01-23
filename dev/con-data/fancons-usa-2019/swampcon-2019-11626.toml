@@ -1,0 +1,16 @@
+title = "SwampCon"
+start_date = 2019-03-16
+end_date = 2019-03-17
+
+[website]
+title = "swampcon.org"
+url = "http://swampcon.org/"
+
+[address]
+address = "J. Wayne Reitz Union at University of Florida\nGainesville, FL, USA\n32611"
+city = "Gainesville, FL"
+
+[address.coordinates]
+lat = 29.646399
+lon = -82.34787
+

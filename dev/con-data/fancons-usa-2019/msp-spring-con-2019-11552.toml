@@ -1,0 +1,16 @@
+title = "MSP Spring Con"
+start_date = 2019-05-18
+end_date = 2019-05-19
+
+[website]
+title = "www.mcbacomicons.com"
+url = "https://www.mcbacomicons.com/msp-comicon-2017"
+
+[address]
+address = "Minnesota State Fair, Grandstand\nSt Paul, MN, USA\n55113"
+city = "St Paul, MN"
+
+[address.coordinates]
+lat = 44.981323
+lon = -93.17334
+

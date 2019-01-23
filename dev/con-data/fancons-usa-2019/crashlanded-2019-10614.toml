@@ -1,0 +1,16 @@
+title = "CrashLanded"
+start_date = 2019-02-15
+end_date = 2019-02-17
+
+[website]
+title = "crash-landed.com"
+url = "http://crash-landed.com/"
+
+[address]
+address = "Cox Business Center\nTulsa, OK, USA\n74103"
+city = "Tulsa, OK"
+
+[address.coordinates]
+lat = 36.15018
+lon = -95.99826
+

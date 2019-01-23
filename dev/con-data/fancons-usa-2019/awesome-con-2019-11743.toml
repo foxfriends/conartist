@@ -1,0 +1,16 @@
+title = "Awesome Con"
+start_date = 2019-04-26
+end_date = 2019-04-28
+
+[website]
+title = "awesome-con.com"
+url = "http://awesome-con.com/"
+
+[address]
+address = "Walter E. Washington Convention Center\nWashington, DC, USA\n20001"
+city = "Washington, DC"
+
+[address.coordinates]
+lat = 38.904297
+lon = -77.02299
+

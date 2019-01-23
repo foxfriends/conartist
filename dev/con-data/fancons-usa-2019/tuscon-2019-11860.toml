@@ -1,0 +1,16 @@
+title = "TusCon"
+start_date = 2019-11-08
+end_date = 2019-11-10
+
+[website]
+title = "www.tusconscificon.com"
+url = "https://www.tusconscificon.com/"
+
+[address]
+address = "Sheraton Tucson Hotel & Suites\nTucson, AZ, USA\n85712"
+city = "Tucson, AZ"
+
+[address.coordinates]
+lat = 32.251656
+lon = -110.88301
+

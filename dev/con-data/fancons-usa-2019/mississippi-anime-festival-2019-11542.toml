@@ -1,0 +1,16 @@
+title = "Mississippi Anime Festival"
+start_date = 2019-03-09
+end_date = 2019-03-09
+
+[website]
+title = "msanimefest.com"
+url = "https://msanimefest.com/"
+
+[address]
+address = "Mississippi Trademart Center\nJackson, MS, USA\n39202"
+city = "Jackson, MS"
+
+[address.coordinates]
+lat = 32.301964
+lon = -90.17059
+

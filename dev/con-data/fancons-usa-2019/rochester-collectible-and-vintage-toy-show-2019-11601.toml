@@ -1,0 +1,16 @@
+title = "Rochester Collectible & Vintage Toy Show"
+start_date = 2019-06-09
+end_date = 2019-06-09
+
+[website]
+title = "rochestertoyshow.com"
+url = "http://rochestertoyshow.com/"
+
+[address]
+address = "Bill Gray's Regional Iceplex\nRochester, NY, USA\n14623"
+city = "Rochester, NY"
+
+[address.coordinates]
+lat = 43.09833
+lon = -77.60246
+

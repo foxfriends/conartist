@@ -1,0 +1,16 @@
+title = "Chattacon"
+start_date = 2019-01-25
+end_date = 2019-01-27
+
+[website]
+title = "chattacon.org"
+url = "http://chattacon.org/"
+
+[address]
+address = "The Read House\nChattanooga, TN, USA\n37402"
+city = "Chattanooga, TN"
+
+[address.coordinates]
+lat = 35.046047
+lon = -85.31113
+

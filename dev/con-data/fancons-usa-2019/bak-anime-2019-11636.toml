@@ -1,0 +1,16 @@
+title = "Bak-Anime"
+start_date = 2019-02-02
+end_date = 2019-02-03
+
+[website]
+title = "bak-anime.com"
+url = "http://bak-anime.com/"
+
+[address]
+address = "Kern County Fairgrounds\nBakersfield, CA, USA\n93307"
+city = "Bakersfield, CA"
+
+[address.coordinates]
+lat = 35.342625
+lon = -119.011185
+

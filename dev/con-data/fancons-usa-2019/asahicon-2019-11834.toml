@@ -1,0 +1,16 @@
+title = "ASAHiCon"
+start_date = 2019-04-13
+end_date = 2019-04-13
+
+[website]
+title = "www.asahicon.org"
+url = "http://www.asahicon.org/"
+
+[address]
+address = "Antioch High School\nAntioch, CA, USA\n94509"
+city = "Antioch, CA"
+
+[address.coordinates]
+lat = 38.00536
+lon = -121.81621
+

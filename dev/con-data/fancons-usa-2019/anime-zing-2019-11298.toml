@@ -1,0 +1,16 @@
+title = "Anime-zing!"
+start_date = 2019-08-02
+end_date = 2019-08-04
+
+[website]
+title = "qcanimezing.com"
+url = "https://qcanimezing.com/"
+
+[address]
+address = "RiverCenter\nDavenport, IL, USA\n52801"
+city = "Davenport, IL"
+
+[address.coordinates]
+lat = 41.52205
+lon = -90.57228
+

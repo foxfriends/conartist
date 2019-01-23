@@ -1,0 +1,16 @@
+title = "Eckman's Toy Show"
+start_date = 2019-10-12
+end_date = 2019-10-12
+
+[website]
+title = "www.eckmanstoyshow.com"
+url = "http://www.eckmanstoyshow.com/"
+
+[address]
+address = "Austin Highway Event Center\nSan Antonio, TX, USA\n78218"
+city = "San Antonio, TX"
+
+[address.coordinates]
+lat = 29.50023
+lon = -98.41836
+

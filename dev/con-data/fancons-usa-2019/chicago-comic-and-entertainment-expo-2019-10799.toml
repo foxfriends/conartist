@@ -1,0 +1,16 @@
+title = "Chicago Comic & Entertainment Expo"
+start_date = 2019-03-22
+end_date = 2019-03-24
+
+[website]
+title = "www.c2e2.com"
+url = "http://www.c2e2.com/"
+
+[address]
+address = "South Building at McCormick Place\nChicago, IL, USA\n60616"
+city = "Chicago, IL"
+
+[address.coordinates]
+lat = 41.84985
+lon = -87.61549
+

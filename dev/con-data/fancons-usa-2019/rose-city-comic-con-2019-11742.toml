@@ -1,0 +1,16 @@
+title = "Rose City Comic Con"
+start_date = 2019-09-13
+end_date = 2019-09-15
+
+[website]
+title = "rosecitycomiccon.com"
+url = "https://rosecitycomiccon.com/"
+
+[address]
+address = "Oregon Convention Center\nPortland, OR, USA\n97232"
+city = "Portland, OR"
+
+[address.coordinates]
+lat = 45.528313
+lon = -122.66316
+

@@ -1,0 +1,16 @@
+title = "Walker Stalker Con Atlanta"
+start_date = 2019-10-18
+end_date = 2019-10-20
+
+[website]
+title = "walkerstalkercon.com"
+url = "https://walkerstalkercon.com/atlanta/"
+
+[address]
+address = "Georgia World Congress Center\nAtlanta, GA, USA\n30313"
+city = "Atlanta, GA"
+
+[address.coordinates]
+lat = 33.76087
+lon = -84.40175
+

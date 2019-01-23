@@ -1,0 +1,16 @@
+title = "Stranger Con"
+start_date = 2019-07-12
+end_date = 2019-07-14
+
+[website]
+title = "www.creationent.com"
+url = "https://www.creationent.com/calendar.htm#strchi"
+
+[address]
+address = "Hyatt Regency O'Hare\nRosemont, IL, USA\n60018"
+city = "Rosemont, IL"
+
+[address.coordinates]
+lat = 41.981388
+lon = -87.85933
+

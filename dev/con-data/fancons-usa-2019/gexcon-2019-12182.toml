@@ -1,0 +1,16 @@
+title = "GEXCon"
+start_date = 2019-06-28
+end_date = 2019-06-30
+
+[website]
+title = "www.gexconvention.com"
+url = "https://www.gexconvention.com/"
+
+[address]
+address = "Dulles Expo Center\nChantilly, VA, USA\n20151"
+city = "Chantilly, VA"
+
+[address.coordinates]
+lat = 38.887764
+lon = -77.44017
+

@@ -1,0 +1,16 @@
+title = "ToyCon"
+start_date = 2019-03-01
+end_date = 2019-03-03
+
+[website]
+title = "vegastoycon.com"
+url = "http://vegastoycon.com/"
+
+[address]
+address = "Westgate Las Vegas Resort & Casino\nLas Vegas, NV, USA\n89109"
+city = "Las Vegas, NV"
+
+[address.coordinates]
+lat = 36.13557
+lon = -115.15151
+

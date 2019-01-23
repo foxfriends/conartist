@@ -1,0 +1,16 @@
+title = "EvilleCon"
+start_date = 2019-03-22
+end_date = 2019-03-24
+
+[website]
+title = "www.evillecon.com"
+url = "http://www.evillecon.com/"
+
+[address]
+address = "Holiday Inn Evansville Airport\nEvansville, IN, USA\n47725"
+city = "Evansville, IN"
+
+[address.coordinates]
+lat = 38.043633
+lon = -87.54067
+

@@ -1,0 +1,16 @@
+title = "Southern California Retro Gaming Expo"
+start_date = 2019-02-23
+end_date = 2019-02-24
+
+[website]
+title = "www.socalretrogamingexpo.com"
+url = "https://www.socalretrogamingexpo.com/"
+
+[address]
+address = "Pasadena Convention Center\nPasadena, CA, USA\n91101"
+city = "Pasadena, CA"
+
+[address.coordinates]
+lat = 34.14415
+lon = -118.14341
+

@@ -1,0 +1,16 @@
+title = "Lock City Anime & Comic Con"
+start_date = 2019-07-27
+end_date = 2019-07-27
+
+[website]
+title = "www.lockcitycomiccon.com"
+url = "https://www.lockcitycomiccon.com/"
+
+[address]
+address = "Best Western Plus North Haven Hotel\nNorth Haven, CT, USA\n06473"
+city = "North Haven, CT"
+
+[address.coordinates]
+lat = 41.40108
+lon = -72.851425
+

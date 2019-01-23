@@ -1,0 +1,16 @@
+title = "Anime Ohio"
+start_date = 2019-06-29
+end_date = 2019-06-29
+
+[website]
+title = "animeohio.com"
+url = "http://animeohio.com/"
+
+[address]
+address = "Sharonville Convention Center\nCincinnati, OH, USA\n45246"
+city = "Cincinnati, OH"
+
+[address.coordinates]
+lat = 39.27927
+lon = -84.445076
+

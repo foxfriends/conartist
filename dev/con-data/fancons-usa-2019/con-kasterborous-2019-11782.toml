@@ -1,0 +1,16 @@
+title = "Con Kasterborous"
+start_date = 2019-06-08
+end_date = 2019-06-09
+
+[website]
+title = "conkasterborous.com"
+url = "http://conkasterborous.com/"
+
+[address]
+address = "Holiday Inn Huntsville-Research Park\nHuntsville, AL, USA\n35806"
+city = "Huntsville, AL"
+
+[address.coordinates]
+lat = 34.740467
+lon = -86.66809
+

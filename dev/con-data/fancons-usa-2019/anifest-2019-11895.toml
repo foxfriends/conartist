@@ -1,0 +1,16 @@
+title = "AniFest"
+start_date = 2019-03-23
+end_date = 2019-03-23
+
+[website]
+title = "anifest.org"
+url = "https://anifest.org/"
+
+[address]
+address = "Torrance Cultural Arts Center\nTorrance, CA, USA\n90503"
+city = "Torrance, CA"
+
+[address.coordinates]
+lat = 33.839417
+lon = -118.343956
+

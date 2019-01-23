@@ -1,0 +1,16 @@
+title = "Kids Con New England"
+start_date = 2019-05-19
+end_date = 2019-05-19
+
+[website]
+title = "kidsconne.com"
+url = "http://kidsconne.com/"
+
+[address]
+address = "Radisson Hotel Nashua\nNashua, NH, USA\n03062"
+city = "Nashua, NH"
+
+[address.coordinates]
+lat = 42.71074
+lon = -71.453156
+

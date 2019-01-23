@@ -1,0 +1,16 @@
+title = "BFGcon"
+start_date = 2019-03-15
+end_date = 2019-03-17
+
+[website]
+title = "www.bfgcon.com"
+url = "https://www.bfgcon.com/"
+
+[address]
+address = "Clarion Inn Frederick Event Center\nFrederick, MD, USA\n21703"
+city = "Frederick, MD"
+
+[address.coordinates]
+lat = 39.378613
+lon = -77.40558
+

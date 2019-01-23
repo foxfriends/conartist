@@ -1,0 +1,16 @@
+title = "LouisiANIME"
+start_date = 2019-04-19
+end_date = 2019-04-21
+
+[website]
+title = "www.louisianime.com"
+url = "https://www.louisianime.com/"
+
+[address]
+address = "Baton Rouge Marriott\nBaton Rouge, LA, USA\n70808"
+city = "Baton Rouge, LA"
+
+[address.coordinates]
+lat = 30.423113
+lon = -91.13434
+

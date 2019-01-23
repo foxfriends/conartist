@@ -1,0 +1,16 @@
+title = "Game-o-Rama"
+start_date = 2019-02-07
+end_date = 2019-02-10
+
+[website]
+title = "game-o-rama.com"
+url = "http://game-o-rama.com/"
+
+[address]
+address = "Atlanta Marriott Alpharetta\nAlpharetta, GA, USA\n30005"
+city = "Alpharetta, GA"
+
+[address.coordinates]
+lat = 34.089943
+lon = -84.258804
+

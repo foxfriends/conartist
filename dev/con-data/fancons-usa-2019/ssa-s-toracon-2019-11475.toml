@@ -1,0 +1,16 @@
+title = "SSA+S Toracon"
+start_date = 2019-01-26
+end_date = 2019-01-26
+
+[website]
+title = "www.ssastoracon.net"
+url = "https://www.ssastoracon.net/"
+
+[address]
+address = "Sarasota School of Arts & Sciences\nSarasota, FL, USA\n34236"
+city = "Sarasota, FL"
+
+[address.coordinates]
+lat = 27.341906
+lon = -82.54309
+

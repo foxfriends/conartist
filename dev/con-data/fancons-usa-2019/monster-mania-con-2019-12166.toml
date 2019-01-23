@@ -1,0 +1,16 @@
+title = "Monster-Mania Con"
+start_date = 2019-10-04
+end_date = 2019-10-06
+
+[website]
+title = "monstermania.net"
+url = "http://monstermania.net/"
+
+[address]
+address = "Delta Hotels Baltimore Hunt Valley\nHunt Valley, MD, USA\n21031"
+city = "Hunt Valley, MD"
+
+[address.coordinates]
+lat = 39.493893
+lon = -76.66376
+

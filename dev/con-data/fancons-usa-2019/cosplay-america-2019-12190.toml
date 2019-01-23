@@ -1,0 +1,16 @@
+title = "Cosplay America"
+start_date = 2019-07-05
+end_date = 2019-07-07
+
+[website]
+title = "www.cosplayamerica.com"
+url = "http://www.cosplayamerica.com/"
+
+[address]
+address = "Embassy Suites by Hilton Raleigh Durham Research Triangle\nCary, NC, USA\n27513"
+city = "Cary, NC"
+
+[address.coordinates]
+lat = 35.83321
+lon = -78.77183
+

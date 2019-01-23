@@ -1,0 +1,16 @@
+title = "International Steampunk Symposium"
+start_date = 2019-03-29
+end_date = 2019-03-31
+
+[website]
+title = "steampunksymposium.com"
+url = "http://steampunksymposium.com/"
+
+[address]
+address = "Holiday Inn & Suites Cincinnati-Eastgate (I-275e)\nCincinnati, OH, USA\n45245"
+city = "Cincinnati, OH"
+
+[address.coordinates]
+lat = 39.10024
+lon = -84.27517
+

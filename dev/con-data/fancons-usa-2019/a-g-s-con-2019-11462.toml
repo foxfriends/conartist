@@ -1,0 +1,16 @@
+title = "A.g.S Con"
+start_date = 2019-08-24
+end_date = 2019-08-25
+
+[website]
+title = "agscon.weebly.com"
+url = "https://agscon.weebly.com/"
+
+[address]
+address = "Ashbury Hotel & Suites\nMobile, AL, USA\n36608"
+city = "Mobile, AL"
+
+[address.coordinates]
+lat = 30.67809
+lon = -88.12965
+

@@ -1,0 +1,16 @@
+title = "FarleyCon"
+start_date = 2019-04-13
+end_date = 2019-04-13
+
+[website]
+title = "www.farleycon.com"
+url = "http://www.farleycon.com/"
+
+[address]
+address = "East Ridge Community Center\nEast Ridge, TN, USA\n37412"
+city = "East Ridge, TN"
+
+[address.coordinates]
+lat = 34.996532
+lon = -85.24263
+

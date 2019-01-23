@@ -1,0 +1,16 @@
+title = "MystiCon"
+start_date = 2019-02-22
+end_date = 2019-02-24
+
+[website]
+title = "mysticon-va.com"
+url = "http://mysticon-va.com/"
+
+[address]
+address = "Holiday Inn Tanglewood - Roanoke\nRoanoke, VA, USA\n24018"
+city = "Roanoke, VA"
+
+[address.coordinates]
+lat = 37.22544
+lon = -79.98431
+

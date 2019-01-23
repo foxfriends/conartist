@@ -1,0 +1,16 @@
+title = "Vaca-Con"
+start_date = 2019-03-16
+end_date = 2019-03-16
+
+[website]
+title = "www.visitvacaville.com"
+url = "https://www.visitvacaville.com/events/vaca-con-2019/"
+
+[address]
+address = "Ulatis Community Center\nVacaville, CA, USA\n95687"
+city = "Vacaville, CA"
+
+[address.coordinates]
+lat = 38.355843
+lon = -121.96352
+

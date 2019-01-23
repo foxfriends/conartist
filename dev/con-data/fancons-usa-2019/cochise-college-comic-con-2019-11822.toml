@@ -1,0 +1,16 @@
+title = "Cochise College Comic Con"
+start_date = 2019-02-09
+end_date = 2019-02-10
+
+[website]
+title = "cochisedmac.com"
+url = "https://cochisedmac.com/c4-comic-con/"
+
+[address]
+address = "Cochise College\nSierra Vista, AZ, USA\n85635"
+city = "Sierra Vista, AZ"
+
+[address.coordinates]
+lat = 31.56507
+lon = -110.246666
+

@@ -1,0 +1,16 @@
+title = "Boskone"
+start_date = 2019-02-15
+end_date = 2019-02-17
+
+[website]
+title = "www.boskone.org"
+url = "http://www.boskone.org/"
+
+[address]
+address = "Westin Boston Waterfront\nBoston, MA, USA\n02210-1719"
+city = "Boston, MA"
+
+[address.coordinates]
+lat = 42.34598
+lon = -71.04347
+

@@ -25,25 +25,24 @@ hyper = "0.10"
 # Auth
 jsonwebtoken = "5.0"
 ring = "0.13.5" # must be held for compatibility with jsonwebtoken
-bcrypt = "0.2"
+bcrypt = "0.3"
 
 # Database
 r2d2 = "0.8"
 r2d2-diesel = "1.0"
-diesel = { version = "1.3", features = ["postgres", "chrono", "serde_json", "uuid"] }
+diesel = { version = "1.4", features = ["postgres", "chrono", "serde_json", "uuidv07"] }
 
 # Models
 serde = "1.0"
 serde_json = "1.0"
 serde_derive = "1.0"
 chrono = "0.4"
-uuid = "0.6"
+uuid = "0.7"
 
 # CLI
 colored = "1.6"
-env_logger = "0.5"
+env_logger = "0.6"
 log = "0.4"
-
 
 # Resources (unused in production)
 base64 = "0.9"
@@ -59,11 +58,11 @@ lettre_email = { version = "0.8", optional = true }
 
 [dependencies.juniper]
 git = "https://github.com/oinkiguana/juniper"
-rev = "e6ef2785012761ac064d089f8464ebfd5f5008ba"
+rev = "1aa3c15ed757a9abb4dcf7b059838c2bf0cdc469"
 features = ["chrono", "uuid"]
 [dependencies.juniper_codegen]
 git = "https://github.com/oinkiguana/juniper"
-rev = "e6ef2785012761ac064d089f8464ebfd5f5008ba"
+rev = "1aa3c15ed757a9abb4dcf7b059838c2bf0cdc469"
 [dependencies.juniper_iron]
 git = "https://github.com/oinkiguana/juniper"
-rev = "e6ef2785012761ac064d089f8464ebfd5f5008ba"
+rev = "1aa3c15ed757a9abb4dcf7b059838c2bf0cdc469"

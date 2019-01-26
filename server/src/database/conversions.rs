@@ -4,21 +4,25 @@ use diesel::sql_types::Text;
 use diesel::deserialize::{self, FromSql, FromSqlRow};
 use diesel::serialize::{self, Output, ToSql};
 use diesel::Queryable;
-use juniper::{Value, graphql_scalar};
+use juniper::{Value, graphql_scalar, ParseScalarValue, ParseScalarResult};
 use std::error::Error;
 use std::str::FromStr;
 use crate::money::{Money, Currency};
 
-graphql_scalar!(Money {
+graphql_scalar!(Money where Scalar = <S> {
     description: "Represents a monetary value and a currency as a string, such as CAD150 for $1.50 in CAD"
 
     resolve(&self) -> Value {
-        Value::string(self.to_string())
+        Value::scalar(self.to_string())
     }
 
     from_input_value(v: &InputValue) -> Option<Money> {
-        v   .as_string_value()
+        v   .as_scalar_value::<String>()
             .and_then(|s| FromStr::from_str(&s).ok())
+    }
+
+    from_str<'a>(value: ScalarToken<'a>) -> ParseScalarResult<'a, S> {
+        <i32 as ParseScalarValue<S>>::from_str(value)
     }
 });
 
@@ -54,16 +58,20 @@ impl Queryable<Text, Pg> for Money {
     }
 }
 
-graphql_scalar!(Currency {
+graphql_scalar!(Currency where Scalar = <S> {
     description: "Represents a type of currency"
 
     resolve(&self) -> Value {
-        Value::string(self.to_string())
+        Value::scalar(self.to_string())
     }
 
     from_input_value(v: &InputValue) -> Option<Currency> {
-        v   .as_string_value()
+        v   .as_scalar_value::<String>()
             .and_then(|s| FromStr::from_str(&s).ok())
+    }
+
+    from_str<'a>(value: ScalarToken<'a>) -> ParseScalarResult<'a, S> {
+        <i32 as ParseScalarValue<S>>::from_str(value)
     }
 });
 

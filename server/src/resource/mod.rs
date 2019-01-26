@@ -2,7 +2,7 @@
 use std::io::Read;
 use hyper::client::Client;
 use hyper::status::StatusCode;
-use juniper::{graphql_object, FieldResult, FieldError, Value};
+use juniper::{graphql_object, FieldResult, FieldError, Value, DefaultScalarValue};
 
 mod image;
 
@@ -26,16 +26,14 @@ graphql_object!(Query: Client |&self| {
             .context()
             .get(&url)
             .send()
-            .map_err(|error| {
-                FieldError::new(error, Value::String("".to_string()))
-            })
+            .map_err(|error| FieldError::new(error, Value::Scalar(DefaultScalarValue::String("".to_string()))))
             .and_then(|mut res| {
                 if res.status == StatusCode::Ok {
                     let mut bytes = vec![];
                     res.read_to_end(&mut bytes)?;
                     Ok(Image::new(bytes))
                 } else {
-                    Err(FieldError::new("Could not load image", Value::String("".to_string())))
+                    Err(FieldError::new("Could not load image", Value::Scalar(DefaultScalarValue::String("".to_string()))))
                 }
             })
             .map(|img| img.resized_to_fit(max_width, max_height))

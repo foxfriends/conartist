@@ -5,6 +5,7 @@ use chrono::NaiveDate;
 use super::Database;
 use super::models::*;
 use super::schema::*;
+use super::dsl::string_score;
 
 impl Database {
     pub fn get_convention(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<Convention, String> {
@@ -20,13 +21,13 @@ impl Database {
     pub fn get_conventions_after<S: AsRef<str>>(&self, search: Option<S>, date: NaiveDate, limit: i64, after: Option<&String>) -> Result<Vec<Convention>, String> {
         let conn = self.pool.get().unwrap();
         if let Some(search) = search {
-            let query = format!("%{}%", search.as_ref());
+            let strscore = string_score(conventions::title, search.as_ref());
             conventions::table
-                .filter(conventions::title.ilike(query))
+                .filter(strscore.gt(0f64))
                 .filter(conventions::end_date.ge(date))
                 .offset(after.clone().and_then(|offset| str::parse(&offset).ok()).unwrap_or(0i64))
                 .limit(limit)
-                .order((conventions::start_date.asc(), conventions::end_date.asc(), conventions::con_id.asc()))
+                .order((strscore.desc(), conventions::start_date.asc(), conventions::end_date.asc(), conventions::con_id.asc()))
                 .load::<DetachedConvention>(&*conn)
                 .map(|cons| cons.into_iter().map(Into::<Convention>::into).collect())
                 .map_err(|reason| format!("Conventions after {}, cursor {:?} could not be retrieved. Reason: {}", date, after, reason))
@@ -45,9 +46,8 @@ impl Database {
     pub fn count_conventions_after<S: AsRef<str>>(&self, search: Option<S>, date: NaiveDate) -> i64 {
         let conn = self.pool.get().unwrap();
         if let Some(search) = search {
-            let query = format!("%{}%", search.as_ref());
             conventions::table
-                .filter(conventions::title.ilike(query))
+                .filter(string_score(conventions::title, search.as_ref()).gt(0f64))
                 .select(dsl::count(conventions::con_id))
                 .filter(conventions::start_date.gt(date))
                 .first::<i64>(&*conn)

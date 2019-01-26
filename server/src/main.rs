@@ -65,7 +65,7 @@ fn main() {
             println!();
             chain! [
                 GraphQLHandler::new(
-                    move |_| database.create_privileged(),
+                    move |_| Ok(database.create_privileged()),
                     graphql::Query,
                     graphql::Mutation,
                 )
@@ -74,7 +74,7 @@ fn main() {
             chain! [
                 middleware::VerifyJWT::new();
                 GraphQLHandler::new(
-                    move |r| database.create(r),
+                    move |r| Ok(database.create(r)),
                     graphql::Query,
                     graphql::Mutation,
                 )
@@ -83,7 +83,7 @@ fn main() {
 
     let resource =
         GraphQLHandler::new(
-            |_| Client::new(),
+            |_| Ok(Client::new()),
             resource::Query,
             EmptyMutation::new(),
         );

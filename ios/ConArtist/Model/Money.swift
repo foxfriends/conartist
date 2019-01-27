@@ -9,11 +9,12 @@
 import Foundation
 
 enum CurrencyCode: String, Codable, Equatable {
-    case AUTO, CAD, USD
+    case AUTO, CAD, USD, MXN
 
     static var variants: [CurrencyCode] {
         return  [ .CAD
                 , .USD
+                , .MXN
                 ]
     }
 }
@@ -26,7 +27,7 @@ struct Money: Codable {
     static func parse(as currency: CurrencyCode, _ string: String) -> Money? {
         switch currency {
         case .AUTO: return nil // cannot parse a currency as auto
-        case .CAD, .USD:
+        case .CAD, .USD, .MXN:
             let pieces = (string.starts(with: "$") ? string.dropFirst() : string.dropFirst(0)).split(separator: ".",  maxSplits: 1)
             let centString = (pieces.nth(1) ?? "")
             guard
@@ -46,11 +47,11 @@ extension Money {
     func toString() -> String {
         switch currency {
         case .AUTO: return "\(amount)"
-        case .CAD, .USD:
+        case .CAD, .USD, .MXN:
             return String(format: "$%.2f", Float(amount) / 100.0)
         }
     }
-    
+
     /// Serializes this value to a valid Money string, according to the ConArtist API format
     func toJSON() -> String {
         return "\(currency)\(amount)"
@@ -59,7 +60,7 @@ extension Money {
     /// Approximates this value as a float
     func numericValue() -> Float {
         switch currency {
-        case .CAD, .USD:
+        case .CAD, .USD, .MXN:
             return Float(amount) / 100.0
         default:
             return Float(amount)

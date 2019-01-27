@@ -12,7 +12,9 @@ use serde_derive::{Serialize, Deserialize};
 pub enum Currency {
     CAD,
     USD,
+    MXN,
 }
+
 impl Display for Currency {
     fn fmt(&self, f: &mut Formatter<'_>) -> ::std::fmt::Result {
         write!(f, "{:?}", self)

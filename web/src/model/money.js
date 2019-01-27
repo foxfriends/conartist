@@ -1,6 +1,6 @@
 /* @flow */
 import * as model from './index'
-export type Currency = 'AUTO' | 'CAD' | 'USD'
+export type Currency = 'AUTO' | 'CAD' | 'USD' | 'MXN'
 
 export class Money {
   amount: number
@@ -15,6 +15,7 @@ export class Money {
     switch (currency) {
       case 'CAD':
       case 'USD':
+      case 'MXN':
         const amount = Number(string.startsWith('$') ? string.slice(1) : string)
         if (isNaN(amount)) {
           break

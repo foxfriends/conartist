@@ -1,0 +1,19 @@
+title = "Floof!!"
+start_date = 2019-02-01
+end_date = 2019-02-02
+
+[address]
+city = "Toronto, ON"
+address = """
+Delta Hotels by Marriott Toronto Airport & Conference Centre
+655 Dixon Rd.
+Etobicoke, ON
+"""
+
+[address.coordinates]
+lat = 43.6890757
+lon = -79.5812392
+
+[website]
+title = "airystyles.com/Floof.html"
+url = "http://airystyles.com/Floof.html"

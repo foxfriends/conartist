@@ -1,0 +1,19 @@
+title = "CanFURence"
+start_date = 2019-08-02
+end_date = 2019-08-04
+
+[address]
+city = "Ottawa, ON"
+address = """
+Brookstreet Ottawa Hotel
+525 Legget Dr.
+Kanata, ON
+"""
+
+[address.coordinates]
+lat = 45.3472295
+lon = -75.9207426
+
+[website]
+title = "canfurence.ca"
+url = "https://www.canfurence.ca/"

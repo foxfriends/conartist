@@ -1,0 +1,19 @@
+title = "OCon Expo"
+start_date = 2019-06-28
+end_date = 2019-06-30
+
+[address]
+city = "Council Bluffs, IA"
+address = """
+1 Arena Way
+Council Bluffs, IA, 51501
+USA
+"""
+
+[address.coordinates]
+lat = 41.2374184
+lon = -95.890154
+
+[website]
+title = "oconexpo.com"
+url = "https://oconexpo.com/"

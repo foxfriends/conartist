@@ -21,7 +21,7 @@ impl Database {
     pub fn get_conventions_after<S: AsRef<str>>(&self, search: Option<S>, date: NaiveDate, limit: i64, after: Option<&String>) -> Result<Vec<Convention>, String> {
         let conn = self.pool.get().unwrap();
         if let Some(search) = search {
-            let strscore = string_score(conventions::title, search.as_ref());
+            let strscore = string_score(conventions::title, search.as_ref(), 0.5);
             conventions::table
                 .filter(strscore.gt(0f64))
                 .filter(conventions::end_date.ge(date))
@@ -47,7 +47,7 @@ impl Database {
         let conn = self.pool.get().unwrap();
         if let Some(search) = search {
             conventions::table
-                .filter(string_score(conventions::title, search.as_ref()).gt(0f64))
+                .filter(string_score(conventions::title, search.as_ref(), 0.5).gt(0f64))
                 .select(dsl::count(conventions::con_id))
                 .filter(conventions::start_date.gt(date))
                 .first::<i64>(&*conn)

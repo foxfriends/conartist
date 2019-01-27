@@ -1,3 +1,5 @@
+DROP FUNCTION string_score(original TEXT, query TEXT, fuzziness REAL);
+
 -- Basically translated this algorithm:
 -- https://github.com/joshaven/string_score/blob/master/string_score.js
 CREATE OR REPLACE FUNCTION string_score(original TEXT, query TEXT, fuzziness DOUBLE PRECISION DEFAULT NULL) RETURNS DOUBLE PRECISION AS $$

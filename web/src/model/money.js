@@ -1,6 +1,12 @@
 /* @flow */
 import * as model from './index'
-export type Currency = 'AUTO' | 'CAD' | 'USD' | 'MXN'
+export type Currency
+  = 'AUTO'
+  | 'CAD'
+  | 'USD'
+  | 'MXN'
+  | 'EUR'
+  | 'GBP'
 
 export class Money {
   amount: number
@@ -11,16 +17,37 @@ export class Money {
   }
 
   static parse(string: string, currency?: Currency = model.model.getValue().settings.currency): Money {
+    string = string.trim();
     if (string === '') { throw new Error('Empty string cannot be parsed as Money') }
     switch (currency) {
       case 'CAD':
       case 'USD':
-      case 'MXN':
+      case 'MXN': {
         const amount = Number(string.startsWith('$') ? string.slice(1) : string)
         if (isNaN(amount)) {
           break
         }
         return new Money(currency, Math.floor(amount * 100))
+      }
+      case 'EUR': {
+        if (string.startsWith('€')) {
+          string = string.slice(1).trim();
+        } else if (string.endsWith('€')) {
+          string = string.slice(0, -1).trim();
+        }
+        const amount = Number(string)
+        if (isNaN(amount)) {
+          break
+        }
+        return new Money(currency, Math.floor(amount * 100))
+      }
+      case 'GBP': {
+        const amount = Number(string.startsWith('£') ? string.slice(1) : string)
+        if (isNaN(amount)) {
+          break
+        }
+        return new Money(currency, Math.floor(amount * 100))
+      }
     }
     throw new Error(`Money string ${string} could not be parsed as ${currency}`);
   }

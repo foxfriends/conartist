@@ -13,6 +13,8 @@ pub enum Currency {
     CAD,
     USD,
     MXN,
+    EUR,
+    GBP,
 }
 
 impl Display for Currency {

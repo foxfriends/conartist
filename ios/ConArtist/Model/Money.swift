@@ -9,12 +9,14 @@
 import Foundation
 
 enum CurrencyCode: String, Codable, Equatable {
-    case AUTO, CAD, USD, MXN
+    case AUTO, CAD, USD, MXN, EUR, GBP
 
     static var variants: [CurrencyCode] {
         return  [ .CAD
                 , .USD
                 , .MXN
+                , .EUR
+                , .GBP
                 ]
     }
 }
@@ -29,6 +31,32 @@ struct Money: Codable {
         case .AUTO: return nil // cannot parse a currency as auto
         case .CAD, .USD, .MXN:
             let pieces = (string.starts(with: "$") ? string.dropFirst() : string.dropFirst(0)).split(separator: ".",  maxSplits: 1)
+            let centString = (pieces.nth(1) ?? "")
+            guard
+                centString.count <= 2,
+                let dollarString = pieces.nth(0),
+                let dollars = Int(dollarString),
+                let cents = Int(centString.padding(toLength: 2, withPad: "0", startingAt: 0))
+            else { return nil }
+            return Money(currency: currency, amount: dollars * 100 + cents)
+        case .EUR:
+            var string = string
+            if string.startsWith("€") {
+                string = String(string.dropFirst().trim())
+            } else if string.endsWith("€") {
+                string = String(string.dropLast().trim())
+            }
+            let pieces = string.split(separator: ".",  maxSplits: 1)
+            let centString = (pieces.nth(1) ?? "")
+            guard
+                centString.count <= 2,
+                let dollarString = pieces.nth(0),
+                let dollars = Int(dollarString),
+                let cents = Int(centString.padding(toLength: 2, withPad: "0", startingAt: 0))
+            else { return nil }
+            return Money(currency: currency, amount: dollars * 100 + cents)
+        case .GBP:
+            let pieces = (string.starts(with: "£") ? string.dropFirst() : string.dropFirst(0)).split(separator: ".",  maxSplits: 1)
             let centString = (pieces.nth(1) ?? "")
             guard
                 centString.count <= 2,

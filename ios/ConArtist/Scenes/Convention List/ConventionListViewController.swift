@@ -42,8 +42,8 @@ class ConventionListViewController : ConArtistViewController {
 
         var cellHeight: CGFloat {
             switch self {
-            case .present,
-                 .presentEmpty,
+            case .present:      return 100
+            case .presentEmpty,
                  .pastEmpty,
                  .futureEmpty:  return 90
             case .past,

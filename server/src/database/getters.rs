@@ -190,6 +190,11 @@ impl Database {
             .select(prices::all_columns)
             .filter(prices::user_id.eq(user_id))
             .filter(prices::price.is_not_null())
+            // TODO: there's a bug here with time zones: prices modified before the end of day but
+            // after the end of day in UTC will not be reported
+            //
+            // Solution: Store a time zone offset with each convention...
+            //  This solution should also make a lot of other time related improvements possible!
             .filter(prices::mod_date.lt(date))
             .load::<Price>(&*conn)
             .map_err(|reason| format!("Prices for user with id {} could not be retrieved. Reason: {}", user_id, reason))

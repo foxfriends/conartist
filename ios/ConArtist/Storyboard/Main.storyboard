@@ -23,11 +23,11 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" name="Background"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="TodayConventionCell" rowHeight="90" id="H43-8W-vpb" customClass="ConventionTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="375" height="90"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="TodayConventionCell" rowHeight="100" id="H43-8W-vpb" customClass="ConventionTableViewCell" customModule="ConArtist" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="H43-8W-vpb" id="zN9-YZ-G6E">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pjX-8w-f1U">
@@ -91,7 +91,7 @@
                                                 </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="pjX-8w-f1U" secondAttribute="bottom" id="NYC-2o-h5E"/>
+                                                <constraint firstAttribute="bottom" secondItem="pjX-8w-f1U" secondAttribute="bottom" constant="10" id="NYC-2o-h5E"/>
                                                 <constraint firstItem="pjX-8w-f1U" firstAttribute="leading" secondItem="zN9-YZ-G6E" secondAttribute="leading" constant="4" id="r8A-1i-JwG"/>
                                                 <constraint firstAttribute="trailing" secondItem="pjX-8w-f1U" secondAttribute="trailing" constant="4" id="uOL-VG-PBW"/>
                                                 <constraint firstItem="pjX-8w-f1U" firstAttribute="top" secondItem="zN9-YZ-G6E" secondAttribute="top" id="ue7-X7-oHc"/>
@@ -108,7 +108,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NothingTodayConventionCell" rowHeight="90" id="U07-Vc-j9T" customClass="ConventionTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="145.5" width="375" height="90"/>
+                                        <rect key="frame" x="0.0" y="155.5" width="375" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="U07-Vc-j9T" id="CyH-Gc-7b4">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
@@ -151,7 +151,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ConventionCell" rowHeight="60" id="R3L-Gb-IQK" customClass="ConventionTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="235.5" width="375" height="60"/>
+                                        <rect key="frame" x="0.0" y="245.5" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="R3L-Gb-IQK" id="gLS-1s-3cQ">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
@@ -206,7 +206,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NothingUpcomingConventionCell" rowHeight="90" id="o1w-GR-VHi" customClass="ConventionTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="295.5" width="375" height="90"/>
+                                        <rect key="frame" x="0.0" y="305.5" width="375" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="o1w-GR-VHi" id="tcK-3U-c73">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
@@ -233,7 +233,7 @@ You should go find one you like!</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="FutureConventionCell" rowHeight="60" id="fCx-Kl-2Tp" customClass="ConventionTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="385.5" width="375" height="60"/>
+                                        <rect key="frame" x="0.0" y="395.5" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fCx-Kl-2Tp" id="TSm-dl-T40">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
@@ -278,7 +278,7 @@ You should go find one you like!</string>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NothingCompletedConventionCell" rowHeight="90" id="NLI-dH-anp" customClass="ConventionTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="445.5" width="375" height="90"/>
+                                        <rect key="frame" x="0.0" y="455.5" width="375" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="NLI-dH-anp" id="1aM-Tj-ueE">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>

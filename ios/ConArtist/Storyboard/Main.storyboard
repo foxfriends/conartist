@@ -551,7 +551,7 @@ You should go find one you like!</string>
                                             <outlet property="starButton" destination="Bd2-hb-h4k" id="tWi-Fa-nwF"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LoadingCell" rowHeight="50" id="9Qc-2m-E2g" customClass="LoadingTableViewCell" customModule="ConArtist" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="LoadingCell" rowHeight="50" id="9Qc-2m-E2g" customClass="LoadingTableViewCell" customModule="ConArtist" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="88" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9Qc-2m-E2g" id="VBo-Ba-GJE">
@@ -572,7 +572,7 @@ You should go find one you like!</string>
                                             <outlet property="loadingSpinner" destination="nWp-jh-0Hb" id="Sfj-Af-2xl"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EmptyStateCell" rowHeight="60" id="YgQ-9A-hxS" customClass="EmptyStateTableViewCell" customModule="ConArtist" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="EmptyStateCell" rowHeight="60" id="YgQ-9A-hxS" customClass="EmptyStateTableViewCell" customModule="ConArtist" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="138" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="YgQ-9A-hxS" id="Wl6-R1-prg">

@@ -13,7 +13,7 @@ import RxCocoa
 
 class ConventionListViewController : ConArtistViewController {
     static let MaxConventionsPerSection = 2
-    enum Section {
+    enum Section: Equatable {
         case past
         case pastEmpty
         case present
@@ -209,10 +209,11 @@ extension ConventionListViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-        guard sections.value
-            .nth(indexPath.section)
-            .flatMap({ self.conventions(for: $0).nth(indexPath.row) })
-            != nil
+        guard
+            let section = sections.value
+                .nth(indexPath.section),
+            section != .present,
+            self.conventions(for: section).nth(indexPath.row) != nil
         else { return }
         tableView.cellForRow(at: indexPath)?.isHighlighted = true
     }

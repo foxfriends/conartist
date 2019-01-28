@@ -41,6 +41,11 @@ struct Config {
         static let key = "WebURL"
     }
 
+    struct ConventionRequestFile: ConfigKey {
+        typealias V = String
+        static let key = "ConventionRequestFile"
+    }
+
     struct SupportEmail: ConfigKey {
         typealias V = String
         static let key = "SupportEmail"

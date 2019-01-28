@@ -17,6 +17,7 @@ class SettingsViewController : ConArtistViewController {
         case currency
         case signOut
         case feedback
+        case conRequest
         case help
         case privacy
         case terms
@@ -36,7 +37,7 @@ class SettingsViewController : ConArtistViewController {
     fileprivate var settings: [Group] = [
         Group(title: "Products"¡, items: [.products, .prices]),
         Group(title: "General"¡, items: [.currency]),
-        Group(title: "Support"¡, items: [.signOut, .feedback, .help]),
+        Group(title: "Support"¡, items: [.signOut, .feedback, .conRequest, .help]),
         Group(title: "About"¡, items: [.version, .privacy, .terms]),
     ]
 }
@@ -95,6 +96,10 @@ extension SettingsViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsActionTableViewCell.ID, for: indexPath) as! SettingsActionTableViewCell
             cell.setup(title: try! ("Contact Support"¡ % Config.retrieve(Config.SupportEmail.self)).prettify())
             return cell
+        case .conRequest:
+            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsActionTableViewCell.ID, for: indexPath) as! SettingsActionTableViewCell
+            cell.setup(title: "Request a Convention"¡)
+            return cell
         case .feedback:
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsActionTableViewCell.ID, for: indexPath) as! SettingsActionTableViewCell
             cell.setup(title: "Report a bug/Request a feature"¡)
@@ -151,6 +156,8 @@ extension SettingsViewController: UITableViewDelegate {
             UIApplication.shared.open(.privacyPolicy, options: [:])
         case .terms:
             UIApplication.shared.open(.termsOfService, options: [:])
+        case .conRequest:
+            UIApplication.shared.open(.conventionRequest, options: [:])
         case .version: break
         }
     }
@@ -168,7 +175,8 @@ extension SettingsViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return self.tableView(tableView, titleForHeaderInSection: section).map { TableHeaderView(title: $0, showBar: false, showMore: false) }
+        return self.tableView(tableView, titleForHeaderInSection: section)
+            .map { TableHeaderView(title: $0, showBar: false, showMore: false) }
     }
 }
 

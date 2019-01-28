@@ -12,5 +12,7 @@
 	<string>https://graph.staging.conartist.app</string>
 	<key>ResourcesURL</key>
 	<string>https://api.staging,conartist.app/resource</string>
+	<key>ConventionRequestFile</key>
+	<string>https://github.com/OinkIguana/conartist/blob/master/dev/import-conventions/sample/convention.toml</string>
 </dict>
 </plist>

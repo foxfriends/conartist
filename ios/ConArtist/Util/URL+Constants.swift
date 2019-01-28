@@ -18,6 +18,9 @@ extension URL {
     static let conartist: URL = URL(string: Config.retrieve(Config.WebURL.self))!
     static let privacyPolicy: URL = URL(string: Config.retrieve(Config.WebURL.self) + "/privacy")!
     static let termsOfService: URL = URL(string: Config.retrieve(Config.WebURL.self) + "/terms")!
+
+    static let conventionRequest: URL = URL(string: Config.retrieve(Config.ConventionRequestFile.self))!
+
     static func mailto(_ address: String) -> URL {
         return URL(string: "mailto:\(address)")!
     }

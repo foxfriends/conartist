@@ -50,6 +50,20 @@ fn main() -> io::Result<()> {
                 diesel::insert_into(conventionextrainfo::table)
                     .values((
                         conventionextrainfo::con_id.eq(id),
+                        conventionextrainfo::title.eq("Country"),
+                        conventionextrainfo::info.eq(json!(&convention.address.country)),
+                    ))
+                    .execute(&connection)?;
+                diesel::insert_into(conventionextrainfo::table)
+                    .values((
+                        conventionextrainfo::con_id.eq(id),
+                        conventionextrainfo::title.eq("Tags"),
+                        conventionextrainfo::info.eq(json!(&convention.tags)),
+                    ))
+                    .execute(&connection)?;
+                diesel::insert_into(conventionextrainfo::table)
+                    .values((
+                        conventionextrainfo::con_id.eq(id),
                         conventionextrainfo::title.eq("Website"),
                         conventionextrainfo::action_text.eq(&convention.website.title),
                         conventionextrainfo::action.eq(&convention.website.url),

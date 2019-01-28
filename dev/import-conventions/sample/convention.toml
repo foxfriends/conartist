@@ -1,29 +1,67 @@
+# Hey, thanks for checking out this form! You taking the time to fill this out when requesting a con
+# is a huge help! Here's how it goes:
+
+# First, some basic information about the con (REQUIRED)
 title = "Super Convention"
+# Dates are in "YYYY-MM-DD" format
 start_date = 2018-12-08
 end_date = 2018-12-10
+# Tags won't show up anywhere, but they might someday be used for searching. Put a few in here that
+# can describe this con! Don't worry too much about these. Add or remove as many as you like.
+tags = ["anime", "furry", "comic", "horror", "sports"]
 
-[[hours]]
-start = 2018-12-08T09:00:00-04:00
-end   = 2018-12-08T17:00:00-04:00
-[[hours]]
-start = 2018-12-09T09:00:00-04:00
-end   = 2018-12-09T17:00:00-04:00
-[[hours]]
-start = 2018-12-10T09:00:00-04:00
-end   = 2018-12-10T17:00:00-04:00
+# The (OPTIONAL) predecessor is a reference to a previous year's version of this convention. Since
+# it's the first year of ConArtist it's unlikely you'll need this now, but if you do happen to be
+# adding a second edition of something, then this number comes from the ConArtist URL for that con:
+#
+# Example:
+# https://conartist.app/convention/189/details
+#                                  ^ here
+#predecessor = 189
 
-[website]
-title = "conartist.app"
+# Hours are OPTIONAL, but nice to have if you can find it!
+# It's most useful if these hours correspond to the times that you'll be selling for.
+
+# Each [[hours]] section corresponds to one day's hours. They should be in order of date!
+# Just keep adding more [[hours]] sections for more days' worth of hours.
+
+# The format for these is YYYY-MM-DD HH:MM:SS-TimeZone
+# (or YYYY-MM-DD HH:MM:SS+TimeZone if the con's time zone is positive)
+[[hours]]
+start = 2018-12-08 09:00:00-04:00
+end   = 2018-12-08 17:00:00-04:00
+[[hours]]
+start = 2018-12-09 09:00:00-04:00
+end   = 2018-12-09 17:00:00-04:00
+[[hours]]
+start = 2018-12-10 09:00:00-04:00
+end   = 2018-12-10 17:00:00-04:00
+
+[website] # REQUIRED
+# The URL should be the actual URL you copied from the browser
 url = "https://conartist.app"
+# The title should be nicer to look at than that URL, but still valid if someone types it in
+title = "conartist.app"
 
-[address]
-city = "Waterloo, ON"
+[address] # REQUIRED
+# Try to use a somewhat full country name here, like "United States", not "USA"
+country = "Canada"
+
+# This is "City, Province/State"
+city = "Ottawa, ON"
+
 address = """
-358 Culpepper Pl
-Waterloo, ON, Canada
-N2L 5L3
+Venue Name
+123 Somewhere St.
+Ottawa, ON, Canada
 """
 
 [address.coordinates]
-lat = 43.4480745
-lon = -80.5724649
+# These coordinates are REQUIRED! You can find them by searching for the venue in Google Maps, and
+# taking them from the URL
+
+# Example:
+# https://www.google.ca/maps/place/Googleplex/@37.4219999,-122.0862515,17z/data=...
+#                                  ^ Venue     ^ Latitude ^ Longitude
+lat = 37.4219999
+lon = -122.0862515

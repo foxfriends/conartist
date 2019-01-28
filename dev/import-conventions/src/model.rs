@@ -22,6 +22,7 @@ pub struct Coordinates {
 pub struct Address {
     pub address: String,
     pub city: String,
+    pub country: String,
     pub coordinates: Coordinates,
 }
 
@@ -30,6 +31,7 @@ pub struct Convention {
     pub title: String,
     pub start_date: toml::value::Datetime,
     pub end_date: toml::value::Datetime,
+    pub tags: Vec<String>,
     pub predecessor: Option<i32>,
     pub hours: Option<Vec<Hours>>,
     pub website: Website,

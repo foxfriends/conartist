@@ -8,7 +8,9 @@ assignees: OinkIguana
 ---
 
 Hey, thanks for checking out this form! You taking the time to fill this out when requesting a con
-is a huge help! The fenced off sections that start with `toml` are what you should be modifying. Here's how it goes:
+is a huge help! The fenced off sections that start with `toml` are what you should be modifying.
+
+Here's how it goes:
 
 First, some basic information about the con (REQUIRED). Dates are in `YYYY-MM-DD` format.
 

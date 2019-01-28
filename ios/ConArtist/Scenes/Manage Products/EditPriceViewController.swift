@@ -46,7 +46,7 @@ extension EditPriceViewController {
                 .toString() ?? text
         }
         DispatchQueue.main.async { // HACK: to get around the text color being set later
-            self.priceTextField.text = "\(self.price?.price.numericValue() ?? 0)"
+            self.priceTextField.text = "\(self.price?.price.numericValue ?? 0)"
         }
     }
 }

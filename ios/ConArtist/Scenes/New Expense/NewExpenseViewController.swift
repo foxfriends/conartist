@@ -40,7 +40,7 @@ extension NewExpenseViewController {
                 self.descriptionTextView.text = expense.description
                 self.categoryTextField.text = expense.category
                 self.categoryTextField.isValid.accept(true)
-                self.amountTextField.text = "\(expense.price.numericValue())"
+                self.amountTextField.text = "\(expense.price.numericValue)"
                 self.amountTextField.isValid.accept(true)
             }
         }

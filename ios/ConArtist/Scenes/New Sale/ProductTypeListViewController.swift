@@ -48,7 +48,7 @@ extension ProductTypeListViewController {
         if let record = editingRecord {
             infoTextView.text = record.info
             selected.accept(record.products.compactMap(convention.product(withId:)))
-            priceField.text = "\(record.price.numericValue())"
+            priceField.text = "\(record.price.numericValue)"
             money.accept(record.price)
         }
         startAdjustingForKeyboard()
@@ -80,12 +80,14 @@ extension ProductTypeListViewController {
 
         Observable
             .merge(
-                selected.asObservable().discard(),
-                priceField.rx.text.discard()
+                selected.distinctUntilChanged().discard(),
+                priceField.rx.text.distinctUntilChanged().discard()
             )
             .withLatestFrom(priceField.rx.text)
-            .map { [weak self] text -> Money? in
-                guard let text = text, !text.isEmpty else { return self?.calculatePrice(self!.selected.value) }
+            .map { [unowned self] text -> Money? in
+                guard let text = text, !text.isEmpty else {
+                    return self.calculatePrice(self.selected.value)
+                }
                 return Money.parse(as: ConArtist.model.settings.value.currency, text)
             }
             .bind(to: money)
@@ -93,8 +95,8 @@ extension ProductTypeListViewController {
 
         Observable
             .combineLatest(
-                selected.asObservable().map { !$0.isEmpty },
-                money.asObservable().map { $0 != nil }
+                selected.map { !$0.isEmpty },
+                money.map { $0 != nil }
             )
             .map { $0 && $1 }
             .bind(to: navBar.rightButton.rx.isEnabled)
@@ -103,11 +105,14 @@ extension ProductTypeListViewController {
         navBar.rightButton.rx.tap
             .withLatestFrom(
                 Observable.combineLatest(
-                    selected.asObservable(),
-                    money.asObservable().filterMap { [weak self] in $0 ?? self?.calculatePrice(self!.selected.value) },
+                    selected,
+                    money,
                     infoTextView.rx.text.map { $0 ?? "" }
                 )
             )
+            .map { products, money, note in
+                (products, money ?? self.calculatePrice(self.selected.value) ?? .zero, note)
+            }
             .subscribe(onNext: { [results] products, money, note in
                 results.onNext((products, money, note))
                 ConArtist.model.navigate(back: 1)
@@ -115,15 +120,14 @@ extension ProductTypeListViewController {
             .disposed(by: disposeBag)
 
         selected
-            .asObservable()
-            .map(calculatePrice)
+            .distinctUntilChanged()
+            .map { [unowned self] selection in self.calculatePrice(selection) }
             .map { [placeholder = priceField.placeholder] money in money?.toString() ?? placeholder }
             .asDriver(onErrorJustReturn: priceField.placeholder)
             .drive(onNext: { [priceField] text in priceField?.placeholder = text })
             .disposed(by: disposeBag)
 
         selected
-            .asObservable()
             .subscribe(onNext: { [productTypeTableView] _ in productTypeTableView?.reloadData() })
             .disposed(by: disposeBag)
 
@@ -211,21 +215,21 @@ extension ProductTypeListViewController: UITableViewDelegate {
 // MARK: - Price calculation
 extension ProductTypeListViewController {
     enum Key: Equatable, Hashable {
-        case Product(Int)
-        case ProductType(Int)
+        case product(Int)
+        case productType(Int)
 
         static func ==(a: Key, b: Key) -> Bool {
             switch (a, b) {
-            case (.Product(let a), .Product(let b)),
-                 (.ProductType(let a), .ProductType(let b)): return a == b
+            case (.product(let a), .product(let b)),
+                 (.productType(let a), .productType(let b)): return a == b
             default: return false
             }
         }
 
         var hashValue: Int {
             switch self {
-            case .Product(let id): return id
-            case .ProductType(let id): return -id
+            case .product(let id): return id
+            case .productType(let id): return -id
             }
         }
     }
@@ -235,7 +239,7 @@ extension ProductTypeListViewController {
         guard prices.count > 0 else { return nil }
         let matters = prices.compactMap { $0.productId }
         let items: [Key: Int] = selected.reduce([:]) { counts, product in
-            let id: Key = matters.contains(product.id) ? .Product(product.id) : .ProductType(product.typeId)
+            let id: Key = matters.contains(product.id) ? .product(product.id) : .productType(product.typeId)
             var updated = counts
             updated[id] = 1 + (counts[id] ?? 0)
             return updated
@@ -244,7 +248,7 @@ extension ProductTypeListViewController {
             let key = item.key
             var count = item.value
             let relevantPrices = prices
-                .filter { price in price.productId.map(Key.Product).map((==) <- key) ?? (Key.ProductType(price.typeId) == key) }
+                .filter { price in price.productId.map(Key.product).map((==) <- key) ?? (Key.productType(price.typeId) == key) }
                 .sorted { $0.quantity < $1.quantity }
             var newPrice = price
             while count > 0 {
@@ -255,7 +259,7 @@ extension ProductTypeListViewController {
                         } else {
                             return best
                         }
-                }
+                    }
                 guard let bestPrice = price else { return newPrice }
                 count -= bestPrice.quantity
                 newPrice = newPrice + bestPrice.price

@@ -79,6 +79,12 @@
                                         <inset key="contentEdgeInsets" minX="20" minY="10" maxX="20" maxY="10"/>
                                         <state key="normal" title="Visit conartist.app"/>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kkm-Va-0GT">
+                                        <rect key="frame" x="246" y="532" width="89" height="37"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <inset key="contentEdgeInsets" minX="20" minY="10" maxX="20" maxY="10"/>
+                                        <state key="normal" title="Sign up"/>
+                                    </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f1l-xq-F7w">
                                         <rect key="frame" x="78" y="609" width="219" height="29"/>
                                         <subviews>
@@ -104,12 +110,6 @@
                                             <constraint firstAttribute="bottom" secondItem="J2a-yL-jtu" secondAttribute="bottom" id="tvh-bI-lUB"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kkm-Va-0GT">
-                                        <rect key="frame" x="246" y="532" width="89" height="37"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <inset key="contentEdgeInsets" minX="20" minY="10" maxX="20" maxY="10"/>
-                                        <state key="normal" title="Sign up"/>
-                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="Kkm-Va-0GT" secondAttribute="trailing" constant="40" id="0Uj-gP-R2e"/>
@@ -394,16 +394,16 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Welcome" translatesAutoresizingMaskIntoConstraints="NO" id="yJv-KC-X39">
-                                                        <rect key="frame" x="126" y="81" width="123" height="43"/>
+                                                        <rect key="frame" x="64" y="81" width="247" height="86"/>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We're glad you joined us." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="95P-Ss-eIz">
-                                                        <rect key="frame" x="40" y="164" width="295" height="18"/>
+                                                        <rect key="frame" x="40" y="207" width="295" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" name="TextPlaceholder"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Let's get started!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fML-1a-waP">
-                                                        <rect key="frame" x="40" y="186" width="295" height="18"/>
+                                                        <rect key="frame" x="40" y="229" width="295" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" name="TextPlaceholder"/>
                                                         <nil key="highlightedColor"/>

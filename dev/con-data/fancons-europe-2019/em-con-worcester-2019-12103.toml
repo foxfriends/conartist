@@ -11,7 +11,7 @@ url = "http://worcester.em-con.co.uk/"
 [address]
 address = "University of Worcester Arena\nWorcester, UK"
 city = "Worcester"
-country = "UK"
+country = "United Kingdom"
 
 [address.coordinates]
 lat = 52.19282

@@ -11,7 +11,7 @@ url = "http://www.glasgowcomiccon.com/"
 [address]
 address = "The Glasgow Royal Concert Hall\nGlasgow, UK"
 city = "Glasgow"
-country = "UK"
+country = "United Kingdom"
 
 [address.coordinates]
 lat = 55.864475

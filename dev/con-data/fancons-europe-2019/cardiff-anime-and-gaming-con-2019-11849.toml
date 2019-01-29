@@ -11,7 +11,7 @@ url = "https://www.cardiffanimecon.com/"
 [address]
 address = "Mercure Cardiff Holland House Hotel and Spa\nCardiff, UK"
 city = "Cardiff"
-country = "UK"
+country = "United Kingdom"
 
 [address.coordinates]
 lat = 51.483677

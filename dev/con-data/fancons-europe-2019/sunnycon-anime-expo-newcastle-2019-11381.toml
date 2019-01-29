@@ -11,7 +11,7 @@ url = "http://www.sunnyconanimeexpo.com/newcastle.html"
 [address]
 address = "St. James' Park\nNewcastle, UK"
 city = "Newcastle"
-country = "UK"
+country = "United Kingdom"
 
 [address.coordinates]
 lat = 54.975483

@@ -11,7 +11,7 @@ url = "http://www.draigcon.co.uk/"
 [address]
 address = "The Printworks\nManchester, UK"
 city = "Manchester"
-country = "UK"
+country = "United Kingdom"
 
 [address.coordinates]
 lat = 53.48528

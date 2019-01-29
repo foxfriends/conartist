@@ -11,9 +11,8 @@ url = "https://www.animangapop.co.uk/"
 [address]
 address = "Future Inn\nPlymouth, UK"
 city = "Plymouth"
-country = "UK"
+country = "United Kingdom"
 
 [address.coordinates]
 lat = 50.414112
 lon = -4.125564
-

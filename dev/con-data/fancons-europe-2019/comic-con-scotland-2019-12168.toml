@@ -11,7 +11,7 @@ url = "http://comicconventionscotland.co.uk/"
 [address]
 address = "Royal Highland Centre\nNewbridge, UK"
 city = "Newbridge"
-country = "UK"
+country = "United Kingdom"
 
 [address.coordinates]
 lat = 55.94318

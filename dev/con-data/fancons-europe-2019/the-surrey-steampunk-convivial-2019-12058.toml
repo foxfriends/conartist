@@ -11,7 +11,7 @@ url = "http://bumpandthumper.wixsite.com/steampunkconvivials"
 [address]
 address = "The Royal Oak & Christchurch\nNew Malden, Surrey, UK"
 city = "New Malden, Surrey"
-country = "UK"
+country = "United Kingdom"
 
 [address.coordinates]
 lat = 51.407326

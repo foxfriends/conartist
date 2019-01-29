@@ -11,7 +11,7 @@ url = "http://www.scifiweekender.com/"
 [address]
 address = "O2 Academy Sheffield\nSheffield, UK"
 city = "Sheffield"
-country = "UK"
+country = "United Kingdom"
 
 [address.coordinates]
 lat = 53.381405

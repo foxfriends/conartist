@@ -11,7 +11,7 @@ url = "https://www.liverpoolanimecon.com/"
 [address]
 address = "Liverpool Marriott Hotel City Centre\nLiverpool, UK"
 city = "Liverpool"
-country = "UK"
+country = "United Kingdom"
 
 [address.coordinates]
 lat = 53.407852

@@ -11,7 +11,7 @@ url = "http://www.filmandcomicconglasgow.com/"
 [address]
 address = "Braehead Arena\nGlasgow, UK"
 city = "Glasgow"
-country = "UK"
+country = "United Kingdom"
 
 [address.coordinates]
 lat = 55.87669

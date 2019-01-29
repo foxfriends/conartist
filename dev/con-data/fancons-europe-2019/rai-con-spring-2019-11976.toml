@@ -11,7 +11,7 @@ url = "https://atticevents.squarespace.com/welcome-to-rai-con-spring/"
 [address]
 address = "The Glasgow Royal Concert Hall\nGlasgow, UK"
 city = "Glasgow"
-country = "UK"
+country = "United Kingdom"
 
 [address.coordinates]
 lat = 55.86438

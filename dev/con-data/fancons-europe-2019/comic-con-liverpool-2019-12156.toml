@@ -11,7 +11,7 @@ url = "https://www.comicconventionliverpool.co.uk/"
 [address]
 address = "Exhibition Centre Liverpool\nLiverpool, UK"
 city = "Liverpool"
-country = "UK"
+country = "United Kingdom"
 
 [address.coordinates]
 lat = 53.395473

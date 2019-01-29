@@ -11,7 +11,7 @@ url = "https://www.showmastersevents.com/bournemouth/"
 [address]
 address = "Bournemouth International Centre\nBournemouth, UK"
 city = "Bournemouth"
-country = "UK"
+country = "United Kingdom"
 
 [address.coordinates]
 lat = 50.71637

@@ -11,7 +11,7 @@ url = "http://www.emcon-burton.com/"
 [address]
 address = "Burton Market Hall\nBurton-on-Trent, UK"
 city = "Burton-on-Trent"
-country = "UK"
+country = "United Kingdom"
 
 [address.coordinates]
 lat = 52.801094

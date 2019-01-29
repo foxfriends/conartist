@@ -11,7 +11,7 @@ url = "https://heroesfanfest.com/london/"
 [address]
 address = "Olympia London\nLondon, UK"
 city = "London"
-country = "UK"
+country = "United Kingdom"
 
 [address.coordinates]
 lat = 51.496307

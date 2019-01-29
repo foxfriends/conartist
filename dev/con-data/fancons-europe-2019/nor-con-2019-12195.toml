@@ -11,7 +11,7 @@ url = "https://www.nor-con.co.uk/"
 [address]
 address = "Norfolk Showground Arena\nNorwich, UK"
 city = "Norwich"
-country = "UK"
+country = "United Kingdom"
 
 [address.coordinates]
 lat = 52.64674

@@ -11,7 +11,7 @@ url = "https://www.mcmcomiccon.com/london/"
 [address]
 address = "ExCeL Convention Centre, Royal Victoria Dock\nLondon, UK"
 city = "London"
-country = "UK"
+country = "United Kingdom"
 
 [address.coordinates]
 lat = 51.508194

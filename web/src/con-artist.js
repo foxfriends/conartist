@@ -116,7 +116,7 @@ export class ConArtist extends React.Component<Props, State> {
         break
 
       case 'sales':
-        state.toolbar = { primary: null, secondary: null, tertiary: null, pageIcon: 'table_chart' }
+        state.toolbar = { primary: toolbarAction.NewSale, secondary: null, tertiary: null, pageIcon: 'table_chart' }
         state.content = { name: 'sales' }
         state.navigation = NavInfo.default.select('Sales')
         break
@@ -252,9 +252,13 @@ export class ConArtist extends React.Component<Props, State> {
           state.dialog = { name: 'create-suggestion' }
           break
 
-        case 'new-sale':
-          state.dialog = { name: 'new-sale', convention: model.page.convention, record: model.dialog.record }
+        case 'new-sale': {
+          const prices = model.page.convention ? model.page.convention.prices : model.prices
+          const productTypes = model.page.convention ? model.page.convention.productTypes : model.productTypes
+          const products = model.page.convention ? model.page.convention.products : model.products
+          state.dialog = { name: 'new-sale', convention: model.page.convention, prices, products, productTypes, record: model.dialog.record }
           break
+        }
 
         case 'new-expense':
           state.dialog = { name: 'new-expense', convention: model.page.convention, expense: model.dialog.expense }

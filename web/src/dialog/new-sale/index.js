@@ -11,21 +11,27 @@ import { l } from '../../localization'
 import { closeDialog as closeDialogButton } from '../action'
 import { closeDialog } from '../../update/dialog'
 import { loadConvention } from '../../update/helpers'
+import { loadSales } from '../../update/sales'
 import { SaveRecord } from '../../api/save-record'
 import { Money } from '../../model/money'
 import { INVALID, VALID } from '../../model/validation'
 import DefaultMap from '../../util/default-map'
 import { by, Asc } from '../../util/sort'
 import * as toast from '../../toast'
+import type { Price } from '../../model/price'
 import type { Product } from '../../model/product'
 import type { ProductType } from '../../model/product-type'
+import type { Record } from '../../model/record'
 import type { FullConvention } from '../../model/full-convention'
 import type { Validation } from '../../common/input'
 import S from './index.css'
 
 export type Props = {
   name: 'new-sale',
-  convention: FullConvention,
+  convention: ?FullConvention,
+  products: Product[],
+  prices: Price[],
+  productTypes: ProductType[],
   record?: ?Record
 }
 
@@ -42,23 +48,41 @@ export class NewSale extends React.Component<Props, State> {
   constructor(props) {
     super(props)
 
-    const { products } = this.props.convention
+    const { products, record } = this.props
+
+    let moneyValidation = { state: VALID }
+    if (record) {
+      try {
+        Money.parse(record.price.toString())
+      } catch (error) {
+        moneyValidation = { state: INVALID, error: l`The price is invalid` }
+      }
+    }
 
     this.state = {
-      products: props.record ? props.record.products.map(id => products.find(product => product.id === id)).filter(x => x) : [],
-      amount: props.record ? props.record.price.toString() : Money.zero.toString(),
-      note: props.record ? props.record.info : '',
+      products: record ? record.products.map(id => products.find(product => product.id === id)).filter(x => x) : [],
+      amount: record ? record.price.toString() : Money.zero.toString(),
+      note: record ? record.info : '',
       processing: false,
       productType: null,
-      manualPrice: false,
-      moneyValidation: { state: VALID },
+      manualPrice: !!record,
+      moneyValidation,
     }
   }
 
-  setAmount(amount: string) {
+  setAmount(amount?: ?string) {
     let moneyValidation = { state: VALID };
     if (!amount) {
       amount = this.calculatePrice().toString()
+      // HACK: have to check validity here in the case of a different currency set in the price than
+      // in the user's settings
+      // TODO: instead of storing the price as a string, it should be stored as Money to avoid this
+      // problem
+      try {
+        Money.parse(amount)
+      } catch (error) {
+        moneyValidation = { state: INVALID, error: l`The price is invalid` }
+      }
       this.setState({ amount, moneyValidation, manualPrice: false })
     } else {
       try {
@@ -87,13 +111,13 @@ export class NewSale extends React.Component<Props, State> {
       products: [...products, product],
     }, () => {
       if (!this.state.manualPrice) {
-        this.setState({ amount: this.calculatePrice().toString() })
+        this.setAmount()
       }
     })
   }
 
   calculatePrice() {
-    const { convention: { prices } } = this.props
+    const { prices } = this.props
     const { products, amount } = this.state
     if (prices.count === 0) { return Money.zero } // can't calculate anything
     const matters = new Set(prices.map(price => price.productId).filter(product => !!product))
@@ -132,7 +156,7 @@ export class NewSale extends React.Component<Props, State> {
   }
 
   async saveChanges() {
-    const { record, convention: { id: conId } } = this.props
+    const { record, convention: { id: conId } = {} } = this.props
     const { products, amount, note } = this.state
     this.setState({ processing: true })
     const productIds = products.map(product => product.id)
@@ -145,9 +169,15 @@ export class NewSale extends React.Component<Props, State> {
     const response = await new SaveRecord()
       .send(action)
       .toPromise()
-    try {
-      await loadConvention(conId)
-    } catch (_) { /* ignore */ }
+    if (conId) {
+      try {
+        await loadConvention(conId)
+      } catch (_) { /* ignore */ }
+    } else {
+      try {
+        await loadSales(true)
+      } catch (_) { /* ignore */ }
+    }
     this.setState({ processing: false })
     if (response.state === 'failed') {
       toast.show(<span>{l`It seems something went wrong.`} <Icon name='warning'/></span>)
@@ -158,10 +188,10 @@ export class NewSale extends React.Component<Props, State> {
   }
 
   render() {
-    const { convention, record: editing } = this.props
-    const { products, productType, amount, note, moneyValidation, processing } = this.state
+    const { products, productTypes, convention, record: editing } = this.props
+    const { products: selected, productType, amount, note, moneyValidation, processing } = this.state
     const save = {
-      enabled: products.length > 0 && moneyValidation.state === VALID && !processing,
+      enabled: selected.length > 0 && moneyValidation.state === VALID && !processing,
       title: 'Save',
       action: () => this.saveChanges(),
     }
@@ -181,23 +211,29 @@ export class NewSale extends React.Component<Props, State> {
         </>
       )
       content = (
-        <List className={S.full} dataSource={convention.products.filter(product => product.typeId === productType.id)}>
+        <List className={S.full} dataSource={products.filter(product => product.typeId === productType.id)}>
           {product => {
-            const selected = products
+            const selectedCount = selected
               .filter(({ id }) => product.id === id)
               .length
-            const totalSold = []
-              .concat(...convention.records.map(record => record.products))
+
+            const totalSold = selectedCount + []
+              .concat(
+                ...convention
+                  ? convention.records
+                    .filter(({ id }) => !editing || id !== editing.id)
+                    .map(record => record.products)
+                  : [])
               .filter(id => id === product.id)
               .length
 
             return (
               <Item className={S.row} onClick={() => this.addProduct(product)} key={product.id}>
                 <span className={S.name}>{product.name}</span>
-                { selected
+                { selectedCount
                   ? (
                     <Tooltip title={l`Remove`} className={S.tooltipContainer}>
-                      <span onClick={e => { e.stopPropagation(); this.removeProduct(product) }} className={`${S.selectedCount} ${S.removable}`}>{selected}</span>
+                      <span onClick={e => { e.stopPropagation(); this.removeProduct(product) }} className={`${S.selectedCount} ${S.removable}`}>{selectedCount}</span>
                     </Tooltip>
                   )
                   : null }
@@ -211,15 +247,15 @@ export class NewSale extends React.Component<Props, State> {
       const calculatedPrice = this.calculatePrice()
       content = (
         <>
-          <List className={S.full} dataSource={convention.productTypes}>
+          <List className={S.full} dataSource={productTypes}>
             {productType => {
-              const selected = products
+              const selectedCount = selected
                 .filter(product => product.typeId === productType.id)
                 .length
               return (
                 <Item className={S.row} onClick={() => this.setState({ productType })} key={productType.id}>
                   <span className={S.name}>{productType.name}</span>
-                  { selected ? <span className={S.selectedCount}>{selected}</span> : null }
+                  { selectedCount ? <span className={S.selectedCount}>{selectedCount}</span> : null }
                   <Icon className={S.detail} name='keyboard_arrow_right' />
                 </Item>
               )

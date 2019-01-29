@@ -22,4 +22,4 @@ export const CURRENCIES = ['CAD', 'USD', 'MXN', 'EUR', 'GBP']
 
 export const PAGE_NO_AUTH = ['verify', 'reset-password', 'terms-of-service', 'privacy-policy', 'splash', 'faq']
 
-export const RFC3339 = 'yyyy-MM-dd\'T\'hh:mm:ssXXX'
+export const RFC3339 = 'yyyy-MM-dd\'T\'HH:mm:ssXXX'

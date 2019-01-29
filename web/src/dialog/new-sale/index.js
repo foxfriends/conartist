@@ -10,7 +10,7 @@ import { Item } from '../../common/list/item'
 import { l } from '../../localization'
 import { closeDialog as closeDialogButton } from '../action'
 import { closeDialog } from '../../update/dialog'
-import { loadConvention } from '../../update/helpers'
+import { loadConvention, loadUser } from '../../update/helpers'
 import { loadSales } from '../../update/sales'
 import { SaveRecord } from '../../api/save-record'
 import { Money } from '../../model/money'
@@ -176,6 +176,7 @@ export class NewSale extends React.Component<Props, State> {
     } else {
       try {
         await loadSales(true)
+        await loadUser()
       } catch (_) { /* ignore */ }
     }
     this.setState({ processing: false })

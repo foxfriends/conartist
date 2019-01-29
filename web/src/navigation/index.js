@@ -74,6 +74,7 @@ export class NavInfo {
       new ItemInfo('Products', 'shopping_basket', navigate.products),
       new ItemInfo('Prices', 'attach_money', navigate.prices),
       new ItemInfo('Conventions', 'event', navigate.conventions),
+      new ItemInfo('Sales', 'table_chart', navigate.sales),
       new ItemInfo('Settings', 'settings', navigate.settings),
     ]
     const { user } = model.getValue()

@@ -138,7 +138,11 @@ Stats = "Stats"
 Total = "Total"
 Type = "Type"
 # Records
-"<Empty recods list message>" = "You haven't sold anything yet"
+"<Empty records list message>" = "You haven't sold anything yet"
+"<Empty no-con records list message>" = """
+This is a place for sales you make outside of a convention.
+Looks like you haven't sold anything yet though!
+"""
 "Expense saved" = "Expense saved"
 "Sale saved" = "Sale saved"
 "The amount cannot be zero" = "The amount cannot be zero"

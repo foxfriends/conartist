@@ -6,6 +6,7 @@ import { Products } from './products'
 import { EditProducts } from './edit-products'
 import { EditPrices } from './edit-prices'
 import { Prices } from './prices'
+import { Sales } from './sales'
 import { Conventions } from './conventions'
 import { SearchConventions } from './search-conventions'
 import { ConventionDetails } from './convention-details'
@@ -24,6 +25,7 @@ import type { Props as EditProductsProps } from './edit-products'
 import type { Props as PricesProps } from './prices'
 import type { Props as EditPricesProps } from './edit-prices'
 import type { Props as ConventionsProps } from './conventions'
+import type { Props as SalesProps } from './sales'
 import type { Props as SearchConventionsProps } from './search-conventions'
 import type { Props as ConventionDetailsProps } from './convention-details'
 import type { Props as ConventionUserInfoProps } from './convention-user-info'
@@ -52,6 +54,7 @@ export type Props
   | ProductsProps
   | PricesProps
   | EditPricesProps
+  | SalesProps
   | ConventionsProps
   | SearchConventionsProps
   | ConventionDetailsProps
@@ -97,6 +100,9 @@ export function Content(props: Props) {
       break
     case 'edit-prices':
       content = <EditPrices {...props} />
+      break
+    case 'sales':
+      content = <Sales {...props} />
       break
     case 'conventions':
       content = <Conventions {...props} />

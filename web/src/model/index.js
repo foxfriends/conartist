@@ -18,6 +18,7 @@ import type { Product } from './product'
 import type { ProductType } from './product-type'
 import type { Convention } from './convention'
 import type { Price } from './price'
+import type { Record } from './record'
 import type { Settings } from './settings'
 
 export type Model = {|
@@ -30,6 +31,7 @@ export type Model = {|
   productTypes: ProductType[],
   products: Product[],
   conventions: Convention[],
+  records: Record[],
   page: Page,
   dialog: ?Dialog,
   settings: Settings,
@@ -42,6 +44,7 @@ export const defaultModel: Model = {
   productTypes: [],
   products: [],
   conventions: [],
+  records: [],
   page: splash,
   dialog: null,
   suggestions: empty(),

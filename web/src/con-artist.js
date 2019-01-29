@@ -115,6 +115,12 @@ export class ConArtist extends React.Component<Props, State> {
           .disable()
         break
 
+      case 'sales':
+        state.toolbar = { primary: null, secondary: null, tertiary: null, pageIcon: 'table_chart' }
+        state.content = { name: 'sales' }
+        state.navigation = NavInfo.default.select('Sales')
+        break
+
       case 'conventions':
         state.toolbar = { primary: toolbarAction.SearchConventions, secondary: null, tertiary: null, pageIcon: 'event' }
         state.content = { name: 'conventions', conventions: model.conventions }

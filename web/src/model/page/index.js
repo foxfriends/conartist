@@ -7,6 +7,7 @@ export type Page = Splash
                  | EditProducts
                  | Prices
                  | EditPrices
+                 | Sales
                  | Conventions
                  | SearchConventions
                  | ConventionDetails
@@ -29,6 +30,7 @@ export type EditProducts = {| name: 'edit-products' |}
 export type Prices = {| name: 'prices' |}
 export type EditPrices = {| name: 'edit-prices' |}
 export type Conventions = {| name: 'conventions' |}
+export type Sales = {| name: 'sales' |}
 export type SearchConventions = {| name: 'search-conventions' |}
 export type ConventionDetails = {| name: 'convention-details', convention: Convention |}
 export type ConventionRecords = {| name: 'convention-records', convention: Convention |}
@@ -50,6 +52,7 @@ export const editProducts: EditProducts = { name: 'edit-products' }
 export const prices: Prices = { name: 'prices' }
 export const editPrices: EditPrices = { name: 'edit-prices' }
 export const conventions: Conventions = { name: 'conventions' }
+export const sales: Sales = { name: 'sales' }
 export const searchConventions: SearchConventions = { name: 'search-conventions' }
 export const conventionDetails = (convention: Convention): ConventionDetails => ({ name: 'convention-details', convention })
 export const conventionRecords = (convention: Convention): ConventionRecords => ({ name: 'convention-records', convention })

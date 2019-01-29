@@ -238,7 +238,8 @@ View = "看→"
 
 # Convention details
 # Records
-"<Empty recods list message>" = "你还没有卖出任何东西"
+"<Empty records list message>" = "你还没有卖出任何东西"
+"<Empty no-con records list message>" = "TODO: translate"
 "Expense saved" = "TODO: traslate"
 "Sale saved" = "TODO: translate"
 "The amount cannot be zero" = "TODO: translate"

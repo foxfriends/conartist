@@ -12,6 +12,7 @@ use crate::schema::{conventions, conventionextrainfo};
 
 fn main() -> io::Result<()> {
     dotenv::dotenv().unwrap();
+    let save_ids = env::var("SAVE_IDS").map(|s| s == "true").unwrap_or(false);
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be sets");
     let connection = PgConnection::establish(&database_url)
         .expect(&format!("Error connecting to {}", database_url));
@@ -125,7 +126,11 @@ fn main() -> io::Result<()> {
             })
             .map_err(|reason| format!("Failed when attempting to add convention {:?}: {}", convention, reason))
             .unwrap();
-        convention.id = Some(id);
+        if save_ids {
+            convention.id = Some(id);
+        } else {
+            convention.id = None;
+        }
         let mut file = File::create(&file_name).unwrap();
         let toml = toml::to_string(&convention).unwrap();
         writeln!(file, "{}", toml).unwrap();

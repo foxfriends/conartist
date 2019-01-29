@@ -94,6 +94,8 @@ fn main() -> io::Result<()> {
                     .values((
                         conventionextrainfo::con_id.eq(id),
                         conventionextrainfo::title.eq("Website"),
+                        conventionextrainfo::action_text.eq(&convention.website.title),
+                        conventionextrainfo::action.eq(&convention.website.url),
                     ))
                     .on_conflict((conventionextrainfo::con_id, conventionextrainfo::title))
                     .do_update()

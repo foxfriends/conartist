@@ -1,0 +1,11 @@
+#import "../fragment/record.graphql"
+
+query RecordsConnection($limit: Int, $before: String, $after: String) {
+  recordsConnection(limit: $limit, before: $before, after: $after) {
+    nodes {
+      ...RecordFragment
+    }
+    endCursor
+    totalNodes
+  }
+}

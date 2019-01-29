@@ -15,11 +15,13 @@ import { sameDayAs } from '../../util/date'
 import { Money } from '../../model/money'
 import { l } from '../../localization'
 import type { Convention } from '../../model/convention'
+import type { Record } from '../../model/record'
 import S from './records-card.css'
 
 export type Props = {
   date: Date,
-  convention: Convention,
+  records?: ?Record[],
+  convention?: ?Convention,
   onFocus: (?React.Node) => void,
 }
 
@@ -27,9 +29,9 @@ function format(date: Date): string {
   return formatDate(date, l`EEEE MMMM d, yyyy`)
 }
 
-export function RecordsCard({ date, convention, onFocus }: Props) {
+export function RecordsCard({ date, records: propsRecords, convention, onFocus }: Props) {
   // $FlowIgnore: does not seem to recognize defaulting of missing properties
-  const { records = [], expenses = [] } = convention
+  const { records = propsRecords || [], expenses = [] } = convention || {}
 
   const dataSource = []
     .concat(

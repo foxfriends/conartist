@@ -42,13 +42,19 @@ export class SecondaryCard extends React.Component<Props, State> {
       // $FlowIgnore
       const height = this.ref.current.clientHeight
       let node = this.props.anchor.current
-      let top = 0
+      let recommendedTop = 0
       while (node && node !== cardView) {
-        top += node.offsetTop
+        recommendedTop += node.offsetTop
         node = node.offsetParent
       }
-      if (top + height > cardView.offsetHeight - 16) {
+      // prevent going off the bottom of the page
+      let top = recommendedTop
+      if (recommendedTop + height > cardView.offsetHeight - 16) {
         top = cardView.offsetHeight - height - 16
+      }
+
+      if (top < 0) {
+        top = recommendedTop
       }
 
       this.setState({ top })

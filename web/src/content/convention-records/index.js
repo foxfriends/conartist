@@ -5,7 +5,7 @@ import { SecondaryCardFade as Fade } from '../../common/animation/fade/secondary
 import { AutoCardView as CardView } from '../card-view/auto'
 import { Card } from '../card-view/card'
 import { RecordsCard } from './records-card'
-import { toLocal, toUTC, justDay, justUTCDay } from '../../util/date'
+import { toLocal, justDay } from '../../util/date'
 import type { Convention } from '../../model/convention'
 import S from './records-card.css'
 
@@ -31,13 +31,13 @@ export class ConventionRecords extends React.Component<Props, State> {
     const { focus } = this.state
 
     const dates = [];
-    const end = new Date(Math.min(convention.end, toUTC(justDay(new Date()))))
-    for (const date = new Date(justUTCDay(convention.start)); date <= end; date.setDate(date.getDate() + 1)) {
+    const end = new Date(Math.min(convention.end, justDay(new Date())))
+    for (const date = new Date(justDay(convention.start)); date <= end; date.setDate(date.getDate() + 1)) {
       dates.push(new Date(date).getTime())
     }
     // $FlowIgnore: does not understand defaulting missing args
     for (const item of [].concat(convention.records || [], convention.expenses || [])) {
-      const day = justUTCDay(item.time).getTime()
+      const day = justDay(item.time).getTime()
       if (!dates.includes(day)) {
         dates.push(day)
       }

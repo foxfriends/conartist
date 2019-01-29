@@ -140,7 +140,7 @@ table! {
     records (record_id) {
         record_id -> Int4,
         user_id -> Int4,
-        con_id -> Int4,
+        con_id -> Nullable<Int4>,
         price -> Bpchar,
         products -> Array<Int4>,
         info -> Text,

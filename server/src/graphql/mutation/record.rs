@@ -8,7 +8,7 @@ use crate::money::Money;
 #[derive(Clone, GraphQLInputObject)]
 #[graphql(description="Information required to create a sales record")]
 pub struct RecordAdd {
-    pub con_id: i32,
+    pub con_id: Option<i32>,
     pub uuid: Uuid,
     pub products: Vec<i32>,
     pub price: Money,

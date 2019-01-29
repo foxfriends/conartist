@@ -13,6 +13,7 @@ mod deleters;
 
 mod account;
 mod conventions;
+mod records;
 mod suggestions;
 mod user;
 

@@ -166,7 +166,7 @@ graphql_object!(Mutation: Database |&self| {
     // Records
     field add_user_record(&executor, user_id: Option<i32>, record: RecordAdd) -> FieldResult<Record> {
         ensure!(record.products.len() != 0);
-        ensure!(record.con_id > 0);
+        ensure!(record.con_id.is_none() || record.con_id.unwrap() > 0);
         ensure!(record.price >= Money::new(0i64, record.price.cur()));
 
         dbtry! {

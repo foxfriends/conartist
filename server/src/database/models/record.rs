@@ -10,7 +10,7 @@ use super::time::Time;
 pub struct Record {
     pub record_id: i32,
     pub user_id: i32,
-    pub con_id: i32,
+    pub con_id: Option<i32>,
     pub price: Money,
     pub products: Vec<i32>,
     pub info: String,

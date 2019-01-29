@@ -1,24 +1,24 @@
-use serde_derive::Deserialize;
+use serde_derive::{Deserialize, Serialize};
 
-#[derive(Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Hours {
     pub start: toml::value::Datetime,
     pub end: toml::value::Datetime,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Website {
     pub title: String,
     pub url: String,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Coordinates {
     pub lat: f32,
     pub lon: f32,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Address {
     pub address: String,
     pub city: String,
@@ -26,8 +26,9 @@ pub struct Address {
     pub coordinates: Coordinates,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Convention {
+    pub id: Option<i32>,
     pub title: String,
     pub start_date: toml::value::Datetime,
     pub end_date: toml::value::Datetime,

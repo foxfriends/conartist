@@ -1,0 +1,19 @@
+id = 563
+title = "Animangapop"
+start_date = 2019-02-09
+end_date = 2019-02-10
+tags = []
+
+[website]
+title = "animangapop.co.uk"
+url = "https://www.animangapop.co.uk/"
+
+[address]
+address = "Future Inn\nPlymouth, UK"
+city = "Plymouth"
+country = "UK"
+
+[address.coordinates]
+lat = 50.414112
+lon = -4.125564
+

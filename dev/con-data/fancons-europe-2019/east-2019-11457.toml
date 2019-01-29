@@ -1,0 +1,19 @@
+id = 575
+title = "Sachsen Furs e.V."
+start_date = 2019-07-24
+end_date = 2019-07-28
+tags = []
+
+[website]
+title = "web.sachsenfurs.de"
+url = "http://web.sachsenfurs.de/de/east"
+
+[address]
+address = "Ringberg Hotel\nSuhl, Germany"
+city = "Suhl"
+country = "Germany"
+
+[address.coordinates]
+lat = 50.6167
+lon = 10.7231865
+

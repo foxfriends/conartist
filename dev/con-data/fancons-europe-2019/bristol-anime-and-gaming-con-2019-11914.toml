@@ -1,0 +1,19 @@
+id = 565
+title = "Bristol Anime & Gaming Con"
+start_date = 2019-04-27
+end_date = 2019-04-28
+tags = []
+
+[website]
+title = "bristolanimecon.com"
+url = "https://www.bristolanimecon.com/"
+
+[address]
+address = "Bristol Future Inns\nBristol, UK"
+city = "Bristol"
+country = "UK"
+
+[address.coordinates]
+lat = 51.458134
+lon = -2.5837624
+

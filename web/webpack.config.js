@@ -18,6 +18,9 @@ module.exports = env => {
         'process.env.SUPPORT_EMAIL': JSON.stringify('support@conartist.app'),
         'process.env.DONATE_URL': JSON.stringify('https://ko-fi.com/oinkiguana'),
         'process.env.REPOSITORY_URL': JSON.stringify('https://github.com/OinkIguana/conartist'),
+        'process.env.APP_STORE_URL': JSON.stringify('https://itunes.apple.com/us/app/conartist/id1448972207'),
+        'process.env.DISCORD_URL': JSON.stringify('https://discordapp.com/invite/kh9hmt3'),
+        'process.env.CON_REQUEST_URL': JSON.stringify('https://github.com/OinkIguana/conartist/blob/master/dev/import-conventions/sample/convention.toml'),
       }));
       break;
     case STAGING:
@@ -28,6 +31,9 @@ module.exports = env => {
         'process.env.SUPPORT_EMAIL': JSON.stringify('support@staging.conartist.app'),
         'process.env.DONATE_URL': JSON.stringify('https://ko-fi.com/oinkiguana'),
         'process.env.REPOSITORY_URL': JSON.stringify('https://github.com/OinkIguana/conartist'),
+        'process.env.APP_STORE_URL': JSON.stringify('https://itunes.apple.com/us/app/conartist/id1448972207'),
+        'process.env.DISCORD_URL': JSON.stringify('https://discordapp.com/invite/kh9hmt3'),
+        'process.env.CON_REQUEST_URL': JSON.stringify('https://github.com/OinkIguana/conartist/blob/master/dev/import-conventions/sample/convention.toml'),
       }));
       break;
     default:
@@ -37,6 +43,9 @@ module.exports = env => {
         'process.env.SUPPORT_EMAIL': JSON.stringify('support@staging.conartist.app'),
         'process.env.DONATE_URL': JSON.stringify('https://ko-fi.com/oinkiguana'),
         'process.env.REPOSITORY_URL': JSON.stringify('https://github.com/OinkIguana/conartist'),
+        'process.env.APP_STORE_URL': JSON.stringify('https://itunes.apple.com/us/app/conartist/id1448972207'),
+        'process.env.DISCORD_URL': JSON.stringify('https://discordapp.com/invite/kh9hmt3'),
+        'process.env.CON_REQUEST_URL': JSON.stringify('https://github.com/OinkIguana/conartist/blob/master/dev/import-conventions/sample/convention.toml'),
       }));
       break;
   }

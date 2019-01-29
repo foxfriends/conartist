@@ -1,0 +1,19 @@
+id = 593
+title = "Gdakon"
+start_date = 2019-03-06
+end_date = 2019-03-10
+tags = []
+
+[website]
+title = "2019.gdakon.org"
+url = "https://2019.gdakon.org/"
+
+[address]
+address = "Hotel Faltom\nRumia, Poland"
+city = "Rumia"
+country = "Poland"
+
+[address.coordinates]
+lat = 54.57264
+lon = 18.38314
+

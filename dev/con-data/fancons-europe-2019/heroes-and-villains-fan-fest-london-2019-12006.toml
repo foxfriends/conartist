@@ -1,0 +1,19 @@
+id = 595
+title = "Heroes & Villains Fan Fest London"
+start_date = 2019-05-25
+end_date = 2019-05-26
+tags = []
+
+[website]
+title = "heroesfanfest.com"
+url = "https://heroesfanfest.com/london/"
+
+[address]
+address = "Olympia London\nLondon, UK"
+city = "London"
+country = "UK"
+
+[address.coordinates]
+lat = 51.496307
+lon = -0.2106673
+

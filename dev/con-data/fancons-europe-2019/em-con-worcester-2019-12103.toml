@@ -1,0 +1,19 @@
+id = 579
+title = "EM-Con Worcester"
+start_date = 2019-09-15
+end_date = 2019-09-15
+tags = []
+
+[website]
+title = "worcester.em-con.co.uk"
+url = "http://worcester.em-con.co.uk/"
+
+[address]
+address = "University of Worcester Arena\nWorcester, UK"
+city = "Worcester"
+country = "UK"
+
+[address.coordinates]
+lat = 52.19282
+lon = -2.231744
+

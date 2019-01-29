@@ -1,0 +1,19 @@
+id = 589
+title = "Film & Comic Con Sheffield"
+start_date = 2019-08-10
+end_date = 2019-08-11
+tags = []
+
+[website]
+title = "filmandcomicconsheffield.com"
+url = "http://filmandcomicconsheffield.com/"
+
+[address]
+address = "Sheffield Arena\nSheffield, UK"
+city = "Sheffield"
+country = "UK"
+
+[address.coordinates]
+lat = 53.399895
+lon = -1.418926
+

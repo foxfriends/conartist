@@ -1,0 +1,19 @@
+id = 600
+title = "Just Fur The Weekend"
+start_date = 2019-04-19
+end_date = 2019-04-21
+tags = []
+
+[website]
+title = "jftw.org"
+url = "https://jftw.org/"
+
+[address]
+address = "Holiday Inn Bristol-Filton\nBristol, UK"
+city = "Bristol"
+country = "UK"
+
+[address.coordinates]
+lat = 51.505
+lon = -2.5366108
+

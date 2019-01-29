@@ -1,0 +1,19 @@
+id = 619
+title = "The Surrey Steampunk Convivial"
+start_date = 2019-02-23
+end_date = 2019-02-24
+tags = []
+
+[website]
+title = "bumpandthumper.wixsite.com"
+url = "http://bumpandthumper.wixsite.com/steampunkconvivials"
+
+[address]
+address = "The Royal Oak & Christchurch\nNew Malden, Surrey, UK"
+city = "New Malden, Surrey"
+country = "UK"
+
+[address.coordinates]
+lat = 51.407326
+lon = -0.2581771
+

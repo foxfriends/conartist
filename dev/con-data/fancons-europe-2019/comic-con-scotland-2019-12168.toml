@@ -1,0 +1,19 @@
+id = 570
+title = "Comic Con Scotland"
+start_date = 2019-08-10
+end_date = 2019-08-11
+tags = []
+
+[website]
+title = "comicconventionscotland.co.uk"
+url = "http://comicconventionscotland.co.uk/"
+
+[address]
+address = "Royal Highland Centre\nNewbridge, UK"
+city = "Newbridge"
+country = "UK"
+
+[address.coordinates]
+lat = 55.94318
+lon = -3.3731189
+

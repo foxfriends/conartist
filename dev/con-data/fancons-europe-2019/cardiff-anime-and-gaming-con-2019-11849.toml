@@ -1,0 +1,19 @@
+id = 566
+title = "Cardiff Anime & Gaming Con"
+start_date = 2019-02-02
+end_date = 2019-02-03
+tags = []
+
+[website]
+title = "cardiffanimecon.com"
+url = "https://www.cardiffanimecon.com/"
+
+[address]
+address = "Mercure Cardiff Holland House Hotel and Spa\nCardiff, UK"
+city = "Cardiff"
+country = "UK"
+
+[address.coordinates]
+lat = 51.483677
+lon = -3.1672277
+

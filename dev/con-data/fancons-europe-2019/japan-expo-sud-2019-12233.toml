@@ -1,0 +1,19 @@
+id = 599
+title = "Japan Expo Sud"
+start_date = 2019-02-22
+end_date = 2019-02-24
+tags = []
+
+[website]
+title = "www.japan-expo-sud.com"
+url = "https://www.japan-expo-sud.com/"
+
+[address]
+address = "Palais des Congrès - Marseille Chanot\nMarseille, France"
+city = "Marseille"
+country = "France"
+
+[address.coordinates]
+lat = 43.272636
+lon = 5.3935018
+

@@ -1,0 +1,19 @@
+id = 577
+title = "EM-Con Derby"
+start_date = 2019-10-06
+end_date = 2019-10-06
+tags = []
+
+[website]
+title = "derby.em-con.co.uk"
+url = "http://derby.em-con.co.uk/"
+
+[address]
+address = "Derby Arena\nDerby, UK"
+city = "Derby"
+country = "UK"
+
+[address.coordinates]
+lat = 52.912666
+lon = -1.446522
+

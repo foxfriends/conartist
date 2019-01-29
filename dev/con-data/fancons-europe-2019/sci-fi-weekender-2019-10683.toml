@@ -1,0 +1,19 @@
+id = 615
+title = "Sci-Fi Weekender"
+start_date = 2019-03-29
+end_date = 2019-03-30
+tags = []
+
+[website]
+title = "www.scifiweekender.com"
+url = "http://www.scifiweekender.com/"
+
+[address]
+address = "O2 Academy Sheffield\nSheffield, UK"
+city = "Sheffield"
+country = "UK"
+
+[address.coordinates]
+lat = 53.381405
+lon = -1.4654934
+

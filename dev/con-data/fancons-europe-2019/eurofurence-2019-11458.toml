@@ -1,0 +1,19 @@
+id = 580
+title = "Eurofurence"
+start_date = 2019-08-14
+end_date = 2019-08-18
+tags = []
+
+[website]
+title = "eurofurence.org"
+url = "https://www.eurofurence.org/"
+
+[address]
+address = "Estrel Berlin\nBerlin, Germany"
+city = "Berlin"
+country = "Germany"
+
+[address.coordinates]
+lat = 52.474003
+lon = 13.459357
+

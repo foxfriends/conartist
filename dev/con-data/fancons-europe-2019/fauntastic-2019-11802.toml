@@ -1,0 +1,19 @@
+id = 583
+title = "Fauntastic"
+start_date = 2019-05-30
+end_date = 2019-06-02
+tags = []
+
+[website]
+title = "fauntastic.eu"
+url = "https://fauntastic.eu/"
+
+[address]
+address = "L'Hôtel Vallée Bleue\nMontalieu-Vercieu, France"
+city = "Montalieu-Vercieu"
+country = "France"
+
+[address.coordinates]
+lat = 45.827084
+lon = 5.420061
+

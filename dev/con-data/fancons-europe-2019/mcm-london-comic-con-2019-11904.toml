@@ -1,0 +1,19 @@
+id = 605
+title = "MCM London Comic Con"
+start_date = 2019-05-24
+end_date = 2019-05-26
+tags = []
+
+[website]
+title = "www.mcmcomiccon.com"
+url = "https://www.mcmcomiccon.com/london/"
+
+[address]
+address = "ExCeL Convention Centre, Royal Victoria Dock\nLondon, UK"
+city = "London"
+country = "UK"
+
+[address.coordinates]
+lat = 51.508194
+lon = 0.028818
+

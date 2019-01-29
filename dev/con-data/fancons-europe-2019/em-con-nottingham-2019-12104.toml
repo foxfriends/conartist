@@ -1,0 +1,19 @@
+id = 578
+title = "EM-Con Nottingham"
+start_date = 2019-05-04
+end_date = 2019-05-05
+tags = []
+
+[website]
+title = "nottingham.em-con.co.uk"
+url = "http://nottingham.em-con.co.uk/"
+
+[address]
+address = "Motorpoint Arena Nottingham\nNottingham, UK"
+city = "Nottingham"
+country = "UK"
+
+[address.coordinates]
+lat = 52.952705
+lon = -1.139743
+

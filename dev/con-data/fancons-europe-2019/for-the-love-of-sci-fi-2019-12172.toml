@@ -1,0 +1,19 @@
+id = 592
+title = "For the Love of Sci-Fi"
+start_date = 2019-12-07
+end_date = 2019-12-08
+tags = []
+
+[website]
+title = "fortheloveofsci-fi.com"
+url = "https://fortheloveofsci-fi.com/"
+
+[address]
+address = "Bowlers Exhibition Centre\nManchester, UK"
+city = "Manchester"
+country = "UK"
+
+[address.coordinates]
+lat = 53.468945
+lon = -2.3314233
+

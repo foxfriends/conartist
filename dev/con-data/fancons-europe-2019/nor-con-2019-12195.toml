@@ -1,0 +1,19 @@
+id = 610
+title = "Nor-Con"
+start_date = 2019-09-28
+end_date = 2019-09-29
+tags = []
+
+[website]
+title = "www.nor-con.co.uk"
+url = "https://www.nor-con.co.uk/"
+
+[address]
+address = "Norfolk Showground Arena\nNorwich, UK"
+city = "Norwich"
+country = "UK"
+
+[address.coordinates]
+lat = 52.64674
+lon = 1.1776142
+

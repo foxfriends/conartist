@@ -1,0 +1,19 @@
+id = 597
+title = "IberAnime Lx"
+start_date = 2019-05-18
+end_date = 2019-05-19
+tags = []
+
+[website]
+title = "www.iberanime.com"
+url = "https://www.iberanime.com/"
+
+[address]
+address = "Feira Internacional de Lisboa\nLisbon, Portugal"
+city = "Lisbon"
+country = "Portugal"
+
+[address.coordinates]
+lat = 38.7713
+lon = -9.094087
+

@@ -1,0 +1,19 @@
+id = 573
+title = "DoKomi"
+start_date = 2019-06-08
+end_date = 2019-06-09
+tags = []
+
+[website]
+title = "dokomi.de"
+url = "https://www.dokomi.de/en"
+
+[address]
+address = "Congress Center Düsseldorf\nDüsseldorf, Germany"
+city = "Düsseldorf"
+country = "Germany"
+
+[address.coordinates]
+lat = 51.25898
+lon = 6.745702
+

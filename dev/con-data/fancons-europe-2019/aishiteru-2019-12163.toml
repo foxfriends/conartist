@@ -1,0 +1,19 @@
+id = 561
+title = "Aishiteru"
+start_date = 2019-02-02
+end_date = 2019-02-03
+tags = []
+
+[website]
+title = "aishiteru.pl"
+url = "https://aishiteru.pl/"
+
+[address]
+address = "Szkoła Podstawowa nr 66 we Wrocławiu\nWrocław, Poland"
+city = "Wrocław"
+country = "Poland"
+
+[address.coordinates]
+lat = 51.10537
+lon = 17.093645
+

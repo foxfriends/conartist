@@ -1,0 +1,19 @@
+id = 609
+title = "NärCon Vinter"
+start_date = 2019-02-21
+end_date = 2019-02-24
+tags = []
+
+[website]
+title = "www.narcon.se"
+url = "https://www.narcon.se/event"
+
+[address]
+address = "Katedralskolan\nLinköping, Sweden"
+city = "Linköping"
+country = "Sweden"
+
+[address.coordinates]
+lat = 58.41581
+lon = 15.6156435
+

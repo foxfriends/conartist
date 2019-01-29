@@ -1,0 +1,19 @@
+id = 613
+title = "Play Expo Manchester"
+start_date = 2019-05-04
+end_date = 2019-05-05
+tags = []
+
+[website]
+title = "www.playexpomanchester.com"
+url = "https://www.playexpomanchester.com/"
+
+[address]
+address = "Manchester Central Convention Complex\nManchester, UK"
+city = "Manchester"
+country = "UK"
+
+[address.coordinates]
+lat = 53.476368
+lon = -2.2475255
+

@@ -1,0 +1,19 @@
+id = 622
+title = "TimeQuake"
+start_date = 2019-04-05
+end_date = 2019-04-07
+tags = []
+
+[website]
+title = "timequake.co.uk"
+url = "https://timequake.co.uk/"
+
+[address]
+address = "Bowlers Exhibition Centre\nManchester, UK"
+city = "Manchester"
+country = "UK"
+
+[address.coordinates]
+lat = 53.46895
+lon = -2.331562
+

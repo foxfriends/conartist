@@ -1,0 +1,19 @@
+id = 617
+title = "SunnyCon Anime Expo Liverpool"
+start_date = 2019-08-10
+end_date = 2019-08-11
+tags = []
+
+[website]
+title = "www.sunnyconanimeexpo.com"
+url = "http://www.sunnyconanimeexpo.com/liverpool.html"
+
+[address]
+address = "Exhibition Centre Liverpool\nLiverpool, UK"
+city = "Liverpool"
+country = "UK"
+
+[address.coordinates]
+lat = 53.39548
+lon = -2.9903123
+

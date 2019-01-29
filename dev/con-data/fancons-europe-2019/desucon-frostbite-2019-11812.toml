@@ -1,0 +1,19 @@
+id = 572
+title = "Desucon Frostbite"
+start_date = 2019-02-15
+end_date = 2019-02-17
+tags = []
+
+[website]
+title = "desucon.fi"
+url = "https://desucon.fi/frostbite2019/"
+
+[address]
+address = "Sibelius Hall\nLahti, Finland"
+city = "Lahti"
+country = "Finland"
+
+[address.coordinates]
+lat = 60.99487
+lon = 25.651402
+

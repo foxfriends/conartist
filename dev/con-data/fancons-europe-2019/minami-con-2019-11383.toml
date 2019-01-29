@@ -1,0 +1,19 @@
+id = 607
+title = "Minami Con"
+start_date = 2019-03-08
+end_date = 2019-03-10
+tags = []
+
+[website]
+title = "minamicon.org.uk"
+url = "http://minamicon.org.uk/"
+
+[address]
+address = "Novotel Hotel\nSouthampton, UK"
+city = "Southampton"
+country = "UK"
+
+[address.coordinates]
+lat = 50.905674
+lon = -1.415289
+

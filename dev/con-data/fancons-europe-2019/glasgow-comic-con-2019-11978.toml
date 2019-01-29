@@ -1,0 +1,19 @@
+id = 594
+title = "Glasgow Comic Con"
+start_date = 2019-06-29
+end_date = 2019-06-29
+tags = []
+
+[website]
+title = "www.glasgowcomiccon.com"
+url = "http://www.glasgowcomiccon.com/"
+
+[address]
+address = "The Glasgow Royal Concert Hall\nGlasgow, UK"
+city = "Glasgow"
+country = "UK"
+
+[address.coordinates]
+lat = 55.864475
+lon = -4.2524986
+

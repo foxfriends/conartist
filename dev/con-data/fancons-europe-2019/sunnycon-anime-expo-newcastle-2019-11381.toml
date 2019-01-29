@@ -1,0 +1,19 @@
+id = 618
+title = "SunnyCon Anime Expo Newcastle"
+start_date = 2019-06-28
+end_date = 2019-06-30
+tags = []
+
+[website]
+title = "www.sunnyconanimeexpo.com"
+url = "http://www.sunnyconanimeexpo.com/newcastle.html"
+
+[address]
+address = "St. James' Park\nNewcastle, UK"
+city = "Newcastle"
+country = "UK"
+
+[address.coordinates]
+lat = 54.975483
+lon = -1.6217787
+

@@ -1,0 +1,19 @@
+id = 616
+title = "Steamfest Papenburg"
+start_date = 2019-09-13
+end_date = 2019-09-15
+tags = []
+
+[website]
+title = "www.steamfest.de"
+url = "http://www.steamfest.de/"
+
+[address]
+address = "Gut Altenkamp\nPapenburg, Germany"
+city = "Papenburg"
+country = "Germany"
+
+[address.coordinates]
+lat = 53.05247
+lon = 7.340727
+

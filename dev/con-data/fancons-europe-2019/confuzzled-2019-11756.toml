@@ -1,0 +1,19 @@
+id = 571
+title = "ConFuzzled"
+start_date = 2019-05-24
+end_date = 2019-05-28
+tags = []
+
+[website]
+title = "2019.confuzzled.org.uk"
+url = "https://2019.confuzzled.org.uk/"
+
+[address]
+address = "Hilton Birmingham Metropole Hotel\nBirmingham, UK"
+city = "Birmingham"
+country = "UK"
+
+[address.coordinates]
+lat = 52.45249
+lon = -1.716689
+

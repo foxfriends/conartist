@@ -1,0 +1,19 @@
+id = 582
+title = "FACTS"
+start_date = 2019-04-06
+end_date = 2019-04-07
+tags = []
+
+[website]
+title = "facts.be"
+url = "https://www.facts.be/"
+
+[address]
+address = "Flanders Expo\nGhent, Belgium"
+city = "Ghent"
+country = "Belgium"
+
+[address.coordinates]
+lat = 51.02683
+lon = 3.691835
+

@@ -1,0 +1,19 @@
+id = 574
+title = "DraigCon"
+start_date = 2019-07-06
+end_date = 2019-07-07
+tags = []
+
+[website]
+title = "draigcon.co.uk"
+url = "http://www.draigcon.co.uk/"
+
+[address]
+address = "The Printworks\nManchester, UK"
+city = "Manchester"
+country = "UK"
+
+[address.coordinates]
+lat = 53.48528
+lon = -2.240692
+

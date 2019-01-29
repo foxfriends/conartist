@@ -41,8 +41,8 @@ fn retrieve_convention(details_url: &reqwest::Url) -> Option<Convention> {
     let latitude = content(&details_document, &LATITUDE_SELECTOR)?.parse().unwrap();
     let longitude = content(&details_document, &LONGITUDE_SELECTOR)?.parse().unwrap();
     let locality = content(&details_document, &LOCALITY_SELECTOR)?;
-    let region = content(&details_document, &REGION_SELECTOR)?;
-    let postal_code = content(&details_document, &POSTAL_CODE_SELECTOR)?;
+    let region = content(&details_document, &REGION_SELECTOR);
+    let postal_code = content(&details_document, &POSTAL_CODE_SELECTOR);
     let country = content(&details_document, &COUNTRY_SELECTOR)?;
     let url = details_document.select(&URL_SELECTOR).next()?.value().attr("href")?.to_string();
     let url_title = URL_TITLE_REGEX.captures(&url)?[1].to_string();
@@ -51,19 +51,13 @@ fn retrieve_convention(details_url: &reqwest::Url) -> Option<Convention> {
         start_date,
         end_date,
         predecessor: None,
+        tags: vec![],
         hours: None,
         website: Website {
             title: url_title,
             url,
         },
-        address: Address {
-            city: format!("{}, {}", locality, region),
-            address: format!("{}\n{}, {}, {}\n{}", venue, locality, region, country, postal_code),
-            coordinates: Coordinates {
-                lat: latitude,
-                lon: longitude,
-            }
-        }
+        address: Address::new(locality, region, country, venue, postal_code, latitude, longitude),
     };
 
     Some(convention)

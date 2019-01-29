@@ -1,0 +1,19 @@
+id = 584
+title = "Film & Comic Con Bournemouth"
+start_date = 2019-03-16
+end_date = 2019-03-17
+tags = []
+
+[website]
+title = "www.showmastersevents.com"
+url = "https://www.showmastersevents.com/bournemouth/"
+
+[address]
+address = "Bournemouth International Centre\nBournemouth, UK"
+city = "Bournemouth"
+country = "UK"
+
+[address.coordinates]
+lat = 50.71637
+lon = -1.8787638
+

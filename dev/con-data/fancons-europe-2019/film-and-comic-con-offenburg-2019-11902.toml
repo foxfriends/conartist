@@ -1,0 +1,19 @@
+id = 588
+title = "Film & Comic Con Offenburg"
+start_date = 2019-10-12
+end_date = 2019-10-13
+tags = []
+
+[website]
+title = "www.filmundcomiccon.com"
+url = "http://www.filmundcomiccon.com/"
+
+[address]
+address = "Messe Offenburg-Ortenau GmbH\nOffenburg, Germany"
+city = "Offenburg"
+country = "Germany"
+
+[address.coordinates]
+lat = 48.46425
+lon = 7.9340835
+

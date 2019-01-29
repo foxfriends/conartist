@@ -1,0 +1,19 @@
+id = 562
+title = "AnimagiC"
+start_date = 2019-08-02
+end_date = 2019-08-04
+tags = []
+
+[website]
+title = "animagic.de"
+url = "https://animagic.de/"
+
+[address]
+address = "Congress Center Rosengarten\nMannheim, Germany"
+city = "Mannheim"
+country = "Germany"
+
+[address.coordinates]
+lat = 49.485237
+lon = 8.476997
+

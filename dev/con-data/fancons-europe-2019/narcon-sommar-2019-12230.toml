@@ -1,0 +1,19 @@
+id = 608
+title = "Närcon Sommar"
+start_date = 2019-07-25
+end_date = 2019-07-28
+tags = []
+
+[website]
+title = "www.narcon.se"
+url = "https://www.narcon.se/"
+
+[address]
+address = "Linköpings Universitet\nLinköping, Sweden"
+city = "Linköping"
+country = "Sweden"
+
+[address.coordinates]
+lat = 58.398457
+lon = 15.574987
+

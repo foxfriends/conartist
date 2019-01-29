@@ -1,0 +1,19 @@
+id = 623
+title = "True Believers Comic Festival"
+start_date = 2019-02-02
+end_date = 2019-02-02
+tags = []
+
+[website]
+title = "oktruebelievers.com"
+url = "http://oktruebelievers.com/"
+
+[address]
+address = "Jurys Inn Cheltenham\nCheltenham, UK"
+city = "Cheltenham"
+country = "UK"
+
+[address.coordinates]
+lat = 51.89568
+lon = -2.1313198
+

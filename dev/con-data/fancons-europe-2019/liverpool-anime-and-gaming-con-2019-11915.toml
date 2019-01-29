@@ -1,0 +1,19 @@
+id = 601
+title = "Liverpool Anime & Gaming Con"
+start_date = 2019-06-08
+end_date = 2019-06-09
+tags = []
+
+[website]
+title = "www.liverpoolanimecon.com"
+url = "https://www.liverpoolanimecon.com/"
+
+[address]
+address = "Liverpool Marriott Hotel City Centre\nLiverpool, UK"
+city = "Liverpool"
+country = "UK"
+
+[address.coordinates]
+lat = 53.407852
+lon = -2.982168
+

@@ -1,0 +1,19 @@
+id = 627
+title = "Yorkshire Cosplay Con"
+start_date = 2019-05-18
+end_date = 2019-05-19
+tags = []
+
+[website]
+title = "www.yorkshirecosplayconvention.co.uk"
+url = "http://www.yorkshirecosplayconvention.co.uk/"
+
+[address]
+address = "Fly DSA Arena\nSheffield, UK"
+city = "Sheffield"
+country = "UK"
+
+[address.coordinates]
+lat = 53.399918
+lon = -1.4200183
+

@@ -1,0 +1,19 @@
+id = 596
+title = "Heroes Comic Con València"
+start_date = 2019-02-22
+end_date = 2019-02-24
+tags = []
+
+[website]
+title = "www.heroescomicconvalencia.com"
+url = "http://www.heroescomicconvalencia.com/"
+
+[address]
+address = "Feria Valencia\nValència, Spain"
+city = "València"
+country = "Spain"
+
+[address.coordinates]
+lat = 39.50424
+lon = -0.4291785
+

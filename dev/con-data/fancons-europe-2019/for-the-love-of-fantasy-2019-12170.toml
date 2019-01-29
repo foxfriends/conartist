@@ -1,0 +1,19 @@
+id = 590
+title = "For the Love of Fantasy"
+start_date = 2019-07-26
+end_date = 2019-07-29
+tags = []
+
+[website]
+title = "fortheloveoffantasy.com"
+url = "https://fortheloveoffantasy.com/"
+
+[address]
+address = "The Edinburgh Academy\nEdinburgh, UK"
+city = "Edinburgh"
+country = "UK"
+
+[address.coordinates]
+lat = 55.96079
+lon = -3.2047708
+

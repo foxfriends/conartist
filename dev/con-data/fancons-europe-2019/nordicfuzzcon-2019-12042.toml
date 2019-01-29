@@ -1,0 +1,19 @@
+id = 611
+title = "NordicFuzzCon"
+start_date = 2019-02-27
+end_date = 2019-03-03
+tags = []
+
+[website]
+title = "www.nordicfuzzcon.org"
+url = "https://www.nordicfuzzcon.org/"
+
+[address]
+address = "Scandic Infra City\nUpplands Väsby, Sweden"
+city = "Upplands Väsby"
+country = "Sweden"
+
+[address.coordinates]
+lat = 59.49949
+lon = 17.927835
+

@@ -8,8 +8,9 @@ export const GraphQLURL = process.env.GRAPHQL_URL
 export const SUPPORT_EMAIL = process.env.SUPPORT_EMAIL
 export const DONATE_URL = process.env.DONATE_URL
 export const REPOSITORY_URL = process.env.REPOSITORY_URL
-export const APP_STORE_URL = 'https://itunes.apple.com/us/app/conartist/id1448972207'
-export const DISCORD_URL = 'https://discordapp.com/invite/kh9hmt3'
+export const APP_STORE_URL = process.env.APP_STORE_URL
+export const DISCORD_URL = process.env.DISCORD_URL
+export const CON_REQUEST_URL = process.env.CON_REQUEST_URL
 
 export const EMAIL_FORMAT = /^[^@]+@[^@]+\.[^@]+$/
 

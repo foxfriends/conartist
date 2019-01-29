@@ -1,0 +1,19 @@
+id = 603
+title = "London Film & Comic Con"
+start_date = 2019-07-26
+end_date = 2019-07-28
+tags = []
+
+[website]
+title = "www.londonfilmandcomiccon.com"
+url = "http://www.londonfilmandcomiccon.com/"
+
+[address]
+address = "Olympia London\nLondon, UK"
+city = "London"
+country = "UK"
+
+[address.coordinates]
+lat = 51.49635
+lon = -0.2104366
+

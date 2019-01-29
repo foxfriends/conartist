@@ -1,0 +1,19 @@
+id = 567
+title = "Charmed Again"
+start_date = 2019-07-05
+end_date = 2019-07-07
+tags = []
+
+[website]
+title = "thebestevents.info"
+url = "https://www.thebestevents.info/charmed-again"
+
+[address]
+address = "Renaissance London Heathrow Hotel\nLongford, Hounslow, UK"
+city = "Longford, Hounslow"
+country = "UK"
+
+[address.coordinates]
+lat = 51.480404
+lon = -0.4458165
+

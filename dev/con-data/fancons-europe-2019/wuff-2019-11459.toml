@@ -1,0 +1,19 @@
+id = 626
+title = "WUFF"
+start_date = 2019-05-07
+end_date = 2019-05-11
+tags = []
+
+[website]
+title = "wuff.ua"
+url = "https://wuff.ua/2019/"
+
+[address]
+address = "Platium Spa & Resort\nKiev, Ukraine"
+city = "Kiev"
+country = "Ukraine"
+
+[address.coordinates]
+lat = 50.196266
+lon = 30.699713
+

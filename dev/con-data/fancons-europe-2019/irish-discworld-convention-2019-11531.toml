@@ -1,0 +1,19 @@
+id = 598
+title = "Irish Discworld Convention"
+start_date = 2019-03-29
+end_date = 2019-04-01
+tags = []
+
+[website]
+title = "2019.idwcon.org"
+url = "http://2019.idwcon.org/"
+
+[address]
+address = "Cork International Hotel\nCork, Ireland"
+city = "Cork"
+country = "Ireland"
+
+[address.coordinates]
+lat = 51.8521
+lon = -8.486939
+

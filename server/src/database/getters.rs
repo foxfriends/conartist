@@ -200,26 +200,4 @@ impl Database {
             .map_err(|reason| format!("Prices for user with id {} could not be retrieved. Reason: {}", user_id, reason))
             .map(|prices| prices.into_iter().filter(|price| price.price.is_some()).collect())
     }
-
-    pub fn get_records_for_user_con(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<Vec<Record>, String> {
-        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
-        records::table
-            .filter(records::user_id.eq(user_id))
-            .filter(records::con_id.eq(con_id))
-            .order(dsl::sql::<sql_types::Timestamptz>("sale_time::timestamptz").asc())
-            .load::<Record>(&*conn)
-            .map_err(|reason| format!("Records for convention with id {} for user with id {} could not be retrieved. Reason: {}", con_id, user_id, reason))
-    }
-
-    pub fn get_expenses_for_user_con(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<Vec<Expense>, String> {
-        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
-        expenses::table
-            .filter(expenses::user_id.eq(user_id))
-            .filter(expenses::con_id.eq(con_id))
-            .order(dsl::sql::<sql_types::Timestamptz>("spend_time::timestamptz").asc())
-            .load::<Expense>(&*conn)
-            .map_err(|reason| format!("Expenses for convention with id {} for user with id {} could not be retrieved. Reason: {}", con_id, user_id, reason))
-    }
 }

@@ -23,3 +23,4 @@ pub use self::record::*;
 pub use self::settings::*;
 pub use self::suggestion::*;
 pub use self::user::*;
+pub use self::time::*;

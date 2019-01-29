@@ -8,7 +8,6 @@ use crate::database::models::*;
 mod product_type;
 mod product;
 mod price;
-mod record;
 mod expense;
 mod settings;
 

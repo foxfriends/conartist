@@ -1,6 +1,6 @@
-pub struct Connection<T> {
+pub struct Connection<T, C = i64> {
     pub nodes: Vec<T>,
-    pub offset: i64,
+    pub offset: C,
     pub total: i64,
 }
 
@@ -18,8 +18,8 @@ impl<T, C> Edge<T, C> {
     }
 }
 
-impl<T> Connection<T> {
-    pub fn new(nodes: Vec<T>, offset: i64, total: i64) -> Self {
+impl<T, C> Connection<T, C> {
+    pub fn new(nodes: Vec<T>, offset: C, total: i64) -> Self {
         Self {
             nodes,
             offset,

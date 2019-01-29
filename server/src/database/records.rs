@@ -1,4 +1,4 @@
-use diesel::{self, prelude::*};
+use diesel::{self, prelude::*, dsl, sql_types};
 use chrono::{DateTime, FixedOffset};
 use uuid::Uuid;
 
@@ -68,5 +68,66 @@ impl Database {
                 .get_result::<Expense>(&*conn)
         })
         .map_err(|reason| format!("Could not create expense for user with id {} and convention with id {}. Reason: {}", user_id, con_id, reason))
+    }
+
+    pub fn get_records_for_user_con(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<Vec<Record>, String> {
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
+        let conn = self.pool.get().unwrap();
+        records::table
+            .filter(records::user_id.eq(user_id))
+            .filter(records::con_id.eq(con_id))
+            .order(dsl::sql::<sql_types::Timestamptz>("sale_time::timestamptz").asc())
+            .load::<Record>(&*conn)
+            .map_err(|reason| format!("Records for convention with id {} for user with id {} could not be retrieved. Reason: {}", con_id, user_id, reason))
+    }
+
+    pub fn get_records_for_user(&self, maybe_user_id: Option<i32>, limit: i64, before: Option<i32>) -> Result<Vec<Record>, String> {
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
+        let conn = self.pool.get().unwrap();
+        if let Some(latest) = before {
+            records::table
+                .filter(records::user_id.eq(user_id))
+                .filter(records::con_id.is_null())
+                .filter(records::record_id.lt(latest))
+                .order(dsl::sql::<sql_types::Timestamptz>("sale_time::timestamptz").desc())
+                .limit(limit)
+                .load::<Record>(&*conn)
+                .map_err(|reason| format!("Records for user with id {} could not be retrieved. Reason: {}", user_id, reason))
+        } else {
+            records::table
+                .filter(records::user_id.eq(user_id))
+                .filter(records::con_id.is_null())
+                .order(dsl::sql::<sql_types::Timestamptz>("sale_time::timestamptz").desc())
+                .limit(limit)
+                .load::<Record>(&*conn)
+                .map_err(|reason| format!("Records for user with id {} could not be retrieved. Reason: {}", user_id, reason))
+        }
+    }
+
+    pub fn count_records_for_user(&self, maybe_user_id: Option<i32>) -> i64 {
+        let user_id = match self.resolve_user_id_protected(maybe_user_id) {
+            Ok(user_id) => user_id,
+            Err(..) => return 0,
+        };
+        let conn = self.pool.get().unwrap();
+        records::table
+            .select(dsl::count(records::record_id))
+            .filter(records::user_id.eq(user_id))
+            .filter(records::con_id.is_null())
+            .order(dsl::sql::<sql_types::Timestamptz>("sale_time::timestamptz").desc())
+            .count()
+            .first::<i64>(&*conn)
+            .unwrap_or(0)
+    }
+
+    pub fn get_expenses_for_user_con(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<Vec<Expense>, String> {
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
+        let conn = self.pool.get().unwrap();
+        expenses::table
+            .filter(expenses::user_id.eq(user_id))
+            .filter(expenses::con_id.eq(con_id))
+            .order(dsl::sql::<sql_types::Timestamptz>("spend_time::timestamptz").asc())
+            .load::<Expense>(&*conn)
+            .map_err(|reason| format!("Expenses for convention with id {} for user with id {} could not be retrieved. Reason: {}", con_id, user_id, reason))
     }
 }

@@ -2,8 +2,9 @@
 
 mod connection;
 mod convention;
-mod user;
+mod record;
 mod suggestion;
+mod user;
 
 use chrono::{DateTime, Utc, FixedOffset};
 use juniper::{graphql_object, FieldResult};
@@ -70,6 +71,29 @@ graphql_object!(Query: Database |&self| {
             );
 
         Ok(Connection::new(conventions, after.and_then(|s| s.parse().ok()).unwrap_or(0), total))
+    }
+
+    field records_connection(
+        &executor,
+        limit = 100: i32 as "The limit on how many records to retrieve",
+        after: Option<String> as "Cursor to search after. Currently unimplemented",
+        before: Option<String> as "Cursor to search before",
+    ) -> FieldResult<Connection<Record, Option<i32>>> as "Retrieves one page of records from sales not at a convention" {
+        ensure!(after.is_none() || before.is_none());
+        let before = before.and_then(|cursor| cursor.parse().ok());
+
+        let records = dbtry! {
+            executor
+                .context()
+                .get_records_for_user(
+                    None,
+                    limit as i64,
+                    before,
+                )
+        }?;
+        let total = executor.context().count_records_for_user(None);
+
+        Ok(Connection::new(records, before, total))
     }
 
     field suggestions_connection(

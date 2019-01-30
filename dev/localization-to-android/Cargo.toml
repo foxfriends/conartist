@@ -1,0 +1,9 @@
+[package]
+name = "localization-to-android"
+version = "0.1.0"
+authors = ["Cameron Eldridge <cameldridge+git@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+toml = "0.4"
+treexml = "0.7"

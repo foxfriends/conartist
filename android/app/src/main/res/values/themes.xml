@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/brand</item>
+        <item name="colorPrimaryDark">@color/background</item>
+        <item name="colorAccent">@color/brand_variant</item>
+
+        <item name="colorControlNormal">@color/text_placeholder</item>
+        <item name="colorControlActivated">@color/brand</item>
+        <item name="colorControlHighlight">@color/brand_variant</item>
+
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textColorHint">@color/text_placeholder</item>
+    </style>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/brand</item>
+        <item name="colorPrimaryDark">@color/background</item>
+        <item name="colorAccent">@color/brand_variant</item>
+
+        <item name="colorControlNormal">@color/text_placeholder</item>
+        <item name="colorControlActivated">@color/brand</item>
+        <item name="colorControlHighlight">@color/brand_variant</item>
+
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textColorHint">@color/text_placeholder</item>
+    </style>
+
+    <style name="SecondaryButtonTheme">
+        <item name="colorControlHighlight">@color/background_highlight</item>
+    </style>
+</resources>

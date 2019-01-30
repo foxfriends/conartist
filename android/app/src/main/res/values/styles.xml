@@ -1,11 +1,23 @@
 <resources>
-
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="BigButtonBase" parent="Base.Widget.AppCompat.Button">
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@color/brand</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
     </style>
-
+    <style name="BigButton" parent="BigButtonBase" />
+    <style name="SecondaryButton" parent="Base.Widget.AppCompat.Button">
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@color/background_variant</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:theme">@style/SecondaryButtonTheme</item>
+    </style>
+    <style name="TertiaryButton" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:layout_height">48dp</item>
+        <item name="android:textColor">@color/text_placeholder</item>
+        <item name="android:theme">@style/SecondaryButtonTheme</item>
+    </style>
+    <style name="TextField" parent="Base.Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textColorHint">@color/text_placeholder</item>
+    </style>
 </resources>

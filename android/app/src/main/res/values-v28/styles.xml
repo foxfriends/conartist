@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="BigButton" parent="BigButtonBase">
+        <item name="android:buttonCornerRadius">24dp</item>
+    </style>
+</resources>

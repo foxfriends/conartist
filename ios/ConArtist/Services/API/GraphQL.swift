@@ -195,13 +195,13 @@ public struct ProductAdd: GraphQLMapConvertible {
 public struct RecordAdd: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
-  public init(conId: Int, uuid: String, products: [Int], price: String, time: String, info: String) {
+  public init(conId: Swift.Optional<Int?> = nil, uuid: String, products: [Int], price: String, time: String, info: String) {
     graphQLMap = ["conId": conId, "uuid": uuid, "products": products, "price": price, "time": time, "info": info]
   }
 
-  public var conId: Int {
+  public var conId: Swift.Optional<Int?> {
     get {
-      return graphQLMap["conId"] as! Int
+      return graphQLMap["conId"] as! Swift.Optional<Int?>
     }
     set {
       graphQLMap.updateValue(newValue, forKey: "conId")
@@ -3112,6 +3112,166 @@ public final class FullUserQuery: GraphQLQuery {
           }
           set {
             resultMap += newValue.resultMap
+          }
+        }
+      }
+    }
+  }
+}
+
+public final class RecordsConnectionQuery: GraphQLQuery {
+  public let operationDefinition =
+    "query RecordsConnection($limit: Int, $before: String, $after: String) {\n  recordsConnection(limit: $limit, before: $before, after: $after) {\n    __typename\n    nodes {\n      __typename\n      ...RecordFragment\n    }\n    endCursor\n    totalNodes\n  }\n}"
+
+  public var queryDocument: String { return operationDefinition.appending(RecordFragment.fragmentDefinition) }
+
+  public var limit: Int?
+  public var before: String?
+  public var after: String?
+
+  public init(limit: Int? = nil, before: String? = nil, after: String? = nil) {
+    self.limit = limit
+    self.before = before
+    self.after = after
+  }
+
+  public var variables: GraphQLMap? {
+    return ["limit": limit, "before": before, "after": after]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes = ["Query"]
+
+    public static let selections: [GraphQLSelection] = [
+      GraphQLField("recordsConnection", arguments: ["limit": GraphQLVariable("limit"), "before": GraphQLVariable("before"), "after": GraphQLVariable("after")], type: .nonNull(.object(RecordsConnection.selections))),
+    ]
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(recordsConnection: RecordsConnection) {
+      self.init(unsafeResultMap: ["__typename": "Query", "recordsConnection": recordsConnection.resultMap])
+    }
+
+    /// Retrieves one page of records from sales not at a convention
+    public var recordsConnection: RecordsConnection {
+      get {
+        return RecordsConnection(unsafeResultMap: resultMap["recordsConnection"]! as! ResultMap)
+      }
+      set {
+        resultMap.updateValue(newValue.resultMap, forKey: "recordsConnection")
+      }
+    }
+
+    public struct RecordsConnection: GraphQLSelectionSet {
+      public static let possibleTypes = ["RecordsConnection"]
+
+      public static let selections: [GraphQLSelection] = [
+        GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+        GraphQLField("nodes", type: .nonNull(.list(.nonNull(.object(Node.selections))))),
+        GraphQLField("endCursor", type: .scalar(String.self)),
+        GraphQLField("totalNodes", type: .nonNull(.scalar(Int.self))),
+      ]
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(nodes: [Node], endCursor: String? = nil, totalNodes: Int) {
+        self.init(unsafeResultMap: ["__typename": "RecordsConnection", "nodes": nodes.map { (value: Node) -> ResultMap in value.resultMap }, "endCursor": endCursor, "totalNodes": totalNodes])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var nodes: [Node] {
+        get {
+          return (resultMap["nodes"] as! [ResultMap]).map { (value: ResultMap) -> Node in Node(unsafeResultMap: value) }
+        }
+        set {
+          resultMap.updateValue(newValue.map { (value: Node) -> ResultMap in value.resultMap }, forKey: "nodes")
+        }
+      }
+
+      public var endCursor: String? {
+        get {
+          return resultMap["endCursor"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "endCursor")
+        }
+      }
+
+      public var totalNodes: Int {
+        get {
+          return resultMap["totalNodes"]! as! Int
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "totalNodes")
+        }
+      }
+
+      public struct Node: GraphQLSelectionSet {
+        public static let possibleTypes = ["Record"]
+
+        public static let selections: [GraphQLSelection] = [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLFragmentSpread(RecordFragment.self),
+        ]
+
+        public private(set) var resultMap: ResultMap
+
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
+        }
+
+        public init(id: Int, uuid: String? = nil, products: [Int], price: String, time: String, info: String) {
+          self.init(unsafeResultMap: ["__typename": "Record", "id": id, "uuid": uuid, "products": products, "price": price, "time": time, "info": info])
+        }
+
+        public var __typename: String {
+          get {
+            return resultMap["__typename"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        public var fragments: Fragments {
+          get {
+            return Fragments(unsafeResultMap: resultMap)
+          }
+          set {
+            resultMap += newValue.resultMap
+          }
+        }
+
+        public struct Fragments {
+          public private(set) var resultMap: ResultMap
+
+          public init(unsafeResultMap: ResultMap) {
+            self.resultMap = unsafeResultMap
+          }
+
+          public var recordFragment: RecordFragment {
+            get {
+              return RecordFragment(unsafeResultMap: resultMap)
+            }
+            set {
+              resultMap += newValue.resultMap
+            }
           }
         }
       }

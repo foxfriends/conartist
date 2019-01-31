@@ -62,6 +62,7 @@ class Model: Codable {
     let page = BehaviorRelay<[Presentation]>(value: [])
     let settings = BehaviorRelay<Settings>(value: Settings.default)
 
+    let records = BehaviorRelay<Connection<Record>>(value: .empty)
     let suggestions = BehaviorRelay<Connection<Suggestion>>(value: .empty)
 
     /// Merges the retrieved fragment with the existing model, overriding where possible, but keeping references to
@@ -177,6 +178,32 @@ extension Model {
         suggestions.accept(suggestions.value.replace(suggestion))
     }
 }
+
+// MARK: - Records
+extension Model {
+    func loadRecords(fresh: Bool = false) -> Observable<Connection<Record>> {
+        if !fresh && records.value.isFull { return Single.just(records.value).asObservable() }
+        return ConArtist.API.GraphQL
+            .observe(query: RecordsConnectionQuery(limit: nil, before: fresh ? nil : records.value.endCursor, after: nil))
+            .map { $0.recordsConnection }
+            .filterMap(Connection<Record>.init(graphQL:))
+            .map { [records] new in fresh ? new : records.value.extend(new) }
+            .do(onNext: { [records] updated in records.accept(updated) })
+    }
+
+    func addSuggestion(_ record: Record) {
+        records.accept(records.value.prepend(record))
+    }
+
+    func replaceRecord(_ record: Record) {
+        records.accept(records.value.replace(record))
+    }
+
+    func removeRecord(_ record: Record) {
+        records.accept(records.value.remove(record))
+    }
+}
+
 
 // MARK: - Navigation
 extension Model {

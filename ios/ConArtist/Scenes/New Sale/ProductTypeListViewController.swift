@@ -29,7 +29,6 @@ class ProductTypeListViewController : ConArtistViewController {
     fileprivate let records = BehaviorRelay<[Record]>(value: [])
     fileprivate let money = BehaviorRelay<Money?>(value: nil)
 
-    fileprivate var convention: Convention!
     fileprivate var editingRecord: Record?
     fileprivate let results = PublishSubject<([Product], Money, String)>()
 
@@ -47,7 +46,7 @@ extension ProductTypeListViewController {
         priceField.format = { Money.parse(as: ConArtist.model.settings.value.currency, $0)?.toString() ?? $0 }
         if let record = editingRecord {
             infoTextView.text = record.info
-            selected.accept(record.products.compactMap(convention.product(withId:)))
+            selected.accept(record.products.compactMap { id in products.value.first { product in product.id == id } })
             priceField.text = "\(record.price.numericValue)"
             money.accept(record.price)
         }
@@ -275,23 +274,34 @@ extension ProductTypeListViewController: ViewControllerNavigation {
     static let Storyboard: Storyboard = .sale
     static let ID = "ProductTypeList"
 
-    static func show(for convention: Convention, editing record: Record? = nil) -> Observable<([Product], Money, String)> {
+    static func show(for convention: Convention? = nil, editing record: Record? = nil) -> Observable<([Product], Money, String)> {
         let controller = instantiate()
 
         controller.editingRecord = record
-        controller.convention = convention
-        convention.records
-            .bind(to: controller.records)
-            .disposed(by: controller.disposeBag)
-        convention.products
-            .bind(to: controller.products)
-            .disposed(by: controller.disposeBag)
-        convention.productTypes
-            .bind(to: controller.productTypes)
-            .disposed(by: controller.disposeBag)
-        convention.prices
-            .bind(to: controller.prices)
-            .disposed(by: controller.disposeBag)
+        if let convention = convention {
+            convention.records
+                .bind(to: controller.records)
+                .disposed(by: controller.disposeBag)
+            convention.products
+                .bind(to: controller.products)
+                .disposed(by: controller.disposeBag)
+            convention.productTypes
+                .bind(to: controller.productTypes)
+                .disposed(by: controller.disposeBag)
+            convention.prices
+                .bind(to: controller.prices)
+                .disposed(by: controller.disposeBag)
+        } else {
+            ConArtist.model.products
+                .bind(to: controller.products)
+                .disposed(by: controller.disposeBag)
+            ConArtist.model.productTypes
+                .bind(to: controller.productTypes)
+                .disposed(by: controller.disposeBag)
+            ConArtist.model.prices
+                .bind(to: controller.prices)
+                .disposed(by: controller.disposeBag)
+        }
 
         ConArtist.model.navigate(present: controller)
         return controller.results.asObservable()

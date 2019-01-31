@@ -62,3 +62,31 @@ extension Connection where T == Convention {
         totalNodes = graphQL.totalNodes
     }
 }
+
+extension Connection where T == Record {
+    init?(graphQL: RecordsConnectionQuery.Data.RecordsConnection) {
+        nodes = graphQL.nodes
+            .map { $0.fragments.recordFragment }
+            .compactMap(Record.init(graphQL:))
+        endCursor = graphQL.endCursor
+        totalNodes = graphQL.totalNodes
+    }
+
+    func replace(_ record: Record) -> Connection<T> {
+        return Connection(
+            nodes: nodes.replace(with: record, where: { $0.id == record.id }),
+            endCursor: endCursor,
+            totalNodes: totalNodes
+        )
+    }
+
+    func remove(_ record: Record) -> Connection<T> {
+        var nodes = self.nodes
+        nodes.removeFirst { $0.id == record.id }
+        return Connection(
+            nodes: nodes,
+            endCursor: endCursor,
+            totalNodes: totalNodes - 1
+        )
+    }
+}

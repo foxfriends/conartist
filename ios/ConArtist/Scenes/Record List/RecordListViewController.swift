@@ -14,7 +14,7 @@ class RecordListViewController : ConArtistViewController {
     @IBOutlet weak var recordsTableView: UITableView!
     @IBOutlet weak var navBar: FakeNavBar!
 
-    fileprivate var convention: Convention!
+    fileprivate var convention: Convention?
     fileprivate let records = BehaviorRelay<[Record]>(value: [])
     fileprivate let products = BehaviorRelay<[Product]>(value: [])
 
@@ -31,14 +31,24 @@ extension RecordListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        convention.records
-            .map { [after, before] records in records.filter { record in (after.map { record.time >= $0 } ?? true) && (before.map { record.time <= $0 } ?? true) } }
-            .bind(to: records)
-            .disposed(by: disposeBag)
+        if let convention = convention { // get the info from the convention
+            convention.records
+                .map { [after, before] records in records.filter { record in (after.map { record.time >= $0 } ?? true) && (before.map { record.time <= $0 } ?? true) } }
+                .bind(to: records)
+                .disposed(by: disposeBag)
 
-        convention.products
-            .bind(to: products)
-            .disposed(by: disposeBag)
+            convention.products
+                .bind(to: products)
+                .disposed(by: disposeBag)
+        } else { // use the convention-less info
+            ConArtist.model.records
+                .map { $0.nodes }
+                .bind(to: records)
+                .disposed(by: disposeBag)
+            ConArtist.model.products
+                .bind(to: products)
+                .disposed(by: disposeBag)
+        }
 
         navBar.leftButton.rx.tap
             .subscribe(onNext: { ConArtist.model.navigate(back: 1) })
@@ -49,7 +59,7 @@ extension RecordListViewController {
             .drive(onNext: { [recordsTableView] in recordsTableView?.reloadData() })
             .disposed(by: disposeBag)
 
-        navBar.title = convention.name
+        navBar.title = convention?.name ?? "Sales"¡
         navBar.subtitle = after?.toString("MMM. d, yyyy"¡)
 
         setupRefreshControl()
@@ -58,8 +68,14 @@ extension RecordListViewController {
     private func setupRefreshControl() {
         recordsTableView.refreshControl = refreshControl
         refreshControl.rx.controlEvent([.valueChanged])
-            .flatMapLatest { [convention] _ in convention!.fill(true) }
-            .subscribe(onNext: { [refreshControl] in refreshControl.endRefreshing() })
+            .flatMapLatest { [convention] _ -> Observable<Void> in
+                if let convention = convention {
+                    return convention.fill(true).discard()
+                } else {
+                    return ConArtist.model.loadRecords(fresh: true).discard()
+                }
+            }
+            .subscribe(onNext: { [refreshControl] _ in refreshControl.endRefreshing() })
             .disposed(by: disposeBag)
     }
 }
@@ -87,7 +103,22 @@ extension RecordListViewController: UITableViewDataSource {
 extension RecordListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let record = records.value.nth(indexPath.row) {
-            RecordDetailsOverlayViewController.show(for: record, in: convention, after: after)
+            if let convention = convention {
+                RecordDetailsOverlayViewController.show(
+                    for: record,
+                    products: convention.products,
+                    productTypes: convention.productTypes,
+                    after: after,
+                    convention: convention
+                )
+            } else {
+                RecordDetailsOverlayViewController.show(
+                    for: record,
+                    products: ConArtist.model.products.asObservable(),
+                    productTypes: ConArtist.model.productTypes.asObservable(),
+                    after: after
+                )
+            }
         }
     }
 
@@ -102,9 +133,19 @@ extension RecordListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let record = records.value[indexPath.row]
         var actions: [UIContextualAction] = []
-        if !convention.isEnded {
+        if convention?.isEnded != true {
             let deleteAction = UIContextualAction(style: .normal, title: "Delete"¡) { [convention] _, _, reset in
-                let _ = convention?.deleteRecord(record).subscribe()
+                if let convention = convention {
+                    _ = convention.deleteRecord(record).subscribe()
+                } else {
+                    _ = ConArtist.API.GraphQL
+                        .observe(mutation: DeleteRecordMutation(record: RecordDel(
+                            recordId: record.id.id,
+                            uuid: record.id.uuid?.uuidString
+                        )))
+                        .subscribe()
+                    ConArtist.model.removeRecord(record)
+                }
                 reset(true)
             }
             deleteAction.backgroundColor = .warn
@@ -121,7 +162,7 @@ extension RecordListViewController: ViewControllerNavigation {
     static let Storyboard: Storyboard = .records
     static let ID = "RecordList"
 
-    static func show(for convention: Convention, after: Date, before: Date) {
+    static func show(for convention: Convention? = nil, after: Date, before: Date) {
         let controller = instantiate()
         controller.convention = convention
         controller.after = after

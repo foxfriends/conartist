@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 class RecordDetailsOverlayViewController : ConArtistViewController {
     fileprivate static let AnimationDuration = 0.25
@@ -28,21 +29,23 @@ class RecordDetailsOverlayViewController : ConArtistViewController {
     @IBOutlet var smallCapsLabels: [UILabel]!
 
     fileprivate var record: Record!
-    fileprivate var convention: Convention!
+    fileprivate let _products = BehaviorRelay<[Product]>(value: [])
+    fileprivate let _productTypes = BehaviorRelay<[ProductType]>(value: [])
     fileprivate var after: Date?
+    fileprivate var convention: Convention?
 
     fileprivate let disposeBag = DisposeBag()
 
     fileprivate var products: [Product] {
         return record.products
-            .compactMap(convention.product(withId:))
+            .compactMap { id in _products.value.first(where: { product in product.id == id }) }
     }
 
     fileprivate var productTypes: [ProductType] {
         return products
             .map { $0.typeId }
             .unique()
-            .compactMap(convention.productType(withId:))
+            .compactMap { id in _productTypes.value.first(where: { type in type.id == id }) }
     }
 }
 
@@ -90,14 +93,37 @@ extension RecordDetailsOverlayViewController {
             .disposed(by: disposeBag)
 
         navBar.rightButton.rx.tap
-            .flatMap { [convention, unowned self] _ in ProductTypeListViewController.show(for: convention!, editing: self.record) }
-            .map { [unowned self] products, price, info in
-                let newRecord = Record(id: self.record.id.id ?? ConArtist.NoID, products: products.map { $0.id }, price: price, time: self.record.time, info: info)
+            .flatMap { [convention, unowned self] _ in
+                ProductTypeListViewController.show(for: convention, editing: self.record)
+            }
+            .map { [unowned self] products, price, info -> Record in
+                let newRecord = Record(
+                    id: self.record.id.id ?? ConArtist.NoID,
+                    products: products.map { $0.id },
+                    price: price,
+                    time: self.record.time,
+                    info: info
+                )
                 self.record = newRecord
                 DispatchQueue.main.async { self.setupUI() }
                 return newRecord
             }
-            .flatMap { [convention] record in convention!.updateRecord(record) }
+            .flatMap { [convention] record -> Observable<Void> in
+                if let convention = convention {
+                    return convention
+                        .updateRecord(record)
+                        .discard()
+                } else if let modifications = record.modifications {
+                    return ConArtist.API.GraphQL
+                        .observe(mutation: UpdateRecordMutation(record: modifications))
+                        .map { $0.modUserRecord.fragments.recordFragment }
+                        .filterMap(Record.init(graphQL:))
+                        .do(onNext: { record in ConArtist.model.replaceRecord(record) })
+                        .discard()
+                } else {
+                    return .empty()
+                }
+            }
             .subscribe()
             .disposed(by: disposeBag)
     }
@@ -106,7 +132,7 @@ extension RecordDetailsOverlayViewController {
 // MARK: - UI
 extension RecordDetailsOverlayViewController {
     fileprivate func setupUI() {
-        if convention.isEnded {
+        if convention != nil && convention!.isEnded {
             navBar.rightButton.isHidden = true
         }
         sheetView.layer.cornerRadius = 35
@@ -125,7 +151,7 @@ extension RecordDetailsOverlayViewController {
             .map(RecordDetailsItemsTableViewCell.height)
             .reduce(0, +)
         itemsTableViewHeightConstraint.constant = height
-        navBar.title = convention.name
+        navBar.title = convention?.name ?? "Sale"¡
         navBar.subtitle = after?.toString("MMM. d, yyyy"¡)
         navBar.layer.shadowOpacity = 0
         itemsTableView.reloadData()
@@ -192,9 +218,21 @@ extension RecordDetailsOverlayViewController: ViewControllerNavigation {
     static let Storyboard: Storyboard = .records
     static let ID = "RecordDetailsOverlay"
 
-    static func show(for record: Record, in convention: Convention, after: Date?) {
+    static func show(
+        for record: Record,
+        products: Observable<[Product]>,
+        productTypes: Observable<[ProductType]>,
+        after: Date?,
+        convention: Convention? = nil
+    ) {
         let controller = instantiate()
         controller.record = record
+        products
+            .bind(to: controller._products)
+            .disposed(by: controller.disposeBag)
+        productTypes
+            .bind(to: controller._productTypes)
+            .disposed(by: controller.disposeBag)
         controller.convention = convention
         controller.after = after
         ConArtist.model.navigate(show: controller)

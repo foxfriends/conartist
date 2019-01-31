@@ -28,13 +28,13 @@ class RecordsOverviewViewController : ConArtistViewController {
     }
 
     fileprivate enum Item {
-        case Expense(Expense)
-        case Records([Record])
+        case expense(Expense)
+        case records([Record])
 
         var price: Money {
             switch self {
-            case .Expense(let expense): return -expense.price
-            case .Records(let records): return records.map { $0.price }.reduce(Money.zero, +)
+            case .expense(let expense): return -expense.price
+            case .records(let records): return records.map { $0.price }.reduce(Money.zero, +)
             }
         }
     }
@@ -44,7 +44,7 @@ class RecordsOverviewViewController : ConArtistViewController {
     @IBOutlet weak var netProfitLabel: UILabel!
     @IBOutlet weak var netProfitAmountLabel: UILabel!
 
-    fileprivate var convention: Convention!
+    fileprivate var convention: Convention?
     fileprivate let sections = BehaviorRelay<[Section]>(value: [])
 
     fileprivate let disposeBag = DisposeBag()
@@ -58,7 +58,7 @@ extension RecordsOverviewViewController {
         setupLocalization()
         setupSubscriptions()
         setupRefreshControl()
-        navBar.title = convention.name
+        navBar.title = convention?.name ?? "Sales"¡
         netProfitAmountLabel.font = netProfitAmountLabel.font.usingFeatures([.tabularFigures])
     }
 
@@ -82,44 +82,51 @@ extension RecordsOverviewViewController {
 // MARK: - Subscriptions
 extension RecordsOverviewViewController {
     fileprivate enum ItemType {
-        case Expense(Expense)
-        case Record(Record)
+        case expense(Expense)
+        case record(Record)
 
         var isExpense: Bool {
-            if case .Expense = self { return true }
+            if case .expense = self { return true }
             return false
         }
 
         var record: Record? {
             switch self {
-            case .Record(let record): return record
+            case .record(let record): return record
             default: return nil
             }
         }
 
         var time: Date {
             switch self {
-            case .Expense(let expense): return expense.time
-            case .Record(let record):   return record.time
+            case .expense(let expense): return expense.time
+            case .record(let record):   return record.time
             }
         }
 
         var price: Money {
             switch self {
-            case .Expense(let expense): return -expense.price
-            case .Record(let record):   return record.price
+            case .expense(let expense): return -expense.price
+            case .record(let record):   return record.price
             }
         }
     }
 
     fileprivate func setupSubscriptions() {
-        let items = Observable
-            .combineLatest(
-                convention.expenses.map { $0.map { ItemType.Expense($0) } },
-                convention.records.map { $0.map { ItemType.Record($0) } }
-            )
-            .map { (expenses: [ItemType], records: [ItemType]) -> [ItemType] in expenses + records }
-            .share()
+        let items: Observable<[ItemType]>
+        if let convention = convention {
+            items = Observable
+                .combineLatest(
+                    convention.expenses.map { $0.map { .expense($0) } },
+                    convention.records.map { $0.map { .record($0) } }
+                )
+                .map { (expenses: [ItemType], records: [ItemType]) -> [ItemType] in expenses + records }
+                .share()
+        } else {
+            items = ConArtist.model.records
+                .map { $0.nodes.map { .record($0) } }
+                .share()
+        }
 
         items
             .map { [sections] (items: [ItemType]) -> [Section] in
@@ -132,8 +139,8 @@ extension RecordsOverviewViewController {
                         let date = itemss.first!.first!.time.roundToDay()
                         let items = itemss.map { (items: [ItemType]) -> Item in
                             switch items.first! {
-                            case .Expense(let expense): return .Expense(expense)
-                            case .Record: return .Records(items.map { $0.record! })
+                            case .expense(let expense): return .expense(expense)
+                            case .record: return .records(items.map { $0.record! })
                             }
                         }
                         return Section(
@@ -187,11 +194,11 @@ extension RecordsOverviewViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let item = item(for: indexPath) else { fatalError("Item for records table is missing!") }
         switch item {
-        case .Expense(let expense):
+        case .expense(let expense):
             let cell = tableView.dequeueReusableCell(withIdentifier: ExpenseTableViewCell.ID, for: indexPath) as! ExpenseTableViewCell
             cell.setup(for: expense)
             return cell
-        case .Records(let records):
+        case .records(let records):
             let cell = tableView.dequeueReusableCell(withIdentifier: RecordSummaryTableViewCell.ID, for: indexPath) as! RecordSummaryTableViewCell
             cell.setup(for: item.price, and: records.count)
             return cell
@@ -204,10 +211,12 @@ extension RecordsOverviewViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let item = item(for: indexPath) else { return }
         switch item {
-        case .Records(let records):
+        case .records(let records):
             RecordListViewController.show(for: convention, after: records.first!.time, before: records.last!.time)
-        case .Expense(let expense):
-            ExpenseDetailsOverlayViewController.show(for: expense, in: convention)
+        case .expense(let expense):
+            // NOTE: expenses only occur in conventions, so this unwrap should be safe
+            // Remember to deal with it if expenses are ever allowed in non-conventions
+            ExpenseDetailsOverlayViewController.show(for: expense, in: convention!)
         }
     }
 
@@ -244,9 +253,9 @@ extension RecordsOverviewViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        guard case .Expense(let expense)? = item(for: indexPath) else { return UISwipeActionsConfiguration(actions: []) }
+        guard case .expense(let expense)? = item(for: indexPath) else { return UISwipeActionsConfiguration(actions: []) }
         var actions: [UIContextualAction] = []
-        if !convention.isEnded {
+        if convention?.isEnded != true {
             let deleteAction = UIContextualAction(style: .normal, title: "Delete"¡) { [convention] _, _, reset in
                 let _ = convention?.deleteExpense(expense).subscribe()
                 reset(true)
@@ -270,7 +279,7 @@ extension RecordsOverviewViewController: ViewControllerNavigation {
     static let Storyboard: Storyboard = .records
     static let ID = "RecordsOverview"
 
-    static func show(for convention: Convention) {
+    static func show(for convention: Convention? = nil) {
         let controller = instantiate()
         controller.convention = convention
         ConArtist.model.navigate(push: controller)

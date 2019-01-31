@@ -22,6 +22,7 @@ extension PrettyString.Config {
                 name: "light",
                 attributes: [
                     .foregroundColor(.textPlaceholder),
+                    .font(UIFont.systemFont(ofSize: 15, weight: .regular))
                 ]
             )
         ]

@@ -14,6 +14,7 @@ extension URL {
         return URL(string: Config.retrieve(Config.APIURL.self) + "/account/exists/\(email)")!
     }
     static let createAccount: URL = URL(string: Config.retrieve(Config.APIURL.self) + "/account/new")!
+    static let resendVerificationEmail: URL = URL(string: Config.retrieve(Config.APIURL.self) + "/account/resend-verification")!
 
     static let conartist: URL = URL(string: Config.retrieve(Config.WebURL.self))!
     static let privacyPolicy: URL = URL(string: Config.retrieve(Config.WebURL.self) + "/privacy")!

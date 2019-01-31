@@ -31,6 +31,12 @@ private func loadUser() throws -> Observable<FullUserFragment> {
 }
 
 extension ConArtist.API {
+    static var headers: [String: String] {
+        return [
+            "Authorization": "Bearer \(Auth.authToken)"
+        ]
+    }
+
     struct Auth {
         static let Unauthorized = "Unauthorized"
 
@@ -62,9 +68,6 @@ extension ConArtist.API {
 
         /// Refreshes the provided authorization token, then retrieves the user data again
         static func reauthorize() -> Observable<Void> {
-            let headers = [
-                "Authorization": "Bearer \(authToken)"
-            ]
             return RxAlamofire
                 .requestData(.get, URL.signIn, headers: headers)
                 .map(handleConRequest)
@@ -93,6 +96,12 @@ extension ConArtist.API {
                 .map(setAuthToken)
                 .flatMap(loadUser)
                 .map(ConArtist.model.merge(graphQL:))
+        }
+
+        static func resendVerificationEmail() -> Observable<Unit> {
+            return RxAlamofire
+                .requestData(.post, URL.resendVerificationEmail, headers: headers)
+                .map(handleConRequest)
         }
     }
 }

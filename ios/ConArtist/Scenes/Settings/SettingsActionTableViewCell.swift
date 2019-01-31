@@ -11,12 +11,27 @@ import UIKit
 class SettingsActionTableViewCell: ConArtistTableViewCell {
     static let ID = "SettingsActionCell"
     @IBOutlet weak var titleLabel: UILabel!
-    
-    func setup(title: String) {
-        titleLabel.text = title
+    @IBOutlet weak var detailIcon: UIImageView!
+
+    override var tintColor: UIColor! {
+        didSet {
+            detailIcon.tintColor = tintColor
+        }
     }
 
-    func setup(title: NSAttributedString) {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        detailIcon.image = nil
+        tintColor = .white
+    }
+
+    func setup(title: String, detail: UIImage? = nil) {
+        titleLabel.text = title
+        detailIcon.image = detail
+    }
+
+    func setup(title: NSAttributedString, detail: UIImage? = nil) {
         titleLabel.attributedText = title
+        detailIcon.image = detail
     }
 }

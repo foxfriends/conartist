@@ -223,6 +223,12 @@
 		326B7EA421FEA52B00E8DF34 /* add.svg in Resources */ = {isa = PBXBuildFile; fileRef = 32637A8D218EB599005E2F6C /* add.svg */; };
 		326B7EA521FEA52B00E8DF34 /* chevron_down.svg in Resources */ = {isa = PBXBuildFile; fileRef = 32637A87218EB576005E2F6C /* chevron_down.svg */; };
 		326B7EA621FEA52B00E8DF34 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 32B302692050B8B5000F7F2A /* Colors.xcassets */; };
+		327B8EB92202C061004757D3 /* verified.svg in Resources */ = {isa = PBXBuildFile; fileRef = 327B8EB72202C061004757D3 /* verified.svg */; };
+		327B8EBA2202C061004757D3 /* verified.svg in Resources */ = {isa = PBXBuildFile; fileRef = 327B8EB72202C061004757D3 /* verified.svg */; };
+		327B8EBB2202C061004757D3 /* warning.svg in Resources */ = {isa = PBXBuildFile; fileRef = 327B8EB82202C061004757D3 /* warning.svg */; };
+		327B8EBC2202C061004757D3 /* warning.svg in Resources */ = {isa = PBXBuildFile; fileRef = 327B8EB82202C061004757D3 /* warning.svg */; };
+		327B8EBE2202C4F3004757D3 /* Unit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327B8EBD2202C4F3004757D3 /* Unit.swift */; };
+		327B8EBF2202C4F3004757D3 /* Unit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327B8EBD2202C4F3004757D3 /* Unit.swift */; };
 		327C5D7920817A81007EEF71 /* Debug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 327C5D7820817A81007EEF71 /* Debug.plist */; };
 		327C5D7B20817AD1007EEF71 /* Release.plist in Resources */ = {isa = PBXBuildFile; fileRef = 327C5D7A20817AD1007EEF71 /* Release.plist */; };
 		327C5D7F2081845F007EEF71 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327C5D7E2081845F007EEF71 /* Config.swift */; };
@@ -391,6 +397,9 @@
 		3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		326B7EAC21FEA52B00E8DF34 /* ConArtist DEV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ConArtist DEV.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		326B7EAD21FEA52B00E8DF34 /* ConArtist DEV-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ConArtist DEV-Info.plist"; path = "/Users/cam/code/conartist/ios/ConArtist DEV-Info.plist"; sourceTree = "<absolute>"; };
+		327B8EB72202C061004757D3 /* verified.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = verified.svg; sourceTree = "<group>"; };
+		327B8EB82202C061004757D3 /* warning.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = warning.svg; sourceTree = "<group>"; };
+		327B8EBD2202C4F3004757D3 /* Unit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unit.swift; sourceTree = "<group>"; };
 		327C5D7820817A81007EEF71 /* Debug.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Debug.plist; sourceTree = "<group>"; };
 		327C5D7A20817AD1007EEF71 /* Release.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Release.plist; sourceTree = "<group>"; };
 		327C5D7E2081845F007EEF71 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
@@ -584,6 +593,8 @@
 		32637A82218EB576005E2F6C /* SVG */ = {
 			isa = PBXGroup;
 			children = (
+				327B8EB72202C061004757D3 /* verified.svg */,
+				327B8EB82202C061004757D3 /* warning.svg */,
 				32CD6B1B21B0AB3500387349 /* star_outline.svg */,
 				32CD6B1C21B0AB3500387349 /* star.svg */,
 				32637A83218EB576005E2F6C /* thumb_down.svg */,
@@ -893,6 +904,7 @@
 				32BC33E71FEEF2070006256A /* Expense.swift */,
 				32CD6B0921AF97D900387349 /* Connection.swift */,
 				320CF59720E7E6EF003F91EC /* Either.swift */,
+				327B8EBD2202C4F3004757D3 /* Unit.swift */,
 				324592A91FEC2E7900DE89BB /* Model.swift */,
 				32E80BD3201700100008EC27 /* Money.swift */,
 				32BC33E91FEEF2420006256A /* Price.swift */,
@@ -1130,6 +1142,7 @@
 				32B9101020439F75002F9C94 /* resources.json in Resources */,
 				32CD6B1421AF9CF600387349 /* Suggestions.storyboard in Resources */,
 				327C5D7B20817AD1007EEF71 /* Release.plist in Resources */,
+				327B8EB92202C061004757D3 /* verified.svg in Resources */,
 				32CFB1DD20DCB3C800672EC9 /* Main.storyboard in Resources */,
 				321B75DF1F9BAD320055EBC4 /* SignIn.storyboard in Resources */,
 				322C6A0B204CC2170021A2D9 /* localization in Resources */,
@@ -1142,6 +1155,7 @@
 				32CD6B1D21B0AB3500387349 /* star_outline.svg in Resources */,
 				32B9100F20439F75002F9C94 /* generate-schemas in Resources */,
 				32CFB1D920DCB20200672EC9 /* Settings.storyboard in Resources */,
+				327B8EBB2202C061004757D3 /* warning.svg in Resources */,
 				32637A8E218EB599005E2F6C /* add.svg in Resources */,
 				32637A8C218EB576005E2F6C /* chevron_down.svg in Resources */,
 				32B3026A2050B8B5000F7F2A /* Colors.xcassets in Resources */,
@@ -1163,6 +1177,7 @@
 				326B7E9521FEA52B00E8DF34 /* resources.json in Resources */,
 				326B7E9621FEA52B00E8DF34 /* Suggestions.storyboard in Resources */,
 				326B7E9721FEA52B00E8DF34 /* Release.plist in Resources */,
+				327B8EBA2202C061004757D3 /* verified.svg in Resources */,
 				326B7E9821FEA52B00E8DF34 /* Main.storyboard in Resources */,
 				326B7E9921FEA52B00E8DF34 /* SignIn.storyboard in Resources */,
 				326B7E9A21FEA52B00E8DF34 /* localization in Resources */,
@@ -1175,6 +1190,7 @@
 				326B7EA121FEA52B00E8DF34 /* star_outline.svg in Resources */,
 				326B7EA221FEA52B00E8DF34 /* generate-schemas in Resources */,
 				326B7EA321FEA52B00E8DF34 /* Settings.storyboard in Resources */,
+				327B8EBC2202C061004757D3 /* warning.svg in Resources */,
 				326B7EA421FEA52B00E8DF34 /* add.svg in Resources */,
 				326B7EA521FEA52B00E8DF34 /* chevron_down.svg in Resources */,
 				326B7EA621FEA52B00E8DF34 /* Colors.xcassets in Resources */,
@@ -1432,6 +1448,7 @@
 				32B9101D2048F113002F9C94 /* SettingsSelectViewController.swift in Sources */,
 				32CD6AFF21AB58FD00387349 /* Regex.swift in Sources */,
 				32AD801D21EA44B6005B75D0 /* SignUpViewController.swift in Sources */,
+				327B8EBE2202C4F3004757D3 /* Unit.swift in Sources */,
 				32CD6AFC21AB58FD00387349 /* Helpers.swift in Sources */,
 				32254DDF205F4CDD003E021F /* ExpenseDetailsOverlayViewController.swift in Sources */,
 				322C6A13204E1D070021A2D9 /* ConventionUserInfoListViewController.swift in Sources */,
@@ -1572,6 +1589,7 @@
 				326B7E4221FEA52B00E8DF34 /* SettingsSelectViewController.swift in Sources */,
 				326B7E4321FEA52B00E8DF34 /* Regex.swift in Sources */,
 				326B7E4421FEA52B00E8DF34 /* SignUpViewController.swift in Sources */,
+				327B8EBF2202C4F3004757D3 /* Unit.swift in Sources */,
 				326B7E4521FEA52B00E8DF34 /* Helpers.swift in Sources */,
 				326B7E4621FEA52B00E8DF34 /* ExpenseDetailsOverlayViewController.swift in Sources */,
 				326B7E4721FEA52B00E8DF34 /* ConventionUserInfoListViewController.swift in Sources */,

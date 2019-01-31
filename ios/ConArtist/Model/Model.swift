@@ -14,37 +14,38 @@ class Model: Codable {
     private enum CodingKeys: String, CodingKey {
         case name
         case email
+        case verified
         case conventions
         case settings
     }
 
     enum Presentation: Equatable {
-        case Appear(UIViewController)
-        case Modal(UIViewController)
-        case Push(UIViewController)
-        case Over(UIViewController)
+        case appear(UIViewController)
+        case modal(UIViewController)
+        case push(UIViewController)
+        case over(UIViewController)
 
         var viewController: UIViewController {
             switch self {
-            case .Appear(let vc),
-                 .Modal(let vc),
-                 .Push(let vc),
-                 .Over(let vc):
+            case .appear(let vc),
+                 .modal(let vc),
+                 .push(let vc),
+                 .over(let vc):
                 return vc
             }
         }
 
         var animatedEntry: Bool {
             switch self {
-            case .Appear,
-                 .Over:     return false
+            case .appear,
+                 .over:     return false
             default:        return true
             }
         }
 
         var animatedExit: Bool {
             switch self {
-            case .Over:     return false
+            case .over:     return false
             default: 	    return true
             }
         }
@@ -58,9 +59,10 @@ class Model: Codable {
 
     let name = BehaviorRelay<String?>(value: nil)
     let email = BehaviorRelay<String?>(value: nil)
+    let verified = BehaviorRelay<Bool?>(value: nil)
     let conventions = BehaviorRelay<[Convention]>(value: [])
     let page = BehaviorRelay<[Presentation]>(value: [])
-    let settings = BehaviorRelay<Settings>(value: Settings.default)
+    let settings = BehaviorRelay<Settings>(value: .default)
 
     let records = BehaviorRelay<Connection<Record>>(value: .empty)
     let suggestions = BehaviorRelay<Connection<Suggestion>>(value: .empty)
@@ -74,6 +76,7 @@ class Model: Codable {
         let basic = user.fragments.userFragment
         name.accept(basic.name)
         email.accept(basic.email)
+        verified.accept(basic.verified)
         var existingConventions = conventions.value
 
         // remove deleted conventions
@@ -103,6 +106,7 @@ class Model: Codable {
         let json = try decoder.container(keyedBy: CodingKeys.self)
         name.accept(try json.decode(String.self, forKey: .name))
         email.accept(try json.decode(String.self, forKey: .email))
+        verified.accept(try json.decode(Bool.self, forKey: .verified))
         settings.accept(try json.decode(Settings.self, forKey: .settings))
         conventions.accept(try json.decode([Convention].self, forKey: .conventions))
     }
@@ -112,6 +116,7 @@ class Model: Codable {
         var json = encoder.container(keyedBy: CodingKeys.self)
         try json.encode(name.value, forKey: .name)
         try json.encode(email.value, forKey: .email)
+        try json.encode(verified.value, forKey: .verified)
         try json.encode(settings.value, forKey: .settings)
         try json.encode(conventions.value, forKey: .conventions)
     }
@@ -119,7 +124,10 @@ class Model: Codable {
     func clear() {
         name.accept(nil)
         email.accept(nil)
-        settings.accept(Settings.default)
+        verified.accept(nil)
+        settings.accept(.default)
+        records.accept(.empty)
+        suggestions.accept(.empty)
         conventions.accept([])
         ConArtist.Persist.persist()
     }
@@ -208,19 +216,19 @@ extension Model {
 // MARK: - Navigation
 extension Model {
     func navigate(replace vc: UIViewController) {
-        page.accept(page.value + [.Appear(vc)])
+        page.accept(page.value + [.appear(vc)])
     }
 
     func navigate(push vc: UIViewController) {
-        page.accept(page.value + [.Push(vc)])
+        page.accept(page.value + [.push(vc)])
     }
 
     func navigate(present vc: UIViewController) {
-        page.accept(page.value + [.Modal(vc)])
+        page.accept(page.value + [.modal(vc)])
     }
 
     func navigate(show vc: UIViewController) {
-        page.accept(page.value + [.Over(vc)])
+        page.accept(page.value + [.over(vc)])
     }
 
     func navigate(backTo vc: UIViewController) {

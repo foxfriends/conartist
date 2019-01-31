@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -31,7 +31,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Press me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A5o-5S-H3x">
-                                                    <rect key="frame" x="20" y="16.5" width="296" height="18"/>
+                                                    <rect key="frame" x="20" y="16" width="296" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                     <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
@@ -106,7 +106,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yes or no" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bWB-gm-XGU">
-                                                    <rect key="frame" x="20" y="16.5" width="266" height="18"/>
+                                                    <rect key="frame" x="20" y="16" width="266" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                     <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
@@ -138,20 +138,30 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Press me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3uR-jk-Zkq">
-                                                    <rect key="frame" x="20" y="16.5" width="335" height="18"/>
+                                                    <rect key="frame" x="20" y="16" width="291" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                     <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nED-Jk-HvF">
+                                                    <rect key="frame" x="331" y="13" width="24" height="24"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="24" id="7rT-5a-sMu"/>
+                                                        <constraint firstAttribute="width" constant="24" id="W28-zV-T2r"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="nED-Jk-HvF" secondAttribute="trailing" constant="20" id="6bQ-tg-Nsw"/>
+                                                <constraint firstItem="nED-Jk-HvF" firstAttribute="centerY" secondItem="Kb9-3D-hh4" secondAttribute="centerY" id="Tni-qA-C3E"/>
                                                 <constraint firstItem="3uR-jk-Zkq" firstAttribute="leading" secondItem="Kb9-3D-hh4" secondAttribute="leading" constant="20" id="VVB-Lv-cl0"/>
                                                 <constraint firstItem="3uR-jk-Zkq" firstAttribute="centerY" secondItem="Kb9-3D-hh4" secondAttribute="centerY" id="o0N-wE-w6Q"/>
-                                                <constraint firstAttribute="trailing" secondItem="3uR-jk-Zkq" secondAttribute="trailing" constant="20" id="orG-l1-5eX"/>
+                                                <constraint firstItem="nED-Jk-HvF" firstAttribute="leading" secondItem="3uR-jk-Zkq" secondAttribute="trailing" constant="20" id="tkL-76-rfV"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" name="Background"/>
                                         <connections>
+                                            <outlet property="detailIcon" destination="nED-Jk-HvF" id="J4D-gL-zPb"/>
                                             <outlet property="titleLabel" destination="3uR-jk-Zkq" id="SP4-Ky-OgZ"/>
                                         </connections>
                                     </tableViewCell>
@@ -163,13 +173,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Currency" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HbT-bD-GBY">
-                                                    <rect key="frame" x="20" y="16.5" width="269" height="18"/>
+                                                    <rect key="frame" x="20" y="16" width="269" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                     <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="CAD" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VUI-x4-cI0">
-                                                    <rect key="frame" x="289" y="16" width="33" height="19.5"/>
+                                                    <rect key="frame" x="289" y="15.5" width="33" height="19.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" name="TextPlaceholder"/>
                                                     <nil key="highlightedColor"/>
@@ -229,13 +239,13 @@
     </scenes>
     <resources>
         <namedColor name="Background">
-            <color red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.20000000298023224" green="0.20000000298023224" blue="0.20000000298023224" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="BackgroundNavBar">
-            <color red="0.067000001670000003" green="0.067000001670000003" blue="0.067000001670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.067000001668930054" green="0.067000001668930054" blue="0.067000001668930054" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Brand">
-            <color red="0.85500001910000001" green="0.28200000520000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.81176470588235294" green="0.27058823529411763" blue="0.086274509803921567" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Text">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

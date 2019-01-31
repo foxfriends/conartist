@@ -47,8 +47,8 @@ class RxNavigationController: UINavigationController {
                     .prefix { index, item in
                         if index == 0 { return true }
                         switch item {
-                        case .Push, .Appear: return true
-                        case .Modal, .Over: return false
+                        case .push, .appear: return true
+                        case .modal, .over: return false
                         }
                     }
                     .map { _, item in item }
@@ -69,7 +69,7 @@ class RxNavigationController: UINavigationController {
                             .filter { !$0.isEmpty }
                         let controller = RxNavigationController.create(basedOn: theirViews)
                         let item = views[myViews.count]
-                        if case .Over = item {
+                        if case .over = item {
                             controller.modalPresentationStyle = .overFullScreen
                         }
                         viewControllers.last?.present(controller, animated: item.animatedEntry)

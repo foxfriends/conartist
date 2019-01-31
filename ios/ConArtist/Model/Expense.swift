@@ -32,7 +32,7 @@ struct Expense: Codable {
             let expense = maybeExpense,
             let price = expense.price.toMoney(),
             let time = expense.time.toDate()
-            else { return nil }
+        else { return nil }
         id = .id(expense.id)
         self.price = price
         self.time = time

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVGKit
 import RxCocoa
 import RxSwift
 
@@ -16,6 +17,7 @@ class SettingsViewController : ConArtistViewController {
         case products
         case currency
         case signOut
+        case email
         case feedback
         case conRequest
         case help
@@ -37,7 +39,8 @@ class SettingsViewController : ConArtistViewController {
     fileprivate var settings: [Group] = [
         Group(title: "Products"¡, items: [.products, .prices]),
         Group(title: "General"¡, items: [.currency]),
-        Group(title: "Support"¡, items: [.signOut, .feedback, .conRequest, .help]),
+        Group(title: "Account"¡, items: [.email, .signOut]),
+        Group(title: "Support"¡, items: [.feedback, .conRequest, .help]),
         Group(title: "About"¡, items: [.version, .privacy, .terms]),
     ]
 }
@@ -87,6 +90,21 @@ extension SettingsViewController: UITableViewDataSource {
         case .currency:
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsSelectTableViewCell.ID, for: indexPath) as! SettingsSelectTableViewCell
             cell.setup(title: "Currency"¡, value: ConArtist.model.settings.value.currency.rawValue)
+            return cell
+        case .email:
+            let cell = tableView.dequeueReusableCell(withIdentifier: SettingsActionTableViewCell.ID, for: indexPath) as! SettingsActionTableViewCell
+            let email: String = ConArtist.model.email.value ?? "Unknown"¡
+            var image: UIImage? = nil
+            if let verified = ConArtist.model.verified.value {
+                if verified {
+                    image = SVGKImage.verified.uiImage.withRenderingMode(.alwaysTemplate)
+                    cell.tintColor = .textPlaceholder
+                } else {
+                    image = SVGKImage.warning.uiImage.withRenderingMode(.alwaysTemplate)
+                    cell.tintColor = .brandVariant
+                }
+            }
+            cell.setup(title: try! ("Email: {}"¡ % email).prettify(), detail: image)
             return cell
         case .signOut:
             let cell = tableView.dequeueReusableCell(withIdentifier: SettingsActionTableViewCell.ID, for: indexPath) as! SettingsActionTableViewCell
@@ -152,6 +170,17 @@ extension SettingsViewController: UITableViewDelegate {
                         .subscribe()
                 }
             )
+        case .email:
+            if ConArtist.model.verified.value == false {
+                _ = ConArtist.API.Account
+                    .resendVerificationEmail()
+                    .subscribe(onNext: { [weak self] _ in
+                        self?.showAlert(
+                            title: "Verification email sent"¡,
+                            message: "You should receive it shortly"¡
+                        )
+                    })
+            }
         case .privacy:
             UIApplication.shared.open(.privacyPolicy, options: [:])
         case .terms:

@@ -171,6 +171,7 @@ Support = "Support"
 "Privacy Policy" = "Privacy Policy"
 "Terms of Service" = "Terms of Service"
 Version = { ios = "Version: {light:{}}", web = "Version", android = "Version" }
+"Email: {}" = "Email: {light:{}}"
 "Contact Support" = { ios = "Contact Support: {light:{}}", web = "Contact Support", android = "Contact Support" }
 "<Support description>" = """
 Feel free to contact support for any reason! This can include requests for conventions to be added, issues with the app you need to discuss personally, or if you have a question about how something works.
@@ -199,6 +200,7 @@ FAQ = "FAQ"
 Email = "Email"
 "That email is already being used" = "That email is already being used"
 "Verification email sent" = "Verification email sent"
+"You should receive it shortly" = "You should receive it shortly"
 "Your email looks wrong" = "Your email looks wrong"
 "Your emails don't match" = "Your emails don't match"
 # Change password

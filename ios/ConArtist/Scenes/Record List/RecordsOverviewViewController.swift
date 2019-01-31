@@ -10,6 +10,8 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+// TODO: this scene needs to be able to load more records when it's in no-convention records mode and at the bottom
+
 class RecordsOverviewViewController : ConArtistViewController {
     fileprivate class Section {
         let date: Date

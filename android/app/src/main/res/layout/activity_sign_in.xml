@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:background="@color/background"
     tools:context=".SignInActivity" >
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
@@ -36,7 +36,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/logo_image"
-            style="@style/TextField" />
+            style="@style/ConArtist.TextField" />
         <EditText
             android:id="@+id/password_field"
             android:layout_width="0dp"
@@ -51,7 +51,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/email_field"
-            style="@style/TextField" />
+            style="@style/ConArtist.TextField" />
         <Button
             android:id="@+id/sign_in_button"
             android:layout_width="0dp"
@@ -62,7 +62,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/password_field"
-            style="@style/BigButton" />
+            style="@style/ConArtist.Button.Big" />
         <Button
             android:id="@+id/visit_website_button"
             android:layout_width="0dp"
@@ -73,7 +73,7 @@
             app:layout_constraintEnd_toStartOf="@+id/sign_up_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sign_in_button"
-            style="@style/SecondaryButton" />
+            style="@style/ConArtist.Button.Secondary" />
         <Button
             android:id="@+id/sign_up_button"
             android:layout_width="0dp"
@@ -82,7 +82,7 @@
             android:text="@string/Sign_up"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sign_in_button"
-            style="@style/SecondaryButton" />
+            style="@style/ConArtist.Button.Secondary" />
         <Button
             android:id="@+id/terms_button"
             android:layout_width="0dp"
@@ -94,7 +94,7 @@
             app:layout_constraintEnd_toStartOf="@+id/privacy_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/visit_website_button"
-            style="@style/TertiaryButton" />
+            style="@style/ConArtist.Button.Borderless" />
         <Button
             android:id="@+id/privacy_button"
             android:layout_width="0dp"
@@ -106,7 +106,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sign_up_button"
             app:layout_constraintBottom_toBottomOf="parent"
-            style="@style/TertiaryButton" />
+            style="@style/ConArtist.Button.Borderless" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -64,7 +64,7 @@ export class Sales extends React.Component<Props, State> {
 
     return (
       <CardView
-        dataSource={dates.sort().map(time => toLocal(new Date(time)))}
+        dataSource={dates.sort((a, b) => b - a).map(time => toLocal(new Date(time)))}
         loadMore={(!loading && !isFull(records) && !isEmpty(records)) ? (() => this.loadRecords()) : null}
         >
         <Card className={S.emptyState}>

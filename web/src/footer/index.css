@@ -1,0 +1,26 @@
+.footer {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: var(--z-index--toolbar);
+  height: var(--height--toolbar);
+  background-color: var(--color--background-toolbar);
+}
+
+.inner {
+  width: var(--width);
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0 auto;
+}
+
+@media (min-width: 888px) {
+  .inner { --width: 880px; }
+}
+
+@media (max-width: 887px) {
+  .inner { --width: 100%; }
+}

@@ -26,6 +26,7 @@ export type Model = {|
   user: ?{
     email: string,
     name: string,
+    verified: boolean,
     clearance: number,
   },
   prices: Price[],

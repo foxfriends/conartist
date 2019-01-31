@@ -22,6 +22,9 @@ Search = "Search"
 Upvote = "Upvote"
 View = "View"
 
+"Don't forget to verify your email!" = "Don't forget to verify your email!"
+"Resend verification email" = "Resend verification email"
+
 # Sign in
 "Forgot Password" = "Forgot Password"
 "I forgot my password" = "I forgot my password"

@@ -9,6 +9,15 @@
   flex-direction: row;
 }
 
+.boldFooter {
+  margin: 0 16px;
+  font-weight: var(--font-weight--bold);
+}
+
+.resendEmailButton {
+  padding: 0 16px;
+}
+
 :global(.signedOut) {
   justify-content: center;
 }

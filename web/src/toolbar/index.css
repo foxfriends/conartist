@@ -29,7 +29,6 @@
   padding: 8px;
 }
 
-
 .mobile {
   --display: flex;
   display: var(--display);

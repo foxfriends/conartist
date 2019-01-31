@@ -6,11 +6,14 @@ import type { Observable } from 'rxjs'
 
 import { Toolbar, status as toolbarStatus } from './toolbar'
 import * as toolbarAction from './toolbar/action'
+import { ResendVerificationEmail } from './api/resend-verification-email'
 import { Navigation, NavInfo } from './navigation'
 import { INDIRECT } from './navigation/item'
 import { Content } from './content'
 import { Dialog } from './dialog'
+import { Button } from './common/button'
 import { model } from './model'
+import { Footer } from './footer'
 import { toast, Toast } from './toast'
 import { by, Asc } from './util/sort'
 import { isSignedIn } from './util/is-signed-in'
@@ -18,6 +21,7 @@ import { l } from './localization'
 import * as page from './model/page'
 import type { Model } from './model'
 import type { Props as ToolbarProps } from './toolbar'
+import type { Props as FooterProps } from './footer'
 import type { Props as NavigationProps } from './navigation'
 import type { Props as ContentProps } from './content'
 import type { Props as DialogProps } from './dialog'
@@ -27,6 +31,7 @@ import { Storage } from './storage'
 type Props = {}
 type State = {
   toolbar: ?ToolbarProps,
+  footer: ?FooterProps,
   navigation: ?NavigationProps,
   content: ?ContentProps,
   dialog: ?DialogProps,
@@ -38,6 +43,7 @@ export class ConArtist extends React.Component<Props, State> {
     super(props)
     this.state = {
       toolbar: { primary: null, secondary: null, tertiary: null },
+      footer: null,
       navigation: null,
       content: null,
       dialog: null,
@@ -279,11 +285,24 @@ export class ConArtist extends React.Component<Props, State> {
       state.dialog = null
     }
 
+    if (model.user && model.user.verified === false) {
+      state.footer = {
+        content: (
+          <>
+            <span className={S.boldFooter}>{l`Don't forget to verify your email!`}</span>
+            <Button className={S.resendEmailButton} priority='primary' action={() => new ResendVerificationEmail().send().subscribe()}>
+              {l`Resend verification email`}
+            </Button>
+          </>
+        )
+      }
+    }
+
     return state
   }
 
   render() {
-    const { toolbar, navigation, content, dialog, toast } = this.state
+    const { toolbar, footer, navigation, content, dialog, toast } = this.state
     return (
       <>
         { toolbar ? <Toolbar {...toolbar} className={navigation ? '' : 'signedOut'} /> : null }
@@ -298,6 +317,7 @@ export class ConArtist extends React.Component<Props, State> {
           {/* $FlowIgnore: does not understand defaulting missing args */}
           { toast || null }
         </Toast>
+        { footer ? <Footer {...footer} className={navigation ? '' : 'signedOut'} /> : null }
       </>
     )
   }

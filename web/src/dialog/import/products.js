@@ -157,7 +157,7 @@ export class ImportProducts extends React.Component<Props, State> {
     const { includesTitle } = this.state
     try {
       const data = await getFile({ accept: 'text/csv' }).then(fileToString)
-      const lines = data.split('\n').filter(line => line)
+      const lines = data.split(/[\r\n]+/).filter(line => line)
       if (includesTitle) { lines.shift() }
       const rows = lines
         .map(line => line.split(',').map(str => str.trim()))

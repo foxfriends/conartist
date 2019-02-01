@@ -293,9 +293,11 @@ extension ProductTypeListViewController: ViewControllerNavigation {
                 .disposed(by: controller.disposeBag)
         } else {
             ConArtist.model.products
+                .map { $0.filter { !$0.discontinued } }
                 .bind(to: controller.products)
                 .disposed(by: controller.disposeBag)
             ConArtist.model.productTypes
+                .map { $0.filter { !$0.discontinued } }
                 .bind(to: controller.productTypes)
                 .disposed(by: controller.disposeBag)
             ConArtist.model.prices

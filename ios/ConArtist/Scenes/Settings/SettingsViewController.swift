@@ -175,7 +175,7 @@ extension SettingsViewController: UITableViewDelegate {
                 _ = ConArtist.API.Account
                     .resendVerificationEmail()
                     .subscribe(onNext: { [weak self] _ in
-                        self?.showAlert(
+                        self?.view.customToast(
                             title: "Verification email sent"¡,
                             message: "You should receive it shortly"¡
                         )

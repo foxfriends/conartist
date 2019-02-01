@@ -196,7 +196,6 @@
 		326B7E8721FEA52B00E8DF34 /* SuggestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B1121AF9CA300387349 /* SuggestionTableViewCell.swift */; };
 		326B7E8821FEA52B00E8DF34 /* Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A8D21AB58FD00387349 /* Tokens.swift */; };
 		326B7E8A21FEA52B00E8DF34 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32CFB1DE20DCB7B900672EC9 /* MapKit.framework */; };
-		326B7E8B21FEA52B00E8DF34 /* Pods_ConArtist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE8B039676510BCEC679764D /* Pods_ConArtist.framework */; };
 		326B7E8D21FEA52B00E8DF34 /* star.svg in Resources */ = {isa = PBXBuildFile; fileRef = 32CD6B1C21B0AB3500387349 /* star.svg */; };
 		326B7E8E21FEA52B00E8DF34 /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 32B9100E20439F74002F9C94 /* schema.json */; };
 		326B7E8F21FEA52B00E8DF34 /* Debug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 327C5D7820817A81007EEF71 /* Debug.plist */; };
@@ -229,6 +228,10 @@
 		327B8EBC2202C061004757D3 /* warning.svg in Resources */ = {isa = PBXBuildFile; fileRef = 327B8EB82202C061004757D3 /* warning.svg */; };
 		327B8EBE2202C4F3004757D3 /* Unit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327B8EBD2202C4F3004757D3 /* Unit.swift */; };
 		327B8EBF2202C4F3004757D3 /* Unit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327B8EBD2202C4F3004757D3 /* Unit.swift */; };
+		327B8EC42203B9F8004757D3 /* UIView+CustomToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327B8EC32203B9F8004757D3 /* UIView+CustomToast.swift */; };
+		327B8EC52203BA16004757D3 /* UIView+CustomToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327B8EC32203B9F8004757D3 /* UIView+CustomToast.swift */; };
+		327B8EC72203BA5E004757D3 /* CustomToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327B8EC62203BA5E004757D3 /* CustomToastView.swift */; };
+		327B8EC82203BA74004757D3 /* CustomToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327B8EC62203BA5E004757D3 /* CustomToastView.swift */; };
 		327C5D7920817A81007EEF71 /* Debug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 327C5D7820817A81007EEF71 /* Debug.plist */; };
 		327C5D7B20817AD1007EEF71 /* Release.plist in Resources */ = {isa = PBXBuildFile; fileRef = 327C5D7A20817AD1007EEF71 /* Release.plist */; };
 		327C5D7F2081845F007EEF71 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327C5D7E2081845F007EEF71 /* Config.swift */; };
@@ -334,10 +337,12 @@
 		32F12C0E20353E840045D0BC /* FancyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F12C0D20353E840045D0BC /* FancyButton.swift */; };
 		32F12C10203544E60045D0BC /* UIFont+Features.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F12C0F203544E60045D0BC /* UIFont+Features.swift */; };
 		32F6F6441FF706AA00935554 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 32F6F6431FF706AA00935554 /* Images.xcassets */; };
+		7E39E159E0C7DAEB8DE32F41 /* Pods_ConArtist_DEV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE11D562F2254F4E2D6C9F27 /* Pods_ConArtist_DEV.framework */; };
 		C2E3ACC3210C151F27F71107 /* Pods_ConArtist.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE8B039676510BCEC679764D /* Pods_ConArtist.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1B935B29F4DE049F2B06D999 /* Pods-ConArtist.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConArtist.release.xcconfig"; path = "Pods/Target Support Files/Pods-ConArtist/Pods-ConArtist.release.xcconfig"; sourceTree = "<group>"; };
 		320CF59720E7E6EF003F91EC /* Either.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Either.swift; sourceTree = "<group>"; };
 		321B75D61F9BAD320055EBC4 /* ConArtist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConArtist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		321B75D91F9BAD320055EBC4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -400,6 +405,8 @@
 		327B8EB72202C061004757D3 /* verified.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = verified.svg; sourceTree = "<group>"; };
 		327B8EB82202C061004757D3 /* warning.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = warning.svg; sourceTree = "<group>"; };
 		327B8EBD2202C4F3004757D3 /* Unit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unit.swift; sourceTree = "<group>"; };
+		327B8EC32203B9F8004757D3 /* UIView+CustomToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+CustomToast.swift"; sourceTree = "<group>"; };
+		327B8EC62203BA5E004757D3 /* CustomToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToastView.swift; sourceTree = "<group>"; };
 		327C5D7820817A81007EEF71 /* Debug.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Debug.plist; sourceTree = "<group>"; };
 		327C5D7A20817AD1007EEF71 /* Release.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Release.plist; sourceTree = "<group>"; };
 		327C5D7E2081845F007EEF71 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
@@ -505,9 +512,11 @@
 		32F12C0D20353E840045D0BC /* FancyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyButton.swift; sourceTree = "<group>"; };
 		32F12C0F203544E60045D0BC /* UIFont+Features.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Features.swift"; sourceTree = "<group>"; };
 		32F6F6431FF706AA00935554 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		910953E2D95714FA5C58D57C /* Pods-ConArtist.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConArtist.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ConArtist/Pods-ConArtist.debug.xcconfig"; sourceTree = "<group>"; };
+		4B29050FC9324F80BF767819 /* Pods-ConArtist DEV.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConArtist DEV.release.xcconfig"; path = "Pods/Target Support Files/Pods-ConArtist DEV/Pods-ConArtist DEV.release.xcconfig"; sourceTree = "<group>"; };
+		550C3D23A00BA01079E5E3B4 /* Pods-ConArtist DEV.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConArtist DEV.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ConArtist DEV/Pods-ConArtist DEV.debug.xcconfig"; sourceTree = "<group>"; };
 		BE8B039676510BCEC679764D /* Pods_ConArtist.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ConArtist.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C2AA33475894D324CF81CCB2 /* Pods-ConArtist.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConArtist.release.xcconfig"; path = "Pods/Target Support Files/Pods-ConArtist/Pods-ConArtist.release.xcconfig"; sourceTree = "<group>"; };
+		DDE15B55EB71F91CB0A894AB /* Pods-ConArtist.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConArtist.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ConArtist/Pods-ConArtist.debug.xcconfig"; sourceTree = "<group>"; };
+		DE11D562F2254F4E2D6C9F27 /* Pods_ConArtist_DEV.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ConArtist_DEV.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -525,7 +534,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				326B7E8A21FEA52B00E8DF34 /* MapKit.framework in Frameworks */,
-				326B7E8B21FEA52B00E8DF34 /* Pods_ConArtist.framework in Frameworks */,
+				7E39E159E0C7DAEB8DE32F41 /* Pods_ConArtist_DEV.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -674,6 +683,7 @@
 				32B36EBE203BD67800DA4593 /* UIView+Customizable.swift */,
 				32B36EC4203E5E7D00DA4593 /* UIView+Shadows.swift */,
 				32C39C1D201E870600071E26 /* UIView+Tooltip.swift */,
+				327B8EC32203B9F8004757D3 /* UIView+CustomToast.swift */,
 			);
 			path = UIView;
 			sourceTree = "<group>";
@@ -732,6 +742,7 @@
 				32CD6B0D21AF9B9200387349 /* LoadingTableViewCell.swift */,
 				32CD6B0F21AF9C0B00387349 /* EmptyStateTableViewCell.swift */,
 				3235AD7621BC9BE500F023E5 /* ConArtistTableViewCell.swift */,
+				327B8EC62203BA5E004757D3 /* CustomToastView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1023,6 +1034,7 @@
 			children = (
 				32CFB1DE20DCB7B900672EC9 /* MapKit.framework */,
 				BE8B039676510BCEC679764D /* Pods_ConArtist.framework */,
+				DE11D562F2254F4E2D6C9F27 /* Pods_ConArtist_DEV.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1030,8 +1042,10 @@
 		9705F5900542E6A817EB42D0 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				910953E2D95714FA5C58D57C /* Pods-ConArtist.debug.xcconfig */,
-				C2AA33475894D324CF81CCB2 /* Pods-ConArtist.release.xcconfig */,
+				DDE15B55EB71F91CB0A894AB /* Pods-ConArtist.debug.xcconfig */,
+				1B935B29F4DE049F2B06D999 /* Pods-ConArtist.release.xcconfig */,
+				550C3D23A00BA01079E5E3B4 /* Pods-ConArtist DEV.debug.xcconfig */,
+				4B29050FC9324F80BF767819 /* Pods-ConArtist DEV.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -1064,13 +1078,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 326B7EA921FEA52B00E8DF34 /* Build configuration list for PBXNativeTarget "ConArtist DEV" */;
 			buildPhases = (
-				326B7E0121FEA52B00E8DF34 /* [CP] Check Pods Manifest.lock */,
+				9F5FD296B160E13C1D7D120F /* [CP] Check Pods Manifest.lock */,
 				326B7E0221FEA52B00E8DF34 /* Generate Apollo GraphQL API */,
 				326B7E0321FEA52B00E8DF34 /* Sources */,
 				326B7E8921FEA52B00E8DF34 /* Frameworks */,
 				326B7E8C21FEA52B00E8DF34 /* Resources */,
 				326B7EA721FEA52B00E8DF34 /* Copy Configuration Files */,
-				326B7EA821FEA52B00E8DF34 /* [CP] Embed Pods Frameworks */,
+				89F2EB7EDD1826086B68903E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1214,24 +1228,6 @@
 			shellPath = /bin/sh;
 			shellScript = "APOLLO_FRAMEWORK_PATH=\"$(eval find $FRAMEWORK_SEARCH_PATHS -name \"Apollo.framework\" -maxdepth 1)\"\n\nif [ -z \"$APOLLO_FRAMEWORK_PATH\" ]; then\necho \"error: Couldn't find Apollo.framework in FRAMEWORK_SEARCH_PATHS; make sure to add the framework to your project.\"\nexit 1\nfi\n\ncd \"${SRCROOT}/${TARGET_NAME}\"\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-cli.sh codegen:generate Services/API/GraphQL.swift --queries=../../shared/graphql/**/*.graphql --schema=schema.json\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-cli.sh codegen:generate Services/API/Resources.swift --queries=../../shared/resources/query/*.graphql --schema=resources.json\n";
 		};
-		326B7E0121FEA52B00E8DF34 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ConArtist-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		326B7E0221FEA52B00E8DF34 /* Generate Apollo GraphQL API */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1259,48 +1255,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "CONFIG_FILE=\"${SRCROOT}/ConArtist/Config/${CONFIGURATION}.plist\"\nBUILD_APP_DIR=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\"\necho \"Copying ${CONFIG_FILE} to ${BUILD_APP_DIR}/Config.plist\"\ncp -v \"${CONFIG_FILE}\" \"${BUILD_APP_DIR}/Config.plist\"\n";
-		};
-		326B7EA821FEA52B00E8DF34 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-ConArtist/Pods-ConArtist-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/Apollo/Apollo.framework",
-				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
-				"${BUILT_PRODUCTS_DIR}/PrettyString/PrettyString.framework",
-				"${BUILT_PRODUCTS_DIR}/RxAlamofire/RxAlamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
-				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/SVGKit/SVGKit.framework",
-				"${BUILT_PRODUCTS_DIR}/SexyTooltip/SexyTooltip.framework",
-				"${BUILT_PRODUCTS_DIR}/Strongbox/Strongbox.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftMoment/SwiftMoment.framework",
-				"${BUILT_PRODUCTS_DIR}/pop/pop.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Apollo.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PrettyString.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAlamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVGKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SexyTooltip.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Strongbox.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftMoment.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/pop.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ConArtist/Pods-ConArtist-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		327C5D7D20818371007EEF71 /* Copy Configuration Files */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1335,6 +1289,7 @@
 				"${BUILT_PRODUCTS_DIR}/SexyTooltip/SexyTooltip.framework",
 				"${BUILT_PRODUCTS_DIR}/Strongbox/Strongbox.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftMoment/SwiftMoment.framework",
+				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
 				"${BUILT_PRODUCTS_DIR}/pop/pop.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -1351,11 +1306,82 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SexyTooltip.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Strongbox.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftMoment.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/pop.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ConArtist/Pods-ConArtist-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		89F2EB7EDD1826086B68903E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-ConArtist DEV/Pods-ConArtist DEV-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Apollo/Apollo.framework",
+				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
+				"${BUILT_PRODUCTS_DIR}/PrettyString/PrettyString.framework",
+				"${BUILT_PRODUCTS_DIR}/RxAlamofire/RxAlamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SVGKit/SVGKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SexyTooltip/SexyTooltip.framework",
+				"${BUILT_PRODUCTS_DIR}/Strongbox/Strongbox.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftMoment/SwiftMoment.framework",
+				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
+				"${BUILT_PRODUCTS_DIR}/pop/pop.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Apollo.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PrettyString.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAlamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVGKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SexyTooltip.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Strongbox.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftMoment.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/pop.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ConArtist DEV/Pods-ConArtist DEV-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9F5FD296B160E13C1D7D120F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ConArtist DEV-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D62396CD3173BAAF148F6055 /* [CP] Check Pods Manifest.lock */ = {
@@ -1480,12 +1506,14 @@
 				32CD6B0621AF963900387349 /* SuggestionsViewController.swift in Sources */,
 				32E80BD7201700EB0008EC27 /* String+Conversion.swift in Sources */,
 				32D4BB11205B3E5500B0A397 /* RecordDetailsOverlayViewController.swift in Sources */,
+				327B8EC72203BA5E004757D3 /* CustomToastView.swift in Sources */,
 				32CD6B0E21AF9B9200387349 /* LoadingTableViewCell.swift in Sources */,
 				32892C4020352D1500F1AD9C /* FancyTextField.swift in Sources */,
 				32B36EE4204226B100DA4593 /* ConventionUserInfo.swift in Sources */,
 				32CD6AF821AB58FD00387349 /* Lexer.swift in Sources */,
 				32B36EC1203BE0E600DA4593 /* ConventionExtraInfo.swift in Sources */,
 				32637A81218A54F3005E2F6C /* EditProductViewController.swift in Sources */,
+				327B8EC42203B9F8004757D3 /* UIView+CustomToast.swift in Sources */,
 				325EAB1D205247E900B1BE3E /* RecordSummaryTableViewCell.swift in Sources */,
 				32637AA52190AB49005E2F6C /* EditPriceViewController.swift in Sources */,
 				32B36ECB203F97EF00DA4593 /* SplashScreenViewController.swift in Sources */,
@@ -1621,12 +1649,14 @@
 				326B7E6121FEA52B00E8DF34 /* SuggestionsViewController.swift in Sources */,
 				326B7E6221FEA52B00E8DF34 /* String+Conversion.swift in Sources */,
 				326B7E6321FEA52B00E8DF34 /* RecordDetailsOverlayViewController.swift in Sources */,
+				327B8EC82203BA74004757D3 /* CustomToastView.swift in Sources */,
 				326B7E6421FEA52B00E8DF34 /* LoadingTableViewCell.swift in Sources */,
 				326B7E6521FEA52B00E8DF34 /* FancyTextField.swift in Sources */,
 				326B7E6621FEA52B00E8DF34 /* ConventionUserInfo.swift in Sources */,
 				326B7E6721FEA52B00E8DF34 /* Lexer.swift in Sources */,
 				326B7E6821FEA52B00E8DF34 /* ConventionExtraInfo.swift in Sources */,
 				326B7E6921FEA52B00E8DF34 /* EditProductViewController.swift in Sources */,
+				327B8EC52203BA16004757D3 /* UIView+CustomToast.swift in Sources */,
 				326B7E6A21FEA52B00E8DF34 /* RecordSummaryTableViewCell.swift in Sources */,
 				326B7E6B21FEA52B00E8DF34 /* EditPriceViewController.swift in Sources */,
 				326B7E6C21FEA52B00E8DF34 /* SplashScreenViewController.swift in Sources */,
@@ -1792,7 +1822,7 @@
 		};
 		321B75F71F9BAD320055EBC4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 910953E2D95714FA5C58D57C /* Pods-ConArtist.debug.xcconfig */;
+			baseConfigurationReference = DDE15B55EB71F91CB0A894AB /* Pods-ConArtist.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1811,7 +1841,7 @@
 		};
 		321B75F81F9BAD320055EBC4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C2AA33475894D324CF81CCB2 /* Pods-ConArtist.release.xcconfig */;
+			baseConfigurationReference = 1B935B29F4DE049F2B06D999 /* Pods-ConArtist.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1830,7 +1860,7 @@
 		};
 		326B7EAA21FEA52B00E8DF34 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 910953E2D95714FA5C58D57C /* Pods-ConArtist.debug.xcconfig */;
+			baseConfigurationReference = 550C3D23A00BA01079E5E3B4 /* Pods-ConArtist DEV.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1849,7 +1879,7 @@
 		};
 		326B7EAB21FEA52B00E8DF34 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C2AA33475894D324CF81CCB2 /* Pods-ConArtist.release.xcconfig */;
+			baseConfigurationReference = 4B29050FC9324F80BF767819 /* Pods-ConArtist DEV.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

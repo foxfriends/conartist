@@ -1,14 +1,11 @@
 PODS:
-  - Alamofire (4.8.0)
-  - Apollo (0.9.4):
-    - Apollo/Core (= 0.9.4)
-  - Apollo/Core (0.9.4)
-  - CocoaLumberjack (3.4.2):
-    - CocoaLumberjack/Default (= 3.4.2)
-    - CocoaLumberjack/Extensions (= 3.4.2)
-  - CocoaLumberjack/Default (3.4.2)
-  - CocoaLumberjack/Extensions (3.4.2):
-    - CocoaLumberjack/Default
+  - Alamofire (4.8.1)
+  - Apollo (0.9.5):
+    - Apollo/Core (= 0.9.5)
+  - Apollo/Core (0.9.5)
+  - CocoaLumberjack (3.5.0):
+    - CocoaLumberjack/Core (= 3.5.0)
+  - CocoaLumberjack/Core (3.5.0)
   - pop (1.0.12)
   - PrettyString (0.1.2)
   - RxAlamofire (4.3.0):
@@ -21,12 +18,13 @@ PODS:
     - RxSwift (~> 4.0)
   - RxSwift (4.4.0):
     - RxAtomic (~> 4.4)
-  - SexyTooltip (1.2.6):
+  - SexyTooltip (1.2.7):
     - pop (~> 1.0)
   - Strongbox (0.5.1)
   - SVGKit (2.1.0):
     - CocoaLumberjack (~> 3.0)
   - SwiftMoment (0.7)
+  - Toast-Swift (4.0.1)
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
@@ -39,6 +37,7 @@ DEPENDENCIES:
   - Strongbox (~> 0.5)
   - SVGKit (from `https://github.com/SVGKit/SVGKit.git`, branch `2.x`)
   - SwiftMoment (~> 0.7)
+  - Toast-Swift (~> 4.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -54,6 +53,7 @@ SPEC REPOS:
     - SexyTooltip
     - Strongbox
     - SwiftMoment
+    - Toast-Swift
 
 EXTERNAL SOURCES:
   SVGKit:
@@ -66,20 +66,21 @@ CHECKOUT OPTIONS:
     :git: https://github.com/SVGKit/SVGKit.git
 
 SPEC CHECKSUMS:
-  Alamofire: 3ec537f71edc9804815215393ae2b1a8ea33a844
-  Apollo: 450856adbdebcdf28c3c671f81732ac3f9944065
-  CocoaLumberjack: db7cc9e464771f12054c22ff6947c5a58d43a0fd
+  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
+  Apollo: 19caf3246d292bbb69ecad1bd098661f78222aba
+  CocoaLumberjack: cffaa70a9336515228178e3669b71bd49d343850
   pop: d582054913807fd11fd50bfe6a539d91c7e1a55a
   PrettyString: 88cd4e1b6d756718d4fb4dc55ca2ac53aaee3550
   RxAlamofire: 09624d0f2d48ed8b686e4eb4cf68e28cbd2df556
   RxAtomic: eacf60db868c96bfd63320e28619fe29c179656f
   RxCocoa: df63ebf7b9a70d6b4eeea407ed5dd4efc8979749
   RxSwift: 5976ecd04fc2fefd648827c23de5e11157faa973
-  SexyTooltip: 47654d390fbb85f31b8e49f4e48c5f1eec58a4c9
+  SexyTooltip: e243da5a858c7160141cf35786a4033669d1efca
   Strongbox: f49a3922237c1dcde2cabbb882edd37d2aa75a23
   SVGKit: 8a2fc74258bdb2abb54d3b65f3dd68b0277a9c4d
   SwiftMoment: dc6dd27012e267819104cbb03f74ff9192dd0b42
+  Toast-Swift: e42a638589a2f95036b4bb7626cfbdde7daf0393
 
-PODFILE CHECKSUM: 52fc55fa6459625279df422a0a22ad1584c1931b
+PODFILE CHECKSUM: 9dbae601e1e04b56b63f41185efe21a763605ec2
 
 COCOAPODS: 1.5.3

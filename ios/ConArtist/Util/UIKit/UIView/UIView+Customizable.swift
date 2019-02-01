@@ -9,6 +9,7 @@
 import UIKit
 
 extension UIView {
+    @discardableResult
     func customizable() -> Self {
         translatesAutoresizingMaskIntoConstraints = false
         return self

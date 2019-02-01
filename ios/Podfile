@@ -1,18 +1,21 @@
 platform :ios, '11.0'
 
-target 'ConArtist' do
-  use_frameworks!
-  inhibit_all_warnings!
+['ConArtist', 'ConArtist DEV'].each do |name|
+  target name do
+    use_frameworks!
+    inhibit_all_warnings!
 
-  # Pods for ConArtist
-  pod 'Apollo', '~> 0.9'
-  pod 'Alamofire', '~> 4.7'
-  pod 'Strongbox', '~> 0.5'
-  pod 'SwiftMoment', '~> 0.7'
-  pod 'RxSwift', '~> 4.3'
-  pod 'RxCocoa', '~> 4.3'
-  pod 'RxAlamofire', '~> 4.3'
-  pod 'SexyTooltip', '~> 1.2'
-  pod 'SVGKit', :git => 'https://github.com/SVGKit/SVGKit.git', :branch => '2.x'
-  pod 'PrettyString', '~> 0.1'
+    # Pods for ConArtist
+    pod 'Apollo', '~> 0.9'
+    pod 'Alamofire', '~> 4.7'
+    pod 'Strongbox', '~> 0.5'
+    pod 'SwiftMoment', '~> 0.7'
+    pod 'RxSwift', '~> 4.3'
+    pod 'RxCocoa', '~> 4.3'
+    pod 'RxAlamofire', '~> 4.3'
+    pod 'SexyTooltip', '~> 1.2'
+    pod 'SVGKit', :git => 'https://github.com/SVGKit/SVGKit.git', :branch => '2.x'
+    pod 'PrettyString', '~> 0.1'
+    pod 'Toast-Swift', '~> 4.0'
+  end
 end

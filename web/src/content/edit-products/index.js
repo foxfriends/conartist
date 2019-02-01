@@ -1,7 +1,7 @@
 /* @flow */
 import * as React from 'react'
 import * as ReactX from '../../react-ext'
-import { Observable, Subject, forkJoin, merge } from 'rxjs'
+import { Observable, Subject, forkJoin, merge, of } from 'rxjs'
 import { tap, filter, pluck, map, mapTo, switchMap, takeUntil, share, partition } from 'rxjs/operators'
 import type { Subscription } from 'rxjs'
 
@@ -109,7 +109,10 @@ export class EditProducts extends ReactX.Component<Props, State> {
     const [savedProductTypes, savingProductTypes] = saveButtonPressed
       .pipe(
         map(() => this.state.productTypes),
-        switchMap(productTypes => forkJoin(...productTypes.map(productType => new SaveProductType().send(productType)))),
+        switchMap(productTypes => productTypes.length
+          ? forkJoin(...productTypes.map(productType => new SaveProductType().send(productType)))
+          : of([])
+        ),
         map(batchResponses),
         share(),
         partition(({ state }) => state === 'retrieved'),
@@ -121,7 +124,10 @@ export class EditProducts extends ReactX.Component<Props, State> {
         tap(productTypes => update.setProductTypes(productTypes.map(nonEditableProductType))),
         map(productTypes => setProductTypeIds(this.state.products, productTypes)),
         tap(products => this.setState({ products })),
-        switchMap(products => forkJoin(...products.map(product => new SaveProduct().send(product)))),
+        switchMap(products => products.length
+          ? forkJoin(...products.map(product => new SaveProduct().send(product)))
+          : of([])
+        ),
         map(batchResponses),
         share(),
         partition(({ state }) => state === 'retrieved'),

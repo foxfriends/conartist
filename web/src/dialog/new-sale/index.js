@@ -212,7 +212,7 @@ export class NewSale extends React.Component<Props, State> {
         </>
       )
       content = (
-        <List className={S.full} dataSource={products.filter(product => product.typeId === productType.id)}>
+        <List className={S.full} dataSource={products.filter(product => product.typeId === productType.id && !product.discontinued)}>
           {product => {
             const selectedCount = selected
               .filter(({ id }) => product.id === id)
@@ -248,7 +248,7 @@ export class NewSale extends React.Component<Props, State> {
       const calculatedPrice = this.calculatePrice()
       content = (
         <>
-          <List className={S.full} dataSource={productTypes}>
+          <List className={S.full} dataSource={productTypes.filter(({ discontinued }) => !discontinued)}>
             {productType => {
               const selectedCount = selected
                 .filter(product => product.typeId === productType.id)

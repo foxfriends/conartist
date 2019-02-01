@@ -6,7 +6,7 @@ let rejectPreviousDialog = null
 export function getFile({ accept = '' }) {
   rejectPreviousDialog && rejectPreviousDialog()
   return new Promise((resolve, reject) => {
-    rejectPreviousDialog = reject
+    rejectPreviousDialog = () => reject(new Cancelled())
     input.setAttribute('accept', accept)
     input.click()
     input.onchange = () => {

@@ -14,7 +14,7 @@ import { Tooltip } from '../../common/tooltip'
 import { model } from '../../model'
 import { closeDialog } from '../action'
 import { l } from '../../localization'
-import { separate } from '../../util/iterable'
+import { separate, dedup } from '../../util/iterable'
 import * as toast from '../../toast';
 import { getFile, fileToString, Cancelled } from '../../util/file'
 import { SaveProduct } from '../../api/save-product'
@@ -135,7 +135,7 @@ export class ImportProducts extends React.Component<Props, State> {
       return [a ? +a : null, productType, b, +c]
     } else if (includeIds) {
       const type = productTypes.find(({ name }) => name === b)
-      if (!type) { throw new UnknownProductType(name) }
+      if (!type) { throw new UnknownProductType(b) }
       if (a) {
         const product = products.find(({ id }) => id === +a)
         if (!product) { throw new UnknownProduct(a) }
@@ -147,7 +147,7 @@ export class ImportProducts extends React.Component<Props, State> {
       return [product ? product.id : null, productType, a, +b]
     } else {
       const type = productTypes.find(({ name }) => name === a)
-      if (!type) { throw new UnknownProductType(name) }
+      if (!type) { throw new UnknownProductType(a) }
       const product = products.find(({ name, typeId }) => name === b && typeId === type.id)
       return [product ? product.id : null, type, b, +c]
     }
@@ -159,9 +159,12 @@ export class ImportProducts extends React.Component<Props, State> {
       const data = await getFile({ accept: 'text/csv' }).then(fileToString)
       const lines = data.split('\n').filter(line => line)
       if (includesTitle) { lines.shift() }
-      const rows = lines.map(line => line.split(','))
+      const rows = lines
+        .map(line => line.split(',').map(str => str.trim()))
+        .filter(dedup(row => row.slice(0, -1).join(',')))
       const { products: originalProducts, productTypes } = model.getValue()
       const products = originalProducts.map(editableProduct())
+
       for (const [id, type, name, quantity] of rows.map(row => this.processRow(row))) {
         if (id === null) {
           products.push({
@@ -226,6 +229,7 @@ export class ImportProducts extends React.Component<Props, State> {
               toast.show(<span>{l`Import failed: Failed to save products. Please try again later!`}</span>)
               break
             default:
+              console.error(error)
               toast.show(<span>{l`Import failed: Unknown error`}</span>)
               break
           }

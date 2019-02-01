@@ -9,3 +9,15 @@ export function separate<T: Object, K: $Keys<T>, E: $ElementType<T, K>, R>(prop:
   }
   return parts
 }
+
+export function dedup(toKey) {
+  const contained = new Set()
+  return item => {
+    const key = toKey(item)
+    if (contained.has(key)) {
+      return false
+    }
+    contained.add(key)
+    return true
+  }
+}

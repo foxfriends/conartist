@@ -174,7 +174,7 @@ export class ImportProducts extends React.Component<Props, State> {
             typeId: type.id,
             name: name,
             quantity: quantity,
-            sort: originalProducts.filter(product => product.typeId === type.id).length,
+            sort: products.filter(product => product.typeId === type.id).length,
             discontinued: false,
           })
         } else {

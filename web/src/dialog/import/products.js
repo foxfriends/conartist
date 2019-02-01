@@ -161,6 +161,7 @@ export class ImportProducts extends React.Component<Props, State> {
       if (includesTitle) { lines.shift() }
       const rows = lines
         .map(line => line.split(',').map(str => str.trim()))
+        .filter(line => line.filter(str => str).length)
         .filter(dedup(row => row.slice(0, -1).join(',')))
       const { products: originalProducts, productTypes } = model.getValue()
       const products = originalProducts.map(editableProduct())

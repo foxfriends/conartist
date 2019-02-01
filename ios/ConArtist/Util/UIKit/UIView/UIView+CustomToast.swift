@@ -9,7 +9,7 @@
 import Toast_Swift
 
 extension UIView {
-    func customToast(title: String, message: String, duration: Double = 5, point: CGPoint? = nil) {
+    func customToast(title: String? = nil, message: String? = nil, duration: Double = 5, point: CGPoint? = nil) {
         let toast = CustomToastView(title: title, message: message)
         let point = point ?? CGPoint(x: bounds.minX + bounds.width / 2, y: bounds.maxY - toast.frame.height / 2 - 40)
         showToast(

@@ -89,6 +89,16 @@ extension ConventionListViewController {
         setupLocalization()
         setupSubscriptions()
         setupRefreshControl()
+
+        ConArtist.model.verified
+            .filterMap(identity)
+            .take(1)
+            .filter(!)
+            .asDriver(onErrorJustReturn: false)
+            .drive(onNext: { [unowned self] _ in
+                self.view.customToast(title: "Don't forget to verify your email!"¡)
+            })
+            .disposed(by: disposeBag)
     }
 
     private func setupRefreshControl() {

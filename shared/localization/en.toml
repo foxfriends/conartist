@@ -150,6 +150,7 @@ Looks like you haven't sold anything yet though!
 """
 "Expense saved" = "Expense saved"
 "Sale saved" = "Sale saved"
+"Sale deleted" = "Sale deleted"
 "The amount cannot be zero" = "The amount cannot be zero"
 "The amount is invalid" = "The amount is invalid"
 "The price is invalid" = "The price is invalid"

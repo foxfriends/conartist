@@ -25,7 +25,7 @@
   }
 }
 
-.primary, .secondary {
+.primary, .secondary, .danger {
   color: var(--color--text);
   font-size: 16px;
   box-shadow: 0 4px 4px 0px var(--color--shadow);
@@ -33,6 +33,10 @@
 
 .primary {
   background-color: var(--color--brand);
+}
+
+.danger {
+  background-color: var(--color--warn);
 }
 
 .secondary {

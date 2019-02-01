@@ -42,6 +42,7 @@ type State = {
   processing: boolean,
   productType: ProductType,
   moneyValidation: Validation,
+  edited: boolean,
 }
 
 export class NewSale extends React.Component<Props, State> {
@@ -67,6 +68,7 @@ export class NewSale extends React.Component<Props, State> {
       productType: null,
       manualPrice: !!record,
       moneyValidation,
+      edited: false,
     }
   }
 
@@ -83,21 +85,32 @@ export class NewSale extends React.Component<Props, State> {
       } catch (error) {
         moneyValidation = { state: INVALID, error: l`The price is invalid` }
       }
-      this.setState({ amount, moneyValidation, manualPrice: false })
+      this.setState({
+        amount,
+        moneyValidation,
+        manualPrice: false,
+        edited: true,
+      })
     } else {
       try {
         Money.parse(amount);
       } catch (error) {
         moneyValidation = { state: INVALID, error: l`The price is invalid` }
       }
-      this.setState({ amount, moneyValidation, manualPrice: true })
+      this.setState({
+        amount,
+        moneyValidation,
+        manualPrice: true,
+        edited: true,
+      })
     }
   }
 
   removeProduct({ id }: Product) {
     const { products } = this.state
     this.setState({
-      products: products.filter(product => product.id !== id)
+      products: products.filter(product => product.id !== id),
+      edited: true,
     }, () => {
       if (!this.state.manualPrice) {
         this.setState({ amount: this.calculatePrice().toString() })
@@ -109,6 +122,7 @@ export class NewSale extends React.Component<Props, State> {
     const { products } = this.state
     this.setState({
       products: [...products, product],
+      edited: true,
     }, () => {
       if (!this.state.manualPrice) {
         this.setAmount()
@@ -188,14 +202,48 @@ export class NewSale extends React.Component<Props, State> {
     }
   }
 
+  async deleteSale() {
+    const { record, convention: { id: conId } = {} } = this.props
+    this.setState({ processing: true })
+    const action = { action: 'delete', recordId: record.id }
+    const response = await new SaveRecord()
+      .send(action)
+      .toPromise()
+    if (conId) {
+      try {
+        await loadConvention(conId)
+      } catch (_) { /* ignore */ }
+    } else {
+      try {
+        await loadSales(true)
+        await loadUser()
+      } catch (_) { /* ignore */ }
+    }
+    this.setState({ processing: false })
+    if (response.state === 'failed') {
+      toast.show(<span>{l`It seems something went wrong.`} <Icon name='warning'/></span>)
+    } else {
+      toast.show(<span>{l`Sale deleted`} <Icon name='check'/></span>)
+      closeDialog()
+    }
+  }
+
   render() {
     const { products, productTypes, convention, record: editing } = this.props
-    const { products: selected, productType, amount, note, moneyValidation, processing } = this.state
+    const { products: selected, productType, amount, note, moneyValidation, processing, edited } = this.state
     const save = {
       enabled: selected.length > 0 && moneyValidation.state === VALID && !processing,
       title: 'Save',
       action: () => this.saveChanges(),
     }
+
+    const deleteButton = {
+      enabled: !processing && !edited,
+      title: 'Delete',
+      priority: 'danger',
+      action: () => this.deleteSale(),
+    }
+
     let title = editing ? l`Editing Sale` : l`New Sale`
 
     let content
@@ -276,7 +324,7 @@ export class NewSale extends React.Component<Props, State> {
               className={S.full}
               defaultValue={note}
               placeholder={l`Note`}
-              onChange={note => this.setState({ note })}
+              onChange={note => this.setState({ note, edited: true })}
               />
           </div>
         </>
@@ -284,7 +332,11 @@ export class NewSale extends React.Component<Props, State> {
     }
 
     return (
-      <Basic title={title} onClose={closeDialogButton} onContinue={productType ? null : save}>
+      <Basic
+        title={title}
+        onClose={closeDialogButton}
+        onBack={(editing && !productType) ? deleteButton : null }
+        onContinue={productType ? null : save}>
         <div className={S.body}>
           {content}
         </div>

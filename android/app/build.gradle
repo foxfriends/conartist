@@ -3,33 +3,53 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 28
-    defaultConfig {
-        applicationId "com.cameldridge.conartist"
-        minSdkVersion 23
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+  compileSdkVersion 28
+  defaultConfig {
+    applicationId "com.cameldridge.conartist"
+    minSdkVersion 23
+    targetSdkVersion 28
+    versionCode 1
+    versionName "1.0"
+  }
+  buildTypes {
+    release {
+      minifyEnabled true
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+      buildConfigField "String", "API_URL", "\"https://api.conartist.app\""
+      buildConfigField "String", "GRAPH_URL", "\"https://graph.conartist.app\""
+      buildConfigField "String", "WEB_URL", "\"https://conartist.app\""
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+    debug {
+      minifyEnabled false
+      debuggable true
+
+      buildConfigField "String", "API_URL", "\"https://api.staging.conartist.app\""
+      buildConfigField "String", "GRAPH_URL", "\"https://graph.staging.conartist.app\""
+      buildConfigField "String", "WEB_URL", "\"https://staging.conartist.app\""
     }
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
+  }
+  sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+  }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+  implementation 'androidx.appcompat:appcompat:1.0.2'
+  implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
-    implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
-    implementation 'com.jakewharton.rxbinding3:rxbinding:3.0.0-alpha2'
-    implementation 'com.jakewharton.rxbinding3:rxbinding-core:3.0.0-alpha2'
-    implementation 'com.jakewharton.rxbinding3:rxbinding-appcompat:3.0.0-alpha2'
+  implementation 'com.squareup.okhttp3:okhttp:3.12.1'
+  implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+  implementation 'com.squareup.retrofit2:converter-moshi:2.5.0'
+  implementation 'com.squareup.moshi:moshi:1.8.0'
+  implementation "com.squareup.moshi:moshi-kotlin:1.8.0"
+  implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+
+  implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
+  implementation 'com.jakewharton.rxbinding3:rxbinding:3.0.0-alpha2'
+  implementation 'com.jakewharton.rxbinding3:rxbinding-core:3.0.0-alpha2'
+  implementation 'com.jakewharton.rxbinding3:rxbinding-appcompat:3.0.0-alpha2'
+  implementation 'com.google.android.material:material:1.0.0-beta01'
 }

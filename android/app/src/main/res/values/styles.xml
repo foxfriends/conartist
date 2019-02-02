@@ -1,4 +1,11 @@
 <resources>
+    <style name="ConArtist" />
+
+    <style name="ConArtist.Toolbar">
+        <item name="android:background">@color/background_toolbar</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+
     <style name="ConArtist.Button.Big" parent="Base.Widget.AppCompat.Button.Colored">
         <item name="android:theme">@style/Theme.ConArtist.Button.Big</item>
         <item name="android:layout_height">48dp</item>
@@ -12,6 +19,7 @@
         <item name="android:textColor">@color/text_placeholder</item>
         <item name="android:theme">@style/Theme.ConArtist.Button.Secondary</item>
     </style>
+
     <style name="ConArtist.TextField" parent="Base.Widget.AppCompat.EditText">
         <item name="android:textColor">@color/text</item>
         <item name="android:textColorHint">@color/text_placeholder</item>

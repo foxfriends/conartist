@@ -6,6 +6,7 @@
     <color name="background">#333333</color>
     <color name="background_highlight">#08FFFFFF</color>
     <color name="background_variant">#444444</color>
+    <color name="background_toolbar">#111111</color>
     <color name="__text_body">#FFFFFF</color>
     <color name="__text_placeholder">#7FFFFFFF</color>
 </resources>

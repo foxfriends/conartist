@@ -6,11 +6,10 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:background="@color/background"
-    tools:context=".SignInActivity" >
+    tools:context=".scenes.SignInActivity" >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-
         <ImageView
             android:id="@+id/logo_image"
             android:layout_width="wrap_content"
@@ -21,7 +20,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
         <EditText
             android:id="@+id/email_field"
             android:layout_width="0dp"
@@ -71,6 +69,7 @@
             android:layout_marginTop="40dp"
             android:text="@string/Visit_conartist_app"
             app:layout_constraintEnd_toStartOf="@+id/sign_up_button"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sign_in_button"
             style="@style/ConArtist.Button.Secondary" />
@@ -78,19 +77,23 @@
             android:id="@+id/sign_up_button"
             android:layout_width="0dp"
             android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="40dp"
             android:text="@string/Sign_up"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/visit_website_button"
             app:layout_constraintTop_toBottomOf="@+id/sign_in_button"
             style="@style/ConArtist.Button.Secondary" />
         <Button
             android:id="@+id/terms_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
             android:layout_marginEnd="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:text="@string/Terms_of_Service"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/privacy_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/visit_website_button"
@@ -99,13 +102,15 @@
             android:id="@+id/privacy_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="20dp"
             android:layout_marginBottom="40dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
             android:text="@string/Privacy_Policy"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sign_up_button"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/terms_button"
+            app:layout_constraintTop_toBottomOf="@+id/sign_up_button"
             style="@style/ConArtist.Button.Borderless" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

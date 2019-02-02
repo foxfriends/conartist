@@ -255,12 +255,18 @@ extension ConventionListViewController: UITableViewDelegate {
                 })
                 .disposed(by: headerView.disposeBag)
             return headerView
+        case .present,
+             .presentEmpty:
+            let headerView = TableHeaderView(title: title, showBar: false, showMore: true)
+            headerView.seeAllButton.setTitle("Other Sales"¡, for: .normal)
+            headerView.rx.seeAll
+                .subscribe(onNext: { _ in RecordsOverviewViewController.show() })
+                .disposed(by: headerView.disposeBag)
+            return headerView
         default:
             let headerView = TableHeaderView(title: title, showBar: section != 0, showMore: showMore)
             headerView.rx.seeAll
-                .subscribe(onNext: { _ in
-                    AllConventionsListViewController.show(conventions: conventions)
-                })
+                .subscribe(onNext: { _ in AllConventionsListViewController.show(conventions: conventions) })
                 .disposed(by: headerView.disposeBag)
             return headerView
         }

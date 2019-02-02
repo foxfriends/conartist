@@ -23,7 +23,7 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" name="Background"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="x8C-UE-zo2">
-                                    <rect key="frame" x="0.0" y="173.5" width="375" height="50"/>
+                                    <rect key="frame" x="0.0" y="283.5" width="375" height="50"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nD7-kH-8l4">
@@ -170,6 +170,53 @@
                                             <outlet property="modifiedMarkView" destination="FzY-3g-wY1" id="VJw-Jg-n4q"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="EmptyStateCell" rowHeight="60" id="3rH-Cz-0eo" customClass="EmptyStateTableViewCell" customModule="ConArtist" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="155.5" width="375" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3rH-Cz-0eo" id="eVS-5f-sBx">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You haven't sold anything yet" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MVP-Fs-EZ9">
+                                                    <rect key="frame" x="20" y="20" width="335" height="20"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" name="TextPlaceholder"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="MVP-Fs-EZ9" firstAttribute="top" secondItem="eVS-5f-sBx" secondAttribute="top" constant="20" id="7LQ-gW-qDW"/>
+                                                <constraint firstItem="MVP-Fs-EZ9" firstAttribute="leading" secondItem="eVS-5f-sBx" secondAttribute="leading" constant="20" id="PMa-H0-Xrf"/>
+                                                <constraint firstAttribute="bottom" secondItem="MVP-Fs-EZ9" secondAttribute="bottom" constant="20" id="Qh7-A5-qQm"/>
+                                                <constraint firstAttribute="trailing" secondItem="MVP-Fs-EZ9" secondAttribute="trailing" constant="20" id="gfJ-1S-XB9"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" name="Background"/>
+                                        <connections>
+                                            <outlet property="label" destination="MVP-Fs-EZ9" id="CxI-t9-u9G"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="LoadingCell" rowHeight="50" id="hL6-7F-YqU" customClass="LoadingTableViewCell" customModule="ConArtist" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="215.5" width="375" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hL6-7F-YqU" id="rNF-2V-ZlV">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="0x9-3q-cDh">
+                                                    <rect key="frame" x="177.5" y="15" width="20" height="20"/>
+                                                </activityIndicatorView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="0x9-3q-cDh" firstAttribute="centerX" secondItem="rNF-2V-ZlV" secondAttribute="centerX" id="5dy-Eu-gEH"/>
+                                                <constraint firstItem="0x9-3q-cDh" firstAttribute="centerY" secondItem="rNF-2V-ZlV" secondAttribute="centerY" id="zHa-an-m0a"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" name="Background"/>
+                                        <connections>
+                                            <outlet property="loadingSpinner" destination="0x9-3q-cDh" id="N8y-d1-Rfe"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="sB1-LD-czp" id="mCT-hH-Y7B"/>
@@ -201,6 +248,7 @@
                     <connections>
                         <outlet property="navBar" destination="fKa-3X-ujY" id="tv3-B5-5oz"/>
                         <outlet property="netProfitAmountLabel" destination="xa9-pk-OH6" id="t2x-Nn-9bc"/>
+                        <outlet property="netProfitContainer" destination="x8C-UE-zo2" id="ca7-md-3mo"/>
                         <outlet property="netProfitLabel" destination="6T2-dg-xtG" id="QpL-Qa-k8p"/>
                         <outlet property="recordsTableView" destination="HrW-vR-wi4" id="5IL-Fd-Web"/>
                     </connections>
@@ -755,7 +803,7 @@
             <color red="0.2669999897480011" green="0.2669999897480011" blue="0.2669999897480011" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Brand">
-            <color red="0.85500001907348633" green="0.28200000524520874" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.81176470588235294" green="0.27058823529411763" blue="0.086274509803921567" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Divider">
             <color red="1" green="1" blue="1" alpha="0.11999999731779099" colorSpace="custom" customColorSpace="sRGB"/>

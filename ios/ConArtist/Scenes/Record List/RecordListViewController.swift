@@ -72,6 +72,7 @@ extension RecordListViewController {
                 if let convention = convention {
                     return convention.fill(true).discard()
                 } else {
+                    // NOTE: this will cause issues on deep pages!
                     return ConArtist.model.loadRecords(fresh: true).discard()
                 }
             }

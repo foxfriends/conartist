@@ -45,12 +45,18 @@ class RecordsOverviewViewController : ConArtistViewController {
     @IBOutlet weak var recordsTableView: UITableView!
     @IBOutlet weak var netProfitLabel: UILabel!
     @IBOutlet weak var netProfitAmountLabel: UILabel!
+    @IBOutlet weak var netProfitContainer: UIView!
 
     fileprivate var convention: Convention?
     fileprivate let sections = BehaviorRelay<[Section]>(value: [])
+    var loading = false
 
     fileprivate let disposeBag = DisposeBag()
     fileprivate let refreshControl = UIRefreshControl()
+
+    var moreToLoad: Bool {
+        return convention == nil && (!ConArtist.model.records.value.isEmpty && !ConArtist.model.records.value.isFull)
+    }
 }
 
 // MARK: - Lifecycle
@@ -60,6 +66,7 @@ extension RecordsOverviewViewController {
         setupLocalization()
         setupSubscriptions()
         setupRefreshControl()
+        _ = ConArtist.model.loadRecords(fresh: true).subscribe()
         navBar.title = convention?.name ?? "Sales"¡
         netProfitAmountLabel.font = netProfitAmountLabel.font.usingFeatures([.tabularFigures])
     }
@@ -67,7 +74,13 @@ extension RecordsOverviewViewController {
     private func setupRefreshControl() {
         recordsTableView.refreshControl = refreshControl
         refreshControl.rx.controlEvent([.valueChanged])
-            .flatMapLatest { [convention] _ in convention!.fill(true) }
+            .flatMapLatest { [convention] _ -> Observable<Void> in
+                if let convention = convention {
+                    return convention.fill(true).discard()
+                } else {
+                    return ConArtist.model.loadRecords(fresh: true).discard()
+                }
+            }
             .subscribe(onNext: { [refreshControl] in refreshControl.endRefreshing() })
             .disposed(by: disposeBag)
     }
@@ -168,6 +181,11 @@ extension RecordsOverviewViewController {
             .drive(onNext: { [recordsTableView] sections in recordsTableView?.reloadData() })
             .disposed(by: disposeBag)
 
+        sections.asDriver()
+            .map { $0.isEmpty }
+            .drive(netProfitContainer.rx.isHidden)
+            .disposed(by: disposeBag)
+
         navBar.leftButton.rx.tap
             .subscribe(onNext: { ConArtist.model.navigate(back: 1) })
             .disposed(by: disposeBag)
@@ -185,16 +203,28 @@ extension RecordsOverviewViewController: UITableViewDataSource {
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.value.count
+        return max(sections.value.count, 1) + (moreToLoad ? 1 : 0)
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let section = self.section(at: section) else { return 0 }
+        guard let section = self.section(at: section) else { return 1 }
         return section.expanded ? section.items.count : 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let item = item(for: indexPath) else { fatalError("Item for records table is missing!") }
+        guard let item = item(for: indexPath) else {
+            if sections.value.isEmpty {
+                let cell = tableView.dequeueReusableCell(withIdentifier: EmptyStateTableViewCell.ID, for: indexPath) as! EmptyStateTableViewCell
+                if convention == nil {
+                    cell.setup(text: "<Empty no-con records list message>"¡)
+                } else {
+                    cell.setup(text: "<Empty records list message>"¡)
+                }
+                return cell
+            } else {
+                return tableView.dequeueReusableCell(withIdentifier: LoadingTableViewCell.ID, for: indexPath)
+            }
+        }
         switch item {
         case .expense(let expense):
             let cell = tableView.dequeueReusableCell(withIdentifier: ExpenseTableViewCell.ID, for: indexPath) as! ExpenseTableViewCell
@@ -204,6 +234,15 @@ extension RecordsOverviewViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: RecordSummaryTableViewCell.ID, for: indexPath) as! RecordSummaryTableViewCell
             cell.setup(for: item.price, and: records.count)
             return cell
+        }
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if cell is LoadingTableViewCell && !loading {
+            loading = true
+            ConArtist.model.loadRecords()
+                .subscribe(onNext: { [unowned self] _ in self.loading = false })
+                .disposed(by: disposeBag)
         }
     }
 }
@@ -252,6 +291,14 @@ extension RecordsOverviewViewController: UITableViewDelegate {
         let view = RecordsOverviewTotalFooterView()
         view.setup(with: total)
         return view
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard !sections.value.isEmpty else { // empty state cell is auto
+            return UITableView.automaticDimension
+        }
+        // the rest all 50
+        return 50
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

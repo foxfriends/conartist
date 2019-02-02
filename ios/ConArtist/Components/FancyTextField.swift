@@ -59,7 +59,6 @@ class FancyTextField: UITextField {
         formattedLabel.textColor = textColor
         formattedLabel.textAlignment = textAlignment
 
-        // TODO: should this be done with autolayout instead?
         underlineView.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
         underlineView.rightAnchor.constraint(equalTo: rightAnchor, constant: -10).isActive = true
         underlineView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true

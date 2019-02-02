@@ -45,10 +45,15 @@ extension ProductTypeListViewController {
         noteLabel.font = noteLabel.font.usingFeatures([.smallCaps])
         priceField.format = { Money.parse(as: ConArtist.model.settings.value.currency, $0)?.toString() ?? $0 }
         if let record = editingRecord {
-            infoTextView.text = record.info
-            selected.accept(record.products.compactMap { id in products.value.first { product in product.id == id } })
-            priceField.text = "\(record.price.numericValue)"
-            money.accept(record.price)
+            DispatchQueue.main.async {
+                // this part is delayed so that the loading does not override the text field color
+                self.infoTextView.text = record.info
+                self.selected.accept(record.products.compactMap { id in
+                    self.products.value.first { product in product.id == id }
+                })
+                self.priceField.text = "\(record.price.numericValue)"
+                self.money.accept(record.price)
+            }
         }
         startAdjustingForKeyboard()
     }

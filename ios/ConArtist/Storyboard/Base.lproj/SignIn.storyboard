@@ -73,18 +73,32 @@
                                             <color key="titleColor" name="Text"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sq4-Yb-buU">
-                                        <rect key="frame" x="40" y="532" width="158" height="37"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <inset key="contentEdgeInsets" minX="20" minY="10" maxX="20" maxY="10"/>
-                                        <state key="normal" title="Visit conartist.app"/>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kkm-Va-0GT">
-                                        <rect key="frame" x="246" y="532" width="89" height="37"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <inset key="contentEdgeInsets" minX="20" minY="10" maxX="20" maxY="10"/>
-                                        <state key="normal" title="Sign up"/>
-                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Js4-ej-SDc">
+                                        <rect key="frame" x="40" y="532" width="295" height="37"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sq4-Yb-buU">
+                                                <rect key="frame" x="0.0" y="0.0" width="158" height="37"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <inset key="contentEdgeInsets" minX="20" minY="10" maxX="20" maxY="10"/>
+                                                <state key="normal" title="Visit conartist.app"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kkm-Va-0GT">
+                                                <rect key="frame" x="206" y="0.0" width="89" height="37"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <inset key="contentEdgeInsets" minX="20" minY="10" maxX="20" maxY="10"/>
+                                                <state key="normal" title="Sign up"/>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="Kkm-Va-0GT" secondAttribute="trailing" id="1Wu-Nn-e5o"/>
+                                            <constraint firstItem="Kkm-Va-0GT" firstAttribute="leading" secondItem="Sq4-Yb-buU" secondAttribute="trailing" constant="48" id="5kJ-nA-rLV"/>
+                                            <constraint firstItem="Sq4-Yb-buU" firstAttribute="top" secondItem="Js4-ej-SDc" secondAttribute="top" id="7qe-zJ-Qm5"/>
+                                            <constraint firstItem="Sq4-Yb-buU" firstAttribute="leading" secondItem="Js4-ej-SDc" secondAttribute="leading" id="J33-CW-w93"/>
+                                            <constraint firstAttribute="bottom" secondItem="Sq4-Yb-buU" secondAttribute="bottom" id="P4B-3b-x7e"/>
+                                            <constraint firstItem="Kkm-Va-0GT" firstAttribute="top" secondItem="Js4-ej-SDc" secondAttribute="top" id="t7U-Zn-Oku"/>
+                                            <constraint firstAttribute="bottom" secondItem="Kkm-Va-0GT" secondAttribute="bottom" id="vgh-as-rDc"/>
+                                        </constraints>
+                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f1l-xq-F7w">
                                         <rect key="frame" x="78" y="609" width="219" height="29"/>
                                         <subviews>
@@ -112,16 +126,13 @@
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="Kkm-Va-0GT" secondAttribute="trailing" constant="40" id="0Uj-gP-R2e"/>
                                     <constraint firstItem="umd-fc-6co" firstAttribute="top" secondItem="Xpn-RP-goK" secondAttribute="bottom" id="2U1-tI-nSw"/>
-                                    <constraint firstItem="Sq4-Yb-buU" firstAttribute="leading" secondItem="OkM-Vc-wV4" secondAttribute="leading" constant="40" id="4jJ-jF-v9v"/>
                                     <constraint firstItem="f1l-xq-F7w" firstAttribute="centerX" secondItem="OkM-Vc-wV4" secondAttribute="centerX" id="57u-WF-6PA"/>
                                     <constraint firstItem="Xpn-RP-goK" firstAttribute="width" secondItem="OkM-Vc-wV4" secondAttribute="width" id="ADt-UC-jHu"/>
-                                    <constraint firstItem="Sq4-Yb-buU" firstAttribute="top" secondItem="ry9-iF-0mD" secondAttribute="bottom" constant="20" id="DCh-2m-MFl"/>
                                     <constraint firstItem="ry9-iF-0mD" firstAttribute="centerX" secondItem="OkM-Vc-wV4" secondAttribute="centerX" id="JqL-az-m6I"/>
-                                    <constraint firstItem="Kkm-Va-0GT" firstAttribute="top" secondItem="ry9-iF-0mD" secondAttribute="bottom" constant="20" id="NhK-P2-ehm"/>
                                     <constraint firstItem="ry9-iF-0mD" firstAttribute="leading" secondItem="OkM-Vc-wV4" secondAttribute="leading" priority="750" constant="40" id="OA4-aA-1yL"/>
                                     <constraint firstItem="VJ9-2q-zrw" firstAttribute="top" secondItem="AMZ-uh-Pve" secondAttribute="bottom" constant="30" id="PYd-dL-KJy"/>
+                                    <constraint firstItem="f1l-xq-F7w" firstAttribute="top" secondItem="Js4-ej-SDc" secondAttribute="bottom" constant="40" id="TDH-Oh-RcT"/>
                                     <constraint firstItem="VJ9-2q-zrw" firstAttribute="leading" secondItem="OkM-Vc-wV4" secondAttribute="leading" priority="750" constant="40" id="YAs-Fb-PEL"/>
                                     <constraint firstItem="ry9-iF-0mD" firstAttribute="top" secondItem="VJ9-2q-zrw" secondAttribute="bottom" constant="30" id="ZTi-DD-wVr"/>
                                     <constraint firstAttribute="trailing" secondItem="Xpn-RP-goK" secondAttribute="trailing" id="aBi-N0-7a8"/>
@@ -132,8 +143,9 @@
                                     <constraint firstItem="AMZ-uh-Pve" firstAttribute="centerX" secondItem="OkM-Vc-wV4" secondAttribute="centerX" id="mGZ-au-dfZ"/>
                                     <constraint firstAttribute="trailing" secondItem="ry9-iF-0mD" secondAttribute="trailing" priority="750" constant="40" id="nBE-lZ-AAJ"/>
                                     <constraint firstAttribute="trailing" secondItem="VJ9-2q-zrw" secondAttribute="trailing" priority="750" constant="40" id="r5W-q6-7wr"/>
+                                    <constraint firstItem="Js4-ej-SDc" firstAttribute="centerX" secondItem="OkM-Vc-wV4" secondAttribute="centerX" id="tKO-JG-Pj1"/>
                                     <constraint firstAttribute="bottom" secondItem="f1l-xq-F7w" secondAttribute="bottom" constant="20" id="tKY-Eb-pb7"/>
-                                    <constraint firstItem="f1l-xq-F7w" firstAttribute="top" secondItem="Sq4-Yb-buU" secondAttribute="bottom" constant="40" id="tqD-hK-lcF"/>
+                                    <constraint firstItem="Js4-ej-SDc" firstAttribute="top" secondItem="ry9-iF-0mD" secondAttribute="bottom" constant="20" id="wDZ-w6-d0R"/>
                                     <constraint firstItem="AMZ-uh-Pve" firstAttribute="leading" secondItem="OkM-Vc-wV4" secondAttribute="leading" priority="750" constant="40" id="yOu-Ap-7vv"/>
                                     <constraint firstItem="AMZ-uh-Pve" firstAttribute="top" secondItem="umd-fc-6co" secondAttribute="bottom" constant="30" id="zHX-ls-si9"/>
                                 </constraints>
@@ -394,16 +406,16 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Welcome" translatesAutoresizingMaskIntoConstraints="NO" id="yJv-KC-X39">
-                                                        <rect key="frame" x="64" y="81" width="247" height="86"/>
+                                                        <rect key="frame" x="126" y="81" width="123" height="43"/>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We're glad you joined us." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="95P-Ss-eIz">
-                                                        <rect key="frame" x="40" y="207" width="295" height="18"/>
+                                                        <rect key="frame" x="40" y="164" width="295" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" name="TextPlaceholder"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Let's get started!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fML-1a-waP">
-                                                        <rect key="frame" x="40" y="229" width="295" height="18"/>
+                                                        <rect key="frame" x="40" y="186" width="295" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" name="TextPlaceholder"/>
                                                         <nil key="highlightedColor"/>

@@ -68,6 +68,8 @@ extension RecordsOverviewViewController {
         setupRefreshControl()
         _ = ConArtist.model.loadRecords(fresh: true).subscribe()
         navBar.title = convention?.name ?? "Sales"¡
+        navBar.leftButtonTitle = "Back"¡
+        navBar.rightButtonTitle = "New Sale"¡
         netProfitAmountLabel.font = netProfitAmountLabel.font.usingFeatures([.tabularFigures])
     }
 
@@ -188,6 +190,32 @@ extension RecordsOverviewViewController {
 
         navBar.leftButton.rx.tap
             .subscribe(onNext: { ConArtist.model.navigate(back: 1) })
+            .disposed(by: disposeBag)
+
+        navBar.rightButton.rx.tap
+            .flatMap { ProductTypeListViewController.show() }
+            .map { products, price, info in Record(products: products.map { $0.id }, price: price, info: info) }
+            .flatMap { [convention] record -> Observable<Void> in
+                if let convention = convention {
+                    return convention
+                        .addRecord(record)
+                        .catchErrorJustReturn(())
+                } else {
+                    return ConArtist.API.GraphQL
+                        .observe(mutation: AddRecordMutation(record: RecordAdd(
+                            uuid: record.id.uuid!.uuidString,
+                            products: record.products,
+                            price: record.price.toJSON(),
+                            time: record.time.toJSON(),
+                            info: record.info
+                        )))
+                        .map { $0.addUserRecord.fragments.recordFragment }
+                        .filterMap(Record.init(graphQL:))
+                        .do(onNext: { record in ConArtist.model.addRecord(record) })
+                        .discard()
+                }
+            }
+            .subscribe()
             .disposed(by: disposeBag)
     }
 }

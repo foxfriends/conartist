@@ -23,7 +23,8 @@ class RecordTableViewCell: ConArtistTableViewCell {
                     var result = prev
                     result[next] = (prev[next] ?? 0) + 1
                     return result
-                }.reduce("") { (prev: String, pair) in
+                }
+                .reduce("") { (prev: String, pair) in
                     // turn the counts into a string
                     let (productId, quantity) = pair
                     guard let product = products.first(where: { $0.id == productId }) else {

@@ -30,7 +30,35 @@ class RecordListViewController : ConArtistViewController {
 extension RecordListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupSubscriptions()
 
+        navBar.title = convention?.name ?? "Sales"¡
+        navBar.leftButtonTitle = "Back"¡
+        navBar.subtitle = after?.toString("MMM. d, yyyy"¡)
+
+        setupRefreshControl()
+    }
+
+    private func setupRefreshControl() {
+        recordsTableView.refreshControl = refreshControl
+        refreshControl.rx.controlEvent([.valueChanged])
+            .flatMapLatest { [convention] _ -> Observable<Void> in
+                if let convention = convention {
+                    return convention.fill(true).discard()
+                } else {
+                    // NOTE: this will cause issues on deep pages!
+                    return ConArtist.model.loadRecords(fresh: true).discard()
+                }
+            }
+            .subscribe(onNext: { [refreshControl] _ in refreshControl.endRefreshing() })
+            .disposed(by: disposeBag)
+    }
+}
+
+// MARK: - Subscriptions
+
+extension RecordListViewController {
+    fileprivate func setupSubscriptions() {
         if let convention = convention { // get the info from the convention
             convention.records
                 .map { [after, before] records in records.filter { record in (after.map { record.time >= $0 } ?? true) && (before.map { record.time <= $0 } ?? true) } }
@@ -57,26 +85,6 @@ extension RecordListViewController {
         Observable.merge(products.asObservable().discard(), records.asObservable().discard())
             .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [recordsTableView] in recordsTableView?.reloadData() })
-            .disposed(by: disposeBag)
-
-        navBar.title = convention?.name ?? "Sales"¡
-        navBar.subtitle = after?.toString("MMM. d, yyyy"¡)
-
-        setupRefreshControl()
-    }
-
-    private func setupRefreshControl() {
-        recordsTableView.refreshControl = refreshControl
-        refreshControl.rx.controlEvent([.valueChanged])
-            .flatMapLatest { [convention] _ -> Observable<Void> in
-                if let convention = convention {
-                    return convention.fill(true).discard()
-                } else {
-                    // NOTE: this will cause issues on deep pages!
-                    return ConArtist.model.loadRecords(fresh: true).discard()
-                }
-            }
-            .subscribe(onNext: { [refreshControl] _ in refreshControl.endRefreshing() })
             .disposed(by: disposeBag)
     }
 }

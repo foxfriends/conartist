@@ -199,7 +199,7 @@ extension Model {
             .do(onNext: { [records] updated in records.accept(updated) })
     }
 
-    func addSuggestion(_ record: Record) {
+    func addRecord(_ record: Record) {
         records.accept(records.value.prepend(record))
     }
 

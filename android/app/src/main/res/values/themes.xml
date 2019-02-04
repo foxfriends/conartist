@@ -5,7 +5,7 @@
 
     <style name="Theme.ConArtist.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/brand</item>
-        <item name="colorPrimaryDark">@color/background</item>
+        <item name="colorPrimaryDark">@color/background_toolbar</item>
         <item name="colorAccent">@color/brand_variant</item>
 
         <item name="colorControlNormal">@color/text_placeholder</item>

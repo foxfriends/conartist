@@ -10,17 +10,10 @@
         android:label="@string/ConArtist"
         android:supportsRtl="true"
         android:theme="@style/Theme.ConArtist.NoActionBar">
-        <activity
-            android:name=".scenes.ConventionListActivity"
-            android:label="@string/Conventions">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".scenes.SignInActivity">
+        <activity android:name="ConArtist">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

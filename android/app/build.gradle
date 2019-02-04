@@ -1,12 +1,13 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.apollographql.android'
 
 android {
   compileSdkVersion 28
   defaultConfig {
     applicationId "com.cameldridge.conartist"
-    minSdkVersion 23
+    minSdkVersion 24
     targetSdkVersion 28
     versionCode 1
     versionName "1.0"
@@ -34,6 +35,18 @@ android {
   }
 }
 
+apollo {
+  customTypeMapping = [
+    "DateTimeUtc" : "java.util.Date",
+    "DateTimeFixedOffset" : "java.util.Date",
+    "NaiveDate" : "java.util.Date",
+    "Money" : "com.cameldridge.conartist.model.Money",
+    "Currency" : "com.cameldridge.conartist.model.Money.Currency",
+    "Uuid" : "java.util.UUID"
+  ]
+  useJavaBeansSemanticNaming = true
+}
+
 dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
@@ -51,5 +64,7 @@ dependencies {
   implementation 'com.jakewharton.rxbinding3:rxbinding:3.0.0-alpha2'
   implementation 'com.jakewharton.rxbinding3:rxbinding-core:3.0.0-alpha2'
   implementation 'com.jakewharton.rxbinding3:rxbinding-appcompat:3.0.0-alpha2'
-  implementation 'com.google.android.material:material:1.0.0-beta01'
+
+  implementation 'com.apollographql.apollo:apollo-runtime:1.0.0-alpha5'
+  implementation 'com.apollographql.apollo:apollo-rx2-support:1.0.0-alpha5'
 }

@@ -197,14 +197,12 @@
 		326B7E8821FEA52B00E8DF34 /* Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A8D21AB58FD00387349 /* Tokens.swift */; };
 		326B7E8A21FEA52B00E8DF34 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32CFB1DE20DCB7B900672EC9 /* MapKit.framework */; };
 		326B7E8D21FEA52B00E8DF34 /* star.svg in Resources */ = {isa = PBXBuildFile; fileRef = 32CD6B1C21B0AB3500387349 /* star.svg */; };
-		326B7E8E21FEA52B00E8DF34 /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 32B9100E20439F74002F9C94 /* schema.json */; };
 		326B7E8F21FEA52B00E8DF34 /* Debug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 327C5D7820817A81007EEF71 /* Debug.plist */; };
 		326B7E9021FEA52B00E8DF34 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 321B75E51F9BAD320055EBC4 /* LaunchScreen.storyboard */; };
 		326B7E9121FEA52B00E8DF34 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 32F6F6431FF706AA00935554 /* Images.xcassets */; };
 		326B7E9221FEA52B00E8DF34 /* thumb_down.svg in Resources */ = {isa = PBXBuildFile; fileRef = 32637A83218EB576005E2F6C /* thumb_down.svg */; };
 		326B7E9321FEA52B00E8DF34 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 321B75E31F9BAD320055EBC4 /* Assets.xcassets */; };
 		326B7E9421FEA52B00E8DF34 /* Sale.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32CFB1DA20DCB23B00672EC9 /* Sale.storyboard */; };
-		326B7E9521FEA52B00E8DF34 /* resources.json in Resources */ = {isa = PBXBuildFile; fileRef = 32B9100D20439F74002F9C94 /* resources.json */; };
 		326B7E9621FEA52B00E8DF34 /* Suggestions.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32CD6B1321AF9CF600387349 /* Suggestions.storyboard */; };
 		326B7E9721FEA52B00E8DF34 /* Release.plist in Resources */ = {isa = PBXBuildFile; fileRef = 327C5D7A20817AD1007EEF71 /* Release.plist */; };
 		326B7E9821FEA52B00E8DF34 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32CFB1DC20DCB3C800672EC9 /* Main.storyboard */; };
@@ -217,7 +215,6 @@
 		326B7E9F21FEA52B00E8DF34 /* Records.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32CFB1E220DCBC5D00672EC9 /* Records.storyboard */; };
 		326B7EA021FEA52B00E8DF34 /* chevron_up.svg in Resources */ = {isa = PBXBuildFile; fileRef = 32637A85218EB576005E2F6C /* chevron_up.svg */; };
 		326B7EA121FEA52B00E8DF34 /* star_outline.svg in Resources */ = {isa = PBXBuildFile; fileRef = 32CD6B1B21B0AB3500387349 /* star_outline.svg */; };
-		326B7EA221FEA52B00E8DF34 /* generate-schemas in Resources */ = {isa = PBXBuildFile; fileRef = 32B9100C20439F73002F9C94 /* generate-schemas */; };
 		326B7EA321FEA52B00E8DF34 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32CFB1D820DCB20200672EC9 /* Settings.storyboard */; };
 		326B7EA421FEA52B00E8DF34 /* add.svg in Resources */ = {isa = PBXBuildFile; fileRef = 32637A8D218EB599005E2F6C /* add.svg */; };
 		326B7EA521FEA52B00E8DF34 /* chevron_down.svg in Resources */ = {isa = PBXBuildFile; fileRef = 32637A87218EB576005E2F6C /* chevron_down.svg */; };
@@ -260,9 +257,6 @@
 		32B36EDF204202DB00DA4593 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EDE204202DB00DA4593 /* Keychain.swift */; };
 		32B36EE22042086500DA4593 /* Monad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EE12042086500DA4593 /* Monad.swift */; };
 		32B36EE4204226B100DA4593 /* ConventionUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EE3204226B100DA4593 /* ConventionUserInfo.swift */; };
-		32B9100F20439F75002F9C94 /* generate-schemas in Resources */ = {isa = PBXBuildFile; fileRef = 32B9100C20439F73002F9C94 /* generate-schemas */; };
-		32B9101020439F75002F9C94 /* resources.json in Resources */ = {isa = PBXBuildFile; fileRef = 32B9100D20439F74002F9C94 /* resources.json */; };
-		32B9101120439F75002F9C94 /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 32B9100E20439F74002F9C94 /* schema.json */; };
 		32B9101320439F97002F9C94 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B9101220439F97002F9C94 /* Resources.swift */; };
 		32B910152043A0EB002F9C94 /* UIImage+Base64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B910142043A0EB002F9C94 /* UIImage+Base64.swift */; };
 		32B910172044F80B002F9C94 /* NewExpenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B910162044F80B002F9C94 /* NewExpenseViewController.swift */; };
@@ -435,9 +429,6 @@
 		32B36EDE204202DB00DA4593 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		32B36EE12042086500DA4593 /* Monad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monad.swift; sourceTree = "<group>"; };
 		32B36EE3204226B100DA4593 /* ConventionUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConventionUserInfo.swift; sourceTree = "<group>"; };
-		32B9100C20439F73002F9C94 /* generate-schemas */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "generate-schemas"; sourceTree = "<group>"; };
-		32B9100D20439F74002F9C94 /* resources.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = resources.json; sourceTree = "<group>"; };
-		32B9100E20439F74002F9C94 /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		32B9101220439F97002F9C94 /* Resources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
 		32B910142043A0EB002F9C94 /* UIImage+Base64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Base64.swift"; sourceTree = "<group>"; };
 		32B910162044F80B002F9C94 /* NewExpenseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewExpenseViewController.swift; sourceTree = "<group>"; };
@@ -567,9 +558,6 @@
 				327C5D77208179D7007EEF71 /* Config */,
 				321B75E81F9BAD320055EBC4 /* Info.plist */,
 				326B7EAD21FEA52B00E8DF34 /* ConArtist DEV-Info.plist */,
-				32B9100C20439F73002F9C94 /* generate-schemas */,
-				32B9100D20439F74002F9C94 /* resources.json */,
-				32B9100E20439F74002F9C94 /* schema.json */,
 				321B75D91F9BAD320055EBC4 /* AppDelegate.swift */,
 				32B91025204B14A3002F9C94 /* Navigation */,
 				32B36ED92041FFD600DA4593 /* Services */,
@@ -1146,14 +1134,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				32CD6B1E21B0AB3500387349 /* star.svg in Resources */,
-				32B9101120439F75002F9C94 /* schema.json in Resources */,
 				327C5D7920817A81007EEF71 /* Debug.plist in Resources */,
 				321B75E71F9BAD320055EBC4 /* LaunchScreen.storyboard in Resources */,
 				32F6F6441FF706AA00935554 /* Images.xcassets in Resources */,
 				32637A88218EB576005E2F6C /* thumb_down.svg in Resources */,
 				321B75E41F9BAD320055EBC4 /* Assets.xcassets in Resources */,
 				32CFB1DB20DCB23B00672EC9 /* Sale.storyboard in Resources */,
-				32B9101020439F75002F9C94 /* resources.json in Resources */,
 				32CD6B1421AF9CF600387349 /* Suggestions.storyboard in Resources */,
 				327C5D7B20817AD1007EEF71 /* Release.plist in Resources */,
 				327B8EB92202C061004757D3 /* verified.svg in Resources */,
@@ -1167,7 +1153,6 @@
 				32CFB1E320DCBC5D00672EC9 /* Records.storyboard in Resources */,
 				32637A8A218EB576005E2F6C /* chevron_up.svg in Resources */,
 				32CD6B1D21B0AB3500387349 /* star_outline.svg in Resources */,
-				32B9100F20439F75002F9C94 /* generate-schemas in Resources */,
 				32CFB1D920DCB20200672EC9 /* Settings.storyboard in Resources */,
 				327B8EBB2202C061004757D3 /* warning.svg in Resources */,
 				32637A8E218EB599005E2F6C /* add.svg in Resources */,
@@ -1181,14 +1166,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				326B7E8D21FEA52B00E8DF34 /* star.svg in Resources */,
-				326B7E8E21FEA52B00E8DF34 /* schema.json in Resources */,
 				326B7E8F21FEA52B00E8DF34 /* Debug.plist in Resources */,
 				326B7E9021FEA52B00E8DF34 /* LaunchScreen.storyboard in Resources */,
 				326B7E9121FEA52B00E8DF34 /* Images.xcassets in Resources */,
 				326B7E9221FEA52B00E8DF34 /* thumb_down.svg in Resources */,
 				326B7E9321FEA52B00E8DF34 /* Assets.xcassets in Resources */,
 				326B7E9421FEA52B00E8DF34 /* Sale.storyboard in Resources */,
-				326B7E9521FEA52B00E8DF34 /* resources.json in Resources */,
 				326B7E9621FEA52B00E8DF34 /* Suggestions.storyboard in Resources */,
 				326B7E9721FEA52B00E8DF34 /* Release.plist in Resources */,
 				327B8EBA2202C061004757D3 /* verified.svg in Resources */,
@@ -1202,7 +1185,6 @@
 				326B7E9F21FEA52B00E8DF34 /* Records.storyboard in Resources */,
 				326B7EA021FEA52B00E8DF34 /* chevron_up.svg in Resources */,
 				326B7EA121FEA52B00E8DF34 /* star_outline.svg in Resources */,
-				326B7EA221FEA52B00E8DF34 /* generate-schemas in Resources */,
 				326B7EA321FEA52B00E8DF34 /* Settings.storyboard in Resources */,
 				327B8EBC2202C061004757D3 /* warning.svg in Resources */,
 				326B7EA421FEA52B00E8DF34 /* add.svg in Resources */,
@@ -1226,7 +1208,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "APOLLO_FRAMEWORK_PATH=\"$(eval find $FRAMEWORK_SEARCH_PATHS -name \"Apollo.framework\" -maxdepth 1)\"\n\nif [ -z \"$APOLLO_FRAMEWORK_PATH\" ]; then\necho \"error: Couldn't find Apollo.framework in FRAMEWORK_SEARCH_PATHS; make sure to add the framework to your project.\"\nexit 1\nfi\n\ncd \"${SRCROOT}/${TARGET_NAME}\"\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-cli.sh codegen:generate Services/API/GraphQL.swift --queries=../../shared/graphql/**/*.graphql --schema=schema.json\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-cli.sh codegen:generate Services/API/Resources.swift --queries=../../shared/resources/query/*.graphql --schema=resources.json\n";
+			shellScript = "APOLLO_FRAMEWORK_PATH=\"$(eval find $FRAMEWORK_SEARCH_PATHS -name \"Apollo.framework\" -maxdepth 1)\"\n\nif [ -z \"$APOLLO_FRAMEWORK_PATH\" ]; then\necho \"error: Couldn't find Apollo.framework in FRAMEWORK_SEARCH_PATHS; make sure to add the framework to your project.\"\nexit 1\nfi\n\ncd \"${SRCROOT}/${TARGET_NAME}\"\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-cli.sh codegen:generate Services/API/GraphQL.swift --queries=../../shared/graphql/**/*.graphql --schema=../../shared/graphql/schema.json\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-cli.sh codegen:generate Services/API/Resources.swift --queries=../../shared/resources/query/*.graphql --schema=../../shared/resources/resources.json\n";
 		};
 		326B7E0221FEA52B00E8DF34 /* Generate Apollo GraphQL API */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1240,7 +1222,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "APOLLO_FRAMEWORK_PATH=\"$(eval find $FRAMEWORK_SEARCH_PATHS -name \"Apollo.framework\" -maxdepth 1)\"\n\nif [ -z \"$APOLLO_FRAMEWORK_PATH\" ]; then\necho \"error: Couldn't find Apollo.framework in FRAMEWORK_SEARCH_PATHS; make sure to add the framework to your project.\"\nexit 1\nfi\n\ncd \"${SRCROOT}/ConArtist\"\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-cli.sh codegen:generate Services/API/GraphQL.swift --queries=../../shared/graphql/**/*.graphql --schema=schema.json\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-cli.sh codegen:generate Services/API/Resources.swift --queries=../../shared/resources/query/*.graphql --schema=resources.json\n";
+			shellScript = "APOLLO_FRAMEWORK_PATH=\"$(eval find $FRAMEWORK_SEARCH_PATHS -name \"Apollo.framework\" -maxdepth 1)\"\n\nif [ -z \"$APOLLO_FRAMEWORK_PATH\" ]; then\necho \"error: Couldn't find Apollo.framework in FRAMEWORK_SEARCH_PATHS; make sure to add the framework to your project.\"\nexit 1\nfi\n\ncd \"${SRCROOT}/ConArtist\"\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-cli.sh codegen:generate Services/API/GraphQL.swift --queries=../../shared/graphql/**/*.graphql --schema=../../shared/graphql/schema.json\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-cli.sh codegen:generate Services/API/Resources.swift --queries=../../shared/resources/query/*.graphql --schema=../../shared/resources/resources.json\n";
 		};
 		326B7EA721FEA52B00E8DF34 /* Copy Configuration Files */ = {
 			isa = PBXShellScriptBuildPhase;

@@ -1,4 +1,4 @@
-package com.cameldridge.conartist.services
+package com.cameldridge.conartist.services.api
 
 import com.cameldridge.conartist.model.ConRequest
 import io.reactivex.Single

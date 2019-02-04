@@ -20,8 +20,10 @@
         <item name="android:theme">@style/Theme.ConArtist.Button.Secondary</item>
     </style>
 
-    <style name="ConArtist.TextField" parent="Base.Widget.AppCompat.EditText">
+    <style name="ConArtist.TextField" parent="Base.Widget.MaterialComponents.TextInputLayout">
         <item name="android:textColor">@color/text</item>
-        <item name="android:textColorHint">@color/text_placeholder</item>
+        <item name="android:textSize">15sp</item>
+        <item name="hintTextAppearance">@style/TextAppearance.ConArtist.TextInput.Hint</item>
+        <item name="errorTextAppearance">@style/TextAppearance.ConArtist.TextInput.Error</item>
     </style>
 </resources>

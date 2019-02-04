@@ -20,9 +20,7 @@ interface ConArtistAPI {
   fun createAccount(@Body body: NewAccount): Single<ConRequest<String>>
 
   @GET("/account/exists/{email}")
-  fun accountExists(
-    @Path("email") email: String
-  ): Single<ConRequest<Boolean>>
+  fun accountExists(@Path("email") email: String): Single<ConRequest<Boolean>>
 
   @POST("/account/resend-verification")
   fun resendVerificationEmail(): Single<ConRequest<Unit>>

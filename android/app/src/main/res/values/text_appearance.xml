@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextAppearance" />
+    <style name="TextAppearance.ConArtist" />
+    <style name="TextAppearance.ConArtist.TextInput.Hint" parent="@style/TextAppearance.Design.Hint">
+        <item name="android:textColor">@color/text_placeholder</item>
+    </style>
+    <style name="TextAppearance.ConArtist.TextInput.Error" parent="@style/TextAppearance.Design.Error">
+        <item name="android:textColor">@color/error</item>
+    </style>
+</resources>

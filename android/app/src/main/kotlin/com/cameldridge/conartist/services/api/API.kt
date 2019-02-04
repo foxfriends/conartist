@@ -25,7 +25,8 @@ import java.util.Locale
 import java.util.UUID
 
 object API {
-  var authtoken: String = "Unauthorized"
+  val UNAUTHORIZED = "Unauthorized"
+  var authtoken: String = UNAUTHORIZED
 
   private val authInterceptor = Interceptor { chain ->
     val newRequest = chain.request()

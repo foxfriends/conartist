@@ -49,6 +49,20 @@ impl Search {
             }
         }
 
+        // have to do some clean up in the end cases
+        match state {
+            State::Body => {},
+            // if there was an incomplete name, pretend it doesn't exist
+            State::FieldName(ref key) => {
+                body.push('{');
+                body.push_str(key)
+            }
+            // if there is an unclosed value, automaticaly close it
+            State::FieldValue(key, value) => {
+                fields.insert(key.to_lowercase(), value);
+            }
+        }
+
         Search { body, fields }
     }
 

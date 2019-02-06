@@ -40,8 +40,6 @@ impl Database {
                 .filter(body_score.gt(0.33))
                 .then_order_by(body_score.desc());
 
-            println!("{:?}", search);
-
             if let Some(country) = search.value("country") {
                 let country_score = string_score_exact(conventionsearch::country, country);
                 query = query

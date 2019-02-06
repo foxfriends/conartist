@@ -35,10 +35,12 @@ impl Database {
             .limit(limit)
             .into_boxed();
         if let Some(search) = search {
-            let body_score = string_score(conventionsearch::title, search.body(), 0.5);
-            query = query
-                .filter(body_score.gt(0.33))
-                .then_order_by(body_score.desc());
+            if !search.body().is_empty() {
+                let body_score = string_score(conventionsearch::title, search.body(), 0.5);
+                query = query
+                    .filter(body_score.gt(0.33))
+                    .then_order_by(body_score.desc());
+            }
 
             if let Some(country) = search.value("country") {
                 let country_score = string_score_exact(conventionsearch::country, country);

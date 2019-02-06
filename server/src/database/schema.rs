@@ -85,10 +85,10 @@ table! {
 
 table! {
     inventory (inventory_id) {
+        inventory_id -> Int4,
         product_id -> Int4,
         quantity -> Int4,
         mod_date -> Timestamp,
-        inventory_id -> Int4,
     }
 }
 
@@ -186,10 +186,10 @@ table! {
     users (user_id) {
         user_id -> Int4,
         email -> Nullable<Varchar>,
+        name -> Varchar,
         password -> Varchar,
         keys -> Int4,
         join_date -> Timestamp,
-        name -> Varchar,
     }
 }
 

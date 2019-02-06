@@ -11,6 +11,7 @@ use juniper::{graphql_object, FieldResult};
 use crate::database::Database;
 use crate::database::models::*;
 use self::connection::Connection;
+use crate::search::Search;
 
 pub struct Query;
 
@@ -49,14 +50,17 @@ graphql_object!(Query: Database |&self| {
         before: Option<String> as "Cursor to search before. Currently unimplemented",
     ) -> FieldResult<Connection<Convention>> as "Retrieves one page of conventions which start after a given date" {
         ensure!(after.is_none() || before.is_none());
+        ensure!(search.is_none() || search.as_ref().unwrap().len() < 512);
 
         let earliest_date = date.map(|r| r.naive_utc().date()).unwrap_or(Utc::today().naive_utc());
+
+        let query = search.map(Search::parse_query);
 
         let conventions = dbtry! {
             executor
                 .context()
                 .get_conventions_after(
-                    search.as_ref(),
+                    query.as_ref(),
                     earliest_date,
                     limit as i64,
                     after.as_ref(),
@@ -66,7 +70,7 @@ graphql_object!(Query: Database |&self| {
         let total = executor
             .context()
             .count_conventions_after(
-                search.as_ref(),
+                query.as_ref(),
                 earliest_date,
             );
 

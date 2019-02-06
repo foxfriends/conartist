@@ -23,6 +23,18 @@ table! {
 }
 
 table! {
+    conventionsearch (con_id) {
+        con_id -> Int4,
+        title -> Varchar,
+        start_date -> Date,
+        end_date -> Date,
+        predecessor -> Nullable<Int4>,
+        country -> Varchar,
+        city -> Varchar,
+    }
+}
+
+table! {
     emailsinuse (email) {
         email -> Text,
     }

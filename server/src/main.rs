@@ -14,6 +14,7 @@ mod database;
 mod cr;
 mod error;
 mod money;
+mod search;
 mod devtools;
 mod rand;
 #[cfg(feature="mailer")] mod email;

@@ -40,17 +40,19 @@ impl Database {
                 .filter(body_score.gt(0.33))
                 .then_order_by(body_score.desc());
 
+            println!("{:?}", search);
+
             if let Some(country) = search.value("country") {
-                let country_score = string_score_exact(conventionsearch::country, search.body());
+                let country_score = string_score_exact(conventionsearch::country, country);
                 query = query
-                    .filter(country_score.is_not_null())
+                    .filter(country_score.gt(0f64))
                     .then_order_by(country_score.desc());
             }
 
             if let Some(city) = search.value("city") {
-                let city_score = string_score_exact(conventionsearch::city, search.body());
+                let city_score = string_score_exact(conventionsearch::city, city);
                 query = query
-                    .filter(city_score.is_not_null())
+                    .filter(city_score.gt(0f64))
                     .then_order_by(city_score.desc());
             }
         }

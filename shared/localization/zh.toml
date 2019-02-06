@@ -228,8 +228,11 @@ zh-Hans = "中文 (简体)"
 # General
 "Load more" = "装载更多"
 View = "看→"
+City = "城市"
+Country = "国家"
 "Don't forget to verify your email!" = "TODO: translate"
 "Resend verification email" = "TODO: translate"
+"Advanced Search" = "TODO: translate"
 
 # Dashboard
 "Find more" = "TODO: translate"

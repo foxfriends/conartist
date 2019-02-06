@@ -10,3 +10,8 @@
   composes: placeholder from '../../common/styles.css';
   height: var(--height--row);
 }
+
+.filterInput {
+  width: calc(100% - 32px);
+  margin: 0 16px;
+}

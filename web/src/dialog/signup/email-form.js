@@ -83,13 +83,14 @@ export class EmailForm extends React.Component<Props, State> {
   async validate(email: string, confirmEmail: string): Promise<{ emailValidation: InputValidation, mismatchValidation: InputValidation }> {
     let emailValidation = { state: VALID }
     let mismatchValidation = { state: VALID }
-    if (email !== '' && (await this.emailInUse.send(email).toPromise()).value) {
-      emailValidation = { state: INVALID, error: l`That email is already being used` }
-    } else if (email === '') {
+    if (email === '') {
       emailValidation = { state: EMPTY }
     } else if (!EMAIL_FORMAT.test(email)) {
       emailValidation = { state: INVALID, error: l`Your email looks wrong` }
+    } else if ((await this.emailInUse.send(email).toPromise()).value) {
+      emailValidation = { state: INVALID, error: l`That email is already being used` }
     }
+
     if (confirmEmail === '') {
       mismatchValidation = { state: EMPTY }
     } else if (email !== confirmEmail) {

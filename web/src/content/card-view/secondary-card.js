@@ -8,7 +8,7 @@ import S from './secondary-card.css'
 export type Props = {
   title: string,
   // $FlowIgnore
-  anchor: React.Ref<HTMLElement>,
+  anchor?: React.Ref<HTMLElement>,
   children: React.Node,
   onClose?: () => void,
 }
@@ -27,7 +27,7 @@ export class SecondaryCard extends React.Component<Props, State> {
     // $FlowIgnore
     this.ref = React.createRef()
     this.state = {
-      top: 0,
+      top: 16,
     }
   }
 
@@ -36,7 +36,7 @@ export class SecondaryCard extends React.Component<Props, State> {
   }
 
   componentDidUpdate() {
-    if (this.ref.current && this.props.anchor.current) {
+    if (this.props.anchor && this.ref.current && this.props.anchor.current) {
       const cardView = document.querySelector('#card-view')
       if (!cardView) { throw new Error('There is no #card-view element!') }
       // $FlowIgnore
@@ -66,7 +66,7 @@ export class SecondaryCard extends React.Component<Props, State> {
   }
 
   render() {
-    const { title, children, anchor, onClose } = this.props
+    const { title, children, onClose } = this.props
     const { top } = this.state
 
     return (

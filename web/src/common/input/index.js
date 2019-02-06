@@ -3,6 +3,7 @@ import * as React from 'react'
 
 import { Tooltip } from '../tooltip'
 import { Icon } from '../icon'
+import { IconButton } from '../icon-button'
 import { INVALID, VALID, EMPTY } from '../../model/validation'
 import type { Validation as GenericValidation } from '../../model/validation'
 
@@ -24,6 +25,10 @@ export type Props = {
   className?: string,
   tabIndex?: number,
   autoFocus?: boolean,
+  action?: ?{
+    icon: string,
+    onClick: () => void,
+  }
 }
 
 type State = {
@@ -73,12 +78,20 @@ export class Input extends React.Component<Props, State> {
   }
 
   render() {
-    const { tabIndex, autoFocus, title, placeholder, type, className, defaultValue, validation: propsValidation } = this.props
+    const { tabIndex, autoFocus, title, placeholder, type, className, defaultValue, validation: propsValidation, action } = this.props
     const { validation: stateValidation, value } = this.state
     const validation = propsValidation || stateValidation
     return (
       <div className={`${S.container} ${className || ''}`}>
-        <input className={`${S.input} ${value === '' ? S.empty : ''}`} autoFocus={autoFocus} tabIndex={tabIndex} defaultValue={defaultValue || ''} onChange={event => this.handleChange(event)} type={type || 'text'} onKeyDown={event => this.handleKeyDown(event)} ref={this.inputElement} />
+        <input
+          className={`${S.input} ${value === '' ? S.empty : ''} ${action ? S.withAction : ''}`}
+          autoFocus={autoFocus}
+          tabIndex={tabIndex}
+          defaultValue={defaultValue || ''}
+          onChange={event => this.handleChange(event)}
+          type={type || 'text'}
+          onKeyPress={event => this.handleKeyDown(event)}
+          ref={this.inputElement} />
         { title ? <span className={S.title}>{ title || '' }</span> : null }
         { value !== '' && validation.state === INVALID
           ? <Tooltip title={validation.error} className={S.error}>
@@ -87,6 +100,9 @@ export class Input extends React.Component<Props, State> {
           : null }
         { placeholder && !title && !value ? <span className={S.placeholder}>{ placeholder || '' }</span> : null }
         <div className={S.underline} />
+        { action
+          ? <IconButton className={S.actionButton} priority='secondary' action={action.onClick} title={action.icon} />
+          : null }
       </div>
     )
   }

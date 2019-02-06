@@ -1,26 +1,34 @@
 /* @flow */
 import * as React from 'react'
-
 import { pluck, filter, tap, map } from 'rxjs/operators'
 
 import { ConventionsConnection } from '../../api/conventions-connection'
 import { ConventionCard } from '../conventions/convention-card'
+import { Input } from '../../common/input'
 import { AutoCardView as CardView } from '../card-view/auto'
 import { Card } from '../card-view/card'
+import { SecondaryCard } from '../card-view/secondary-card'
+import { SecondaryCardFade as Fade } from '../../common/animation/fade/secondary-card'
 import { l } from '../../localization'
+import { throttle } from '../../util/timing'
 import { empty, extend, isFull, isEmpty } from '../../model/connection'
 import type { Convention } from '../../model/convention'
 import type { Connection } from '../../model/connection'
 import S from './index.css'
 
+const { Fragment } = React
+
 export type Props = {
   name: 'search-conventions',
   search: ?string,
+  advanced: boolean,
 }
 
 type State = {
   conventions: Connection<Convention>,
   loading: boolean,
+  city: string,
+  country: string,
 }
 
 export class SearchConventions extends React.Component<Props, State> {
@@ -32,14 +40,20 @@ export class SearchConventions extends React.Component<Props, State> {
     this.state = {
       conventions: empty(),
       loading: false,
+      city: '',
+      country: '',
     }
 
     this.conventionsConnection = new ConventionsConnection()
+
+    this.advancedSearch = null
+
+    this.reloadConventions = throttle(250)(() => this.loadConventions(true))
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.search !== prevProps.search) {
-      this.loadConventions(true)
+      this.reloadConventions()
     }
   }
 
@@ -49,10 +63,11 @@ export class SearchConventions extends React.Component<Props, State> {
 
   loadConventions(fresh: boolean = false) {
     const { search } = this.props
-    const { conventions } = this.state
+    const { conventions, city, country } = this.state
     if (fresh || !isFull(conventions)) {
+      const query = `${search}${city && `{city:${city}}`}${country && `{country:${country}}`}`
       this.setState({ loading: true })
-      this.conventionsConnection.send({ search, after: fresh ? null : conventions.endCursor })
+      this.conventionsConnection.send({ search: query, after: fresh ? null : conventions.endCursor })
         .pipe(
           filter(({ state }) => state === 'retrieved'),
           pluck('value'),
@@ -63,8 +78,30 @@ export class SearchConventions extends React.Component<Props, State> {
   }
 
   render() {
-    const { search } = this.props
-    const { conventions, loading } = this.state
+    const { search, advanced } = this.props
+    const { conventions, loading, city, country } = this.state
+
+    if (advanced && !this.advancedSearch) {
+      this.advancedSearch = (
+        <SecondaryCard title={l`Advanced Search`}>
+          <Input
+            title={l`Country`}
+            defaultValue={country}
+            className={S.filterInput}
+            onChange={country => this.setState({ country }, this.reloadConventions)}
+          />
+          <Input
+            title={l`City`}
+            defaultValue={city}
+            className={S.filterInput}
+            onChange={city => this.setState({ city }, this.reloadConventions)}
+          />
+        </SecondaryCard>
+      )
+    } else if (!advanced) {
+      this.advancedSearch = null
+    }
+
     return (
       <CardView dataSource={conventions.nodes} loadMore={(!loading && !isFull(conventions) && !isEmpty(conventions)) ? (() => this.loadConventions()) : null}>
         <Card className={S.emptyState}>
@@ -76,7 +113,12 @@ export class SearchConventions extends React.Component<Props, State> {
           </div>
         </Card>
         { convention => <ConventionCard showDetails starrable convention={convention} key={`convention_${convention.id}`}/> }
-        { loading ? <Card className={S.loadMore}>{l`Loading...`}</Card> : null }
+        <Fragment>
+          { loading ? <Card className={S.loadMore}>{l`Loading...`}</Card> : null }
+          <Fade>
+            { this.advancedSearch }
+          </Fade>
+        </Fragment>
       </CardView>
     )
   }

@@ -134,9 +134,20 @@ export class ConArtist extends React.Component<Props, State> {
         break
 
       case 'search-conventions':
-        const updateSearch = search => this.setState({ content: { ...state.content, search } })
-        state.toolbar = { textField: { title: l`Search`, onChange: updateSearch }, primary: null, secondary: null, tertiary: null, pageIcon: 'event' }
-        state.content = { name: 'search-conventions', search: '' }
+        const updateSearch = search => this.setState({ content: { ...this.state.content, search } })
+        const showFilters = () => this.setState({ content: { ...this.state.content, advanced: !this.state.content.advanced }})
+        state.toolbar = {
+          textField: {
+            title: l`Search`,
+            onChange: updateSearch,
+            action: { icon: 'tune', onClick: showFilters }
+          },
+          primary: null,
+          secondary: null,
+          tertiary: null,
+          pageIcon: 'event'
+        }
+        state.content = { name: 'search-conventions', search: '', advanced: false }
         state.navigation = NavInfo.default.select('Conventions', [], INDIRECT)
         break
 

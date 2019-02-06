@@ -10,6 +10,7 @@ export type Props = {
 }
 
 export function CardView({ children }: Props) {
+  // NOTE: card views are ID'ed so that secondary card can locate it
   return (
     <div className={S.container} id='card-view'>
       { children }

@@ -14,18 +14,24 @@ import * as navigate from '../update/navigate'
 import { isSignedIn } from '../util/is-signed-in'
 import type { Action, Props as ButtonProps } from '../common/button'
 
+
+
 export type TextField = {
   className: string,
   title: string,
   onChange?: (string) => void,
   onSubmit?: (string) => void,
+  action?: {
+    icon: string,
+    onClick: () => void,
+  },
 }
 
 export type Props = {
   primary: ?(Action | ButtonProps),
   secondary: ?(Action | ButtonProps),
   tertiary: ?(Action | ButtonProps),
-  textField?: (TextField),
+  textField?: TextField,
   pageIcon?: string,
 }
 
@@ -43,7 +49,16 @@ export function Toolbar({ className, primary, secondary, tertiary, textField, pa
           <img className={`${S.logo} ${pageIcon ? S.hidden : ''}`} src={LOGO} height={44} />
           { pageIcon ? <Icon className={S.pageIcon} name={pageIcon} /> : null }
         </div>
-        { textField ? <Input className={S.textField} title={textField.title} onChange={textField.onChange || (() => {})} placeholder={textField.title} onSubmit={textField.onSubmit || (() => {})} /> : null }
+        { textField
+          ? <Input
+              className={S.textField}
+              title={textField.title}
+              onChange={textField.onChange || (() => {})}
+              placeholder={textField.title}
+              onSubmit={textField.onSubmit || (() => {})}
+              action={textField.action || null} />
+          : null
+        }
         { tertiary ? <Button {...tertiary} priority="tertiary" className={S.action} /> : null }
         { secondary ? <Button {...secondary} priority="tertiary" className={S.action} /> : null }
         { primary ? <Button {...primary} priority="primary" className={S.action} /> : null }

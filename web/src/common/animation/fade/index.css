@@ -18,7 +18,7 @@
   transform: translateY(20px);
   transition: transform 0.2s, opacity 0.2s;
 
-  & * {
+  & > * {
     pointer-events: auto;
   }
 }

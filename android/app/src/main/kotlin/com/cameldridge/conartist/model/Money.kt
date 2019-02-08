@@ -12,8 +12,13 @@ data class Money(
     CAD,
     USD,
     MXN,
+    AUD,
     EUR,
-    GBP;
+    GBP,
+    SEK,
+    CNY,
+    JPY,
+    PHP;
 
     val std get() = when (this) {
       AUTO -> throw RuntimeException("Cannot print AUTO currency")
@@ -21,13 +26,20 @@ data class Money(
     }
 
     val symbol get() = when (this) {
-      AUTO -> ""
-      CAD, USD, MXN -> "$"
-      EUR -> "€"
-      GBP -> "£"
+      AUTO -> listOf("")
+      CAD -> listOf("$", "CA$")
+      USD -> listOf("$", "US$")
+      MXN -> listOf("$", "MX$")
+      AUD -> listOf("$", "A$")
+      EUR -> listOf("€")
+      GBP -> listOf("£")
+      SEK -> listOf("kr")
+      CNY -> listOf("￥", "¥", "CN¥", "CN￥", "元")
+      JPY -> listOf("￥", "¥", "JP¥", "JP￥")
+      PHP -> listOf("₱")
     }
 
-    val variants get() = listOf(CAD, USD, MXN, EUR, GBP)
+    val variants get() = listOf(CAD, USD, MXN, AUD, EUR, GBP, SEK, CNY, JPY, PHP)
   }
 
   fun toJSON() =
@@ -76,18 +88,29 @@ data class Money(
         Currency.CAD,
         Currency.USD,
         Currency.MXN,
+        Currency.AUD,
         Currency.EUR,
-        Currency.GBP -> parseDollarsAndCents(string, currency)
+        Currency.GBP,
+        Currency.SEK,
+        Currency.CNY,
+        Currency.PHP -> parseDollarsAndCents(string, currency)
+        Currency.JPY -> parseJustDollars(string, currency)
       }
 
-    private fun parseDollarsAndCents(string: String, currency: Currency): Money? {
-      var str = string.trim().toString()
-      if (string.startsWith(currency.symbol)) {
-        str = string.drop(currency.symbol.length).trim().toString()
-      } else if (string.endsWith(currency.symbol)) {
-        str = string.dropLast(currency.symbol.length).trim().toString()
+    private fun stripCurrencySymbol(string: String, currency: Currency): String {
+      var str = string.trim()
+      for (symbol in currency.symbol) {
+        if (string.startsWith(symbol)) {
+          str = string.drop(symbol.length).trim()
+        } else if (string.endsWith(symbol)) {
+          str = string.dropLast(symbol.length).trim()
+        }
       }
-      val pieces = string.split(Regex("""\."""), 1)
+      return str
+    }
+
+    private fun parseDollarsAndCents(string: String, currency: Currency): Money? {
+      val pieces = stripCurrencySymbol(string, currency).split(Regex("""\."""), 1)
       val centString = pieces.getOrElse(1) { "" }
       if (centString.length > 2) { return null }
 
@@ -96,6 +119,11 @@ data class Money(
       val cents = centString.padStart(2, '0').toLongOrNull() ?: return null
 
       return Money(currency, dollars * 100 + cents)
+    }
+
+    private fun parseJustDollars(string: String, currency: Currency): Money? {
+      val dollars = stripCurrencySymbol(string, currency).toLongOrNull() ?: return null
+      return Money(currency, dollars)
     }
   }
 }

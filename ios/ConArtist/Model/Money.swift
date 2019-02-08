@@ -8,25 +8,23 @@
 
 import Foundation
 
-enum CurrencyCode: String, Codable, Equatable {
-    case AUTO, CAD, USD, MXN, EUR, GBP
+enum CurrencyCode: String, Codable, Equatable, CaseIterable {
+    case AUTO, CAD, USD, MXN, AUD, EUR, GBP, SEK, CNY, JPY, PHP
 
-    var symbol: String {
+    var symbol: [String] {
         switch self {
-        case .AUTO: return ""
-        case .CAD, .USD, .MXN: return "$"
-        case .EUR: return "€"
-        case .GBP: return "£"
+        case .AUTO: return [""]
+        case .CAD: return ["$", "CA$"]
+        case .USD: return ["$", "US$"]
+        case .MXN: return ["$", "MX$"]
+        case .AUD: return ["$", "A$"]
+        case .SEK: return ["kr"]
+        case .EUR: return ["€"]
+        case .GBP: return ["£"]
+        case .CNY: return ["￥", "¥", "CN¥", "CN￥", "元"]
+        case .JPY: return ["￥", "¥", "JP¥", "JP￥"]
+        case .PHP: return ["₱"]
         }
-    }
-
-    static var variants: [CurrencyCode] {
-        return  [ .CAD
-                , .USD
-                , .MXN
-                , .EUR
-                , .GBP
-                ]
     }
 }
 
@@ -38,19 +36,37 @@ struct Money: Codable {
     static func parse(as currency: CurrencyCode, _ string: String) -> Money? {
         switch currency {
         case .AUTO: return nil // cannot parse a currency as auto
-        case .CAD, .USD, .MXN, .EUR, .GBP:
+        case .CAD, .USD, .MXN, .AUD, .EUR, .GBP, .SEK, .CNY, .PHP:
             return parseDollarsAndCents(string, currency: currency)
+        case .JPY:
+            return parseJustDollars(string, currency: currency)
         }
+    }
+
+    private static func stripCurrencySymbols(_ string: String, currency: CurrencyCode) -> String {
+        var string = string.trimmingCharacters(in: .whitespacesAndNewlines)
+        for symbol in currency.symbol + [currency.rawValue] {
+            if string.hasPrefix(symbol) {
+                string = String(
+                    string
+                        .dropFirst(currency.symbol.count)
+                        .trimmingCharacters(in: .whitespacesAndNewlines)
+                )
+            }
+            if string.hasSuffix(symbol) {
+                string = String(
+                    string
+                        .dropLast(currency.symbol.count)
+                        .trimmingCharacters(in: .whitespacesAndNewlines)
+                )
+            }
+        }
+        return string
     }
 
     /// Parses the string allowing the symbol to appear at either end, and assuming there are 100 cents in a dollar
     private static func parseDollarsAndCents(_ string: String, currency: CurrencyCode) -> Money? {
-        var string = string.trimmingCharacters(in: .whitespacesAndNewlines)
-        if string.hasPrefix(currency.symbol) {
-            string = String(string.dropFirst(currency.symbol.count).trimmingCharacters(in: .whitespacesAndNewlines))
-        } else if string.hasSuffix(currency.symbol) {
-            string = String(string.dropLast(currency.symbol.count).trimmingCharacters(in: .whitespacesAndNewlines))
-        }
+        let string = stripCurrencySymbols(string, currency: currency)
         let pieces = string.split(separator: ".",  maxSplits: 1)
         let centString = (pieces.nth(1) ?? "")
         guard
@@ -61,6 +77,15 @@ struct Money: Codable {
         else { return nil }
         return Money(currency: currency, amount: dollars * 100 + cents)
     }
+
+    /// Parses the string allowing the symbol to appear at either end but with no subdivisionss
+    private static func parseJustDollars(_ string: String, currency: CurrencyCode) -> Money? {
+        let string = stripCurrencySymbols(string, currency: currency)
+        guard let dollars = Int(string) else {
+            return nil
+        }
+        return Money(currency: currency, amount: dollars)
+    }
 }
 
 // MARK: - Formatters
@@ -69,7 +94,7 @@ extension Money {
     func toString() -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        formatter.currencySymbol = currency.symbol
+        formatter.currencySymbol = currency.symbol.first!
         formatter.currencyCode = currency.rawValue
         return formatter.string(from: numericValue as NSNumber)!
     }
@@ -82,9 +107,9 @@ extension Money {
     /// Approximates this value as a float
     var numericValue: Float {
         switch currency {
-        case .CAD, .USD, .MXN, .EUR, .GBP:
+        case .CAD, .USD, .MXN, .AUD, .EUR, .GBP, .SEK, .CNY, .PHP:
             return Float(amount) / 100.0
-        default:
+        case .JPY, .AUTO:
             return Float(amount)
         }
     }

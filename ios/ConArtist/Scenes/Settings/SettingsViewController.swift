@@ -157,7 +157,7 @@ extension SettingsViewController: UITableViewDelegate {
         case .feedback:
             SuggestionsViewController.present()
         case .currency:
-            let options = CurrencyCode.variants
+            let options = CurrencyCode.allCases.filter { $0 != .AUTO }
             SettingsSelectViewController.show(
                 title: "Currency"¡,
                 value: options.index(of: ConArtist.model.settings.value.currency) ?? 0,

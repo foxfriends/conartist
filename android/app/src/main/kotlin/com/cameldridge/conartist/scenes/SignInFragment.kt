@@ -16,7 +16,6 @@ import com.cameldridge.conartist.services.api.ConArtistAPI.SignIn
 import com.cameldridge.conartist.services.api.graphql.query.FullUserQuery
 import com.cameldridge.conartist.util.ConArtistFragment
 import com.cameldridge.conartist.util.observe
-import com.cameldridge.conartist.util.recover
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.Observable

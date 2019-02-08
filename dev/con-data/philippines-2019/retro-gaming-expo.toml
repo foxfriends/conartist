@@ -1,0 +1,18 @@
+id = 716
+title = "Retro Gaming Expo"
+start_date = 2019-02-22
+end_date = 2019-02-23
+
+[website]
+title = "facebook.com/events/120918345501544"
+url = "https://www.facebook.com/events/120918345501544/"
+
+[address]
+address = "Fisher Mall\nQuezon Ave, Quezon City, Metro Manila\nPhilippines\n"
+city = "Quezon City, Metro Manila"
+country = "Philippines"
+
+[address.coordinates]
+lat = 14.63362
+lon = 121.01718
+

@@ -32,7 +32,7 @@ pub struct Convention {
     pub title: String,
     pub start_date: toml::value::Datetime,
     pub end_date: toml::value::Datetime,
-    pub tags: Vec<String>,
+    pub tags: Option<Vec<String>>,
     pub predecessor: Option<i32>,
     pub hours: Option<Vec<Hours>>,
     pub website: Website,

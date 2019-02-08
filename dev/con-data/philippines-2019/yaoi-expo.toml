@@ -1,0 +1,18 @@
+id = 721
+title = "Yaoi Expo"
+start_date = 2019-02-09
+end_date = 2019-02-09
+
+[website]
+title = "facebook.com/events/324045418151157"
+url = "https://www.facebook.com/events/324045418151157/"
+
+[address]
+address = "Bayanihan Center, UNILAB\nPioneer St.\nPasig, Metro Manila, Philippines\n"
+city = "Pasig, Metro Manila"
+country = "Philippines"
+
+[address.coordinates]
+lat = 11.6347275
+lon = 103.37066
+

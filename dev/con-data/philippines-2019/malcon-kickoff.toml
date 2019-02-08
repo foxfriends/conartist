@@ -1,0 +1,18 @@
+id = 710
+title = "MalCon Kickoff"
+start_date = 2019-02-15
+end_date = 2019-02-17
+
+[website]
+title = "fb.com/MalConPH"
+url = "http://fb.com/MalConPH"
+
+[address]
+address = "SM Center Pulilan\nPlaridel-Pulilan Diversion Rd\nPulilan, 3005 Bulacan, Philippines\n"
+city = "Pulilan, Bulacan"
+country = "Philippines"
+
+[address.coordinates]
+lat = 14.898916
+lon = 120.867516
+

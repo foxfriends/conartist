@@ -1,0 +1,18 @@
+id = 705
+title = "Gamecon Philippines"
+start_date = 2019-04-06
+end_date = 2019-04-06
+
+[website]
+title = "facebook.com/events/260535514812899"
+url = "https://www.facebook.com/events/260535514812899/"
+
+[address]
+address = "SMX Convention Center,\nMall of Asia Complex, Seashell Ln\nPasay, 1300 Metro Manila, Philippines\n"
+city = "Pasay, Metro Manila"
+country = "Philippines"
+
+[address.coordinates]
+lat = 14.532115
+lon = 120.97939
+

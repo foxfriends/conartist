@@ -1,0 +1,18 @@
+id = 707
+title = "Komiket"
+start_date = 2019-02-16
+end_date = 2019-02-17
+
+[website]
+title = "facebook.com/komiketinc"
+url = "https://www.facebook.com/komiketinc/"
+
+[address]
+address = "The Elements at Centris\nDiliman, Quezon City, Metro Manila\nPhilippines\n"
+city = "Quezon City, Metro Manila"
+country = "Philippines"
+
+[address.coordinates]
+lat = 14.641326
+lon = 121.03997
+

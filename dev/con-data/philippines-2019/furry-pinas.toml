@@ -1,0 +1,18 @@
+id = 703
+title = "FurryPinas: Fun in the Sun"
+start_date = 2019-06-08
+end_date = 2019-06-09
+
+[website]
+title = "otakucosplayph.com"
+url = "https://www.otakucosplayph.com/2019/01/furrypinas-2019-fun-in-sun.html"
+
+[address]
+address = "Bayanihan Center, UNILAB\nPioneer St.\nPasig, Metro Manila, Philippines\n"
+city = "Pasig, Metro Manila"
+country = "Philippines"
+
+[address.coordinates]
+lat = 11.6347275
+lon = 103.37066
+

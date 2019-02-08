@@ -1,0 +1,18 @@
+id = 697
+title = "Art and Anime Festival: Kick off!"
+start_date = 2019-02-16
+end_date = 2019-02-16
+
+[website]
+title = "facebook.com/artandanimefestival2014"
+url = "https://www.facebook.com/artandanimefestival2014/"
+
+[address]
+address = "PUP Santo Tomas\nA. Bonifacio St, Matandang Balara\nSanto Tomas, 4234 Batangas, Philippines\n"
+city = "Santo Tomas, Batangas"
+country = "Philippines"
+
+[address.coordinates]
+lat = 14.108811
+lon = 121.14139
+

@@ -1,0 +1,18 @@
+id = 699
+title = "Cosmic Con: Rebirth"
+start_date = 2019-10-19
+end_date = 2019-10-20
+
+[website]
+title = "facebook.com/events/1982547658702901"
+url = "https://www.facebook.com/events/1982547658702901/"
+
+[address]
+address = "Ayala Malls South Park\nNational Road, Brgy. Alabang\nMuntinlupa, Metro Manila, Philippines\n"
+city = "Muntinlupa, Metro Manila"
+country = "Philippines"
+
+[address.coordinates]
+lat = 14.411677
+lon = 121.04408
+

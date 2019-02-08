@@ -1,0 +1,18 @@
+id = 711
+title = "Manga Fest"
+start_date = 2019-05-04
+end_date = 2019-05-04
+
+[website]
+title = "facebook.com/events/2261050500842478"
+url = "https://www.facebook.com/events/2261050500842478/"
+
+[address]
+address = "Precious Pages Corp.\n16 Sto. Domingo Ave\nQuezon City, 1114 Metro Manila, Philippines\n"
+city = "Quezon City, Metro Manila"
+country = "Philippines"
+
+[address.coordinates]
+lat = 14.627617
+lon = 121.00822
+

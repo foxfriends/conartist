@@ -1,0 +1,18 @@
+id = 720
+title = "tsuNAMIcon"
+start_date = 2019-03-02
+end_date = 2019-03-02
+
+[website]
+title = "facebook.com/PNUnami"
+url = "https://www.facebook.com/PNUnami/"
+
+[address]
+address = "Philippine Normal University HRD Auditorium\n660, Ermita, Manila, 1000 Metro Manila, Philippines\n"
+city = "Manila, Metro Manila"
+country = "Philippines"
+
+[address.coordinates]
+lat = 14.5867815
+lon = 120.98124
+

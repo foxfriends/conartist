@@ -1,0 +1,18 @@
+id = 701
+title = "Cosplay Mania 2019"
+start_date = 2019-09-28
+end_date = 2019-09-29
+
+[website]
+title = "facebook.com/events/903939719798620"
+url = "https://www.facebook.com/events/903939719798620/"
+
+[address]
+address = "SMX Convention Center,\nMall of Asia Complex, Seashell Ln\nPasay, 1300 Metro Manila, Philippines\n"
+city = "Pasay, Metro Manila"
+country = "Philippines"
+
+[address.coordinates]
+lat = 14.532115
+lon = 120.97939
+

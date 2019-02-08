@@ -80,16 +80,18 @@ fn main() -> io::Result<()> {
                     .do_update()
                     .set(conventionextrainfo::info.eq(json!(&convention.address.country)))
                     .execute(&connection)?;
-                diesel::insert_into(conventionextrainfo::table)
-                    .values((
-                        conventionextrainfo::con_id.eq(id),
-                        conventionextrainfo::title.eq("Tags"),
-                        conventionextrainfo::info.eq(json!(&convention.tags)),
-                    ))
-                    .on_conflict((conventionextrainfo::con_id, conventionextrainfo::title))
-                    .do_update()
-                    .set(conventionextrainfo::info.eq(json!(&convention.tags)))
-                    .execute(&connection)?;
+                if let Some(ref tags) = convention.tags {
+                    diesel::insert_into(conventionextrainfo::table)
+                        .values((
+                            conventionextrainfo::con_id.eq(id),
+                            conventionextrainfo::title.eq("Tags"),
+                            conventionextrainfo::info.eq(json!(tags)),
+                        ))
+                        .on_conflict((conventionextrainfo::con_id, conventionextrainfo::title))
+                        .do_update()
+                        .set(conventionextrainfo::info.eq(json!(tags)))
+                        .execute(&connection)?;
+                }
                 diesel::insert_into(conventionextrainfo::table)
                     .values((
                         conventionextrainfo::con_id.eq(id),

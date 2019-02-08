@@ -1,0 +1,18 @@
+id = 696
+title = "Anime & Cosplay Expo"
+start_date = 2019-06-08
+end_date = 2019-06-09
+
+[website]
+title = "facebook.com/pg/Cosplay.ph"
+url = "https://www.facebook.com/pg/Cosplay.ph"
+
+[address]
+address = "SMX Convention Center,\nMall of Asia Complex, Seashell Ln\nPasay, 1300 Metro Manila, Philippines\n"
+city = "Pasay, Metro Manila"
+country = "Philippines"
+
+[address.coordinates]
+lat = 14.532115
+lon = 120.97939
+

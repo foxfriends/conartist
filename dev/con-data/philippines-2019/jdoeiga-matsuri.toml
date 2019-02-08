@@ -1,0 +1,18 @@
+id = 706
+title = "JDoEiga Matsuri"
+start_date = 2019-04-07
+end_date = 2019-04-07
+
+[website]
+title = "facebook.com/events/327353557989489"
+url = "https://www.facebook.com/events/327353557989489/"
+
+[address]
+address = "724 Shaw Boulevard 2/F CBC Corporate Center\nBarangay Wack-wack Greenhills East\nMandaluyong, 1552 Metro Manila, Philippines\n"
+city = "Mandaluyong, Metro Manila"
+country = "Philippines"
+
+[address.coordinates]
+lat = 14.583155
+lon = 121.04951
+

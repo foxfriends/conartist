@@ -1,0 +1,18 @@
+id = 704
+title = "Gakuen Clash: Cosplay As Your Idol"
+start_date = 2019-02-15
+end_date = 2019-02-15
+
+[website]
+title = "facebook.com/SienaGakuenClash"
+url = "https://www.facebook.com/SienaGakuenClash/"
+
+[address]
+address = "Sienna College of Taytay\n83 E Rodriguez Ave.\nTaytay, Rizal, Philippines\n"
+city = "Taytay, Rizal"
+country = "Philippines"
+
+[address.coordinates]
+lat = 14.577644
+lon = 121.130005
+

@@ -1,0 +1,18 @@
+id = 717
+title = "Sticker CON MNL 2019"
+start_date = 2019-03-16
+end_date = 2019-03-16
+
+[website]
+title = "facebook.com/events/174034316820292"
+url = "https://www.facebook.com/events/174034316820292/"
+
+[address]
+address = "Bayanihan Center, UNILAB\nPioneer St.\nPasig, Metro Manila, Philippines\n"
+city = "Pasig, Metro Manila"
+country = "Philippines"
+
+[address.coordinates]
+lat = 11.6347275
+lon = 103.37066
+

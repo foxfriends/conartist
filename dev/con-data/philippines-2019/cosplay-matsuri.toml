@@ -1,0 +1,18 @@
+id = 702
+title = "Cosplay Matsuri 2019"
+start_date = 2019-12-28
+end_date = 2019-12-30
+
+[website]
+title = "cosplay.ph"
+url = "https://cosplay.ph"
+
+[address]
+address = "SMX Convention Center,\nMall of Asia Complex, Seashell Ln\nPasay, 1300 Metro Manila, Philippines\n"
+city = "Pasay, Metro Manila"
+country = "Philippines"
+
+[address.coordinates]
+lat = 14.532115
+lon = 120.97939
+

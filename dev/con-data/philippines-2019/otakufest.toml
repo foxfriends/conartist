@@ -1,0 +1,18 @@
+id = 713
+title = "Otakufest"
+start_date = 2019-02-22
+end_date = 2019-02-23
+
+[website]
+title = "facebook.com/events/1550119848422316"
+url = "https://www.facebook.com/events/1550119848422316/"
+
+[address]
+address = "SM Seaside City Cebu\nCebu City, 6000 Cebu, Philippines\nPhilippines\n"
+city = "Cebu City, Cebu"
+country = "Philippines"
+
+[address.coordinates]
+lat = 10.286828
+lon = 123.88218
+

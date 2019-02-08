@@ -1,0 +1,18 @@
+id = 715
+title = "Ozine Fest 2019"
+start_date = 2019-04-06
+end_date = 2019-04-07
+
+[website]
+title = "facebook.com/ozinefest"
+url = "https://www.facebook.com/ozinefest/"
+
+[address]
+address = "Megatrade Hall, SM Megamall\nSummit, 5/F Mega B, SM Megamall, EDSA cor.\nDoña Julia Vargas Avenue, Ortigas Center 1552, Philippines\n"
+city = "Mandaluyong, Metro Manila"
+country = "Philippines"
+
+[address.coordinates]
+lat = 14.583216
+lon = 121.054535
+

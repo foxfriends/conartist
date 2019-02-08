@@ -1,9 +1,11 @@
 /* @flow */
 import * as React from 'react'
+
 import { model } from '../model'
 import DefaultMap from '../util/default-map'
 import { newlinesToReact } from '../util/newlines-to-react'
 import { Storage } from '../storage'
+
 import en from './lang/en.toml' // include this one statically since it is the most common
 const zh = () => import(/* webpackChunkName: 'lang-zh' */ './lang/zh.toml')
 

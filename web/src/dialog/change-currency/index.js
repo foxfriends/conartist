@@ -29,7 +29,7 @@ export class ChangeCurrency extends React.Component<Props, State> {
   render() {
     return (
       <Basic title={l`Change Currency`} onClose={closeDialogButton}>
-        <List dataSource={CURRENCIES}>
+        <List dataSource={CURRENCIES} className={S.body}>
           {currency =>
             <Item className={S.item} onClick={() => this.setCurrency(currency)} key={currency}>{currency}</Item>
           }

@@ -22,26 +22,33 @@ export type Props = {
 }
 
 export function Basic({ title, footerTitle, onContinue, onBack, onClose, pager, children }: Props) {
+  const hasFooter = onContinue || footerTitle || pager || onBack;
+
   return (
     <div className={S.dialog}>
       { onClose ? <IconButton {...onClose} priority="tertiary" className={S.closeButton} /> : null }
       <header className={S.header}>
         { title }
       </header>
-      <div className={S.contents}>
+      <div className={`${S.contents} ${hasFooter ? '' : S.noFooter}`}>
         { children }
       </div>
-      <footer className={S.footer}>
-        {/* backwards using row-reverse so the tab index works as expected */}
-        { onContinue ? <Button className={S.footerButton} {...onContinue} key='continuebutton' /> : <Button className={S.fakeButton} title='' action={() => {}} key='fakebutton_right' /> }
-        { footerTitle ? <span className={S.footerTitle}>{footerTitle}</span> : null }
-        { pager
-            ? <Pager {...pager} />
-            : (footerTitle ? null : <span />) }
-        { onBack
-            ? <Button className={S.footerButton} {...onBack} key='backbutton'/>
-            : (footerTitle ? null : <Button className={S.fakeButton} title='' action={() => {}} key='fakebutton_left'/>) }
-      </footer>
+      { hasFooter
+        ? (
+          <footer className={S.footer}>
+            {/* backwards using row-reverse so the tab index works as expected */}
+            { onContinue ? <Button className={S.footerButton} {...onContinue} key='continuebutton' /> : <Button className={S.fakeButton} title='' action={() => {}} key='fakebutton_right' /> }
+            { footerTitle ? <span className={S.footerTitle}>{footerTitle}</span> : null }
+            { pager
+                ? <Pager {...pager} />
+                : (footerTitle ? null : <span />) }
+            { onBack
+                ? <Button className={S.footerButton} {...onBack} key='backbutton'/>
+                : (footerTitle ? null : <Button className={S.fakeButton} title='' action={() => {}} key='fakebutton_left'/>) }
+          </footer>
+        )
+        : null
+      }
     </div>
   )
 }

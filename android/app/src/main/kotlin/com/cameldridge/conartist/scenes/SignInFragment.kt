@@ -13,6 +13,7 @@ import com.cameldridge.conartist.ConArtist
 import com.cameldridge.conartist.R
 import com.cameldridge.conartist.R.string
 import com.cameldridge.conartist.model.ConRequest
+import com.cameldridge.conartist.model.Model
 import com.cameldridge.conartist.model.User
 import com.cameldridge.conartist.services.api.API
 import com.cameldridge.conartist.services.api.ConArtistAPI.SignIn
@@ -70,10 +71,8 @@ class SignInFragment : ConArtistFragment(R.layout.fragment_sign_in) {
           Observable.empty()
         }
       }}
-      .switchMap { _ -> API.graphql
-        .observe(FullUserQuery(Input.absent()))
-        .map { it.user.fragments.fullUserFragment }
-        .map { User.fromFragment(it) }
+      .switchMap { _ -> Model.loadUser()
+        .toObservable()
         .observeOn(AndroidSchedulers.mainThread())
         .onErrorResumeNext { error: Throwable ->
           Toast.makeText(context, R.string.An_unknown_error_has_occurred, Toast.LENGTH_SHORT).show()
@@ -82,7 +81,6 @@ class SignInFragment : ConArtistFragment(R.layout.fragment_sign_in) {
           Observable.empty<User>()
         }
       }
-      .map { user -> ConArtist.signIn(user) }
       .doOnEach { processing.onNext(false) }
       .subscribe { ConArtist.replace(ConventionListFragment()) }
       .addTo(disposeBag)

@@ -54,6 +54,7 @@ export type Props = {
 type State = {
   prices: EditablePrice[],
   editingEnabled: boolean,
+  hadPrices: boolean, // kind of a weird hack to detect when the page was reloaded and the user hadn't been downloaded yet
 }
 
 const defaultToolbar = { primary: toolbarAction.SavePrices, secondary: toolbarAction.DiscardPrices }
@@ -95,11 +96,12 @@ function diff(before: Price[], after: EditablePrice[]): [Price[], (Add | Delete)
 
 export class EditPrices extends ReactX.Component<Props, State> {
   static getDerivedStateFromProps({ prices }: Props, state: State): ?$Shape<State> {
-    if (!state) {
+    if (!state || !state.hadPrices) {
       return {
         prices: prices
           .sort(by(['typeId', Asc], ['productId', Asc, Desc], ['quantity', Asc]))
           .map(editablePrice),
+        hadPrices: prices.length != 0,
       }
     } else {
       return null
@@ -116,6 +118,7 @@ export class EditPrices extends ReactX.Component<Props, State> {
         .sort(by(['typeId', Asc], ['productId', Asc, Desc], ['quantity', Asc]))
         .map(editablePrice),
       editingEnabled: true,
+      hadPrices: this.props.prices.length != 0,
     }
 
     const saveButtonPressed = events

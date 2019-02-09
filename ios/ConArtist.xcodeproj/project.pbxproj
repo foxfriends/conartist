@@ -37,10 +37,14 @@
 		324592AA1FEC2E7900DE89BB /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592A91FEC2E7900DE89BB /* Model.swift */; };
 		324592AC1FEC2EA500DE89BB /* Convention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592AB1FEC2EA500DE89BB /* Convention.swift */; };
 		324592AE1FEC314900DE89BB /* Date+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592AD1FEC314900DE89BB /* Date+Helpers.swift */; };
+		324901AD220E385F005C5835 /* tune.svg in Resources */ = {isa = PBXBuildFile; fileRef = 325F04D1220E3698003D0E9D /* tune.svg */; };
 		325EAB1D205247E900B1BE3E /* RecordSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EAB1C205247E900B1BE3E /* RecordSummaryTableViewCell.swift */; };
 		325EAB1F2052481200B1BE3E /* ExpenseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EAB1E2052481200B1BE3E /* ExpenseTableViewCell.swift */; };
 		325EAB212052493300B1BE3E /* RecordsOverviewDateHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EAB202052493300B1BE3E /* RecordsOverviewDateHeaderView.swift */; };
 		325EAB2320524C5500B1BE3E /* RecordsOverviewTotalFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EAB2220524C5500B1BE3E /* RecordsOverviewTotalFooterView.swift */; };
+		325F04D2220E3698003D0E9D /* tune.svg in Resources */ = {isa = PBXBuildFile; fileRef = 325F04D1220E3698003D0E9D /* tune.svg */; };
+		325FE08E220E56B1006BA52A /* UIView.AnimationCurve+AsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325FE08D220E56B1006BA52A /* UIView.AnimationCurve+AsOptions.swift */; };
+		325FE08F220E5700006BA52A /* UIView.AnimationCurve+AsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325FE08D220E56B1006BA52A /* UIView.AnimationCurve+AsOptions.swift */; };
 		32637A70218930F7005E2F6C /* Products.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32637A6F218930F7005E2F6C /* Products.storyboard */; };
 		32637A7321893431005E2F6C /* ManageProductTypesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32637A7221893431005E2F6C /* ManageProductTypesViewController.swift */; };
 		32637A7721893EB7005E2F6C /* ManageProductTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32637A7621893EB7005E2F6C /* ManageProductTypeTableViewCell.swift */; };
@@ -373,6 +377,8 @@
 		325EAB1E2052481200B1BE3E /* ExpenseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseTableViewCell.swift; sourceTree = "<group>"; };
 		325EAB202052493300B1BE3E /* RecordsOverviewDateHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsOverviewDateHeaderView.swift; sourceTree = "<group>"; };
 		325EAB2220524C5500B1BE3E /* RecordsOverviewTotalFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsOverviewTotalFooterView.swift; sourceTree = "<group>"; };
+		325F04D1220E3698003D0E9D /* tune.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tune.svg; sourceTree = "<group>"; };
+		325FE08D220E56B1006BA52A /* UIView.AnimationCurve+AsOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView.AnimationCurve+AsOptions.swift"; sourceTree = "<group>"; };
 		32637A6F218930F7005E2F6C /* Products.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Products.storyboard; sourceTree = "<group>"; };
 		32637A7221893431005E2F6C /* ManageProductTypesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageProductTypesViewController.swift; sourceTree = "<group>"; };
 		32637A7621893EB7005E2F6C /* ManageProductTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageProductTypeTableViewCell.swift; sourceTree = "<group>"; };
@@ -590,16 +596,17 @@
 		32637A82218EB576005E2F6C /* SVG */ = {
 			isa = PBXGroup;
 			children = (
-				327B8EB72202C061004757D3 /* verified.svg */,
-				327B8EB82202C061004757D3 /* warning.svg */,
+				32637A8D218EB599005E2F6C /* add.svg */,
+				32637A87218EB576005E2F6C /* chevron_down.svg */,
+				32637A84218EB576005E2F6C /* chevron_right.svg */,
+				32637A85218EB576005E2F6C /* chevron_up.svg */,
 				32CD6B1B21B0AB3500387349 /* star_outline.svg */,
 				32CD6B1C21B0AB3500387349 /* star.svg */,
 				32637A83218EB576005E2F6C /* thumb_down.svg */,
-				32637A84218EB576005E2F6C /* chevron_right.svg */,
-				32637A8D218EB599005E2F6C /* add.svg */,
-				32637A85218EB576005E2F6C /* chevron_up.svg */,
 				32637A86218EB576005E2F6C /* thumb_up.svg */,
-				32637A87218EB576005E2F6C /* chevron_down.svg */,
+				325F04D1220E3698003D0E9D /* tune.svg */,
+				327B8EB72202C061004757D3 /* verified.svg */,
+				327B8EB82202C061004757D3 /* warning.svg */,
 			);
 			path = SVG;
 			sourceTree = "<group>";
@@ -672,6 +679,7 @@
 				32B36EC4203E5E7D00DA4593 /* UIView+Shadows.swift */,
 				32C39C1D201E870600071E26 /* UIView+Tooltip.swift */,
 				327B8EC32203B9F8004757D3 /* UIView+CustomToast.swift */,
+				325FE08D220E56B1006BA52A /* UIView.AnimationCurve+AsOptions.swift */,
 			);
 			path = UIView;
 			sourceTree = "<group>";
@@ -1147,6 +1155,7 @@
 				321B75DF1F9BAD320055EBC4 /* SignIn.storyboard in Resources */,
 				322C6A0B204CC2170021A2D9 /* localization in Resources */,
 				32CFB1D720DCB16300672EC9 /* Convention.storyboard in Resources */,
+				325F04D2220E3698003D0E9D /* tune.svg in Resources */,
 				32637A8B218EB576005E2F6C /* thumb_up.svg in Resources */,
 				32637A89218EB576005E2F6C /* chevron_right.svg in Resources */,
 				32637A70218930F7005E2F6C /* Products.storyboard in Resources */,
@@ -1179,6 +1188,7 @@
 				326B7E9921FEA52B00E8DF34 /* SignIn.storyboard in Resources */,
 				326B7E9A21FEA52B00E8DF34 /* localization in Resources */,
 				326B7E9B21FEA52B00E8DF34 /* Convention.storyboard in Resources */,
+				324901AD220E385F005C5835 /* tune.svg in Resources */,
 				326B7E9C21FEA52B00E8DF34 /* thumb_up.svg in Resources */,
 				326B7E9D21FEA52B00E8DF34 /* chevron_right.svg in Resources */,
 				326B7E9E21FEA52B00E8DF34 /* Products.storyboard in Resources */,
@@ -1409,6 +1419,7 @@
 				327C5D7F2081845F007EEF71 /* Config.swift in Sources */,
 				32B36EDF204202DB00DA4593 /* Keychain.swift in Sources */,
 				32CD6B1821AFC48500387349 /* ConventionSearchViewController.swift in Sources */,
+				325FE08E220E56B1006BA52A /* UIView.AnimationCurve+AsOptions.swift in Sources */,
 				32DFCF5920DDE592007FFE70 /* Location.swift in Sources */,
 				32CD6AFA21AB58FD00387349 /* Evaluator.swift in Sources */,
 				32F12C10203544E60045D0BC /* UIFont+Features.swift in Sources */,
@@ -1552,6 +1563,7 @@
 				326B7E1321FEA52B00E8DF34 /* Config.swift in Sources */,
 				326B7E1421FEA52B00E8DF34 /* Keychain.swift in Sources */,
 				326B7E1521FEA52B00E8DF34 /* ConventionSearchViewController.swift in Sources */,
+				325FE08F220E5700006BA52A /* UIView.AnimationCurve+AsOptions.swift in Sources */,
 				326B7E1621FEA52B00E8DF34 /* Location.swift in Sources */,
 				326B7E1721FEA52B00E8DF34 /* Evaluator.swift in Sources */,
 				326B7E1821FEA52B00E8DF34 /* UIFont+Features.swift in Sources */,

@@ -12,7 +12,6 @@ import RxSwift
 class SuggestionsViewController: ConArtistViewController {
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var suggestionsTableView: UITableView!
-    fileprivate let disposeBag = DisposeBag()
     fileprivate let refreshControl = UIRefreshControl()
 
     var loading = false

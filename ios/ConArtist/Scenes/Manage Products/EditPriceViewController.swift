@@ -21,7 +21,6 @@ class EditPriceViewController : ConArtistViewController {
     fileprivate var price: Price?
     fileprivate let products = BehaviorRelay<[Product]>(value: [])
     fileprivate let product = BehaviorRelay<Product?>(value: nil)
-    fileprivate let disposeBag = DisposeBag()
 }
 
 // MARK: - Lifecycle

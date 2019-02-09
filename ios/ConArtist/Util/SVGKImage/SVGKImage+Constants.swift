@@ -19,4 +19,5 @@ extension SVGKImage {
     static let starOutline      = SVGKImage(named: "star_outline.svg")!
     static let verified         = SVGKImage(named: "verified.svg")!
     static let warning          = SVGKImage(named: "warning.svg")!
+    static let tune             = SVGKImage(named: "tune.svg")!
 }

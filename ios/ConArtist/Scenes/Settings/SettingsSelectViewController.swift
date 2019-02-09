@@ -11,8 +11,6 @@ import RxCocoa
 import RxSwift
 
 class SettingsSelectViewController : ConArtistViewController {
-    let disposeBag = DisposeBag()
-
     fileprivate var navBarTitle: String?
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var optionsTableView: UITableView!

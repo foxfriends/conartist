@@ -18,7 +18,6 @@ class EditProductViewController : ConArtistViewController {
 
     fileprivate var typeId: Int?
     fileprivate var product: Product?
-    fileprivate let disposeBag = DisposeBag()
 }
 
 // MARK: - Lifecycle

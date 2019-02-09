@@ -11,8 +11,6 @@ import RxCocoa
 import RxSwift
 
 class ProductListViewController : ConArtistViewController {
-    fileprivate let disposeBag = DisposeBag()
-
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var productsTableView: UITableView!
 

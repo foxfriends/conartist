@@ -27,8 +27,6 @@ class ExpenseDetailsOverlayViewController : ConArtistViewController {
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var otherBottomConstraint: NSLayoutConstraint!
 
-    fileprivate let disposeBag = DisposeBag()
-
     fileprivate var expense: Expense!
     fileprivate var convention: Convention!
 }

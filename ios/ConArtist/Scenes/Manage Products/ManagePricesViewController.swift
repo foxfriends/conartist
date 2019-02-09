@@ -19,7 +19,6 @@ class ManagePricesViewController: ConArtistViewController {
 
     fileprivate var productType: ProductType!
     fileprivate let prices = BehaviorRelay<[Price]>(value: [])
-    fileprivate let disposeBag = DisposeBag()
     fileprivate let refreshControl = UIRefreshControl()
 }
 

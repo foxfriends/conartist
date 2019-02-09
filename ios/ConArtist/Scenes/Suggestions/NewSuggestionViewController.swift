@@ -14,7 +14,6 @@ class NewSuggestionViewController: ConArtistViewController {
     @IBOutlet weak var disclaimerLabel: UILabel!
     @IBOutlet weak var suggestionTextView: UITextView!
 
-    fileprivate let disposeBag = DisposeBag()
     fileprivate let results = PublishSubject<String>()
     deinit { results.onCompleted() }
 }

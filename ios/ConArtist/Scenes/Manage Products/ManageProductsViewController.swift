@@ -20,7 +20,6 @@ class ManageProductsViewController : ConArtistViewController {
     fileprivate let refreshControl = UIRefreshControl()
     fileprivate var productType: ProductType!
     fileprivate let products = BehaviorRelay<[Product]>(value: [])
-    fileprivate let disposeBag = DisposeBag()
 }
 
 // MARK: - Lifecycle

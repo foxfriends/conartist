@@ -16,7 +16,6 @@ class ConventionUserInfoListViewController : ConArtistViewController {
     @IBOutlet weak var emptyStateView: UIView!
     @IBOutlet weak var emptyStateLabel: UILabel!
 
-    fileprivate let disposeBag = DisposeBag()
     fileprivate var convention: Convention!
     fileprivate let information = BehaviorRelay<[ConventionUserInfo]>(value: [])
     fileprivate let refreshControl = UIRefreshControl()

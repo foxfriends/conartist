@@ -23,7 +23,6 @@ extension Convention {
 
 class AllConventionsListViewController : ConArtistViewController {
     fileprivate let conventions = BehaviorRelay<[Convention]>(value: [])
-    fileprivate let disposeBag = DisposeBag()
 
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var conventionsTableView: UITableView!

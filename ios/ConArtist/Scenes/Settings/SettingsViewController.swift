@@ -31,8 +31,6 @@ class SettingsViewController : ConArtistViewController {
         let items: [Setting]
     }
     
-    fileprivate let disposeBag = DisposeBag()
-    
     @IBOutlet weak var settingsTableView: UITableView!
     @IBOutlet weak var navBar: FakeNavBar!
 

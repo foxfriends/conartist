@@ -23,7 +23,6 @@ class ManageProductTypesViewController : ConArtistViewController {
 
     fileprivate var mode: Mode!
     fileprivate let refreshControl = UIRefreshControl()
-    fileprivate let disposeBag = DisposeBag()
 }
 
 // MARK: - Lifecycle

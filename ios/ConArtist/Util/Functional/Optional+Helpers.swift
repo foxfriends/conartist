@@ -22,4 +22,11 @@ extension Optional {
         case .some(let item): return (try? transform(item)) ?? nil
         }
     }
+
+    func filter(_ predicate: (Wrapped) throws -> Bool) rethrows -> Optional<Wrapped> {
+        switch self {
+        case let .some(item) where try predicate(item): return .some(item)
+        default: return nil
+        }
+    }
 }

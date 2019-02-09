@@ -21,7 +21,6 @@ class ProductTypeListViewController : ConArtistViewController {
     @IBOutlet weak var infoViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var noteLabel: UILabel!
 
-    fileprivate let disposeBag = DisposeBag()
     fileprivate let productTypes = BehaviorRelay<[ProductType]>(value: [])
     fileprivate let products = BehaviorRelay<[Product]>(value: [])
     fileprivate let prices = BehaviorRelay<[Price]>(value: [])
@@ -55,7 +54,6 @@ extension ProductTypeListViewController {
                 self.money.accept(record.price)
             }
         }
-        startAdjustingForKeyboard()
     }
 }
 
@@ -151,31 +149,24 @@ extension ProductTypeListViewController {
                 UIView.animate(withDuration: 0.25) { view?.layoutIfNeeded() }
             })
             .disposed(by: disposeBag)
-    }
-}
 
-// MARK: - Keyboard handling
-extension ProductTypeListViewController {
-    fileprivate func startAdjustingForKeyboard() {
-        NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
-            .subscribe(onNext: { [weak self] notification in self?.adjustForKeyboard(notification: notification) })
+        rx.keyboardFrame
+            .drive(onNext: { [view, infoViewBottomConstraint, expectedInfoViewBottomConstraintConstant] keyboard in
+                if let frame = keyboard.frame {
+                    infoViewBottomConstraint?.constant = expectedInfoViewBottomConstraintConstant.value + frame.height
+                } else {
+                    infoViewBottomConstraint?.constant = expectedInfoViewBottomConstraintConstant.value
+                }
+                UIView.animate(
+                    withDuration: keyboard.duration,
+                    delay: 0,
+                    options: keyboard.curve.asAnimationOptions,
+                    animations: {
+                        view!.layoutIfNeeded()
+                    }
+                )
+            })
             .disposed(by: disposeBag)
-        NotificationCenter.default.rx.notification(UIResponder.keyboardWillChangeFrameNotification)
-            .subscribe(onNext: { [weak self] notification in self?.adjustForKeyboard(notification: notification) })
-            .disposed(by: disposeBag)
-    }
-
-    private func adjustForKeyboard(notification: Notification) {
-        let keyboardScreenEndFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-        let duration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
-        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
-
-        if notification.name == UIResponder.keyboardWillHideNotification {
-            infoViewBottomConstraint.constant = expectedInfoViewBottomConstraintConstant.value
-        } else {
-            infoViewBottomConstraint.constant = expectedInfoViewBottomConstraintConstant.value + keyboardViewEndFrame.height
-        }
-        UIView.animate(withDuration: duration) { self.view.layoutIfNeeded() }
     }
 }
 

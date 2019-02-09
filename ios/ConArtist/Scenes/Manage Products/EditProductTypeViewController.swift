@@ -16,7 +16,6 @@ class EditProductTypeViewController : ConArtistViewController {
     @IBOutlet weak var discontinuedLabel: UILabel!
 
     fileprivate var productType: ProductType?
-    fileprivate let disposeBag = DisposeBag()
 }
 
 // MARK: - Lifecycle

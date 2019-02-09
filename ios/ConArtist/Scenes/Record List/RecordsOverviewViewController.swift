@@ -51,7 +51,6 @@ class RecordsOverviewViewController : ConArtistViewController {
     fileprivate let sections = BehaviorRelay<[Section]>(value: [])
     var loading = false
 
-    fileprivate let disposeBag = DisposeBag()
     fileprivate let refreshControl = UIRefreshControl()
 
     var moreToLoad: Bool {

@@ -17,7 +17,6 @@ class NewExpenseViewController : ConArtistViewController {
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var noteLabel: UILabel!
 
-    fileprivate let disposeBag = DisposeBag()
     fileprivate var editingExpense: Expense?
     fileprivate let results = PublishSubject<(String, String, Money)>()
     fileprivate let category = BehaviorRelay<String>(value: "")

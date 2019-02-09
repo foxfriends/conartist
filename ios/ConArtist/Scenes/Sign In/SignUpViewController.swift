@@ -41,7 +41,6 @@ class SignUpViewController: ConArtistViewController {
 
     fileprivate let state = BehaviorRelay<State>(value: .name)
     fileprivate let animatingActivity = BehaviorRelay<Bool>(value: false)
-    fileprivate let disposeBag = DisposeBag()
 }
 
 // MARK: - Lifecycle
@@ -52,7 +51,6 @@ extension SignUpViewController {
         setupLocalization()
         setupUI()
         setupSubscriptions()
-        startAdjustingForKeyboard()
     }
 }
 
@@ -261,6 +259,16 @@ extension SignUpViewController {
                 )
             })
             .disposed(by: disposeBag)
+
+        rx.keyboardFrame
+            .drive(onNext: { [bottomConstraint] keyboard in
+                if let frame = keyboard.frame {
+                    bottomConstraint?.constant = frame.height
+                } else {
+                    bottomConstraint?.constant = 0
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -270,30 +278,6 @@ extension SignUpViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == passwordField { return true }
         return nextButton.isEnabled
-    }
-}
-
-// MARK: - Keyboard handling
-
-extension SignUpViewController {
-    fileprivate func startAdjustingForKeyboard() {
-        NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
-            .subscribe(onNext: { [weak self] notification in self?.adjustForKeyboard(notification: notification) })
-            .disposed(by: disposeBag)
-        NotificationCenter.default.rx.notification(UIResponder.keyboardWillChangeFrameNotification)
-            .subscribe(onNext: { [weak self] notification in self?.adjustForKeyboard(notification: notification) })
-            .disposed(by: disposeBag)
-    }
-
-    private func adjustForKeyboard(notification: Notification) {
-        let keyboardScreenEndFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
-
-        if notification.name == UIResponder.keyboardWillHideNotification {
-            bottomConstraint.constant = 0
-        } else {
-            bottomConstraint.constant = keyboardViewEndFrame.height
-        }
     }
 }
 

@@ -626,7 +626,7 @@ You should go find one you like!</string>
                                         <rect key="frame" x="20" y="10" width="335" height="40"/>
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="xww-og-l8l">
-                                                <rect key="frame" x="10" y="0.0" width="315" height="40"/>
+                                                <rect key="frame" x="10" y="0.0" width="265" height="40"/>
                                                 <color key="tintColor" name="TextPlaceholder"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="38k-Ml-j2Y"/>
@@ -635,13 +635,22 @@ You should go find one you like!</string>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert" returnKeyType="search" smartDashesType="no" smartQuotesType="no"/>
                                             </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tTh-c2-wtS">
+                                                <rect key="frame" x="285" y="0.0" width="40" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="tTh-c2-wtS" secondAttribute="height" id="jOR-uA-Qcb"/>
+                                                </constraints>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" name="BackgroundOverlay"/>
                                         <constraints>
                                             <constraint firstItem="xww-og-l8l" firstAttribute="leading" secondItem="ag8-7v-N0n" secondAttribute="leading" constant="10" id="4MN-mN-g6F"/>
                                             <constraint firstItem="xww-og-l8l" firstAttribute="top" secondItem="ag8-7v-N0n" secondAttribute="top" id="9IA-UN-X2x"/>
                                             <constraint firstAttribute="bottom" secondItem="xww-og-l8l" secondAttribute="bottom" id="H9w-ob-ucD"/>
-                                            <constraint firstAttribute="trailing" secondItem="xww-og-l8l" secondAttribute="trailing" constant="10" id="Hrd-1d-C0k"/>
+                                            <constraint firstAttribute="bottom" secondItem="tTh-c2-wtS" secondAttribute="bottom" id="Jn3-z0-pKh"/>
+                                            <constraint firstAttribute="trailing" secondItem="tTh-c2-wtS" secondAttribute="trailing" constant="10" id="SRQ-ti-SFr"/>
+                                            <constraint firstItem="tTh-c2-wtS" firstAttribute="top" secondItem="ag8-7v-N0n" secondAttribute="top" id="qtZ-kx-5ai"/>
+                                            <constraint firstItem="tTh-c2-wtS" firstAttribute="leading" secondItem="xww-og-l8l" secondAttribute="trailing" constant="10" id="vg4-m4-pQS"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -658,25 +667,100 @@ You should go find one you like!</string>
                                     <constraint firstItem="ag8-7v-N0n" firstAttribute="leading" secondItem="X6q-hQ-iIF" secondAttribute="leading" constant="20" id="YRa-6l-FLc"/>
                                 </constraints>
                             </view>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hMK-ER-hFG">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                            </button>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7fJ-th-mrL">
+                                <rect key="frame" x="0.0" y="472" width="375" height="195"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y6h-mT-0Eb">
+                                        <rect key="frame" x="162.5" y="10" width="50" height="5"/>
+                                        <color key="backgroundColor" name="Background"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="5" id="SKO-eB-dyG"/>
+                                            <constraint firstAttribute="width" constant="50" id="wiG-ht-5vn"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <real key="value" value="2.5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Country" textAlignment="natural" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="rf5-6t-YFC" customClass="FancyTextField" customModule="ConArtist" customModuleProvider="target">
+                                        <rect key="frame" x="40" y="55" width="295" height="50"/>
+                                        <color key="tintColor" name="Brand"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="STL-vH-92t"/>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="400" id="wwX-cA-Lbr"/>
+                                        </constraints>
+                                        <color key="textColor" name="Text"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardAppearance="alert" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="country-name"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="title" value="Country"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="City" textAlignment="natural" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="Hul-ha-Mxc" customClass="FancyTextField" customModule="ConArtist" customModuleProvider="target">
+                                        <rect key="frame" x="40" y="125" width="295" height="50"/>
+                                        <color key="tintColor" name="Brand"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="VJW-Qg-CqP"/>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="400" id="iCL-hS-uX6"/>
+                                        </constraints>
+                                        <color key="textColor" name="Text"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardAppearance="alert" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="address-level1+2"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="title" value="City"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </textField>
+                                </subviews>
+                                <color key="backgroundColor" name="BackgroundBottomSheet"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Hul-ha-Mxc" secondAttribute="trailing" constant="40" id="3Ej-By-JUK"/>
+                                    <constraint firstItem="rf5-6t-YFC" firstAttribute="leading" secondItem="7fJ-th-mrL" secondAttribute="leading" constant="40" id="GD9-jv-j0A"/>
+                                    <constraint firstItem="Y6h-mT-0Eb" firstAttribute="top" secondItem="7fJ-th-mrL" secondAttribute="top" constant="10" id="GcZ-Qz-XvL"/>
+                                    <constraint firstAttribute="bottom" secondItem="Hul-ha-Mxc" secondAttribute="bottom" constant="20" id="LP3-7O-31g"/>
+                                    <constraint firstItem="Hul-ha-Mxc" firstAttribute="top" secondItem="rf5-6t-YFC" secondAttribute="bottom" constant="20" id="Ub4-kh-wDe"/>
+                                    <constraint firstItem="Y6h-mT-0Eb" firstAttribute="centerX" secondItem="7fJ-th-mrL" secondAttribute="centerX" id="XQS-Jx-hG3"/>
+                                    <constraint firstAttribute="trailing" secondItem="rf5-6t-YFC" secondAttribute="trailing" constant="40" id="i4W-AZ-CJa"/>
+                                    <constraint firstItem="rf5-6t-YFC" firstAttribute="top" secondItem="Y6h-mT-0Eb" secondAttribute="bottom" constant="40" id="psY-9A-MHC"/>
+                                    <constraint firstItem="Hul-ha-Mxc" firstAttribute="leading" secondItem="7fJ-th-mrL" secondAttribute="leading" constant="40" id="uYk-1E-FVl"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="X6q-hQ-iIF" firstAttribute="top" secondItem="4BK-Te-yqp" secondAttribute="bottom" id="4c1-WV-TnF"/>
+                            <constraint firstItem="hMK-ER-hFG" firstAttribute="leading" secondItem="kKJ-mq-Cul" secondAttribute="leading" id="8Mk-cW-0sk"/>
+                            <constraint firstItem="hMK-ER-hFG" firstAttribute="top" secondItem="kKJ-mq-Cul" secondAttribute="top" id="BHT-RP-EeB"/>
                             <constraint firstAttribute="bottom" secondItem="Vdg-1t-OEL" secondAttribute="bottom" id="Bob-ht-4Kx"/>
                             <constraint firstItem="4BK-Te-yqp" firstAttribute="top" secondItem="sdO-jy-HqN" secondAttribute="top" id="G7W-si-FDs"/>
                             <constraint firstItem="kKJ-mq-Cul" firstAttribute="trailing" secondItem="Vdg-1t-OEL" secondAttribute="trailing" id="H1f-u3-Iea"/>
+                            <constraint firstItem="7fJ-th-mrL" firstAttribute="leading" secondItem="kKJ-mq-Cul" secondAttribute="leading" id="KRm-hS-jId"/>
                             <constraint firstItem="kKJ-mq-Cul" firstAttribute="trailing" secondItem="4BK-Te-yqp" secondAttribute="trailing" id="PQl-hh-Hfd"/>
                             <constraint firstItem="Vdg-1t-OEL" firstAttribute="leading" secondItem="kKJ-mq-Cul" secondAttribute="leading" id="Vek-tL-qRA"/>
+                            <constraint firstItem="7fJ-th-mrL" firstAttribute="trailing" secondItem="kKJ-mq-Cul" secondAttribute="trailing" id="Yk2-Po-fjF"/>
+                            <constraint firstItem="7fJ-th-mrL" firstAttribute="bottom" secondItem="sdO-jy-HqN" secondAttribute="bottom" id="aSy-ac-s9b"/>
+                            <constraint firstItem="hMK-ER-hFG" firstAttribute="trailing" secondItem="kKJ-mq-Cul" secondAttribute="trailing" id="aaR-nq-QDu"/>
                             <constraint firstItem="4BK-Te-yqp" firstAttribute="leading" secondItem="kKJ-mq-Cul" secondAttribute="leading" id="bxd-ou-spU"/>
                             <constraint firstItem="4BK-Te-yqp" firstAttribute="bottom" secondItem="kKJ-mq-Cul" secondAttribute="top" constant="44" id="cLq-5e-9GG"/>
                             <constraint firstItem="kKJ-mq-Cul" firstAttribute="trailing" secondItem="X6q-hQ-iIF" secondAttribute="trailing" id="dwj-Xz-D13"/>
                             <constraint firstItem="Vdg-1t-OEL" firstAttribute="top" secondItem="X6q-hQ-iIF" secondAttribute="bottom" id="jWo-Ql-ydz"/>
+                            <constraint firstItem="kKJ-mq-Cul" firstAttribute="bottom" secondItem="hMK-ER-hFG" secondAttribute="bottom" id="tUT-jC-Aqf"/>
                             <constraint firstItem="X6q-hQ-iIF" firstAttribute="leading" secondItem="kKJ-mq-Cul" secondAttribute="leading" id="zih-dr-dGN"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="kKJ-mq-Cul"/>
                     </view>
                     <connections>
+                        <outlet property="cityField" destination="Hul-ha-Mxc" id="2no-r1-Lp9"/>
                         <outlet property="conventionsTableView" destination="Vdg-1t-OEL" id="Ays-cu-voh"/>
+                        <outlet property="countryField" destination="rf5-6t-YFC" id="QDH-84-BzQ"/>
+                        <outlet property="filterBacking" destination="hMK-ER-hFG" id="Zlc-bK-wZs"/>
+                        <outlet property="filterSheet" destination="7fJ-th-mrL" id="ll7-0m-xIS"/>
+                        <outlet property="filterSheetConstraint" destination="aSy-ac-s9b" id="uyc-aP-wNv"/>
+                        <outlet property="filtersButton" destination="tTh-c2-wtS" id="hQn-U1-qiZ"/>
                         <outlet property="navBar" destination="4BK-Te-yqp" id="2GS-MH-Np2"/>
                         <outlet property="searchBarTextField" destination="xww-og-l8l" id="TII-R5-idW"/>
                     </connections>
@@ -690,11 +774,17 @@ You should go find one you like!</string>
         <namedColor name="Background">
             <color red="0.20000000298023224" green="0.20000000298023224" blue="0.20000000298023224" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <namedColor name="BackgroundBottomSheet">
+            <color red="0.33300000429153442" green="0.33300000429153442" blue="0.33300000429153442" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="BackgroundNavBar">
             <color red="0.067000001668930054" green="0.067000001668930054" blue="0.067000001668930054" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="BackgroundOverlay">
             <color red="0.0" green="0.0" blue="0.0" alpha="0.20000000298023224" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Brand">
+            <color red="0.81176470588235294" green="0.27058823529411763" blue="0.086274509803921567" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Text">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

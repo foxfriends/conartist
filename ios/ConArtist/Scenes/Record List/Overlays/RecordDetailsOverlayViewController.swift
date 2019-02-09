@@ -34,8 +34,6 @@ class RecordDetailsOverlayViewController : ConArtistViewController {
     fileprivate var after: Date?
     fileprivate var convention: Convention?
 
-    fileprivate let disposeBag = DisposeBag()
-
     fileprivate var products: [Product] {
         return record.products
             .compactMap { id in _products.value.first(where: { product in product.id == id }) }

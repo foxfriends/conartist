@@ -32,8 +32,6 @@ class SignInViewController : ConArtistViewController {
     @IBOutlet weak var termsButton: UIButton!
 
     fileprivate let errorState = PublishSubject<ErrorState>()
-    
-    let disposeBag = DisposeBag()
 }
 
 // MARK: - Lifecycle
@@ -47,7 +45,6 @@ extension SignInViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        startAdjustingForKeyboard()
         emailTextField.text = nil
         passwordTextField.text = nil
     }
@@ -144,31 +141,18 @@ extension SignInViewController {
             .asDriver(onErrorJustReturn: "An unknown error has occurred"¡)
             .drive(onNext: { [emailTextField] in emailTextField?.showTooltip(text: $0) })
             .disposed(by: disposeBag)
-    }
-}
 
-// MARK: - Keyboard handling
-extension SignInViewController {
-    fileprivate func startAdjustingForKeyboard() {
-        NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
-            .subscribe(onNext: { [weak self] notification in self?.adjustForKeyboard(notification: notification) })
+        rx.keyboardFrame
+            .drive(onNext: { [contentScrollView] keyboard in
+                if let frame = keyboard.frame {
+                    contentScrollView?.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: frame.height + 40, right: 0)
+                    contentScrollView?.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: frame.height, right: 0)
+                } else {
+                    contentScrollView?.contentInset = UIEdgeInsets.zero
+                    contentScrollView?.scrollIndicatorInsets = UIEdgeInsets.zero
+                }
+            })
             .disposed(by: disposeBag)
-        NotificationCenter.default.rx.notification(UIResponder.keyboardWillChangeFrameNotification)
-            .subscribe(onNext: { [weak self] notification in self?.adjustForKeyboard(notification: notification) })
-            .disposed(by: disposeBag)
-    }
-
-    private func adjustForKeyboard(notification: Notification) {
-        let keyboardScreenEndFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
-
-        if notification.name == UIResponder.keyboardWillHideNotification {
-            contentScrollView.contentInset = UIEdgeInsets.zero
-            contentScrollView.scrollIndicatorInsets = UIEdgeInsets.zero
-        } else {
-            contentScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height + 40, right: 0)
-            contentScrollView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height, right: 0)
-        }
     }
 }
 

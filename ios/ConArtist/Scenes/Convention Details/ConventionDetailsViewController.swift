@@ -19,8 +19,6 @@ private extension ConventionExtraInfo {
 }
 
 class ConventionDetailsViewController  : ConArtistViewController {
-    fileprivate let disposeBag = DisposeBag()
-
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var infoTableView: UITableView!
     @IBOutlet weak var newSaleButton: UIButton!

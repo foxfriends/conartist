@@ -16,7 +16,6 @@ class MapViewController : ConArtistViewController {
 
     fileprivate var location: Location!
     fileprivate var locationName: String!
-    fileprivate let disposeBag = DisposeBag()
 }
 
 // MARK: - Lifecycle

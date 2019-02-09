@@ -9,15 +9,24 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import SVGKit
 
 class ConventionSearchViewController: ConArtistViewController {
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var conventionsTableView: UITableView!
     @IBOutlet weak var searchBarTextField: UITextField!
+    @IBOutlet weak var filtersButton: UIButton!
+
+    @IBOutlet weak var countryField: FancyTextField!
+    @IBOutlet weak var cityField: FancyTextField!
+
+    @IBOutlet weak var filterSheet: UIView!
+    @IBOutlet weak var filterBacking: UIButton!
+    @IBOutlet weak var filterSheetConstraint: NSLayoutConstraint!
 
     fileprivate let conventions = BehaviorRelay<Connection<Convention>>(value: .empty)
+    fileprivate let filterSheetVisible = BehaviorRelay(value: false)
     fileprivate var reloadRequest: Disposable?
-    fileprivate let disposeBag = DisposeBag()
     fileprivate let refreshControl = UIRefreshControl()
 
     deinit {
@@ -64,6 +73,20 @@ extension ConventionSearchViewController {
 extension ConventionSearchViewController {
     fileprivate func setupUI() {
         searchBarTextField.attributedPlaceholder = "Search"¡.withColor(.textPlaceholder)
+        filtersButton.setImage(SVGKImage.tune.uiImage.withRenderingMode(.alwaysTemplate), for: .normal)
+        filtersButton.setTitleColor(.text, for: .normal)
+        filtersButton.tintColor = .text
+        filterBacking.alpha = 0
+        filterBacking.isHidden = false
+        filterBacking.isUserInteractionEnabled = false
+        filterSheetConstraint.constant = filterSheet.frame.height
+        filterSheet.layer.cornerRadius = 35
+        filterSheet.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        view.layoutIfNeeded()
+        countryField.title = "Country"¡
+        countryField.placeholder = countryField.title
+        cityField.title = "City"¡
+        cityField.placeholder = cityField.title
     }
 }
 
@@ -80,16 +103,84 @@ extension ConventionSearchViewController {
             .drive(onNext: { [conventionsTableView] _ in conventionsTableView?.reloadData() })
             .disposed(by: disposeBag)
 
-        searchBarTextField.rx.text
-            .map { $0 ?? "" }
-            .distinctUntilChanged()
+        Observable
+            .merge(
+                filterBacking.rx.tap
+                    .map { _ in false },
+                filtersButton.rx.tap
+                    .map { _ in true }
+            )
+            .do(onNext: { [view] _ in view?.endEditing(true) })
+            .bind(to: filterSheetVisible)
+            .disposed(by: disposeBag)
+
+        Driver
+            .combineLatest(
+                filterSheetVisible.asDriver(),
+                rx.keyboardFrame
+            )
+            .debounce(0)
+            .drive(onNext: { [filterSheetConstraint, filterBacking, view, filterSheet] visible, keyboard in
+                if visible {
+                    filterSheetConstraint?.constant = keyboard.frame.map { -$0.height } ?? 0
+                    UIView.animate(
+                        withDuration: keyboard.duration,
+                        delay: 0,
+                        options: keyboard.curve.asAnimationOptions,
+                        animations: {
+                            view?.layoutIfNeeded()
+                            filterBacking?.alpha = 1
+                        },
+                        completion: { _ in
+                            filterBacking?.isUserInteractionEnabled = true
+                        }
+                    )
+                } else {
+                    filterSheetConstraint?.constant = filterSheet!.frame.height
+                    filterBacking?.isUserInteractionEnabled = false
+                    UIView.animate(
+                        withDuration: keyboard.duration,
+                        delay: 0,
+                        options: keyboard.curve.asAnimationOptions,
+                        animations: {
+                            filterBacking?.alpha = 0
+                            view?.layoutIfNeeded()
+                        }
+                    )
+                }
+            })
+            .disposed(by: disposeBag)
+
+        Observable
+            .combineLatest(
+                searchBarTextField.rx.text
+                    .map { $0 ?? "" }
+                    .distinctUntilChanged(),
+                countryField.rx.text
+                    .map { ($0?.trimmingCharacters(in: .whitespacesAndNewlines)).filter { !$0.isEmpty } }
+                    .distinctUntilChanged(),
+                cityField.rx.text
+                    .map { ($0?.trimmingCharacters(in: .whitespacesAndNewlines)).filter { !$0.isEmpty } }
+                    .distinctUntilChanged()
+            )
+            .throttle(0.5, scheduler: MainScheduler.asyncInstance)
+            .map { filter, country, city in
+                var query = filter
+                if let country = country {
+                    query.append("{country:\(country)}")
+                }
+                if let city = city {
+                    query.append("{city:\(city)}")
+                }
+                return query.isEmpty ? nil : query
+            }
             .do(onNext: { [weak self] _ in
                 self?.reloadRequest?.dispose()
                 self?.reloadRequest = nil
             })
-            .flatMapLatest { filter in
+            .flatMapLatest { query in
                 ConArtist.API.GraphQL.observe(query: ConventionsConnectionQuery(
-                    search: filter.isEmpty ? nil : filter
+                    search: query
                 ))
             }
             .map { $0.conventionsConnection }

@@ -65,7 +65,6 @@ class ConventionListViewController : ConArtistViewController {
 
     fileprivate let conventions = ConArtist.model.conventions
     fileprivate let sections = BehaviorRelay<[Section]>(value: [])
-    fileprivate let disposeBag = DisposeBag()
 
     fileprivate var present: [Convention] = []
     fileprivate var past: [Convention] = []

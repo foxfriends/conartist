@@ -15,7 +15,6 @@ class NewConventionUserInfoViewController : ConArtistViewController {
     @IBOutlet weak var infoTextView: UITextView!
     @IBOutlet weak var disclaimerLabel: UILabel!
 
-    fileprivate let disposeBag = DisposeBag()
     fileprivate let results = PublishSubject<String>()
 
     deinit { results.onCompleted() }

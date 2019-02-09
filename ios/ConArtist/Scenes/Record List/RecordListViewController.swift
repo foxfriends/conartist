@@ -21,8 +21,6 @@ class RecordListViewController : ConArtistViewController {
     fileprivate var after: Date?
     fileprivate var before: Date?
 
-    fileprivate let disposeBag = DisposeBag()
-
     fileprivate let refreshControl = UIRefreshControl()
 }
 

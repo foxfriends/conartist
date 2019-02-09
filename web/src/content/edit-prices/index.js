@@ -95,7 +95,7 @@ function diff(before: Price[], after: EditablePrice[]): [Price[], (Add | Delete)
 
 export class EditPrices extends ReactX.Component<Props, State> {
   static getDerivedStateFromProps({ prices }: Props, state: State): ?$Shape<State> {
-    if (!state || state.prices.length === 0) {
+    if (!state) {
       return {
         prices: prices
           .sort(by(['typeId', Asc], ['productId', Asc, Desc], ['quantity', Asc]))

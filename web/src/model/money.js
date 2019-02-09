@@ -14,25 +14,8 @@ export type Currency
   | 'JPY'
   | 'PHP'
 
-function parseDollarsAndCents(string: string, currency: Currency, ...symbols: string[]): Money {
-  for (const symbol of symbols) {
-    if (string.startsWith(symbol)) {
-      string = string.slice(symbol.length)
-    }
-    if (string.endsWith(symbol)) {
-      string = string.slice(0, -symbol.length)
-    }
-    string = string.trim();
-  }
-  const amount = Number(string)
-  if (isNaN(amount)) {
-    throw new Error(`Money string ${string} could not be parsed as ${currency}`)
-  }
-  return new Money(currency, Math.floor(amount * 100))
-}
-
-function parseJustDollars(string: string, currency: Currency, ...symbols: string[]): Money {
-  for (const symbol of [currency, ...symbols].map(s => s.toLowerCase())) {
+function stripCurrencySymbol(string: string, ...symbols: string[]): string {
+  for (const symbol of symbols.map(s => s.toLowerCase())) {
     if (string.toLowerCase().startsWith(symbol)) {
       string = string.slice(symbol.length)
     }
@@ -41,7 +24,19 @@ function parseJustDollars(string: string, currency: Currency, ...symbols: string
     }
     string = string.trim();
   }
-  const amount = Number(string)
+  return string
+}
+
+function parseDollarsAndCents(string: string, currency: Currency, ...symbols: string[]): Money {
+  const amount = Number(stripCurrencySymbol(string, currency, ...symbols))
+  if (isNaN(amount)) {
+    throw new Error(`Money string ${string} could not be parsed as ${currency}`)
+  }
+  return new Money(currency, Math.floor(amount * 100))
+}
+
+function parseJustDollars(string: string, currency: Currency, ...symbols: string[]): Money {
+  const amount = Number(stripCurrencySymbol(string, currency, ...symbols))
   if (isNaN(amount)) {
     throw new Error(`Money string ${string} could not be parsed as ${currency}`)
   }

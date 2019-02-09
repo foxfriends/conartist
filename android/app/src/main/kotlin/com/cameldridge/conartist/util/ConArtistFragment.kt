@@ -16,6 +16,7 @@ public abstract class ConArtistFragment(@LayoutRes private val layout: Int): Fra
 
   open val title: String? get() = null
   open val menu: Int? = null
+  open val backButtonIcon: Int? = null
 
   @CallSuper
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -25,7 +26,8 @@ public abstract class ConArtistFragment(@LayoutRes private val layout: Int): Fra
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     view.findViewById<Toolbar>(R.id.toolbar)?.let { toolbar ->
       menu?.let { toolbar.inflateMenu(it) }
-      title?.let { toolbar.title = title }
+      title?.let { toolbar.title = it }
+      backButtonIcon?.let { toolbar.setNavigationIcon(it) }
     }
   }
 

@@ -90,7 +90,7 @@ class ConArtist : AppCompatActivity() {
       }
     }
 
-    fun <T: ConArtistFragment> back() {
+    fun back() {
       root.supportFragmentManager.popBackStack()
       fragments.pop()
     }

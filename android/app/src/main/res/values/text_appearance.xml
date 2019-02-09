@@ -2,6 +2,15 @@
 <resources>
     <style name="TextAppearance" />
     <style name="TextAppearance.ConArtist" />
+    <style name="TextAppearance.ConArtist.Title">
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextAppearance.ConArtist.Subtitle">
+        <item name="android:textColor">@color/text_placeholder</item>
+        <item name="android:textSize">16sp</item>
+    </style>
     <style name="TextAppearance.ConArtist.TextInput.Hint" parent="@style/TextAppearance.Design.Hint">
         <item name="android:textColor">@color/text_placeholder</item>
     </style>

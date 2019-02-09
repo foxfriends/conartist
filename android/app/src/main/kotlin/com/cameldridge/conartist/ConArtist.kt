@@ -7,6 +7,8 @@ import android.preference.PreferenceManager
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.cameldridge.conartist.R.id
+import com.cameldridge.conartist.model.ConRequest.Failure
+import com.cameldridge.conartist.model.ConRequest.Success
 import com.cameldridge.conartist.model.Model
 import com.cameldridge.conartist.model.User
 import com.cameldridge.conartist.scenes.ConventionListFragment
@@ -22,6 +24,7 @@ import com.cameldridge.conartist.util.observe
 import com.cameldridge.conartist.util.transaction
 import com.google.android.material.appbar.AppBarLayout.Behavior
 import io.reactivex.subjects.BehaviorSubject
+import java.util.Stack
 
 class ConArtist : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,46 +34,65 @@ class ConArtist : AppCompatActivity() {
 
     Storage.retrieve(StorageKey.AuthToken)?.let {
       API.authtoken = it
+      API.request.reauthorize()
+        .subscribe(
+          { result -> when (result) {
+            is Success -> authorize(result.data)
+            is Failure -> Model.signOut() // TODO: toast them here
+          } },
+          { } // TODO: show an error?
+        )
       Model.setUser(Storage.retrieve(StorageKey.CurrentUser))
       Model.loadUser()
-      supportFragmentManager.transaction {
-        replace(id.fragment_container, ConventionListFragment())
-      }
-    } ?: supportFragmentManager.transaction {
-      replace(R.id.fragment_container, SignInFragment())
-    }
+      set(ConventionListFragment())
+    } ?: set(SignInFragment())
   }
 
   companion object {
     lateinit var root: ConArtist
 
-    private lateinit var currentFragment: ConArtistFragment
+    private val fragments = Stack<ConArtistFragment>()
+
+    fun <T: ConArtistFragment> set(fragment: T) {
+      root.supportFragmentManager.transaction {
+        replace(R.id.fragment_container, fragment)
+        if (!fragments.isEmpty()) {
+          fragments.pop()
+        }
+        fragments.push(fragment)
+      }
+    }
 
     fun <T: ConArtistFragment> replace(fragment: T) {
       root.supportFragmentManager.transaction {
+        setCustomAnimations(R.anim.push, R.anim.none, R.anim.none, R.anim.pop)
         replace(R.id.fragment_container, fragment)
-        currentFragment = fragment
+        fragments.pop()
+        fragments.push(fragment)
       }
     }
 
     fun <T: ConArtistFragment> push(fragment: T) {
       root.supportFragmentManager.transaction {
-        hide(currentFragment)
+        setCustomAnimations(R.anim.push, R.anim.none, R.anim.none, R.anim.pop)
         add(R.id.fragment_container, fragment)
-        currentFragment = fragment
+        fragments.push(fragment)
+        addToBackStack(null)
       }
     }
 
     fun <T: ConArtistFragment> present(fragment: T) {
       root.supportFragmentManager.transaction {
-        hide(currentFragment)
+        setCustomAnimations(R.anim.present, R.anim.none, R.anim.none, R.anim.dismiss)
         add(R.id.fragment_container, fragment)
-        currentFragment = fragment
+        fragments.push(fragment)
+        addToBackStack(null)
       }
     }
 
     fun <T: ConArtistFragment> back() {
       root.supportFragmentManager.popBackStack()
+      fragments.pop()
     }
 
     fun authorize(authtoken: String) {

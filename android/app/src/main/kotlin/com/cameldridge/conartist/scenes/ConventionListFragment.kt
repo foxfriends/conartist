@@ -4,17 +4,24 @@ import android.os.Bundle
 import android.view.View
 import com.cameldridge.conartist.ConArtist
 import com.cameldridge.conartist.R
-import com.cameldridge.conartist.R.string
-import com.cameldridge.conartist.model.ConRequest
-import com.cameldridge.conartist.services.api.API
-import com.cameldridge.conartist.services.api.ConArtistAPI.SignIn
 import com.cameldridge.conartist.util.ConArtistFragment
-import com.jakewharton.rxbinding3.view.clicks
-import com.jakewharton.rxbinding3.widget.textChanges
-import io.reactivex.rxkotlin.Observables
+import com.jakewharton.rxbinding3.appcompat.itemClicks
 import io.reactivex.rxkotlin.addTo
-import io.reactivex.rxkotlin.withLatestFrom
-import kotlinx.android.synthetic.main.fragment_sign_in.*
+import kotlinx.android.synthetic.main.fragment_convention_list.toolbar
 
 class ConventionListFragment : ConArtistFragment(R.layout.fragment_convention_list) {
+  override val title get() = getString(R.string.Conventions)
+  override val menu = R.menu.convention_list
+
+  override fun onViewCreated(
+    view: View,
+    savedInstanceState: Bundle?
+  ) {
+    super.onViewCreated(view, savedInstanceState)
+    toolbar
+      .itemClicks()
+      .filter { it.itemId == R.id.settings_action }
+      .subscribe { ConArtist.present(SettingsFragment()) }
+      .addTo(disposeBag)
+  }
 }

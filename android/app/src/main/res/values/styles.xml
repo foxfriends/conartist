@@ -1,8 +1,10 @@
 <resources>
     <style name="ConArtist" />
 
-    <style name="ConArtist.Toolbar">
+    <style name="ConArtist.Toolbar" parent="Base.Widget.AppCompat.Toolbar">
         <item name="android:background">@color/background_toolbar</item>
+        <item name="titleTextAppearance">@style/TextAppearance.ConArtist.Title</item>
+        <item name="subtitleTextAppearance">@style/TextAppearance.ConArtist.Subtitle</item>
         <item name="android:elevation">4dp</item>
     </style>
 

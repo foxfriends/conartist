@@ -1,11 +1,14 @@
 package com.cameldridge.conartist.scenes
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.apollographql.apollo.api.Input
+import com.cameldridge.conartist.BuildConfig
 import com.cameldridge.conartist.ConArtist
 import com.cameldridge.conartist.R
 import com.cameldridge.conartist.R.string
@@ -82,6 +85,16 @@ class SignInFragment : ConArtistFragment(R.layout.fragment_sign_in) {
       .map { user -> ConArtist.signIn(user) }
       .doOnEach { processing.onNext(false) }
       .subscribe { ConArtist.replace(ConventionListFragment()) }
+      .addTo(disposeBag)
+
+    Observable
+      .merge(
+        visit_website_button.clicks().map { BuildConfig.WEB_URL },
+        terms_button.clicks().map { BuildConfig.WEB_URL + "/terms"},
+        privacy_button.clicks().map { BuildConfig.WEB_URL + "/privacy" }
+      )
+      .map { Intent(Intent.ACTION_VIEW, Uri.parse(it)) }
+      .subscribe { startActivity(it) }
       .addTo(disposeBag)
   }
 }

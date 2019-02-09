@@ -3,9 +3,9 @@ PODS:
   - Apollo (0.9.5):
     - Apollo/Core (= 0.9.5)
   - Apollo/Core (0.9.5)
-  - CocoaLumberjack (3.5.0):
-    - CocoaLumberjack/Core (= 3.5.0)
-  - CocoaLumberjack/Core (3.5.0)
+  - CocoaLumberjack (3.5.1):
+    - CocoaLumberjack/Core (= 3.5.1)
+  - CocoaLumberjack/Core (3.5.1)
   - pop (1.0.12)
   - PrettyString (0.1.2)
   - RxAlamofire (4.3.0):
@@ -68,7 +68,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
   Apollo: 19caf3246d292bbb69ecad1bd098661f78222aba
-  CocoaLumberjack: cffaa70a9336515228178e3669b71bd49d343850
+  CocoaLumberjack: 2101f8a5508197a305e737d16c5c2e9e2157628c
   pop: d582054913807fd11fd50bfe6a539d91c7e1a55a
   PrettyString: 88cd4e1b6d756718d4fb4dc55ca2ac53aaee3550
   RxAlamofire: 09624d0f2d48ed8b686e4eb4cf68e28cbd2df556

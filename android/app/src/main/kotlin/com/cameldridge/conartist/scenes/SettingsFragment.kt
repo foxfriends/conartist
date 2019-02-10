@@ -1,21 +1,16 @@
 package com.cameldridge.conartist.scenes
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ListAdapter
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.Recycler
 import com.cameldridge.conartist.ConArtist
 import com.cameldridge.conartist.R
+import com.cameldridge.conartist.model.Model
+import com.cameldridge.conartist.scenes.SettingsFragment.Action.*
 import com.cameldridge.conartist.util.ConArtistFragment
 import com.cameldridge.conartist.util.RecyclerViewAdaptor
-import com.jakewharton.rxbinding3.appcompat.itemClicks
 import com.jakewharton.rxbinding3.appcompat.navigationClicks
 import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_convention_list.toolbar
@@ -26,11 +21,19 @@ class SettingsFragment : ConArtistFragment(R.layout.fragment_settings) {
   override val title get() = getString(R.string.Settings)
   override val backButtonIcon = R.drawable.ic_close
 
-  private sealed class SettingsItem(@LayoutRes layout: Int): RecyclerViewAdaptor.Item(layout) {
-    class Heading(@StringRes val title: Int): SettingsItem(R.layout.item_settings_heading) {
-      override fun setup(view: View) {
-        view.title_label.setText(title)
-      }
+  private final enum class Action {
+    SignOut;
+  }
+
+  private sealed class Item(@LayoutRes layout: Int): RecyclerViewAdaptor.Item(layout) {
+    final class Heading(@StringRes val title: Int): Item(R.layout.item_settings_heading) {
+      override fun setup(view: View)
+        = view.title_label.setText(title)
+    }
+    final class Button(val title: String, val action: Action): Item(R.layout.item_settings_button) {
+      override val clickable = true
+      override fun setup(view: View)
+        = view.title_label.setText(title)
     }
   }
 
@@ -42,17 +45,24 @@ class SettingsFragment : ConArtistFragment(R.layout.fragment_settings) {
       .addTo(disposeBag)
 
     val settingsOptions = listOf(
-      SettingsItem.Heading(R.string.Products),
-      SettingsItem.Heading(R.string.General),
-      SettingsItem.Heading(R.string.Account),
-      SettingsItem.Heading(R.string.Support),
-      SettingsItem.Heading(R.string.About)
+      Item.Heading(R.string.Products),
+      Item.Heading(R.string.General),
+      Item.Heading(R.string.Account),
+      Item.Button(getString(R.string.Sign_out), SignOut),
+      Item.Heading(R.string.Support),
+      Item.Heading(R.string.About)
     )
 
-    settings_list.adapter = RecyclerViewAdaptor(settingsOptions)
+    val adaptor = RecyclerViewAdaptor(settingsOptions)
+    settings_list.adapter = adaptor
     settings_list.setHasFixedSize(true)
     settings_list.layoutManager = LinearLayoutManager(context)
-  }
 
-  final enum class SettingsListItem
+    adaptor.itemClicks
+      .map { (settingsOptions[it] as Item.Button).action }
+      .subscribe{ when (it!!) {
+        SignOut -> ConArtist.signOut()
+      }}
+      .addTo(disposeBag)
+  }
 }

@@ -31,4 +31,9 @@ object Storage {
   fun <T> retrieve(key: StorageKey<T>): T? = prefs
     .getString(key.name, null)
     ?.let { JSON.converter.adapter(key.TClass).fromJson(it) }
+
+  fun <T> remove(key: StorageKey<T>) = prefs
+    .edit()
+    .remove(key.name)
+    .apply()
 }

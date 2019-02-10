@@ -10,7 +10,7 @@
 
         <item name="colorControlNormal">@color/text_placeholder</item>
         <item name="colorControlActivated">@color/brand</item>
-        <item name="colorControlHighlight">@color/brand_variant</item>
+        <item name="colorControlHighlight">@color/brand</item>
 
         <item name="android:textColor">@color/text</item>
         <item name="android:textColorHint">@color/text_placeholder</item>

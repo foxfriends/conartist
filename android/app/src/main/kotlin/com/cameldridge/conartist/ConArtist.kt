@@ -2,6 +2,7 @@ package com.cameldridge.conartist
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import com.cameldridge.conartist.R.color
 import com.cameldridge.conartist.model.ConRequest.Failure
 import com.cameldridge.conartist.model.ConRequest.Success
@@ -12,11 +13,14 @@ import com.cameldridge.conartist.services.Storage
 import com.cameldridge.conartist.services.StorageKey
 import com.cameldridge.conartist.services.api.API
 import com.cameldridge.conartist.util.ConArtistFragment
+import com.cameldridge.conartist.util.Option.None
 import com.cameldridge.conartist.util.prettystring.Attribute.TextColor
 import com.cameldridge.conartist.util.prettystring.Config
 import com.cameldridge.conartist.util.prettystring.Rule
 import com.cameldridge.conartist.util.extension.transaction
 import java.util.Stack
+import java.util.Timer
+import kotlin.concurrent.schedule
 
 class ConArtist : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +37,7 @@ class ConArtist : AppCompatActivity() {
         .subscribe(
           { result -> when (result) {
             is Success -> authorize(result.data)
-            is Failure -> Model.signOut() // TODO: toast them here
+            is Failure -> ConArtist.signOut() // TODO: toast them here
           } },
           { } // TODO: show an error?
         )
@@ -55,6 +59,8 @@ class ConArtist : AppCompatActivity() {
 
     private val fragments = Stack<ConArtistFragment>()
 
+    private val backstackName get() = "${root.supportFragmentManager.backStackEntryCount}"
+
     fun <T: ConArtistFragment> set(fragment: T) {
       root.supportFragmentManager.transaction {
         replace(R.id.fragment_container, fragment)
@@ -66,35 +72,50 @@ class ConArtist : AppCompatActivity() {
     }
 
     fun <T: ConArtistFragment> replace(fragment: T) {
+      val toRemove = fragments.pop()
       root.supportFragmentManager.transaction {
-        setCustomAnimations(R.anim.push, R.anim.none, R.anim.none, R.anim.pop)
-        replace(R.id.fragment_container, fragment)
-        fragments.pop()
-        fragments.push(fragment)
+        setCustomAnimations(R.anim.push, R.anim.leave, R.anim.come_back, R.anim.pop)
+        hide(toRemove)
+        add(R.id.fragment_container, fragments.push(fragment))
+      }
+      // Remove the fragment after the transition is completed.
+      // This is kind of a hack, but whatever.
+      Timer().schedule(500) {
+        root.supportFragmentManager.transaction {
+          remove(toRemove)
+        }
       }
     }
 
     fun <T: ConArtistFragment> push(fragment: T) {
       root.supportFragmentManager.transaction {
-        setCustomAnimations(R.anim.push, R.anim.none, R.anim.none, R.anim.pop)
-        add(R.id.fragment_container, fragment)
-        fragments.push(fragment)
-        addToBackStack(null)
+        setCustomAnimations(R.anim.push, R.anim.leave, R.anim.come_back, R.anim.pop)
+        hide(fragments.peek())
+        add(R.id.fragment_container, fragments.push(fragment))
+        addToBackStack(backstackName)
       }
     }
 
     fun <T: ConArtistFragment> present(fragment: T) {
       root.supportFragmentManager.transaction {
-        setCustomAnimations(R.anim.present, R.anim.none, R.anim.none, R.anim.dismiss)
-        add(R.id.fragment_container, fragment)
-        fragments.push(fragment)
-        addToBackStack(null)
+        setCustomAnimations(R.anim.present, R.anim.fly, R.anim.fall, R.anim.dismiss)
+        hide(fragments.peek())
+        add(R.id.fragment_container, fragments.push(fragment))
+        addToBackStack(backstackName)
       }
     }
 
     fun back() {
       root.supportFragmentManager.popBackStack()
       fragments.pop()
+    }
+
+    fun signOut() {
+      root.supportFragmentManager.popBackStack("0", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+      set(SignInFragment())
+      Model.setUser(null)
+      Storage.remove(StorageKey.AuthToken)
+      API.authtoken = API.UNAUTHORIZED
     }
 
     fun authorize(authtoken: String) {

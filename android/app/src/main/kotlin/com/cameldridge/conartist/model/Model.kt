@@ -1,5 +1,6 @@
 package com.cameldridge.conartist.model
 
+import com.cameldridge.conartist.ConArtist
 import com.cameldridge.conartist.services.api.API
 import com.cameldridge.conartist.services.api.graphql.query.FullUserQuery
 import com.cameldridge.conartist.util.Option
@@ -21,6 +22,4 @@ object Model {
     .map { it.user.fragments.fullUserFragment }
     .map { User.fromFragment(it) }
     .doAfterSuccess { _user.onNext(it.asOption) }
-
-  fun signOut(): Unit = _user.onNext(None())
 }

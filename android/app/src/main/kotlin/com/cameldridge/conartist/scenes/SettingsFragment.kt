@@ -5,9 +5,8 @@ import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cameldridge.conartist.ConArtist
+import com.cameldridge.conartist.ConArtistActivity
 import com.cameldridge.conartist.R
-import com.cameldridge.conartist.model.Model
 import com.cameldridge.conartist.scenes.SettingsFragment.Action.*
 import com.cameldridge.conartist.util.ConArtistFragment
 import com.cameldridge.conartist.util.RecyclerViewAdaptor
@@ -41,7 +40,7 @@ class SettingsFragment : ConArtistFragment(R.layout.fragment_settings) {
     super.onViewCreated(view, savedInstanceState)
     toolbar
       .navigationClicks()
-      .subscribe { ConArtist.back() }
+      .subscribe { ConArtistActivity.back() }
       .addTo(disposeBag)
 
     val settingsOptions = listOf(
@@ -61,7 +60,7 @@ class SettingsFragment : ConArtistFragment(R.layout.fragment_settings) {
     adaptor.itemClicks
       .map { (settingsOptions[it] as Item.Button).action }
       .subscribe{ when (it!!) {
-        SignOut -> ConArtist.signOut()
+        SignOut -> ConArtistActivity.signOut()
       }}
       .addTo(disposeBag)
   }

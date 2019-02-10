@@ -1,6 +1,5 @@
 package com.cameldridge.conartist.model
 
-import com.cameldridge.conartist.ConArtist
 import com.cameldridge.conartist.services.api.API
 import com.cameldridge.conartist.services.api.graphql.query.FullUserQuery
 import com.cameldridge.conartist.util.Option

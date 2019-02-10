@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import com.cameldridge.conartist.BuildConfig
 import com.cameldridge.conartist.ConArtist
+import com.cameldridge.conartist.ConArtistActivity
 import com.cameldridge.conartist.R
 import com.cameldridge.conartist.R.string
 import com.cameldridge.conartist.model.ConRequest
@@ -19,10 +20,12 @@ import com.cameldridge.conartist.util.prettystring.prettify
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.Observable
+import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.withLatestFrom
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 
@@ -51,6 +54,7 @@ class SignInFragment : ConArtistFragment(R.layout.fragment_sign_in) {
     sign_in_button.clicks()
       .withLatestFrom(email, password)
       .doOnEach { processing.onNext(true) }
+      .observeOn(Schedulers.io())
       .switchMap { (_, email, password) -> API.request
         .signIn(SignIn(email.toString(), password.toString()))
         .observeOn(AndroidSchedulers.mainThread())
@@ -69,6 +73,7 @@ class SignInFragment : ConArtistFragment(R.layout.fragment_sign_in) {
           Observable.empty()
         }
       }}
+      .observeOn(Schedulers.io())
       .switchMap { _ -> Model.loadUser()
         .toObservable()
         .observeOn(AndroidSchedulers.mainThread())
@@ -80,7 +85,7 @@ class SignInFragment : ConArtistFragment(R.layout.fragment_sign_in) {
         }
       }
       .doOnEach { processing.onNext(false) }
-      .subscribe { ConArtist.replace(ConventionListFragment()) }
+      .subscribe { ConArtistActivity.replace(ConventionListFragment()) }
       .addTo(disposeBag)
 
     Observable

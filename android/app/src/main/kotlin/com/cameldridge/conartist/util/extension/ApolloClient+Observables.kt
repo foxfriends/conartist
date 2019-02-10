@@ -11,4 +11,3 @@ fun <D: Operation.Data, T, V: Operation.Variables> ApolloClient.observe(query: Q
   .from(query(query))
   .singleOrError()
   .map { it.data() }
-  .observeOn(AndroidSchedulers.mainThread())

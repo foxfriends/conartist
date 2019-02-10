@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.cameldridge.conartist">
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.cameldridge.conartist">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name="ConArtist"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/ConArtist"
         android:supportsRtl="true"
         android:theme="@style/Theme.ConArtist.NoActionBar">
-        <activity android:name="ConArtist">
+        <activity android:name="ConArtistActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />

@@ -3,7 +3,6 @@ package com.cameldridge.conartist
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
-import com.cameldridge.conartist.R.color
 import com.cameldridge.conartist.model.ConRequest.Failure
 import com.cameldridge.conartist.model.ConRequest.Success
 import com.cameldridge.conartist.model.Model
@@ -35,8 +34,8 @@ class ConArtist : AppCompatActivity() {
       API.authtoken = it
       API.request.reauthorize()
         .subscribe(
-          { result -> when (result) {
-            is Success -> authorize(result.data)
+          { when (it) {
+            is Success -> authorize(it.data)
             is Failure -> ConArtist.signOut() // TODO: toast them here
           } },
           { } // TODO: show an error?
@@ -49,8 +48,8 @@ class ConArtist : AppCompatActivity() {
 
   private fun configPrettyString() {
     Config.default = Config(
-      listOf(),
-      listOf(Rule("action", listOf(TextColor(getColor(color.brand)))))
+      listOf(TextColor(getColor(R.color.text))),
+      listOf(Rule("action", listOf(TextColor(getColor(R.color.text_action)))))
     )
   }
 

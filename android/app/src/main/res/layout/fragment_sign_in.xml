@@ -85,6 +85,7 @@
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sign_in_button"
+            app:layout_constraintHorizontal_weight="2"
             style="@style/ConArtist.Button.Secondary" />
         <Button
             android:id="@+id/sign_up_button"
@@ -96,6 +97,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/visit_website_button"
             app:layout_constraintTop_toBottomOf="@+id/sign_in_button"
+            app:layout_constraintHorizontal_weight="1"
             style="@style/ConArtist.Button.Secondary" />
         <Button
             android:id="@+id/terms_button"

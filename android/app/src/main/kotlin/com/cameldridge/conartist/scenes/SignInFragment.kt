@@ -55,7 +55,7 @@ class SignInFragment : ConArtistFragment(R.layout.fragment_sign_in) {
         .signIn(SignIn(email.toString(), password.toString()))
         .observeOn(AndroidSchedulers.mainThread())
         .toObservable()
-        .onErrorResumeNext { error: Throwable ->
+        .onErrorResumeNext { _: Throwable ->
           Toast.makeText(context, R.string.An_unknown_error_has_occurred, Toast.LENGTH_SHORT).show()
           processing.onNext(false)
           Observable.empty<ConRequest<String>>()

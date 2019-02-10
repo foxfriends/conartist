@@ -256,6 +256,7 @@ Country = "国家"
 Remove = "Remove"
 
 # Settings
+About = "TODO: translate"
 "Privacy Policy" = "隐私政策"
 "Terms of Service" = "服务条款"
 Version = { ios = "版本: {light:{}}", web = "版本" }

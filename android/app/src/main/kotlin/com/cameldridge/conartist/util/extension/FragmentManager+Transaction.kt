@@ -1,4 +1,4 @@
-package com.cameldridge.conartist.util
+package com.cameldridge.conartist.util.extension
 
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction

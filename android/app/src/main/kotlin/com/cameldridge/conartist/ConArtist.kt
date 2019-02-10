@@ -1,36 +1,31 @@
 package com.cameldridge.conartist
 
-import android.app.Activity
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.cameldridge.conartist.R.id
+import com.cameldridge.conartist.R.color
 import com.cameldridge.conartist.model.ConRequest.Failure
 import com.cameldridge.conartist.model.ConRequest.Success
 import com.cameldridge.conartist.model.Model
-import com.cameldridge.conartist.model.User
 import com.cameldridge.conartist.scenes.ConventionListFragment
 import com.cameldridge.conartist.scenes.SignInFragment
 import com.cameldridge.conartist.services.Storage
 import com.cameldridge.conartist.services.StorageKey
 import com.cameldridge.conartist.services.api.API
-import com.cameldridge.conartist.services.api.graphql.query.FullUserQuery
 import com.cameldridge.conartist.util.ConArtistFragment
-import com.cameldridge.conartist.util.Option
-import com.cameldridge.conartist.util.asOption
-import com.cameldridge.conartist.util.observe
-import com.cameldridge.conartist.util.transaction
-import com.google.android.material.appbar.AppBarLayout.Behavior
-import io.reactivex.subjects.BehaviorSubject
+import com.cameldridge.conartist.util.prettystring.Attribute.TextColor
+import com.cameldridge.conartist.util.prettystring.Config
+import com.cameldridge.conartist.util.prettystring.Rule
+import com.cameldridge.conartist.util.extension.transaction
 import java.util.Stack
 
 class ConArtist : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     root = this
+
     setContentView(R.layout.activity_con_artist)
+
+    configPrettyString()
 
     Storage.retrieve(StorageKey.AuthToken)?.let {
       API.authtoken = it
@@ -46,6 +41,13 @@ class ConArtist : AppCompatActivity() {
       Model.loadUser()
       set(ConventionListFragment())
     } ?: set(SignInFragment())
+  }
+
+  private fun configPrettyString() {
+    Config.default = Config(
+      listOf(),
+      listOf(Rule("action", listOf(TextColor(getColor(color.brand)))))
+    )
   }
 
   companion object {

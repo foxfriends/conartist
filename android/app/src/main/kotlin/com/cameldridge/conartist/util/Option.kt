@@ -5,7 +5,7 @@ val <T> T?.asOption get(): Option<T> = if (this == null) { Option.None() } else 
 sealed class Option<out T> {
   final class EmptyException(): Exception()
 
-  final class Some<T>(val value: T): Option<T>()
+  final data class Some<T>(val value: T): Option<T>()
   final class None<T>(): Option<T>()
 
   fun <U> map(transform: (T) -> U): Option<U> = when (this) {

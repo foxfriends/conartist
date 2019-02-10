@@ -40,6 +40,7 @@ If you are just making a general feature request, you can use the \"Make a Sugge
 </string>
   <string name="_Verify_Account_Failed_">We couldn\'t verify your account right now. Maybe you should try again\?</string>
   <string name="_Verify_Account_Successful_">Your account is now secured. Welcome to ConArtist.</string>
+  <string name="About">About</string>
   <string name="Account">Account</string>
   <string name="Add">Add</string>
   <string name="Address">Address</string>

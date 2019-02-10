@@ -3,11 +3,8 @@ package com.cameldridge.conartist.scenes
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import com.apollographql.apollo.api.Input
 import com.cameldridge.conartist.BuildConfig
 import com.cameldridge.conartist.ConArtist
 import com.cameldridge.conartist.R
@@ -17,9 +14,8 @@ import com.cameldridge.conartist.model.Model
 import com.cameldridge.conartist.model.User
 import com.cameldridge.conartist.services.api.API
 import com.cameldridge.conartist.services.api.ConArtistAPI.SignIn
-import com.cameldridge.conartist.services.api.graphql.query.FullUserQuery
 import com.cameldridge.conartist.util.ConArtistFragment
-import com.cameldridge.conartist.util.observe
+import com.cameldridge.conartist.util.prettystring.prettify
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.Observable
@@ -31,12 +27,14 @@ import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 
 class SignInFragment : ConArtistFragment(R.layout.fragment_sign_in) {
-  private class SignInError(message: String) : Throwable(message)
+  private class SignInError(message: String) : Exception(message)
 
   private val processing = BehaviorSubject.createDefault(false)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
+
+    visit_website_button.text = getString(R.string.Visit_conartist_app).prettify()
 
     val email = email_field.textChanges().share()
     val password = password_field.textChanges().share()

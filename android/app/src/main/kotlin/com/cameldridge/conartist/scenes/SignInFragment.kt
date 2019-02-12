@@ -90,8 +90,8 @@ class SignInFragment : ConArtistFragment(R.layout.fragment_sign_in) {
     Observable
       .merge(
         visit_website_button.clicks().map { BuildConfig.WEB_URL },
-        terms_button.clicks().map { BuildConfig.WEB_URL + "/terms"},
-        privacy_button.clicks().map { BuildConfig.WEB_URL + "/privacy" }
+        terms_button.clicks().map { BuildConfig.TERMS_URL },
+        privacy_button.clicks().map { BuildConfig.PRIVACY_URL }
       )
       .map { Intent(Intent.ACTION_VIEW, Uri.parse(it)) }
       .subscribe { startActivity(it) }

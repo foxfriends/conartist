@@ -176,7 +176,7 @@ Settings = "Settings"
 Support = "Support"
 "Privacy Policy" = "Privacy Policy"
 "Terms of Service" = "Terms of Service"
-Version = { ios = "Version: {light:{}}", web = "Version", android = "Version" }
+Version = { ios = "Version: {light:{}}", web = "Version", android = "Version: {light:{}}" }
 "Email: {}" = "Email: {light:{}}"
 "Contact Support" = { ios = "Contact Support: {light:{}}", web = "Contact Support", android = "Contact Support" }
 "<Support description>" = """

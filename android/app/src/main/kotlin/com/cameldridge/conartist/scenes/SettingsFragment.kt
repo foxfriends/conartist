@@ -1,6 +1,8 @@
 package com.cameldridge.conartist.scenes
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.DrawableRes
@@ -8,6 +10,7 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.cameldridge.conartist.BuildConfig
 import com.cameldridge.conartist.ConArtistActivity
 import com.cameldridge.conartist.R
 import com.cameldridge.conartist.model.Model
@@ -30,7 +33,9 @@ class SettingsFragment : ConArtistFragment(R.layout.fragment_settings) {
 
   private final enum class Action {
     VerifyEmail,
-    SignOut;
+    SignOut,
+    PrivacyPolicy,
+    TermsOfService;
   }
 
   private sealed class Item(@LayoutRes layout: Int): RecyclerViewAdaptor.Item(layout) {
@@ -75,7 +80,10 @@ class SettingsFragment : ConArtistFragment(R.layout.fragment_settings) {
           },
         Item.Button(getString(R.string.Sign_out), SignOut),
         Item.Heading(R.string.Support),
-        Item.Heading(R.string.About)
+        Item.Heading(R.string.About),
+        Item.Info(getString(R.string.Version).format(BuildConfig.VERSION_NAME).prettify()),
+        Item.Button(getString(R.string.Privacy_Policy), PrivacyPolicy),
+        Item.Button(getString(R.string.Terms_of_Service), TermsOfService)
       ) }
       .bindTo(adaptor)
       .addTo(disposeBag)
@@ -88,6 +96,8 @@ class SettingsFragment : ConArtistFragment(R.layout.fragment_settings) {
       .subscribe{ when (it!!) {
         SignOut -> ConArtistActivity.signOut()
         VerifyEmail -> API.request.resendVerificationEmail().subscribe()
+        PrivacyPolicy -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.PRIVACY_URL)))
+        TermsOfService -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.TERMS_URL)))
       }}
       .addTo(disposeBag)
   }

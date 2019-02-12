@@ -20,6 +20,8 @@ android {
       buildConfigField "String", "API_URL", "\"https://api.conartist.app\""
       buildConfigField "String", "GRAPH_URL", "\"https://graph.conartist.app\""
       buildConfigField "String", "WEB_URL", "\"https://conartist.app\""
+      buildConfigField "String", "PRIVACY_URL", "\"https://conartist.app/privacy\""
+      buildConfigField "String", "TERMS_URL", "\"https://conartist.app/terms\""
     }
     debug {
       minifyEnabled false
@@ -28,6 +30,8 @@ android {
       buildConfigField "String", "API_URL", "\"https://api.staging.conartist.app\""
       buildConfigField "String", "GRAPH_URL", "\"https://graph.staging.conartist.app\""
       buildConfigField "String", "WEB_URL", "\"https://staging.conartist.app\""
+      buildConfigField "String", "PRIVACY_URL", "\"https://staging.conartist.app/privacy\""
+      buildConfigField "String", "TERMS_URL", "\"https://staging.conartist.app/terms\""
     }
   }
   sourceSets {

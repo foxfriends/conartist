@@ -242,7 +242,7 @@ If you are just making a general feature request, you can use the \"Make a Sugge
   <string name="Upvote">Upvote</string>
   <string name="Use_lots_of_details__Make_sure_we_know_what_you_want_">Use lots of details. Make sure we know what you want!</string>
   <string name="Verification_email_sent">Verification email sent</string>
-  <string name="Version">Version</string>
+  <string name="Version">Version: {light:%1$s}</string>
   <string name="View">View</string>
   <string name="View_on_map">View on map</string>
   <string name="View_records">View records</string>

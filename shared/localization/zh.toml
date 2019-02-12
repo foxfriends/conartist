@@ -259,7 +259,7 @@ Remove = "Remove"
 About = "TODO: translate"
 "Privacy Policy" = "隐私政策"
 "Terms of Service" = "服务条款"
-Version = { ios = "版本: {light:{}}", web = "版本" }
+Version = { ios = "版本: {light:{}}", web = "版本", android = "版本: {light:{}}" }
 "Contact Support" = { ios = "联系支持: {light:{}}", web = "联系支持" }
 "<Support description>" = "TODO: translate"
 "Support Us on Ko-fi" = "在Ko-fi上支持我们"

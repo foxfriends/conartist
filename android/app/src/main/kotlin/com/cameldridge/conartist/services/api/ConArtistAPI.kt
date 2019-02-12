@@ -1,6 +1,7 @@
 package com.cameldridge.conartist.services.api
 
 import com.cameldridge.conartist.model.ConRequest
+import com.cameldridge.conartist.util.Null
 import io.reactivex.Single
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -23,5 +24,5 @@ interface ConArtistAPI {
   fun accountExists(@Path("email") email: String): Single<ConRequest<Boolean>>
 
   @POST("/account/resend-verification")
-  fun resendVerificationEmail(): Single<ConRequest<Unit>>
+  fun resendVerificationEmail(): Single<ConRequest<Null>>
 }

@@ -1,7 +1,9 @@
 package com.cameldridge.conartist.services
 
 import android.app.Activity
+import android.util.Log
 import com.cameldridge.conartist.ConArtist
+import com.squareup.moshi.JsonDataException
 
 object Storage {
   private val prefs get() = ConArtist.context.get()!!
@@ -14,8 +16,15 @@ object Storage {
 
   fun <T> retrieve(key: StorageKey<T>): T? = prefs
     .getString(key.name, null)
-    ?.let { JSON.converter.adapter(key.TClass).fromJson(it) }
-
+    ?.let {
+      try {
+        JSON.converter.adapter(key.TClass).fromJson(it)
+      } catch (e: JsonDataException) {
+        Log.d("Storage.retrieve", e.message)
+        remove(key)
+        null
+      }
+    }
   fun <T> remove(key: StorageKey<T>) = prefs
     .edit()
     .remove(key.name)

@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.cameldridge.conartist.R
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.PublishSubject
 
 public abstract class ConArtistFragment(@LayoutRes private val layout: Int): Fragment() {
   protected val disposeBag = CompositeDisposable() // TODO: should this be in onCreate?

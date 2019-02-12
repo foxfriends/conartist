@@ -1,6 +1,10 @@
 package com.cameldridge.conartist
 
+import android.graphics.Typeface
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import com.cameldridge.conartist.model.ConRequest.Failure
@@ -16,6 +20,9 @@ import com.cameldridge.conartist.util.prettystring.Attribute.TextColor
 import com.cameldridge.conartist.util.prettystring.Config
 import com.cameldridge.conartist.util.prettystring.Rule
 import com.cameldridge.conartist.util.extension.transaction
+import com.cameldridge.conartist.util.prettystring.Attribute.TextStyle
+import kotlinx.android.synthetic.main.item_toast.toast_container
+import kotlinx.android.synthetic.main.item_toast.view.title_label
 import java.lang.ref.WeakReference
 import java.util.Stack
 import java.util.Timer
@@ -36,12 +43,15 @@ class ConArtistActivity : AppCompatActivity() {
         .subscribe(
           { when (it) {
             is Success -> ConArtist.authorize(it.data)
-            is Failure -> ConArtistActivity.signOut() // TODO: toast them here
+            is Failure -> {
+              ConArtist.signOut()
+              showToast(R.string.Uh_oh__You_have_been_logged_out_)
+            } // TODO: toast them here
           } },
           { } // TODO: show an error?
         )
       Model.setUser(Storage.retrieve(StorageKey.CurrentUser))
-      Model.loadUser()
+      Model.loadUser().subscribe()
       set(ConventionListFragment())
     } ?: set(SignInFragment())
   }
@@ -49,8 +59,23 @@ class ConArtistActivity : AppCompatActivity() {
   private fun configPrettyString() {
     Config.default = Config(
       listOf(TextColor(getColor(R.color.text))),
-      listOf(Rule("action", listOf(TextColor(getColor(R.color.text_action)))))
+      listOf(
+        Rule("action", listOf(TextColor(getColor(R.color.text_action)))),
+        Rule("light", listOf(
+          TextColor(getColor(R.color.text_placeholder)),
+          TextStyle(Typeface.NORMAL)
+        ))
+      )
     )
+  }
+
+  fun showToast(@StringRes message: Int) {
+    val view = LayoutInflater.from(this).inflate(R.layout.item_toast, toast_container)
+    view.title_label.setText(message)
+    val toast = Toast(this)
+    toast.view = view
+    toast.duration = Toast.LENGTH_SHORT
+    toast.show()
   }
 
   companion object {

@@ -236,7 +236,7 @@ If you are just making a general feature request, you can use the \"Make a Sugge
   <string name="Today_s_hours">Today\'s hours</string>
   <string name="Total">Total</string>
   <string name="Type">Type</string>
-  <string name="Uh_oh__You_have_been_logged_out_">Uh oh. You have been logged out!</string>
+  <string name="Uh_oh__You_have_been_logged_out_">Uh oh. You have been signed out!</string>
   <string name="Unknown">Unknown</string>
   <string name="Upcoming">Upcoming</string>
   <string name="Upvote">Upvote</string>

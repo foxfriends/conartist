@@ -4,6 +4,7 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.response.CustomTypeAdapter
 import com.apollographql.apollo.response.CustomTypeValue
 import com.cameldridge.conartist.BuildConfig
+import com.cameldridge.conartist.Constants.RFC3339
 import com.cameldridge.conartist.model.ConRequest
 import com.cameldridge.conartist.model.ConRequest.Failure
 import com.cameldridge.conartist.model.ConRequest.Success
@@ -49,7 +50,7 @@ object API {
     .addInterceptor(authInterceptor)
     .build()
 
-  class DateAdaptor(format: String): CustomTypeAdapter<Date> {
+  private final class DateAdaptor(format: String): CustomTypeAdapter<Date> {
     private val format = SimpleDateFormat(format, Locale.US)
 
     override fun decode(value: CustomTypeValue<Any>): Date
@@ -58,21 +59,21 @@ object API {
       = CustomTypeValue.GraphQLString(format.format(value))
   }
 
-  object MoneyAdaptor: CustomTypeAdapter<Money> {
+  private object MoneyAdaptor: CustomTypeAdapter<Money> {
     override fun decode(value: CustomTypeValue<Any>)
       = Money.fromJSON(value.value.toString())
     override fun encode(value: Money): CustomTypeValue<String>
       = CustomTypeValue.GraphQLString(value.toJSON())
   }
 
-  object CurrencyAdaptor: CustomTypeAdapter<Currency> {
+  private object CurrencyAdaptor: CustomTypeAdapter<Currency> {
     override fun decode(value: CustomTypeValue<Any>)
       = Currency.valueOf(value.value.toString())
     override fun encode(value: Currency): CustomTypeValue<String>
       = CustomTypeValue.GraphQLString(value.name)
   }
 
-  object UUIDAdaptor: CustomTypeAdapter<UUID> {
+  private object UUIDAdaptor: CustomTypeAdapter<UUID> {
     override fun decode(value: CustomTypeValue<Any>)
       = UUID.fromString(value.value.toString())
     override fun encode(value: UUID): CustomTypeValue<String>
@@ -90,9 +91,9 @@ object API {
   val graphql: ApolloClient = ApolloClient.builder()
     .serverUrl(BuildConfig.GRAPH_URL)
     .okHttpClient(client)
-    .addCustomTypeAdapter(CustomType.DATETIMEFIXEDOFFSET, DateAdaptor("yyyy-MM-dd'T'HH:mm:ssXXX"))
-    .addCustomTypeAdapter(CustomType.DATETIMEUTC, DateAdaptor("yyyy-MM-dd'T'HH:mm:ssXXX"))
-    .addCustomTypeAdapter(CustomType.NAIVEDATE, DateAdaptor("yyyy-MM-dd'T'HH:mm:ssXXX"))
+    .addCustomTypeAdapter(CustomType.DATETIMEFIXEDOFFSET, DateAdaptor(RFC3339))
+    .addCustomTypeAdapter(CustomType.DATETIMEUTC, DateAdaptor(RFC3339))
+    .addCustomTypeAdapter(CustomType.NAIVEDATE, DateAdaptor(RFC3339))
     .addCustomTypeAdapter(CustomType.CURRENCY, CurrencyAdaptor)
     .addCustomTypeAdapter(CustomType.MONEY, MoneyAdaptor)
     .addCustomTypeAdapter(CustomType.UUID, UUIDAdaptor)

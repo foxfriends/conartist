@@ -1,14 +1,12 @@
-package com.cameldridge.conartist.util
+package com.cameldridge.conartist.util.recyclerview
 
-import android.content.Context
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.cameldridge.conartist.R
+import com.cameldridge.conartist.util.recyclerview.RecyclerViewAdaptor.ViewHolder
 import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -16,14 +14,16 @@ import io.reactivex.rxkotlin.addTo
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_base.view.content_view
 
-class RecyclerViewAdaptor<Item: RecyclerViewAdaptor.Item>(val dataSource: List<Item>): RecyclerView.Adapter<RecyclerViewAdaptor.ViewHolder>() {
+class RecyclerViewAdaptor<Item: RecyclerViewAdaptor.Item>(var dataSource: List<Item> = listOf()): RecyclerView.Adapter<ViewHolder>() {
+  private var disposeBag = CompositeDisposable()
+
   open class Item(@LayoutRes val layout: Int) {
     open fun setup(view: View) {}
     open val clickable: Boolean = false
   }
 
-  private val _itemClicks = PublishSubject.create<Int>()
-  val itemClicks get(): Observable<Int> = _itemClicks
+  private val _itemClicks = PublishSubject.create<Item>()
+  val itemClicks get(): Observable<Item> = _itemClicks
 
   class ViewHolder(
     parent: ViewGroup
@@ -57,7 +57,7 @@ class RecyclerViewAdaptor<Item: RecyclerViewAdaptor.Item>(val dataSource: List<I
       holder.itemView
         .clicks()
         .map { position }
-        .subscribe { _itemClicks.onNext(it) }
+        .subscribe { _itemClicks.onNext(item) }
         .addTo(holder.disposeBag)
     }
   }
@@ -66,3 +66,4 @@ class RecyclerViewAdaptor<Item: RecyclerViewAdaptor.Item>(val dataSource: List<I
     holder.recycle()
   }
 }
+

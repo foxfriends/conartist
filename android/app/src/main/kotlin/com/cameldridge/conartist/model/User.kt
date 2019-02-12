@@ -1,7 +1,6 @@
 package com.cameldridge.conartist.model
 
 import com.cameldridge.conartist.services.api.graphql.fragment.FullUserFragment
-import kotlin.system.exitProcess
 
 data class User(
   val email: String,

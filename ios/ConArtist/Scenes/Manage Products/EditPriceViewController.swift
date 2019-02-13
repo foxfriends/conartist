@@ -107,7 +107,7 @@ extension EditPriceViewController {
                         .map { Money.parse(as: ConArtist.model.settings.value.currency, $0 ?? "") ?? Money.zero }
                 )
             )
-            .flatMapLatest { [price, typeId] (productId: Int?, quantity: Int, amount: Money) -> Observable<PriceFragment> in
+            .flatMapLatest { [price, typeId] (productId: Int?, quantity: Int, amount: Money) -> Single<PriceFragment> in
                 if let price = price {
                     return ConArtist.API.GraphQL
                         .observe(mutation: AddPriceMutation(price: PriceAdd(

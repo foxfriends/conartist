@@ -77,9 +77,13 @@ extension RecordsOverviewViewController {
         refreshControl.rx.controlEvent([.valueChanged])
             .flatMapLatest { [convention] _ -> Observable<Void> in
                 if let convention = convention {
-                    return convention.fill(true).discard()
+                    return convention
+                        .fill(true)
+                        .map { _ in }
                 } else {
-                    return ConArtist.model.loadRecords(fresh: true).discard()
+                    return ConArtist.model.loadRecords(fresh: true)
+                        .asObservable()
+                        .map { _ in }
                 }
             }
             .subscribe(onNext: { [refreshControl] in refreshControl.endRefreshing() })
@@ -194,7 +198,7 @@ extension RecordsOverviewViewController {
         navBar.rightButton.rx.tap
             .flatMap { ProductTypeListViewController.show() }
             .map { products, price, info in Record(products: products.map { $0.id }, price: price, info: info) }
-            .flatMap { [convention] record -> Observable<Void> in
+            .flatMap { [convention] record -> Maybe<Void> in
                 if let convention = convention {
                     return convention
                         .addRecord(record)
@@ -211,7 +215,7 @@ extension RecordsOverviewViewController {
                         .map { $0.addUserRecord.fragments.recordFragment }
                         .filterMap(Record.init(graphQL:))
                         .do(onNext: { record in ConArtist.model.addRecord(record) })
-                        .discard()
+                        .map { _ in }
                 }
             }
             .subscribe()
@@ -268,7 +272,7 @@ extension RecordsOverviewViewController: UITableViewDataSource {
         if cell is LoadingTableViewCell && !loading {
             loading = true
             ConArtist.model.loadRecords()
-                .subscribe(onNext: { [unowned self] _ in self.loading = false })
+                .subscribe(onSuccess: { [unowned self] _ in self.loading = false })
                 .disposed(by: disposeBag)
         }
     }

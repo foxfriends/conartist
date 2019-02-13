@@ -106,18 +106,18 @@ extension RecordDetailsOverlayViewController {
                 DispatchQueue.main.async { self.setupUI() }
                 return newRecord
             }
-            .flatMap { [convention] record -> Observable<Void> in
+            .flatMap { [convention] record -> Maybe<Void> in
                 if let convention = convention {
                     return convention
                         .updateRecord(record)
-                        .discard()
+                        .map { _ in }
                 } else if let modifications = record.modifications {
                     return ConArtist.API.GraphQL
                         .observe(mutation: UpdateRecordMutation(record: modifications))
                         .map { $0.modUserRecord.fragments.recordFragment }
                         .filterMap(Record.init(graphQL:))
                         .do(onNext: { record in ConArtist.model.replaceRecord(record) })
-                        .discard()
+                        .map { _ in }
                 } else {
                     return .empty()
                 }

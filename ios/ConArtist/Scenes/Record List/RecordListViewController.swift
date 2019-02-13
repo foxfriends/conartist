@@ -42,10 +42,14 @@ extension RecordListViewController {
         refreshControl.rx.controlEvent([.valueChanged])
             .flatMapLatest { [convention] _ -> Observable<Void> in
                 if let convention = convention {
-                    return convention.fill(true).discard()
+                    return convention
+                        .fill(true)
+                        .map { _ in }
                 } else {
                     // NOTE: this will cause issues on deep pages!
-                    return ConArtist.model.loadRecords(fresh: true).discard()
+                    return ConArtist.model.loadRecords(fresh: true)
+                        .asObservable()
+                        .map { _ in }
                 }
             }
             .subscribe(onNext: { [refreshControl] _ in refreshControl.endRefreshing() })

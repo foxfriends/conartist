@@ -126,7 +126,7 @@ extension SuggestionsViewController: UITableViewDelegate {
         if indexPath.section == 2 && !loading {
             loading = true
             _ = ConArtist.model.loadSuggestions()
-                .subscribe(onNext: { [weak self] _ in self?.loading = false })
+                .subscribe(onSuccess: { [weak self] _ in self?.loading = false })
         }
     }
 
@@ -139,9 +139,9 @@ extension SuggestionsViewController: UITableViewDelegate {
                 .observe(mutation: VoteForSuggestionMutation(suggestionId: suggestion.id))
                 .map { $0.voteForSuggestion.fragments.suggestionFragment }
                 .map(Suggestion.init(graphQL:))
-                .do(onNext: { suggestion in suggestion.map(ConArtist.model.replaceSuggestion) })
+                .do(onSuccess: { suggestion in suggestion.map(ConArtist.model.replaceSuggestion) })
                 .subscribe(
-                    onNext: { suggestion in complete(suggestion != nil) },
+                    onSuccess: { suggestion in complete(suggestion != nil) },
                     onError: { _ in complete(false) }
                 )
         }

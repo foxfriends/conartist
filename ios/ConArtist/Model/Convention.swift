@@ -330,18 +330,20 @@ class Convention: Codable {
         let doLoad = øconvention.value == nil || force
         if doLoad {
             øconvention.value = nil
-            let doFill = full(force).share()
-            _ = doFill.bind(to: øconvention)
-            return doFill
-                .do(onNext: { [weak self] _ in self?.attemptSaveEverything() })
-                .discard()
+            return full(force)
+                .do(onNext: { [weak self] value in
+                    self?.attemptSaveEverything()
+                    self?.øconvention.value = value
+                })
+                .asObservable()
+                .map { _ in }
         }
         return øconvention
             .asObservable()
             .skip(doLoad ? 1 : 0)
             .filterMap(identity)
             .do(onNext: { [weak self] _ in self?.attemptSaveEverything() })
-            .discard()
+            .map { _ in }
     }
 }
 
@@ -389,9 +391,9 @@ extension Convention {
 
 // MARK: - Modifications
 extension Convention {
-    func addRecord(_ record: Record, save: Bool = true) -> Observable<Void> {
+    func addRecord(_ record: Record, save: Bool = true) -> Maybe<Void> {
         guard let recordAdd = record.add(to: self) else {
-            return Observable.just(())
+            return .just(())
         }
         if !øaddedRecords.value.contains(where: { $0.id == record.id }) {
             øaddedRecords.value.append(record)
@@ -403,6 +405,7 @@ extension Convention {
             .asObservable()
             .filter { $0 != nil }
             .take(1)
+            .asSingle()
             .flatMap { _ in
                 ConArtist.API.GraphQL
                     .observe(mutation: AddRecordMutation(record: recordAdd))
@@ -416,13 +419,13 @@ extension Convention {
                 }
                 ConArtist.Persist.persist()
             })
-            .discard()
+            .map { _ in }
     }
 
-    func updateRecord(_ record: Record, save: Bool = true) -> Observable<Void> {
+    func updateRecord(_ record: Record, save: Bool = true) -> Maybe<Void> {
         if let existingIndex = øaddedRecords.value.index(where: { $0.id == record.id }) {
             øaddedRecords.value[existingIndex] = record
-            return Observable.just(())
+            return .just(())
         }
         if let existingIndex = ørecords.value.index(where: { $0.id == record.id }) {
             ørecords.value.remove(at: existingIndex)
@@ -455,18 +458,18 @@ extension Convention {
             }
     }
 
-    func deleteRecord(_ record: Record) -> Observable<Void> {
+    func deleteRecord(_ record: Record) -> Maybe<Void> {
         return deleteRecordById(record.id)
     }
 
-    fileprivate func deleteRecordById(_ id: Id, save: Bool = true) -> Observable<Void> {
+    fileprivate func deleteRecordById(_ id: Id, save: Bool = true) -> Maybe<Void> {
         if !øremovedRecords.value.contains(id) {
             øremovedRecords.value.append(id)
         }
         if øaddedRecords.value.contains(where: { $0.id == id }) {
             øaddedRecords.value.removeFirst { $0.id == id }
             // try to not send it. If it already sent and was added that's ok, it will get deleted eventually
-            return Observable.just(())
+            return .just(())
         } else {
             // hide it now... it's probably going to work
             ørecords.value.removeFirst { $0.id == id }
@@ -476,18 +479,17 @@ extension Convention {
         }
         return ConArtist.API.GraphQL
             .observe(mutation: DeleteRecordMutation(record: RecordDel(recordId: id.id, uuid: id.uuid?.uuidString)))
-            .map { $0.delUserRecord }
-            .filter(identity)
+            .filterMap { $0.delUserRecord }
             .do(onNext: { [øremovedRecords] _ in
                 øremovedRecords.value = øremovedRecords.value.filter { $0 != id }
                 ConArtist.Persist.persist()
             })
-            .discard()
+            .map { _ in }
     }
 
-    func addExpense(_ expense: Expense, save: Bool = true) -> Observable<Void> {
+    func addExpense(_ expense: Expense, save: Bool = true) -> Maybe<Void> {
         guard let expenseAdd = expense.add(to: self) else {
-            return Observable.just(())
+            return .just(())
         }
         if !øaddedExpenses.value.contains(where: { $0.id == expense.id }) {
             øaddedExpenses.value.append(expense)
@@ -499,6 +501,7 @@ extension Convention {
             .asObservable()
             .filter { $0 != nil }
             .take(1)
+            .asSingle()
             .flatMap { _ in
                 ConArtist.API.GraphQL
                     .observe(mutation: AddExpenseMutation(expense: expenseAdd))
@@ -512,13 +515,13 @@ extension Convention {
                 }
                 ConArtist.Persist.persist()
             })
-            .discard()
+            .map { _ in }
     }
 
-    func updateExpense(_ expense: Expense, save: Bool = true) -> Observable<Void> {
+    func updateExpense(_ expense: Expense, save: Bool = true) -> Maybe<Void> {
         if let existingIndex = øaddedExpenses.value.index(where: { $0.id == expense.id }) {
             øaddedExpenses.value[existingIndex] = expense
-            return Observable.just(())
+            return .just(())
         }
         if let existingIndex = øexpenses.value.index(where: { $0.id == expense.id }) {
             øexpenses.value.remove(at: existingIndex)
@@ -550,18 +553,18 @@ extension Convention {
             }
     }
 
-    func deleteExpense(_ expense: Expense) -> Observable<Void> {
+    func deleteExpense(_ expense: Expense) -> Maybe<Void> {
         return deleteExpenseById(expense.id)
     }
 
-    fileprivate func deleteExpenseById(_ id: Id, save: Bool = true) -> Observable<Void> {
+    fileprivate func deleteExpenseById(_ id: Id, save: Bool = true) -> Maybe<Void> {
         if !øremovedExpenses.value.contains(id) {
             øremovedExpenses.value.append(id)
         }
         if øaddedExpenses.value.contains(where: { $0.id == id }) {
             øaddedExpenses.value.removeFirst { $0.id == id }
             // try to not send it. If it already sent and was added that's ok, it will get deleted eventually
-            return Observable.just(())
+            return .just(())
         } else {
             // hide it now... it's probably going to work
             øexpenses.value.removeFirst { $0.id == id }
@@ -571,13 +574,12 @@ extension Convention {
         }
         return ConArtist.API.GraphQL
             .observe(mutation: DeleteExpenseMutation(expense: ExpenseDel(expenseId: id.id, uuid: id.uuid?.uuidString)))
-            .map { $0.delUserExpense }
-            .filter(identity)
+            .filterMap { $0.delUserExpense }
             .do(onNext: { [øremovedExpenses] _ in
                 øremovedExpenses.value = øremovedExpenses.value.filter { $0 != id }
                 ConArtist.Persist.persist()
             })
-            .discard()
+            .map { _ in }
     }
 
     func addUserInfo(_ info: String) {
@@ -589,29 +591,31 @@ extension Convention {
             .observe(mutation: ContributeConventionInfoMutation(conId: id, info: info))
             .map { $0.addConventionInfo.fragments.userInfoFragment }
             .filterMap(ConventionUserInfo.init(graphQL:))
-            .catchError { _ in Observable.empty() }
-            .subscribe(onNext: { [øuserInfo] info in øuserInfo.value[index] = info })
+            .catchError { _ in .empty() }
+            .subscribe(onSuccess: { [øuserInfo] info in øuserInfo.value[index] = info })
     }
 
     func setVote(for info: ConventionUserInfo, to vote: ConventionUserInfo.Vote) {
         let updatedInfo = info.setVote(to: vote)
-        let request: Observable<VotesFragment>
+        let request: Maybe<VotesFragment>
         switch vote {
         case .up:
             request = ConArtist.API.GraphQL
                 .observe(mutation: UpvoteConventionInfoMutation(infoId: info.id))
                 .map { $0.upvoteConventionInfo.fragments.votesFragment }
+                .asMaybe()
         case .down:
             request = ConArtist.API.GraphQL
                 .observe(mutation: DownvoteConventionInfoMutation(infoId: info.id))
                 .map { $0.downvoteConventionInfo.fragments.votesFragment }
+                .asMaybe()
         // should not be able to set vote to .none
-        case .none: request = Observable.empty()
+        case .none: request = .empty()
         }
         øuserInfo.value = øuserInfo.value.replace(with: updatedInfo) { $0.id == info.id }
         _ = request
-            .catchError { _ in Observable.empty() }
-            .subscribe(onNext: { [øuserInfo] votes in
+            .catchError { _ in .empty() }
+            .subscribe(onSuccess: { [øuserInfo] votes in
                 øuserInfo.value = øuserInfo.value
                     .map { info in
                         info.id == updatedInfo.id
@@ -624,14 +628,15 @@ extension Convention {
 
 // MARK: - API
 extension Convention {
-    private func full(_ force: Bool) -> Observable<FullConventionFragment> {
+    private func full(_ force: Bool) -> Maybe<FullConventionFragment> {
         return ConArtist.API.GraphQL
             .observe(
                 query: FullConventionQuery(userId: nil, conId: id),
                 cachePolicy: force ? .fetchIgnoringCacheData : .returnCacheDataElseFetch
             )
             .map { $0.convention.fragments.fullConventionFragment }
-            .catchError { _ in Observable.empty() }
+            .asMaybe()
+            .catchError { _ in .empty() }
     }
 
     private func attemptSaveEverything() {

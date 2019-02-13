@@ -68,20 +68,32 @@ impl Database {
 
     pub fn count_conventions_after(&self, search: Option<&Search>, date: NaiveDate) -> i64 {
         let conn = self.pool.get().unwrap();
+        let mut query = conventionsearch::table
+            .select(dsl::count(conventionsearch::con_id))
+            .filter(conventionsearch::end_date.ge(date))
+            .into_boxed();
         if let Some(search) = search {
-            conventions::table
-                .filter(string_score(conventions::title, search.body(), 0.5).gt(0.33))
-                .select(dsl::count(conventions::con_id))
-                .filter(conventions::start_date.gt(date))
-                .first::<i64>(&*conn)
-                .unwrap_or(0)
-        } else {
-            conventions::table
-                .select(dsl::count(conventions::con_id))
-                .filter(conventions::start_date.gt(date))
-                .first::<i64>(&*conn)
-                .unwrap_or(0)
+            if !search.body().is_empty() {
+                let body_score = string_score(conventionsearch::title, search.body(), 0.5);
+                query = query
+                    .filter(body_score.gt(0.33))
+            }
+
+            if let Some(country) = search.value("country") {
+                let country_score = string_score_exact(conventionsearch::country, country);
+                query = query
+                    .filter(country_score.gt(0f64))
+            }
+
+            if let Some(city) = search.value("city") {
+                let city_score = string_score_exact(conventionsearch::city, city);
+                query = query
+                    .filter(city_score.gt(0f64))
+            }
         }
+        query
+            .first::<i64>(&*conn)
+            .unwrap_or(0i64)
     }
 
     pub fn get_convention_extra_info_for_convention(&self, con_id: i32) -> Result<Vec<ConventionExtraInfo>, String> {

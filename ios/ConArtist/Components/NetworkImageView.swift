@@ -31,8 +31,14 @@ class NetworkImageView: UIImageView {
     }
 
     private func doInit() {
-        _imageId.asObservable()
-            .flatBindMap(ConArtist.API.Images.load(imageId:))
+        _imageId
+            .flatMap { (id: String?) -> Single<UIImage?> in
+                if let id = id {
+                    return ConArtist.API.Images.load(imageId: id)
+                } else {
+                    return Single.just(nil)
+                }
+            }
             .asDriver(onErrorJustReturn: nil)
             .drive(rx.image)
             .disposed(by: disposeBag)

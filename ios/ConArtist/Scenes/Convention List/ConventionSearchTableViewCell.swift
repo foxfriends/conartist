@@ -54,10 +54,10 @@ extension ConventionSearchTableViewCell {
                 !starred
                     ? ConArtist.API.GraphQL
                         .observe(mutation: AddUserConventionMutation(conId: convention.id))
-                        .discard()
+                        .map { _ in }
                     : ConArtist.API.GraphQL
                         .observe(mutation: DeleteUserConventionMutation(conId: convention.id))
-                        .discard()
+                        .map { _ in }
             }
             .subscribe(
                 onNext: { _ in
@@ -66,7 +66,7 @@ extension ConventionSearchTableViewCell {
                         .observe(query: FullUserQuery(), cachePolicy: .fetchIgnoringCacheData)
                         .observeOn(MainScheduler.instance)
                         .map{ $0.user.fragments.fullUserFragment }
-                        .subscribe(onNext: { fragment in
+                        .subscribe(onSuccess: { fragment in
                             ConArtist.model.merge(graphQL: fragment)
                         })
                 },

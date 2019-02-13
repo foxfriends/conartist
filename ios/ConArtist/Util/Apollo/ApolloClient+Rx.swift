@@ -16,26 +16,27 @@ extension ApolloClient {
         case noResult
     }
 
-    func observe<Query: GraphQLQuery>(query: Query, cachePolicy: CachePolicy = .fetchIgnoringCacheData, queue: DispatchQueue = DispatchQueue.main) -> Observable<Query.Data> {
-        return Observable
+    func observe<Query: GraphQLQuery>(query: Query, cachePolicy: CachePolicy = .fetchIgnoringCacheData, queue: DispatchQueue = DispatchQueue.main) -> Single<Query.Data> {
+        return Single
             .create { observer in
-                self.fetch(query: query, cachePolicy: cachePolicy, queue: queue) { result, error in
+                let cancel = self.fetch(query: query, cachePolicy: cachePolicy, queue: queue) { result, error in
                     if let error = error {
-                        observer.onError(error)
+                        observer(.error(error))
                         return
                     }
                     guard let result = result else {
-                        observer.onError(RxError.noResult)
+                        observer(.error(RxError.noResult))
                         return
                     }
                     guard let data = result.data else {
-                        observer.onError(RxError.errors(result.errors ?? []))
+                        observer(.error(RxError.errors(result.errors ?? [])))
                         return
                     }
-                    observer.onNext(data)
-                    observer.onCompleted()
+                    observer(.success(data))
                 }
-                return Disposables.create()
+                return Disposables.create {
+                    cancel.cancel()
+                }
             }
             .catchError { error in
                 switch error {
@@ -50,26 +51,27 @@ extension ApolloClient {
             }
     }
 
-    func observe<Mutation: GraphQLMutation>(mutation: Mutation, queue: DispatchQueue = DispatchQueue.main) -> Observable<Mutation.Data> {
-        return Observable
+    func observe<Mutation: GraphQLMutation>(mutation: Mutation, queue: DispatchQueue = DispatchQueue.main) -> Single<Mutation.Data> {
+        return Single
             .create { observer in
-                self.perform(mutation: mutation, queue: queue) { result, error in
+                let cancel = self.perform(mutation: mutation, queue: queue) { result, error in
                     if let error = error {
-                        observer.onError(error)
+                        observer(.error(error))
                         return
                     }
                     guard let result = result else {
-                        observer.onError(RxError.noResult)
+                        observer(.error(RxError.noResult))
                         return
                     }
                     guard let data = result.data else {
-                        observer.onError(RxError.errors(result.errors ?? []))
+                        observer(.error(RxError.errors(result.errors ?? [])))
                         return
                     }
-                    observer.onNext(data)
-                    observer.onCompleted()
+                    observer(.success(data))
                 }
-                return Disposables.create()
+                return Disposables.create {
+                    cancel.cancel()
+                }
             }
             .catchError { error in throw debug(error) }
     }

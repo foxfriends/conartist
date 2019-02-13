@@ -168,8 +168,8 @@ extension Model {
 
 // MARK: - Suggestions
 extension Model {
-    func loadSuggestions(fresh: Bool = false) -> Observable<Connection<Suggestion>> {
-        if !fresh && suggestions.value.isFull { return Single.just(suggestions.value).asObservable() }
+    func loadSuggestions(fresh: Bool = false) -> Maybe<Connection<Suggestion>> {
+        if !fresh && suggestions.value.isFull { return .just(suggestions.value) }
         return ConArtist.API.GraphQL
             .observe(query: SuggestionsConnectionQuery(search: nil, limit: nil, before: nil, after: fresh ? nil : suggestions.value.endCursor))
             .map { $0.suggestionsConnection }
@@ -189,8 +189,8 @@ extension Model {
 
 // MARK: - Records
 extension Model {
-    func loadRecords(fresh: Bool = false) -> Observable<Connection<Record>> {
-        if !fresh && records.value.isFull { return Single.just(records.value).asObservable() }
+    func loadRecords(fresh: Bool = false) -> Maybe<Connection<Record>> {
+        if !fresh && records.value.isFull { return .just(records.value) }
         return ConArtist.API.GraphQL
             .observe(query: RecordsConnectionQuery(limit: nil, before: fresh ? nil : records.value.endCursor, after: nil))
             .map { $0.recordsConnection }

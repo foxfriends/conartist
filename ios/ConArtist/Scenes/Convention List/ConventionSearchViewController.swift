@@ -29,6 +29,8 @@ class ConventionSearchViewController: ConArtistViewController {
     fileprivate var reloadRequest: Disposable?
     fileprivate let refreshControl = UIRefreshControl()
 
+    fileprivate let filter = BehaviorRelay<String?>(value: nil)
+
     deinit {
         reloadRequest?.dispose()
     }
@@ -47,15 +49,14 @@ extension ConventionSearchViewController {
     private func setupRefreshControl() {
         conventionsTableView.refreshControl = refreshControl
         refreshControl.rx.controlEvent([.valueChanged])
-            .withLatestFrom(searchBarTextField.rx.text)
-            .map { $0 ?? "" }
+            .withLatestFrom(filter)
             .do(onNext: { [weak self] _ in
                 self?.reloadRequest?.dispose()
                 self?.reloadRequest = nil
             })
             .flatMapLatest { filter in
                 ConArtist.API.GraphQL.observe(query: ConventionsConnectionQuery(
-                    search: filter.isEmpty ? nil : filter
+                    search: filter
                 ))
             }
             .map { $0.conventionsConnection }
@@ -163,8 +164,7 @@ extension ConventionSearchViewController {
                     .map { ($0?.trimmingCharacters(in: .whitespacesAndNewlines)).filter { !$0.isEmpty } }
                     .distinctUntilChanged()
             )
-            .throttle(0.5, scheduler: MainScheduler.asyncInstance)
-            .map { filter, country, city in
+            .map { (filter, country, city) -> String? in
                 var query = filter
                 if let country = country {
                     query.append("{country:\(country)}")
@@ -174,6 +174,11 @@ extension ConventionSearchViewController {
                 }
                 return query.isEmpty ? nil : query
             }
+            .bind(to: filter)
+            .disposed(by: disposeBag)
+
+        filter
+            .throttle(0.5, scheduler: MainScheduler.asyncInstance)
             .do(onNext: { [weak self] _ in
                 self?.reloadRequest?.dispose()
                 self?.reloadRequest = nil
@@ -247,12 +252,15 @@ extension ConventionSearchViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard indexPath.section == 2, reloadRequest == nil else { return }
-        let filter = searchBarTextField.text ?? ""
-        reloadRequest = ConArtist.API.GraphQL
-            .observe(query: ConventionsConnectionQuery(
-                search: filter.isEmpty ? nil : filter,
-                after: conventions.value.endCursor
-            ))
+        reloadRequest = filter
+            .take(1)
+            .flatMap { filter in
+                ConArtist.API.GraphQL
+                    .observe(query: ConventionsConnectionQuery(
+                        search: filter,
+                        after: self.conventions.value.endCursor
+                    ))
+            }
             .map { $0.conventionsConnection }
             .filterMap(Connection<Convention>.init(graphQL:))
             .map { [conventions] new in conventions.value.extend(new) }

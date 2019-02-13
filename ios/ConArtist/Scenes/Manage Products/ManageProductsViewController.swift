@@ -142,7 +142,7 @@ extension ManageProductsViewController: UITableViewDelegate {
         moved.insert(moved.remove(at: sourceIndexPath.row), at: destinationIndexPath.row)
         let low = min(sourceIndexPath.row, destinationIndexPath.row)
         let hi = max(sourceIndexPath.row, destinationIndexPath.row)
-        Observable
+        Single
             .zip(
                 moved
                     .enumerated()
@@ -159,9 +159,9 @@ extension ManageProductsViewController: UITableViewDelegate {
                     }
                     .map { ConArtist.API.GraphQL.observe(mutation: $0) }
             )
-            .flatMapLatest { _ in ConArtist.API.GraphQL.observe(query: FullUserQuery()) }
+            .flatMap { _ in ConArtist.API.GraphQL.observe(query: FullUserQuery()) }
             .subscribe(
-                onNext: { user in
+                onSuccess: { user in
                     ConArtist.model.merge(graphQL: user.user.fragments.fullUserFragment)
                 },
                 onError: { [weak self] error in

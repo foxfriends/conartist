@@ -120,7 +120,7 @@ extension ManagePricesViewController: UITableViewDelegate {
                     productId: price.productId,
                     quantity: price.quantity
                 )))
-                .subscribe(onNext: { _ in
+                .subscribe(onSuccess: { _ in
                     tableView.performBatchUpdates({
                         tableView.deleteRows(at: [indexPath], with: .automatic)
                         var removed = prices.value

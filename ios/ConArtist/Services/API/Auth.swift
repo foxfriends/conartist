@@ -24,7 +24,7 @@ private func setAuthToken(_ authToken: String) -> Void {
     ConArtist.API.Auth.authToken = authToken
 }
 
-private func loadUser() throws -> Observable<FullUserFragment> {
+private func loadUser() throws -> Single<FullUserFragment> {
     return ConArtist.API.GraphQL
         .observe(query: FullUserQuery(id: nil), cachePolicy: .fetchIgnoringCacheData)
         .map { $0.user.fragments.fullUserFragment }

@@ -75,7 +75,7 @@ extension EditProductViewController {
                     discontinuedSwitch.rx.isOn
                 )
             )
-            .flatMapLatest { [product, typeId] (name: String, quantity: Int, discontinued: Bool) -> Observable<ProductFragment> in
+            .flatMapLatest { [product, typeId] (name: String, quantity: Int, discontinued: Bool) -> Single<ProductFragment> in
                 if let product = product {
                     return ConArtist.API.GraphQL
                         .observe(mutation: ModProductMutation(product: ProductMod(

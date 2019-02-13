@@ -19,3 +19,10 @@ extension ObservableType {
         return map(const(()))
     }
 }
+
+extension PrimitiveSequenceType where Self.TraitType == SingleTrait {
+    /// Transforms the elements of the observable, stripping out any nil values
+    func filterMap<T>(_ transform: @escaping (Self.ElementType) -> T?) -> Maybe<T> {
+        return asMaybe().map(transform).filter { $0 != nil }.map { $0! }
+    }
+}

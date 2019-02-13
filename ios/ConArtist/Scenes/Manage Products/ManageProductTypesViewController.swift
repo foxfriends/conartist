@@ -166,13 +166,13 @@ extension ManageProductTypesViewController: UITableViewDelegate {
         moved.insert(moved.remove(at: sourceIndexPath.row), at: destinationIndexPath.row)
         let low = min(sourceIndexPath.row, destinationIndexPath.row)
         let hi = max(sourceIndexPath.row, destinationIndexPath.row)
-        Observable
+        Single
             .zip(
                 moved
                     .enumerated()
                     .dropFirst(low)
                     .prefix(hi - low + 1)
-                    .map { sort, type in
+                    .map { (sort, type) in
                         ModProductTypeMutation(productType: ProductTypeMod(
                             typeId: type.id,
                             name: nil,
@@ -183,9 +183,9 @@ extension ManageProductTypesViewController: UITableViewDelegate {
                     }
                     .map { ConArtist.API.GraphQL.observe(mutation: $0) }
             )
-            .flatMapLatest { _ in ConArtist.API.GraphQL.observe(query: FullUserQuery()) }
+            .flatMap { _ in ConArtist.API.GraphQL.observe(query: FullUserQuery()) }
             .subscribe(
-                onNext: { user in
+                onSuccess: { user in
                     ConArtist.model.merge(graphQL: user.user.fragments.fullUserFragment)
                 },
                 onError: { [weak self] error in

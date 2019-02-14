@@ -1,4 +1,6 @@
 /* @flow */
+import addMinutes from 'date-fns/addMinutes'
+import subMinutes from 'date-fns/subMinutes'
 
 export function sameDayAs(date: Date): (Date) => boolean {
   date = date || this
@@ -40,10 +42,10 @@ export function justUTCDay(date: Date): Date {
 
 export function toUTC(date: Date): Date {
   date = date || this
-  return new Date(date.getTime() - new Date().getTimezoneOffset() * 60 * 1000)
+  return subMinutes(date, new Date(date).getTimezoneOffset())
 }
 
 export function toLocal(date: Date): Date {
   date = date || this
-  return new Date(date.getTime() + new Date().getTimezoneOffset() * 60 * 1000)
+  return addMinutes(date, new Date(date).getTimezoneOffset())
 }

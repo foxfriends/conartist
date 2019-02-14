@@ -1,6 +1,7 @@
 /* @flow */
 import * as React from 'react'
 
+import { toLocal } from '../../util/date'
 import { model } from '../../model'
 import { CardView } from '../card-view'
 import { TodayConventionCard } from '../conventions/today-convention-card'
@@ -13,12 +14,12 @@ export type Props = {
 export function Dashboard(props: Props) {
   const { conventions } = model.getValue()
   const conventionCards = conventions
-    .filter(({ start, end }) => start <= new Date() && new Date() <= end)
+    .filter(({ start, end }) => toLocal(start) <= new Date() && new Date() <= toLocal(end))
     .map(convention => <TodayConventionCard convention={convention} key={`today_convention_${convention.id}`} showDetails />)
   return (
     <CardView>
       { conventionCards }
-      <ComingSoonConventionsCard conventions={conventions.filter(({ start }) => start > new Date())}/>
+      <ComingSoonConventionsCard conventions={conventions.filter(({ start }) => toLocal(start) > new Date())}/>
     </CardView>
   )
 }

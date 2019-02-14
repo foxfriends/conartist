@@ -1,6 +1,5 @@
 use diesel::prelude::*;
 use diesel::{self, dsl};
-use chrono::Utc;
 use uuid::Uuid;
 
 use super::schema::*;

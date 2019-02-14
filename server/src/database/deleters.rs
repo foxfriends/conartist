@@ -1,5 +1,5 @@
 use diesel::prelude::*;
-use diesel;
+use diesel::{self, dsl};
 use chrono::Utc;
 use uuid::Uuid;
 
@@ -93,21 +93,28 @@ impl Database {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conn.transaction(|| {
-                let convention =
-                    conventions::table
-                        .filter(conventions::con_id.eq(con_id))
-                        .first::<DetachedConvention>(&*conn)?;
+                let convention = conventions::table
+                    .filter(conventions::con_id.eq(con_id))
+                    .first::<DetachedConvention>(&*conn)?;
 
-                if convention.start_date.and_hms(0, 0, 0) <= Utc::now().naive_utc() {
-                    return Err(
-                        diesel::result::Error::DeserializationError(
-                            Box::new(
-                                crate::error::StringError(
-                                    format!("Convention with id {} has already started", convention.con_id)
-                                )
-                            )
+                let has_records = dsl::select(dsl::exists(records::table
+                    .filter(records::user_id.eq(user_id))
+                    .filter(records::con_id.eq(con_id))))
+                    .first::<bool>(&*conn)?;
+                let has_expenses = dsl::select(dsl::exists(expenses::table
+                    .filter(expenses::user_id.eq(user_id))
+                    .filter(expenses::con_id.eq(con_id))))
+                    .first::<bool>(&*conn)?;
+                // TODO: don't use Utc::now()... Maybe just remove this check altogether if people
+                // complain about it.
+                // Would be better to check if the user has any associated records or expenses and
+                // deny based on that instead
+                if has_records || has_expenses {
+                    return Err(diesel::result::Error::DeserializationError(Box::new(
+                        crate::error::StringError(
+                            format!("Convention with id {} has already started", convention.con_id)
                         )
-                    )
+                    )))
                 }
 
                 diesel::delete(user_conventions::table)

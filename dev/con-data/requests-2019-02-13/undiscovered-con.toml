@@ -1,0 +1,17 @@
+title = "Undiscovered Realm Comic Con"
+start_date = 2019-05-04
+end_date = 2019-05-05
+
+[website]
+title = "undiscovered.org"
+url = "http://undiscoveredcon.com/"
+
+[address]
+address = "Westchester County Center\n198 Central Ave\nWhite Plains, NY, USA\n"
+city = "White Plains, NY"
+country = "United States"
+
+[address.coordinates]
+lat = 41.03697
+lon = -73.77978
+

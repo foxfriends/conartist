@@ -1,0 +1,25 @@
+title = "CT Gamer Con"
+start_date = 2019-03-23
+end_date = 2019-03-24
+
+[[hours]]
+start = 2019-03-23T11:00:00-04:00
+end = 2019-03-23T20:00:00-04:00
+
+[[hours]]
+start = 2019-03-24T11:00:00-04:00
+end = 2019-03-24T17:00:00-04:00
+
+[website]
+title = "ctgamercon.com"
+url = "https://www.ctgamercon.com/"
+
+[address]
+address = "Mohegan Sun Convention Center\n1 Mohegan Sun Blvd\nUncasville, CT, USA\n"
+city = "Uncasville, CT"
+country = "United States"
+
+[address.coordinates]
+lat = 41.49212
+lon = -72.089355
+

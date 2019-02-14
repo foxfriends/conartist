@@ -3,7 +3,7 @@
 use chrono::NaiveDate;
 use std::{fs::{self, File}, io::{self, Write}, env};
 use serde_json::json;
-use diesel::{prelude::*, pg::PgConnection};
+use diesel::{prelude::*, pg::PgConnection, sql_query};
 
 mod schema;
 mod model;
@@ -139,5 +139,8 @@ fn main() -> io::Result<()> {
         let toml = toml::to_string(&convention).unwrap();
         writeln!(file, "{}", toml).unwrap();
     }
+    sql_query("REFRESH MATERIALIZED VIEW ConventionSearch")
+        .execute(&connection)
+        .unwrap();
     Ok(())
 }

@@ -1,0 +1,29 @@
+title = "TERRIFICON"
+start_date = 2019-08-09
+end_date = 2019-08-11
+
+[[hours]]
+start = 2019-08-09T14:00:00-04:00
+end = 2019-08-09T20:00:00-04:00
+
+[[hours]]
+start = 2019-08-10T10:00:00-04:00
+end = 2019-08-10T19:00:00-04:00
+
+[[hours]]
+start = 2019-08-11T10:00:00-04:00
+end = 2019-08-11T17:00:00-04:00
+
+[website]
+title = "terrificon.com"
+url = "https://www.terrificon.com/"
+
+[address]
+address = "Mohegan Sun Convention Center\n1 Mohegan Sun Blvd\nUncasville, CT, USA\n"
+city = "Uncasville, CT"
+country = "United States"
+
+[address.coordinates]
+lat = 41.49212
+lon = -72.089355
+

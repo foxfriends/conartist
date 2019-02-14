@@ -104,10 +104,6 @@ impl Database {
                     .filter(expenses::user_id.eq(user_id))
                     .filter(expenses::con_id.eq(con_id))))
                     .first::<bool>(&*conn)?;
-                // TODO: don't use Utc::now()... Maybe just remove this check altogether if people
-                // complain about it.
-                // Would be better to check if the user has any associated records or expenses and
-                // deny based on that instead
                 if has_records || has_expenses {
                     return Err(diesel::result::Error::DeserializationError(Box::new(
                         crate::error::StringError(

@@ -38,9 +38,7 @@ extension ConventionSearchTableViewCell {
 extension ConventionSearchTableViewCell {
     func setup(convention: Convention) {
         nameLabel.text = convention.name
-        dateLabel.text = "{} - {}"¡
-            % convention.start.toString("MMM. d, yyyy"¡)
-            % convention.end.toString("MMM. d, yyyy"¡)
+        dateLabel.text = convention.dateString
 
         var starred = ConArtist.model.conventions.value.contains { $0.id == convention.id }
         setStar(starred: starred)
@@ -73,8 +71,8 @@ extension ConventionSearchTableViewCell {
                 onError: { [weak self] _ in
                     self?.setStar(starred: starred)
                     RootNavigationController.singleton.currentViewController?.showAlert(
-                        title: "It seems something went wrong."¡,
-                        message: "Some actions might not have been saved. Please try again later"¡
+                        title: "You can't do that right now"¡,
+                        message: "Maybe the convention has already started?"¡
                     )
                 }
             )

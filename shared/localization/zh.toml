@@ -272,3 +272,7 @@ FAQ = "常问问题"
 "Email: {}" = "电子邮件: {light:{}}"
 "Verification email sent" = "TODO: translate"
 "You should receive it shortly" = "TODO: translate"
+
+# Errors
+"You can't do that right now" = "TODO: translate"
+"Maybe the convention has already started?" = "TODO: translate"

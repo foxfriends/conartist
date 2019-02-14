@@ -316,6 +316,8 @@ Once submitted, you cannot edit what you wrote, so make sure it describes what y
 Unknown = "Unknown"
 "You'll have to try again later... Sorry for the inconvenience." = "You'll have to try again later… Sorry for the inconvenience."
 "Your changes were not saved. Please try again later" = "Your changes were not saved. Please try again later"
+"You can't do that right now" = "You can't do that right now"
+"Maybe the convention has already started?" = "Maybe the convention has already started?"
 
 # Dates
 EEE = "EEE."

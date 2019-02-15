@@ -83,7 +83,7 @@ export class SignIn extends React.Component<Props, State> {
 
     return (
       <Basic title={l`Sign in`} onClose={closeDialog}>
-        <Form image={IMAGE} imageWidth={200} className={SS.form}>
+        <Form image={IMAGE} imageWidth={200} containerClassName={SS.padded} className={SS.form}>
           <div className={S.question}>
             {l`Welcome back`}
           </div>

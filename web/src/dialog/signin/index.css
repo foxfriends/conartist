@@ -12,6 +12,10 @@
   justify-content: flex-end;
 }
 
+.padded {
+  padding-bottom: var(--height--row);
+}
+
 .signInFooter {
   margin-top: 10px;
   width: 100%;

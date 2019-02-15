@@ -218,7 +218,7 @@ export class EditPrices extends ReactX.Component<Props, State> {
       price: Money.zero,
     }
     const prices = [...this.state.prices, newPrice]
-    this.setState({ prices })
+    this.setState({ prices, hadPrices: true })
     disableSave()
   }
 

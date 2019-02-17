@@ -1,6 +1,7 @@
-package com.cameldridge.conartist.util
+package com.cameldridge.conartist.util.fragments
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,14 +11,23 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.cameldridge.conartist.R
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.subjects.PublishSubject
+import kotlin.reflect.KMutableProperty
+import kotlin.reflect.full.findAnnotation
+import kotlin.reflect.full.memberProperties
 
-public abstract class ConArtistFragment(@LayoutRes private val layout: Int): Fragment() {
-  protected val disposeBag = CompositeDisposable() // TODO: should this be in onCreate?
+public abstract class ConArtistFragment<A: Parcelable>(@LayoutRes private val layout: Int): Fragment() {
+  protected val disposeBag = CompositeDisposable()
+  lateinit var args: A private set
 
   open val title: String? get() = null
   open val menu: Int? = null
   open val backButtonIcon: Int? = null
+
+  @CallSuper
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    savedInstanceState?.getParcelable<A>(ARGUMENTS)?.let { args = it }
+  }
 
   @CallSuper
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -36,5 +46,16 @@ public abstract class ConArtistFragment(@LayoutRes private val layout: Int): Fra
   override fun onDestroy() {
     super.onDestroy()
     disposeBag.dispose()
+  }
+
+  companion object {
+    private val ARGUMENTS = "arguments"
+
+    fun <A: Parcelable, F: ConArtistFragment<A>> create(fragment: F, arguments: A): F {
+      val bundle = Bundle()
+      bundle.putParcelable(ARGUMENTS, arguments)
+      fragment.arguments = bundle
+      return fragment
+    }
   }
 }

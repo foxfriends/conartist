@@ -1,13 +1,17 @@
 package com.cameldridge.conartist.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import java.lang.RuntimeException
 import java.text.NumberFormat
 
+@Parcelize
 data class Money(
   val currency: Currency,
   val amount: Long
-) {
-  enum class Currency {
+): Parcelable {
+  @Parcelize
+  enum class Currency: Parcelable {
     AUTO,
     CAD,
     USD,
@@ -39,7 +43,9 @@ data class Money(
       PHP -> listOf("₱")
     }
 
-    val variants get() = listOf(CAD, USD, MXN, AUD, EUR, GBP, SEK, CNY, JPY, PHP)
+    companion object {
+      val variants get() = listOf(CAD, USD, MXN, AUD, EUR, GBP, SEK, CNY, JPY, PHP)
+    }
   }
 
   fun toJSON() =

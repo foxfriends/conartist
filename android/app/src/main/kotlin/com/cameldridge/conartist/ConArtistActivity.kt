@@ -2,6 +2,7 @@ package com.cameldridge.conartist
 
 import android.graphics.Typeface
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.annotation.StringRes
@@ -15,17 +16,22 @@ import com.cameldridge.conartist.scenes.SignInFragment
 import com.cameldridge.conartist.services.Storage
 import com.cameldridge.conartist.services.StorageKey
 import com.cameldridge.conartist.services.api.API
-import com.cameldridge.conartist.util.ConArtistFragment
+import com.cameldridge.conartist.util.fragments.ConArtistFragment
 import com.cameldridge.conartist.util.prettystring.Attribute.TextColor
 import com.cameldridge.conartist.util.prettystring.Config
 import com.cameldridge.conartist.util.prettystring.Rule
 import com.cameldridge.conartist.util.extension.transaction
+import com.cameldridge.conartist.util.extension.visibleFragment
+import com.cameldridge.conartist.util.fragments.FragmentReturn
 import com.cameldridge.conartist.util.prettystring.Attribute.TextStyle
+import io.reactivex.Maybe
+import io.reactivex.Single
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_toast.toast_container
 import kotlinx.android.synthetic.main.item_toast.view.title_label
 import java.lang.ref.WeakReference
-import java.util.Stack
 import java.util.Timer
+import java.util.TreeMap
 import kotlin.concurrent.schedule
 
 class ConArtistActivity : AppCompatActivity() {
@@ -79,59 +85,70 @@ class ConArtistActivity : AppCompatActivity() {
   }
 
   companion object {
+    // this is a dirty implementation of what will hopefully be a clean API
+    private val responses: MutableMap<Int, Any> = mutableMapOf()
+
     lateinit var fragmentManager: WeakReference<FragmentManager>
-
-    private val fragments = Stack<ConArtistFragment>()
-
     private val backstackName get() = "${fragmentManager.get()!!.backStackEntryCount}"
 
-    fun <T: ConArtistFragment> set(fragment: T) {
+    fun <A: Parcelable, T: ConArtistFragment<A>> set(fragment: T) {
       fragmentManager.get()!!.transaction {
         replace(R.id.fragment_container, fragment)
-        if (!fragments.isEmpty()) {
-          fragments.pop()
-        }
-        fragments.push(fragment)
       }
     }
 
-    fun <T: ConArtistFragment> replace(fragment: T) {
-      val toRemove = fragments.pop()
+    fun <A: Parcelable, T: ConArtistFragment<A>> replace(fragment: T) {
+      val toRemove = fragmentManager.get()!!.visibleFragment()
       fragmentManager.get()!!.transaction {
         setCustomAnimations(R.anim.push, R.anim.leave, R.anim.come_back, R.anim.pop)
-        hide(toRemove)
-        add(R.id.fragment_container, fragments.push(fragment))
+        toRemove?.let(::hide)
+        add(R.id.fragment_container, fragment)
       }
       // Remove the fragment after the transition is completed.
       // This is kind of a hack, but whatever.
       Timer().schedule(500) {
         fragmentManager.get()!!.transaction {
-          remove(toRemove)
+          toRemove?.let(::remove)
         }
       }
     }
 
-    fun <T: ConArtistFragment> push(fragment: T) {
+    fun <A: Parcelable, T: ConArtistFragment<A>> push(fragment: T) {
       fragmentManager.get()!!.transaction {
         setCustomAnimations(R.anim.push, R.anim.leave, R.anim.come_back, R.anim.pop)
-        hide(fragments.peek())
-        add(R.id.fragment_container, fragments.push(fragment))
+        fragmentManager.get()!!.visibleFragment()?.let(::hide)
+        add(R.id.fragment_container, fragment)
         addToBackStack(backstackName)
       }
     }
 
-    fun <T: ConArtistFragment> present(fragment: T) {
+    fun <A: Parcelable, T: ConArtistFragment<A>> present(fragment: T) {
       fragmentManager.get()!!.transaction {
         setCustomAnimations(R.anim.present, R.anim.fly, R.anim.fall, R.anim.dismiss)
-        hide(fragments.peek())
-        add(R.id.fragment_container, fragments.push(fragment))
+        fragmentManager.get()!!.visibleFragment()?.let(::hide)
+        add(R.id.fragment_container, fragment)
         addToBackStack(backstackName)
       }
+    }
+
+    fun <A: Parcelable, R: Parcelable, T> presentForResult(fragment: T): Maybe<R>
+      where T: ConArtistFragment<A>,
+            T: FragmentReturn<R> {
+      present(fragment)
+      val responder = PublishSubject.create<R>()
+      responses.put(fragmentManager.get()!!.backStackEntryCount, responder)
+      return responder.singleElement()
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun <R: Parcelable> respond(response: R) {
+      responses.get(fragmentManager.get()!!.backStackEntryCount)
+        ?.let { (it as PublishSubject<R>).onNext(response) }
+      back()
     }
 
     fun back() {
       fragmentManager.get()!!.popBackStack()
-      fragments.pop()
     }
 
     fun signOut() {

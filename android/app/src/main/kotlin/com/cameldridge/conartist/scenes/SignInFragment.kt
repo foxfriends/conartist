@@ -15,7 +15,8 @@ import com.cameldridge.conartist.model.Model
 import com.cameldridge.conartist.model.User
 import com.cameldridge.conartist.services.api.API
 import com.cameldridge.conartist.services.api.ConArtistAPI.SignIn
-import com.cameldridge.conartist.util.ConArtistFragment
+import com.cameldridge.conartist.util.Null
+import com.cameldridge.conartist.util.fragments.ConArtistFragment
 import com.cameldridge.conartist.util.prettystring.prettify
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.textChanges
@@ -28,7 +29,7 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 
-class SignInFragment : ConArtistFragment(R.layout.fragment_sign_in) {
+class SignInFragment : ConArtistFragment<Null>(R.layout.fragment_sign_in) {
   private class SignInError(message: String) : Exception(message)
 
   private val processing = BehaviorSubject.createDefault(false)
@@ -76,7 +77,7 @@ class SignInFragment : ConArtistFragment(R.layout.fragment_sign_in) {
       .switchMap { _ -> Model.loadUser()
         .toObservable()
         .observeOn(AndroidSchedulers.mainThread())
-        .onErrorResumeNext { error: Throwable ->
+        .onErrorResumeNext { _: Throwable ->
           Toast.makeText(context, R.string.An_unknown_error_has_occurred, Toast.LENGTH_SHORT).show()
           ConArtist.authorize(API.UNAUTHORIZED)
           processing.onNext(false)

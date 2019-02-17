@@ -29,7 +29,7 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 
-class SignInFragment : ConArtistFragment<Null>(R.layout.fragment_sign_in) {
+final class SignInFragment : ConArtistFragment<Null>(R.layout.fragment_sign_in) {
   private class SignInError(message: String) : Exception(message)
 
   private val processing = BehaviorSubject.createDefault(false)

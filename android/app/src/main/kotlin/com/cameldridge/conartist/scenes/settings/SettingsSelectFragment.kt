@@ -3,17 +3,33 @@ package com.cameldridge.conartist.scenes.settings
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.cameldridge.conartist.ConArtist
+import com.cameldridge.conartist.ConArtistActivity
 import com.cameldridge.conartist.R
+import com.cameldridge.conartist.item.SettingsButtonItem
+import com.cameldridge.conartist.item.SettingsSelectOptionItem
 import com.cameldridge.conartist.util.fragments.ConArtistFragment
 import com.cameldridge.conartist.scenes.settings.SettingsSelectFragment.Arguments
 import com.cameldridge.conartist.scenes.settings.SettingsSelectFragment.Item
 import com.cameldridge.conartist.util.Null
 import com.cameldridge.conartist.util.fragments.FragmentReturn
+import com.cameldridge.conartist.util.option.Option.Some
+import com.cameldridge.conartist.util.recyclerview.RecyclerViewAdaptor
+import com.cameldridge.conartist.util.recyclerview.bindTo
+import com.jakewharton.rxbinding3.appcompat.navigationClicks
+import com.jakewharton.rxbinding3.view.clicks
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.withLatestFrom
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
+import kotlinx.android.synthetic.main.fragment_settings_select.options_list
+import kotlinx.android.synthetic.main.fragment_settings_select.save_button
+import kotlinx.android.synthetic.main.fragment_settings_select.toolbar
 
-class SettingsSelectFragment<I>
+final class SettingsSelectFragment<I>
   : ConArtistFragment<Arguments<I>>(R.layout.fragment_settings_select)
   , FragmentReturn<I>
 where I: Item {
@@ -32,6 +48,7 @@ where I: Item {
   }
 
   override val title get() = args.title
+  private val options get() = args.options
   private val selection = BehaviorSubject.create<I>()
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +58,30 @@ where I: Item {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
+    toolbar
+      .navigationClicks()
+      .subscribe { ConArtistActivity.respond(selection.value!!) }
+      .addTo(disposeBag)
+
+    val adaptor = RecyclerViewAdaptor<SettingsSelectOptionItem<I>>()
+    selection
+      .observeOn(AndroidSchedulers.mainThread())
+      .map { selected -> options.map { SettingsSelectOptionItem(it, it == selected ) } }
+      .bindTo(adaptor)
+      .addTo(disposeBag)
+    options_list.adapter = adaptor
+    options_list.setHasFixedSize(true)
+    options_list.layoutManager = LinearLayoutManager(context)
+
+    adaptor.itemClicks
+      .subscribe { selection.onNext(it.item) }
+      .addTo(disposeBag)
+
+    save_button
+      .clicks()
+      .withLatestFrom(selection)
+      .subscribe { (_, selection) -> ConArtistActivity.respond(selection) }
+      .addTo(disposeBag)
   }
 
   companion object {

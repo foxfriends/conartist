@@ -21,6 +21,9 @@
         <item name="android:textColor">@color/text_placeholder</item>
         <item name="android:theme">@style/Theme.ConArtist.Button.Secondary</item>
     </style>
+    <style name="ConArtist.Button.FAB" parent="Widget.Design.FloatingActionButton">
+        <item name="android:theme">@style/Theme.ConArtist.Button.FAB</item>
+    </style>
 
     <style name="ConArtist.TextField" parent="Base.Widget.MaterialComponents.TextInputLayout">
         <item name="android:textColor">@color/text</item>

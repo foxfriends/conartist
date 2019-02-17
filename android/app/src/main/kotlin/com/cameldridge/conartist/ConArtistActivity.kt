@@ -30,18 +30,17 @@ import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_toast.toast_container
 import kotlinx.android.synthetic.main.item_toast.view.title_label
 import java.lang.ref.WeakReference
+import java.util.Stack
 import java.util.Timer
 import java.util.TreeMap
 import kotlin.concurrent.schedule
 
-class ConArtistActivity : AppCompatActivity() {
+final class ConArtistActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     ConArtistActivity.fragmentManager = WeakReference(supportFragmentManager)
 
     setContentView(R.layout.activity_con_artist)
-
-    configPrettyString()
 
     Storage.retrieve(StorageKey.AuthToken)?.let {
       API.authtoken = it
@@ -62,19 +61,6 @@ class ConArtistActivity : AppCompatActivity() {
     } ?: set(SignInFragment())
   }
 
-  private fun configPrettyString() {
-    Config.default = Config(
-      listOf(TextColor(getColor(R.color.text))),
-      listOf(
-        Rule("action", listOf(TextColor(getColor(R.color.text_action)))),
-        Rule("light", listOf(
-          TextColor(getColor(R.color.text_placeholder)),
-          TextStyle(Typeface.NORMAL)
-        ))
-      )
-    )
-  }
-
   fun showToast(@StringRes message: Int) {
     val view = LayoutInflater.from(this).inflate(R.layout.item_toast, toast_container)
     view.title_label.setText(message)
@@ -86,7 +72,7 @@ class ConArtistActivity : AppCompatActivity() {
 
   companion object {
     // this is a dirty implementation of what will hopefully be a clean API
-    private val responses: MutableMap<Int, Any> = mutableMapOf()
+    private val responses: Stack<Any> = Stack()
 
     lateinit var fragmentManager: WeakReference<FragmentManager>
     private val backstackName get() = "${fragmentManager.get()!!.backStackEntryCount}"
@@ -136,18 +122,21 @@ class ConArtistActivity : AppCompatActivity() {
             T: FragmentReturn<R> {
       present(fragment)
       val responder = PublishSubject.create<R>()
-      responses.put(fragmentManager.get()!!.backStackEntryCount, responder)
+      responses.push(responder)
       return responder.singleElement()
     }
 
-    @Suppress("UNCHECKED_CAST")
-    fun <R: Parcelable> respond(response: R) {
-      responses.get(fragmentManager.get()!!.backStackEntryCount)
+    fun <R: Parcelable, F: FragmentReturn<R>> respond(response: R) {
+      @Suppress("UNCHECKED_CAST")
+      responses.peek()
         ?.let { (it as PublishSubject<R>).onNext(response) }
       back()
     }
 
     fun back() {
+      @Suppress("UNCHECKED_CAST")
+      responses.pop()
+        ?.let { (it as PublishSubject<R>).onComplete() }
       fragmentManager.get()!!.popBackStack()
     }
 

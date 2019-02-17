@@ -6,8 +6,6 @@ import android.text.SpannedString
 import com.cameldridge.conartist.util.prettystring.PrettyString.Companion.State.*
 import java.lang.Exception
 
-fun String.prettify(config: Config = Config.default) = PrettyString.parse(this, config)
-
 final class PrettyString(
   val raw: String,
   val config: Config

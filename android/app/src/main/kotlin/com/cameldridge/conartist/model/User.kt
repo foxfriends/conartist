@@ -1,7 +1,11 @@
 package com.cameldridge.conartist.model
 
+import android.os.Parcelable
+import com.cameldridge.conartist.model.Money.Currency
 import com.cameldridge.conartist.services.api.graphql.fragment.FullUserFragment
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class User(
   val email: String,
   val name: String,
@@ -11,7 +15,19 @@ data class User(
   val prices: List<Price>,
   val conventions: List<Convention>,
   val settings: Settings
-) {
+): Parcelable {
+
+  fun withCurrency(currency: Currency) = User(
+    email,
+    name,
+    verified,
+    products,
+    productTypes,
+    prices,
+    conventions,
+    settings.withCurrency(currency)
+  )
+
   companion object {
     fun fromFragment(fragment: FullUserFragment) = User(
       fragment.fragments.userFragment.email,

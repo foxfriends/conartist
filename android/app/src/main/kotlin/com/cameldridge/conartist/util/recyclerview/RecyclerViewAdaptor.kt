@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.cameldridge.conartist.R
+import com.cameldridge.conartist.util.recyclerview.RecyclerViewAdaptor.Item
 import com.cameldridge.conartist.util.recyclerview.RecyclerViewAdaptor.ViewHolder
 import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.Observable
@@ -14,7 +15,7 @@ import io.reactivex.rxkotlin.addTo
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_base.view.content_view
 
-class RecyclerViewAdaptor(var dataSource: List<Item> = listOf()): RecyclerView.Adapter<ViewHolder>() {
+final class RecyclerViewAdaptor<I: Item>(var dataSource: List<I> = listOf()): RecyclerView.Adapter<ViewHolder>() {
   private var disposeBag = CompositeDisposable()
 
   abstract class Item(@LayoutRes val layout: Int) {
@@ -22,8 +23,8 @@ class RecyclerViewAdaptor(var dataSource: List<Item> = listOf()): RecyclerView.A
     open val clickable: Boolean = false
   }
 
-  private val _itemClicks = PublishSubject.create<Item>()
-  val itemClicks get(): Observable<Item> = _itemClicks
+  private val _itemClicks = PublishSubject.create<I>()
+  val itemClicks get(): Observable<I> = _itemClicks
 
   class ViewHolder(
     parent: ViewGroup

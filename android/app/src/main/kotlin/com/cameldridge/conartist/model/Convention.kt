@@ -1,10 +1,13 @@
 package com.cameldridge.conartist.model
 
+import android.os.Parcelable
 import com.cameldridge.conartist.services.api.graphql.fragment.ConventionBasicInfoFragment
 import com.cameldridge.conartist.services.api.graphql.fragment.FullConventionFragment
 import com.cameldridge.conartist.services.api.graphql.fragment.MetaConventionFragment
+import kotlinx.android.parcel.Parcelize
 import java.util.Date
 
+@Parcelize
 data class Convention(
   val id: Id,
   val name: String,
@@ -16,7 +19,7 @@ data class Convention(
   val products: List<Product>,
   val records: List<Record>,
   val expenses: List<Expense>
-) {
+): Parcelable {
   companion object {
     fun fromFragment(fragment: MetaConventionFragment) = Convention(
       Id.Id(fragment.fragments.conventionBasicInfoFragment.id),

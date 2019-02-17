@@ -11,9 +11,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.cameldridge.conartist.R
 import io.reactivex.disposables.CompositeDisposable
-import kotlin.reflect.KMutableProperty
-import kotlin.reflect.full.findAnnotation
-import kotlin.reflect.full.memberProperties
 
 public abstract class ConArtistFragment<A: Parcelable>(@LayoutRes private val layout: Int): Fragment() {
   protected val disposeBag = CompositeDisposable()

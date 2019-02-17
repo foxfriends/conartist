@@ -21,13 +21,16 @@ import com.cameldridge.conartist.item.SettingsSelectionItem
 import com.cameldridge.conartist.model.Model
 import com.cameldridge.conartist.model.Money.Currency
 import com.cameldridge.conartist.services.api.API
+import com.cameldridge.conartist.services.api.graphql.mutation.UpdateCurrencyMutation
 import com.cameldridge.conartist.util.Null
+import com.cameldridge.conartist.util.extension.observe
 import com.cameldridge.conartist.util.fragments.ConArtistFragment
 import com.cameldridge.conartist.util.option.Option
 import com.cameldridge.conartist.util.recyclerview.RecyclerViewAdaptor
 import com.cameldridge.conartist.util.recyclerview.bindTo
 import com.cameldridge.conartist.util.prettystring.prettify
 import com.cameldridge.conartist.util.option.Option.*
+import com.cameldridge.conartist.util.option.asOption
 import com.jakewharton.rxbinding3.appcompat.navigationClicks
 import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_convention_list.toolbar
@@ -35,7 +38,7 @@ import kotlinx.android.synthetic.main.fragment_settings.settings_list
 import kotlinx.android.synthetic.main.item_settings_button.view.detail_icon
 import kotlinx.android.synthetic.main.item_settings_heading.view.title_label
 
-class SettingsFragment : ConArtistFragment<Null>(R.layout.fragment_settings) {
+final class SettingsFragment : ConArtistFragment<Null>(R.layout.fragment_settings) {
   final enum class Action {
     VerifyEmail,
     SignOut,
@@ -54,7 +57,7 @@ class SettingsFragment : ConArtistFragment<Null>(R.layout.fragment_settings) {
       .subscribe { ConArtistActivity.back() }
       .addTo(disposeBag)
 
-    val adaptor = RecyclerViewAdaptor()
+    val adaptor = RecyclerViewAdaptor<RecyclerViewAdaptor.Item>()
     Model.user
       .map { user -> listOf(
         SettingsHeadingItem(string.Products),
@@ -97,11 +100,19 @@ class SettingsFragment : ConArtistFragment<Null>(R.layout.fragment_settings) {
           SignOut -> ConArtistActivity.signOut()
           VerifyEmail -> API.request.resendVerificationEmail().subscribe()
           ChooseCurrency -> ConArtistActivity
-            .present(SettingsSelectFragment.create(
+            .presentForResult(SettingsSelectFragment.create(
               title = getString(R.string.Currency),
               options = Currency.variants.map { SettingsSelectFragment.Item.Currency(it) },
-              selected = SettingsSelectFragment.Item.Currency(Currency.CAD)
+              selected = SettingsSelectFragment.Item.Currency(Model.user.value!!.unwrap().settings.currency)
             ))
+            .map { it.currency }
+            .flatMap { currency ->
+              Model.user.onNext(Model.user.value!!.unwrap().withCurrency(currency).asOption)
+              API.graphql
+                .observe(UpdateCurrencyMutation.builder().currency(currency).build())
+                .toMaybe()
+            }
+            .subscribe() // TODO: handle error?
           PrivacyPolicy -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.PRIVACY_URL)))
           TermsOfService -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.TERMS_URL)))
         }

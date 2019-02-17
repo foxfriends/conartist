@@ -27,4 +27,10 @@
         <item name="colorAccent">@color/background_variant</item>
         <item name="colorControlHighlight">@color/background_highlight</item>
     </style>
+
+    <style name="Theme.ConArtist.Button.FAB">
+        <item name="colorAccent">@color/brand</item>
+        <item name="colorButtonNormal">@color/background_variant</item>
+        <item name="colorControlHighlight">@color/brand_variant</item>
+    </style>
 </resources>

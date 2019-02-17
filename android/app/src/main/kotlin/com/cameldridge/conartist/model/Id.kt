@@ -1,5 +1,6 @@
 package com.cameldridge.conartist.model
 
+import android.os.Parcelable
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonDataException
@@ -9,12 +10,15 @@ import com.squareup.moshi.JsonWriter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.ToJson
 import com.squareup.moshi.Types
+import kotlinx.android.parcel.Parcelize
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import java.util.UUID
 
-sealed class Id {
+sealed class Id: Parcelable {
+  @Parcelize
   data class Id(val int: Int) : com.cameldridge.conartist.model.Id()
+  @Parcelize
   data class Uuid(val uuid: UUID): com.cameldridge.conartist.model.Id()
 
   object IdAdaptor: JsonAdapter<com.cameldridge.conartist.model.Id>() {

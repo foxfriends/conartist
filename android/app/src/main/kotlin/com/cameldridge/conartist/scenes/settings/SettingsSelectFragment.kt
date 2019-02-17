@@ -5,7 +5,6 @@ import android.os.Parcelable
 import android.view.View
 import com.cameldridge.conartist.R
 import com.cameldridge.conartist.util.fragments.ConArtistFragment
-import app.conartist.annotation.Arg
 import com.cameldridge.conartist.scenes.settings.SettingsSelectFragment.Arguments
 import com.cameldridge.conartist.scenes.settings.SettingsSelectFragment.Item
 import com.cameldridge.conartist.util.Null
@@ -32,7 +31,7 @@ where I: Item {
     }
   }
 
-  override var title: String = args.title
+  override val title get() = args.title
   private val selection = BehaviorSubject.create<I>()
 
   override fun onCreate(savedInstanceState: Bundle?) {

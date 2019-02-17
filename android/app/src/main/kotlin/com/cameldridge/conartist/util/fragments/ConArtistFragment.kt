@@ -26,7 +26,7 @@ public abstract class ConArtistFragment<A: Parcelable>(@LayoutRes private val la
   @CallSuper
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    savedInstanceState?.getParcelable<A>(ARGUMENTS)?.let { args = it }
+    arguments?.getParcelable<A>(ARGUMENTS)?.let { args = it }
   }
 
   @CallSuper
@@ -35,7 +35,7 @@ public abstract class ConArtistFragment<A: Parcelable>(@LayoutRes private val la
 
   @CallSuper
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    view.findViewById<Toolbar>(R.id.toolbar)?.let { toolbar ->
+      view.findViewById<Toolbar>(R.id.toolbar)?.let { toolbar ->
       menu?.let { toolbar.inflateMenu(it) }
       title?.let { toolbar.title = it }
       backButtonIcon?.let { toolbar.setNavigationIcon(it) }

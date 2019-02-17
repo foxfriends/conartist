@@ -14,10 +14,10 @@ import io.reactivex.rxkotlin.addTo
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_base.view.content_view
 
-class RecyclerViewAdaptor<Item: RecyclerViewAdaptor.Item>(var dataSource: List<Item> = listOf()): RecyclerView.Adapter<ViewHolder>() {
+class RecyclerViewAdaptor(var dataSource: List<Item> = listOf()): RecyclerView.Adapter<ViewHolder>() {
   private var disposeBag = CompositeDisposable()
 
-  open class Item(@LayoutRes val layout: Int) {
+  abstract class Item(@LayoutRes val layout: Int) {
     open fun setup(view: View) {}
     open val clickable: Boolean = false
   }

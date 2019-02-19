@@ -77,6 +77,9 @@ dependencies {
   implementation 'com.jakewharton.rxbinding3:rxbinding-core:3.0.0-alpha2'
   implementation 'com.jakewharton.rxbinding3:rxbinding-appcompat:3.0.0-alpha2'
 
-  implementation 'com.apollographql.apollo:apollo-runtime:1.0.0-alpha5'
+  implementation('com.apollographql.apollo:apollo-runtime:1.0.0-alpha5') {
+    exclude group: 'javax.annotation'
+  }
   implementation 'com.apollographql.apollo:apollo-rx2-support:1.0.0-alpha5'
+  implementation 'org.glassfish:javax.annotation:10.0-b28'
 }

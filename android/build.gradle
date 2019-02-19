@@ -20,6 +20,11 @@ allprojects {
     }
 }
 
+wrapper {
+  gradleVersion = "5.2.1"
+  distributionType = Wrapper.DistributionType.ALL
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

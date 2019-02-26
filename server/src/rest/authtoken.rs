@@ -12,12 +12,12 @@ pub struct Claims {
 impl Key for Claims { type Value = Claims; }
 
 pub fn new(usr: i32) -> Result<String, Error> {
-    let exp = Utc::now() + Duration::days(7);
+    let exp = Utc::now() + Duration::days(90);
     with_claims(&Claims { usr, exp: exp.timestamp() })
 }
 
 pub fn updating_claims(claims: &Claims) -> Result<String, Error> {
-    let exp = Utc::now() + Duration::days(7);
+    let exp = Utc::now() + Duration::days(90);
     let claims = Claims {
         exp: exp.timestamp(),
         ..*claims

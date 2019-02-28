@@ -9,6 +9,7 @@ import { Font } from '../../common/font'
 import { Button } from '../../common/button'
 import { Link } from '../../common/link'
 import { l, lx } from '../../localization'
+import { by, Asc } from '../../util/sort'
 import * as navigate from '../../update/navigate'
 import type { Convention } from '../../model/convention'
 import S from './coming-soon-conventions-card.css'
@@ -34,19 +35,20 @@ export function ComingSoonConventionsCard({ conventions }: Props) {
           </div>
         : <>
             <Grid columns='1fr 1fr 0'>
-                {conventions
-                  .map(convention =>
-                    <Row
-                      title={convention.name}
-                      value={l`${format(convention.start)} - ${format(convention.end)}`}
-                      detail={<Link className={S.view} onClick={() => navigate.conventionDetails(convention)}>{l`View`}</Link>}
-                      key={`convention_${convention.id}`}
-                      />
-                    )
-                }
-              </Grid>
-              <div className={S.findMore}><Link onClick={navigate.searchConventions}>{l`Find more`}</Link></div>
-            </>
+              {[...conventions]
+                .sort(by(['start', Asc], ['end', Asc]))
+                .map(convention =>
+                  <Row
+                    title={convention.name}
+                    value={l`${format(convention.start)} - ${format(convention.end)}`}
+                    detail={<Link className={S.view} onClick={() => navigate.conventionDetails(convention)}>{l`View`}</Link>}
+                    key={`convention_${convention.id}`}
+                    />
+                  )
+              }
+            </Grid>
+            <div className={S.findMore}><Link onClick={navigate.searchConventions}>{l`Find more`}</Link></div>
+          </>
       }
     </BasicCard>
   )

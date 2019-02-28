@@ -16,6 +16,7 @@ import { Input } from '../../common/input'
 import { Link } from '../../common/link'
 import { Button } from '../../common/button'
 import { Icon } from '../../common/icon'
+import { Checkbox } from '../../common/checkbox'
 import { Tooltip } from '../../common/tooltip'
 import { VALID, INVALID } from '../../model/validation'
 import type { Props as ButtonProps } from '../../common/button'
@@ -34,6 +35,7 @@ type State = {
   password: string,
   response: Response<User, string>,
   passwordValidation: InputValidation,
+  staySignedIn: boolean,
 }
 
 export class SignIn extends React.Component<Props, State> {
@@ -44,12 +46,13 @@ export class SignIn extends React.Component<Props, State> {
       password: '',
       response: API.unsent,
       passwordValidation: { state: VALID },
+      staySignedIn: true,
     }
   }
 
   trySignIn() {
-    const { email: usr, password: psw } = this.state
-    new SignInRequest()
+    const { email: usr, password: psw, staySignedIn } = this.state
+    new SignInRequest(staySignedIn)
       .send({ usr, psw })
       .subscribe(response => {
         if (response.state === 'failed') {
@@ -72,7 +75,7 @@ export class SignIn extends React.Component<Props, State> {
   }
 
   render() {
-    const { email, response, passwordValidation } = this.state
+    const { email, response, passwordValidation, staySignedIn } = this.state
 
     const onContinue: ButtonProps = {
       title: l`Sign in`,
@@ -87,8 +90,23 @@ export class SignIn extends React.Component<Props, State> {
           <div className={S.question}>
             {l`Welcome back`}
           </div>
-          <Input className={S.titledInput} title={l`Email`} key="email" onChange={email => this.handleEmailChange(email)} autoFocus/>
-          <Input className={S.titledInput} enabled={response.state !== 'sending'} type="password" title={l`Password`} key="password" onChange={password => this.handlePasswordChange(password)} onSubmit={() => this.trySignIn()}/>
+          <Input
+            className={S.titledInput}
+            title={l`Email`}
+            key="email"
+            onChange={email => this.handleEmailChange(email)}
+            autoFocus />
+          <Input
+            className={S.titledInput}
+            enabled={response.state !== 'sending'}
+            type="password"
+            title={l`Password`}
+            key="password"
+            onChange={password => this.handlePasswordChange(password)}
+            onSubmit={() => this.trySignIn()} />
+          <Checkbox className={S.checkbox} defaultValue={staySignedIn} onChange={staySignedIn => this.setState({ staySignedIn })}>
+            {l`Stay signed in`}
+          </Checkbox>
           <div className={SS.signInFooter}>
             { passwordValidation.state === INVALID
                 ? <div className={SS.spacing}><Tooltip title={passwordValidation.error}><Icon name='error' className={SS.error}/></Tooltip></div>

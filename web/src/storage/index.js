@@ -19,15 +19,26 @@ export const Storage = new class Storage {
     this.Language = 'Language'
   }
 
+  storeTemp<K: StorageKey>(key: K, value: $ElementType<StorageScheme, K>) {
+    sessionStorage.setItem(key, JSON.stringify(value))
+  }
+
   store<K: StorageKey>(key: K, value: $ElementType<StorageScheme, K>) {
-    localStorage.setItem(key, JSON.stringify(value))
+    if (sessionStorage.getItem(key)) {
+      sessionStorage.setItem(key, JSON.stringify(value))
+    } else {
+      localStorage.setItem(key, JSON.stringify(value))
+    }
   }
 
   retrieve<K: StorageKey>(key: K): ?$ElementType<StorageScheme, K> {
     try {
-      const value = localStorage.getItem(key)
+      let value = localStorage.getItem(key)
       if (value === null || value === undefined) {
-        return null
+        value = sessionStorage.getItem(key)
+        if (value === null || value === undefined) {
+          return null
+        }
       }
       return JSON.parse(value)
     } catch (error) {
@@ -36,6 +47,7 @@ export const Storage = new class Storage {
   }
 
   remove(key: StorageKey) {
+    sessionStorage.removeItem(key)
     localStorage.removeItem(key)
   }
 }

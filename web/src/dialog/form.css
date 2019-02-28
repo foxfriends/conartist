@@ -87,3 +87,8 @@
   margin-top: 4px;
   color: var(--color--text-placeholder);
 }
+
+.checkbox {
+  margin: 10px;
+  font-variant-caps: all-small-caps;
+}

@@ -15,8 +15,9 @@ type Params = {|
 |}
 
 export class SignInRequest extends PostRequest<Params, User> {
-  constructor() {
+  constructor(staySignedIn: boolean) {
     super('/auth')
+    this.staySignedIn = staySignedIn
   }
 
   send(params: Params): Observable<Response<User, string>> {
@@ -24,7 +25,11 @@ export class SignInRequest extends PostRequest<Params, User> {
       .pipe(
         tap(response => {
           if (response.state === 'retrieved') {
-            Storage.store(Storage.Auth, response.value)
+            if (this.staySignedIn) {
+              Storage.store(Storage.Auth, response.value)
+            } else {
+              Storage.storeTemp(Storage.Auth, response.value)
+            }
           } else if (response.state === 'failed') {
             Storage.remove(Storage.Auth)
             throw response

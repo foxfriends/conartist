@@ -39,6 +39,7 @@ View = "View"
 "Welcome back" = "Welcome back"
 # ios
 "Visit conartist.app" = "Visit {action:conartist.app}"
+"Stay signed in" = "Stay signed in"
 
 # Sign up
 "... You're in!" = "… You're in!"

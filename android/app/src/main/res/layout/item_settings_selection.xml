@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:background="?android:selectableItemBackground"
-    tools:context=".item.SettingsSelectionItem">
+    tools:context=".item.settings.SettingsSelectionItem">
 
     <TextView
         android:id="@+id/title_label"

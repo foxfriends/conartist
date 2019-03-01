@@ -1,9 +1,7 @@
-package com.cameldridge.conartist.item
+package com.cameldridge.conartist.item.settings
 
-import android.graphics.drawable.Drawable
 import android.view.View
 import com.cameldridge.conartist.R
-import com.cameldridge.conartist.scenes.settings.SettingsFragment
 import com.cameldridge.conartist.scenes.settings.SettingsSelectFragment
 import com.cameldridge.conartist.util.recyclerview.RecyclerViewAdaptor
 import kotlinx.android.synthetic.main.item_settings_select_option.view.*

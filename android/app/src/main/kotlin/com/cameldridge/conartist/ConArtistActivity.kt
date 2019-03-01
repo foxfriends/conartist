@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
+import com.apollographql.apollo.exception.ApolloNetworkException
 import com.cameldridge.conartist.model.ConRequest.Failure
 import com.cameldridge.conartist.model.ConRequest.Success
 import com.cameldridge.conartist.model.Model
@@ -26,6 +27,7 @@ import com.cameldridge.conartist.util.fragments.FragmentReturn
 import com.cameldridge.conartist.util.prettystring.Attribute.TextStyle
 import io.reactivex.Maybe
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_toast.toast_container
 import kotlinx.android.synthetic.main.item_toast.view.title_label
@@ -56,7 +58,10 @@ final class ConArtistActivity : AppCompatActivity() {
           { } // TODO: show an error?
         )
       Model.setUser(Storage.retrieve(StorageKey.CurrentUser))
-      Model.loadUser().subscribe()
+      Model.loadUser().observeOn(AndroidSchedulers.mainThread()).subscribe(
+        { /* ok */ },
+        { error -> Toast.makeText(this, R.string.An_unknown_error_has_occurred, Toast.LENGTH_SHORT).show() }
+      )
       set(ConventionListFragment())
     } ?: set(SignInFragment())
   }
@@ -135,8 +140,10 @@ final class ConArtistActivity : AppCompatActivity() {
 
     fun back() {
       @Suppress("UNCHECKED_CAST")
-      responses.pop()
-        ?.let { (it as PublishSubject<R>).onComplete() }
+      if (!responses.isEmpty()) {
+        responses.pop()
+          ?.let { (it as PublishSubject<R>).onComplete() }
+      }
       fragmentManager.get()!!.popBackStack()
     }
 

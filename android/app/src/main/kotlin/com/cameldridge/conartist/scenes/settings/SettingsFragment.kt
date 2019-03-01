@@ -1,31 +1,29 @@
 package com.cameldridge.conartist.scenes.settings
 
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.LayoutRes
+import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cameldridge.conartist.BuildConfig
 import com.cameldridge.conartist.ConArtistActivity
 import com.cameldridge.conartist.R
-import com.cameldridge.conartist.R.drawable
-import com.cameldridge.conartist.R.string
 import com.cameldridge.conartist.scenes.settings.SettingsFragment.Action.*
-import com.cameldridge.conartist.item.SettingsButtonItem
-import com.cameldridge.conartist.item.SettingsHeadingItem
-import com.cameldridge.conartist.item.SettingsInfoItem
-import com.cameldridge.conartist.item.SettingsSelectionItem
+import com.cameldridge.conartist.item.settings.SettingsButtonItem
+import com.cameldridge.conartist.item.settings.SettingsHeadingItem
+import com.cameldridge.conartist.item.settings.SettingsInfoItem
+import com.cameldridge.conartist.item.settings.SettingsSelectionItem
 import com.cameldridge.conartist.model.Model
 import com.cameldridge.conartist.model.Money.Currency
+import com.cameldridge.conartist.scenes.manage.products.ManageProductTypesFragment
+import com.cameldridge.conartist.scenes.settings.SettingsSelectFragment.Item
 import com.cameldridge.conartist.services.api.API
 import com.cameldridge.conartist.services.api.graphql.mutation.UpdateCurrencyMutation
 import com.cameldridge.conartist.util.Null
 import com.cameldridge.conartist.util.extension.observe
 import com.cameldridge.conartist.util.fragments.ConArtistFragment
-import com.cameldridge.conartist.util.option.Option
 import com.cameldridge.conartist.util.recyclerview.RecyclerViewAdaptor
 import com.cameldridge.conartist.util.recyclerview.bindTo
 import com.cameldridge.conartist.util.prettystring.prettify
@@ -35,11 +33,10 @@ import com.jakewharton.rxbinding3.appcompat.navigationClicks
 import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_convention_list.toolbar
 import kotlinx.android.synthetic.main.fragment_settings.settings_list
-import kotlinx.android.synthetic.main.item_settings_button.view.detail_icon
-import kotlinx.android.synthetic.main.item_settings_heading.view.title_label
 
 final class SettingsFragment : ConArtistFragment<Null>(R.layout.fragment_settings) {
   final enum class Action {
+    ManageProducts,
     VerifyEmail,
     SignOut,
     ChooseCurrency,
@@ -60,25 +57,39 @@ final class SettingsFragment : ConArtistFragment<Null>(R.layout.fragment_setting
     val adaptor = RecyclerViewAdaptor<RecyclerViewAdaptor.Item>()
     Model.user
       .map { user -> listOf(
-        SettingsHeadingItem(string.Products),
-        SettingsHeadingItem(string.General),
-        SettingsSelectionItem(getString(R.string.Currency), ChooseCurrency, SettingsSelectFragment.Item.Currency(user.unwrap().settings.currency)),
-        SettingsHeadingItem(string.Account),
+        SettingsHeadingItem(R.string.Products),
+        SettingsButtonItem(getString(R.string.Manage_Products), ManageProducts),
+        SettingsHeadingItem(R.string.General),
+        SettingsSelectionItem(
+          getString(R.string.Currency), ChooseCurrency,
+          Item.Currency(user.unwrap().settings.currency)
+        ),
+        SettingsHeadingItem(R.string.Account),
         getString(R.string.Email____)
           .format(user.unwrap().email)
           .prettify()
           .let { title ->
             if (!user.unwrap().verified)
-              SettingsButtonItem(title, VerifyEmail, getDrawable(context!!, drawable.ic_warning))
+              SettingsButtonItem(
+                title, VerifyEmail, getDrawable(context!!, R.drawable.ic_warning)
+              )
             else
               SettingsInfoItem(title)
           },
-        SettingsButtonItem(getString(string.Sign_out), SignOut),
-        SettingsHeadingItem(string.Support),
-        SettingsHeadingItem(string.About),
-        SettingsInfoItem(getString(string.Version).format(BuildConfig.VERSION_NAME).prettify()),
-        SettingsButtonItem(getString(string.Privacy_Policy), PrivacyPolicy),
-        SettingsButtonItem(getString(string.Terms_of_Service), TermsOfService)
+        SettingsButtonItem(
+          getString(R.string.Sign_out), SignOut
+        ),
+        SettingsHeadingItem(R.string.Support),
+        SettingsHeadingItem(R.string.About),
+        SettingsInfoItem(
+          getString(R.string.Version).format(BuildConfig.VERSION_NAME).prettify()
+        ),
+        SettingsButtonItem(
+          getString(R.string.Privacy_Policy), PrivacyPolicy
+        ),
+        SettingsButtonItem(
+          getString(R.string.Terms_of_Service), TermsOfService
+        )
       ) }
       .bindTo(adaptor)
       .addTo(disposeBag)
@@ -97,6 +108,7 @@ final class SettingsFragment : ConArtistFragment<Null>(R.layout.fragment_setting
       .filter { it is Some }
       .subscribe {
         when (it.unwrap()) {
+          ManageProducts -> ConArtistActivity.present(ManageProductTypesFragment())
           SignOut -> ConArtistActivity.signOut()
           VerifyEmail -> API.request.resendVerificationEmail().subscribe()
           ChooseCurrency -> ConArtistActivity
@@ -112,7 +124,10 @@ final class SettingsFragment : ConArtistFragment<Null>(R.layout.fragment_setting
                 .observe(UpdateCurrencyMutation.builder().currency(currency).build())
                 .toMaybe()
             }
-            .subscribe() // TODO: handle error?
+            .subscribe(
+              {},
+              { error -> Toast.makeText(context, R.string.An_unknown_error_has_occurred, Toast.LENGTH_SHORT).show() }
+            )
           PrivacyPolicy -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.PRIVACY_URL)))
           TermsOfService -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.TERMS_URL)))
         }

@@ -1,4 +1,4 @@
-package com.cameldridge.conartist.item
+package com.cameldridge.conartist.item.settings
 
 import android.graphics.drawable.Drawable
 import android.view.View

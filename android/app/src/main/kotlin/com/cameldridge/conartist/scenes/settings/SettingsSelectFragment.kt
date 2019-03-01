@@ -4,17 +4,13 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cameldridge.conartist.ConArtist
 import com.cameldridge.conartist.ConArtistActivity
 import com.cameldridge.conartist.R
-import com.cameldridge.conartist.item.SettingsButtonItem
-import com.cameldridge.conartist.item.SettingsSelectOptionItem
+import com.cameldridge.conartist.item.settings.SettingsSelectOptionItem
 import com.cameldridge.conartist.util.fragments.ConArtistFragment
 import com.cameldridge.conartist.scenes.settings.SettingsSelectFragment.Arguments
 import com.cameldridge.conartist.scenes.settings.SettingsSelectFragment.Item
-import com.cameldridge.conartist.util.Null
 import com.cameldridge.conartist.util.fragments.FragmentReturn
-import com.cameldridge.conartist.util.option.Option.Some
 import com.cameldridge.conartist.util.recyclerview.RecyclerViewAdaptor
 import com.cameldridge.conartist.util.recyclerview.bindTo
 import com.jakewharton.rxbinding3.appcompat.navigationClicks
@@ -66,7 +62,11 @@ where I: Item {
     val adaptor = RecyclerViewAdaptor<SettingsSelectOptionItem<I>>()
     selection
       .observeOn(AndroidSchedulers.mainThread())
-      .map { selected -> options.map { SettingsSelectOptionItem(it, it == selected ) } }
+      .map { selected -> options.map {
+        SettingsSelectOptionItem(
+          it, it == selected
+        )
+      } }
       .bindTo(adaptor)
       .addTo(disposeBag)
     options_list.adapter = adaptor

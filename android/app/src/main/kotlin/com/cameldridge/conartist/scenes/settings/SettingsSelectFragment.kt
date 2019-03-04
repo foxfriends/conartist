@@ -29,6 +29,8 @@ final class SettingsSelectFragment<I>
   : ConArtistFragment<Arguments<I>>(R.layout.fragment_settings_select)
   , FragmentReturn<I>
 where I: Item {
+  override val backButtonIcon: Int? = R.drawable.ic_close
+
   @Parcelize data class Arguments<I: Item>(
     val title: String,
     val options: List<I>,
@@ -56,7 +58,7 @@ where I: Item {
     super.onViewCreated(view, savedInstanceState)
     toolbar
       .navigationClicks()
-      .subscribe { ConArtistActivity.respond(selection.value!!) }
+      .subscribe { ConArtistActivity.back() }
       .addTo(disposeBag)
 
     val adaptor = RecyclerViewAdaptor<SettingsSelectOptionItem<I>>()

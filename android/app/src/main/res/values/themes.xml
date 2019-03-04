@@ -29,6 +29,7 @@
     </style>
 
     <style name="Theme.ConArtist.Button.FAB">
+        <item name="android:tint">@color/text</item>
         <item name="colorAccent">@color/brand</item>
         <item name="colorButtonNormal">@color/background_variant</item>
         <item name="colorControlHighlight">@color/brand_variant</item>

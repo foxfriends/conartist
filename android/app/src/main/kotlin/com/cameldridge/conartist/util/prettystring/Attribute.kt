@@ -1,6 +1,5 @@
 package com.cameldridge.conartist.util.prettystring
 
-import android.graphics.Typeface
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import androidx.annotation.ColorInt

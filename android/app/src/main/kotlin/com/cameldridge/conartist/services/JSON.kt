@@ -5,7 +5,6 @@ import com.cameldridge.conartist.model.ConRequest
 import com.cameldridge.conartist.model.Id
 import com.cameldridge.conartist.model.Money
 import com.cameldridge.conartist.model.Money.Currency
-import com.cameldridge.conartist.services.api.API
 import com.cameldridge.conartist.util.Null
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.JsonAdapter

@@ -10,25 +10,32 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.cameldridge.conartist.BuildConfig
 import com.cameldridge.conartist.ConArtistActivity
 import com.cameldridge.conartist.R
-import com.cameldridge.conartist.scenes.settings.SettingsFragment.Action.*
 import com.cameldridge.conartist.item.settings.SettingsButtonItem
 import com.cameldridge.conartist.item.settings.SettingsHeadingItem
 import com.cameldridge.conartist.item.settings.SettingsInfoItem
+import com.cameldridge.conartist.item.settings.SettingsListItem
 import com.cameldridge.conartist.item.settings.SettingsSelectionItem
 import com.cameldridge.conartist.model.Model
 import com.cameldridge.conartist.model.Money.Currency
 import com.cameldridge.conartist.scenes.manage.products.ManageProductTypesFragment
+import com.cameldridge.conartist.scenes.settings.SettingsFragment.Action.ChooseCurrency
+import com.cameldridge.conartist.scenes.settings.SettingsFragment.Action.ManageProducts
+import com.cameldridge.conartist.scenes.settings.SettingsFragment.Action.PrivacyPolicy
+import com.cameldridge.conartist.scenes.settings.SettingsFragment.Action.SignOut
+import com.cameldridge.conartist.scenes.settings.SettingsFragment.Action.TermsOfService
+import com.cameldridge.conartist.scenes.settings.SettingsFragment.Action.VerifyEmail
 import com.cameldridge.conartist.scenes.settings.SettingsSelectFragment.Item
 import com.cameldridge.conartist.services.api.API
 import com.cameldridge.conartist.services.api.graphql.mutation.UpdateCurrencyMutation
 import com.cameldridge.conartist.util.Null
 import com.cameldridge.conartist.util.extension.observe
 import com.cameldridge.conartist.util.fragments.ConArtistFragment
+import com.cameldridge.conartist.util.option.Option.None
+import com.cameldridge.conartist.util.option.Option.Some
+import com.cameldridge.conartist.util.option.asOption
+import com.cameldridge.conartist.util.prettystring.prettify
 import com.cameldridge.conartist.util.recyclerview.RecyclerViewAdaptor
 import com.cameldridge.conartist.util.recyclerview.bindTo
-import com.cameldridge.conartist.util.prettystring.prettify
-import com.cameldridge.conartist.util.option.Option.*
-import com.cameldridge.conartist.util.option.asOption
 import com.jakewharton.rxbinding3.appcompat.navigationClicks
 import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_convention_list.toolbar
@@ -54,7 +61,7 @@ final class SettingsFragment : ConArtistFragment<Null>(R.layout.fragment_setting
       .subscribe { ConArtistActivity.back() }
       .addTo(disposeBag)
 
-    val adaptor = RecyclerViewAdaptor<RecyclerViewAdaptor.Item>()
+    val adaptor = RecyclerViewAdaptor<SettingsListItem>()
     Model.user
       .map { user -> listOf(
         SettingsHeadingItem(R.string.Products),
@@ -119,14 +126,14 @@ final class SettingsFragment : ConArtistFragment<Null>(R.layout.fragment_setting
             ))
             .map { it.currency }
             .flatMap { currency ->
-              Model.user.onNext(Model.user.value!!.unwrap().withCurrency(currency).asOption)
+              Model.setCurrency(currency)
               API.graphql
                 .observe(UpdateCurrencyMutation.builder().currency(currency).build())
                 .toMaybe()
             }
             .subscribe(
               {},
-              { error -> Toast.makeText(context, R.string.An_unknown_error_has_occurred, Toast.LENGTH_SHORT).show() }
+              { _error -> Toast.makeText(context, R.string.An_unknown_error_has_occurred, Toast.LENGTH_SHORT).show() }
             )
           PrivacyPolicy -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.PRIVACY_URL)))
           TermsOfService -> startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.TERMS_URL)))

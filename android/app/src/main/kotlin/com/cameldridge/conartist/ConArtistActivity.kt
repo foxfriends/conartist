@@ -1,6 +1,5 @@
 package com.cameldridge.conartist
 
-import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
@@ -8,7 +7,6 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
-import com.apollographql.apollo.exception.ApolloNetworkException
 import com.cameldridge.conartist.model.ConRequest.Failure
 import com.cameldridge.conartist.model.ConRequest.Success
 import com.cameldridge.conartist.model.Model
@@ -17,16 +15,11 @@ import com.cameldridge.conartist.scenes.SignInFragment
 import com.cameldridge.conartist.services.Storage
 import com.cameldridge.conartist.services.StorageKey
 import com.cameldridge.conartist.services.api.API
-import com.cameldridge.conartist.util.fragments.ConArtistFragment
-import com.cameldridge.conartist.util.prettystring.Attribute.TextColor
-import com.cameldridge.conartist.util.prettystring.Config
-import com.cameldridge.conartist.util.prettystring.Rule
 import com.cameldridge.conartist.util.extension.transaction
 import com.cameldridge.conartist.util.extension.visibleFragment
+import com.cameldridge.conartist.util.fragments.ConArtistFragment
 import com.cameldridge.conartist.util.fragments.FragmentReturn
-import com.cameldridge.conartist.util.prettystring.Attribute.TextStyle
 import io.reactivex.Maybe
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_toast.toast_container
@@ -34,7 +27,6 @@ import kotlinx.android.synthetic.main.item_toast.view.title_label
 import java.lang.ref.WeakReference
 import java.util.Stack
 import java.util.Timer
-import java.util.TreeMap
 import kotlin.concurrent.schedule
 
 final class ConArtistActivity : AppCompatActivity() {
@@ -60,7 +52,7 @@ final class ConArtistActivity : AppCompatActivity() {
       Model.setUser(Storage.retrieve(StorageKey.CurrentUser))
       Model.loadUser().observeOn(AndroidSchedulers.mainThread()).subscribe(
         { /* ok */ },
-        { error -> Toast.makeText(this, R.string.An_unknown_error_has_occurred, Toast.LENGTH_SHORT).show() }
+        { _error -> Toast.makeText(this, R.string.An_unknown_error_has_occurred, Toast.LENGTH_SHORT).show() }
       )
       set(ConventionListFragment())
     } ?: set(SignInFragment())

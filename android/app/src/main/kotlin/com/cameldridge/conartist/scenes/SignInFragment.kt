@@ -27,7 +27,13 @@ import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.withLatestFrom
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
-import kotlinx.android.synthetic.main.fragment_sign_in.*
+import kotlinx.android.synthetic.main.fragment_sign_in.email_field
+import kotlinx.android.synthetic.main.fragment_sign_in.password_field
+import kotlinx.android.synthetic.main.fragment_sign_in.password_text_input_layout
+import kotlinx.android.synthetic.main.fragment_sign_in.privacy_button
+import kotlinx.android.synthetic.main.fragment_sign_in.sign_in_button
+import kotlinx.android.synthetic.main.fragment_sign_in.terms_button
+import kotlinx.android.synthetic.main.fragment_sign_in.visit_website_button
 
 final class SignInFragment : ConArtistFragment<Null>(R.layout.fragment_sign_in) {
   private class SignInError(message: String) : Exception(message)

@@ -3,8 +3,11 @@ package com.cameldridge.conartist.util.prettystring
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.SpannedString
-import com.cameldridge.conartist.util.prettystring.PrettyString.Companion.State.*
-import java.lang.Exception
+import com.cameldridge.conartist.util.prettystring.PrettyString.Companion.State.Close
+import com.cameldridge.conartist.util.prettystring.PrettyString.Companion.State.DoubleOpen
+import com.cameldridge.conartist.util.prettystring.PrettyString.Companion.State.Open
+import com.cameldridge.conartist.util.prettystring.PrettyString.Companion.State.OpenClose
+import com.cameldridge.conartist.util.prettystring.PrettyString.Companion.State.Start
 
 final class PrettyString(
   val raw: String,

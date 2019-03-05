@@ -4,7 +4,8 @@ import android.view.View
 import com.cameldridge.conartist.R
 import com.cameldridge.conartist.scenes.settings.SettingsSelectFragment
 import com.cameldridge.conartist.util.recyclerview.RecyclerViewAdaptor
-import kotlinx.android.synthetic.main.item_settings_select_option.view.*
+import kotlinx.android.synthetic.main.item_settings_select_option.view.selected_icon
+import kotlinx.android.synthetic.main.item_settings_select_option.view.title_label
 
 final class SettingsSelectOptionItem<I: SettingsSelectFragment.Item>(
   val item: I,

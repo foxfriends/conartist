@@ -28,6 +28,28 @@ data class User(
     settings.withCurrency(currency)
   )
 
+  fun addProductType(productType: ProductType) = User(
+    email,
+    name,
+    verified,
+    products,
+    productTypes + listOf(productType),
+    prices,
+    conventions,
+    settings
+  )
+
+  fun addProduct(product: Product) = User(
+    email,
+    name,
+    verified,
+    products + listOf(product),
+    productTypes,
+    prices,
+    conventions,
+    settings
+  )
+
   companion object {
     fun fromFragment(fragment: FullUserFragment) = User(
       fragment.fragments.userFragment.email,

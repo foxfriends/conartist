@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.cameldridge.conartist.ConArtistActivity
 import com.cameldridge.conartist.R
 import com.cameldridge.conartist.item.settings.SettingsSelectOptionItem
-import com.cameldridge.conartist.util.fragments.ConArtistFragment
 import com.cameldridge.conartist.scenes.settings.SettingsSelectFragment.Arguments
 import com.cameldridge.conartist.scenes.settings.SettingsSelectFragment.Item
+import com.cameldridge.conartist.util.fragments.ConArtistFragment
 import com.cameldridge.conartist.util.fragments.FragmentReturn
 import com.cameldridge.conartist.util.recyclerview.RecyclerViewAdaptor
 import com.cameldridge.conartist.util.recyclerview.bindTo

@@ -1,0 +1,17 @@
+title = "ConBravo!"
+start_date = 2019-07-26
+end_date = 2019-07-28
+
+[website]
+title = "conbravo.com"
+url = "https://2019.conbravo.com/"
+
+[address]
+address = "Hamilton Convention Centre\n1 Summers Lane\nHamilton, ON, Canada\n"
+city = "Hamilton, ON"
+country = "Canada"
+
+[address.coordinates]
+lat = 43.256763
+lon = -79.87429
+

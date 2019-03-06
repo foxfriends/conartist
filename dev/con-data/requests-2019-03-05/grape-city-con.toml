@@ -1,0 +1,17 @@
+title = "Grape City Con"
+start_date = 2019-03-24
+end_date = 2019-03-24
+
+[website]
+title = "grapecitycon.com"
+url = "http://grapecitycon.com/"
+
+[address]
+address = "Lodi Grape Festival Grounds\n413 E Lockeford St.\nLodi, CA, USA\n"
+city = "Lodi, CA"
+country = "United States"
+
+[address.coordinates]
+lat = 38.13856
+lon = -121.265816
+

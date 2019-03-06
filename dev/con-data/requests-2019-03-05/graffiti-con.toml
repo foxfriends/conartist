@@ -1,0 +1,17 @@
+title = "Modesto's Graffiti-Con"
+start_date = 2019-06-03
+end_date = 2019-06-03
+
+[website]
+title = "graffiti-con.com"
+url = "https://www.graffiti-con.com/"
+
+[address]
+address = "Modesto Centre Plaza\n1000 L St.\nModesto, CA, USA\n"
+city = "Modesto, CA"
+country = "United States"
+
+[address.coordinates]
+lat = 37.6408
+lon = -121.0042
+

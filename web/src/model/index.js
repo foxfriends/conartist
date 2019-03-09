@@ -64,9 +64,10 @@ function init(): Model {
       .subscribe(response => {
         switch (response.state) {
           case 'failed':
-            toast.show(<span>{l`Uh oh. You have been logged out!`}</span>)
-            // $FlowIgnore: not good enough at spread
-            signOut()
+            if (response.shouldLogOut) {
+              toast.show(<span>{l`Uh oh. You have been logged out!`}</span>)
+              signOut()
+            }
             break
           case 'retrieved':
             setUser(response.value)

@@ -22,7 +22,7 @@ export class ReauthorizeRequest extends GetRequest<'', User> {
             Storage.store(Storage.Auth, response.value)
           } else if (response.state === 'failed') {
             Storage.remove(Storage.Auth)
-            throw response
+            throw { ...response, shouldLogOut: true } // a bit of a hack to prevent a network error from logging out the user. Only authorization failure should cause that
           }
         }),
         switchMap(response => response.state === 'retrieved'

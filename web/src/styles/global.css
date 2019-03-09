@@ -1,5 +1,4 @@
-@import url('//brick.a.ssl.fastly.net/Fira+Sans:400,500,700');
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url('https://brick.a.ssl.fastly.net/Fira+Sans:400,500,700');
 @import './font/stylesheet.css';
 
 :global(:root) {
@@ -38,7 +37,12 @@
   --z-index--toolbar: 10;
 }
 
+:global(:root::before) {
+  content: unset !important;
+}
+
 :global(body), :global(#root) {
+  display: unset !important;
   margin: 0;
   padding: 0;
   background-color: var(--color--background);

@@ -8,6 +8,16 @@
     <base href="/">
     <title>ConArtist</title>
 
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+    <link rel="preconnect" href="https://brick.freetls.fastly.net/" crossorigin />
+    <link rel="preload" as="font" href="https://brick.freetls.fastly.net/fonts/firasans/400.woff" crossorigin />
+    <link rel="preload" as="font" href="https://brick.freetls.fastly.net/fonts/firasans/500.woff" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="https://fonts.gstatic.com/s/materialicons/v45/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2" crossorigin />
+    <link rel="preload" as="image" type="image/png" href="logo.png" />
+    <link rel="stylesheet" href="/static/main.css" />
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
@@ -22,7 +32,19 @@
     <script src="/static/rxjs.bundle.js" async></script>
     <script src="/static/date-fns.bundle.js" async></script>
     <script src="/static/conartist.min.js" defer></script>
-    <link rel="stylesheet" href="/static/main.css" />
+    <style>
+      :root { background-color: #333333 }
+      :root::before {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        content: '';
+        background-color: #111111;
+      }
+      body { display: none }
+    </style>
   </head>
   <body>
     <div id="root"></div>

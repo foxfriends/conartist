@@ -35,14 +35,13 @@ final class ManageProductsFragment: ConArtistFragment<Arguments>(R.layout.fragme
       .subscribe { ConArtistActivity.back() }
       .addTo(disposeBag)
 
-    val adaptor = RecyclerViewAdaptor<ManageProductItem>()
+    val adaptor = RecyclerViewAdaptor<ManageProductItem>(products_list)
     Model.user
       .map { user -> user.unwrap().products }
       .map { products -> products.filter { it.typeId == args.productType.id } }
       .map { products -> products.map { ManageProductItem(it) }}
       .bindTo(adaptor)
       .addTo(disposeBag)
-    products_list.adapter = adaptor
     products_list.setHasFixedSize(true)
     products_list.layoutManager = LinearLayoutManager(context)
 

@@ -61,7 +61,7 @@ final class SettingsFragment : ConArtistFragment<Null>(R.layout.fragment_setting
       .subscribe { ConArtistActivity.back() }
       .addTo(disposeBag)
 
-    val adaptor = RecyclerViewAdaptor<SettingsListItem>()
+    val adaptor = RecyclerViewAdaptor<SettingsListItem>(settings_list)
     Model.user
       .map { user -> listOf(
         SettingsHeadingItem(R.string.Products),
@@ -100,7 +100,6 @@ final class SettingsFragment : ConArtistFragment<Null>(R.layout.fragment_setting
       ) }
       .bindTo(adaptor)
       .addTo(disposeBag)
-    settings_list.adapter = adaptor
     settings_list.setHasFixedSize(true)
     settings_list.layoutManager = LinearLayoutManager(context)
 

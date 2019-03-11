@@ -61,7 +61,7 @@ where I: Item {
       .subscribe { ConArtistActivity.back() }
       .addTo(disposeBag)
 
-    val adaptor = RecyclerViewAdaptor<SettingsSelectOptionItem<I>>()
+    val adaptor = RecyclerViewAdaptor<SettingsSelectOptionItem<I>>(options_list)
     selection
       .observeOn(AndroidSchedulers.mainThread())
       .map { selected -> options.map {
@@ -71,7 +71,6 @@ where I: Item {
       } }
       .bindTo(adaptor)
       .addTo(disposeBag)
-    options_list.adapter = adaptor
     options_list.setHasFixedSize(true)
     options_list.layoutManager = LinearLayoutManager(context)
 

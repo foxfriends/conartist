@@ -1,36 +1,32 @@
-/* @flow */
-import type { Observable } from 'rxjs'
 import { of, from } from 'rxjs'
 import { map, flatMap } from 'rxjs/operators'
 
 import { parse } from '../model/product-type'
 import { GraphQLMutation } from './index'
-import type { Response, APIRequest, APIError } from './index'
-import type {
-  AddProductTypeVariables,
-  AddProductType as AddProductTypeMutation,
-  ModProductTypeVariables,
-  ModProductType as ModProductTypeMutation,
-} from './schema'
-import type { EditableProductType } from '../content/edit-products/schema'
 
-export class SaveProductType implements APIRequest<EditableProductType, $Diff<EditableProductType, { validation: any }>> {
-  addProductType: GraphQLMutation<AddProductTypeVariables, AddProductTypeMutation>
-  modProductType: GraphQLMutation<ModProductTypeVariables, ModProductTypeMutation>
-
+export class SaveProductType {
   constructor() {
-    // $FlowIgnore: trouble importing graphql files
     const addProductType = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/add-product-type.graphql')
-    // $FlowIgnore: trouble importing graphql files
     const modProductType = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/mod-product-type.graphql')
+    const deleteProductType = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/delete-product-type.graphql')
     this.addProductType = addProductType.then(addProductType => new GraphQLMutation(addProductType.default))
     this.modProductType = modProductType.then(modProductType => new GraphQLMutation(modProductType.default))
+    this.deleteProductType = deleteProductType.then(deleteProductType => new GraphQLMutation(deleteProductType.default))
   }
 
-  send(productType: EditableProductType): Observable<Response<$Diff<EditableProductType, { validation: any }>, APIError>> {
+  send(productType) {
     const { productType: original } = productType;
-    if (original && typeof productType.id === 'number') {
-      const variables: ModProductTypeVariables = {
+    if (productType.deleted) {
+      return from(this.deleteProductType)
+        .pipe(
+          flatMap(req => req.send({ typeId: productType.id })),
+          map(response => response.state === 'retrieved'
+            ? { state: 'retrieved', value: null }
+            : response
+          ),
+        )
+    } else if (original && typeof productType.id === 'number') {
+      const variables = {
         productType: {
           typeId: productType.id
         }
@@ -61,7 +57,7 @@ export class SaveProductType implements APIRequest<EditableProductType, $Diff<Ed
           )
       }
     } else {
-      const variables: AddProductTypeVariables = {
+      const variables = {
         productType: {
           name: productType.name,
           color: productType.color || 0xffffff,

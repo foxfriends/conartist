@@ -64,15 +64,36 @@ export type Props = {
   bottomAction?: ?Action,
   onProductTypeNameChange: (string) => void,
   onProductTypeColorChange: (number) => void,
+  onProductTypeDelete: () => void,
   onProductNameChange: (Id, string) => void,
   onProductQuantityChange: (Id, string) => void,
   onProductToggleDiscontinue: (Id) => void,
+  onProductDelete: (Id) => void,
   onProductReorder: (number, number) => void,
 }
 
-export function EditProductCard({ productType, products, topAction, bottomAction, onProductTypeNameChange, onProductTypeColorChange, onProductNameChange, onProductQuantityChange, onProductToggleDiscontinue, onProductReorder }: Props) {
+export function EditProductCard({
+  productType,
+  products,
+  topAction,
+  bottomAction,
+  onProductTypeNameChange,
+  onProductTypeColorChange,
+  onProductTypeDelete,
+  onProductNameChange,
+  onProductQuantityChange,
+  onProductToggleDiscontinue,
+  onProductDelete,
+  onProductReorder,
+}: Props) {
   return (
-    <Card id={scrollIdentifier('product-type', productType.id)} collapsible={true} defaultCollapsed={productType.discontinued} topAction={topAction} bottomAction={bottomAction} className={productType.discontinued ? S.discontinued : ''}>
+    <Card
+      id={scrollIdentifier('product-type', productType.id)}
+      collapsible={true}
+      defaultCollapsed={productType.discontinued}
+      topAction={topAction}
+      bottomAction={bottomAction}
+      className={productType.discontinued ? S.discontinued : ''}>
       <Fragment>
         <Input
           className={S.productTypeName}
@@ -81,11 +102,18 @@ export function EditProductCard({ productType, products, topAction, bottomAction
           onChange={onProductTypeNameChange}
           validation={productTypeValidation(productType.validation)}
           />
-        <ColorPicker
-          className={S.productTypeColor}
-          defaultValue={productType.color}
-          onChange={onProductTypeColorChange}
-          />
+        { productType.discontinued
+          ? <IconButton
+              title='delete'
+              action={onProductTypeDelete}
+              className={S.deleteTypeButton}
+              />
+          : <ColorPicker
+              className={S.productTypeColor}
+              defaultValue={productType.color}
+              onChange={onProductTypeColorChange}
+              />
+        }
       </Fragment>
       <Fragment>
         <List dataSource={products} reorderable={onProductReorder}>
@@ -101,18 +129,25 @@ export function EditProductCard({ productType, products, topAction, bottomAction
                 className={S.productName}
                 validation={productNameValidation(product.nameValidation)}
                 />
-              <Input
-                defaultValue={isNaN(product.quantity) ? '' : `${product.quantity}`}
-                placeholder={l`Quantity`}
-                onChange={quantity => onProductQuantityChange(product.id, quantity)}
-                className={S.productQuantity}
-                validation={productQuantityValidation(product.quantityValidation)}
-                />
+              { product.discontinued
+                  ? null
+                  : <Input
+                      defaultValue={isNaN(product.quantity) ? '' : `${product.quantity}`}
+                      placeholder={l`Quantity`}
+                      onChange={quantity => onProductQuantityChange(product.id, quantity)}
+                      className={S.productQuantity}
+                      validation={productQuantityValidation(product.quantityValidation)}
+                      />
+              }
               <IconButton
                 title={product.discontinued ? 'add_circle_outline' : 'remove_circle_outline'}
                 action={() => onProductToggleDiscontinue(product.id)}
                 className={S.discontinueButton}
                 />
+              { product.discontinued
+                  ? <IconButton title='delete' action={() => onProductDelete(product.id)} className={S.deleteButton}/>
+                  : null
+              }
             </Item>
           }
         </List>

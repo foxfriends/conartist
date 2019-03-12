@@ -37,53 +37,6 @@ impl Database {
             .map_err(|reason| format!("Admin clearance for user with id {} could not be retrieved. Reason: {}", user_id, reason))
     }
 
-    pub fn get_product_types_for_user(&self, maybe_user_id: Option<i32>) -> Result<Vec<ProductType>, String> {
-        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
-        producttypes::table
-            .filter(producttypes::user_id.eq(user_id))
-            .order((producttypes::sort.asc(), producttypes::type_id.asc()))
-            .load::<ProductType>(&*conn)
-            .map_err(|reason| format!("ProductTypes for user with id {} could not be retrieved. Reason: {}", user_id, reason))
-    }
-
-    pub fn get_products_for_user(&self, maybe_user_id: Option<i32>) -> Result<Vec<ProductWithQuantity>, String> {
-        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
-
-        // TODO: was nice when the counting could be done in SQL... maybe someday it can be improved
-        let items_sold: HashMap<i32, i64> =
-            records::table
-                .select(unnest(records::products))
-                .filter(records::user_id.eq(user_id))
-                .load::<i32>(&*conn)
-                .map_err(|reason| format!("Records for user with id {} could not be retrieved. Reason: {}", user_id, reason))?
-                .into_iter()
-                .fold(HashMap::new(), |mut map, index| {
-                    let amt = map.get(&index).unwrap_or(&0i64) + 1;
-                    map.insert(index, amt);
-                    map
-                });
-
-        let products_with_quantity =
-            products::table
-                .left_outer_join(inventory::table)
-                .select((products::product_id, products::type_id, products::user_id, products::name, products::sort, products::discontinued, dsl::sql::<sql_types::BigInt>("coalesce(sum(inventory.quantity), 0)")))
-                .filter(products::user_id.eq(user_id))
-                .group_by(products::product_id)
-                .order((products::sort.asc(), products::product_id.asc()))
-                .load::<ProductWithQuantity>(&*conn)
-                .map_err(|reason| format!("Products for user with id {} could not be retrieved. Reason: {}", user_id, reason))?;
-
-        Ok(products_with_quantity
-            .into_iter()
-            .map(|product| {
-                 let sold_amount = *items_sold.get(&product.product_id).unwrap_or(&0i64);
-                 ProductWithQuantity { quantity: i64::max(0, product.quantity - sold_amount), ..product }
-            })
-            .collect())
-    }
-
     pub fn get_prices_for_user(&self, maybe_user_id: Option<i32>) -> Result<Vec<Price>, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();

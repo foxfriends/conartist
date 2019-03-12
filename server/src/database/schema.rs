@@ -122,6 +122,7 @@ table! {
         name -> Varchar,
         discontinued -> Bool,
         sort -> Int4,
+        deleted -> Bool,
     }
 }
 
@@ -133,6 +134,7 @@ table! {
         color -> Nullable<Int4>,
         discontinued -> Bool,
         sort -> Int4,
+        deleted -> Bool,
     }
 }
 

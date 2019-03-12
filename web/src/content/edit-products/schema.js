@@ -19,6 +19,7 @@ export type EditableProductType = {
   color: ?number,
   sort: number,
   discontinued: boolean,
+  deleted: boolean,
 }
 
 export type EditableProduct = {
@@ -31,6 +32,7 @@ export type EditableProduct = {
   quantity: number,
   sort: number,
   discontinued: boolean,
+  deleted: boolean,
 }
 
 export type Id = number | string
@@ -59,6 +61,7 @@ export function editableProduct() {
       ...product,
       product,
       sort: index,
+      deleted: false,
       nameValidation: { state: VALID },
       quantityValidation: { state: VALID },
     }
@@ -71,6 +74,7 @@ export function editableProductType(productType: ProductType, index: number): Ed
     ...productType,
     productType,
     sort: index,
+    deleted: false,
     validation: { state: VALID },
   }
 }

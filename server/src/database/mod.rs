@@ -13,6 +13,8 @@ mod deleters;
 
 mod account;
 mod conventions;
+mod products;
+mod product_types;
 mod records;
 mod suggestions;
 mod user;

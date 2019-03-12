@@ -99,6 +99,16 @@ graphql_object!(Mutation: Database |&self| {
         }
     }
 
+    field del_user_product_type(&executor, user_id: Option<i32>, type_id: i32) -> FieldResult<bool> {
+        ensure!(type_id > 0);
+
+        dbtry! {
+            executor
+                .context()
+                .delete_product_type(user_id, type_id)
+        }
+    }
+
     // Products
     field add_user_product(&executor, user_id: Option<i32>, product: ProductAdd) -> FieldResult<ProductWithQuantity> {
         ensure!(product.name.len() > 0 && product.name.len() <= 512);
@@ -124,6 +134,16 @@ graphql_object!(Mutation: Database |&self| {
             executor
                 .context()
                 .update_product(user_id, product.product_id, product.name, product.quantity, product.discontinued, product.sort)
+        }
+    }
+
+    field del_user_product(&executor, user_id: Option<i32>, product_id: i32) -> FieldResult<bool> {
+        ensure!(product_id > 0);
+
+        dbtry! {
+            executor
+                .context()
+                .delete_product(user_id, product_id)
         }
     }
 

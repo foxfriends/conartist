@@ -19,6 +19,7 @@ pub struct Product {
     pub name: String,
     pub discontinued: bool,
     pub sort: i32,
+    pub deleted: bool,
 }
 
 impl Product {

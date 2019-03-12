@@ -10,6 +10,7 @@ pub struct ProductType {
     pub color: Option<i32>,
     pub discontinued: bool,
     pub sort: i32,
+    pub deleted: bool,
 }
 
 #[derive(AsChangeset, Debug)]

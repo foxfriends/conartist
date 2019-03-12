@@ -121,7 +121,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
     const [savedProducts, savingProducts] = savedProductTypes
       .pipe(
         pluck('value'),
-        tap(productTypes => update.setProductTypes(productTypes.map(nonEditableProductType))),
+        tap(productTypes => update.setProductTypes(productTypes.filter(x => x).map(nonEditableProductType))),
         map(productTypes => setProductTypeIds(this.state.products, productTypes)),
         tap(products => this.setState({ products })),
         switchMap(products => products.length
@@ -136,7 +136,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
     savedProducts
       .pipe(
         pluck('value'),
-        tap(products => update.setProducts(products)),
+        tap(products => update.setProducts(products.filter(x => x))),
       )
       .subscribe(() => navigate.products())
 
@@ -206,12 +206,33 @@ export class EditProducts extends ReactX.Component<Props, State> {
     }
   }
 
+  handleProductTypeDelete(id: Id) {
+    const products = this.state.products.filter(product => product.typeId !== id)
+    if (typeof id === 'string') {
+      const productTypes = this.state.productTypes.filter(productType => productType.id !== id)
+      this.setState(this.validate({ products, productTypes }))
+    } else {
+      const productTypes = this.state.productTypes.map(productType => productType.id === id ? { ...productType, deleted: true } : productType)
+      this.setState(this.validate({ products: this.state.products, productTypes }))
+    }
+  }
+
   handleProductDiscontinueToggled(id: Id) {
     if (typeof id === 'string') {
       const products = this.state.products.filter(product => product.id !== id)
       this.setState(this.validate({ products, productTypes: this.state.productTypes }))
     } else {
       const products = this.state.products.map(product => product.id === id ? { ...product, discontinued: !product.discontinued } : product)
+      this.setState(this.validate({ products, productTypes: this.state.productTypes }))
+    }
+  }
+
+  handleProductDelete(id: Id) {
+    if (typeof id === 'string') {
+      const products = this.state.products.filter(product => product.id !== id)
+      this.setState(this.validate({ products, productTypes: this.state.productTypes }))
+    } else {
+      const products = this.state.products.map(product => product.id === id ? { ...product, deleted: true } : product)
       this.setState(this.validate({ products, productTypes: this.state.productTypes }))
     }
   }
@@ -345,6 +366,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
   render() {
     const { products, productTypes, editingEnabled } = this.state
     const sortedProducts = [...products]
+      .filter(({ deleted }) => !deleted)
       .sort(by(['discontinued', Desc], ['sort', Asc], ['id', Asc]))
       .reduce(
         (sortedProducts, product) => sortedProducts.set(product.typeId, [...sortedProducts.get(product.typeId), product]),
@@ -352,6 +374,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
       )
 
     const dataSource = [...productTypes]
+      .filter(({ deleted }) => !deleted)
       .sort(by(['discontinued', Desc], ['sort', Asc], ['id', Asc]))
       .map(productType => [ productType, sortedProducts.get(productType.id) ])
 
@@ -377,9 +400,11 @@ export class EditProducts extends ReactX.Component<Props, State> {
                 bottomAction={addProduct(productType)}
                 onProductTypeNameChange={name => this.handleProductTypeNameChange(productType.id, name)}
                 onProductTypeColorChange={color => this.handleProductTypeColorChange(productType.id, color)}
+                onProductTypeDelete={() => this.handleProductTypeDelete(productType.id)}
                 onProductNameChange={(id, name) => this.handleProductNameChange(id, name)}
                 onProductQuantityChange={(id, quantity) => this.handleProductQuantityChange(id, quantity)}
                 onProductToggleDiscontinue={id => this.handleProductDiscontinueToggled(id)}
+                onProductDelete={id => this.handleProductDelete(id)}
                 onProductReorder={(start, index) => this.handleProductSortChange(productType.id, start, index)}
                 key={`product_type_${productType.id}`}
                 />

@@ -5,95 +5,9 @@ use diesel::prelude::*;
 use super::Database;
 use super::models::*;
 use super::schema::*;
-use super::dsl::*;
 use crate::money::Money;
 
 impl Database {
-    pub fn update_product_type(&self,
-        maybe_user_id: Option<i32>,
-        type_id: i32,
-        name: Option<String>,
-        color: Option<i32>,
-        discontinued: Option<bool>,
-        sort: Option<i32>,
-    ) -> Result<ProductType, String> {
-        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
-        diesel::update(producttypes::table)
-            .filter(producttypes::type_id.eq(type_id))
-            .filter(producttypes::user_id.eq(user_id))
-            .set(&ProductTypeChange { name, color, discontinued, sort })
-            .get_result(&*conn)
-            .map_err(|reason| format!("Could not update product type with id {}. Reason: {}", type_id, reason))
-    }
-
-    pub fn update_product(&self,
-        maybe_user_id: Option<i32>,
-        product_id: i32,
-        name: Option<String>,
-        quantity: Option<i32>,
-        discontinued: Option<bool>,
-        sort: Option<i32>,
-    ) -> Result<ProductWithQuantity, String> {
-        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
-
-        conn.transaction(|| {
-                let product =
-                    products::table
-                        .filter(products::product_id.eq(product_id))
-                        .filter(products::user_id.eq(user_id));
-                if !diesel::select(dsl::exists(product)).get_result::<bool>(&*conn)? {
-                    return Err(diesel::result::Error::NotFound)
-                }
-
-                let sold =
-                    records::table
-                        .select(unnest(records::products))
-                        .filter(records::user_id.eq(user_id))
-                        .load::<i32>(&*conn)
-                        .unwrap_or(vec![])
-                        .into_iter()
-                        .filter(|id| *id == product_id)
-                        .collect::<Vec<_>>()
-                        .len() as i64;
-
-                let updated_product: Product =
-                    if name.is_some() || discontinued.is_some() || sort.is_some() {
-                        diesel::update(products::table)
-                            .filter(products::product_id.eq(product_id))
-                            .filter(products::user_id.eq(user_id))
-                            .set(&ProductChanges { name, discontinued, sort })
-                            .get_result(&*conn)?
-                    } else {
-                        products::table
-                            .filter(products::product_id.eq(product_id))
-                            .first(&*conn)?
-                    };
-
-                let total =
-                    inventory::table
-                        .select(dsl::sum(inventory::quantity))
-                        .filter(inventory::product_id.eq(product_id))
-                        .group_by(inventory::product_id)
-                        .first::<_>(&*conn)
-                        .unwrap_or(None)
-                        .unwrap_or(0i64);
-
-                if let Some(quantity) = quantity {
-                    // Allow (total-sold) here to be negative to compensate for overselling miscounted
-                    // items
-                    let quantity_delta = (quantity as i64) - (total - sold);
-                    diesel::insert_into(inventory::table)
-                        .values((inventory::product_id.eq(product_id), inventory::quantity.eq(quantity_delta as i32)))
-                        .execute(&*conn)?;
-                }
-
-                Ok(updated_product.with_quantity(quantity.unwrap_or(i64::max(0, total - sold) as i32) as i64))
-            })
-            .map_err(|reason| format!("Could not update product with id {}. Reason: {}", product_id, reason))
-    }
-
     pub fn update_record(&self, maybe_user_id: Option<i32>, record_id: i32, products: Option<Vec<i32>>, price: Option<Money>, info: Option<String>) -> Result<Record, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();

@@ -1,37 +1,32 @@
-/* @flow */
-import type { Observable } from 'rxjs'
 import { of, from } from 'rxjs'
 import { map, flatMap } from 'rxjs/operators'
 
 import { parse } from '../model/product'
 import { GraphQLMutation } from './index'
-import type { Response, APIRequest, APIError } from './index'
-import type {
-  AddProductVariables,
-  AddProduct as AddProductMutation,
-  ModProductVariables,
-  ModProduct as ModProductMutation,
-} from './schema'
-import type { Product } from '../model/product'
-import type { EditableProduct } from '../content/edit-products/schema'
 
-export class SaveProduct implements APIRequest<EditableProduct, Product> {
-  addProduct: GraphQLMutation<AddProductVariables, AddProductMutation>
-  modProduct: GraphQLMutation<ModProductVariables, ModProductMutation>
-
+export class SaveProduct {
   constructor() {
-    // $FlowIgnore: trouble importing graphql files
     const addProduct = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/add-product.graphql')
-    // $FlowIgnore: trouble importing graphql files
     const modProduct = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/mod-product.graphql')
+    const deleteProduct = import(/* webpackChunkName: 'mutations' */ './graphql/mutation/delete-product.graphql')
     this.addProduct = addProduct.then(addProduct => new GraphQLMutation(addProduct.default))
     this.modProduct = modProduct.then(modProduct => new GraphQLMutation(modProduct.default))
+    this.deleteProduct = deleteProduct.then(deleteProduct => new GraphQLMutation(deleteProduct.default))
   }
 
-  send(product: EditableProduct): Observable<Response<Product, string>> {
+  send(product) {
     const { product: original } = product;
-    if (original && typeof product.id === 'number') {
-      const variables: ModProductVariables = {
+    if (product.deleted) {
+      return from(this.deleteProduct)
+        .pipe(
+          flatMap(req => req.send({ productId: product.id })),
+          map(response => response.state === 'retrieved'
+            ? { state: 'retrieved', value: null }
+            : response
+          ),
+        )
+    } else if (original && typeof product.id === 'number') {
+      const variables = {
         product: {
           productId: product.id,
         }
@@ -63,7 +58,7 @@ export class SaveProduct implements APIRequest<EditableProduct, Product> {
           )
       }
     } else if (typeof product.typeId === 'number') {
-      const variables: AddProductVariables = {
+      const variables = {
         product: {
           typeId: product.typeId,
           name: product.name,

@@ -12,6 +12,7 @@ import { MoneyInfo } from '../conventions/info/money-info'
 import { l } from '../../localization'
 import { Money } from '../../model/money'
 import * as navigate from '../../update/navigate'
+import { dateRecovery } from '../../util/date'
 import type { Convention } from '../../model/convention'
 import S from './card.css'
 
@@ -26,14 +27,16 @@ export function ConventionStatsCard({ convention }: Props) {
   const totalProfit = (convention.recordTotal || Money.zero).add((convention.expenseTotal || Money.zero).negate())
   const hours = convention.extraInfo.find(({ title }) => title === 'Hours')
   let profitPerHour = 0
-  if (hours) {
-    const totalHours = JSON.parse(hours.info)
-      .map(([start, end]) => differenceInHours(end, start))
-      .reduce((hours, day) => hours + day, 0)
-    if (totalHours !== 0) {
-      profitPerHour = totalProfit.multiply(1 / totalHours)
+  try {
+    if (hours) {
+      const totalHours = JSON.parse(hours.info, dateRecovery)
+        .map(([start, end]) => differenceInHours(end, start))
+        .reduce((hours, day) => hours + day, 0)
+      if (totalHours !== 0) {
+        profitPerHour = totalProfit.multiply(1 / totalHours)
+      }
     }
-  }
+  } catch (_) {}
 
   return (
     <Card>

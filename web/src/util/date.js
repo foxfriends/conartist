@@ -1,6 +1,8 @@
 /* @flow */
 import addMinutes from 'date-fns/addMinutes'
 import subMinutes from 'date-fns/subMinutes'
+import parseISO from 'date-fns/parseISO'
+import isValid from 'date-fns/isValid'
 
 export function sameDayAs(date: Date): (Date) => boolean {
   date = date || this
@@ -48,4 +50,14 @@ export function toUTC(date: Date): Date {
 export function toLocal(date: Date): Date {
   date = date || this
   return addMinutes(date, new Date(date).getTimezoneOffset())
+}
+
+export function dateRecovery(_, dateString) {
+  if (typeof dateString === 'string') {
+    const parsedDate = parseISO(dateString)
+    if (isValid(parsedDate)) {
+      return parsedDate
+    }
+  }
+  return dateString
 }

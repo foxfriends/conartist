@@ -17,6 +17,17 @@ data class User(
   val settings: Settings
 ): Parcelable {
 
+  fun merge(user: User) = User(
+    user.email,
+    user.name,
+    user.verified,
+    user.products,
+    user.productTypes,
+    user.prices,
+    user.conventions, // TODO: merge conventions
+    user.settings
+  )
+
   fun withCurrency(currency: Currency) = User(
     email,
     name,

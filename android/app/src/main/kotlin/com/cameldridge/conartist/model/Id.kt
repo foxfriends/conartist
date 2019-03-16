@@ -16,10 +16,17 @@ import java.lang.reflect.Type
 import java.util.UUID
 
 sealed class Id: Parcelable {
+  final class InvalidIDException : Exception()
+
   @Parcelize
   data class Id(val int: Int) : com.cameldridge.conartist.model.Id()
   @Parcelize
   data class Uuid(val uuid: UUID): com.cameldridge.conartist.model.Id()
+
+  val intValue = when (this) {
+    is Id -> int
+    else -> throw InvalidIDException()
+  }
 
   object IdAdaptor: JsonAdapter<com.cameldridge.conartist.model.Id>() {
     @ToJson

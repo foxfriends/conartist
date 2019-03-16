@@ -20,6 +20,7 @@ import com.cameldridge.conartist.util.fragments.ConArtistFragment
 import com.cameldridge.conartist.util.prettystring.prettify
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.textChanges
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Observables
@@ -61,14 +62,14 @@ final class SignInFragment : ConArtistFragment<Null>(R.layout.fragment_sign_in) 
       .withLatestFrom(email, password)
       .doOnEach { processing.onNext(true) }
       .observeOn(Schedulers.io())
-      .switchMap { (_, email, password) -> API.request
+      .switchMapMaybe { (_, email, password) -> API.request
         .signIn(SignIn(email.toString(), password.toString()))
         .observeOn(AndroidSchedulers.mainThread())
-        .toObservable()
+        .toMaybe()
         .onErrorResumeNext { _: Throwable ->
           Toast.makeText(context, R.string.An_unknown_error_has_occurred, Toast.LENGTH_SHORT).show()
           processing.onNext(false)
-          Observable.empty<ConRequest<String>>()
+          Maybe.empty<ConRequest<String>>()
         }
       }
       .flatMap { response -> when (response) {
@@ -80,14 +81,14 @@ final class SignInFragment : ConArtistFragment<Null>(R.layout.fragment_sign_in) 
         }
       }}
       .observeOn(Schedulers.io())
-      .switchMap { _ -> Model.loadUser()
-        .toObservable()
+      .switchMapMaybe { _ -> Model.loadUser()
+        .toMaybe()
         .observeOn(AndroidSchedulers.mainThread())
         .onErrorResumeNext { _: Throwable ->
           Toast.makeText(context, R.string.An_unknown_error_has_occurred, Toast.LENGTH_SHORT).show()
           ConArtist.authorize(API.UNAUTHORIZED)
           processing.onNext(false)
-          Observable.empty<User>()
+          Maybe.empty<User>()
         }
       }
       .doOnEach { processing.onNext(false) }

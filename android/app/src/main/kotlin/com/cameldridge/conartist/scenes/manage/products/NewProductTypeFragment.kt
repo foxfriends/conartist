@@ -52,7 +52,7 @@ final class NewProductTypeFragment: ConArtistFragment<Null>(R.layout.fragment_ne
               .build())
             .build()
         )
-        .map { it -> it.addUserProductType.fragments.productTypeFragment }
+        .map { it -> it.data()!!.addUserProductType.fragments.productTypeFragment }
         .map { Result.success(ProductType.fromFragment(it)) }
         .toObservable()
         .onErrorReturn { Result.failure(it) }

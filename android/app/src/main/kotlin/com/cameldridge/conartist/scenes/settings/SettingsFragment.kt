@@ -32,7 +32,6 @@ import com.cameldridge.conartist.util.extension.observe
 import com.cameldridge.conartist.util.fragments.ConArtistFragment
 import com.cameldridge.conartist.util.option.Option.None
 import com.cameldridge.conartist.util.option.Option.Some
-import com.cameldridge.conartist.util.option.asOption
 import com.cameldridge.conartist.util.prettystring.prettify
 import com.cameldridge.conartist.util.recyclerview.RecyclerViewAdaptor
 import com.cameldridge.conartist.util.recyclerview.bindTo
@@ -124,11 +123,10 @@ final class SettingsFragment : ConArtistFragment<Null>(R.layout.fragment_setting
               selected = SettingsSelectFragment.Item.Currency(Model.user.value!!.unwrap().settings.currency)
             ))
             .map { it.currency }
-            .flatMap { currency ->
+            .flatMapSingle { currency ->
               Model.setCurrency(currency)
               API.graphql
                 .observe(UpdateCurrencyMutation.builder().currency(currency).build())
-                .toMaybe()
             }
             .subscribe(
               {},

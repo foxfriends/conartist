@@ -132,19 +132,13 @@ final class RecyclerViewAdaptor<I: Item>(
     val itemTouchHelper = ItemTouchHelper(ItemTouchHelperCallback(_itemMoves, _itemDrops, _itemSwipes))
     itemTouchHelper.attachToRecyclerView(recyclerView)
     itemMoves
-      .subscribe { (_item, from, to) -> {
+      .subscribe { (_, from, to) ->
         // TODO: investigate using remove + insert instead of swapswapswap
-        if (from < to) {
-          for (i in from until to) {
-            Collections.swap(dataSource, i, i + 1)
-          }
-        } else {
-          for (i in from downTo to + 1) {
-            Collections.swap(dataSource, i, i - 1)
-          }
-        }
+        val moved = dataSource.toMutableList()
+        moved.add(to, moved.removeAt(from))
+        dataSource = moved.toList()
         notifyItemMoved(from, to)
-      }}
+      }
       .addTo(disposeBag)
     recyclerView.adapter = this
   }

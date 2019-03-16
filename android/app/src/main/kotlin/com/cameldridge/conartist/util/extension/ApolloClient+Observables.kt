@@ -23,7 +23,6 @@ fun <D: Operation.Data, T, V: Operation.Variables> ApolloClient.observe(mutation
   = Rx2Apollo
   .from(mutate(mutation))
   .singleOrError()
-  .map { it.data() }
   .doOnError { error -> when (error) {
     is ApolloHttpException -> when (error.code()) {
       401 -> ConArtist.signOut()

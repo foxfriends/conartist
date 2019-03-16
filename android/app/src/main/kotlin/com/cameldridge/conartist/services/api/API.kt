@@ -1,6 +1,7 @@
 package com.cameldridge.conartist.services.api
 
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.api.cache.http.HttpCachePolicy
 import com.apollographql.apollo.response.CustomTypeAdapter
 import com.apollographql.apollo.response.CustomTypeValue
 import com.cameldridge.conartist.BuildConfig
@@ -76,6 +77,7 @@ object API {
   val graphql: ApolloClient = ApolloClient.builder()
     .serverUrl(BuildConfig.GRAPH_URL)
     .okHttpClient(client)
+    .defaultHttpCachePolicy(HttpCachePolicy.NETWORK_ONLY)
     .addCustomTypeAdapter(CustomType.DATETIMEFIXEDOFFSET, DateAdaptor(RFC3339))
     .addCustomTypeAdapter(CustomType.DATETIMEUTC, DateAdaptor(RFC3339))
     .addCustomTypeAdapter(CustomType.NAIVEDATE, DateAdaptor(RFC3339))

@@ -1,0 +1,18 @@
+title = "Doujin Market - Doujima"
+start_date = 2019-05-04
+end_date = 2019-05-05
+tags = ["anime", "comic", "doujinshi", "doujin"]
+
+[website]
+title = "doujimasg.com"
+url = "http://www.doujimasg.com"
+
+[address]
+address = "Suntec City Halls 401/402\n3 Temasek Blvd\nSingapore 038983\n"
+city = "Singapore"
+country = "Singapore"
+
+[address.coordinates]
+lat = 1.2947111
+lon = 103.85659
+

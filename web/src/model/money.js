@@ -13,6 +13,9 @@ export type Currency
   | 'CNY'
   | 'JPY'
   | 'PHP'
+  | 'SGD'
+
+export const CURRENCIES = ['CAD', 'USD', 'MXN', 'AUD', 'EUR', 'GBP', 'SEK', 'CNY', 'JPY', 'PHP', 'SGD']
 
 function stripCurrencySymbol(string: string, ...symbols: string[]): string {
   for (const symbol of symbols.map(s => s.toLowerCase())) {
@@ -52,17 +55,17 @@ export class Money {
   }
 
   static parse(string: string, currency?: Currency = model.model.getValue().settings.currency): Money {
-    string = string.trim();
+    string = string.replace(/\s/g, '');
     if (string === '') { throw new Error('Empty string cannot be parsed as Money') }
     switch (currency) {
       case 'CAD':
-        return parseDollarsAndCents(string, currency, '$', 'CA$')
+        return parseDollarsAndCents(string, currency, '$', 'CA$', '$CA')
       case 'USD':
-        return parseDollarsAndCents(string, currency, '$', 'US$')
+        return parseDollarsAndCents(string, currency, '$', 'US$', '$US')
       case 'MXN':
-        return parseDollarsAndCents(string, currency, '$', 'MX$')
+        return parseDollarsAndCents(string, currency, '$', 'MX$', '$MX')
       case 'AUD':
-        return parseDollarsAndCents(string, currency, '$', 'A$')
+        return parseDollarsAndCents(string, currency, '$', 'A$', '$AU')
       case 'EUR':
         return parseDollarsAndCents(string, currency, '€')
       case 'GBP':
@@ -75,6 +78,8 @@ export class Money {
         return parseDollarsAndCents(string, currency, '¥', '￥', 'CN¥', 'CN￥', '元')
       case 'PHP':
         return parseDollarsAndCents(string, currency, '₱')
+      case 'SGD':
+        return parseDollarsAndCents(string, currency, '$', 'S$', '$SG')
     }
     throw new Error(`Unknown currency to parse: ${currency}`)
   }
@@ -97,6 +102,7 @@ export class Money {
       case 'SEK':
       case 'CNY':
       case 'PHP':
+      case 'SGD':
         return (this.amount / 100.0).toLocaleString(locale, { style: 'currency', currency, useGrouping: false })
       case 'JPY':
         return this.amount.toLocaleString(locale, { style: 'currency', currency, useGrouping: false })

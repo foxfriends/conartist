@@ -9,21 +9,22 @@
 import Foundation
 
 enum CurrencyCode: String, Codable, Equatable, CaseIterable {
-    case AUTO, CAD, USD, MXN, AUD, EUR, GBP, SEK, CNY, JPY, PHP
+    case AUTO, CAD, USD, MXN, AUD, EUR, GBP, SEK, CNY, JPY, PHP, SGD
 
     var symbol: [String] {
         switch self {
         case .AUTO: return [""]
-        case .CAD: return ["$", "CA$"]
-        case .USD: return ["$", "US$"]
-        case .MXN: return ["$", "MX$"]
-        case .AUD: return ["$", "A$"]
+        case .CAD: return ["$", "CA$", "$CA"]
+        case .USD: return ["$", "US$", "$US"]
+        case .MXN: return ["$", "MX$", "$MX"]
+        case .AUD: return ["$", "A$", "$AU"]
         case .SEK: return ["kr"]
         case .EUR: return ["€"]
         case .GBP: return ["£"]
         case .CNY: return ["￥", "¥", "CN¥", "CN￥", "元"]
         case .JPY: return ["￥", "¥", "JP¥", "JP￥"]
         case .PHP: return ["₱"]
+        case .SGD: return ["$", "S$", "$SG"]
         }
     }
 }
@@ -36,7 +37,7 @@ struct Money: Codable {
     static func parse(as currency: CurrencyCode, _ string: String) -> Money? {
         switch currency {
         case .AUTO: return nil // cannot parse a currency as auto
-        case .CAD, .USD, .MXN, .AUD, .EUR, .GBP, .SEK, .CNY, .PHP:
+        case .CAD, .USD, .MXN, .AUD, .EUR, .GBP, .SEK, .CNY, .PHP, .SGD:
             return parseDollarsAndCents(string, currency: currency)
         case .JPY:
             return parseJustDollars(string, currency: currency)
@@ -107,7 +108,7 @@ extension Money {
     /// Approximates this value as a float
     var numericValue: Float {
         switch currency {
-        case .CAD, .USD, .MXN, .AUD, .EUR, .GBP, .SEK, .CNY, .PHP:
+        case .CAD, .USD, .MXN, .AUD, .EUR, .GBP, .SEK, .CNY, .PHP, .SGD:
             return Float(amount) / 100.0
         case .JPY, .AUTO:
             return Float(amount)

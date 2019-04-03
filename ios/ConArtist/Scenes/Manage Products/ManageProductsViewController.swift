@@ -175,6 +175,33 @@ extension ManageProductsViewController: UITableViewDelegate {
 
         ConArtist.model.products.accept(moved)
     }
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let product = products.value[indexPath.row]
+        guard product.discontinued else {
+            return nil
+        }
+
+        let delete = UIContextualAction(style: .destructive, title: "Delete"¡) { action, view, done in
+            self.showConfirmation(title: "Delete this product?"¡, message: "This cannot be undone"¡, accept: "Delete"¡) {
+                let mutation = DeleteProductMutation(productId: product.id)
+                _ = ConArtist.API.GraphQL.observe(mutation: mutation)
+                    .subscribe(
+                        onSuccess: { _ in
+                            ConArtist.model.delete(product: product)
+                        },
+                        onError: { [weak self] error in
+                            self?.showAlert(
+                                title: "An unknown error has occurred"¡,
+                                message: "Some actions might not have been saved. Please try again later"¡
+                            )
+                        }
+                    )
+            }
+        }
+
+        return UISwipeActionsConfiguration(actions: [delete])
+    }
 }
 
 // MARK: - Navigation

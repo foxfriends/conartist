@@ -266,6 +266,9 @@ Reorder = "Reorder"
 "You can charge more than that!" = "You can charge more than that!"
 "You can't have less than none!" = "You can't have less than none!"
 "You can't sell none!" = "You can't sell none!"
+"Delete this product?" = "Delete this product?"
+"Delete this product type?" = "Delete this product type?"
+"This cannot be undone" = "This cannot be undone"
 
 # Import/Export
 "Ensure the format above matches your data" = "Ensure the format above matches your data"

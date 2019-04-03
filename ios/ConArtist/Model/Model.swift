@@ -145,6 +145,12 @@ extension Model {
         productTypes.accept(types)
     }
 
+    func delete(productType type: ProductType) {
+        var types = productTypes.value
+        types.removeFirst { $0.id == type.id }
+        productTypes.accept(types)
+    }
+
     func update(product: Product) {
         var prods = products.value
         if let index = prods.firstIndex(where: { $0.id == product.id }) {
@@ -152,6 +158,12 @@ extension Model {
         } else {
             prods.append(product)
         }
+        products.accept(prods)
+    }
+
+    func delete(product: Product) {
+        var prods = products.value
+        prods.removeFirst { $0.id == product.id }
         products.accept(prods)
     }
 

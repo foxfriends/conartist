@@ -241,6 +241,11 @@ Country = "国家"
 "Stay signed in" = "TODO: translate"
 "Sign up at conartist.app" = "在{action:conartist.app}上注册"
 
+# Products/product types
+"Delete this product?" = "Delete this product?"
+"Delete this product type?" = "Delete this product type?"
+"This cannot be undone" = "This cannot be undone"
+
 # Convention search
 "There are no conventions right now" = "现在没有博览会"
 "<Convention search empty>" = "TODO: translate"

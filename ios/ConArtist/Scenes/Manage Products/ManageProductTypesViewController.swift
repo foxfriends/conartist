@@ -94,12 +94,18 @@ extension ManageProductTypesViewController {
 
         if case .products = mode! {
             navBar.rightButton.rx.tap
-                .subscribe(onNext: { [navBar, productTypesTableView = productTypesTableView!, newProductTypeButton] _ in
+                .subscribe(onNext: { [
+                    navBar,
+                    productTypesTableView = productTypesTableView!,
+                    newProductTypeButton,
+                    newProductTypeImageView
+                ] _ in
                     let editing = !productTypesTableView.isEditing
                     productTypesTableView.setEditing(editing, animated: true)
                     navBar?.rightButtonTitle = editing ? "Done"¡ : "Edit"¡
                     navBar?.leftButton.isEnabled = !editing
                     newProductTypeButton?.isHidden = editing
+                    newProductTypeImageView?.isHidden = editing
                 })
                 .disposed(by: disposeBag)
 
@@ -199,6 +205,33 @@ extension ManageProductTypesViewController: UITableViewDelegate {
 
         ConArtist.model.productTypes.accept(moved)
     }
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let type = ConArtist.model.productTypes.value[indexPath.row]
+        guard type.discontinued else {
+            return nil
+        }
+
+        let delete = UIContextualAction(style: .destructive, title: "Delete"¡) { action, view, done in
+            self.showConfirmation(title: "Delete this product type?"¡, message: "This cannot be undone"¡, accept: "Delete"¡) {
+                let mutation = DeleteProductTypeMutation(typeId: type.id)
+                _ = ConArtist.API.GraphQL.observe(mutation: mutation)
+                    .subscribe(
+                        onSuccess: { _ in
+                            ConArtist.model.delete(productType: type)
+                        },
+                        onError: { [weak self] error in
+                            self?.showAlert(
+                                title: "An unknown error has occurred"¡,
+                                message: "Some actions might not have been saved. Please try again later"¡
+                            )
+                        }
+                    )
+            }
+        }
+
+        return UISwipeActionsConfiguration(actions: [delete])
+    }
 }
 
 // MARK: - Navigation
@@ -213,3 +246,4 @@ extension ManageProductTypesViewController: ViewControllerNavigation {
         ConArtist.model.navigate(push: controller)
     }
 }
+

@@ -92,6 +92,16 @@ Today section, and you'll be able to record sales!
 Until the convention starts you cannot record sales, but you can put some expenses in early (like
 table fees or arranged hotel costs) so you don't forget.
 
+## Can I delete a product/product type?
+
+Yes! To delete a product, first consider discontinuing it. Discontinuing a product will hide it from
+you in daily use, but still allows you to bring it back in future. If you do still want to
+completely delete this product, once it's discontinued then the option to fully delete becomes
+available (there's a button on the website, and a swipe to delete on the app).
+
+Note that if you have already sold the product you are deleting, it will still appear in the
+existing records. Those will not be changed.
+
 ## A convention I plan to attend is not listed. What to do?
 
 Just send an email, or a message on Discord, and we'll try to add your convention as soon as

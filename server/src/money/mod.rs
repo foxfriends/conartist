@@ -5,7 +5,6 @@ use std::fmt::{Display, Formatter};
 use std::ops::Add;
 use serde_json;
 use serde::{Serialize, Deserialize, Serializer, Deserializer};
-use serde_derive::{Serialize, Deserialize};
 
 /// Represents a specific currency. Strings are more versatile here, but not as stable.
 #[derive(Copy, Clone, PartialEq, Eq, Debug, Serialize, Deserialize)]

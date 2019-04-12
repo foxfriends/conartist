@@ -1,7 +1,7 @@
 use chrono::{Utc, Duration};
 use iron::typemap::Key;
 use jsonwebtoken::{errors::Error, encode, Header};
-use serde_derive::{Serialize, Deserialize};
+use serde::{Serialize, Deserialize};
 use crate::env::JWT_SECRET;
 
 #[derive(Copy, Clone, Serialize, Deserialize, Debug)]

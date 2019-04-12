@@ -9,7 +9,7 @@ use crate::database::Database;
 use crate::middleware::VerifyJWT;
 use crate::cr;
 use super::authtoken::{self, Claims};
-use serde_derive::Deserialize;
+use serde::Deserialize;
 
 #[cfg(feature="mailer")]
 use crate::email::{confirm_new_account, confirm_email};

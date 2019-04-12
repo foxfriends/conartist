@@ -7,7 +7,7 @@ use iron::{status, Handler, iexpect, itry};
 use router::Router;
 use params::{Params, Value};
 use bcrypt;
-use serde_derive::Deserialize;
+use serde::Deserialize;
 use crate::database::Database;
 use crate::middleware::VerifyJWT;
 use crate::cr;

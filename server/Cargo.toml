@@ -49,9 +49,10 @@ base64 = "0.9"
 
 # util
 lazy_static = "1.2"
+failure = "0.1"
 
-lettre = { version = "0.8", default-features = false, features = ["smtp-transport"], optional = true }
-lettre_email = { version = "0.8", optional = true }
+lettre = { version = "0.9", default-features = false, features = ["smtp-transport"], optional = true }
+lettre_email = { version = "0.9", optional = true }
 
 # NOTE: using the fork of Juniper because Apollo is unable to download schemas from the original
 #       Juniper for some reason.

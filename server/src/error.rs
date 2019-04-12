@@ -1,6 +1,7 @@
 //! Simple error type
 use std::error::Error;
 use std::fmt::{Display, Debug, Formatter, Result};
+use failure;
 
 #[derive(Debug)]
 pub struct StringError(pub String);
@@ -12,7 +13,7 @@ impl Display for StringError {
 }
 
 impl Error for StringError {
-    fn description(&self) -> &str { &*self.0 }
+    fn source(&self) -> Option<&(dyn Error + 'static)> { None }
 }
 
 #[derive(Debug)]
@@ -25,7 +26,7 @@ impl Display for MoneyError {
 }
 
 impl Error for MoneyError {
-    fn description(&self) -> &str { &*self.0 }
+    fn source(&self) -> Option<&(dyn Error + 'static)> { None }
 }
 
 #[cfg(feature="mailer")]
@@ -39,6 +40,7 @@ mod mail {
     pub enum MailerError {
         Building(lettre_email::error::Error),
         Sending(lettre::smtp::error::Error),
+        Failure(failure::Error),
     }
 
     impl Display for MailerError {
@@ -48,10 +50,10 @@ mod mail {
     }
 
     impl Error for MailerError {
-        fn description(&self) -> &str {
+        fn source(&self) -> Option<&(dyn Error + 'static)> {
             match self {
-                MailerError::Building(error) => error.description(),
-                MailerError::Sending(error) => error.description(),
+                MailerError::Sending(error) => Some(error),
+                _ => None,
             }
         }
     }
@@ -59,6 +61,12 @@ mod mail {
     impl From<lettre_email::error::Error> for MailerError {
         fn from(error: lettre_email::error::Error) -> Self {
             MailerError::Building(error)
+        }
+    }
+
+    impl From<failure::Error> for MailerError {
+        fn from(error: failure::Error) -> Self {
+            MailerError::Failure(error)
         }
     }
 

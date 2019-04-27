@@ -3,6 +3,7 @@ Thumbs.db
 database/.staging
 database/.production
 database/migrate-prod-db*
+server/analytics
 server/start
 server/staging
 target/

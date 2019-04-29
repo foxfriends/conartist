@@ -1,0 +1,26 @@
+title = "G-Anime Summer Edition"
+start_date = 2019-07-13
+end_date = 2019-07-14
+tags = ["anime", "gaming", "comic"]
+
+[[hours]]
+start = 2019-07-13 10:00:00-04:00
+end   = 2019-07-13 17:00:00-04:00
+
+[[hours]]
+start = 2019-07-14 10:00:00-04:00
+end   = 2019-07-14 17:00:00-04:00
+
+[website]
+title = "ganime.ca"
+url = "https://ganime.ca"
+
+[address]
+address = "Palais des congrès de Gatineau\n50 Maisonneuve Boulevard,\nGatineau, QC J8X\n"
+city = "Gatineau, QC"
+country = "Canada"
+
+[address.coordinates]
+lat = 45.427044
+lon = -75.71577
+

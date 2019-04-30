@@ -3,6 +3,7 @@ import * as React from 'react'
 
 import { Table } from '../../common/table'
 import { Icon } from '../../common/icon'
+import { Tooltip } from '../../common/tooltip'
 import { Font } from '../../common/font'
 import { Link } from '../../common/link'
 import { IconButton } from '../../common/icon-button'
@@ -39,11 +40,15 @@ export function ConventionCard({ convention, includeHours, showDetails, starrabl
     <Card>
       <BasicHeader>
         { starrable
-          ? <IconButton
-              title={selected ? 'star' : 'star_outline'}
-              action={toggleStarred}
-              priority='secondary'
-              className={`${S.star} ${selected ? S.starSelected : ''}`}/>
+          ? <div className={S.starContainer}>
+              <Tooltip title={selected ? l`Going` : l`Not going`}>
+                <IconButton
+                  title={selected ? 'bookmark' : 'bookmark_border'}
+                  action={toggleStarred}
+                  priority='secondary'
+                  className={`${S.star} ${selected ? S.starSelected : ''}`}/>
+              </Tooltip>
+            </div>
           : null
         }
         {convention.name}

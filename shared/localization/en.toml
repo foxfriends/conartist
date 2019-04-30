@@ -95,6 +95,8 @@ Why don't you go find one you like?
 "You haven't been to any conventions yet..." = "You haven't been to any conventions yet…"
 
 # Convention search
+Going = "Going"
+"Not going" = "Not going"
 "There are no conventions right now" = "There are no conventions right now"
 "<Convention search empty>" = "There are no conventions matching your search."
 

@@ -1,7 +1,11 @@
-.star {
-  font-size: 16px;
+.starContainer {
+  display: inline-block;
   margin-left: -4px;
   margin-right: 10px;
+}
+
+.star {
+  font-size: 16px;
 }
 
 .starSelected {

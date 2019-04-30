@@ -247,6 +247,8 @@ Country = "国家"
 "This cannot be undone" = "This cannot be undone"
 
 # Convention search
+Going = "参加"
+"Not going" = "不参加"
 "There are no conventions right now" = "现在没有博览会"
 "<Convention search empty>" = "TODO: translate"
 

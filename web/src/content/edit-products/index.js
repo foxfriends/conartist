@@ -282,6 +282,17 @@ export class EditProducts extends ReactX.Component<Props, State> {
     this.setState(this.validate({ products: this.state.products, productTypes }))
   }
 
+  sortProductsAlphabetically(typeId) {
+    const products = this.state.products.filter(product => product.typeId === typeId)
+    products.sort(by(['name', Asc]))
+    const sorted = this.state.products
+      .map(product => product.typeId === typeId
+        ? { ...product, sort: products.findIndex(p => p.id === product.id) }
+        : product
+      )
+    this.setState(this.validate({ products: sorted, productTypes: this.state.productTypes }))
+  }
+
   createProductType() {
     const newProductType: EditableProductType = {
       productType: null,
@@ -406,6 +417,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
                 onProductToggleDiscontinue={id => this.handleProductDiscontinueToggled(id)}
                 onProductDelete={id => this.handleProductDelete(id)}
                 onProductReorder={(start, index) => this.handleProductSortChange(productType.id, start, index)}
+                onSortAlphabetically={() => this.sortProductsAlphabetically(productType.id)}
                 key={`product_type_${productType.id}`}
                 />
           }

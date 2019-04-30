@@ -70,6 +70,7 @@ export type Props = {
   onProductToggleDiscontinue: (Id) => void,
   onProductDelete: (Id) => void,
   onProductReorder: (number, number) => void,
+  onSortAlphabetically: () => void,
 }
 
 export function EditProductCard({
@@ -85,6 +86,7 @@ export function EditProductCard({
   onProductToggleDiscontinue,
   onProductDelete,
   onProductReorder,
+  onSortAlphabetically,
 }: Props) {
   return (
     <Card
@@ -108,11 +110,18 @@ export function EditProductCard({
               action={onProductTypeDelete}
               className={S.deleteTypeButton}
               />
-          : <ColorPicker
-              className={S.productTypeColor}
-              defaultValue={productType.color}
-              onChange={onProductTypeColorChange}
-              />
+          : <>
+              <IconButton
+                className={S.sortButton}
+                title='sort_by_alpha'
+                action={onSortAlphabetically}
+                />
+              <ColorPicker
+                className={S.productTypeColor}
+                defaultValue={productType.color}
+                onChange={onProductTypeColorChange}
+                />
+            </>
         }
       </Fragment>
       <Fragment>

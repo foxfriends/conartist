@@ -52,8 +52,8 @@ extension ProductListViewController {
             .disposed(by: disposeBag)
 
         searchTextField.rx.text
-            .map { $0 ?? "" }
-            .map { [products] search in search == "" ? products! : products!.filter { $0.name.contains(search) } }
+            .map { $0?.lowercased() ?? "" }
+            .map { [products] search in search == "" ? products! : products!.filter { $0.name.lowercased().contains(search) } }
             .bind(to: visibleProducts)
             .disposed(by: disposeBag)
 

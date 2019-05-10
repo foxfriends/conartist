@@ -9,15 +9,22 @@
 import UIKit
 import RxCocoa
 import RxSwift
+import SVGKit
 
 class ProductListViewController : ConArtistViewController {
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var productsTableView: UITableView!
 
+    @IBOutlet weak var searchView: UIView!
+    @IBOutlet weak var cancelSearchButton: UIButton!
+    @IBOutlet weak var searchTextField: UITextField!
+
     fileprivate var productType: ProductType!
     fileprivate var records: [Record]!
     fileprivate var products: [Product]!
     fileprivate var selected: BehaviorRelay<[Product]>!
+
+    fileprivate let visibleProducts = BehaviorRelay<[Product]>(value: [])
 }
 
 // MARK: - Lifecycle
@@ -29,6 +36,31 @@ extension ProductListViewController {
         navBar.leftButton.rx.tap
             .subscribe(onNext: { _ in ConArtist.model.navigate(back: 1) })
             .disposed(by: disposeBag)
+        navBar.rightButtonImage = SVGKImage.search.uiImage
+        navBar.rightButton.rx.tap
+            .subscribe(onNext: { [searchView] _ in searchView!.isHidden = false })
+            .disposed(by: disposeBag)
+
+        cancelSearchButton.conArtistStyle()
+        cancelSearchButton.rx.tap
+            .subscribe(onNext: { [searchView, searchTextField, visibleProducts, products] _ in
+                searchTextField!.text = ""
+                searchTextField?.endEditing(true)
+                searchView!.isHidden = true
+                visibleProducts.accept(products!)
+            })
+            .disposed(by: disposeBag)
+
+        searchTextField.rx.text
+            .map { $0 ?? "" }
+            .map { [products] search in search == "" ? products! : products!.filter { $0.name.contains(search) } }
+            .bind(to: visibleProducts)
+            .disposed(by: disposeBag)
+
+        visibleProducts
+            .asDriver()
+            .drive(onNext: { [productsTableView] _ in productsTableView?.reloadData() })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -39,12 +71,12 @@ extension ProductListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return products.count
+        return visibleProducts.value.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProductTableViewCell.ID) as! ProductTableViewCell
-        let product = products[indexPath.row]
+        let product = visibleProducts.value[indexPath.row]
         cell.setup(with: product, records: records, count: selected.value.count(occurrencesOf: product))
         return cell
     }
@@ -53,16 +85,16 @@ extension ProductListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension ProductListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selected.accept(selected.value + [products[indexPath.row]])
+        selected.accept(selected.value + [visibleProducts.value[indexPath.row]])
         tableView.reloadRows(at: [indexPath], with: .none)
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let product = products[indexPath.row]
+        let product = visibleProducts.value[indexPath.row]
         var actions: [UIContextualAction] = []
         if selected.value.count(occurrencesOf: product) > 0 {
-            let removeAllAction = UIContextualAction(style: .normal, title: "Remove all"¡) { [selected, products, productsTableView, records] _, _, reset in
-                selected?.accept(selected!.value.filter((!=) <- products![indexPath.row]))
+            let removeAllAction = UIContextualAction(style: .normal, title: "Remove all"¡) { [selected, visibleProducts, productsTableView, records] _, _, reset in
+                selected?.accept(selected!.value.filter((!=) <- visibleProducts.value[indexPath.row]))
                 if let cell = productsTableView?.cellForRow(at: indexPath) as? ProductTableViewCell {
                     cell.setup(with: product, records: records!, count: selected!.value.count(occurrencesOf: product))
                 }
@@ -94,6 +126,7 @@ extension ProductListViewController: ViewControllerNavigation {
         let controller = instantiate()
         controller.productType = productType
         controller.products = products
+        controller.visibleProducts.accept(products)
         controller.records = records
         controller.selected = selected
         ConArtist.model.navigate(push: controller)

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -406,23 +406,72 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="leftButtonTitle" value="Continue"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FSO-9D-yIs">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Nr-rd-dju">
+                                        <rect key="frame" x="20" y="7.5" width="47" height="29"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
+                                        <state key="normal" title="Cancel"/>
+                                    </button>
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V5F-8e-zm7">
+                                        <rect key="frame" x="87" y="5" width="268" height="34"/>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bm4-GN-h4b">
+                                                <rect key="frame" x="10" y="5" width="248" height="24"/>
+                                                <color key="textColor" name="Text"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
+                                        <color key="backgroundColor" name="BackgroundVariant"/>
+                                        <constraints>
+                                            <constraint firstItem="bm4-GN-h4b" firstAttribute="top" secondItem="V5F-8e-zm7" secondAttribute="top" constant="5" id="1zR-yr-Cdo"/>
+                                            <constraint firstItem="bm4-GN-h4b" firstAttribute="leading" secondItem="V5F-8e-zm7" secondAttribute="leading" constant="10" id="7dk-qS-XL4"/>
+                                            <constraint firstAttribute="bottom" secondItem="bm4-GN-h4b" secondAttribute="bottom" constant="5" id="Baj-SV-IXU"/>
+                                            <constraint firstAttribute="trailing" secondItem="bm4-GN-h4b" secondAttribute="trailing" constant="10" id="OBU-1q-36B"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="8"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" name="BackgroundNavBar"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="Da0-QN-nia"/>
+                                    <constraint firstItem="9Nr-rd-dju" firstAttribute="leading" secondItem="FSO-9D-yIs" secondAttribute="leading" constant="20" id="EgX-NA-PP4"/>
+                                    <constraint firstItem="V5F-8e-zm7" firstAttribute="leading" secondItem="9Nr-rd-dju" secondAttribute="trailing" constant="20" id="N3P-kc-DNg"/>
+                                    <constraint firstItem="9Nr-rd-dju" firstAttribute="centerY" secondItem="FSO-9D-yIs" secondAttribute="centerY" id="TQr-Ky-igk"/>
+                                    <constraint firstAttribute="trailing" secondItem="V5F-8e-zm7" secondAttribute="trailing" constant="20" id="fEo-af-gO9"/>
+                                    <constraint firstItem="V5F-8e-zm7" firstAttribute="top" secondItem="FSO-9D-yIs" secondAttribute="top" constant="5" id="fX5-5L-qEo"/>
+                                    <constraint firstAttribute="bottom" secondItem="V5F-8e-zm7" secondAttribute="bottom" constant="5" id="t2V-EQ-10t"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" name="Background"/>
                         <constraints>
                             <constraint firstItem="6AW-bi-o5M" firstAttribute="bottom" secondItem="R3k-ci-nhs" secondAttribute="top" constant="44" id="3mm-dF-Ed0"/>
                             <constraint firstItem="R3k-ci-nhs" firstAttribute="trailing" secondItem="6AW-bi-o5M" secondAttribute="trailing" id="AeL-6c-cPm"/>
+                            <constraint firstItem="FSO-9D-yIs" firstAttribute="leading" secondItem="6AW-bi-o5M" secondAttribute="leading" id="Ah3-E0-FyH"/>
                             <constraint firstItem="6AW-bi-o5M" firstAttribute="leading" secondItem="R3k-ci-nhs" secondAttribute="leading" id="KVa-8Y-RVb"/>
                             <constraint firstItem="6AW-bi-o5M" firstAttribute="top" secondItem="E7Q-Yk-DUp" secondAttribute="top" id="QRH-sh-OR8"/>
                             <constraint firstAttribute="bottom" secondItem="ixm-cx-1c0" secondAttribute="bottom" id="YtH-pT-eRK"/>
                             <constraint firstItem="ixm-cx-1c0" firstAttribute="top" secondItem="6AW-bi-o5M" secondAttribute="bottom" id="cff-3L-vRH"/>
                             <constraint firstItem="ixm-cx-1c0" firstAttribute="leading" secondItem="R3k-ci-nhs" secondAttribute="leading" id="eeh-Ry-LXM"/>
+                            <constraint firstItem="FSO-9D-yIs" firstAttribute="trailing" secondItem="6AW-bi-o5M" secondAttribute="trailing" id="k9L-w2-Miv"/>
                             <constraint firstItem="R3k-ci-nhs" firstAttribute="trailing" secondItem="ixm-cx-1c0" secondAttribute="trailing" id="kv1-dm-7R1"/>
+                            <constraint firstItem="FSO-9D-yIs" firstAttribute="bottom" secondItem="6AW-bi-o5M" secondAttribute="bottom" id="u1L-wm-l8J"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="R3k-ci-nhs"/>
                     </view>
                     <connections>
+                        <outlet property="cancelSearchButton" destination="9Nr-rd-dju" id="AKK-82-WAF"/>
                         <outlet property="navBar" destination="6AW-bi-o5M" id="atn-nd-6hQ"/>
                         <outlet property="productsTableView" destination="ixm-cx-1c0" id="cYF-0I-9C8"/>
+                        <outlet property="searchTextField" destination="bm4-GN-h4b" id="Wv4-dt-k1e"/>
+                        <outlet property="searchView" destination="FSO-9D-yIs" id="C3t-Ot-Tkf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="emZ-Pe-cUM" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -432,19 +481,19 @@
     </scenes>
     <resources>
         <namedColor name="Background">
-            <color red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.20000000298023224" green="0.20000000298023224" blue="0.20000000298023224" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="BackgroundNavBar">
-            <color red="0.067000001670000003" green="0.067000001670000003" blue="0.067000001670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.067000001668930054" green="0.067000001668930054" blue="0.067000001668930054" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="BackgroundOverlay">
-            <color red="0.0" green="0.0" blue="0.0" alpha="0.20000000300000001" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.0" blue="0.0" alpha="0.20000000298023224" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="BackgroundVariant">
-            <color red="0.2669999897" green="0.2669999897" blue="0.2669999897" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.2669999897480011" green="0.2669999897480011" blue="0.2669999897480011" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Brand">
-            <color red="0.85500001910000001" green="0.28200000520000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.81176470588235294" green="0.27058823529411763" blue="0.086274509803921567" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Text">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

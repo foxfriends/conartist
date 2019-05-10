@@ -16,6 +16,7 @@ extension UIButton {
         setTitleColor(.brandVariant, for: .highlighted)
         setTitleColor(.brandVariant, for: .focused)
         setTitleColor(.textPlaceholder, for: .disabled)
+        imageView?.tintColor = .brand
         return self
     }
 }

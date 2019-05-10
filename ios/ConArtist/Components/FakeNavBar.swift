@@ -33,14 +33,28 @@ class FakeNavBar: UIView {
     @IBInspectable var leftButtonTitle: String? {
         didSet {
             leftButton.setTitle(leftButtonTitle?.lowercased(), for: .normal)
-            leftButton.isHidden = leftButtonTitle == nil
+            leftButton.isHidden = leftButtonTitle == nil && leftButtonImage == nil
+        }
+    }
+
+    @IBInspectable var leftButtonImage: UIImage? {
+        didSet {
+            leftButton.setImage(leftButtonImage?.withRenderingMode(.alwaysTemplate), for: .normal)
+            leftButton.isHidden = leftButtonTitle == nil && leftButtonImage == nil
         }
     }
 
     @IBInspectable var rightButtonTitle: String? {
         didSet {
             rightButton.setTitle(rightButtonTitle?.lowercased(), for: .normal)
-            rightButton.isHidden = rightButtonTitle == nil
+            rightButton.isHidden = rightButtonTitle == nil && rightButtonImage == nil
+        }
+    }
+
+    @IBInspectable var rightButtonImage: UIImage? {
+        didSet {
+            rightButton.setImage(rightButtonImage?.withRenderingMode(.alwaysTemplate), for: .normal)
+            rightButton.isHidden = rightButtonTitle == nil && rightButtonImage == nil
         }
     }
 
@@ -67,8 +81,8 @@ class FakeNavBar: UIView {
             rightButton.bottomAnchor.constraint(equalTo: navView.bottomAnchor),
             titleView.centerYAnchor.constraint(equalTo: navView.centerYAnchor),
             titleView.centerXAnchor.constraint(equalTo: navView.centerXAnchor),
-            titleView.leadingAnchor.constraint(equalTo: leftButton.trailingAnchor),
-            titleView.trailingAnchor.constraint(equalTo: rightButton.leadingAnchor),
+            titleView.leadingAnchor.constraint(greaterThanOrEqualTo: leftButton.trailingAnchor),
+            titleView.trailingAnchor.constraint(lessThanOrEqualTo: rightButton.leadingAnchor),
             titleView.centerXAnchor.constraint(equalTo: navView.centerXAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor),
@@ -78,6 +92,13 @@ class FakeNavBar: UIView {
             subtitleLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor),
             subtitleLabel.bottomAnchor.constraint(equalTo: titleView.bottomAnchor)
         ])
+
+        let titleLeadingConstraint = titleView.leadingAnchor.constraint(equalTo: leftButton.trailingAnchor)
+        titleLeadingConstraint.priority = .defaultLow
+        titleLeadingConstraint.isActive = true
+        let titleTrailingConstraint = titleView.trailingAnchor.constraint(equalTo: rightButton.leadingAnchor)
+        titleTrailingConstraint.priority = .defaultLow
+        titleTrailingConstraint.isActive = true
 
         leftButton.isHidden = true
         leftButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)

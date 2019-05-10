@@ -15,6 +15,7 @@ extension SVGKImage {
     static let thumbDown        = SVGKImage(named: "thumb_down.svg")!
     static let thumbUp          = SVGKImage(named: "thumb_up.svg")!
     static let add              = SVGKImage(named: "add.svg")!
+    static let search           = SVGKImage(named: "search.svg")!
     static let star             = SVGKImage(named: "star.svg")!
     static let starOutline      = SVGKImage(named: "star_outline.svg")!
     static let verified         = SVGKImage(named: "verified.svg")!

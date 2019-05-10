@@ -73,7 +73,7 @@ extension ManageProductTypesViewController {
     fileprivate func setupLocalization() {
         switch mode! {
         case .products:
-            navBar.title = "Manage Products"¡
+            navBar.title = "Manage Product Types"¡
             navBar.leftButtonTitle = "Back"¡
             navBar.rightButtonTitle = "Edit"¡
         case .prices:

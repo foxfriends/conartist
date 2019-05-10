@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 class Convention: Codable {
     private enum CodingKeys: String, CodingKey {
@@ -49,24 +50,24 @@ class Convention: Codable {
     let records: Observable<[Record]>
     let expenses: Observable<[Expense]>
 
-    fileprivate let øproductTypes = Variable<[ProductType]>([])
-    fileprivate let øproducts = Variable<[Product]>([])
-    fileprivate let øprices = Variable<[Price]>([])
-    fileprivate let ørecords = Variable<[Record]>([])
-    fileprivate let øexpenses = Variable<[Expense]>([])
+    fileprivate let øproductTypes = BehaviorRelay<[ProductType]>(value: [])
+    fileprivate let øproducts = BehaviorRelay<[Product]>(value: [])
+    fileprivate let øprices = BehaviorRelay<[Price]>(value: [])
+    fileprivate let ørecords = BehaviorRelay<[Record]>(value: [])
+    fileprivate let øexpenses = BehaviorRelay<[Expense]>(value: [])
 
     var recordTotal: Money?
     var expenseTotal: Money?
 
-    fileprivate let øaddedRecords = Variable<[Record]>([])
-    fileprivate let ømodifiedRecords = Variable<[Record]>([])
-    fileprivate let øremovedRecords = Variable<[Id]>([])
-    fileprivate let øaddedExpenses = Variable<[Expense]>([])
-    fileprivate let ømodifiedExpenses = Variable<[Expense]>([])
-    fileprivate let øremovedExpenses = Variable<[Id]>([])
-    fileprivate let øuserInfo = Variable<[ConventionUserInfo]>([])
+    fileprivate let øaddedRecords = BehaviorRelay<[Record]>(value: [])
+    fileprivate let ømodifiedRecords = BehaviorRelay<[Record]>(value: [])
+    fileprivate let øremovedRecords = BehaviorRelay<[Id]>(value: [])
+    fileprivate let øaddedExpenses = BehaviorRelay<[Expense]>(value: [])
+    fileprivate let ømodifiedExpenses = BehaviorRelay<[Expense]>(value: [])
+    fileprivate let øremovedExpenses = BehaviorRelay<[Id]>(value: [])
+    fileprivate let øuserInfo = BehaviorRelay<[ConventionUserInfo]>(value: [])
 
-    fileprivate let øconvention = Variable<FullConventionFragment?>(nil)
+    fileprivate let øconvention = BehaviorRelay<FullConventionFragment?>(value: nil)
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -92,9 +93,9 @@ class Convention: Codable {
             .map { $0.fragments.extraInfoFragment }
             .compactMap(ConventionExtraInfo.init(graphQL:))
 
-        øuserInfo.value = info.userInfo
+        øuserInfo.accept(info.userInfo
             .map { $0.fragments.userInfoFragment }
-            .compactMap(ConventionUserInfo.init(graphQL:))
+            .compactMap(ConventionUserInfo.init(graphQL:)))
     }
 
     init?(graphQL con: MetaConventionFragment) {
@@ -160,34 +161,34 @@ class Convention: Codable {
                     øaddedExpenses
                 ] convention in
                 let info = convention.fragments.metaConventionFragment.fragments.conventionBasicInfoFragment
-                øuserInfo.value = info.userInfo
+                øuserInfo.accept(info.userInfo
                     .map{ $0.fragments.userInfoFragment }
-                    .compactMap(ConventionUserInfo.init(graphQL:))
+                    .compactMap(ConventionUserInfo.init(graphQL:)))
 
-                øproductTypes.value = convention.productTypes
+                øproductTypes.accept(convention.productTypes
                     .map { $0.fragments.productTypeFragment }
-                    .compactMap(ProductType.init(graphQL:))
+                    .compactMap(ProductType.init(graphQL:)))
 
-                øproducts.value = convention.products
+                øproducts.accept(convention.products
                     .map { $0.fragments.productFragment }
-                    .compactMap(Product.init(graphQL:))
+                    .compactMap(Product.init(graphQL:)))
 
-                øprices.value = convention.prices
+                øprices.accept(convention.prices
                     .map { $0.fragments.priceFragment }
-                    .compactMap(Price.init(graphQL:))
+                    .compactMap(Price.init(graphQL:)))
 
-                ørecords.value = convention.records
+                ørecords.accept(convention.records
                     .map { $0.fragments.recordFragment }
-                    .compactMap(Record.init(graphQL:))
+                    .compactMap(Record.init(graphQL:)))
 
-                øexpenses.value = convention.expenses
+                øexpenses.accept(convention.expenses
                     .map { $0.fragments.expenseFragment }
-                    .compactMap(Expense.init(graphQL:))
+                    .compactMap(Expense.init(graphQL:)))
 
                 let rids = convention.records.map { Id.id($0.fragments.recordFragment.id) }
-                øaddedRecords.value = øaddedRecords.value.filter { !rids.contains($0.id) }
+                øaddedRecords.accept(øaddedRecords.value.filter { !rids.contains($0.id) })
                 let eids = convention.expenses.map { Id.id($0.fragments.expenseFragment.id) }
-                øaddedExpenses.value = øaddedExpenses.value.filter { !eids.contains($0.id) }
+                øaddedExpenses.accept(øaddedExpenses.value.filter { !eids.contains($0.id) })
 
                 ConArtist.Persist.persist()
             })
@@ -209,9 +210,9 @@ class Convention: Codable {
         extraInfo = [.Dates(start, end)] + con.fragments.conventionBasicInfoFragment.extraInfo
             .map { $0.fragments.extraInfoFragment }
             .compactMap(ConventionExtraInfo.init(graphQL:))
-        øuserInfo.value = con.fragments.conventionBasicInfoFragment.userInfo
+        øuserInfo.accept(con.fragments.conventionBasicInfoFragment.userInfo
             .map { $0.fragments.userInfoFragment }
-            .compactMap(ConventionUserInfo.init(graphQL:))
+            .compactMap(ConventionUserInfo.init(graphQL:)))
     }
 
     // MARK: Decodable
@@ -225,12 +226,12 @@ class Convention: Codable {
         recordTotal = try json.decode(Money?.self, forKey: .recordTotal)
         expenseTotal = try json.decode(Money?.self, forKey: .expenseTotal)
         extraInfo = try json.decode([ConventionExtraInfo].self, forKey: .extraInfo)
-        øuserInfo.value = try json.decode([ConventionUserInfo].self, forKey: .userInfo)
-        øproductTypes.value = try json.decode([ProductType].self, forKey: .productTypes)
-        øproducts.value = try json.decode([Product].self, forKey: .products)
-        øprices.value = try json.decode([Price].self, forKey: .prices)
-        ørecords.value = try json.decode([Record].self, forKey: .records)
-        øexpenses.value = try json.decode([Expense].self, forKey: .expenses)
+        øuserInfo.accept(try json.decode([ConventionUserInfo].self, forKey: .userInfo))
+        øproductTypes.accept(try json.decode([ProductType].self, forKey: .productTypes))
+        øproducts.accept(try json.decode([Product].self, forKey: .products))
+        øprices.accept(try json.decode([Price].self, forKey: .prices))
+        ørecords.accept(try json.decode([Record].self, forKey: .records))
+        øexpenses.accept(try json.decode([Expense].self, forKey: .expenses))
 
         productTypes = øproductTypes.asObservable()
         products = øproducts.asObservable()
@@ -329,11 +330,11 @@ class Convention: Codable {
     func fill(_ force: Bool = false) -> Observable<Void> {
         let doLoad = øconvention.value == nil || force
         if doLoad {
-            øconvention.value = nil
+            øconvention.accept(nil)
             return full(force)
                 .do(onNext: { [weak self] value in
                     self?.attemptSaveEverything()
-                    self?.øconvention.value = value
+                    self?.øconvention.accept(value)
                 })
                 .asObservable()
                 .map { _ in }
@@ -396,7 +397,7 @@ extension Convention {
             return .just(())
         }
         if !øaddedRecords.value.contains(where: { $0.id == record.id }) {
-            øaddedRecords.value.append(record)
+            øaddedRecords.accept(øaddedRecords.value + [record])
         }
         if save {
             ConArtist.Persist.persist()
@@ -413,9 +414,9 @@ extension Convention {
             .map { $0.addUserRecord.fragments.recordFragment }
             .filterMap(Record.init(graphQL:))
             .do(onNext: { [øaddedRecords, ørecords] newRecord in
-                øaddedRecords.value.removeFirst { rec in rec.id == record.id }
+                øaddedRecords.accept(øaddedRecords.value.removingFirst { rec in rec.id == record.id })
                 if !ørecords.value.contains(where: { $0.id == newRecord.id }) {
-                    ørecords.value.append(newRecord)
+                    ørecords.accept(ørecords.value + [newRecord])
                 }
                 ConArtist.Persist.persist()
             })
@@ -424,16 +425,16 @@ extension Convention {
 
     func updateRecord(_ record: Record, save: Bool = true) -> Maybe<Void> {
         if let existingIndex = øaddedRecords.value.index(where: { $0.id == record.id }) {
-            øaddedRecords.value[existingIndex] = record
+            øaddedRecords.accept(øaddedRecords.value.replace(index: existingIndex, with: record))
             return .just(())
         }
         if let existingIndex = ørecords.value.index(where: { $0.id == record.id }) {
-            ørecords.value.remove(at: existingIndex)
+            ørecords.accept(ørecords.value.removing(at: existingIndex))
         }
         if let existingIndex = ømodifiedRecords.value.index(where: { $0.id == record.id }) {
-            ømodifiedRecords.value.remove(at: existingIndex)
+            ømodifiedRecords.accept(ømodifiedRecords.value.removing(at: existingIndex))
         }
-        ømodifiedRecords.value.append(record)
+        ømodifiedRecords.accept(ømodifiedRecords.value + [record])
         if save {
             ConArtist.Persist.persist()
         }
@@ -450,9 +451,9 @@ extension Convention {
         return request
             .filterMap(Record.init(graphQL:))
             .map { [ømodifiedRecords, ørecords] updatedRecord in
-                ømodifiedRecords.value.removeFirst(where: { $0.id == record.id })
+                ømodifiedRecords.accept(ømodifiedRecords.value.removingFirst(where: { $0.id == record.id }))
                 if !ørecords.value.contains(where: { $0.id == updatedRecord.id }) {
-                    ørecords.value.append(updatedRecord)
+                    ørecords.accept(ørecords.value + [updatedRecord])
                 }
                 ConArtist.Persist.persist()
             }
@@ -464,15 +465,15 @@ extension Convention {
 
     fileprivate func deleteRecordById(_ id: Id, save: Bool = true) -> Maybe<Void> {
         if !øremovedRecords.value.contains(id) {
-            øremovedRecords.value.append(id)
+            øremovedRecords.accept(øremovedRecords.value + [id])
         }
         if øaddedRecords.value.contains(where: { $0.id == id }) {
-            øaddedRecords.value.removeFirst { $0.id == id }
+            øaddedRecords.accept(øaddedRecords.value.removingFirst { $0.id == id })
             // try to not send it. If it already sent and was added that's ok, it will get deleted eventually
             return .just(())
         } else {
             // hide it now... it's probably going to work
-            ørecords.value.removeFirst { $0.id == id }
+            ørecords.accept(ørecords.value.removingFirst { $0.id == id })
         }
         if save {
             ConArtist.Persist.persist()
@@ -481,7 +482,7 @@ extension Convention {
             .observe(mutation: DeleteRecordMutation(record: RecordDel(recordId: id.id, uuid: id.uuid?.uuidString)))
             .filterMap { $0.delUserRecord }
             .do(onNext: { [øremovedRecords] _ in
-                øremovedRecords.value = øremovedRecords.value.filter { $0 != id }
+                øremovedRecords.accept(øremovedRecords.value.filter { $0 != id })
                 ConArtist.Persist.persist()
             })
             .map { _ in }
@@ -492,7 +493,7 @@ extension Convention {
             return .just(())
         }
         if !øaddedExpenses.value.contains(where: { $0.id == expense.id }) {
-            øaddedExpenses.value.append(expense)
+            øaddedExpenses.accept(øaddedExpenses.value + [expense])
         }
         if save {
             ConArtist.Persist.persist()
@@ -509,9 +510,9 @@ extension Convention {
             .map { $0.addUserExpense.fragments.expenseFragment }
             .filterMap(Expense.init(graphQL:))
             .do(onNext: { [øaddedExpenses, øexpenses] newExpense in
-                øaddedExpenses.value.removeFirst { exp in exp.id == expense.id }
+                øaddedExpenses.accept(øaddedExpenses.value.removingFirst { exp in exp.id == expense.id })
                 if !øexpenses.value.contains(where: { $0.id == newExpense.id }) {
-                    øexpenses.value.append(newExpense)
+                    øexpenses.accept(øexpenses.value + [newExpense])
                 }
                 ConArtist.Persist.persist()
             })
@@ -520,16 +521,16 @@ extension Convention {
 
     func updateExpense(_ expense: Expense, save: Bool = true) -> Maybe<Void> {
         if let existingIndex = øaddedExpenses.value.index(where: { $0.id == expense.id }) {
-            øaddedExpenses.value[existingIndex] = expense
+            øaddedExpenses.accept(øaddedExpenses.value.replace(index: existingIndex, with: expense))
             return .just(())
         }
         if let existingIndex = øexpenses.value.index(where: { $0.id == expense.id }) {
-            øexpenses.value.remove(at: existingIndex)
+            øexpenses.accept(øexpenses.value.removing(at: existingIndex))
         }
         if let existingIndex = ømodifiedExpenses.value.index(where: { $0.id == expense.id }) {
-            ømodifiedExpenses.value.remove(at: existingIndex)
+            ømodifiedExpenses.accept(ømodifiedExpenses.value.removing(at: existingIndex))
         }
-        ømodifiedExpenses.value.append(expense)
+        ømodifiedExpenses.accept(ømodifiedExpenses.value + [expense])
         if save {
             ConArtist.Persist.persist()
         }
@@ -545,9 +546,9 @@ extension Convention {
         return request
             .filterMap(Expense.init(graphQL:))
             .map { [ømodifiedExpenses, øexpenses] updatedExpense in
-                ømodifiedExpenses.value.removeFirst(where: { $0.id == expense.id })
+                ømodifiedExpenses.accept(ømodifiedExpenses.value.removingFirst(where: { $0.id == expense.id }))
                 if !øexpenses.value.contains(where: { $0.id == updatedExpense.id }) {
-                    øexpenses.value.append(updatedExpense)
+                    øexpenses.accept(øexpenses.value + [updatedExpense])
                 }
                 ConArtist.Persist.persist()
             }
@@ -559,15 +560,15 @@ extension Convention {
 
     fileprivate func deleteExpenseById(_ id: Id, save: Bool = true) -> Maybe<Void> {
         if !øremovedExpenses.value.contains(id) {
-            øremovedExpenses.value.append(id)
+            øremovedExpenses.accept(øremovedExpenses.value + [id])
         }
         if øaddedExpenses.value.contains(where: { $0.id == id }) {
-            øaddedExpenses.value.removeFirst { $0.id == id }
+            øaddedExpenses.accept(øaddedExpenses.value.removingFirst { $0.id == id })
             // try to not send it. If it already sent and was added that's ok, it will get deleted eventually
             return .just(())
         } else {
             // hide it now... it's probably going to work
-            øexpenses.value.removeFirst { $0.id == id }
+            øexpenses.accept(øexpenses.value.removingFirst { $0.id == id })
         }
         if save {
             ConArtist.Persist.persist()
@@ -576,7 +577,7 @@ extension Convention {
             .observe(mutation: DeleteExpenseMutation(expense: ExpenseDel(expenseId: id.id, uuid: id.uuid?.uuidString)))
             .filterMap { $0.delUserExpense }
             .do(onNext: { [øremovedExpenses] _ in
-                øremovedExpenses.value = øremovedExpenses.value.filter { $0 != id }
+                øremovedExpenses.accept(øremovedExpenses.value.filter { $0 != id })
                 ConArtist.Persist.persist()
             })
             .map { _ in }
@@ -586,13 +587,13 @@ extension Convention {
         guard !øuserInfo.value.contains(where: { $0.info == info }) else { return }
         let newInfo = ConventionUserInfo(info: info)
         let index = øuserInfo.value.count
-        øuserInfo.value.append(newInfo)
+        øuserInfo.accept(øuserInfo.value + [newInfo])
         _ = ConArtist.API.GraphQL
             .observe(mutation: ContributeConventionInfoMutation(conId: id, info: info))
             .map { $0.addConventionInfo.fragments.userInfoFragment }
             .filterMap(ConventionUserInfo.init(graphQL:))
             .catchError { _ in .empty() }
-            .subscribe(onSuccess: { [øuserInfo] info in øuserInfo.value[index] = info })
+            .subscribe(onSuccess: { [øuserInfo] info in øuserInfo.accept(øuserInfo.value.replace(index: index, with: info)) })
     }
 
     func setVote(for info: ConventionUserInfo, to vote: ConventionUserInfo.Vote) {
@@ -612,16 +613,16 @@ extension Convention {
         // should not be able to set vote to .none
         case .none: request = .empty()
         }
-        øuserInfo.value = øuserInfo.value.replace(with: updatedInfo) { $0.id == info.id }
+        øuserInfo.accept(øuserInfo.value.replace(with: updatedInfo) { $0.id == info.id })
         _ = request
             .catchError { _ in .empty() }
             .subscribe(onSuccess: { [øuserInfo] votes in
-                øuserInfo.value = øuserInfo.value
+                øuserInfo.accept(øuserInfo.value
                     .map { info in
                         info.id == updatedInfo.id
                             ? updatedInfo.adjustVotes(votes)
                             : info
-                    }
+                    })
             })
     }
 }

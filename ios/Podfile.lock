@@ -1,26 +1,27 @@
 PODS:
-  - Alamofire (4.8.1)
-  - Apollo (0.9.5):
-    - Apollo/Core (= 0.9.5)
-  - Apollo/Core (0.9.5)
-  - CocoaLumberjack (3.5.1):
-    - CocoaLumberjack/Core (= 3.5.1)
-  - CocoaLumberjack/Core (3.5.1)
+  - Alamofire (4.8.2)
+  - Apollo (0.10.1):
+    - Apollo/Core (= 0.10.1)
+  - Apollo/Core (0.10.1)
+  - CocoaLumberjack (3.5.3):
+    - CocoaLumberjack/Core (= 3.5.3)
+  - CocoaLumberjack/Core (3.5.3)
   - pop (1.0.12)
   - PrettyString (0.1.2)
-  - RxAlamofire (4.3.0):
-    - RxAlamofire/Core (= 4.3.0)
-  - RxAlamofire/Core (4.3.0):
-    - Alamofire (~> 4.5)
-    - RxSwift (~> 4)
-  - RxAtomic (4.4.0)
-  - RxCocoa (4.4.0):
-    - RxSwift (~> 4.0)
-  - RxSwift (4.4.0):
-    - RxAtomic (~> 4.4)
+  - RxAlamofire (5.0.0):
+    - RxAlamofire/Core (= 5.0.0)
+  - RxAlamofire/Core (5.0.0):
+    - Alamofire (~> 4.8)
+    - RxSwift (~> 5.0)
+  - RxCocoa (5.0.0):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxRelay (5.0.0):
+    - RxSwift (~> 5)
+  - RxSwift (5.0.0)
   - SexyTooltip (1.2.7):
     - pop (~> 1.0)
-  - Strongbox (0.5.1)
+  - Strongbox (0.5.2)
   - SVGKit (2.1.0):
     - CocoaLumberjack (~> 3.0)
   - SwiftMoment (0.7)
@@ -28,11 +29,11 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
-  - Apollo (~> 0.9)
+  - Apollo (~> 0.10)
   - PrettyString (~> 0.1)
-  - RxAlamofire (~> 4.3)
-  - RxCocoa (~> 4.3)
-  - RxSwift (~> 4.3)
+  - RxAlamofire (~> 5.0)
+  - RxCocoa (~> 5.0)
+  - RxSwift (~> 5.0)
   - SexyTooltip (~> 1.2)
   - Strongbox (~> 0.5)
   - SVGKit (from `https://github.com/SVGKit/SVGKit.git`, branch `2.x`)
@@ -47,8 +48,8 @@ SPEC REPOS:
     - pop
     - PrettyString
     - RxAlamofire
-    - RxAtomic
     - RxCocoa
+    - RxRelay
     - RxSwift
     - SexyTooltip
     - Strongbox
@@ -62,25 +63,25 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   SVGKit:
-    :commit: bfe62f6d45f55c9fe39619d9e91fed1844c59da6
+    :commit: 4b507e48da30711e25d1bcdd19580f25887a2267
     :git: https://github.com/SVGKit/SVGKit.git
 
 SPEC CHECKSUMS:
-  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
-  Apollo: 19caf3246d292bbb69ecad1bd098661f78222aba
-  CocoaLumberjack: 2101f8a5508197a305e737d16c5c2e9e2157628c
+  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  Apollo: 4d690a9b2e48e8820182df4b988d7a253e1ee589
+  CocoaLumberjack: 2f44e60eb91c176d471fdba43b9e3eae6a721947
   pop: d582054913807fd11fd50bfe6a539d91c7e1a55a
   PrettyString: 88cd4e1b6d756718d4fb4dc55ca2ac53aaee3550
-  RxAlamofire: 09624d0f2d48ed8b686e4eb4cf68e28cbd2df556
-  RxAtomic: eacf60db868c96bfd63320e28619fe29c179656f
-  RxCocoa: df63ebf7b9a70d6b4eeea407ed5dd4efc8979749
-  RxSwift: 5976ecd04fc2fefd648827c23de5e11157faa973
+  RxAlamofire: e7875a012aff55345672d0f70a2a9cd6aeb0f211
+  RxCocoa: fcf32050ac00d801f34a7f71d5e8e7f23026dcd8
+  RxRelay: 4f7409406a51a55cd88483f21ed898c234d60f18
+  RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
   SexyTooltip: e243da5a858c7160141cf35786a4033669d1efca
-  Strongbox: f49a3922237c1dcde2cabbb882edd37d2aa75a23
+  Strongbox: 65b9d9a3382a2fbdf7b789046bb2fbff16944044
   SVGKit: 8a2fc74258bdb2abb54d3b65f3dd68b0277a9c4d
   SwiftMoment: dc6dd27012e267819104cbb03f74ff9192dd0b42
   Toast-Swift: e42a638589a2f95036b4bb7626cfbdde7daf0393
 
-PODFILE CHECKSUM: 9dbae601e1e04b56b63f41185efe21a763605ec2
+PODFILE CHECKSUM: 5a071a0f8cb2209b86426071d7e395bbedc84ccb
 
 COCOAPODS: 1.5.3

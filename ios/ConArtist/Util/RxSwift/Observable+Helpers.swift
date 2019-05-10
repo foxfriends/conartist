@@ -10,7 +10,7 @@ import RxSwift
 
 extension ObservableType {
     /// Transforms the elements of the observable, stripping out any nil values
-    func filterMap<T>(_ transform: @escaping (Self.E) -> T?) -> Observable<T> {
+    func filterMap<T>(_ transform: @escaping (Self.Element) -> T?) -> Observable<T> {
         return map(transform).filter { $0 != nil }.map { $0! }
     }
 
@@ -20,9 +20,9 @@ extension ObservableType {
     }
 }
 
-extension PrimitiveSequenceType where Self.TraitType == SingleTrait {
+extension PrimitiveSequenceType where Self.Trait == SingleTrait {
     /// Transforms the elements of the observable, stripping out any nil values
-    func filterMap<T>(_ transform: @escaping (Self.ElementType) -> T?) -> Maybe<T> {
+    func filterMap<T>(_ transform: @escaping (Self.Element) -> T?) -> Maybe<T> {
         return asMaybe().map(transform).filter { $0 != nil }.map { $0! }
     }
 }

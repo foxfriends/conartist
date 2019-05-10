@@ -69,18 +69,18 @@ extension Array: Monad {
 }
 
 // If only swift had a real type system where all of this worked out so nicely
-extension ObservableType where E: Monad {
-    func bindMap(_ f: @escaping (E.A) -> E.M) -> Observable<E.M> {
+extension ObservableType where Element: Monad {
+    func bindMap(_ f: @escaping (Element.A) -> Element.M) -> Observable<Element.M> {
         return map { $0 >> f }
     }
 }
 
 extension ObservableType {
-    func bindMap<A, B>(_ f: @escaping (A) -> B?) -> Observable<B?> where E == A? {
+    func bindMap<A, B>(_ f: @escaping (A) -> B?) -> Observable<B?> where Element == A? {
         return map { $0.flatMap(f) }
     }
 
-    func flatBindMap<A, B>(_ f: @escaping (A) -> Observable<B?>) -> Observable<B?> where E == A? {
+    func flatBindMap<A, B>(_ f: @escaping (A) -> Observable<B?>) -> Observable<B?> where Element == A? {
         return flatMap { $0.flatMap(f) ?? Observable.just(nil) }
     }
 }

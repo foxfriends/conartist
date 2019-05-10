@@ -120,7 +120,7 @@ extension ConventionSearchViewController {
                 filterSheetVisible.asDriver(),
                 rx.keyboardFrame
             )
-            .debounce(0)
+            .debounce(.seconds(0))
             .drive(onNext: { [filterSheetConstraint, filterBacking, view, filterSheet] visible, keyboard in
                 if visible {
                     filterSheetConstraint?.constant = keyboard.frame.map { -$0.height } ?? 0
@@ -178,7 +178,7 @@ extension ConventionSearchViewController {
             .disposed(by: disposeBag)
 
         filter
-            .throttle(0.5, scheduler: MainScheduler.asyncInstance)
+            .throttle(.milliseconds(500), scheduler: MainScheduler.asyncInstance)
             .do(onNext: { [weak self] _ in
                 self?.reloadRequest?.dispose()
                 self?.reloadRequest = nil

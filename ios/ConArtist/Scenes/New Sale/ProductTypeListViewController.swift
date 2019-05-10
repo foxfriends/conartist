@@ -221,10 +221,10 @@ extension ProductTypeListViewController {
             }
         }
 
-        var hashValue: Int {
+        func hash(into hasher: inout Hasher) {
             switch self {
-            case .product(let id): return id
-            case .productType(let id): return -id
+            case .product(let id):      id.hash(into: &hasher)
+            case .productType(let id):  (-id).hash(into: &hasher)
             }
         }
     }

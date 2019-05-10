@@ -19,6 +19,24 @@ extension Sequence {
 }
 
 extension Array {
+    func replace(index: Index, with value: Element) -> [Element] {
+        var copy = self
+        copy[index] = value
+        return copy
+    }
+
+    func removing(at index: Index) -> [Element] {
+        var copy = self
+        copy.remove(at: index)
+        return copy
+    }
+
+    func removingFirst(where predicate: (Element) -> Bool) -> [Element] {
+        var copy = self
+        copy.removeFirst(where: predicate)
+        return copy
+    }
+
     mutating func removeFirst(where predicate: (Element) -> Bool) {
         guard let index = index(where: predicate) else { return }
         remove(at: index)

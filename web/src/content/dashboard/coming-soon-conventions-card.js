@@ -2,6 +2,7 @@
 import * as React from 'react'
 import formatDate from 'date-fns/format'
 
+import { toLocal } from '../../util/date'
 import { BasicCard } from '../card-view/basic-card'
 import { Grid } from '../../common/grid'
 import { Row } from '../../common/table/row'
@@ -40,7 +41,7 @@ export function ComingSoonConventionsCard({ conventions }: Props) {
                 .map(convention =>
                   <Row
                     title={convention.name}
-                    value={l`${format(convention.start)} - ${format(convention.end)}`}
+                    value={l`${format(toLocal(convention.start))} - ${format(toLocal(convention.end))}`}
                     detail={<Link className={S.view} onClick={() => navigate.conventionDetails(convention)}>{l`View`}</Link>}
                     key={`convention_${convention.id}`}
                     />

@@ -31,8 +31,8 @@ export class SaveProductType {
           typeId: productType.id
         }
       };
-      if (productType.name !== original.name) {
-        variables.productType.name = productType.name
+      if (productType.name.trim() !== original.name) {
+        variables.productType.name = productType.name.trim()
       }
       if (productType.color !== original.color) {
         variables.productType.color = productType.color
@@ -59,7 +59,7 @@ export class SaveProductType {
     } else {
       const variables = {
         productType: {
-          name: productType.name,
+          name: productType.name.trim(),
           color: productType.color || 0xffffff,
           sort: productType.sort,
         }

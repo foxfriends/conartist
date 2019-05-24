@@ -31,8 +31,8 @@ export class SaveProduct {
           productId: product.id,
         }
       }
-      if (product.name !== original.name) {
-        variables.product.name = product.name
+      if (product.name.trim() !== original.name) {
+        variables.product.name = product.name.trim()
       }
       if (product.quantity !== original.quantity) {
         variables.product.quantity = product.quantity
@@ -61,7 +61,7 @@ export class SaveProduct {
       const variables = {
         product: {
           typeId: product.typeId,
-          name: product.name,
+          name: product.name.trim(),
           quantity: product.quantity,
           sort: product.sort,
         }

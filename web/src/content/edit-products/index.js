@@ -329,13 +329,13 @@ export class EditProducts extends ReactX.Component<Props, State> {
     enableSave()
     const validatedProductTypes = (() => {
       const usedNames = new DefaultMap([], 0)
-      productTypes.forEach(({ name }) => usedNames.set(name, usedNames.get(name) + 1))
+      productTypes.forEach(({ name }) => usedNames.set(name.trim(), usedNames.get(name.trim()) + 1))
       return productTypes.map(productType => {
-        if (productType.name === '') {
+        if (productType.name.trim() === '') {
           disableSave()
           return { ...productType, validation: { state: EMPTY } }
         }
-        if (usedNames.get(productType.name) > 1) {
+        if (usedNames.get(productType.name.trim()) > 1) {
           disableSave()
           return { ...productType, validation: { state: INVALID, error: DuplicateName } }
         }
@@ -349,7 +349,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
       return products.map(product => {
         let nameValidation = { state: VALID }
         let quantityValidation = { state: VALID }
-        if (product.name === '') {
+        if (product.name.trim() === '') {
           nameValidation = { state: EMPTY }
         }
         if (usedNames.get(hasher(product)) > 1) {

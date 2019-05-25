@@ -31,8 +31,8 @@ export class ConventionRecords extends React.Component<Props, State> {
     const { focus } = this.state
 
     const dates = [];
-    const end = new Date(Math.min(convention.end, justDay(new Date())))
-    for (const date = new Date(justDay(convention.start)); date <= end; date.setDate(date.getDate() + 1)) {
+    const end = new Date(Math.min(toLocal(convention.end), justDay(new Date())))
+    for (const date = new Date(justDay(toLocal(convention.start))); date <= end; date.setDate(date.getDate() + 1)) {
       dates.push(new Date(date).getTime())
     }
     // $FlowIgnore: does not understand defaulting missing args

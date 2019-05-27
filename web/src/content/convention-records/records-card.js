@@ -8,8 +8,9 @@ import { RecordItem } from './record-item'
 import { ExpenseItem } from './expense-item'
 import { RecordInfo } from './record-info'
 import { ExpenseInfo } from './expense-info'
-import { Total } from './total'
-import { BasicCard } from '../card-view/basic-card'
+import { TotalFooter } from './total-footer'
+import { Card } from '../card-view/card'
+import { BasicHeader } from '../card-view/basic-header'
 import { by, Asc } from '../../util/sort'
 import { sameDayAs } from '../../util/date'
 import { Money } from '../../model/money'
@@ -40,30 +41,36 @@ export function RecordsCard({ date, records: propsRecords, convention, onFocus }
     )
     .sort(by(['time', Asc]))
 
-  const total = dataSource.reduce((acc, { name, price }) => acc.add(name === 'record' ? price : price.negate()), Money.zero)
+  const sales = dataSource.reduce((acc, { name, price }) => acc.add(name === 'record' ? price : Money.zero), Money.zero)
+  const expense = dataSource.reduce((acc, { name, price }) => acc.add(name === 'record' ? Money.zero : price), Money.zero)
+  const total = sales.add(expense.negate())
 
   return (
     <>
-      <BasicCard title={<Font smallCaps>{ format(date) }</Font>} collapsible={() => onFocus(null)} footer={<Total total={total} />}>
-        <List dataSource={dataSource}>
-          <div className={S.placeholder}>
-            {l`No activity for this day`}
-          </div>
-          {(item, _) => {
-            // using some fake refs that are never null...
-            const ref = { current: null }
-            if (item.name === 'record') {
-              // $FlowIgnore
-              const info = <RecordInfo record={item} anchor={ref} key={`record_info_${item.id}`} onClose={() => onFocus(null)}/>
-              return <RecordItem innerRef={node => node && (ref.current = node)} record={item} key={`record_${item.time.getTime()}`} onClick={() => onFocus(info)}/>
-            } else {
-              // $FlowIgnore
-              const info = <ExpenseInfo expense={item} anchor={ref} key={`expense_info_${item.id}`} onClose={() => onFocus(null)}/>
-              return <ExpenseItem innerRef={node => node && (ref.current = node)} expense={item} key={`expense_${item.time.getTime()}`} onClick={() => onFocus(info)}/>
-            }
-          }}
-        </List>
-      </BasicCard>
+      <Card collapsible={() => onFocus(null)}>
+        <BasicHeader><Font smallCaps>{ format(date) }</Font></BasicHeader>
+        <>
+          <List dataSource={dataSource}>
+            <div className={S.placeholder}>
+              {l`No activity for this day`}
+            </div>
+            {(item, _) => {
+              // using some fake refs that are never null...
+              const ref = { current: null }
+              if (item.name === 'record') {
+                // $FlowIgnore
+                const info = <RecordInfo record={item} anchor={ref} key={`record_info_${item.id}`} onClose={() => onFocus(null)}/>
+                return <RecordItem innerRef={node => node && (ref.current = node)} record={item} key={`record_${item.time.getTime()}`} onClick={() => onFocus(info)}/>
+              } else {
+                // $FlowIgnore
+                const info = <ExpenseInfo expense={item} anchor={ref} key={`expense_info_${item.id}`} onClose={() => onFocus(null)}/>
+                return <ExpenseItem innerRef={node => node && (ref.current = node)} expense={item} key={`expense_${item.time.getTime()}`} onClick={() => onFocus(info)}/>
+              }
+            }}
+          </List>
+        </>
+        <TotalFooter total={total} sales={sales} expense={expense} />
+      </Card>
     </>
   )
 }

@@ -1,0 +1,19 @@
+.footer {
+  height: calc(var(--height--row) * 3);
+  background-color: var(--color--background-highlight);
+}
+
+.title {
+  font-variant-caps: all-small-caps;
+  margin-left: var(--width--indicator);
+}
+
+.item {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--height--row);
+  width: 100%;
+  padding: 0 16px;
+}

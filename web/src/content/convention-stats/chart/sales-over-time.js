@@ -156,8 +156,9 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
     const { records, showSettings } = this.props
     const { mode, grouping, metric } = this.state
 
-    const dates = [...new Set(records.map(({ time }) => startOfDay(toLocal(time))))].sort()
-
+    const dates = [...new Set(records.map(({ time }) => startOfDay(toLocal(time)).getTime()))]
+      .sort()
+      .map(time => new Date(time))
     const days = dates.map(date => format(date, l`EEE`))
 
     const totalOverTime = splitByDays(

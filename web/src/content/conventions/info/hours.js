@@ -28,9 +28,7 @@ export function HoursInfo({ infos, todayOnly }: Props) {
   try {
     const hoursInfo = infos.find(({ title }) => title === 'Hours')
     if (hoursInfo && hoursInfo.info) {
-      console.log('hours', hoursInfo.info)
       const hours = JSON.parse(hoursInfo.info, dateRecovery)
-      console.log('hours', hours)
       if (todayOnly) {
         const todayHours = hours.find(([start, end]) => isToday(start))
         if (todayHours) {

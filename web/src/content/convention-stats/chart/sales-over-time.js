@@ -134,10 +134,6 @@ function averages(grouping: number = 1): ((Item[]) => Item[]) {
   }
 }
 
-function timeInDay(time) {
-  return time - startOfDay(time)
-}
-
 export class SalesOverTimeChart extends React.Component<Props, State> {
   // $FlowIgnore
   ref: React.Ref<HTMLDivElement>
@@ -193,7 +189,7 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
         label: days[i],
         borderColor: colors[i % 7],
         data: data.map(({ time, price, quantity }) => ({
-          x: timeInDay(time),
+          x: time.getTime(),
           y: metric === 'Money' ? price.amount : quantity,
         })),
       })),

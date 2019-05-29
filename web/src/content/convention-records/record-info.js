@@ -25,7 +25,7 @@ export type Props = {
 }
 
 function format(date: Date): string {
-  return formatDate(date, l`h:mm`)
+  return formatDate(date, l`h:mma`)
 }
 
 export function RecordInfo({ record, anchor, onClose }: Props) {

@@ -278,13 +278,13 @@ extension ProductTypeListViewController: ViewControllerNavigation {
             convention.records
                 .bind(to: controller.records)
                 .disposed(by: controller.disposeBag)
-            convention.products
+            ConArtist.model.products
                 .bind(to: controller.products)
                 .disposed(by: controller.disposeBag)
-            convention.productTypes
+            ConArtist.model.productTypes
                 .bind(to: controller.productTypes)
                 .disposed(by: controller.disposeBag)
-            convention.prices
+            ConArtist.model.prices
                 .bind(to: controller.prices)
                 .disposed(by: controller.disposeBag)
         } else {

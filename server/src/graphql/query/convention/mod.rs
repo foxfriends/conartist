@@ -47,7 +47,7 @@ graphql_object!(Convention: Database |&self| {
         dbtry! {
             executor
                 .context()
-                .get_product_types_for_user(self.user_id)
+                .get_all_product_types_for_user(self.user_id)
         }
     }
 

@@ -15,6 +15,16 @@ impl Database {
             .map_err(|reason| format!("Failed to create new product type for user with id {}. Reason: {}", user_id, reason))
     }
 
+    pub fn get_all_product_types_for_user(&self, maybe_user_id: Option<i32>) -> Result<Vec<ProductType>, String> {
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
+        let conn = self.pool.get().unwrap();
+        producttypes::table
+            .filter(producttypes::user_id.eq(user_id))
+            .order((producttypes::sort.asc(), producttypes::type_id.asc()))
+            .load::<ProductType>(&*conn)
+            .map_err(|reason| format!("ProductTypes for user with id {} could not be retrieved. Reason: {}", user_id, reason))
+    }
+
     pub fn get_product_types_for_user(&self, maybe_user_id: Option<i32>) -> Result<Vec<ProductType>, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();

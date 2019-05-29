@@ -59,12 +59,29 @@ export function RecordsCard({ date, records: propsRecords, convention, onFocus }
               const ref = { current: null }
               if (item.name === 'record') {
                 // $FlowIgnore
-                const info = <RecordInfo record={item} anchor={ref} key={`record_info_${item.id}`} onClose={() => onFocus(null)}/>
-                return <RecordItem innerRef={node => node && (ref.current = node)} record={item} key={`record_${item.time.getTime()}`} onClick={() => onFocus(info)}/>
+                const info = <RecordInfo
+                  convention={convention}
+                  record={item}
+                  anchor={ref}
+                  key={`record_info_${item.id}`}
+                  onClose={() => onFocus(null)} />
+                return <RecordItem
+                  innerRef={node => node && (ref.current = node)}
+                  record={item}
+                  key={`record_${item.time.getTime()}`}
+                  onClick={() => onFocus(info)} />
               } else {
                 // $FlowIgnore
-                const info = <ExpenseInfo expense={item} anchor={ref} key={`expense_info_${item.id}`} onClose={() => onFocus(null)}/>
-                return <ExpenseItem innerRef={node => node && (ref.current = node)} expense={item} key={`expense_${item.time.getTime()}`} onClick={() => onFocus(info)}/>
+                const info = <ExpenseInfo
+                  expense={item}
+                  anchor={ref}
+                  key={`expense_info_${item.id}`}
+                  onClose={() => onFocus(null)} />
+                return <ExpenseItem
+                  innerRef={node => node && (ref.current = node)}
+                  expense={item}
+                  key={`expense_${item.time.getTime()}`}
+                  onClick={() => onFocus(info)} />
               }
             }}
           </List>

@@ -28,8 +28,8 @@ function format(date: Date): string {
   return formatDate(date, l`h:mma`)
 }
 
-export function RecordInfo({ record, anchor, onClose }: Props) {
-  const { products, productTypes } = model.getValue()
+export function RecordInfo({ convention, record, anchor, onClose }: Props) {
+  const { products, productTypes } = convention
 
   const productInfo: [ProductType, Product[]][] = [...record.products
     .map(id => products.find(product => product.id === id))

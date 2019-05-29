@@ -211,9 +211,7 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
             type: 'linear',
             position: 'bottom',
             ticks: {
-              min: 0,
               callback: label => format(label, l`h:mma`),
-              max: addDays(new Date(0), 1),
             },
             scaleLabel: {
               display: true,

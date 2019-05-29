@@ -201,7 +201,7 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
       },
       tooltips: {
         callbacks: {
-          title: ([{ xLabel }]) => format(xLabel, l`h:mma`),
+          title: ([{ xLabel }]) => format(new Date(xLabel), l`h:mma`),
           label: ({ yLabel }) => metric === 'Money' ? new Money(model.getValue().settings.currency, yLabel) : yLabel,
         },
       },

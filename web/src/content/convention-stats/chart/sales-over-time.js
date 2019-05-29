@@ -1,6 +1,7 @@
 /* @flow */
 import * as React from 'react'
 import startOfDay from 'date-fns/startOfDay'
+import addDays from 'date-fns/addDays'
 import format from 'date-fns/format'
 
 import { toLocal } from '../../../util/date'
@@ -134,7 +135,6 @@ function averages(grouping: number = 1): ((Item[]) => Item[]) {
 }
 
 function timeInDay(time) {
-  console.log(time, startOfDay(time), time - startOfDay(time))
   return time - startOfDay(time)
 }
 
@@ -165,7 +165,7 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
     const totalOverTime = splitByDays(
       records
         .reduce((acc, { time, price, quantity }) => ([...acc, {
-          time,
+          time: toLocal(time),
           price: price.add((acc[acc.length - 1] || {}).price || Money.zero),
           quantity: 1 + ((acc[acc.length - 1] || { quantity: 0 }).quantity),
         }]), [])
@@ -215,7 +215,9 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
             type: 'linear',
             position: 'bottom',
             ticks: {
+              min: 0,
               callback: label => format(label, l`h:mma`),
+              max: addDays(new Date(0), 1),
             },
             scaleLabel: {
               display: true,

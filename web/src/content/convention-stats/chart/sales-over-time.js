@@ -161,7 +161,7 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
     const totalOverTime = splitByDays(
       records
         .reduce((acc, { time, price, quantity }) => ([...acc, {
-          time: toLocal(time),
+          time: time,
           price: price.add((acc[acc.length - 1] || {}).price || Money.zero),
           quantity: 1 + ((acc[acc.length - 1] || { quantity: 0 }).quantity),
         }]), [])

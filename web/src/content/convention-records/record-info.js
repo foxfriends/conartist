@@ -29,7 +29,7 @@ function format(date: Date): string {
 }
 
 export function RecordInfo({ convention, record, anchor, onClose }: Props) {
-  const { products, productTypes } = convention
+  const { products, productTypes } = convention || model.getValue()
 
   const productInfo: [ProductType, Product[]][] = [...record.products
     .map(id => products.find(product => product.id === id))

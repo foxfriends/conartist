@@ -26,7 +26,12 @@
   flex-direction: row;
   justify-content: space-between;
 
+  &:not(:first-child) {
+    padding-top: 4px;
+  }
+
   &:not(:last-child) {
+    padding-bottom: 4px;
     border-bottom: 1px solid var(--color--divider);
   }
 }

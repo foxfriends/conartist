@@ -12,6 +12,7 @@ import S from './item.css'
 
 export type Props = {
   record: Record,
+  convention: ?Convention,
   // $FlowIgnore
   innerRef?: (?HTMLDivElement) => void,
   onClick: () => void,
@@ -21,8 +22,8 @@ function format(date: Date): string {
   return formatDate(date, l`h:mm`)
 }
 
-export function RecordItem({ record, onClick, innerRef }: Props) {
-  const { products = [] } = model.getValue()
+export function RecordItem({ record, convention, onClick, innerRef }: Props) {
+  const { products = [] } = convention || model.getValue()
   const productString =
     [...record.products.reduce((map, id) => map.set(id, map.get(id) + 1), new Map([], 0))]
       .map(([productId, count]) => [products.find(({ id }) => id === productId), count])

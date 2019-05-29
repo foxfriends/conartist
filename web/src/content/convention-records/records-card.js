@@ -66,6 +66,7 @@ export function RecordsCard({ date, records: propsRecords, convention, onFocus }
                   key={`record_info_${item.id}`}
                   onClose={() => onFocus(null)} />
                 return <RecordItem
+                  convention={convention}
                   innerRef={node => node && (ref.current = node)}
                   record={item}
                   key={`record_${item.time.getTime()}`}

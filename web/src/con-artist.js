@@ -270,10 +270,15 @@ export class ConArtist extends React.Component<Props, State> {
           break
 
         case 'new-sale': {
-          const prices = model.page.convention ? model.page.convention.prices : model.prices
-          const productTypes = model.page.convention ? model.page.convention.productTypes : model.productTypes
-          const products = model.page.convention ? model.page.convention.products : model.products
-          state.dialog = { name: 'new-sale', convention: model.page.convention, prices, products, productTypes, record: model.dialog.record }
+          const { prices, productTypes, products } = model
+          state.dialog = {
+            name: 'new-sale',
+            convention: model.page.convention,
+            prices,
+            products,
+            productTypes,
+            record: model.dialog.record,
+          }
           break
         }
 

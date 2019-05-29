@@ -14,8 +14,6 @@ import * as navigate from '../update/navigate'
 import { isSignedIn } from '../util/is-signed-in'
 import type { Action, Props as ButtonProps } from '../common/button'
 
-
-
 export type TextField = {
   className: string,
   title: string,

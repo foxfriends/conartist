@@ -43,6 +43,7 @@ class RecordDetailsOverlayViewController : ConArtistViewController {
         return products
             .map { $0.typeId }
             .unique()
+            .sorted()
             .compactMap { id in _productTypes.value.first(where: { type in type.id == id }) }
     }
 }
@@ -192,8 +193,12 @@ extension RecordDetailsOverlayViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RecordDetailsItemsTableViewCell.ID, for: indexPath) as! RecordDetailsItemsTableViewCell
+        print(productTypes)
+        print(indexPath.row)
         let productType = productTypes[indexPath.row]
         let products = self.products.filter { $0.typeId == productType.id }
+        print(productType)
+        print(products)
         cell.setup(for: productType, with: products)
         return cell
     }

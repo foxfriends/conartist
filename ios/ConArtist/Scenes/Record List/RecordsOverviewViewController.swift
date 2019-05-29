@@ -141,11 +141,9 @@ extension RecordsOverviewViewController {
                     convention.records.map { $0.map { .record($0) } }
                 )
                 .map { (expenses: [ItemType], records: [ItemType]) -> [ItemType] in expenses + records }
-                .share()
         } else {
             items = ConArtist.model.records
                 .map { $0.nodes.map { .record($0) } }
-                .share()
         }
 
         items

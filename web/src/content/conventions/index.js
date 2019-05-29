@@ -35,6 +35,8 @@ export function Conventions({ conventions }: Props) {
       today.push(convention)
     }
   })
+  // show these ones in reverse order...
+  upcoming.reverse()
 
   return (
     <CardView>

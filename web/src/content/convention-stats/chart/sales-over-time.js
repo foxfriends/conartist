@@ -134,6 +134,7 @@ function averages(grouping: number = 1): ((Item[]) => Item[]) {
 }
 
 function timeInDay(time) {
+  console.log(time, startOfDay(time), time - startOfDay(time))
   return time - startOfDay(time)
 }
 
@@ -164,9 +165,9 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
     const totalOverTime = splitByDays(
       records
         .reduce((acc, { time, price, quantity }) => ([...acc, {
-          time: toLocal(time),
+          time,
           price: price.add((acc[acc.length - 1] || {}).price || Money.zero),
-          quantity: 1 + ((acc[acc.length - 1] || {}).quantity || 0),
+          quantity: 1 + ((acc[acc.length - 1] || { quantity: 0 }).quantity),
         }]), [])
     )
 

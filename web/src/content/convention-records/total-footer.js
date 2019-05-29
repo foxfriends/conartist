@@ -12,7 +12,7 @@ export type Props = {
 
 export function TotalFooter({ total, sales, expense }: Props) {
   return (
-    <div class={S.footer}>
+    <div className={S.footer}>
       <div className={S.item}>
         <span className={S.title}>{l`Sales`}</span><span className={S.amount}>{sales.toString()}</span>
       </div>

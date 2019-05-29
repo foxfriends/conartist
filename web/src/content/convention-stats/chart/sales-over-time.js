@@ -3,6 +3,7 @@ import * as React from 'react'
 import startOfDay from 'date-fns/startOfDay'
 import format from 'date-fns/format'
 
+import { toLocal } from '../../../util/date'
 import Map from '../../../util/default-map'
 import { ChartCard } from './card'
 import { NotEnoughData } from './not-enough-data'
@@ -45,6 +46,8 @@ const colors = [
 ]
 
 function splitByDays(items: Item[]) {
+  if (!items.length) { return [] }
+
   const days = []
   let day = []
   let currentDay = startOfDay(items[0].time).valueOf()
@@ -64,6 +67,7 @@ function splitByDays(items: Item[]) {
 }
 
 function dailyTotals(data: Item[]): Item[] {
+  if (!data.length) { return [] }
   const startPrice = (data[0] || {}).price || Money.zero
   const startQuantity = (data[0] || {}).quantity || 0
   return data.map(({ time, price, quantity }) => ({ time, price: price.add(startPrice.negate()), quantity: quantity - startQuantity }))
@@ -152,23 +156,14 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
     const { records, showSettings } = this.props
     const { mode, grouping, metric } = this.state
 
-    if (records.length <= 1) {
-      return <NotEnoughData />
-    }
+    const dates = [...new Set(records.map(({ time }) => startOfDay(toLocal(time))))].sort()
 
-    const dates = [...new Set(
-      records
-        .map(({ time }) => time)
-        .map(time => startOfDay(time))
-    )].sort()
-
-    const days = dates
-      .map(date => format(date, l`EEE`))
+    const days = dates.map(date => format(date, l`EEE`))
 
     const totalOverTime = splitByDays(
       records
         .reduce((acc, { time, price, quantity }) => ([...acc, {
-          time,
+          time: toLocal(time),
           price: price.add((acc[acc.length - 1] || {}).price || Money.zero),
           quantity: 1 + ((acc[acc.length - 1] || {}).quantity || 0),
         }]), [])
@@ -180,10 +175,13 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
         daysData = totalOverTime.map(dailyTotals)
         break
       case 'Average':
-        daysData = totalOverTime.map(dailyTotals).map(deltas).map(averages(grouping))
+        daysData = totalOverTime
+          .map(dailyTotals)
+          .map(deltas)
+          .map(averages(grouping))
         break
       default:
-        return <NotEnoughData />
+        break
     }
 
     const data = {
@@ -240,10 +238,10 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
 
     return (
       <ChartCard title={l`Sales Over Time`} showSettings={showSettings} innerRef={card => this.ref.current = card}>
-        <>
+        <div className={S.container}>
           <Suspense fallback={<ChartsLoading />}>
             <Line
-              data={data}
+              data={records.length <= 1 ? { datsets: [] } : data}
               width={600}
               height={600}
               options={options}
@@ -253,7 +251,7 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
             ? <NotEnoughData />
             : null
           }
-        </>
+        </div>
         <SecondaryCard anchor={this.ref} title={l`Options`} onClose={() => showSettings(null)}>
           <div className={S.options}>
             <Select

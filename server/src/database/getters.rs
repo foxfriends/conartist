@@ -111,7 +111,6 @@ impl Database {
                     dsl::sql::<sql_types::BigInt>("coalesce(sum(inventory.quantity), 0)")
                 ))
                 .filter(products::user_id.eq(user_id))
-                .filter(products::discontinued.eq(false))
                 .filter(inventory::mod_date.lt(date))
                 .group_by(products::product_id)
                 .order((products::sort.asc(), products::product_id.asc()))

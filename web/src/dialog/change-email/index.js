@@ -78,10 +78,10 @@ export class ChangeEmail extends React.Component<Props, State> {
   }
 
   async saveChanges() {
+    const { emailValidation, mismatchValidation, email, processing } = this.state
     if (emailValidation.state !== VALID || mismatchValidation.state !== VALID || processing) {
       return
     }
-    const { email } = this.state
     this.setState({ processing: true })
     const response = await new ChangeEmailMutation().send({ email }).toPromise()
     this.setState({ processing: false })

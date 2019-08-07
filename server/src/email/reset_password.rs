@@ -1,4 +1,3 @@
-use log::info;
 use lettre_email::Email;
 use lettre::Transport;
 
@@ -8,15 +7,12 @@ use super::sender::SENDER;
 
 /// Sends the "confirm email" email after a signup
 pub fn send(email: String, verification_code: String) -> Result<(), MailerError> {
-    info!("Building email to: {}", email);
     let email = Email::builder()
         .to(email)
         .from(CONARTIST_SERVER_EMAIL.to_string())
         .subject("ConArtist Password Reset")
         .html(format!(include_str!("reset_password.html"), url=CONARTIST_BASE_URL.to_string(), verification_code=verification_code))
         .build()?;
-    info!("Sending email");
     SENDER.lock().unwrap().send(email.into())?;
-    info!("Sent email");
     Ok(())
 }

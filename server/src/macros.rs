@@ -69,6 +69,10 @@ macro_rules! ensure {
 
 macro_rules! dbtry {
     ($res:expr) => {
-        $res.map_err(|s| ::juniper::FieldError::new(s, ::juniper::Value::null()))
+        $res.map_err(|s| {
+            use log::warn;
+            warn!("DB Error: {}", s);
+            ::juniper::FieldError::new(s, ::juniper::Value::null())
+        })
     };
 }

@@ -2,7 +2,6 @@
 use juniper::FieldResult;
 use chrono::NaiveDate;
 use serde_json;
-use log::info;
 
 mod product;
 mod product_type;
@@ -30,7 +29,6 @@ graphql_object!(Mutation: Database |&self| {
     // Users
     field change_user_email(&executor, user_id: Option<i32>, email: String) -> FieldResult<User> {
         ensure!(email.len() > 0 && email.len() <= 512);
-        info!("Change email to {}", email);
 
         let EmailVerification { verification_code, email, .. } = dbtry! {
             executor
@@ -38,12 +36,10 @@ graphql_object!(Mutation: Database |&self| {
                 .change_email(user_id, email)
         }?;
 
-        info!("Send email?");
         #[cfg(feature="mailer")]
         confirm_email::send(email, verification_code)?;
         #[cfg(not(feature="mailer"))]
         let User { .. } = dbtry! {
-            info!("No send email...");
             executor
                 .context()
                 .verify_email(&verification_code)

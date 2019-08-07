@@ -89,6 +89,7 @@ impl Handler for ResetPassword {
         match self.database.reset_password(&email.to_lowercase()) {
             Ok(password_reset) => {
                 #[cfg(feature="mailer")] {
+                    info!("Emails enabled?");
                     if let Err(error) = reset_password::send(email, password_reset.verification_code) {
                         cr::fail(&format!("{}", error))
                     } else {
@@ -96,6 +97,7 @@ impl Handler for ResetPassword {
                     }
                 }
                 #[cfg(not(feature="mailer"))] {
+                    info!("Emails not enabled?");
                     cr::ok(true)
                 }
             },

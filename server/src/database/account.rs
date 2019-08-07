@@ -192,6 +192,18 @@ impl Database {
                         "The email is already in use by another user".to_owned()
                     ))))
                 }
+
+                // remove any existing verification for this user
+                diesel::delete(emailverifications::table)
+                    .filter(emailverifications::user_id.eq(user_id))
+                    .execute(&*conn)?;
+
+                // remove any expired verifications for this email address
+                dsl::delete(emailverifications::table)
+                    .filter(emailverifications::email.eq(&email))
+                    .filter(emailverifications::expires.lt(dsl::now))
+                    .execute(&*conn)?;
+
                 diesel::insert_into(emailverifications::table)
                     .values((
                         emailverifications::verification_code.eq(verification_code),

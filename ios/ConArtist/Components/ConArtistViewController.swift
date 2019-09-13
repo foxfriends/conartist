@@ -23,6 +23,9 @@ class ConArtistViewController : UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        if #available(iOS 13.0, *) {
+            isModalInPresentation = true // we must not allow pulldown gesture because that messes up my navigation
+        }
         startAdjustingForKeyboard()
     }
 

@@ -14,6 +14,7 @@ class SplashScreenViewController : ConArtistViewController {}
 // MARK: - Lifecycle
 extension SplashScreenViewController {
     override func viewDidLoad() {
+        super.viewDidLoad()
         SignInViewController.show(animated: false)
         if ConArtist.API.Auth.authToken != ConArtist.API.Auth.Unauthorized {
             ConventionListViewController.show(animated: false)

@@ -27,6 +27,7 @@ class NewExpenseViewController : ConArtistViewController {
 // MARK: - Lifecycle
 extension NewExpenseViewController {
     override func viewDidLoad() {
+        super.viewDidLoad()
         setupSubscriptions()
         setupLocalization()
         noteLabel.font = noteLabel.font.usingFeatures([.smallCaps])

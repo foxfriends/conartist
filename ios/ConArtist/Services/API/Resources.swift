@@ -3,8 +3,13 @@
 import Apollo
 
 public final class ImageQuery: GraphQLQuery {
+  /// query Image($imageId: String!) {
+  ///   image(imageId: $imageId)
+  /// }
   public let operationDefinition =
-    "query Image($imageId: String!) {\n  image(imageId: $imageId)\n}"
+    "query Image($imageId: String!) { image(imageId: $imageId) }"
+
+  public let operationName = "Image"
 
   public var imageId: String
 

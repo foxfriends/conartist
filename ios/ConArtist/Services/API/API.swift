@@ -21,10 +21,12 @@ extension ConArtist {
             let config = URLSessionConfiguration.default
             config.httpAdditionalHeaders = ["Authorization": "Bearer \(API.Auth.authToken)"]
 
+            let session = URLSession(configuration: config)
+
             return ApolloClient(
                 networkTransport: HTTPNetworkTransport(
                     url: ConArtist.API.GraphQLURL,
-                    configuration: config
+                    session: session
                 )
             )
         }

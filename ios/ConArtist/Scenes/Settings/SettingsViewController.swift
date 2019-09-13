@@ -158,7 +158,7 @@ extension SettingsViewController: UITableViewDelegate {
             let options = CurrencyCode.allCases.filter { $0 != .AUTO }
             SettingsSelectViewController.show(
                 title: "Currency"¡,
-                value: options.index(of: ConArtist.model.settings.value.currency) ?? 0,
+                value: options.firstIndex(of: ConArtist.model.settings.value.currency) ?? 0,
                 options: options.map { $0.rawValue },
                 handler: { index in
                     ConArtist.model.settings.accept(ConArtist.model.settings.value.set(currency: options[index]))

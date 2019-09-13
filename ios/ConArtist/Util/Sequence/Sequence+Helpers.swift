@@ -38,7 +38,7 @@ extension Array {
     }
 
     mutating func removeFirst(where predicate: (Element) -> Bool) {
-        guard let index = index(where: predicate) else { return }
+        guard let index = firstIndex(where: predicate) else { return }
         remove(at: index)
     }
 

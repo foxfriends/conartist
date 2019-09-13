@@ -1224,7 +1224,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "APOLLO_FRAMEWORK_PATH=\"$(eval find $FRAMEWORK_SEARCH_PATHS -name \"Apollo.framework\" -maxdepth 1)\"\n\nif [ -z \"$APOLLO_FRAMEWORK_PATH\" ]; then\necho \"error: Couldn't find Apollo.framework in FRAMEWORK_SEARCH_PATHS; make sure to add the framework to your project.\"\nexit 1\nfi\n\ncd \"${SRCROOT}/${TARGET_NAME}\"\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-cli.sh codegen:generate Services/API/GraphQL.swift --queries=../../shared/graphql/**/*.graphql --schema=../../shared/graphql/schema.json\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-cli.sh codegen:generate Services/API/Resources.swift --queries=../../shared/resources/query/*.graphql --schema=../../shared/resources/resources.json\n";
+			shellScript = "SCRIPT_PATH=\"${PODS_ROOT}/Apollo/scripts\"\ncd \"${SRCROOT}/ConArtist\"\n${SCRIPT_PATH}/check-and-run-apollo-cli.sh codegen:generate --target=swift --includes=${SRCROOT}/../shared/graphql/**/*.graphql --localSchemaFile=${SRCROOT}/../shared/graphql/schema.json ${SRCROOT}/ConArtist/Services/API/GraphQL.swift\n${SCRIPT_PATH}/check-and-run-apollo-cli.sh codegen:generate --target=swift --includes=${SRCROOT}/../shared/resources/query/*.graphql --localSchemaFile=${SRCROOT}/../shared/resources/resources.json ${SRCROOT}/ConArtist/Services/API/Resources.swift\n";
 		};
 		326B7E0221FEA52B00E8DF34 /* Generate Apollo GraphQL API */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1238,7 +1238,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "APOLLO_FRAMEWORK_PATH=\"$(eval find $FRAMEWORK_SEARCH_PATHS -name \"Apollo.framework\" -maxdepth 1)\"\n\nif [ -z \"$APOLLO_FRAMEWORK_PATH\" ]; then\necho \"error: Couldn't find Apollo.framework in FRAMEWORK_SEARCH_PATHS; make sure to add the framework to your project.\"\nexit 1\nfi\n\ncd \"${SRCROOT}/ConArtist\"\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-cli.sh codegen:generate Services/API/GraphQL.swift --queries=../../shared/graphql/**/*.graphql --schema=../../shared/graphql/schema.json\n$APOLLO_FRAMEWORK_PATH/check-and-run-apollo-cli.sh codegen:generate Services/API/Resources.swift --queries=../../shared/resources/query/*.graphql --schema=../../shared/resources/resources.json\n";
+			shellScript = "SCRIPT_PATH=\"${PODS_ROOT}/Apollo/scripts\"\ncd \"${SRCROOT}/ConArtist\"\n${SCRIPT_PATH}/check-and-run-apollo-cli.sh codegen:generate --target=swift --includes=${SRCROOT}/../shared/graphql/**/*.graphql --localSchemaFile=${SRCROOT}/../shared/graphql/schema.json ${SRCROOT}/ConArtist/Services/API/GraphQL.swift\n${SCRIPT_PATH}/check-and-run-apollo-cli.sh codegen:generate --target=swift --includes=${SRCROOT}/../shared/resources/query/*.graphql --localSchemaFile=${SRCROOT}/../shared/resources/resources.json ${SRCROOT}/ConArtist/Services/API/Resources.swift\n";
 		};
 		326B7EA721FEA52B00E8DF34 /* Copy Configuration Files */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1274,7 +1274,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-ConArtist/Pods-ConArtist-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-ConArtist/Pods-ConArtist-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Apollo/Apollo.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
@@ -1309,7 +1309,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ConArtist/Pods-ConArtist-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ConArtist/Pods-ConArtist-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		89F2EB7EDD1826086B68903E /* [CP] Embed Pods Frameworks */ = {
@@ -1317,10 +1317,8 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-ConArtist DEV/Pods-ConArtist DEV-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-ConArtist DEV/Pods-ConArtist DEV-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Apollo/Apollo.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
@@ -1337,8 +1335,6 @@
 				"${BUILT_PRODUCTS_DIR}/pop/pop.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Apollo.framework",
@@ -1357,7 +1353,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ConArtist DEV/Pods-ConArtist DEV-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ConArtist DEV/Pods-ConArtist DEV-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9F5FD296B160E13C1D7D120F /* [CP] Check Pods Manifest.lock */ = {
@@ -1834,7 +1830,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.cameldridge.conartist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1853,7 +1849,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.cameldridge.conartist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -1872,7 +1868,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cameldridge.staging-conartist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1891,7 +1887,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cameldridge.staging-conartist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

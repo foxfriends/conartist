@@ -19,20 +19,17 @@ extension ApolloClient {
     func observe<Query: GraphQLQuery>(query: Query, cachePolicy: CachePolicy = .fetchIgnoringCacheData, queue: DispatchQueue = DispatchQueue.main) -> Single<Query.Data> {
         return Single
             .create { observer in
-                let cancel = self.fetch(query: query, cachePolicy: cachePolicy, queue: queue) { result, error in
-                    if let error = error {
+                let cancel = self.fetch(query: query, cachePolicy: cachePolicy, context: nil, queue: queue) { result in
+                    switch result {
+                    case .failure(let error):
                         observer(.error(error))
-                        return
+                    case .success(let result):
+                        guard let data = result.data else {
+                            observer(.error(RxError.errors(result.errors ?? [])))
+                            return
+                        }
+                        observer(.success(data))
                     }
-                    guard let result = result else {
-                        observer(.error(RxError.noResult))
-                        return
-                    }
-                    guard let data = result.data else {
-                        observer(.error(RxError.errors(result.errors ?? [])))
-                        return
-                    }
-                    observer(.success(data))
                 }
                 return Disposables.create {
                     cancel.cancel()
@@ -54,20 +51,17 @@ extension ApolloClient {
     func observe<Mutation: GraphQLMutation>(mutation: Mutation, queue: DispatchQueue = DispatchQueue.main) -> Single<Mutation.Data> {
         return Single
             .create { observer in
-                let cancel = self.perform(mutation: mutation, queue: queue) { result, error in
-                    if let error = error {
+                let cancel = self.perform(mutation: mutation, context: nil, queue: queue) { result in
+                    switch result {
+                    case .failure(let error):
                         observer(.error(error))
-                        return
+                    case .success(let result):
+                        guard let data = result.data else {
+                            observer(.error(RxError.errors(result.errors ?? [])))
+                            return
+                        }
+                        observer(.success(data))
                     }
-                    guard let result = result else {
-                        observer(.error(RxError.noResult))
-                        return
-                    }
-                    guard let data = result.data else {
-                        observer(.error(RxError.errors(result.errors ?? [])))
-                        return
-                    }
-                    observer(.success(data))
                 }
                 return Disposables.create {
                     cancel.cancel()

@@ -1,8 +1,8 @@
 PODS:
-  - Alamofire (4.8.2)
-  - Apollo (0.10.1):
-    - Apollo/Core (= 0.10.1)
-  - Apollo/Core (0.10.1)
+  - Alamofire (4.9.0)
+  - Apollo (0.15.3):
+    - Apollo/Core (= 0.15.3)
+  - Apollo/Core (0.15.3)
   - CocoaLumberjack (3.5.3):
     - CocoaLumberjack/Core (= 3.5.3)
   - CocoaLumberjack/Core (3.5.3)
@@ -29,14 +29,14 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
-  - Apollo (~> 0.10)
+  - Apollo (~> 0.15)
   - PrettyString (~> 0.1)
   - RxAlamofire (~> 5.0)
   - RxCocoa (~> 5.0)
   - RxSwift (~> 5.0)
   - SexyTooltip (~> 1.2)
   - Strongbox (~> 0.5)
-  - SVGKit (from `https://github.com/SVGKit/SVGKit.git`, branch `2.x`)
+  - SVGKit (from `https://github.com/SVGKit/SVGKit.git`, branch `3.x`)
   - SwiftMoment (~> 0.7)
   - Toast-Swift (~> 4.0)
 
@@ -58,17 +58,17 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   SVGKit:
-    :branch: 2.x
+    :branch: 3.x
     :git: https://github.com/SVGKit/SVGKit.git
 
 CHECKOUT OPTIONS:
   SVGKit:
-    :commit: 4b507e48da30711e25d1bcdd19580f25887a2267
+    :commit: 39dd210fd47e3195f57f914354ffd2d0b4b8ff1c
     :git: https://github.com/SVGKit/SVGKit.git
 
 SPEC CHECKSUMS:
-  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
-  Apollo: 4d690a9b2e48e8820182df4b988d7a253e1ee589
+  Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
+  Apollo: bec38cb63711f7c3f3c7c2faae3be9139d2a8a57
   CocoaLumberjack: 2f44e60eb91c176d471fdba43b9e3eae6a721947
   pop: d582054913807fd11fd50bfe6a539d91c7e1a55a
   PrettyString: 88cd4e1b6d756718d4fb4dc55ca2ac53aaee3550
@@ -82,6 +82,6 @@ SPEC CHECKSUMS:
   SwiftMoment: dc6dd27012e267819104cbb03f74ff9192dd0b42
   Toast-Swift: e42a638589a2f95036b4bb7626cfbdde7daf0393
 
-PODFILE CHECKSUM: 5a071a0f8cb2209b86426071d7e395bbedc84ccb
+PODFILE CHECKSUM: fa50e64d3822ce99ae92ce454ea9e9c67b6b5e12
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.7.5

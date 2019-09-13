@@ -424,14 +424,14 @@ extension Convention {
     }
 
     func updateRecord(_ record: Record, save: Bool = true) -> Maybe<Void> {
-        if let existingIndex = øaddedRecords.value.index(where: { $0.id == record.id }) {
+        if let existingIndex = øaddedRecords.value.firstIndex(where: { $0.id == record.id }) {
             øaddedRecords.accept(øaddedRecords.value.replace(index: existingIndex, with: record))
             return .just(())
         }
-        if let existingIndex = ørecords.value.index(where: { $0.id == record.id }) {
+        if let existingIndex = ørecords.value.firstIndex(where: { $0.id == record.id }) {
             ørecords.accept(ørecords.value.removing(at: existingIndex))
         }
-        if let existingIndex = ømodifiedRecords.value.index(where: { $0.id == record.id }) {
+        if let existingIndex = ømodifiedRecords.value.firstIndex(where: { $0.id == record.id }) {
             ømodifiedRecords.accept(ømodifiedRecords.value.removing(at: existingIndex))
         }
         ømodifiedRecords.accept(ømodifiedRecords.value + [record])
@@ -520,14 +520,14 @@ extension Convention {
     }
 
     func updateExpense(_ expense: Expense, save: Bool = true) -> Maybe<Void> {
-        if let existingIndex = øaddedExpenses.value.index(where: { $0.id == expense.id }) {
+        if let existingIndex = øaddedExpenses.value.firstIndex(where: { $0.id == expense.id }) {
             øaddedExpenses.accept(øaddedExpenses.value.replace(index: existingIndex, with: expense))
             return .just(())
         }
-        if let existingIndex = øexpenses.value.index(where: { $0.id == expense.id }) {
+        if let existingIndex = øexpenses.value.firstIndex(where: { $0.id == expense.id }) {
             øexpenses.accept(øexpenses.value.removing(at: existingIndex))
         }
-        if let existingIndex = ømodifiedExpenses.value.index(where: { $0.id == expense.id }) {
+        if let existingIndex = ømodifiedExpenses.value.firstIndex(where: { $0.id == expense.id }) {
             ømodifiedExpenses.accept(ømodifiedExpenses.value.removing(at: existingIndex))
         }
         ømodifiedExpenses.accept(ømodifiedExpenses.value + [expense])

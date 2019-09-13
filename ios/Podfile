@@ -6,7 +6,7 @@ platform :ios, '11.0'
     inhibit_all_warnings!
 
     # Pods for ConArtist
-    pod 'Apollo', '~> 0.10'
+    pod 'Apollo', '~> 0.15'
     pod 'Alamofire', '~> 4.7'
     pod 'Strongbox', '~> 0.5'
     pod 'SwiftMoment', '~> 0.7'
@@ -14,7 +14,7 @@ platform :ios, '11.0'
     pod 'RxCocoa', '~> 5.0'
     pod 'RxAlamofire', '~> 5.0'
     pod 'SexyTooltip', '~> 1.2'
-    pod 'SVGKit', :git => 'https://github.com/SVGKit/SVGKit.git', :branch => '2.x'
+    pod 'SVGKit', :git => 'https://github.com/SVGKit/SVGKit.git', :branch => '3.x'
     pod 'PrettyString', '~> 0.1'
     pod 'Toast-Swift', '~> 4.0'
   end

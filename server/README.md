@@ -39,10 +39,7 @@ not great so turn that off at some point.
 
 ## Deploying to production
 
-Just tell me to do it. I don't know how to set up another person for my Heroku, and don't really
-feel like figuring it out.
-
 The URL for the production server is: [https://conartist.app](https://conartist.app).
 
-Currently the production build is running with all CORS origins enabled. This should
-be removed when convenient, as it is not secure at all.
+SSH into that and redeploy by pulling the latest code, rebuilding it, and then restarting the servers.
+Don't forget to run any required migrations.

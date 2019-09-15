@@ -31,29 +31,27 @@ impl Database {
         let conn = self.pool.get().unwrap();
 
         // TODO: was nice when the counting could be done in SQL... maybe someday it can be improved
-        let items_sold: HashMap<i32, i64> =
-            records::table
-                .select(unnest(records::products))
-                .filter(records::user_id.eq(user_id))
-                .load::<i32>(&*conn)
-                .map_err(|reason| format!("Records for user with id {} could not be retrieved. Reason: {}", user_id, reason))?
-                .into_iter()
-                .fold(HashMap::new(), |mut map, index| {
-                    let amt = map.get(&index).unwrap_or(&0i64) + 1;
-                    map.insert(index, amt);
-                    map
-                });
+        let items_sold: HashMap<i32, i64> = records::table
+            .select(unnest(records::products))
+            .filter(records::user_id.eq(user_id))
+            .load::<i32>(&*conn)
+            .map_err(|reason| format!("Records for user with id {} could not be retrieved. Reason: {}", user_id, reason))?
+            .into_iter()
+            .fold(HashMap::new(), |mut map, index| {
+                let amt = map.get(&index).unwrap_or(&0i64) + 1;
+                map.insert(index, amt);
+                map
+            });
 
-        let products_with_quantity =
-            products::table
-                .left_outer_join(inventory::table)
-                .select((products::product_id, products::type_id, products::user_id, products::name, products::sort, products::discontinued, dsl::sql::<sql_types::BigInt>("coalesce(sum(inventory.quantity), 0)")))
-                .filter(products::user_id.eq(user_id))
-                .filter(products::deleted.eq(false))
-                .group_by(products::product_id)
-                .order((products::sort.asc(), products::product_id.asc()))
-                .load::<ProductWithQuantity>(&*conn)
-                .map_err(|reason| format!("Products for user with id {} could not be retrieved. Reason: {}", user_id, reason))?;
+        let products_with_quantity = products::table
+            .left_outer_join(inventory::table)
+            .select((products::product_id, products::type_id, products::user_id, products::name, products::sort, products::discontinued, dsl::sql::<sql_types::BigInt>("coalesce(sum(inventory.quantity), 0)")))
+            .filter(products::user_id.eq(user_id))
+            .filter(products::deleted.eq(false))
+            .group_by(products::product_id)
+            .order((products::sort.asc(), products::product_id.asc()))
+            .load::<ProductWithQuantity>(&*conn)
+            .map_err(|reason| format!("Products for user with id {} could not be retrieved. Reason: {}", user_id, reason))?;
 
         Ok(products_with_quantity
             .into_iter()

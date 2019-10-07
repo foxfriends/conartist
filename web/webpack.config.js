@@ -16,11 +16,11 @@ module.exports = env => {
         'process.env.API_URL': JSON.stringify('https://api.conartist.app'),
         'process.env.GRAPHQL_URL': JSON.stringify('https://graph.conartist.app'),
         'process.env.SUPPORT_EMAIL': JSON.stringify('support@conartist.app'),
-        'process.env.DONATE_URL': JSON.stringify('https://ko-fi.com/nicehotchocolate'),
-        'process.env.REPOSITORY_URL': JSON.stringify('https://github.com/OinkIguana/conartist'),
+        'process.env.DONATE_URL': JSON.stringify('https://ko-fi.com/foxfriends'),
+        'process.env.REPOSITORY_URL': JSON.stringify('https://github.com/foxfriends/conartist'),
         'process.env.APP_STORE_URL': JSON.stringify('https://itunes.apple.com/us/app/conartist/id1448972207'),
         'process.env.DISCORD_URL': JSON.stringify('https://discordapp.com/invite/kh9hmt3'),
-        'process.env.CON_REQUEST_URL': JSON.stringify('https://github.com/OinkIguana/conartist/blob/master/dev/import-conventions/sample/convention.toml'),
+        'process.env.CON_REQUEST_URL': JSON.stringify('https://github.com/foxfriends/conartist/blob/master/dev/import-conventions/sample/convention.toml'),
       }));
       break;
     case STAGING:
@@ -29,11 +29,11 @@ module.exports = env => {
         'process.env.API_URL': JSON.stringify('https://api.staging.conartist.app'),
         'process.env.GRAPHQL_URL': JSON.stringify('https://graph.staging.conartist.app'),
         'process.env.SUPPORT_EMAIL': JSON.stringify('support@staging.conartist.app'),
-        'process.env.DONATE_URL': JSON.stringify('https://ko-fi.com/nicehotchocolate'),
-        'process.env.REPOSITORY_URL': JSON.stringify('https://github.com/OinkIguana/conartist'),
+        'process.env.DONATE_URL': JSON.stringify('https://ko-fi.com/foxfriends'),
+        'process.env.REPOSITORY_URL': JSON.stringify('https://github.com/foxfriends/conartist'),
         'process.env.APP_STORE_URL': JSON.stringify('https://itunes.apple.com/us/app/conartist/id1448972207'),
         'process.env.DISCORD_URL': JSON.stringify('https://discordapp.com/invite/kh9hmt3'),
-        'process.env.CON_REQUEST_URL': JSON.stringify('https://github.com/OinkIguana/conartist/blob/master/dev/import-conventions/sample/convention.toml'),
+        'process.env.CON_REQUEST_URL': JSON.stringify('https://github.com/foxfriends/conartist/blob/master/dev/import-conventions/sample/convention.toml'),
       }));
       break;
     default:
@@ -41,11 +41,11 @@ module.exports = env => {
         'process.env.API_URL': JSON.stringify('/api'),
         'process.env.GRAPHQL_URL': JSON.stringify('/api/v2'),
         'process.env.SUPPORT_EMAIL': JSON.stringify('support@staging.conartist.app'),
-        'process.env.DONATE_URL': JSON.stringify('https://ko-fi.com/nicehotchocolate'),
-        'process.env.REPOSITORY_URL': JSON.stringify('https://github.com/OinkIguana/conartist'),
+        'process.env.DONATE_URL': JSON.stringify('https://ko-fi.com/foxfriends'),
+        'process.env.REPOSITORY_URL': JSON.stringify('https://github.com/foxfriends/conartist'),
         'process.env.APP_STORE_URL': JSON.stringify('https://itunes.apple.com/us/app/conartist/id1448972207'),
         'process.env.DISCORD_URL': JSON.stringify('https://discordapp.com/invite/kh9hmt3'),
-        'process.env.CON_REQUEST_URL': JSON.stringify('https://github.com/OinkIguana/conartist/blob/master/dev/import-conventions/sample/convention.toml'),
+        'process.env.CON_REQUEST_URL': JSON.stringify('https://github.com/foxfriends/conartist/blob/master/dev/import-conventions/sample/convention.toml'),
       }));
       break;
   }

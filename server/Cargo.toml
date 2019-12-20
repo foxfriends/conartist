@@ -58,11 +58,11 @@ lettre_email = { version = "0.9", optional = true }
 
 [dependencies.juniper]
 git = "https://github.com/foxfriends/juniper"
-rev = "5f1ba85cf5b0ee70bef767a71851e244d7fa0f05"
+rev = "3755979798bfe09f43ea2e75bc8277a099b7ba05"
 features = ["chrono", "uuid"]
 [dependencies.juniper_codegen]
 git = "https://github.com/foxfriends/juniper"
-rev = "5f1ba85cf5b0ee70bef767a71851e244d7fa0f05"
+rev = "3755979798bfe09f43ea2e75bc8277a099b7ba05"
 [dependencies.juniper_iron]
 git = "https://github.com/foxfriends/juniper"
-rev = "5f1ba85cf5b0ee70bef767a71851e244d7fa0f05"
+rev = "3755979798bfe09f43ea2e75bc8277a099b7ba05"

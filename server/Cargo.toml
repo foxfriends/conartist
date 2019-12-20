@@ -57,12 +57,12 @@ lettre_email = { version = "0.9", optional = true }
 #       Juniper for some reason.
 
 [dependencies.juniper]
-git = "https://github.com/oinkiguana/juniper"
-rev = "master"
+git = "https://github.com/foxfriends/juniper"
+rev = "5f1ba85cf5b0ee70bef767a71851e244d7fa0f05"
 features = ["chrono", "uuid"]
 [dependencies.juniper_codegen]
-git = "https://github.com/oinkiguana/juniper"
-rev = "master"
+git = "https://github.com/foxfriends/juniper"
+rev = "5f1ba85cf5b0ee70bef767a71851e244d7fa0f05"
 [dependencies.juniper_iron]
-git = "https://github.com/oinkiguana/juniper"
-rev = "master"
+git = "https://github.com/foxfriends/juniper"
+rev = "5f1ba85cf5b0ee70bef767a71851e244d7fa0f05"

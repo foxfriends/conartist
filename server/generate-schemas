@@ -1,1 +1,2 @@
+#!/bin/bash
 diesel print-schema > src/database/schema.rs

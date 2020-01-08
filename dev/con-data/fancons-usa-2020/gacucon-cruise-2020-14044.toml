@@ -1,0 +1,18 @@
+title = "GACUCon Cruise"
+start_date = 2020-07-13
+end_date = 2020-07-17
+tags = []
+
+[website]
+title = "gacucon.com"
+url = "https://gacucon.com/"
+
+[address]
+address = "Royal Caribbean Navigator of the Seas\nDeparting from Miami, FL\nUSA"
+city = "Miami, FL"
+country = "USA"
+
+[address.coordinates]
+lat = 25.777922
+lon = -80.173454
+

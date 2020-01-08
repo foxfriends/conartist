@@ -1,0 +1,18 @@
+title = "QuadCon Peoria"
+start_date = 2020-04-11
+end_date = 2020-04-11
+tags = []
+
+[website]
+title = "quadcitycon.com"
+url = "https://quadcitycon.com/"
+
+[address]
+address = "Peoria Civic Center\nPeoria, IL\nUSA"
+city = "Peoria, IL"
+country = "USA"
+
+[address.coordinates]
+lat = 40.69215
+lon = -89.59428
+

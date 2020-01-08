@@ -1,0 +1,18 @@
+title = "NärCon Vinter"
+start_date = 2020-02-20
+end_date = 2020-02-23
+tags = []
+
+[website]
+title = "www.narcon.se"
+url = "https://www.narcon.se/event"
+
+[address]
+address = "Berzeliusskolan\nLinköping, Sweden"
+city = "Linköping"
+country = "Sweden"
+
+[address.coordinates]
+lat = 58.41585
+lon = 15.611163
+

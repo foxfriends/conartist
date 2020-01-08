@@ -1,0 +1,18 @@
+title = "Discworld Convention"
+start_date = 2020-08-07
+end_date = 2020-08-10
+tags = []
+
+[website]
+title = "2020.dwcon.org"
+url = "https://2020.dwcon.org/"
+
+[address]
+address = "Hilton Birmingham Metropole\nBirmingham, UK"
+city = "Birmingham"
+country = "UK"
+
+[address.coordinates]
+lat = 52.450672
+lon = -1.7153683
+

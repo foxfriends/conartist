@@ -1,0 +1,18 @@
+title = "Comic-Con International: San Diego"
+start_date = 2020-07-23
+end_date = 2020-07-26
+tags = []
+
+[website]
+title = "www.comic-con.org"
+url = "https://www.comic-con.org/cci"
+
+[address]
+address = "San Diego Convention Center\nSan Diego, CA\nUSA"
+city = "San Diego, CA"
+country = "USA"
+
+[address.coordinates]
+lat = 32.70671
+lon = -117.16198
+

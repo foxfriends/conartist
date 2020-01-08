@@ -1,0 +1,18 @@
+title = "Barrie Fantasticon"
+start_date = 2020-04-17
+end_date = 2020-04-18
+tags = []
+
+[website]
+title = "barriefantasticon.ca"
+url = "https://barriefantasticon.ca/"
+
+[address]
+address = "Georgian College\nBarrie, ON\nCanada"
+city = "Barrie, ON"
+country = "Canada"
+
+[address.coordinates]
+lat = 44.411484
+lon = -79.66954
+

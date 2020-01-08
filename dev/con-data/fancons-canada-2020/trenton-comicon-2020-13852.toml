@@ -1,0 +1,18 @@
+title = "Trenton ComiCon"
+start_date = 2020-03-07
+end_date = 2020-03-07
+tags = []
+
+[website]
+title = "www.popculturecanada.ca"
+url = "http://www.popculturecanada.ca/"
+
+[address]
+address = "Knights of Columbus Hall\nTrenton, ON\nCanada"
+city = "Trenton, ON"
+country = "Canada"
+
+[address.coordinates]
+lat = 44.109776
+lon = -77.565
+

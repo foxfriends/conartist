@@ -1,0 +1,18 @@
+title = "Comicpalooza"
+start_date = 2020-05-22
+end_date = 2020-05-24
+tags = []
+
+[website]
+title = "www.comicpalooza.com"
+url = "https://www.comicpalooza.com/"
+
+[address]
+address = "George R. Brown Convention Center\nHouston, TX\nUSA"
+city = "Houston, TX"
+country = "USA"
+
+[address.coordinates]
+lat = 29.752457
+lon = -95.35769
+

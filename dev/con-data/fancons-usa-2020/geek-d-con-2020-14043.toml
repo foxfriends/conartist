@@ -1,0 +1,18 @@
+title = "Geek'd Con"
+start_date = 2020-08-21
+end_date = 2020-08-23
+tags = []
+
+[website]
+title = "geekdcon.com"
+url = "https://geekdcon.com/"
+
+[address]
+address = "Shreveport Convention Center\nShreveport, LA\nUSA"
+city = "Shreveport, LA"
+country = "USA"
+
+[address.coordinates]
+lat = 32.51634
+lon = -93.75203
+

@@ -1,0 +1,18 @@
+title = "Cleveland Comic Book & Nostalgia Show"
+start_date = 2020-03-15
+end_date = 2020-03-15
+tags = []
+
+[website]
+title = "harpercomics.com"
+url = "http://harpercomics.com/conventions.php?show=6&date=157"
+
+[address]
+address = "DoubleTree by Hilton Hotel Cleveland - Westlake\nWestlake, OH\nUSA"
+city = "Westlake, OH"
+country = "USA"
+
+[address.coordinates]
+lat = 41.47123
+lon = -81.95252
+

@@ -1,0 +1,18 @@
+title = "GeekTakuFest"
+start_date = 2020-06-29
+end_date = 2020-06-30
+tags = []
+
+[website]
+title = "geektakufest0.wixsite.com"
+url = "https://geektakufest0.wixsite.com/geektakufest/"
+
+[address]
+address = "Espace Shawinigan\nShawinigan, QC\nCanada"
+city = "Shawinigan, QC"
+country = "Canada"
+
+[address.coordinates]
+lat = 46.53371
+lon = -72.765465
+

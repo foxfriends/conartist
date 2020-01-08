@@ -1,0 +1,18 @@
+title = "AnachroCon"
+start_date = 2020-02-14
+end_date = 2020-02-16
+tags = []
+
+[website]
+title = "www.anachrocon.org"
+url = "http://www.anachrocon.org/"
+
+[address]
+address = "Hilton Airport Atlanta\nAtlanta, GA\nUSA"
+city = "Atlanta, GA"
+country = "USA"
+
+[address.coordinates]
+lat = 33.659927
+lon = -84.42447
+

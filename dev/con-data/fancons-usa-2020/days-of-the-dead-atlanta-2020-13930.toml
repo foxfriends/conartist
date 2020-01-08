@@ -1,0 +1,18 @@
+title = "Days of the Dead Atlanta"
+start_date = 2020-02-07
+end_date = 2020-02-09
+tags = []
+
+[website]
+title = "www.daysofthedead.com"
+url = "https://www.daysofthedead.com/atlanta/"
+
+[address]
+address = "Sheraton Atlanta Hotel\nAtlanta, GA\nUSA"
+city = "Atlanta, GA"
+country = "USA"
+
+[address.coordinates]
+lat = 33.75902
+lon = -84.383156
+

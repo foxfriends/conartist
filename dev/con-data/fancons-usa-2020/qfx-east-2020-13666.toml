@@ -1,0 +1,18 @@
+title = "QFX East"
+start_date = 2020-05-29
+end_date = 2020-05-31
+tags = []
+
+[website]
+title = "www.qfxevents.com"
+url = "https://www.qfxevents.com/"
+
+[address]
+address = "Hilton Tampa Downtown\nTampa, FL\nUSA"
+city = "Tampa, FL"
+country = "USA"
+
+[address.coordinates]
+lat = 27.946241
+lon = -82.45769
+

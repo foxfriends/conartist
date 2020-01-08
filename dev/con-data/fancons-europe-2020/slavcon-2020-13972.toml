@@ -1,0 +1,18 @@
+title = "SlavCon"
+start_date = 2020-04-17
+end_date = 2020-04-19
+tags = []
+
+[website]
+title = "slavcon.sk"
+url = "https://slavcon.sk/"
+
+[address]
+address = "FIIT STU\nBratislava, Slovakia"
+city = "Bratislava"
+country = "Slovakia"
+
+[address.coordinates]
+lat = 48.1534
+lon = 17.0717
+

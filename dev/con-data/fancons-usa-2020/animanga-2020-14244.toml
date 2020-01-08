@@ -1,0 +1,18 @@
+title = "Animanga"
+start_date = 2020-07-31
+end_date = 2020-08-02
+tags = []
+
+[website]
+title = "www.animangausa.com"
+url = "https://www.animangausa.com/"
+
+[address]
+address = "Fairplex Exposition Complex\nPomona, CA\nUSA"
+city = "Pomona, CA"
+country = "USA"
+
+[address.coordinates]
+lat = 34.08126
+lon = -117.76392
+

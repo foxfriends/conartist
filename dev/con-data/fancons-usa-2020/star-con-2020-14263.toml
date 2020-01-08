@@ -1,0 +1,18 @@
+title = "Star Con"
+start_date = 2020-09-25
+end_date = 2020-09-27
+tags = []
+
+[website]
+title = "www.starconorlando.com"
+url = "https://www.starconorlando.com/"
+
+[address]
+address = "DoubleTree by Hilton Hotel at the Entrance to Universal Orlando\nOrlando, FL\nUSA"
+city = "Orlando, FL"
+country = "USA"
+
+[address.coordinates]
+lat = 28.478765
+lon = -81.45714
+

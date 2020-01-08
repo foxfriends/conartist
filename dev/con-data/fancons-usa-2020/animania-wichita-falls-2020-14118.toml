@@ -1,0 +1,18 @@
+title = "Animania Wichita Falls"
+start_date = 2020-08-22
+end_date = 2020-08-22
+tags = []
+
+[website]
+title = "animaniawftx.com"
+url = "https://animaniawftx.com/"
+
+[address]
+address = "MPEC\nWichita Falls, TX\nUSA"
+city = "Wichita Falls, TX"
+country = "USA"
+
+[address.coordinates]
+lat = 33.915356
+lon = -98.49908
+

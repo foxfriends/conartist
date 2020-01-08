@@ -1,0 +1,18 @@
+title = "Kigacon"
+start_date = 2020-03-13
+end_date = 2020-03-15
+tags = []
+
+[website]
+title = "www.kigacon.com"
+url = "https://www.kigacon.com/"
+
+[address]
+address = "Christopher Newport University, Freeman Center\nNewport News, VA\nUSA"
+city = "Newport News, VA"
+country = "USA"
+
+[address.coordinates]
+lat = 37.06373
+lon = -76.49368
+

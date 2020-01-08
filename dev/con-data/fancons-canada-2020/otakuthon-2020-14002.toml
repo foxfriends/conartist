@@ -1,0 +1,18 @@
+title = "Otakuthon"
+start_date = 2020-08-14
+end_date = 2020-08-16
+tags = []
+
+[website]
+title = "www.otakuthon.com"
+url = "https://www.otakuthon.com/"
+
+[address]
+address = "Palais des congrès de Montréal\nMontréal, QC\nCanada"
+city = "Montréal, QC"
+country = "Canada"
+
+[address.coordinates]
+lat = 45.50485
+lon = -73.55996
+

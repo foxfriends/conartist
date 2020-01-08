@@ -1,0 +1,18 @@
+title = "Dokidokon"
+start_date = 2020-07-24
+end_date = 2020-07-26
+tags = []
+
+[website]
+title = "www.dokidokon.org"
+url = "https://www.dokidokon.org/"
+
+[address]
+address = "Delta Hotels by Marriott Kalamazoo Conference Center\nKalamazoo, MI\nUSA"
+city = "Kalamazoo, MI"
+country = "USA"
+
+[address.coordinates]
+lat = 42.264305
+lon = -85.65392
+

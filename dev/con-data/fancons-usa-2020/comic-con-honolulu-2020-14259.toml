@@ -1,0 +1,18 @@
+title = "Comic Con Honolulu"
+start_date = 2020-08-07
+end_date = 2020-08-09
+tags = []
+
+[website]
+title = "comicconhonolulu.com"
+url = "https://comicconhonolulu.com/"
+
+[address]
+address = "Hawaii Convention Center\nHonolulu, HI\nUSA"
+city = "Honolulu, HI"
+country = "USA"
+
+[address.coordinates]
+lat = 21.289795
+lon = -157.83604
+

@@ -1,0 +1,18 @@
+title = "Chessiecon"
+start_date = 2020-11-27
+end_date = 2020-11-29
+tags = []
+
+[website]
+title = "chessiecon.org"
+url = "http://chessiecon.org/"
+
+[address]
+address = "Lord Baltimore Hotel\nBaltimore, MD\nUSA"
+city = "Baltimore, MD"
+country = "USA"
+
+[address.coordinates]
+lat = 39.289917
+lon = -76.61613
+

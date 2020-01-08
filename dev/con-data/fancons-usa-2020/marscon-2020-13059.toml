@@ -1,0 +1,18 @@
+title = "MarsCon"
+start_date = 2020-02-28
+end_date = 2020-03-01
+tags = []
+
+[website]
+title = "marscon.org"
+url = "https://marscon.org/"
+
+[address]
+address = "Hilton Minneapolis/St. Paul Airport Mall of America\nBloomington, MN\nUSA"
+city = "Bloomington, MN"
+country = "USA"
+
+[address.coordinates]
+lat = 44.860912
+lon = -93.2195
+

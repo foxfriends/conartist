@@ -1,0 +1,18 @@
+title = "SW-FloridaCon"
+start_date = 2020-11-21
+end_date = 2020-11-21
+tags = []
+
+[website]
+title = "www.swfloridacomiccon.com"
+url = "https://www.swfloridacomiccon.com/"
+
+[address]
+address = "Crowne Plaza Fort Myers at Bell Tower Shops\nFort Myers, FL\nUSA"
+city = "Fort Myers, FL"
+country = "USA"
+
+[address.coordinates]
+lat = 26.551382
+lon = -81.868416
+

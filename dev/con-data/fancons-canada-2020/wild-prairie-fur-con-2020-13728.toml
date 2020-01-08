@@ -1,0 +1,18 @@
+title = "Wild Prairie Fur Con"
+start_date = 2020-08-07
+end_date = 2020-08-09
+tags = []
+
+[website]
+title = "wpfcon.ca"
+url = "https://wpfcon.ca/"
+
+[address]
+address = "Radisson Hotel Winnipeg Downtown\nWinnipeg, MB\nCanada"
+city = "Winnipeg, MB"
+country = "Canada"
+
+[address.coordinates]
+lat = 49.893604
+lon = -97.14253
+

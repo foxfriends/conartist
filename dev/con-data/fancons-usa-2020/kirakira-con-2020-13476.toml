@@ -1,0 +1,18 @@
+title = "KiraKira Con"
+start_date = 2020-03-14
+end_date = 2020-03-14
+tags = []
+
+[website]
+title = "kirakiracon.org"
+url = "http://kirakiracon.org/"
+
+[address]
+address = "University of North Carolina at Charlotte, Student Union\nCharlotte, NC\nUSA"
+city = "Charlotte, NC"
+country = "USA"
+
+[address.coordinates]
+lat = 35.30639
+lon = -80.73443
+

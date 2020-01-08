@@ -1,0 +1,18 @@
+title = "Star City Anime"
+start_date = 2020-02-07
+end_date = 2020-02-09
+tags = []
+
+[website]
+title = "www.starcityanime.com"
+url = "https://www.starcityanime.com/"
+
+[address]
+address = "Holiday Inn Roanoke - Valley View\nRoanoke, VA\nUSA"
+city = "Roanoke, VA"
+country = "USA"
+
+[address.coordinates]
+lat = 37.310383
+lon = -79.97969
+

@@ -1,0 +1,18 @@
+title = "Metrocon"
+start_date = 2020-07-23
+end_date = 2020-07-26
+tags = []
+
+[website]
+title = "metroconventions.com"
+url = "https://metroconventions.com/"
+
+[address]
+address = "Tampa Convention Center\nTampa, FL\nUSA"
+city = "Tampa, FL"
+country = "USA"
+
+[address.coordinates]
+lat = 27.941942
+lon = -82.45652
+

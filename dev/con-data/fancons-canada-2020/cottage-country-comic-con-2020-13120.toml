@@ -1,0 +1,18 @@
+title = "Cottage Country Comic-Con"
+start_date = 2020-05-17
+end_date = 2020-05-17
+tags = []
+
+[website]
+title = "www.cottagecountrycomiccon.com"
+url = "https://www.cottagecountrycomiccon.com/"
+
+[address]
+address = "Best Western Plus Mariposa Inn & Conference Centre\nOrillia, ON\nCanada"
+city = "Orillia, ON"
+country = "Canada"
+
+[address.coordinates]
+lat = 44.58959
+lon = -79.42351
+

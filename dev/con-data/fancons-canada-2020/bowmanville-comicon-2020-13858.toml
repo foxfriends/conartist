@@ -1,0 +1,18 @@
+title = "Bowmanville ComiCon"
+start_date = 2020-03-01
+end_date = 2020-03-01
+tags = []
+
+[website]
+title = "www.popculturecanada.ca"
+url = "http://www.popculturecanada.ca/"
+
+[address]
+address = "Garnet B. Rickard Recreation Complex\nBowmanville, ON\nCanada"
+city = "Bowmanville, ON"
+country = "Canada"
+
+[address.coordinates]
+lat = 43.912067
+lon = -78.70375
+

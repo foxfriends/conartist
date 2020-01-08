@@ -1,0 +1,18 @@
+title = "Wizard World St. Louis"
+start_date = 2020-06-05
+end_date = 2020-06-07
+tags = []
+
+[website]
+title = "wizardworld.com"
+url = "https://wizardworld.com/comiccon/st-louis"
+
+[address]
+address = "America's Center\nSt. Louis, MO\nUSA"
+city = "St. Louis, MO"
+country = "USA"
+
+[address.coordinates]
+lat = 38.63272
+lon = -90.190636
+

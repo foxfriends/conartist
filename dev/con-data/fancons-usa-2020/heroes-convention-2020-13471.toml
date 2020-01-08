@@ -1,0 +1,18 @@
+title = "Heroes Convention"
+start_date = 2020-06-19
+end_date = 2020-06-21
+tags = []
+
+[website]
+title = "www.heroesonline.com"
+url = "https://www.heroesonline.com/"
+
+[address]
+address = "Charlotte Convention Center\nCharlotte, NC\nUSA"
+city = "Charlotte, NC"
+country = "USA"
+
+[address.coordinates]
+lat = 35.221874
+lon = -80.84595
+

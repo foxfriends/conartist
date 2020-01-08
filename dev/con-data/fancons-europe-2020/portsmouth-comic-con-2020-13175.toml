@@ -1,0 +1,18 @@
+title = "Portsmouth Comic Con"
+start_date = 2020-05-02
+end_date = 2020-05-03
+tags = []
+
+[website]
+title = "portsmouthcomiccon.com"
+url = "https://portsmouthcomiccon.com/"
+
+[address]
+address = "Portsmouth Guildhall\nPortsmouth, UK"
+city = "Portsmouth"
+country = "UK"
+
+[address.coordinates]
+lat = 50.797607
+lon = -1.092973
+

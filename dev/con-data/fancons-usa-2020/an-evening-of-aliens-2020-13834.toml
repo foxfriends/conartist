@@ -1,0 +1,18 @@
+title = "An Evening of Aliens"
+start_date = 2020-03-14
+end_date = 2020-03-14
+tags = []
+
+[website]
+title = "www.alienxpo.com"
+url = "https://www.alienxpo.com/"
+
+[address]
+address = "UT Conference Center\nKnoxville, TN\nUSA"
+city = "Knoxville, TN"
+country = "USA"
+
+[address.coordinates]
+lat = 35.962456
+lon = -83.921135
+

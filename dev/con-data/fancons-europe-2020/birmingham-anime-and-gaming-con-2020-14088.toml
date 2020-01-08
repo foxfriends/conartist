@@ -1,0 +1,18 @@
+title = "Birmingham Anime & Gaming Con"
+start_date = 2020-05-02
+end_date = 2020-05-03
+tags = []
+
+[website]
+title = "www.birminghamanimecon.com"
+url = "https://www.birminghamanimecon.com/"
+
+[address]
+address = "Conference Aston, Aston University\nBirmingham, UK"
+city = "Birmingham"
+country = "UK"
+
+[address.coordinates]
+lat = 52.486286
+lon = -1.8880785
+

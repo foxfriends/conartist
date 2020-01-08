@@ -1,0 +1,18 @@
+title = "Kids Con Nashua"
+start_date = 2020-06-14
+end_date = 2020-06-14
+tags = []
+
+[website]
+title = "kidsconne.com"
+url = "http://kidsconne.com/"
+
+[address]
+address = "Radisson Hotel Nashua\nNashua, NH\nUSA"
+city = "Nashua, NH"
+country = "USA"
+
+[address.coordinates]
+lat = 42.71074
+lon = -71.453156
+

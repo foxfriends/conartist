@@ -1,0 +1,18 @@
+title = "8-Bit Block Party"
+start_date = 2020-03-28
+end_date = 2020-03-28
+tags = []
+
+[website]
+title = "www.8bitblockparty.com"
+url = "https://www.8bitblockparty.com/"
+
+[address]
+address = "San Antonio Events Center\nSan Antonio, TX\nUSA"
+city = "San Antonio, TX"
+country = "USA"
+
+[address.coordinates]
+lat = 29.420458
+lon = -98.646034
+

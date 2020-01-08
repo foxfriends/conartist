@@ -1,0 +1,18 @@
+title = "Emerald's Fur Summit"
+start_date = 2020-01-24
+end_date = 2020-01-26
+tags = []
+
+[website]
+title = "www.emeraldsfursummit.org"
+url = "https://www.emeraldsfursummit.org/"
+
+[address]
+address = "Homewood Suites by Hilton Pensacola-Arpt (Cordova Mall Area)\nPensacola, FL\nUSA"
+city = "Pensacola, FL"
+country = "USA"
+
+[address.coordinates]
+lat = 30.474339
+lon = -87.20185
+

@@ -1,0 +1,18 @@
+title = "Gen Con"
+start_date = 2020-07-30
+end_date = 2020-08-02
+tags = []
+
+[website]
+title = "www.gencon.com"
+url = "http://www.gencon.com/"
+
+[address]
+address = "Indianapolis Convention Center\nIndianapolis, IN\nUSA"
+city = "Indianapolis, IN"
+country = "USA"
+
+[address.coordinates]
+lat = 39.765114
+lon = -86.162926
+

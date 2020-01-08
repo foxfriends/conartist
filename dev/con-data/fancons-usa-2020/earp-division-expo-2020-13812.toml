@@ -1,0 +1,18 @@
+title = "Earp Division Expo"
+start_date = 2020-06-05
+end_date = 2020-06-07
+tags = []
+
+[website]
+title = "www.earpdivisionexpo.com"
+url = "https://www.earpdivisionexpo.com/"
+
+[address]
+address = "JW Marriott\nAnaheim, CA\nUSA"
+city = "Anaheim, CA"
+country = "USA"
+
+[address.coordinates]
+lat = 33.804493
+lon = -117.910545
+

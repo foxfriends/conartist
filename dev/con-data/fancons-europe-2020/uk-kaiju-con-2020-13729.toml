@@ -1,0 +1,18 @@
+title = "UK Kaiju Con"
+start_date = 2020-08-08
+end_date = 2020-08-08
+tags = []
+
+[website]
+title = "ukkaiju.com"
+url = "http://ukkaiju.com/"
+
+[address]
+address = "Penta Hotel\nBirmingham, UK"
+city = "Birmingham"
+country = "UK"
+
+[address.coordinates]
+lat = 52.473778
+lon = -1.9024107
+

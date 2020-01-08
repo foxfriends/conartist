@@ -1,0 +1,18 @@
+title = "Nickel City Con"
+start_date = 2020-05-15
+end_date = 2020-05-17
+tags = []
+
+[website]
+title = "www.nickelcitycon.com"
+url = "http://www.nickelcitycon.com/"
+
+[address]
+address = "Buffalo Niagara Convention Center\nBuffalo, NY\nUSA"
+city = "Buffalo, NY"
+country = "USA"
+
+[address.coordinates]
+lat = 42.88698
+lon = -78.87596
+

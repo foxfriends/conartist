@@ -1,0 +1,18 @@
+title = "Dark Side of the Con"
+start_date = 2020-03-27
+end_date = 2020-03-29
+tags = []
+
+[website]
+title = "darksideofthecon.com"
+url = "http://darksideofthecon.com/"
+
+[address]
+address = "Sheraton Parsippany Hotel\nParsippany-Troy Hills, NJ\nUSA"
+city = "Parsippany-Troy Hills, NJ"
+country = "USA"
+
+[address.coordinates]
+lat = 40.86177
+lon = -74.41236
+

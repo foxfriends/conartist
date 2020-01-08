@@ -1,0 +1,18 @@
+title = "My-Con"
+start_date = 2020-03-07
+end_date = 2020-03-07
+tags = []
+
+[website]
+title = "mystic-con.com"
+url = "https://mystic-con.com/"
+
+[address]
+address = "Wyndham Orlando Resort International Drive\nOrlando, FL\nUSA"
+city = "Orlando, FL"
+country = "USA"
+
+[address.coordinates]
+lat = 28.448153
+lon = -81.46807
+

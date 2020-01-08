@@ -1,0 +1,18 @@
+title = "DreamHack Leipzig"
+start_date = 2020-01-24
+end_date = 2020-01-26
+tags = []
+
+[website]
+title = "www.dreamhack-leipzig.de"
+url = "http://www.dreamhack-leipzig.de/"
+
+[address]
+address = "Leipziger Messe\nLeipzig, Germany"
+city = "Leipzig"
+country = "Germany"
+
+[address.coordinates]
+lat = 51.395443
+lon = 12.398889
+

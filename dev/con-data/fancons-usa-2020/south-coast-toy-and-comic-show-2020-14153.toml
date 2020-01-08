@@ -1,0 +1,18 @@
+title = "South Coast Toy and Comic Show"
+start_date = 2020-02-22
+end_date = 2020-02-23
+tags = []
+
+[website]
+title = "www.sctoyandcomic.com"
+url = "https://www.sctoyandcomic.com/"
+
+[address]
+address = "Venus de Milo\nSwansea, MA\nUSA"
+city = "Swansea, MA"
+country = "USA"
+
+[address.coordinates]
+lat = 41.742393
+lon = -71.18904
+

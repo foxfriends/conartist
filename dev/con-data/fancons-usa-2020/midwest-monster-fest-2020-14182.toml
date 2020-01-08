@@ -1,0 +1,18 @@
+title = "Midwest Monster Fest"
+start_date = 2020-09-05
+end_date = 2020-09-06
+tags = []
+
+[website]
+title = "www.midwestmonsterfest.com"
+url = "http://www.midwestmonsterfest.com/"
+
+[address]
+address = "The Rust Belt\nEast Moline, IL\nUSA"
+city = "East Moline, IL"
+country = "USA"
+
+[address.coordinates]
+lat = 41.51718
+lon = -90.449745
+

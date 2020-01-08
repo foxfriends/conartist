@@ -1,0 +1,18 @@
+title = "MS ToyCon"
+start_date = 2020-02-22
+end_date = 2020-02-22
+tags = []
+
+[website]
+title = "www.mstoycon.com"
+url = "http://www.mstoycon.com/"
+
+[address]
+address = "Brandon Civic Center\nBrandon, MS\nUSA"
+city = "Brandon, MS"
+country = "USA"
+
+[address.coordinates]
+lat = 32.281002
+lon = -90.011024
+

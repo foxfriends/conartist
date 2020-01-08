@@ -1,0 +1,18 @@
+title = "WhimsyCon"
+start_date = 2020-02-28
+end_date = 2020-03-01
+tags = []
+
+[website]
+title = "www.whimsycon.org"
+url = "https://www.whimsycon.org/"
+
+[address]
+address = "Radisson Hotel Denver - Aurora\nAurora, CO\nUSA"
+city = "Aurora, CO"
+country = "USA"
+
+[address.coordinates]
+lat = 39.658768
+lon = -104.84004
+

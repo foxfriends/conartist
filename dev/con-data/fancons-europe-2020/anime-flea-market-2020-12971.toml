@@ -1,0 +1,18 @@
+title = "Anime Flea Market"
+start_date = 2020-02-01
+end_date = 2020-02-01
+tags = []
+
+[website]
+title = "www.anime-flohmarkt.de"
+url = "https://www.anime-flohmarkt.de/"
+
+[address]
+address = "Fontane-Haus Kulturzentrum\nBerlin, Germany"
+city = "Berlin"
+country = "Germany"
+
+[address.coordinates]
+lat = 52.59788
+lon = 13.352264
+

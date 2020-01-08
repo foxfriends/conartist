@@ -1,0 +1,18 @@
+title = "Anime Sekai"
+start_date = 2020-07-31
+end_date = 2020-08-02
+tags = []
+
+[website]
+title = "www.animesekaitx.com"
+url = "http://www.animesekaitx.com/"
+
+[address]
+address = "Abilene Convention Center\nAbilene, TX\nUSA"
+city = "Abilene, TX"
+country = "USA"
+
+[address.coordinates]
+lat = 32.45531
+lon = -99.73376
+

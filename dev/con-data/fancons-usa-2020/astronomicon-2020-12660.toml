@@ -1,0 +1,18 @@
+title = "Astronomicon"
+start_date = 2020-02-07
+end_date = 2020-02-09
+tags = []
+
+[website]
+title = "www.astronomicon.com"
+url = "https://www.astronomicon.com/"
+
+[address]
+address = "Wyndham Garden Sterling Heights\nSterling Heights, MI\nUSA"
+city = "Sterling Heights, MI"
+country = "USA"
+
+[address.coordinates]
+lat = 42.54979
+lon = -83.03098
+

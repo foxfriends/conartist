@@ -1,0 +1,18 @@
+title = "Rhode Island Comic Con"
+start_date = 2020-11-06
+end_date = 2020-11-08
+tags = []
+
+[website]
+title = "www.ricomiccon.com"
+url = "https://www.ricomiccon.com/"
+
+[address]
+address = "Rhode Island Convention Center / Dunkin Donuts Center\nProvidence, RI\nUSA"
+city = "Providence, RI"
+country = "USA"
+
+[address.coordinates]
+lat = 41.824173
+lon = -71.4174
+

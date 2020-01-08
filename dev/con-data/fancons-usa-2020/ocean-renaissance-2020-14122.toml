@@ -1,0 +1,18 @@
+title = "Ocean Renaissance"
+start_date = 2020-06-13
+end_date = 2020-06-14
+tags = []
+
+[website]
+title = "www.tidestempests.com"
+url = "http://www.tidestempests.com/"
+
+[address]
+address = "Roland E. Powell Convention Center\nOcean City, MD\nUSA"
+city = "Ocean City, MD"
+country = "USA"
+
+[address.coordinates]
+lat = 38.36811
+lon = -75.07427
+

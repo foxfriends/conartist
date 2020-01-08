@@ -1,0 +1,18 @@
+title = "Avalon Expo"
+start_date = 2020-07-31
+end_date = 2020-08-02
+tags = []
+
+[website]
+title = "www.avalonexpo.com"
+url = "https://www.avalonexpo.com/"
+
+[address]
+address = "RE/MAX Centre\nSt. John's, NL\nCanada"
+city = "St. John's, NL"
+country = "Canada"
+
+[address.coordinates]
+lat = 47.569485
+lon = -52.724445
+

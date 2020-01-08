@@ -1,0 +1,18 @@
+title = "UChi-Con"
+start_date = 2020-01-25
+end_date = 2020-01-25
+tags = []
+
+[website]
+title = "www.uchi-con.com"
+url = "https://www.uchi-con.com/"
+
+[address]
+address = "University of Chicago, Ida Noyes Hall\nChicago, IL\nUSA"
+city = "Chicago, IL"
+country = "USA"
+
+[address.coordinates]
+lat = 41.788124
+lon = -87.59561
+

@@ -1,0 +1,18 @@
+title = "Utopia"
+start_date = 2020-06-12
+end_date = 2020-06-14
+tags = []
+
+[website]
+title = "www.fantomevents.co.uk"
+url = "https://www.fantomevents.co.uk/utopia-2020/"
+
+[address]
+address = "Wyboston Lakes Resort\nWyboston, Bedford, UK"
+city = "Wyboston, Bedford"
+country = "UK"
+
+[address.coordinates]
+lat = 52.205227
+lon = -0.2918804
+

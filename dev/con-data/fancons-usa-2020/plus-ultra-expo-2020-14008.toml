@@ -1,0 +1,18 @@
+title = "Plus Ultra Expo"
+start_date = 2020-02-15
+end_date = 2020-02-16
+tags = []
+
+[website]
+title = "plusultraexpo.com"
+url = "https://plusultraexpo.com/"
+
+[address]
+address = "Plano Event Center\nPlano, TX\nUSA"
+city = "Plano, TX"
+country = "USA"
+
+[address.coordinates]
+lat = 33.054226
+lon = -96.68472
+

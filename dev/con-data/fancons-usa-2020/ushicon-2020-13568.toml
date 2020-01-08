@@ -1,0 +1,18 @@
+title = "Ushicon"
+start_date = 2020-02-07
+end_date = 2020-02-09
+tags = []
+
+[website]
+title = "www.ushicon.com"
+url = "http://www.ushicon.com/"
+
+[address]
+address = "Courtyard by Marriott Austin Pflugerville and Pflugerville Conference Center\nPflugerville, TX\nUSA"
+city = "Pflugerville, TX"
+country = "USA"
+
+[address.coordinates]
+lat = 30.42276
+lon = -97.59132
+

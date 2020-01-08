@@ -1,0 +1,18 @@
+title = "Conapalooza: Vendor Bender"
+start_date = 2020-04-11
+end_date = 2020-04-11
+tags = []
+
+[website]
+title = "www.conapalooza.com"
+url = "https://www.conapalooza.com/"
+
+[address]
+address = "MeadowView Conference Resort & Convention Center\nKingsport, TN\nUSA"
+city = "Kingsport, TN"
+country = "USA"
+
+[address.coordinates]
+lat = 36.506588
+lon = -82.56714
+

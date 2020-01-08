@@ -1,0 +1,18 @@
+title = "Cleveland Comic & Toy Convention"
+start_date = 2020-05-09
+end_date = 2020-05-10
+tags = []
+
+[website]
+title = "clevelandcomicandtoycon.com"
+url = "http://clevelandcomicandtoycon.com/"
+
+[address]
+address = "Cuyahoga County Fairgrounds\nMiddleburg Heights, OH\nUSA"
+city = "Middleburg Heights, OH"
+country = "USA"
+
+[address.coordinates]
+lat = 41.367992
+lon = -81.83829
+

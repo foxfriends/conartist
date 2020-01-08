@@ -1,0 +1,18 @@
+title = "Weekend of Wizardry"
+start_date = 2020-05-29
+end_date = 2020-05-31
+tags = []
+
+[website]
+title = "www.weekendofwizardry.com"
+url = "https://www.weekendofwizardry.com/"
+
+[address]
+address = "University of Puget Sound\nTacoma, WA\nUSA"
+city = "Tacoma, WA"
+country = "USA"
+
+[address.coordinates]
+lat = 47.26181
+lon = -122.48123
+

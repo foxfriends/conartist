@@ -1,0 +1,18 @@
+title = "Newmarket Card & Comics Show"
+start_date = 2020-05-30
+end_date = 2020-05-30
+tags = []
+
+[website]
+title = "www.newmarketcardshow.com"
+url = "http://www.newmarketcardshow.com/"
+
+[address]
+address = "Newmarket Community Centre\nNewmarket, ON\nCanada"
+city = "Newmarket, ON"
+country = "Canada"
+
+[address.coordinates]
+lat = 44.053337
+lon = -79.45643
+

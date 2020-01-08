@@ -1,0 +1,18 @@
+title = "Golden Comic Con"
+start_date = 2020-02-28
+end_date = 2020-03-01
+tags = []
+
+[website]
+title = "goldencomiccon.com"
+url = "https://goldencomiccon.com/"
+
+[address]
+address = "Robert A Bob Bowers Civic Center\nPort Arthur, TX\nUSA"
+city = "Port Arthur, TX"
+country = "USA"
+
+[address.coordinates]
+lat = 29.924738
+lon = -93.94937
+

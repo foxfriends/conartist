@@ -1,0 +1,18 @@
+title = "NordicFuzzCon"
+start_date = 2020-02-19
+end_date = 2020-02-23
+tags = []
+
+[website]
+title = "www.nordicfuzzcon.org"
+url = "https://www.nordicfuzzcon.org/"
+
+[address]
+address = "Clarion Hotel & Congress Malmö Live\nMalmö, Sweden"
+city = "Malmö"
+country = "Sweden"
+
+[address.coordinates]
+lat = 55.607452
+lon = 12.994192
+

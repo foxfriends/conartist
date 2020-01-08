@@ -1,0 +1,18 @@
+title = "Bristol Anime & Gaming Con"
+start_date = 2020-11-07
+end_date = 2020-11-08
+tags = []
+
+[website]
+title = "autumn.bristolanimecon.com"
+url = "https://autumn.bristolanimecon.com/"
+
+[address]
+address = "Bristol Future Inns\nBristol, UK"
+city = "Bristol"
+country = "UK"
+
+[address.coordinates]
+lat = 51.458134
+lon = -2.5837624
+

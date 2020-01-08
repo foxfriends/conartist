@@ -1,0 +1,18 @@
+title = "Makers & Creators Convention"
+start_date = 2020-04-25
+end_date = 2020-04-26
+tags = []
+
+[website]
+title = "www.maccevent.com"
+url = "http://www.maccevent.com/"
+
+[address]
+address = "Macungie Memorial Park\nMacungie, PA\nUSA"
+city = "Macungie, PA"
+country = "USA"
+
+[address.coordinates]
+lat = 40.514893
+lon = -75.551575
+

@@ -1,0 +1,18 @@
+title = "Ohayocon"
+start_date = 2020-01-10
+end_date = 2020-01-12
+tags = []
+
+[website]
+title = "ohayocon.org"
+url = "https://ohayocon.org/"
+
+[address]
+address = "Hyatt Regency Columbus / Greater Columbus Convention Center\nColumbus, OH\nUSA"
+city = "Columbus, OH"
+country = "USA"
+
+[address.coordinates]
+lat = 39.97263
+lon = -83.00107
+

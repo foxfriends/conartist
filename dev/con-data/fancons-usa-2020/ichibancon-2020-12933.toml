@@ -1,0 +1,18 @@
+title = "Ichibancon"
+start_date = 2020-01-09
+end_date = 2020-01-12
+tags = []
+
+[website]
+title = "ichibancon.com"
+url = "http://ichibancon.com/"
+
+[address]
+address = "Embassy Suites Concord\nConcord, NC\nUSA"
+city = "Concord, NC"
+country = "USA"
+
+[address.coordinates]
+lat = 35.36522
+lon = -80.70061
+

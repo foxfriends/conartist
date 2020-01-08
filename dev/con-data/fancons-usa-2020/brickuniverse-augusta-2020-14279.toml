@@ -1,0 +1,18 @@
+title = "BrickUniverse Augusta"
+start_date = 2020-01-11
+end_date = 2020-01-12
+tags = []
+
+[website]
+title = "www.brickuniverse.com"
+url = "https://www.brickuniverse.com/augusta"
+
+[address]
+address = "Augusta Convention Center\nAugusta, GA\nUSA"
+city = "Augusta, GA"
+country = "USA"
+
+[address.coordinates]
+lat = 33.47853
+lon = -81.96732
+

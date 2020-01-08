@@ -1,0 +1,18 @@
+title = "Fan Expo Boston"
+start_date = 2020-08-07
+end_date = 2020-08-09
+tags = []
+
+[website]
+title = "www.fanexpoboston.com"
+url = "https://www.fanexpoboston.com/"
+
+[address]
+address = "Boston Convention and Exhibition Center\nBoston, MA\nUSA"
+city = "Boston, MA"
+country = "USA"
+
+[address.coordinates]
+lat = 42.345646
+lon = -71.04643
+

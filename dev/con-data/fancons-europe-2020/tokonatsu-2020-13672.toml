@@ -1,0 +1,18 @@
+title = "Tokonatsu"
+start_date = 2020-07-31
+end_date = 2020-08-03
+tags = []
+
+[website]
+title = "www.tokonatsu.org.uk"
+url = "https://www.tokonatsu.org.uk/"
+
+[address]
+address = "Boyd Memorial Camp Site and Activity Centre\nHenlow, Bedfordshire, UK"
+city = "Henlow, Bedfordshire"
+country = "UK"
+
+[address.coordinates]
+lat = 52.032536
+lon = -0.282629
+

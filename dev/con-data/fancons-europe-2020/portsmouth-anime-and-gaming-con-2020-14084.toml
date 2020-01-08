@@ -1,0 +1,18 @@
+title = "Portsmouth Anime & Gaming Con"
+start_date = 2020-02-29
+end_date = 2020-03-01
+tags = []
+
+[website]
+title = "www.portsmouthanimecon.com"
+url = "https://www.portsmouthanimecon.com/"
+
+[address]
+address = "Portsmouth Marriott Hotel\nPortsmouth, UK"
+city = "Portsmouth"
+country = "UK"
+
+[address.coordinates]
+lat = 50.845745
+lon = -1.0905617
+

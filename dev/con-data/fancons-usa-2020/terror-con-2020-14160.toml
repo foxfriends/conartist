@@ -1,0 +1,18 @@
+title = "Terror Con"
+start_date = 2020-06-13
+end_date = 2020-06-14
+tags = []
+
+[website]
+title = "www.theterrorcon.com"
+url = "https://www.theterrorcon.com/"
+
+[address]
+address = "Rhode Island Convention Center\nProvidence, RI\nUSA"
+city = "Providence, RI"
+country = "USA"
+
+[address.coordinates]
+lat = 41.82427
+lon = -71.4168
+

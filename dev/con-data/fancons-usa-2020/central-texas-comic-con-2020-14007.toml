@@ -1,0 +1,18 @@
+title = "Central Texas Comic Con"
+start_date = 2020-04-03
+end_date = 2020-04-05
+tags = []
+
+[website]
+title = "ctxcomiccon.com"
+url = "https://ctxcomiccon.com/"
+
+[address]
+address = "Extraco Events Center\nWaco, TX\nUSA"
+city = "Waco, TX"
+country = "USA"
+
+[address.coordinates]
+lat = 31.538414
+lon = -97.186554
+

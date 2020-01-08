@@ -1,0 +1,18 @@
+title = "Replay FX"
+start_date = 2020-07-09
+end_date = 2020-07-12
+tags = []
+
+[website]
+title = "replayfx.org"
+url = "https://replayfx.org/"
+
+[address]
+address = "David L. Lawrence Convention Center\nPittsburgh, PA\nUSA"
+city = "Pittsburgh, PA"
+country = "USA"
+
+[address.coordinates]
+lat = 40.44576
+lon = -79.99627
+

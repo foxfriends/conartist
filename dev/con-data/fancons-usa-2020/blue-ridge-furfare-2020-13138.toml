@@ -1,0 +1,18 @@
+title = "Blue Ridge Furfare"
+start_date = 2020-03-12
+end_date = 2020-03-15
+tags = []
+
+[website]
+title = "www.blueridgefurfare.com"
+url = "https://www.blueridgefurfare.com/"
+
+[address]
+address = "DoubleTree by Hilton Asheville - Biltmore\nAsheville, NC\nUSA"
+city = "Asheville, NC"
+country = "USA"
+
+[address.coordinates]
+lat = 35.562878
+lon = -82.543045
+

@@ -1,0 +1,18 @@
+title = "Cape Comic Con"
+start_date = 2020-04-17
+end_date = 2020-04-19
+tags = []
+
+[website]
+title = "www.cape-con.com"
+url = "https://www.cape-con.com/comic.html"
+
+[address]
+address = "Osage Centre\nCape Girardeau, MO\nUSA"
+city = "Cape Girardeau, MO"
+country = "USA"
+
+[address.coordinates]
+lat = 37.32899
+lon = -89.57064
+

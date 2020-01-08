@@ -1,0 +1,18 @@
+title = "Supernatural Official Convention"
+start_date = 2020-02-20
+end_date = 2020-02-23
+tags = []
+
+[website]
+title = "www.creationent.com"
+url = "https://www.creationent.com/cal/supernatural_lasvegas.htm"
+
+[address]
+address = "Rio All-Suites Hotel and Casino\nLas Vegas, NV\nUSA"
+city = "Las Vegas, NV"
+country = "USA"
+
+[address.coordinates]
+lat = 36.11744
+lon = -115.18806
+

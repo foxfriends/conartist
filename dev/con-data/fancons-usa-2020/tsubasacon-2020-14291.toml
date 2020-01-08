@@ -1,0 +1,18 @@
+title = "Tsubasacon"
+start_date = 2020-10-09
+end_date = 2020-10-11
+tags = []
+
+[website]
+title = "www.tsubasacon.org"
+url = "https://www.tsubasacon.org/"
+
+[address]
+address = "Charleston Coliseum & Convention Center\nCharleston, WV\nUSA"
+city = "Charleston, WV"
+country = "USA"
+
+[address.coordinates]
+lat = 38.35604
+lon = -81.64087
+

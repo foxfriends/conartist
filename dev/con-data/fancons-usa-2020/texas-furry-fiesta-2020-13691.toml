@@ -1,0 +1,18 @@
+title = "Texas Furry Fiesta"
+start_date = 2020-02-27
+end_date = 2020-03-01
+tags = []
+
+[website]
+title = "2020.furryfiesta.org"
+url = "https://2020.furryfiesta.org/"
+
+[address]
+address = "Hyatt Regency Dallas\nDallas, TX\nUSA"
+city = "Dallas, TX"
+country = "USA"
+
+[address.coordinates]
+lat = 32.775906
+lon = -96.80961
+

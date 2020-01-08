@@ -1,0 +1,18 @@
+title = "Gatecon"
+start_date = 2020-08-27
+end_date = 2020-08-30
+tags = []
+
+[website]
+title = "www.gatecon.com"
+url = "http://www.gatecon.com/"
+
+[address]
+address = "Sheraton Vancouver Airport Hotel\nVancouver, BC\nCanada"
+city = "Vancouver, BC"
+country = "Canada"
+
+[address.coordinates]
+lat = 49.17108
+lon = -123.14304
+

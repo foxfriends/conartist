@@ -1,0 +1,18 @@
+title = "Adepticon"
+start_date = 2020-03-25
+end_date = 2020-03-29
+tags = []
+
+[website]
+title = "www.adepticon.org"
+url = "https://www.adepticon.org/"
+
+[address]
+address = "Renaissance Schaumburg Convention Center Hotel\nSchaumburg, IL\nUSA"
+city = "Schaumburg, IL"
+country = "USA"
+
+[address.coordinates]
+lat = 42.060776
+lon = -88.0421
+

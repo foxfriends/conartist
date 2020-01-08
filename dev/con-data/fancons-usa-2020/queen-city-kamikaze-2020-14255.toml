@@ -1,0 +1,18 @@
+title = "Queen City Kamikaze"
+start_date = 2020-03-07
+end_date = 2020-03-07
+tags = []
+
+[website]
+title = "queencitykamikaze.com"
+url = "http://queencitykamikaze.com/"
+
+[address]
+address = "Manchester Memorial High School\nManchester, NH\nUSA"
+city = "Manchester, NH"
+country = "USA"
+
+[address.coordinates]
+lat = 42.967148
+lon = -71.434326
+

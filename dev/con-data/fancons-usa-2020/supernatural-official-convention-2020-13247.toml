@@ -1,0 +1,18 @@
+title = "Supernatural Official Convention"
+start_date = 2020-08-21
+end_date = 2020-08-23
+tags = []
+
+[website]
+title = "www.creationent.com"
+url = "https://www.creationent.com/cal/supernatural_denver.htm"
+
+[address]
+address = "Hyatt Regency Aurora-Denver Conference Center\nAurora, CO\nUSA"
+city = "Aurora, CO"
+country = "USA"
+
+[address.coordinates]
+lat = 39.737366
+lon = -104.83524
+

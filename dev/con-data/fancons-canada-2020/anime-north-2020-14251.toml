@@ -1,0 +1,18 @@
+title = "Anime North"
+start_date = 2020-05-22
+end_date = 2020-05-24
+tags = []
+
+[website]
+title = "www.animenorth.com"
+url = "https://www.animenorth.com/"
+
+[address]
+address = "Toronto Congress Center / Delta Hotels by Marriott Toronto Airport & Conference Centre\nToronto, ON\nCanada"
+city = "Toronto, ON"
+country = "Canada"
+
+[address.coordinates]
+lat = 43.69189
+lon = -79.578415
+

@@ -1,0 +1,18 @@
+title = "CampAnime"
+start_date = 2020-09-11
+end_date = 2020-09-13
+tags = []
+
+[website]
+title = "www.campanime.com"
+url = "http://www.campanime.com/"
+
+[address]
+address = "YMCA Camp Woodstock\nWoodstock Valley, CT\nUSA"
+city = "Woodstock Valley, CT"
+country = "USA"
+
+[address.coordinates]
+lat = 41.96935
+lon = -72.07626
+

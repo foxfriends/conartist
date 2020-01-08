@@ -1,0 +1,18 @@
+title = "QuadCon Rockford"
+start_date = 2020-02-01
+end_date = 2020-02-01
+tags = []
+
+[website]
+title = "quadcitycon.com"
+url = "https://quadcitycon.com/"
+
+[address]
+address = "Tebala Event Center\nRockford, IL\nUSA"
+city = "Rockford, IL"
+country = "USA"
+
+[address.coordinates]
+lat = 42.254627
+lon = -88.96308
+

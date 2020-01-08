@@ -1,0 +1,18 @@
+title = "A-Kon"
+start_date = 2020-05-21
+end_date = 2020-05-24
+tags = []
+
+[website]
+title = "www.a-kon.com"
+url = "https://www.a-kon.com/"
+
+[address]
+address = "Kay Bailey Hutchison Convention Center Dallas\nDallas, TX\nUSA"
+city = "Dallas, TX"
+country = "USA"
+
+[address.coordinates]
+lat = 32.7743
+lon = -96.80074
+

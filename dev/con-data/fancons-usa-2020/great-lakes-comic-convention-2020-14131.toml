@@ -1,0 +1,18 @@
+title = "Great Lakes Comic Convention"
+start_date = 2020-02-21
+end_date = 2020-02-22
+tags = []
+
+[website]
+title = "greatlakescomicconvention.com"
+url = "http://greatlakescomicconvention.com/"
+
+[address]
+address = "Macomb Community College\nWarren, MI\nUSA"
+city = "Warren, MI"
+country = "USA"
+
+[address.coordinates]
+lat = 42.505924
+lon = -82.973915
+

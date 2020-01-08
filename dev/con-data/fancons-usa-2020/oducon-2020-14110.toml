@@ -1,0 +1,18 @@
+title = "ODUCon"
+start_date = 2020-02-07
+end_date = 2020-02-09
+tags = []
+
+[website]
+title = "oduminicon.wordpress.com"
+url = "https://oduminicon.wordpress.com/"
+
+[address]
+address = "Old Dominion University, Webb University Center\nNorfolk, VA\nUSA"
+city = "Norfolk, VA"
+country = "USA"
+
+[address.coordinates]
+lat = 36.886433
+lon = -76.30689
+

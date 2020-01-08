@@ -1,0 +1,18 @@
+title = "AniMinneapolis"
+start_date = 2020-05-22
+end_date = 2020-05-24
+tags = []
+
+[website]
+title = "www.animinneapolis.com"
+url = "https://www.animinneapolis.com/"
+
+[address]
+address = "Hyatt Regency Minneapolis\nMinneapolis, MN\nUSA"
+city = "Minneapolis, MN"
+country = "USA"
+
+[address.coordinates]
+lat = 44.97075
+lon = -93.27765
+

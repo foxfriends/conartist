@@ -1,0 +1,18 @@
+title = "Anime Magic"
+start_date = 2020-08-28
+end_date = 2020-08-30
+tags = []
+
+[website]
+title = "www.animemagic.org"
+url = "https://www.animemagic.org/"
+
+[address]
+address = "Hyatt Regency Schaumburg, Chicago\nSchaumburg, IL\nUSA"
+city = "Schaumburg, IL"
+country = "USA"
+
+[address.coordinates]
+lat = 42.052464
+lon = -88.033585
+

@@ -1,0 +1,18 @@
+title = "Fandom Legacy Con"
+start_date = 2020-03-06
+end_date = 2020-03-08
+tags = []
+
+[website]
+title = "www.fandomlegacycon.com"
+url = "https://www.fandomlegacycon.com/"
+
+[address]
+address = "Hyatt Regency North Dallas\nRichardson, TX\nUSA"
+city = "Richardson, TX"
+country = "USA"
+
+[address.coordinates]
+lat = 32.976494
+lon = -96.71413
+

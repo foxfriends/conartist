@@ -1,0 +1,18 @@
+title = "Buckeye Comic Con"
+start_date = 2020-03-01
+end_date = 2020-03-01
+tags = []
+
+[website]
+title = "harpercomics.com"
+url = "http://harpercomics.com/conventions.php?show=13&date=160"
+
+[address]
+address = "Courtyard by Marriott Columbus West/Hilliard\nColumbus, OH\nUSA"
+city = "Columbus, OH"
+country = "USA"
+
+[address.coordinates]
+lat = 40.001503
+lon = -83.12127
+

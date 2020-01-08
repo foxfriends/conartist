@@ -1,0 +1,18 @@
+title = "Barrie Comicon"
+start_date = 2020-09-13
+end_date = 2020-09-13
+tags = []
+
+[website]
+title = "www.popculturecanada.ca"
+url = "http://www.popculturecanada.ca/"
+
+[address]
+address = "East Bayfield Community Centre\nBarrie, ON\nCanada"
+city = "Barrie, ON"
+country = "Canada"
+
+[address.coordinates]
+lat = 44.414944
+lon = -79.70402
+

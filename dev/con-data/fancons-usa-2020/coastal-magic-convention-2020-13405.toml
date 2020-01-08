@@ -1,0 +1,18 @@
+title = "Coastal Magic Convention"
+start_date = 2020-02-20
+end_date = 2020-02-23
+tags = []
+
+[website]
+title = "coastalmagicconvention.com"
+url = "https://coastalmagicconvention.com/"
+
+[address]
+address = "Hilton Daytona Beach Oceanfront Resort\nDaytona Beach, FL\nUSA"
+city = "Daytona Beach, FL"
+country = "USA"
+
+[address.coordinates]
+lat = 29.229702
+lon = -81.00913
+

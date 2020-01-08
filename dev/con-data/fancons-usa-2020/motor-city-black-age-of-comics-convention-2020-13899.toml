@@ -1,0 +1,18 @@
+title = "Motor City Black Age of Comics Convention"
+start_date = 2020-06-30
+end_date = 2020-06-30
+tags = []
+
+[website]
+title = "dreadlocks101.wix.com"
+url = "http://dreadlocks101.wix.com/motorcityblackage"
+
+[address]
+address = "Northwest Activities Center\nDetroit, MI\nUSA"
+city = "Detroit, MI"
+country = "USA"
+
+[address.coordinates]
+lat = 42.422863
+lon = -83.16953
+

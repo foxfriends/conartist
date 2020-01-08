@@ -1,0 +1,18 @@
+title = "Wizard World Cleveland"
+start_date = 2020-03-06
+end_date = 2020-03-08
+tags = []
+
+[website]
+title = "wizardworld.com"
+url = "https://wizardworld.com/comiccon/cleveland"
+
+[address]
+address = "Huntington Convention Center of Cleveland\nCleveland, OH\nUSA"
+city = "Cleveland, OH"
+country = "USA"
+
+[address.coordinates]
+lat = 41.503178
+lon = -81.69431
+

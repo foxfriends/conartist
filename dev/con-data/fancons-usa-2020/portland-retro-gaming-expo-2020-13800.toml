@@ -1,0 +1,18 @@
+title = "Portland Retro Gaming Expo"
+start_date = 2020-08-14
+end_date = 2020-08-16
+tags = []
+
+[website]
+title = "retrogamingexpo.com"
+url = "http://retrogamingexpo.com/"
+
+[address]
+address = "Oregon Convention Center\nPortland, OR\nUSA"
+city = "Portland, OR"
+country = "USA"
+
+[address.coordinates]
+lat = 45.528492
+lon = -122.663124
+

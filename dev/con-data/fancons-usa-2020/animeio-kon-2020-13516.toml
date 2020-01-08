@@ -1,0 +1,18 @@
+title = "Animeio.Kon"
+start_date = 2020-09-13
+end_date = 2020-09-13
+tags = []
+
+[website]
+title = "animeiokon.wordpress.com"
+url = "https://animeiokon.wordpress.com/"
+
+[address]
+address = "Quality Inn & Suites Banquet Center\nLivonia, MI\nUSA"
+city = "Livonia, MI"
+country = "USA"
+
+[address.coordinates]
+lat = 42.367832
+lon = -83.34316
+

@@ -1,0 +1,18 @@
+title = "Otaku World Expo"
+start_date = 2020-10-24
+end_date = 2020-10-25
+tags = []
+
+[website]
+title = "www.otakuworldexpo.com"
+url = "https://www.otakuworldexpo.com/"
+
+[address]
+address = "Business Expo Center\nAnaheim, CA\nUSA"
+city = "Anaheim, CA"
+country = "USA"
+
+[address.coordinates]
+lat = 33.79858
+lon = -117.89605
+

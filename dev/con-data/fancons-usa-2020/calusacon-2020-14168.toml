@@ -1,0 +1,18 @@
+title = "CalusaCon"
+start_date = 2020-03-15
+end_date = 2020-03-15
+tags = []
+
+[website]
+title = "www.calusacon.com"
+url = "https://www.calusacon.com/"
+
+[address]
+address = "Crowne Plaza Fort Myers At Bell Tower Shops\nFort Myers, FL\nUSA"
+city = "Fort Myers, FL"
+country = "USA"
+
+[address.coordinates]
+lat = 26.551296
+lon = -81.86861
+

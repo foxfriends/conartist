@@ -1,0 +1,18 @@
+title = "DunDraCon"
+start_date = 2020-02-14
+end_date = 2020-02-17
+tags = []
+
+[website]
+title = "dundracon.com"
+url = "http://dundracon.com/"
+
+[address]
+address = "San Ramon Marriott\nSan Ramon, CA\nUSA"
+city = "San Ramon, CA"
+country = "USA"
+
+[address.coordinates]
+lat = 37.7628
+lon = -121.96546
+

@@ -1,0 +1,18 @@
+title = "Niagara Falls Comic Con"
+start_date = 2020-06-05
+end_date = 2020-06-07
+tags = []
+
+[website]
+title = "nfcomiccon.com"
+url = "https://nfcomiccon.com/"
+
+[address]
+address = "Scotiabank Convention Centre\nNiagara Falls, ON\nCanada"
+city = "Niagara Falls, ON"
+country = "Canada"
+
+[address.coordinates]
+lat = 43.07572
+lon = -79.08493
+

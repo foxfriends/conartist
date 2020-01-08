@@ -1,0 +1,18 @@
+title = "Simi Valley Toy and Comic Fest"
+start_date = 2020-02-09
+end_date = 2020-02-09
+tags = []
+
+[website]
+title = "simivalleytoycomicfest.com"
+url = "https://simivalleytoycomicfest.com/"
+
+[address]
+address = "Grand Vista Hotel\nSimi Valley, CA\nUSA"
+city = "Simi Valley, CA"
+country = "USA"
+
+[address.coordinates]
+lat = 34.283634
+lon = -118.78137
+

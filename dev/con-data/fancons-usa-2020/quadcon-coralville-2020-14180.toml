@@ -1,0 +1,18 @@
+title = "QuadCon Coralville"
+start_date = 2020-09-26
+end_date = 2020-09-26
+tags = []
+
+[website]
+title = "quadcitycon.com"
+url = "https://quadcitycon.com/"
+
+[address]
+address = "Coralville Marriott Hotel & Conference Center\nCoralville, IA\nUSA"
+city = "Coralville, IA"
+country = "USA"
+
+[address.coordinates]
+lat = 41.680996
+lon = -91.55831
+

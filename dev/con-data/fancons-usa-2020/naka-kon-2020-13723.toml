@@ -1,0 +1,18 @@
+title = "Naka-Kon"
+start_date = 2020-03-13
+end_date = 2020-03-15
+tags = []
+
+[website]
+title = "naka-kon.com"
+url = "https://naka-kon.com/"
+
+[address]
+address = "Overland Park Convention Center / Sheraton Overland Park Hotel at the Convention Center\nOverland Park, KS\nUSA"
+city = "Overland Park, KS"
+country = "USA"
+
+[address.coordinates]
+lat = 38.92862
+lon = -94.65526
+

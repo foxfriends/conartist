@@ -1,0 +1,18 @@
+title = "Ice & Fire Con"
+start_date = 2020-04-23
+end_date = 2020-04-26
+tags = []
+
+[website]
+title = "www.iceandfirecon.com"
+url = "http://www.iceandfirecon.com/"
+
+[address]
+address = "Deer Creek State Park Lodge and Conference Center\nMt. Sterling, OH\nUSA"
+city = "Mt. Sterling, OH"
+country = "USA"
+
+[address.coordinates]
+lat = 39.621826
+lon = -83.236465
+

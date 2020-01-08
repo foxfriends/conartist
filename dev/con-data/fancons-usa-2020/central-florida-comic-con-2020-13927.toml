@@ -1,0 +1,18 @@
+title = "Central Florida Comic Con"
+start_date = 2020-01-18
+end_date = 2020-01-19
+tags = []
+
+[website]
+title = "www.centralfloridacomiccon.com"
+url = "https://www.centralfloridacomiccon.com/"
+
+[address]
+address = "The RP Funding Center\nLakeland, FL\nUSA"
+city = "Lakeland, FL"
+country = "USA"
+
+[address.coordinates]
+lat = 28.0414
+lon = -81.96303
+

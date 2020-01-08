@@ -1,0 +1,18 @@
+title = "Otafest"
+start_date = 2020-05-15
+end_date = 2020-05-17
+tags = []
+
+[website]
+title = "otafest.com"
+url = "https://otafest.com/"
+
+[address]
+address = "Calgary Telus Convention Centre\nCalgary, AB\nCanada"
+city = "Calgary, AB"
+country = "Canada"
+
+[address.coordinates]
+lat = 51.045067
+lon = -114.061714
+

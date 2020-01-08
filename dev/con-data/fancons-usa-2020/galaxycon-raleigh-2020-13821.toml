@@ -1,0 +1,18 @@
+title = "GalaxyCon Raleigh"
+start_date = 2020-07-30
+end_date = 2020-08-02
+tags = []
+
+[website]
+title = "galaxycon.com"
+url = "https://galaxycon.com/raleigh/"
+
+[address]
+address = "Raleigh Convention Center\nRaleigh, NC\nUSA"
+city = "Raleigh, NC"
+country = "USA"
+
+[address.coordinates]
+lat = 35.773735
+lon = -78.64141
+

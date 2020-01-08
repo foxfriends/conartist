@@ -1,0 +1,18 @@
+title = "Arisia"
+start_date = 2020-01-17
+end_date = 2020-01-20
+tags = []
+
+[website]
+title = "www.arisia.org"
+url = "https://www.arisia.org/"
+
+[address]
+address = "Westin Boston Waterfront\nBoston, MA\nUSA"
+city = "Boston, MA"
+country = "USA"
+
+[address.coordinates]
+lat = 42.34598
+lon = -71.0435
+

@@ -1,0 +1,18 @@
+title = "Octocon"
+start_date = 2020-10-09
+end_date = 2020-10-11
+tags = []
+
+[website]
+title = "2020.octocon.com"
+url = "https://2020.octocon.com/"
+
+[address]
+address = "Crowne Plaza Dublin - Blanchardstown\nBlanchardstown, Ireland"
+city = "Blanchardstown"
+country = "Ireland"
+
+[address.coordinates]
+lat = 53.39569
+lon = -6.39007
+

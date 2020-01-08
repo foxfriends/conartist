@@ -1,0 +1,18 @@
+title = "Albuquerque Comic Con"
+start_date = 2020-01-17
+end_date = 2020-01-19
+tags = []
+
+[website]
+title = "albuquerquecomiccon.com"
+url = "http://albuquerquecomiccon.com/"
+
+[address]
+address = "Albuquerque Convention Center\nAlbuquerque, NM\nUSA"
+city = "Albuquerque, NM"
+country = "USA"
+
+[address.coordinates]
+lat = 35.087402
+lon = -106.64918
+

@@ -1,0 +1,18 @@
+title = "The Festival in the Forest"
+start_date = 2020-09-11
+end_date = 2020-09-13
+tags = []
+
+[website]
+title = "thefestivalintheforest.com"
+url = "http://thefestivalintheforest.com/"
+
+[address]
+address = "Brooklyn Exchange Cabin\nHinckley, OH\nUSA"
+city = "Hinckley, OH"
+country = "USA"
+
+[address.coordinates]
+lat = 41.211178
+lon = -81.708336
+

@@ -1,0 +1,18 @@
+title = "OrcaCon"
+start_date = 2020-01-10
+end_date = 2020-01-12
+tags = []
+
+[website]
+title = "www.orcacon.org"
+url = "http://www.orcacon.org/"
+
+[address]
+address = "Hilton Bellevue\nBellevue, WA\nUSA"
+city = "Bellevue, WA"
+country = "USA"
+
+[address.coordinates]
+lat = 47.60719
+lon = -122.18883
+

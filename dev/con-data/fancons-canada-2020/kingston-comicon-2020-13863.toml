@@ -1,0 +1,18 @@
+title = "Kingston ComiCon"
+start_date = 2020-04-26
+end_date = 2020-04-26
+tags = []
+
+[website]
+title = "www.popculturecanada.ca"
+url = "http://www.popculturecanada.ca/"
+
+[address]
+address = "Royal Canadian Legion Branch 560\nKingston, ON\nCanada"
+city = "Kingston, ON"
+country = "Canada"
+
+[address.coordinates]
+lat = 44.25162
+lon = -76.48679
+

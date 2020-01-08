@@ -1,0 +1,18 @@
+title = "Coburg ComiCon"
+start_date = 2020-03-08
+end_date = 2020-03-08
+tags = []
+
+[website]
+title = "www.popculturecanada.ca"
+url = "http://www.popculturecanada.ca/"
+
+[address]
+address = "Cobourg Community Centre\nCoburg, ON\nCanada"
+city = "Coburg, ON"
+country = "Canada"
+
+[address.coordinates]
+lat = 43.974674
+lon = -78.16046
+

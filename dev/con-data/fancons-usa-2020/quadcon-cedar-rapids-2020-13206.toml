@@ -1,0 +1,18 @@
+title = "QuadCon Cedar Rapids"
+start_date = 2020-01-26
+end_date = 2020-01-26
+tags = []
+
+[website]
+title = "quadcitycon.com"
+url = "https://quadcitycon.com/"
+
+[address]
+address = "Cedar Rapids Marriott\nCedar Rapids, IA\nUSA"
+city = "Cedar Rapids, IA"
+country = "USA"
+
+[address.coordinates]
+lat = 42.029457
+lon = -91.65292
+

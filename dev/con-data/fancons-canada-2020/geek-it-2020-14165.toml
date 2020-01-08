@@ -1,0 +1,18 @@
+title = "Geek-it!"
+start_date = 2020-04-24
+end_date = 2020-04-26
+tags = []
+
+[website]
+title = "geekitcon.com"
+url = "http://geekitcon.com/"
+
+[address]
+address = "CEPSUM\nMontreal, QC\nCanada"
+city = "Montreal, QC"
+country = "Canada"
+
+[address.coordinates]
+lat = 45.508347
+lon = -73.61306
+

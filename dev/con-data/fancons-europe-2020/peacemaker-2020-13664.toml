@@ -1,0 +1,18 @@
+title = "Peacemaker"
+start_date = 2020-08-21
+end_date = 2020-08-23
+tags = []
+
+[website]
+title = "www.bonfire-phoenix.events"
+url = "https://www.bonfire-phoenix.events/en/peacemaker-i"
+
+[address]
+address = "H+ Hotel Bad Soden\nBad Soden am Taunus, Germany"
+city = "Bad Soden am Taunus"
+country = "Germany"
+
+[address.coordinates]
+lat = 50.146786
+lon = 8.500059
+

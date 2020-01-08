@@ -1,0 +1,18 @@
+title = "Llamedos Holiday Camp"
+start_date = 2020-03-06
+end_date = 2020-03-08
+tags = []
+
+[website]
+title = "llamedosholidaycamp.com"
+url = "https://llamedosholidaycamp.com/"
+
+[address]
+address = "Diplomat Hotel\nLlanelli, UK"
+city = "Llanelli"
+country = "UK"
+
+[address.coordinates]
+lat = 51.695583
+lon = -4.150583
+

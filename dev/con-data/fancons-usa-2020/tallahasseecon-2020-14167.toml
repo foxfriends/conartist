@@ -1,0 +1,18 @@
+title = "TallahasseeCon"
+start_date = 2020-04-25
+end_date = 2020-04-25
+tags = []
+
+[website]
+title = "www.tallahasseecon.com"
+url = "https://www.tallahasseecon.com/"
+
+[address]
+address = "Tallahassee Conference Center\nTallahassee, FL\nUSA"
+city = "Tallahassee, FL"
+country = "USA"
+
+[address.coordinates]
+lat = 30.47974
+lon = -84.30546
+

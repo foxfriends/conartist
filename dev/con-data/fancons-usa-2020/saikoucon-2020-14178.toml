@@ -1,0 +1,18 @@
+title = "SaikouCon"
+start_date = 2020-08-07
+end_date = 2020-08-09
+tags = []
+
+[website]
+title = "www.saikoucon.com"
+url = "http://www.saikoucon.com/"
+
+[address]
+address = "Mountain Laurel Resort & Spa\nWhite Haven, PA\nUSA"
+city = "White Haven, PA"
+country = "USA"
+
+[address.coordinates]
+lat = 41.07296
+lon = -75.71124
+

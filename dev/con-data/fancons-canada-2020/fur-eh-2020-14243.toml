@@ -1,0 +1,18 @@
+title = "Fur-Eh!"
+start_date = 2020-06-18
+end_date = 2020-06-21
+tags = []
+
+[website]
+title = "www.fureh.ca"
+url = "https://www.fureh.ca/"
+
+[address]
+address = "Edmonton Inn & Conference Centre\nEdmonton, AB\nCanada"
+city = "Edmonton, AB"
+country = "Canada"
+
+[address.coordinates]
+lat = 53.568764
+lon = -113.52392
+

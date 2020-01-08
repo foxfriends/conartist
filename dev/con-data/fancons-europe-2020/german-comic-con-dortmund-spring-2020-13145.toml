@@ -1,0 +1,18 @@
+title = "German Comic Con Dortmund Spring"
+start_date = 2020-04-04
+end_date = 2020-04-05
+tags = []
+
+[website]
+title = "germancomiccon.com"
+url = "https://germancomiccon.com/dortmund-spring/"
+
+[address]
+address = "Westfalenhallen Dortmund\nDortmund, Germany"
+city = "Dortmund"
+country = "Germany"
+
+[address.coordinates]
+lat = 51.49563
+lon = 7.454114
+

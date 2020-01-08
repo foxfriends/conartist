@@ -1,0 +1,18 @@
+title = "BransonCon"
+start_date = 2020-03-06
+end_date = 2020-03-08
+tags = []
+
+[website]
+title = "www.bransoncomiccon.com"
+url = "https://www.bransoncomiccon.com/"
+
+[address]
+address = "Welk Resort Branson\nBranson, MO\nUSA"
+city = "Branson, MO"
+country = "USA"
+
+[address.coordinates]
+lat = 36.606068
+lon = -93.29293
+

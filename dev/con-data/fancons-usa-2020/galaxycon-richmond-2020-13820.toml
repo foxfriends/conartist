@@ -1,0 +1,18 @@
+title = "GalaxyCon Richmond"
+start_date = 2020-02-28
+end_date = 2020-03-01
+tags = []
+
+[website]
+title = "galaxycon.com"
+url = "https://galaxycon.com/richmond/"
+
+[address]
+address = "Great Richmond Convention Center\nRichmond, VA\nUSA"
+city = "Richmond, VA"
+country = "USA"
+
+[address.coordinates]
+lat = 37.545166
+lon = -77.43666
+

@@ -1,0 +1,18 @@
+title = "Sac Comic-Con"
+start_date = 2020-03-22
+end_date = 2020-03-22
+tags = []
+
+[website]
+title = "www.sac-con.com"
+url = "https://www.sac-con.com/"
+
+[address]
+address = "Cal Expo, Buildings C & D\nSacramento, CA\nUSA"
+city = "Sacramento, CA"
+country = "USA"
+
+[address.coordinates]
+lat = 38.592796
+lon = -121.43654
+

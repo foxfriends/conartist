@@ -1,0 +1,18 @@
+title = "Furry Takeover"
+start_date = 2020-09-25
+end_date = 2020-09-27
+tags = []
+
+[website]
+title = "furrytakeover.com"
+url = "https://furrytakeover.com/"
+
+[address]
+address = "Fontana Village Resort & Marina\nFontana Dam, NC\nUSA"
+city = "Fontana Dam, NC"
+country = "USA"
+
+[address.coordinates]
+lat = 35.43255
+lon = -83.821556
+

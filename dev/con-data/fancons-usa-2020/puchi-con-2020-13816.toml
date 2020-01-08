@@ -1,0 +1,18 @@
+title = "Puchi Con!"
+start_date = 2020-03-07
+end_date = 2020-03-08
+tags = []
+
+[website]
+title = "www.puchicon.com"
+url = "https://www.puchicon.com/"
+
+[address]
+address = "Embassy Suites by Hilton Secaucus Meadowlands\nSecaucus, NJ\nUSA"
+city = "Secaucus, NJ"
+country = "USA"
+
+[address.coordinates]
+lat = 40.788506
+lon = -74.04324
+

@@ -1,0 +1,18 @@
+title = "Manchester Anime & Gaming Con"
+start_date = 2020-04-04
+end_date = 2020-04-05
+tags = []
+
+[website]
+title = "www.manchesteranimecon.com"
+url = "https://www.manchesteranimecon.com/"
+
+[address]
+address = "Sugden Sports Centre\nManchester, UK"
+city = "Manchester"
+country = "UK"
+
+[address.coordinates]
+lat = 53.47113
+lon = -2.2365
+

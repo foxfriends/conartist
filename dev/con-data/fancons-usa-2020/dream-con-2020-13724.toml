@@ -1,0 +1,18 @@
+title = "Dream Con"
+start_date = 2020-06-05
+end_date = 2020-06-07
+tags = []
+
+[website]
+title = "www.dreamconvention.com"
+url = "https://www.dreamconvention.com/"
+
+[address]
+address = "Waco Convention Center\nWaco, TX\nUSA"
+city = "Waco, TX"
+country = "USA"
+
+[address.coordinates]
+lat = 31.55961
+lon = -97.12937
+

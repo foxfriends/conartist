@@ -1,0 +1,18 @@
+title = "Animé Los Angeles"
+start_date = 2020-01-09
+end_date = 2020-01-12
+tags = []
+
+[website]
+title = "animelosangeles.org"
+url = "https://animelosangeles.org/"
+
+[address]
+address = "Ontario Convention Center / DoubleTree by Hilton Hotel Ontario Airport\nOntario, CA\nUSA"
+city = "Ontario, CA"
+country = "USA"
+
+[address.coordinates]
+lat = 34.065144
+lon = -117.60664
+

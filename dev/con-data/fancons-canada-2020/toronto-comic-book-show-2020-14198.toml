@@ -1,0 +1,18 @@
+title = "Toronto Comic Book Show"
+start_date = 2020-04-26
+end_date = 2020-04-26
+tags = []
+
+[website]
+title = "torontocomicbookshow.com"
+url = "http://torontocomicbookshow.com/"
+
+[address]
+address = "Montecassino Hotel and Event Centre\nNorth York, ON\nCanada"
+city = "North York, ON"
+country = "Canada"
+
+[address.coordinates]
+lat = 43.756027
+lon = -79.47534
+

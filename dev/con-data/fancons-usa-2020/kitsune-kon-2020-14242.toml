@@ -1,0 +1,18 @@
+title = "Kitsune Kon"
+start_date = 2020-07-17
+end_date = 2020-07-19
+tags = []
+
+[website]
+title = "kitsunekon.com"
+url = "https://kitsunekon.com/"
+
+[address]
+address = "Hyatt Regency Green Bay / KI Convention Center\nGreen Bay, WI\nUSA"
+city = "Green Bay, WI"
+country = "USA"
+
+[address.coordinates]
+lat = 44.517887
+lon = -88.01082
+

@@ -1,0 +1,18 @@
+title = "Sakura-Con"
+start_date = 2020-04-10
+end_date = 2020-04-12
+tags = []
+
+[website]
+title = "sakuracon.org"
+url = "http://sakuracon.org/"
+
+[address]
+address = "Washington State Convention Center\nSeattle, WA\nUSA"
+city = "Seattle, WA"
+country = "USA"
+
+[address.coordinates]
+lat = 47.611782
+lon = -122.33116
+

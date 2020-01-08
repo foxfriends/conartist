@@ -1,0 +1,18 @@
+title = "Lvl Up Expo"
+start_date = 2020-02-21
+end_date = 2020-02-23
+tags = []
+
+[website]
+title = "lvlupexpo.com"
+url = "https://lvlupexpo.com/"
+
+[address]
+address = "Las Vegas Convention Center\nLas Vegas, NV\nUSA"
+city = "Las Vegas, NV"
+country = "USA"
+
+[address.coordinates]
+lat = 36.12866
+lon = -115.14966
+

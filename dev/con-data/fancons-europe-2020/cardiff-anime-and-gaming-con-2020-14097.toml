@@ -1,0 +1,18 @@
+title = "Cardiff Anime & Gaming Con"
+start_date = 2020-08-15
+end_date = 2020-08-16
+tags = []
+
+[website]
+title = "www.cardiffanimecon.com"
+url = "https://www.cardiffanimecon.com/"
+
+[address]
+address = "Mercure Cardiff Holland House Hotel and Spa\nCardiff, UK"
+city = "Cardiff"
+country = "UK"
+
+[address.coordinates]
+lat = 51.483677
+lon = -3.1672277
+

@@ -1,0 +1,18 @@
+title = "CoosaCon"
+start_date = 2020-03-28
+end_date = 2020-03-28
+tags = []
+
+[website]
+title = "coosacon.com"
+url = "https://coosacon.com/"
+
+[address]
+address = "Coosa Valley Fairgrounds\nRome, GA\nUSA"
+city = "Rome, GA"
+country = "USA"
+
+[address.coordinates]
+lat = 34.25909
+lon = -85.14875
+

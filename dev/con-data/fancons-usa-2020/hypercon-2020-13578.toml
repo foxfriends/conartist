@@ -1,0 +1,18 @@
+title = "HyperCon"
+start_date = 2020-10-03
+end_date = 2020-10-03
+tags = []
+
+[website]
+title = "hyperconwf.com"
+url = "https://hyperconwf.com/"
+
+[address]
+address = "Wichita Falls MPEC\nWichita Falls, TX\nUSA"
+city = "Wichita Falls, TX"
+country = "USA"
+
+[address.coordinates]
+lat = 33.91459
+lon = -98.49842
+

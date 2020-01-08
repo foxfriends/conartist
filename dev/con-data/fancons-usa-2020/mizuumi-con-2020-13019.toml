@@ -1,0 +1,18 @@
+title = "Mizuumi-Con"
+start_date = 2020-04-04
+end_date = 2020-04-04
+tags = []
+
+[website]
+title = "www.mizuumicon.org"
+url = "http://www.mizuumicon.org/"
+
+[address]
+address = "San Antonio Marriott Northwest\nSan Antonio, TX\nUSA"
+city = "San Antonio, TX"
+country = "USA"
+
+[address.coordinates]
+lat = 29.50612
+lon = -98.547646
+

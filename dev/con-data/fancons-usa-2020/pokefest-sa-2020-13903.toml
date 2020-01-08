@@ -1,0 +1,18 @@
+title = "PokeFest SA"
+start_date = 2020-07-17
+end_date = 2020-07-18
+tags = []
+
+[website]
+title = "www.pokefestsa.com"
+url = "http://www.pokefestsa.com/"
+
+[address]
+address = "Norris Conference Centers - San Antonio\nSan Antonio, TX\nUSA"
+city = "San Antonio, TX"
+country = "USA"
+
+[address.coordinates]
+lat = 29.51828
+lon = -98.502785
+

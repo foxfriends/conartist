@@ -1,0 +1,18 @@
+title = "Emerald City Comic Con"
+start_date = 2020-03-12
+end_date = 2020-03-15
+tags = []
+
+[website]
+title = "www.emeraldcitycomiccon.com"
+url = "https://www.emeraldcitycomiccon.com/"
+
+[address]
+address = "Washington State Convention Center\nSeattle, WA\nUSA"
+city = "Seattle, WA"
+country = "USA"
+
+[address.coordinates]
+lat = 47.61148
+lon = -122.332016
+

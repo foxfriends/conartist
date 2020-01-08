@@ -1,0 +1,18 @@
+title = "Auríferra Republic"
+start_date = 2020-05-08
+end_date = 2020-05-09
+tags = []
+
+[website]
+title = "www.auriferrarepublic.org"
+url = "http://www.auriferrarepublic.org/"
+
+[address]
+address = "Fort Mason Center for Arts & Culture\nSan Francisco, CA\nUSA"
+city = "San Francisco, CA"
+country = "USA"
+
+[address.coordinates]
+lat = 37.806335
+lon = -122.43213
+

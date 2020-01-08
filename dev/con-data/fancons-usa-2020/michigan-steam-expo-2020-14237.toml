@@ -1,0 +1,18 @@
+title = "Michigan Steam Expo"
+start_date = 2020-06-26
+end_date = 2020-06-28
+tags = []
+
+[website]
+title = "michigansteamexpo.com"
+url = "https://michigansteamexpo.com/"
+
+[address]
+address = "Auburn Hills Marriott Pontiac\nPontiac, MI\nUSA"
+city = "Pontiac, MI"
+country = "USA"
+
+[address.coordinates]
+lat = 42.60551
+lon = -83.251686
+

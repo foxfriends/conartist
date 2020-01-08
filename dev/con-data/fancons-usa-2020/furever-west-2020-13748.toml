@@ -1,0 +1,18 @@
+title = "FurEver West"
+start_date = 2020-09-25
+end_date = 2020-09-26
+tags = []
+
+[website]
+title = "www.fureverwest.com"
+url = "https://www.fureverwest.com/"
+
+[address]
+address = "Red Lion Hotel & Conference Center Cheyenne\nCheyenne, WY\nUSA"
+city = "Cheyenne, WY"
+country = "USA"
+
+[address.coordinates]
+lat = 41.117664
+lon = -104.80674
+

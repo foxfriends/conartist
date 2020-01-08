@@ -1,0 +1,18 @@
+title = "Imperial Valley Comic Con"
+start_date = 2020-02-15
+end_date = 2020-02-15
+tags = []
+
+[website]
+title = "imperialvalleycomiccon.com"
+url = "http://imperialvalleycomiccon.com/"
+
+[address]
+address = "Dr. Martin Luther King Jr. Sports Pavilion\nEl Centro, CA\nUSA"
+city = "El Centro, CA"
+country = "USA"
+
+[address.coordinates]
+lat = 32.79628
+lon = -115.56005
+

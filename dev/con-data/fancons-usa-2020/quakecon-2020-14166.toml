@@ -1,0 +1,18 @@
+title = "QuakeCon"
+start_date = 2020-08-06
+end_date = 2020-08-09
+tags = []
+
+[website]
+title = "www.quakecon.org"
+url = "https://www.quakecon.org/"
+
+[address]
+address = "Gaylord Texan Resort & Convention Center\nGrapevine, TX\nUSA"
+city = "Grapevine, TX"
+country = "USA"
+
+[address.coordinates]
+lat = 32.954758
+lon = -97.06456
+

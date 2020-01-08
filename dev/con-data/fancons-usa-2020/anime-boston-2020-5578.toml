@@ -1,0 +1,18 @@
+title = "Anime Boston"
+start_date = 2020-04-10
+end_date = 2020-04-12
+tags = []
+
+[website]
+title = "www.animeboston.com"
+url = "http://www.animeboston.com/"
+
+[address]
+address = "Hynes Convention Center\nBoston, MA\nUSA"
+city = "Boston, MA"
+country = "USA"
+
+[address.coordinates]
+lat = 42.347504
+lon = -71.08464
+

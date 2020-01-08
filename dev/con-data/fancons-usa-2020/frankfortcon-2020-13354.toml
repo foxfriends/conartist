@@ -1,0 +1,18 @@
+title = "FrankfortCon"
+start_date = 2020-01-25
+end_date = 2020-01-25
+tags = []
+
+[website]
+title = "www.frankfortcomiccon.com"
+url = "https://www.frankfortcomiccon.com/"
+
+[address]
+address = "Capitol Plaza Hotel\nFrankfort, KY\nUSA"
+city = "Frankfort, KY"
+country = "USA"
+
+[address.coordinates]
+lat = 38.202454
+lon = -84.87849
+

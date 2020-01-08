@@ -1,0 +1,18 @@
+title = "Anime: Roseville"
+start_date = 2020-08-19
+end_date = 2020-08-19
+tags = []
+
+[website]
+title = "www.animeroseville.com"
+url = "http://www.animeroseville.com/"
+
+[address]
+address = "Fairgrounds Placer County\nRoseville, CA\nUSA"
+city = "Roseville, CA"
+country = "USA"
+
+[address.coordinates]
+lat = 38.756474
+lon = -121.29399
+

@@ -1,0 +1,18 @@
+title = "LumaCon"
+start_date = 2020-01-25
+end_date = 2020-01-25
+tags = []
+
+[website]
+title = "www.lumacon.net"
+url = "http://www.lumacon.net/"
+
+[address]
+address = "Petaluma Community Center and Lucchesi Park\nPetaluma, CA\nUSA"
+city = "Petaluma, CA"
+country = "USA"
+
+[address.coordinates]
+lat = 38.25271
+lon = -122.630585
+

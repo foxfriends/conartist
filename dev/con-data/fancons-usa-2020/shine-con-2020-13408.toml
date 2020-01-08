@@ -1,0 +1,18 @@
+title = "Shine Con"
+start_date = 2020-03-27
+end_date = 2020-03-29
+tags = []
+
+[website]
+title = "www.shineconvegas.com"
+url = "https://www.shineconvegas.com/"
+
+[address]
+address = "Tuscany Suites & Casinos\nLas Vegas, NV\nUSA"
+city = "Las Vegas, NV"
+country = "USA"
+
+[address.coordinates]
+lat = 36.113102
+lon = -115.160034
+

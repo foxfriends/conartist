@@ -1,0 +1,18 @@
+title = "Anime Crossroads"
+start_date = 2020-02-21
+end_date = 2020-02-23
+tags = []
+
+[website]
+title = "animecrossroads.com"
+url = "http://animecrossroads.com/"
+
+[address]
+address = "Indianapolis Marriott East\nIndianapolis, IN\nUSA"
+city = "Indianapolis, IN"
+country = "USA"
+
+[address.coordinates]
+lat = 39.797485
+lon = -86.04123
+

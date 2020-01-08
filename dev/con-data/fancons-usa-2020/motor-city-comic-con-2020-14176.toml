@@ -1,0 +1,18 @@
+title = "Motor City Comic Con"
+start_date = 2020-05-15
+end_date = 2020-05-17
+tags = []
+
+[website]
+title = "www.motorcitycomiccon.com"
+url = "https://www.motorcitycomiccon.com/"
+
+[address]
+address = "Suburban Collection Showplace\nNovi, MI\nUSA"
+city = "Novi, MI"
+country = "USA"
+
+[address.coordinates]
+lat = 42.489254
+lon = -83.50339
+

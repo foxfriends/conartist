@@ -1,0 +1,18 @@
+title = "Alcon"
+start_date = 2020-08-28
+end_date = 2020-08-30
+tags = []
+
+[website]
+title = "www.alcon.org.uk"
+url = "https://www.alcon.org.uk/"
+
+[address]
+address = "De Montfort University Leicester\nLeicester, UK"
+city = "Leicester"
+country = "UK"
+
+[address.coordinates]
+lat = 52.627106
+lon = -1.143436
+

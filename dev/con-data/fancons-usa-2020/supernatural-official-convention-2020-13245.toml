@@ -1,0 +1,18 @@
+title = "Supernatural Official Convention"
+start_date = 2020-06-05
+end_date = 2020-06-07
+tags = []
+
+[website]
+title = "www.creationent.com"
+url = "https://www.creationent.com/cal/supernatural.htm"
+
+[address]
+address = "Donald E Stephens Convention Center\nRosemont, IL\nUSA"
+city = "Rosemont, IL"
+country = "USA"
+
+[address.coordinates]
+lat = 41.979435
+lon = -87.86056
+

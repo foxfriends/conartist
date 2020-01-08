@@ -1,0 +1,18 @@
+title = "Wizard World Chicago"
+start_date = 2020-08-20
+end_date = 2020-08-23
+tags = []
+
+[website]
+title = "wizardworld.com"
+url = "https://wizardworld.com/comiccon/chicago"
+
+[address]
+address = "Donald E. Stephens Convention Center\nRosemont, IL\nUSA"
+city = "Rosemont, IL"
+country = "USA"
+
+[address.coordinates]
+lat = 41.979263
+lon = -87.8607
+

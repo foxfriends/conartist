@@ -1,0 +1,18 @@
+title = "Balticon"
+start_date = 2020-05-22
+end_date = 2020-05-25
+tags = []
+
+[website]
+title = "www.balticon.org"
+url = "https://www.balticon.org/"
+
+[address]
+address = "Renaissance Baltimore Harborplace Hotel\nBaltimore, MD\nUSA"
+city = "Baltimore, MD"
+country = "USA"
+
+[address.coordinates]
+lat = 39.28717
+lon = -76.61153
+

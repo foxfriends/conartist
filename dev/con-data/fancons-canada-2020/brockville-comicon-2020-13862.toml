@@ -1,0 +1,18 @@
+title = "Brockville ComiCon"
+start_date = 2020-09-26
+end_date = 2020-09-26
+tags = []
+
+[website]
+title = "www.popculturecanada.ca"
+url = "http://www.popculturecanada.ca/"
+
+[address]
+address = "Brockville Memorial Civic Centre\nBrockville, ON\nCanada"
+city = "Brockville, ON"
+country = "Canada"
+
+[address.coordinates]
+lat = 44.609898
+lon = -75.69985
+

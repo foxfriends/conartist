@@ -1,0 +1,18 @@
+title = "Toronto Comicon"
+start_date = 2020-03-13
+end_date = 2020-03-15
+tags = []
+
+[website]
+title = "www.comicontoronto.com"
+url = "https://www.comicontoronto.com/"
+
+[address]
+address = "Metro Toronto Convention Centre\nToronto, ON\nCanada"
+city = "Toronto, ON"
+country = "Canada"
+
+[address.coordinates]
+lat = 43.643776
+lon = -79.386986
+

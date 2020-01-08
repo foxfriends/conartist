@@ -1,0 +1,18 @@
+title = "Alaska ComiCon"
+start_date = 2020-02-22
+end_date = 2020-02-23
+tags = []
+
+[website]
+title = "www.alaskacomicon.com"
+url = "https://www.alaskacomicon.com/"
+
+[address]
+address = "Carlson Center\nFairbanks, AK\nUSA"
+city = "Fairbanks, AK"
+country = "USA"
+
+[address.coordinates]
+lat = 64.84223
+lon = -147.76405
+

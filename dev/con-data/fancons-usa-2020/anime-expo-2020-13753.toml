@@ -1,0 +1,18 @@
+title = "Anime Expo"
+start_date = 2020-07-02
+end_date = 2020-07-05
+tags = []
+
+[website]
+title = "www.anime-expo.org"
+url = "https://www.anime-expo.org/"
+
+[address]
+address = "Los Angeles Convention Center\nLos Angeles, CA\nUSA"
+city = "Los Angeles, CA"
+country = "USA"
+
+[address.coordinates]
+lat = 34.04121
+lon = -118.269135
+

@@ -1,0 +1,18 @@
+title = "Empire City Con"
+start_date = 2020-11-13
+end_date = 2020-11-15
+tags = []
+
+[website]
+title = "empirecitycon.com"
+url = "https://empirecitycon.com/"
+
+[address]
+address = "Crowne Plaza Charlotte Executive Park\nCharlotte, NC\nUSA"
+city = "Charlotte, NC"
+country = "USA"
+
+[address.coordinates]
+lat = 35.159424
+lon = -80.88993
+

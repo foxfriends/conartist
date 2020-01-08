@@ -1,0 +1,18 @@
+title = "Anime Impulse"
+start_date = 2020-01-18
+end_date = 2020-01-19
+tags = []
+
+[website]
+title = "www.animeimpulse.com"
+url = "https://www.animeimpulse.com/"
+
+[address]
+address = "Fairplex Exposition Complex\nPomona, CA\nUSA"
+city = "Pomona, CA"
+country = "USA"
+
+[address.coordinates]
+lat = 34.081184
+lon = -117.7638
+

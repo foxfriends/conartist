@@ -1,0 +1,18 @@
+title = "Atomacon"
+start_date = 2020-11-20
+end_date = 2020-11-22
+tags = []
+
+[website]
+title = "atomacon.org"
+url = "http://atomacon.org/"
+
+[address]
+address = "Hilton Garden Inn Charleston Airport\nNorth Charleston, SC\nUSA"
+city = "North Charleston, SC"
+country = "USA"
+
+[address.coordinates]
+lat = 32.867687
+lon = -80.02538
+

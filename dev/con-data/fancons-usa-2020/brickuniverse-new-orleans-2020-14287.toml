@@ -1,0 +1,18 @@
+title = "BrickUniverse New Orleans"
+start_date = 2020-11-08
+end_date = 2020-11-09
+tags = []
+
+[website]
+title = "www.brickuniverse.com"
+url = "https://www.brickuniverse.com/neworleans"
+
+[address]
+address = "Pontchartrain Convention & Civic Center\nKenner, LA\nUSA"
+city = "Kenner, LA"
+country = "USA"
+
+[address.coordinates]
+lat = 30.039366
+lon = -90.24062
+

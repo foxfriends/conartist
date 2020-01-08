@@ -1,0 +1,18 @@
+title = "CONsole Room"
+start_date = 2020-01-17
+end_date = 2020-01-19
+tags = []
+
+[website]
+title = "console-room.com"
+url = "http://console-room.com/"
+
+[address]
+address = "Hilton Minneapolis St. Paul Airport Mall of America\nBloomington, MN\nUSA"
+city = "Bloomington, MN"
+country = "USA"
+
+[address.coordinates]
+lat = 44.86104
+lon = -93.21867
+

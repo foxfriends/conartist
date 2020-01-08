@@ -1,0 +1,18 @@
+title = "Anime North Texas"
+start_date = 2020-01-31
+end_date = 2020-02-02
+tags = []
+
+[website]
+title = "animenorthtexas.com"
+url = "http://animenorthtexas.com/"
+
+[address]
+address = "Sheraton Arlington Hotel\nArlington, TX\nUSA"
+city = "Arlington, TX"
+country = "USA"
+
+[address.coordinates]
+lat = 32.75688
+lon = -97.0818
+

@@ -1,0 +1,18 @@
+title = "Retrievercon"
+start_date = 2020-02-22
+end_date = 2020-02-22
+tags = []
+
+[website]
+title = "www.retrievercon.com"
+url = "https://www.retrievercon.com/"
+
+[address]
+address = "University of Maryland - Baltimore County, The Commons\nBaltimore, MD\nUSA"
+city = "Baltimore, MD"
+country = "USA"
+
+[address.coordinates]
+lat = 39.2549
+lon = -76.7109
+

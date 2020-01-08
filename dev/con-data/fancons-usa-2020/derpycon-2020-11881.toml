@@ -1,0 +1,18 @@
+title = "DerpyCon"
+start_date = 2020-10-30
+end_date = 2020-11-01
+tags = []
+
+[website]
+title = "www.derpycon.com"
+url = "https://www.derpycon.com/"
+
+[address]
+address = "Hyatt Regency New Brunswick\nNew Brunswick, NJ\nUSA"
+city = "New Brunswick, NJ"
+country = "USA"
+
+[address.coordinates]
+lat = 40.496223
+lon = -74.44122
+

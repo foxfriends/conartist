@@ -1,0 +1,18 @@
+title = "London Anime & Gaming Con"
+start_date = 2020-02-14
+end_date = 2020-02-16
+tags = []
+
+[website]
+title = "winter.londonanimecon.com"
+url = "https://winter.londonanimecon.com/"
+
+[address]
+address = "London Metropolitan University, The Rocket Complex\nLondon, UK"
+city = "London"
+country = "UK"
+
+[address.coordinates]
+lat = 51.551727
+lon = -0.110394
+

@@ -1,0 +1,18 @@
+title = "AnimeIowa"
+start_date = 2020-07-31
+end_date = 2020-08-02
+tags = []
+
+[website]
+title = "animeiowa.com"
+url = "https://animeiowa.com/"
+
+[address]
+address = "Coralville Marriott Hotel & Conference Center\nCoralville, IA\nUSA"
+city = "Coralville, IA"
+country = "USA"
+
+[address.coordinates]
+lat = 41.681458
+lon = -91.558586
+

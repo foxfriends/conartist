@@ -1,0 +1,18 @@
+title = "Romics"
+start_date = 2020-04-02
+end_date = 2020-04-05
+tags = []
+
+[website]
+title = "www.romics.it"
+url = "https://www.romics.it/en"
+
+[address]
+address = "Fiera di Roma\nRome, Italy"
+city = "Rome"
+country = "Italy"
+
+[address.coordinates]
+lat = 41.80716
+lon = 12.328274
+

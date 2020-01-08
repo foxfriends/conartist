@@ -1,0 +1,18 @@
+title = "BistoCon"
+start_date = 2020-08-06
+end_date = 2020-08-09
+tags = []
+
+[website]
+title = "bistocon.org"
+url = "http://bistocon.org/"
+
+[address]
+address = "La Quinta Inn & Suites Detroit Metro Airport\nRomulus, MI\nUSA"
+city = "Romulus, MI"
+country = "USA"
+
+[address.coordinates]
+lat = 42.243073
+lon = -83.34147
+

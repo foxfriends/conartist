@@ -1,0 +1,18 @@
+title = "San Japan"
+start_date = 2020-09-04
+end_date = 2020-09-06
+tags = []
+
+[website]
+title = "san-japan.org"
+url = "https://san-japan.org/"
+
+[address]
+address = "Henry B. Gonzalez Convention Center\nSan Antonio, TX\nUSA"
+city = "San Antonio, TX"
+country = "USA"
+
+[address.coordinates]
+lat = 29.421484
+lon = -98.48635
+

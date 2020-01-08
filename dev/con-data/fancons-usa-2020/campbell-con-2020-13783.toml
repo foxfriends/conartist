@@ -1,0 +1,18 @@
+title = "Campbell Con"
+start_date = 2020-06-13
+end_date = 2020-06-13
+tags = []
+
+[website]
+title = "www.campbellcon.com"
+url = "https://www.campbellcon.com/"
+
+[address]
+address = "Circus Circus Reno\nReno, NV\nUSA"
+city = "Reno, NV"
+country = "USA"
+
+[address.coordinates]
+lat = 39.531605
+lon = -119.815384
+

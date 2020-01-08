@@ -1,0 +1,18 @@
+title = "Realms Con"
+start_date = 2020-10-02
+end_date = 2020-10-04
+tags = []
+
+[website]
+title = "realmscon.com"
+url = "https://realmscon.com/"
+
+[address]
+address = "Omni Corpus Christi Hotel\nCorpus Christi, TX\nUSA"
+city = "Corpus Christi, TX"
+country = "USA"
+
+[address.coordinates]
+lat = 27.800486
+lon = -97.39226
+

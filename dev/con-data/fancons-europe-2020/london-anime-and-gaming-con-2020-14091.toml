@@ -1,0 +1,18 @@
+title = "London Anime & Gaming Con"
+start_date = 2020-07-03
+end_date = 2020-07-05
+tags = []
+
+[website]
+title = "summer.londonanimecon.com"
+url = "https://summer.londonanimecon.com/"
+
+[address]
+address = "London Metropolitan University, The Rocket Complex\nLondon, UK"
+city = "London"
+country = "UK"
+
+[address.coordinates]
+lat = 51.551727
+lon = -0.110394
+

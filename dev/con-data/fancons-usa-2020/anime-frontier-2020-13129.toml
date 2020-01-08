@@ -1,0 +1,18 @@
+title = "Anime Frontier"
+start_date = 2020-05-08
+end_date = 2020-05-10
+tags = []
+
+[website]
+title = "animefrontier.com"
+url = "http://animefrontier.com/"
+
+[address]
+address = "Fort Worth Convention Center\nFort Worth, TX\nUSA"
+city = "Fort Worth, TX"
+country = "USA"
+
+[address.coordinates]
+lat = 32.74982
+lon = -97.32796
+

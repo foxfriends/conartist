@@ -1,0 +1,18 @@
+title = "Indiana Comic Convention"
+start_date = 2020-04-10
+end_date = 2020-04-12
+tags = []
+
+[website]
+title = "indianacomicconvention.com"
+url = "https://indianacomicconvention.com/"
+
+[address]
+address = "Indiana Convention Center\nIndianapolis, IN\nUSA"
+city = "Indianapolis, IN"
+country = "USA"
+
+[address.coordinates]
+lat = 39.764526
+lon = -86.16438
+

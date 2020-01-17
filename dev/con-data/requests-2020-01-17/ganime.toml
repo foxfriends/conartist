@@ -1,0 +1,17 @@
+title = "G-Anime Winter"
+start_date = 2020-01-17
+end_date = 2020-01-19
+
+[website]
+title = "hiver.ganime.ca"
+url = "https://hiver.ganime.ca/"
+
+[address]
+address = "Palais des Congrès de Gatineau\nGatineau, QC, Canada\nJ9J 0R6"
+city = "Gatineau, QC"
+country = "Canada"
+
+[address.coordinates]
+lat = 45.426685
+lon = -75.7151
+

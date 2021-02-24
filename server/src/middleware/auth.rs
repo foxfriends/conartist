@@ -3,7 +3,6 @@
 use iron::prelude::*;
 use iron::headers::{Authorization, Bearer};
 use iron::{BeforeMiddleware, status};
-use std::error::Error;
 use jsonwebtoken::{decode, Validation};
 
 use crate::rest::authtoken::Claims;
@@ -21,7 +20,7 @@ impl BeforeMiddleware for VerifyJWT {
     fn before(&self, request: &mut Request<'_, '_>) -> IronResult<()> {
         if let Some(auth) = request.headers.get::<Authorization<Bearer>>() {
             let claims = decode::<Claims>(&auth.token, JWT_SECRET.as_ref(), &Validation::default())
-                .map_err(|err| IronError::new(StringError(err.description().to_string()), status::Unauthorized))?;
+                .map_err(|err| IronError::new(StringError(err.to_string()), status::Unauthorized))?;
             request.extensions.insert::<Claims>(claims.claims);
             Ok(())
         } else {

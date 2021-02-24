@@ -55,7 +55,7 @@ fn main() {
         } else {
             CorsMiddleware::with_whitelist([
                 format!("https://{}", CONARTIST_BASE_URL.to_string()),
-            ].into_iter().cloned().collect())
+            ].iter().cloned().collect())
         };
 
     let graphql =

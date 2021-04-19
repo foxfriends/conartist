@@ -85,7 +85,6 @@
 		326B7E1421FEA52B00E8DF34 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EDE204202DB00DA4593 /* Keychain.swift */; };
 		326B7E1521FEA52B00E8DF34 /* ConventionSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B1721AFC48500387349 /* ConventionSearchViewController.swift */; };
 		326B7E1621FEA52B00E8DF34 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DFCF5820DDE592007FFE70 /* Location.swift */; };
-		326B7E1721FEA52B00E8DF34 /* Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A8C21AB58FD00387349 /* Evaluator.swift */; };
 		326B7E1821FEA52B00E8DF34 /* UIFont+Features.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F12C0F203544E60045D0BC /* UIFont+Features.swift */; };
 		326B7E1921FEA52B00E8DF34 /* UIColor+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32637A8F2190983C005E2F6C /* UIColor+Constants.swift */; };
 		326B7E1A21FEA52B00E8DF34 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B9101220439F97002F9C94 /* Resources.swift */; };
@@ -95,10 +94,8 @@
 		326B7E1E21FEA52B00E8DF34 /* RecordDetailsItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4BB14205B44E000B0A397 /* RecordDetailsItemCollectionViewCell.swift */; };
 		326B7E1F21FEA52B00E8DF34 /* ConArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592941FEAFA6000DE89BB /* ConArtist.swift */; };
 		326B7E2021FEA52B00E8DF34 /* Suggestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B0721AF979E00387349 /* Suggestion.swift */; };
-		326B7E2121FEA52B00E8DF34 /* Toml.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A8F21AB58FD00387349 /* Toml.swift */; };
 		326B7E2221FEA52B00E8DF34 /* String+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322C6A0C204CC2810021A2D9 /* String+Localization.swift */; };
 		326B7E2321FEA52B00E8DF34 /* ManageProductTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32637A7621893EB7005E2F6C /* ManageProductTypeTableViewCell.swift */; };
-		326B7E2421FEA52B00E8DF34 /* Grammar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A9221AB58FD00387349 /* Grammar.swift */; };
 		326B7E2521FEA52B00E8DF34 /* UIButton+ConArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EBC203BD2F000DA4593 /* UIButton+ConArtist.swift */; };
 		326B7E2621FEA52B00E8DF34 /* RootNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AE416620253D5C0061EB64 /* RootNavigationController.swift */; };
 		326B7E2721FEA52B00E8DF34 /* RecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C39C2E201EA5B300071E26 /* RecordTableViewCell.swift */; };
@@ -120,8 +117,6 @@
 		326B7E3721FEA52B00E8DF34 /* Id.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D45CB920A4A54400F7A67F /* Id.swift */; };
 		326B7E3821FEA52B00E8DF34 /* ConventionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C39C2F201EA5B300071E26 /* ConventionTableViewCell.swift */; };
 		326B7E3921FEA52B00E8DF34 /* ApolloClient+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C39C1B201E812D00071E26 /* ApolloClient+Rx.swift */; };
-		326B7E3A21FEA52B00E8DF34 /* Serialize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A8B21AB58FD00387349 /* Serialize.swift */; };
-		326B7E3B21FEA52B00E8DF34 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A9421AB58FD00387349 /* Parser.swift */; };
 		326B7E3C21FEA52B00E8DF34 /* OtherConventionInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DF59AF21964B6D006202B1 /* OtherConventionInfoTableViewCell.swift */; };
 		326B7E3D21FEA52B00E8DF34 /* ManagePriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32637AA22190A77E005E2F6C /* ManagePriceTableViewCell.swift */; };
 		326B7E3E21FEA52B00E8DF34 /* EditProductTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32637A7E218A54E9005E2F6C /* EditProductTypeViewController.swift */; };
@@ -129,16 +124,12 @@
 		326B7E4021FEA52B00E8DF34 /* SettingsSelectOptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B9101E2048F282002F9C94 /* SettingsSelectOptionTableViewCell.swift */; };
 		326B7E4121FEA52B00E8DF34 /* String+Attributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CFB1D420DCB0EB00672EC9 /* String+Attributes.swift */; };
 		326B7E4221FEA52B00E8DF34 /* SettingsSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B9101C2048F113002F9C94 /* SettingsSelectViewController.swift */; };
-		326B7E4321FEA52B00E8DF34 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A9121AB58FD00387349 /* Regex.swift */; };
 		326B7E4421FEA52B00E8DF34 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AD801C21EA44B5005B75D0 /* SignUpViewController.swift */; };
-		326B7E4521FEA52B00E8DF34 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A8E21AB58FD00387349 /* Helpers.swift */; };
 		326B7E4621FEA52B00E8DF34 /* ExpenseDetailsOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32254DDE205F4CDD003E021F /* ExpenseDetailsOverlayViewController.swift */; };
 		326B7E4721FEA52B00E8DF34 /* ConventionUserInfoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322C6A12204E1D070021A2D9 /* ConventionUserInfoListViewController.swift */; };
-		326B7E4821FEA52B00E8DF34 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A9021AB58FD00387349 /* Path.swift */; };
 		326B7E4921FEA52B00E8DF34 /* Prices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C9F9BD20265A840004566E /* Prices.swift */; };
 		326B7E4A21FEA52B00E8DF34 /* ProductListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BC33DC1FEEED030006256A /* ProductListViewController.swift */; };
 		326B7E4B21FEA52B00E8DF34 /* Optional+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36ED52040F57000DA4593 /* Optional+Helpers.swift */; };
-		326B7E4C21FEA52B00E8DF34 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A8921AB58FD00387349 /* Date.swift */; };
 		326B7E4D21FEA52B00E8DF34 /* EmptyStateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B0F21AF9C0B00387349 /* EmptyStateTableViewCell.swift */; };
 		326B7E4E21FEA52B00E8DF34 /* String+Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322C6A0E204CC8B40021A2D9 /* String+Display.swift */; };
 		326B7E4F21FEA52B00E8DF34 /* ConventionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C39C35201EA66800071E26 /* ConventionDetailsViewController.swift */; };
@@ -158,14 +149,12 @@
 		326B7E5D21FEA52B00E8DF34 /* Array+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32892C43203530C800F1AD9C /* Array+Safe.swift */; };
 		326B7E5E21FEA52B00E8DF34 /* FakeNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EB620371BC700DA4593 /* FakeNavBar.swift */; };
 		326B7E5F21FEA52B00E8DF34 /* NewExpenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B910162044F80B002F9C94 /* NewExpenseViewController.swift */; };
-		326B7E6021FEA52B00E8DF34 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A9321AB58FD00387349 /* String.swift */; };
 		326B7E6121FEA52B00E8DF34 /* SuggestionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B0521AF963900387349 /* SuggestionsViewController.swift */; };
 		326B7E6221FEA52B00E8DF34 /* String+Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E80BD6201700EB0008EC27 /* String+Conversion.swift */; };
 		326B7E6321FEA52B00E8DF34 /* RecordDetailsOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4BB10205B3E5500B0A397 /* RecordDetailsOverlayViewController.swift */; };
 		326B7E6421FEA52B00E8DF34 /* LoadingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B0D21AF9B9200387349 /* LoadingTableViewCell.swift */; };
 		326B7E6521FEA52B00E8DF34 /* FancyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32892C3F20352D1500F1AD9C /* FancyTextField.swift */; };
 		326B7E6621FEA52B00E8DF34 /* ConventionUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EE3204226B100DA4593 /* ConventionUserInfo.swift */; };
-		326B7E6721FEA52B00E8DF34 /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A8A21AB58FD00387349 /* Lexer.swift */; };
 		326B7E6821FEA52B00E8DF34 /* ConventionExtraInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B36EC0203BE0E600DA4593 /* ConventionExtraInfo.swift */; };
 		326B7E6921FEA52B00E8DF34 /* EditProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32637A80218A54F3005E2F6C /* EditProductViewController.swift */; };
 		326B7E6A21FEA52B00E8DF34 /* RecordSummaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EAB1C205247E900B1BE3E /* RecordSummaryTableViewCell.swift */; };
@@ -198,7 +187,6 @@
 		326B7E8521FEA52B00E8DF34 /* ConventionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324592A11FEB4B4D00DE89BB /* ConventionListViewController.swift */; };
 		326B7E8621FEA52B00E8DF34 /* ManageProductTypesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32637A7221893431005E2F6C /* ManageProductTypesViewController.swift */; };
 		326B7E8721FEA52B00E8DF34 /* SuggestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B1121AF9CA300387349 /* SuggestionTableViewCell.swift */; };
-		326B7E8821FEA52B00E8DF34 /* Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A8D21AB58FD00387349 /* Tokens.swift */; };
 		326B7E8A21FEA52B00E8DF34 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32CFB1DE20DCB7B900672EC9 /* MapKit.framework */; };
 		326B7E8D21FEA52B00E8DF34 /* star.svg in Resources */ = {isa = PBXBuildFile; fileRef = 32CD6B1C21B0AB3500387349 /* star.svg */; };
 		326B7E8F21FEA52B00E8DF34 /* Debug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 327C5D7820817A81007EEF71 /* Debug.plist */; };
@@ -286,18 +274,6 @@
 		32C39C36201EA66800071E26 /* ConventionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C39C35201EA66800071E26 /* ConventionDetailsViewController.swift */; };
 		32C9F9B920264BE00004566E /* ProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C9F9B820264BE00004566E /* ProductTableViewCell.swift */; };
 		32C9F9BE20265A840004566E /* Prices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C9F9BD20265A840004566E /* Prices.swift */; };
-		32CD6AF721AB58FD00387349 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A8921AB58FD00387349 /* Date.swift */; };
-		32CD6AF821AB58FD00387349 /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A8A21AB58FD00387349 /* Lexer.swift */; };
-		32CD6AF921AB58FD00387349 /* Serialize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A8B21AB58FD00387349 /* Serialize.swift */; };
-		32CD6AFA21AB58FD00387349 /* Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A8C21AB58FD00387349 /* Evaluator.swift */; };
-		32CD6AFB21AB58FD00387349 /* Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A8D21AB58FD00387349 /* Tokens.swift */; };
-		32CD6AFC21AB58FD00387349 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A8E21AB58FD00387349 /* Helpers.swift */; };
-		32CD6AFD21AB58FD00387349 /* Toml.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A8F21AB58FD00387349 /* Toml.swift */; };
-		32CD6AFE21AB58FD00387349 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A9021AB58FD00387349 /* Path.swift */; };
-		32CD6AFF21AB58FD00387349 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A9121AB58FD00387349 /* Regex.swift */; };
-		32CD6B0021AB58FD00387349 /* Grammar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A9221AB58FD00387349 /* Grammar.swift */; };
-		32CD6B0121AB58FD00387349 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A9321AB58FD00387349 /* String.swift */; };
-		32CD6B0221AB58FD00387349 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6A9421AB58FD00387349 /* Parser.swift */; };
 		32CD6B0621AF963900387349 /* SuggestionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B0521AF963900387349 /* SuggestionsViewController.swift */; };
 		32CD6B0821AF979E00387349 /* Suggestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B0721AF979E00387349 /* Suggestion.swift */; };
 		32CD6B0A21AF97D900387349 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CD6B0921AF97D900387349 /* Connection.swift */; };
@@ -402,8 +378,8 @@
 		32637AA22190A77E005E2F6C /* ManagePriceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagePriceTableViewCell.swift; sourceTree = "<group>"; };
 		32637AA42190AB49005E2F6C /* EditPriceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPriceViewController.swift; sourceTree = "<group>"; };
 		3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
+		326A1293262E3D5600FE6EE5 /* ConArtist DEV-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ConArtist DEV-Info.plist"; sourceTree = "<group>"; };
 		326B7EAC21FEA52B00E8DF34 /* ConArtist DEV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ConArtist DEV.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		326B7EAD21FEA52B00E8DF34 /* ConArtist DEV-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ConArtist DEV-Info.plist"; path = "/Users/cam/code/conartist/ios/ConArtist DEV-Info.plist"; sourceTree = "<absolute>"; };
 		327B8EB72202C061004757D3 /* verified.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = verified.svg; sourceTree = "<group>"; };
 		327B8EB82202C061004757D3 /* warning.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = warning.svg; sourceTree = "<group>"; };
 		327B8EBD2202C4F3004757D3 /* Unit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unit.swift; sourceTree = "<group>"; };
@@ -461,18 +437,6 @@
 		32C39C35201EA66800071E26 /* ConventionDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConventionDetailsViewController.swift; sourceTree = "<group>"; };
 		32C9F9B820264BE00004566E /* ProductTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductTableViewCell.swift; sourceTree = "<group>"; };
 		32C9F9BD20265A840004566E /* Prices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prices.swift; sourceTree = "<group>"; };
-		32CD6A8921AB58FD00387349 /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
-		32CD6A8A21AB58FD00387349 /* Lexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
-		32CD6A8B21AB58FD00387349 /* Serialize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Serialize.swift; sourceTree = "<group>"; };
-		32CD6A8C21AB58FD00387349 /* Evaluator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Evaluator.swift; sourceTree = "<group>"; };
-		32CD6A8D21AB58FD00387349 /* Tokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tokens.swift; sourceTree = "<group>"; };
-		32CD6A8E21AB58FD00387349 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
-		32CD6A8F21AB58FD00387349 /* Toml.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toml.swift; sourceTree = "<group>"; };
-		32CD6A9021AB58FD00387349 /* Path.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
-		32CD6A9121AB58FD00387349 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
-		32CD6A9221AB58FD00387349 /* Grammar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grammar.swift; sourceTree = "<group>"; };
-		32CD6A9321AB58FD00387349 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
-		32CD6A9421AB58FD00387349 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		32CD6B0521AF963900387349 /* SuggestionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionsViewController.swift; sourceTree = "<group>"; };
 		32CD6B0721AF979E00387349 /* Suggestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Suggestion.swift; sourceTree = "<group>"; };
 		32CD6B0921AF97D900387349 /* Connection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
@@ -563,10 +527,9 @@
 		321B75D81F9BAD320055EBC4 /* ConArtist */ = {
 			isa = PBXGroup;
 			children = (
-				32CD6A2221AB58FC00387349 /* Vendored */,
 				327C5D77208179D7007EEF71 /* Config */,
 				321B75E81F9BAD320055EBC4 /* Info.plist */,
-				326B7EAD21FEA52B00E8DF34 /* ConArtist DEV-Info.plist */,
+				326A1293262E3D5600FE6EE5 /* ConArtist DEV-Info.plist */,
 				321B75D91F9BAD320055EBC4 /* AppDelegate.swift */,
 				32B91025204B14A3002F9C94 /* Navigation */,
 				32B36ED92041FFD600DA4593 /* Services */,
@@ -943,49 +906,6 @@
 			path = API;
 			sourceTree = "<group>";
 		};
-		32CD6A2221AB58FC00387349 /* Vendored */ = {
-			isa = PBXGroup;
-			children = (
-				32CD6A2321AB58FC00387349 /* swift-toml */,
-			);
-			path = Vendored;
-			sourceTree = "<group>";
-		};
-		32CD6A2321AB58FC00387349 /* swift-toml */ = {
-			isa = PBXGroup;
-			children = (
-				32CD6A8721AB58FD00387349 /* Sources */,
-			);
-			path = "swift-toml";
-			sourceTree = "<group>";
-		};
-		32CD6A8721AB58FD00387349 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				32CD6A8821AB58FD00387349 /* Toml */,
-			);
-			path = Sources;
-			sourceTree = "<group>";
-		};
-		32CD6A8821AB58FD00387349 /* Toml */ = {
-			isa = PBXGroup;
-			children = (
-				32CD6A8921AB58FD00387349 /* Date.swift */,
-				32CD6A8A21AB58FD00387349 /* Lexer.swift */,
-				32CD6A8B21AB58FD00387349 /* Serialize.swift */,
-				32CD6A8C21AB58FD00387349 /* Evaluator.swift */,
-				32CD6A8D21AB58FD00387349 /* Tokens.swift */,
-				32CD6A8E21AB58FD00387349 /* Helpers.swift */,
-				32CD6A8F21AB58FD00387349 /* Toml.swift */,
-				32CD6A9021AB58FD00387349 /* Path.swift */,
-				32CD6A9121AB58FD00387349 /* Regex.swift */,
-				32CD6A9221AB58FD00387349 /* Grammar.swift */,
-				32CD6A9321AB58FD00387349 /* String.swift */,
-				32CD6A9421AB58FD00387349 /* Parser.swift */,
-			);
-			path = Toml;
-			sourceTree = "<group>";
-		};
 		32CD6B0421AF962C00387349 /* Suggestions */ = {
 			isa = PBXGroup;
 			children = (
@@ -1223,7 +1143,7 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
+			shellPath = "/bin/bash -l";
 			shellScript = "SCRIPT_PATH=\"${PODS_ROOT}/Apollo/scripts\"\ncd \"${SRCROOT}/ConArtist\"\n${SCRIPT_PATH}/check-and-run-apollo-cli.sh codegen:generate --target=swift --includes=${SRCROOT}/../shared/graphql/**/*.graphql --localSchemaFile=${SRCROOT}/../shared/graphql/schema.json ${SRCROOT}/ConArtist/Services/API/GraphQL.swift\n${SCRIPT_PATH}/check-and-run-apollo-cli.sh codegen:generate --target=swift --includes=${SRCROOT}/../shared/resources/query/*.graphql --localSchemaFile=${SRCROOT}/../shared/resources/resources.json ${SRCROOT}/ConArtist/Services/API/Resources.swift\n";
 		};
 		326B7E0221FEA52B00E8DF34 /* Generate Apollo GraphQL API */ = {
@@ -1237,7 +1157,7 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
+			shellPath = "/bin/bash -l";
 			shellScript = "SCRIPT_PATH=\"${PODS_ROOT}/Apollo/scripts\"\ncd \"${SRCROOT}/ConArtist\"\n${SCRIPT_PATH}/check-and-run-apollo-cli.sh codegen:generate --target=swift --includes=${SRCROOT}/../shared/graphql/**/*.graphql --localSchemaFile=${SRCROOT}/../shared/graphql/schema.json ${SRCROOT}/ConArtist/Services/API/GraphQL.swift\n${SCRIPT_PATH}/check-and-run-apollo-cli.sh codegen:generate --target=swift --includes=${SRCROOT}/../shared/resources/query/*.graphql --localSchemaFile=${SRCROOT}/../shared/resources/resources.json ${SRCROOT}/ConArtist/Services/API/Resources.swift\n";
 		};
 		326B7EA721FEA52B00E8DF34 /* Copy Configuration Files */ = {
@@ -1423,7 +1343,6 @@
 				32CD6B1821AFC48500387349 /* ConventionSearchViewController.swift in Sources */,
 				325FE08E220E56B1006BA52A /* UIView.AnimationCurve+AsOptions.swift in Sources */,
 				32DFCF5920DDE592007FFE70 /* Location.swift in Sources */,
-				32CD6AFA21AB58FD00387349 /* Evaluator.swift in Sources */,
 				32F12C10203544E60045D0BC /* UIFont+Features.swift in Sources */,
 				32637A902190983C005E2F6C /* UIColor+Constants.swift in Sources */,
 				32B9101320439F97002F9C94 /* Resources.swift in Sources */,
@@ -1433,10 +1352,8 @@
 				32D4BB15205B44E000B0A397 /* RecordDetailsItemCollectionViewCell.swift in Sources */,
 				324592951FEAFA6000DE89BB /* ConArtist.swift in Sources */,
 				32CD6B0821AF979E00387349 /* Suggestion.swift in Sources */,
-				32CD6AFD21AB58FD00387349 /* Toml.swift in Sources */,
 				322C6A0D204CC2810021A2D9 /* String+Localization.swift in Sources */,
 				32637A7721893EB7005E2F6C /* ManageProductTypeTableViewCell.swift in Sources */,
-				32CD6B0021AB58FD00387349 /* Grammar.swift in Sources */,
 				32B36EBD203BD2F000DA4593 /* UIButton+ConArtist.swift in Sources */,
 				32AE416720253D5C0061EB64 /* RootNavigationController.swift in Sources */,
 				32C39C31201EA5B400071E26 /* RecordTableViewCell.swift in Sources */,
@@ -1458,8 +1375,6 @@
 				32D45CBA20A4A54400F7A67F /* Id.swift in Sources */,
 				32C39C32201EA5B400071E26 /* ConventionTableViewCell.swift in Sources */,
 				32C39C1C201E812D00071E26 /* ApolloClient+Rx.swift in Sources */,
-				32CD6AF921AB58FD00387349 /* Serialize.swift in Sources */,
-				32CD6B0221AB58FD00387349 /* Parser.swift in Sources */,
 				32DF59B021964B6D006202B1 /* OtherConventionInfoTableViewCell.swift in Sources */,
 				32637AA32190A77E005E2F6C /* ManagePriceTableViewCell.swift in Sources */,
 				32637A7F218A54E9005E2F6C /* EditProductTypeViewController.swift in Sources */,
@@ -1467,17 +1382,13 @@
 				32B9101F2048F282002F9C94 /* SettingsSelectOptionTableViewCell.swift in Sources */,
 				32CFB1D520DCB0EB00672EC9 /* String+Attributes.swift in Sources */,
 				32B9101D2048F113002F9C94 /* SettingsSelectViewController.swift in Sources */,
-				32CD6AFF21AB58FD00387349 /* Regex.swift in Sources */,
 				32AD801D21EA44B6005B75D0 /* SignUpViewController.swift in Sources */,
 				327B8EBE2202C4F3004757D3 /* Unit.swift in Sources */,
-				32CD6AFC21AB58FD00387349 /* Helpers.swift in Sources */,
 				32254DDF205F4CDD003E021F /* ExpenseDetailsOverlayViewController.swift in Sources */,
 				322C6A13204E1D070021A2D9 /* ConventionUserInfoListViewController.swift in Sources */,
-				32CD6AFE21AB58FD00387349 /* Path.swift in Sources */,
 				32C9F9BE20265A840004566E /* Prices.swift in Sources */,
 				32BC33DD1FEEED030006256A /* ProductListViewController.swift in Sources */,
 				32B36ED62040F57000DA4593 /* Optional+Helpers.swift in Sources */,
-				32CD6AF721AB58FD00387349 /* Date.swift in Sources */,
 				32CD6B1021AF9C0B00387349 /* EmptyStateTableViewCell.swift in Sources */,
 				322C6A0F204CC8B40021A2D9 /* String+Display.swift in Sources */,
 				32C39C36201EA66800071E26 /* ConventionDetailsViewController.swift in Sources */,
@@ -1497,7 +1408,6 @@
 				32892C44203530C800F1AD9C /* Array+Safe.swift in Sources */,
 				32B36EB720371BC700DA4593 /* FakeNavBar.swift in Sources */,
 				32B910172044F80B002F9C94 /* NewExpenseViewController.swift in Sources */,
-				32CD6B0121AB58FD00387349 /* String.swift in Sources */,
 				32CD6B0621AF963900387349 /* SuggestionsViewController.swift in Sources */,
 				32E80BD7201700EB0008EC27 /* String+Conversion.swift in Sources */,
 				32D4BB11205B3E5500B0A397 /* RecordDetailsOverlayViewController.swift in Sources */,
@@ -1505,7 +1415,6 @@
 				32CD6B0E21AF9B9200387349 /* LoadingTableViewCell.swift in Sources */,
 				32892C4020352D1500F1AD9C /* FancyTextField.swift in Sources */,
 				32B36EE4204226B100DA4593 /* ConventionUserInfo.swift in Sources */,
-				32CD6AF821AB58FD00387349 /* Lexer.swift in Sources */,
 				32B36EC1203BE0E600DA4593 /* ConventionExtraInfo.swift in Sources */,
 				32637A81218A54F3005E2F6C /* EditProductViewController.swift in Sources */,
 				327B8EC42203B9F8004757D3 /* UIView+CustomToast.swift in Sources */,
@@ -1539,7 +1448,6 @@
 				324592A21FEB4B4D00DE89BB /* ConventionListViewController.swift in Sources */,
 				32637A7321893431005E2F6C /* ManageProductTypesViewController.swift in Sources */,
 				32CD6B1221AF9CA300387349 /* SuggestionTableViewCell.swift in Sources */,
-				32CD6AFB21AB58FD00387349 /* Tokens.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1567,7 +1475,6 @@
 				326B7E1521FEA52B00E8DF34 /* ConventionSearchViewController.swift in Sources */,
 				325FE08F220E5700006BA52A /* UIView.AnimationCurve+AsOptions.swift in Sources */,
 				326B7E1621FEA52B00E8DF34 /* Location.swift in Sources */,
-				326B7E1721FEA52B00E8DF34 /* Evaluator.swift in Sources */,
 				326B7E1821FEA52B00E8DF34 /* UIFont+Features.swift in Sources */,
 				326B7E1921FEA52B00E8DF34 /* UIColor+Constants.swift in Sources */,
 				326B7E1A21FEA52B00E8DF34 /* Resources.swift in Sources */,
@@ -1577,10 +1484,8 @@
 				326B7E1E21FEA52B00E8DF34 /* RecordDetailsItemCollectionViewCell.swift in Sources */,
 				326B7E1F21FEA52B00E8DF34 /* ConArtist.swift in Sources */,
 				326B7E2021FEA52B00E8DF34 /* Suggestion.swift in Sources */,
-				326B7E2121FEA52B00E8DF34 /* Toml.swift in Sources */,
 				326B7E2221FEA52B00E8DF34 /* String+Localization.swift in Sources */,
 				326B7E2321FEA52B00E8DF34 /* ManageProductTypeTableViewCell.swift in Sources */,
-				326B7E2421FEA52B00E8DF34 /* Grammar.swift in Sources */,
 				326B7E2521FEA52B00E8DF34 /* UIButton+ConArtist.swift in Sources */,
 				326B7E2621FEA52B00E8DF34 /* RootNavigationController.swift in Sources */,
 				326B7E2721FEA52B00E8DF34 /* RecordTableViewCell.swift in Sources */,
@@ -1602,8 +1507,6 @@
 				326B7E3721FEA52B00E8DF34 /* Id.swift in Sources */,
 				326B7E3821FEA52B00E8DF34 /* ConventionTableViewCell.swift in Sources */,
 				326B7E3921FEA52B00E8DF34 /* ApolloClient+Rx.swift in Sources */,
-				326B7E3A21FEA52B00E8DF34 /* Serialize.swift in Sources */,
-				326B7E3B21FEA52B00E8DF34 /* Parser.swift in Sources */,
 				326B7E3C21FEA52B00E8DF34 /* OtherConventionInfoTableViewCell.swift in Sources */,
 				326B7E3D21FEA52B00E8DF34 /* ManagePriceTableViewCell.swift in Sources */,
 				326B7E3E21FEA52B00E8DF34 /* EditProductTypeViewController.swift in Sources */,
@@ -1611,17 +1514,13 @@
 				326B7E4021FEA52B00E8DF34 /* SettingsSelectOptionTableViewCell.swift in Sources */,
 				326B7E4121FEA52B00E8DF34 /* String+Attributes.swift in Sources */,
 				326B7E4221FEA52B00E8DF34 /* SettingsSelectViewController.swift in Sources */,
-				326B7E4321FEA52B00E8DF34 /* Regex.swift in Sources */,
 				326B7E4421FEA52B00E8DF34 /* SignUpViewController.swift in Sources */,
 				327B8EBF2202C4F3004757D3 /* Unit.swift in Sources */,
-				326B7E4521FEA52B00E8DF34 /* Helpers.swift in Sources */,
 				326B7E4621FEA52B00E8DF34 /* ExpenseDetailsOverlayViewController.swift in Sources */,
 				326B7E4721FEA52B00E8DF34 /* ConventionUserInfoListViewController.swift in Sources */,
-				326B7E4821FEA52B00E8DF34 /* Path.swift in Sources */,
 				326B7E4921FEA52B00E8DF34 /* Prices.swift in Sources */,
 				326B7E4A21FEA52B00E8DF34 /* ProductListViewController.swift in Sources */,
 				326B7E4B21FEA52B00E8DF34 /* Optional+Helpers.swift in Sources */,
-				326B7E4C21FEA52B00E8DF34 /* Date.swift in Sources */,
 				326B7E4D21FEA52B00E8DF34 /* EmptyStateTableViewCell.swift in Sources */,
 				326B7E4E21FEA52B00E8DF34 /* String+Display.swift in Sources */,
 				326B7E4F21FEA52B00E8DF34 /* ConventionDetailsViewController.swift in Sources */,
@@ -1641,7 +1540,6 @@
 				326B7E5D21FEA52B00E8DF34 /* Array+Safe.swift in Sources */,
 				326B7E5E21FEA52B00E8DF34 /* FakeNavBar.swift in Sources */,
 				326B7E5F21FEA52B00E8DF34 /* NewExpenseViewController.swift in Sources */,
-				326B7E6021FEA52B00E8DF34 /* String.swift in Sources */,
 				326B7E6121FEA52B00E8DF34 /* SuggestionsViewController.swift in Sources */,
 				326B7E6221FEA52B00E8DF34 /* String+Conversion.swift in Sources */,
 				326B7E6321FEA52B00E8DF34 /* RecordDetailsOverlayViewController.swift in Sources */,
@@ -1649,7 +1547,6 @@
 				326B7E6421FEA52B00E8DF34 /* LoadingTableViewCell.swift in Sources */,
 				326B7E6521FEA52B00E8DF34 /* FancyTextField.swift in Sources */,
 				326B7E6621FEA52B00E8DF34 /* ConventionUserInfo.swift in Sources */,
-				326B7E6721FEA52B00E8DF34 /* Lexer.swift in Sources */,
 				326B7E6821FEA52B00E8DF34 /* ConventionExtraInfo.swift in Sources */,
 				326B7E6921FEA52B00E8DF34 /* EditProductViewController.swift in Sources */,
 				327B8EC52203BA16004757D3 /* UIView+CustomToast.swift in Sources */,
@@ -1683,7 +1580,6 @@
 				326B7E8521FEA52B00E8DF34 /* ConventionListViewController.swift in Sources */,
 				326B7E8621FEA52B00E8DF34 /* ManageProductTypesViewController.swift in Sources */,
 				326B7E8721FEA52B00E8DF34 /* SuggestionTableViewCell.swift in Sources */,
-				326B7E8821FEA52B00E8DF34 /* Tokens.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

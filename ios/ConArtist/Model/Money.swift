@@ -9,7 +9,7 @@
 import Foundation
 
 enum CurrencyCode: String, Codable, Equatable, CaseIterable {
-    case AUTO, CAD, USD, MXN, AUD, EUR, GBP, SEK, CNY, JPY, PHP, SGD
+    case AUTO, CAD, USD, MXN, AUD, EUR, GBP, SEK, CNY, JPY, PHP, SGD, NZD
 
     var symbol: [String] {
         switch self {
@@ -25,6 +25,7 @@ enum CurrencyCode: String, Codable, Equatable, CaseIterable {
         case .JPY: return ["￥", "¥", "JP¥", "JP￥"]
         case .PHP: return ["₱"]
         case .SGD: return ["$", "S$", "$SG"]
+        case .NZD: return ["$", "NZ$", "$NZ"]
         }
     }
 }
@@ -37,7 +38,7 @@ struct Money: Codable {
     static func parse(as currency: CurrencyCode, _ string: String) -> Money? {
         switch currency {
         case .AUTO: return nil // cannot parse a currency as auto
-        case .CAD, .USD, .MXN, .AUD, .EUR, .GBP, .SEK, .CNY, .PHP, .SGD:
+        case .CAD, .USD, .MXN, .AUD, .EUR, .GBP, .SEK, .CNY, .PHP, .SGD, .NZD:
             return parseDollarsAndCents(string, currency: currency)
         case .JPY:
             return parseJustDollars(string, currency: currency)
@@ -108,7 +109,7 @@ extension Money {
     /// Approximates this value as a float
     var numericValue: Float {
         switch currency {
-        case .CAD, .USD, .MXN, .AUD, .EUR, .GBP, .SEK, .CNY, .PHP, .SGD:
+        case .CAD, .USD, .MXN, .AUD, .EUR, .GBP, .SEK, .CNY, .PHP, .SGD, .NZD:
             return Float(amount) / 100.0
         case .JPY, .AUTO:
             return Float(amount)

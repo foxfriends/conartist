@@ -23,7 +23,8 @@ data class Money(
     CNY,
     JPY,
     PHP,
-    SGD;
+    SGD,
+    NZD;
 
     val std get() = when (this) {
       AUTO -> throw RuntimeException("Cannot print AUTO currency")
@@ -43,10 +44,11 @@ data class Money(
       JPY -> listOf("￥", "¥", "JP¥", "JP￥")
       PHP -> listOf("₱")
       SGD -> listOf("$", "S$", "$SG")
+      NZD -> listOf("$", "NZ$", "$NZ")
     }
 
     companion object {
-      val variants get() = listOf(CAD, USD, MXN, AUD, EUR, GBP, SEK, CNY, JPY, PHP, SGD)
+      val variants get() = listOf(CAD, USD, MXN, AUD, EUR, GBP, SEK, CNY, JPY, PHP, SGD, NZD)
     }
   }
 
@@ -102,7 +104,8 @@ data class Money(
         Currency.SEK,
         Currency.CNY,
         Currency.PHP,
-        Currency.SGD -> parseDollarsAndCents(string, currency)
+        Currency.SGD,
+        Currency.NZD  -> parseDollarsAndCents(string, currency)
         Currency.JPY -> parseJustDollars(string, currency)
       }
 

@@ -14,8 +14,9 @@ export type Currency
   | 'JPY'
   | 'PHP'
   | 'SGD'
+  | 'NZD'
 
-export const CURRENCIES = ['CAD', 'USD', 'MXN', 'AUD', 'EUR', 'GBP', 'SEK', 'CNY', 'JPY', 'PHP', 'SGD']
+export const CURRENCIES = ['CAD', 'USD', 'MXN', 'AUD', 'EUR', 'GBP', 'SEK', 'CNY', 'JPY', 'PHP', 'SGD', 'NZD']
 
 function stripCurrencySymbol(string: string, ...symbols: string[]): string {
   for (const symbol of symbols.map(s => s.toLowerCase())) {
@@ -80,6 +81,8 @@ export class Money {
         return parseDollarsAndCents(string, currency, '₱')
       case 'SGD':
         return parseDollarsAndCents(string, currency, '$', 'S$', '$SG')
+      case 'NZD':
+        return parseDollarsAndCents(string, currency, '$', 'NZ$', '$NZ')
     }
     throw new Error(`Unknown currency to parse: ${currency}`)
   }
@@ -103,6 +106,7 @@ export class Money {
       case 'CNY':
       case 'PHP':
       case 'SGD':
+      case 'NZD':
         return (this.amount / 100.0).toLocaleString(locale, { style: 'currency', currency, useGrouping: false })
       case 'JPY':
         return this.amount.toLocaleString(locale, { style: 'currency', currency, useGrouping: false })

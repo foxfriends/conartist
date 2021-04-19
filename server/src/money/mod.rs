@@ -20,6 +20,7 @@ pub enum Currency {
     CNY,
     PHP,
     SGD,
+    NZD,
 }
 
 impl Display for Currency {

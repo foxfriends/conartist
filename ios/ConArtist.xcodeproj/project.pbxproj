@@ -66,6 +66,30 @@
 		32637AA32190A77E005E2F6C /* ManagePriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32637AA22190A77E005E2F6C /* ManagePriceTableViewCell.swift */; };
 		32637AA52190AB49005E2F6C /* EditPriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32637AA42190AB49005E2F6C /* EditPriceViewController.swift */; };
 		3266CEF720017E2C0016D5E6 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */; };
+		326A141F262E48F100FE6EE5 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A1350262E48F000FE6EE5 /* Date.swift */; };
+		326A1420262E48F100FE6EE5 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A1350262E48F000FE6EE5 /* Date.swift */; };
+		326A1421262E48F100FE6EE5 /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A1351262E48F000FE6EE5 /* Lexer.swift */; };
+		326A1422262E48F100FE6EE5 /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A1351262E48F000FE6EE5 /* Lexer.swift */; };
+		326A1423262E48F100FE6EE5 /* Serialize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A1352262E48F000FE6EE5 /* Serialize.swift */; };
+		326A1424262E48F100FE6EE5 /* Serialize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A1352262E48F000FE6EE5 /* Serialize.swift */; };
+		326A1425262E48F100FE6EE5 /* Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A1353262E48F000FE6EE5 /* Evaluator.swift */; };
+		326A1426262E48F100FE6EE5 /* Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A1353262E48F000FE6EE5 /* Evaluator.swift */; };
+		326A1427262E48F100FE6EE5 /* Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A1354262E48F100FE6EE5 /* Tokens.swift */; };
+		326A1428262E48F100FE6EE5 /* Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A1354262E48F100FE6EE5 /* Tokens.swift */; };
+		326A1429262E48F100FE6EE5 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A1355262E48F100FE6EE5 /* Helpers.swift */; };
+		326A142A262E48F100FE6EE5 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A1355262E48F100FE6EE5 /* Helpers.swift */; };
+		326A142B262E48F100FE6EE5 /* Toml.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A1356262E48F100FE6EE5 /* Toml.swift */; };
+		326A142C262E48F100FE6EE5 /* Toml.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A1356262E48F100FE6EE5 /* Toml.swift */; };
+		326A142D262E48F100FE6EE5 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A1357262E48F100FE6EE5 /* Path.swift */; };
+		326A142E262E48F100FE6EE5 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A1357262E48F100FE6EE5 /* Path.swift */; };
+		326A142F262E48F100FE6EE5 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A1358262E48F100FE6EE5 /* Regex.swift */; };
+		326A1430262E48F100FE6EE5 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A1358262E48F100FE6EE5 /* Regex.swift */; };
+		326A1431262E48F100FE6EE5 /* Grammar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A1359262E48F100FE6EE5 /* Grammar.swift */; };
+		326A1432262E48F100FE6EE5 /* Grammar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A1359262E48F100FE6EE5 /* Grammar.swift */; };
+		326A1433262E48F100FE6EE5 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A135A262E48F100FE6EE5 /* String.swift */; };
+		326A1434262E48F100FE6EE5 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A135A262E48F100FE6EE5 /* String.swift */; };
+		326A1435262E48F100FE6EE5 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A135B262E48F100FE6EE5 /* Parser.swift */; };
+		326A1436262E48F100FE6EE5 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326A135B262E48F100FE6EE5 /* Parser.swift */; };
 		326B7E0421FEA52B00E8DF34 /* ExpenseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EAB1E2052481200B1BE3E /* ExpenseTableViewCell.swift */; };
 		326B7E0521FEA52B00E8DF34 /* ConArtistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3235AD7621BC9BE500F023E5 /* ConArtistTableViewCell.swift */; };
 		326B7E0621FEA52B00E8DF34 /* String+Escape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AFB40205763C0005E56C8 /* String+Escape.swift */; };
@@ -379,6 +403,18 @@
 		32637AA42190AB49005E2F6C /* EditPriceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPriceViewController.swift; sourceTree = "<group>"; };
 		3266CEF620017E2C0016D5E6 /* UIColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		326A1293262E3D5600FE6EE5 /* ConArtist DEV-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ConArtist DEV-Info.plist"; sourceTree = "<group>"; };
+		326A1350262E48F000FE6EE5 /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		326A1351262E48F000FE6EE5 /* Lexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
+		326A1352262E48F000FE6EE5 /* Serialize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Serialize.swift; sourceTree = "<group>"; };
+		326A1353262E48F000FE6EE5 /* Evaluator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Evaluator.swift; sourceTree = "<group>"; };
+		326A1354262E48F100FE6EE5 /* Tokens.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tokens.swift; sourceTree = "<group>"; };
+		326A1355262E48F100FE6EE5 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		326A1356262E48F100FE6EE5 /* Toml.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toml.swift; sourceTree = "<group>"; };
+		326A1357262E48F100FE6EE5 /* Path.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
+		326A1358262E48F100FE6EE5 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
+		326A1359262E48F100FE6EE5 /* Grammar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grammar.swift; sourceTree = "<group>"; };
+		326A135A262E48F100FE6EE5 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		326A135B262E48F100FE6EE5 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		326B7EAC21FEA52B00E8DF34 /* ConArtist DEV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ConArtist DEV.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		327B8EB72202C061004757D3 /* verified.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = verified.svg; sourceTree = "<group>"; };
 		327B8EB82202C061004757D3 /* warning.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = warning.svg; sourceTree = "<group>"; };
@@ -527,6 +563,7 @@
 		321B75D81F9BAD320055EBC4 /* ConArtist */ = {
 			isa = PBXGroup;
 			children = (
+				326A12E9262E48F000FE6EE5 /* Vendored */,
 				327C5D77208179D7007EEF71 /* Config */,
 				321B75E81F9BAD320055EBC4 /* Info.plist */,
 				326A1293262E3D5600FE6EE5 /* ConArtist DEV-Info.plist */,
@@ -681,6 +718,49 @@
 				322AFB44205769DE005E56C8 /* Tuple.swift */,
 			);
 			path = Codables;
+			sourceTree = "<group>";
+		};
+		326A12E9262E48F000FE6EE5 /* Vendored */ = {
+			isa = PBXGroup;
+			children = (
+				326A12EA262E48F000FE6EE5 /* swift-toml */,
+			);
+			path = Vendored;
+			sourceTree = "<group>";
+		};
+		326A12EA262E48F000FE6EE5 /* swift-toml */ = {
+			isa = PBXGroup;
+			children = (
+				326A134E262E48F000FE6EE5 /* Sources */,
+			);
+			path = "swift-toml";
+			sourceTree = "<group>";
+		};
+		326A134E262E48F000FE6EE5 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				326A134F262E48F000FE6EE5 /* Toml */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		326A134F262E48F000FE6EE5 /* Toml */ = {
+			isa = PBXGroup;
+			children = (
+				326A1350262E48F000FE6EE5 /* Date.swift */,
+				326A1351262E48F000FE6EE5 /* Lexer.swift */,
+				326A1352262E48F000FE6EE5 /* Serialize.swift */,
+				326A1353262E48F000FE6EE5 /* Evaluator.swift */,
+				326A1354262E48F100FE6EE5 /* Tokens.swift */,
+				326A1355262E48F100FE6EE5 /* Helpers.swift */,
+				326A1356262E48F100FE6EE5 /* Toml.swift */,
+				326A1357262E48F100FE6EE5 /* Path.swift */,
+				326A1358262E48F100FE6EE5 /* Regex.swift */,
+				326A1359262E48F100FE6EE5 /* Grammar.swift */,
+				326A135A262E48F100FE6EE5 /* String.swift */,
+				326A135B262E48F100FE6EE5 /* Parser.swift */,
+			);
+			path = Toml;
 			sourceTree = "<group>";
 		};
 		327C5D77208179D7007EEF71 /* Config */ = {
@@ -1341,6 +1421,7 @@
 				327C5D7F2081845F007EEF71 /* Config.swift in Sources */,
 				32B36EDF204202DB00DA4593 /* Keychain.swift in Sources */,
 				32CD6B1821AFC48500387349 /* ConventionSearchViewController.swift in Sources */,
+				326A1427262E48F100FE6EE5 /* Tokens.swift in Sources */,
 				325FE08E220E56B1006BA52A /* UIView.AnimationCurve+AsOptions.swift in Sources */,
 				32DFCF5920DDE592007FFE70 /* Location.swift in Sources */,
 				32F12C10203544E60045D0BC /* UIFont+Features.swift in Sources */,
@@ -1349,15 +1430,19 @@
 				32637A79218940C3005E2F6C /* ManageProductTableViewCell.swift in Sources */,
 				32B9101B2048F049002F9C94 /* SettingsSelectTableViewCell.swift in Sources */,
 				32637A7D218A1B4A005E2F6C /* UIViewController+Alerts.swift in Sources */,
+				326A1425262E48F100FE6EE5 /* Evaluator.swift in Sources */,
 				32D4BB15205B44E000B0A397 /* RecordDetailsItemCollectionViewCell.swift in Sources */,
 				324592951FEAFA6000DE89BB /* ConArtist.swift in Sources */,
 				32CD6B0821AF979E00387349 /* Suggestion.swift in Sources */,
+				326A142D262E48F100FE6EE5 /* Path.swift in Sources */,
 				322C6A0D204CC2810021A2D9 /* String+Localization.swift in Sources */,
 				32637A7721893EB7005E2F6C /* ManageProductTypeTableViewCell.swift in Sources */,
 				32B36EBD203BD2F000DA4593 /* UIButton+ConArtist.swift in Sources */,
 				32AE416720253D5C0061EB64 /* RootNavigationController.swift in Sources */,
 				32C39C31201EA5B400071E26 /* RecordTableViewCell.swift in Sources */,
+				326A1429262E48F100FE6EE5 /* Helpers.swift in Sources */,
 				32B36EC5203E5E7D00DA4593 /* UIView+Shadows.swift in Sources */,
+				326A142F262E48F100FE6EE5 /* Regex.swift in Sources */,
 				32CD6B0A21AF97D900387349 /* Connection.swift in Sources */,
 				324592A01FEB230600DE89BB /* Auth.swift in Sources */,
 				32B36EC7203E623B00DA4593 /* Base.swift in Sources */,
@@ -1381,6 +1466,7 @@
 				32BC33E21FEEF17E0006256A /* ProductType.swift in Sources */,
 				32B9101F2048F282002F9C94 /* SettingsSelectOptionTableViewCell.swift in Sources */,
 				32CFB1D520DCB0EB00672EC9 /* String+Attributes.swift in Sources */,
+				326A141F262E48F100FE6EE5 /* Date.swift in Sources */,
 				32B9101D2048F113002F9C94 /* SettingsSelectViewController.swift in Sources */,
 				32AD801D21EA44B6005B75D0 /* SignUpViewController.swift in Sources */,
 				327B8EBE2202C4F3004757D3 /* Unit.swift in Sources */,
@@ -1394,6 +1480,8 @@
 				32C39C36201EA66800071E26 /* ConventionDetailsViewController.swift in Sources */,
 				324592971FEAFEE000DE89BB /* ConRequest.swift in Sources */,
 				32AE4169202553CF0061EB64 /* ProductTypeListViewController.swift in Sources */,
+				326A1433262E48F100FE6EE5 /* String.swift in Sources */,
+				326A142B262E48F100FE6EE5 /* Toml.swift in Sources */,
 				32637A922190999C005E2F6C /* SVGKImage+Constants.swift in Sources */,
 				32637A9F21909C30005E2F6C /* ConArtistViewController.swift in Sources */,
 				32892C4220352E9D00F1AD9C /* HighlightableView.swift in Sources */,
@@ -1409,6 +1497,7 @@
 				32B36EB720371BC700DA4593 /* FakeNavBar.swift in Sources */,
 				32B910172044F80B002F9C94 /* NewExpenseViewController.swift in Sources */,
 				32CD6B0621AF963900387349 /* SuggestionsViewController.swift in Sources */,
+				326A1423262E48F100FE6EE5 /* Serialize.swift in Sources */,
 				32E80BD7201700EB0008EC27 /* String+Conversion.swift in Sources */,
 				32D4BB11205B3E5500B0A397 /* RecordDetailsOverlayViewController.swift in Sources */,
 				327B8EC72203BA5E004757D3 /* CustomToastView.swift in Sources */,
@@ -1419,6 +1508,7 @@
 				32637A81218A54F3005E2F6C /* EditProductViewController.swift in Sources */,
 				327B8EC42203B9F8004757D3 /* UIView+CustomToast.swift in Sources */,
 				325EAB1D205247E900B1BE3E /* RecordSummaryTableViewCell.swift in Sources */,
+				326A1431262E48F100FE6EE5 /* Grammar.swift in Sources */,
 				32637AA52190AB49005E2F6C /* EditPriceViewController.swift in Sources */,
 				32B36ECB203F97EF00DA4593 /* SplashScreenViewController.swift in Sources */,
 				32D45CBC20A4DBC600F7A67F /* TimeZone+UTC.swift in Sources */,
@@ -1442,7 +1532,9 @@
 				32DD973B205B803E0045DF41 /* SetAlgebra+Operators.swift in Sources */,
 				32EEC27520E031620016DFCA /* PrettyString+Styles.swift in Sources */,
 				32C39C33201EA5B400071E26 /* ProductTypeTableViewCell.swift in Sources */,
+				326A1435262E48F100FE6EE5 /* Parser.swift in Sources */,
 				32D45CB820A3F96200F7A67F /* Persist.swift in Sources */,
+				326A1421262E48F100FE6EE5 /* Lexer.swift in Sources */,
 				32B36EE22042086500DA4593 /* Monad.swift in Sources */,
 				32BC33E41FEEF1B80006256A /* Product.swift in Sources */,
 				324592A21FEB4B4D00DE89BB /* ConventionListViewController.swift in Sources */,
@@ -1473,6 +1565,7 @@
 				326B7E1321FEA52B00E8DF34 /* Config.swift in Sources */,
 				326B7E1421FEA52B00E8DF34 /* Keychain.swift in Sources */,
 				326B7E1521FEA52B00E8DF34 /* ConventionSearchViewController.swift in Sources */,
+				326A1428262E48F100FE6EE5 /* Tokens.swift in Sources */,
 				325FE08F220E5700006BA52A /* UIView.AnimationCurve+AsOptions.swift in Sources */,
 				326B7E1621FEA52B00E8DF34 /* Location.swift in Sources */,
 				326B7E1821FEA52B00E8DF34 /* UIFont+Features.swift in Sources */,
@@ -1481,15 +1574,19 @@
 				326B7E1B21FEA52B00E8DF34 /* ManageProductTableViewCell.swift in Sources */,
 				326B7E1C21FEA52B00E8DF34 /* SettingsSelectTableViewCell.swift in Sources */,
 				326B7E1D21FEA52B00E8DF34 /* UIViewController+Alerts.swift in Sources */,
+				326A1426262E48F100FE6EE5 /* Evaluator.swift in Sources */,
 				326B7E1E21FEA52B00E8DF34 /* RecordDetailsItemCollectionViewCell.swift in Sources */,
 				326B7E1F21FEA52B00E8DF34 /* ConArtist.swift in Sources */,
 				326B7E2021FEA52B00E8DF34 /* Suggestion.swift in Sources */,
+				326A142E262E48F100FE6EE5 /* Path.swift in Sources */,
 				326B7E2221FEA52B00E8DF34 /* String+Localization.swift in Sources */,
 				326B7E2321FEA52B00E8DF34 /* ManageProductTypeTableViewCell.swift in Sources */,
 				326B7E2521FEA52B00E8DF34 /* UIButton+ConArtist.swift in Sources */,
 				326B7E2621FEA52B00E8DF34 /* RootNavigationController.swift in Sources */,
 				326B7E2721FEA52B00E8DF34 /* RecordTableViewCell.swift in Sources */,
+				326A142A262E48F100FE6EE5 /* Helpers.swift in Sources */,
 				326B7E2821FEA52B00E8DF34 /* UIView+Shadows.swift in Sources */,
+				326A1430262E48F100FE6EE5 /* Regex.swift in Sources */,
 				326B7E2921FEA52B00E8DF34 /* Connection.swift in Sources */,
 				326B7E2A21FEA52B00E8DF34 /* Auth.swift in Sources */,
 				326B7E2B21FEA52B00E8DF34 /* Base.swift in Sources */,
@@ -1513,6 +1610,7 @@
 				326B7E3F21FEA52B00E8DF34 /* ProductType.swift in Sources */,
 				326B7E4021FEA52B00E8DF34 /* SettingsSelectOptionTableViewCell.swift in Sources */,
 				326B7E4121FEA52B00E8DF34 /* String+Attributes.swift in Sources */,
+				326A1420262E48F100FE6EE5 /* Date.swift in Sources */,
 				326B7E4221FEA52B00E8DF34 /* SettingsSelectViewController.swift in Sources */,
 				326B7E4421FEA52B00E8DF34 /* SignUpViewController.swift in Sources */,
 				327B8EBF2202C4F3004757D3 /* Unit.swift in Sources */,
@@ -1526,6 +1624,8 @@
 				326B7E4F21FEA52B00E8DF34 /* ConventionDetailsViewController.swift in Sources */,
 				326B7E5021FEA52B00E8DF34 /* ConRequest.swift in Sources */,
 				326B7E5121FEA52B00E8DF34 /* ProductTypeListViewController.swift in Sources */,
+				326A1434262E48F100FE6EE5 /* String.swift in Sources */,
+				326A142C262E48F100FE6EE5 /* Toml.swift in Sources */,
 				326B7E5221FEA52B00E8DF34 /* SVGKImage+Constants.swift in Sources */,
 				326B7E5321FEA52B00E8DF34 /* ConArtistViewController.swift in Sources */,
 				326B7E5421FEA52B00E8DF34 /* HighlightableView.swift in Sources */,
@@ -1541,6 +1641,7 @@
 				326B7E5E21FEA52B00E8DF34 /* FakeNavBar.swift in Sources */,
 				326B7E5F21FEA52B00E8DF34 /* NewExpenseViewController.swift in Sources */,
 				326B7E6121FEA52B00E8DF34 /* SuggestionsViewController.swift in Sources */,
+				326A1424262E48F100FE6EE5 /* Serialize.swift in Sources */,
 				326B7E6221FEA52B00E8DF34 /* String+Conversion.swift in Sources */,
 				326B7E6321FEA52B00E8DF34 /* RecordDetailsOverlayViewController.swift in Sources */,
 				327B8EC82203BA74004757D3 /* CustomToastView.swift in Sources */,
@@ -1551,6 +1652,7 @@
 				326B7E6921FEA52B00E8DF34 /* EditProductViewController.swift in Sources */,
 				327B8EC52203BA16004757D3 /* UIView+CustomToast.swift in Sources */,
 				326B7E6A21FEA52B00E8DF34 /* RecordSummaryTableViewCell.swift in Sources */,
+				326A1432262E48F100FE6EE5 /* Grammar.swift in Sources */,
 				326B7E6B21FEA52B00E8DF34 /* EditPriceViewController.swift in Sources */,
 				326B7E6C21FEA52B00E8DF34 /* SplashScreenViewController.swift in Sources */,
 				326B7E6D21FEA52B00E8DF34 /* TimeZone+UTC.swift in Sources */,
@@ -1574,7 +1676,9 @@
 				326B7E7F21FEA52B00E8DF34 /* SetAlgebra+Operators.swift in Sources */,
 				326B7E8021FEA52B00E8DF34 /* PrettyString+Styles.swift in Sources */,
 				326B7E8121FEA52B00E8DF34 /* ProductTypeTableViewCell.swift in Sources */,
+				326A1436262E48F100FE6EE5 /* Parser.swift in Sources */,
 				326B7E8221FEA52B00E8DF34 /* Persist.swift in Sources */,
+				326A1422262E48F100FE6EE5 /* Lexer.swift in Sources */,
 				326B7E8321FEA52B00E8DF34 /* Monad.swift in Sources */,
 				326B7E8421FEA52B00E8DF34 /* Product.swift in Sources */,
 				326B7E8521FEA52B00E8DF34 /* ConventionListViewController.swift in Sources */,
@@ -1760,7 +1864,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = KT5TYPEMWT;
-				INFOPLIST_FILE = "$(SRCROOT)/ConArtist DEV-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/ConArtist/ConArtist DEV-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cameldridge.staging-conartist";
@@ -1779,7 +1883,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = KT5TYPEMWT;
-				INFOPLIST_FILE = "$(SRCROOT)/ConArtist DEV-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/ConArtist/ConArtist DEV-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.cameldridge.staging-conartist";

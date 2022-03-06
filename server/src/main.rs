@@ -1,36 +1,40 @@
 #![deny(bare_trait_objects)]
 
 // waiting for these crates to update their macros
-#[macro_use] extern crate juniper;
-#[macro_use] extern crate diesel;
+#[macro_use]
+extern crate juniper;
+#[macro_use]
+extern crate diesel;
 
-#[macro_use] mod macros;
-mod web;
-mod rest;
-mod middleware;
-mod graphql;
-mod resource;
-mod database;
+#[macro_use]
+mod macros;
 mod cr;
-mod error;
-mod money;
-mod search;
+mod database;
 mod devtools;
-mod rand;
-#[cfg(feature="mailer")] mod email;
+#[cfg(feature = "mailer")]
+mod email;
 mod env;
+mod error;
+mod graphql;
+mod middleware;
+mod money;
+mod rand;
+mod resource;
+mod rest;
+mod search;
+mod web;
 
-use std::env::args;
-use mount::Mount;
-use logger::Logger;
+use colored::*;
+use diesel::pg::PgConnection;
+use hyper::client::Client;
 use iron::prelude::*;
 use iron_cors::CorsMiddleware;
 use juniper::EmptyMutation;
 use juniper_iron::GraphQLHandler;
-use colored::*;
-use hyper::client::Client;
-use diesel::pg::PgConnection;
+use logger::Logger;
+use mount::Mount;
 use r2d2_diesel::ConnectionManager;
+use std::env::args;
 
 use crate::env::CONARTIST_BASE_URL;
 
@@ -41,58 +45,73 @@ fn main() {
     println!("Starting ConArtist server...");
 
     let manager = ConnectionManager::<PgConnection>::new(env::DATABASE_URL.to_string());
-    let pool = r2d2::Pool::builder().build(manager).expect("Failed to create pool");
+    let pool = r2d2::Pool::builder()
+        .build(manager)
+        .expect("Failed to create pool");
     let database = database::DatabaseFactory::new(pool);
     let privileged = database.create_privileged();
     let mut mount = Mount::new();
-    let cors =
-        if args().any(|a| a == "--any-origin") {
-            println!();
-            println!("{}", "WARNING: Running with no CORS protection. All origins are permitted.".yellow());
-            println!("{}", "         Do not run with `--any-origin` flag in production!".yellow());
-            println!();
-            CorsMiddleware::with_allow_any()
-        } else {
-            CorsMiddleware::with_whitelist([
-                format!("https://{}", CONARTIST_BASE_URL.to_string()),
-            ].iter().cloned().collect())
-        };
+    let cors = if args().any(|a| a == "--any-origin") {
+        println!();
+        println!(
+            "{}",
+            "WARNING: Running with no CORS protection. All origins are permitted.".yellow()
+        );
+        println!(
+            "{}",
+            "         Do not run with `--any-origin` flag in production!".yellow()
+        );
+        println!();
+        CorsMiddleware::with_allow_any()
+    } else {
+        CorsMiddleware::with_whitelist(
+            [format!("https://{}", CONARTIST_BASE_URL.to_string())]
+                .iter()
+                .cloned()
+                .collect(),
+        )
+    };
 
-    let graphql =
-        if args().any(|a| a == "--open") {
-            println!();
-            println!("{}", "WARNING: Running in open mode. No authorization required.".yellow());
-            println!("{}", "         Do not run with `--open` flag in production!".yellow());
-            println!();
-            chain! [
-                GraphQLHandler::new(
-                    move |_| Ok(database.create_privileged()),
-                    graphql::Query,
-                    graphql::Mutation,
-                )
-            ]
-        } else {
-            chain! [
-                middleware::VerifyJWT::new();
-                GraphQLHandler::new(
-                    move |r| Ok(database.create(r)),
-                    graphql::Query,
-                    graphql::Mutation,
-                )
-            ]
-        };
+    let graphql = if args().any(|a| a == "--open") {
+        println!();
+        println!(
+            "{}",
+            "WARNING: Running in open mode. No authorization required.".yellow()
+        );
+        println!(
+            "{}",
+            "         Do not run with `--open` flag in production!".yellow()
+        );
+        println!();
+        chain![GraphQLHandler::new(
+            move |_| Ok(database.create_privileged()),
+            graphql::Query,
+            graphql::Mutation,
+        )]
+    } else {
+        chain! [
+            middleware::VerifyJWT::new();
+            GraphQLHandler::new(
+                move |r| Ok(database.create(r)),
+                graphql::Query,
+                graphql::Mutation,
+            )
+        ]
+    };
 
     let resource =
-        GraphQLHandler::new(
-            |_| Ok(Client::new()),
-            resource::Query,
-            EmptyMutation::new(),
-        );
+        GraphQLHandler::new(|_| Ok(Client::new()), resource::Query, EmptyMutation::new());
 
     if args().any(|a| a == "--dev") {
         println!();
-        println!("{}", "WARNING: Running in dev mode. Dev tools page is exposed.".yellow());
-        println!("{}", "         Do not run with `--dev` flag in production!".yellow());
+        println!(
+            "{}",
+            "WARNING: Running in dev mode. Dev tools page is exposed.".yellow()
+        );
+        println!(
+            "{}",
+            "         Do not run with `--dev` flag in production!".yellow()
+        );
         println!();
         mount.mount("/dev", devtools::new());
     }
@@ -107,11 +126,15 @@ fn main() {
     chain.link_around(cors);
 
     let (pre, post) = Logger::new(None);
-    chain
-        .link_before(pre)
-        .link_after(post);
+    chain.link_before(pre).link_after(post);
 
     let host = "0.0.0.0";
-    println!("ConArtist server listening at {}:{}", host, env::PORT.to_string());
-    Iron::new(chain).http(format!("{}:{}", host, env::PORT.to_string())).unwrap();
+    println!(
+        "ConArtist server listening at {}:{}",
+        host,
+        env::PORT.to_string()
+    );
+    Iron::new(chain)
+        .http(format!("{}:{}", host, env::PORT.to_string()))
+        .unwrap();
 }

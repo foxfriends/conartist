@@ -20,6 +20,7 @@ pub struct Product {
     pub discontinued: bool,
     pub sort: i32,
     pub deleted: bool,
+    pub sku: Option<String>,
 }
 
 impl Product {
@@ -31,7 +32,8 @@ impl Product {
             name: self.name,
             sort: self.sort,
             discontinued: self.discontinued,
-            quantity
+            sku: self.sku,
+            quantity,
         }
     }
 }
@@ -44,6 +46,7 @@ pub struct ProductWithQuantity {
     pub name: String,
     pub sort: i32,
     pub discontinued: bool,
+    pub sku: Option<String>,
     pub quantity: i64,
 }
 
@@ -53,4 +56,5 @@ pub struct ProductChanges {
     pub name: Option<String>,
     pub discontinued: Option<bool>,
     pub sort: Option<i32>,
+    pub sku: Option<Option<String>>,
 }

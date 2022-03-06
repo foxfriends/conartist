@@ -8,13 +8,13 @@ use super::dsl::*;
 use super::Database;
 
 impl Database {
-    pub fn create_product(&self, maybe_user_id: Option<i32>, type_id: i32, name: String, quantity: i32, sort: i32) -> Result<ProductWithQuantity, String> {
+    pub fn create_product(&self, maybe_user_id: Option<i32>, type_id: i32, name: String, sku: Option<String>, quantity: i32, sort: i32) -> Result<ProductWithQuantity, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         conn.transaction(|| -> diesel::result::QueryResult<ProductWithQuantity> {
                 let product =
                     diesel::insert_into(products::table)
-                        .values((products::user_id.eq(user_id), products::type_id.eq(type_id), products::name.eq(name), products::sort.eq(sort)))
+                        .values((products::user_id.eq(user_id), products::type_id.eq(type_id), products::name.eq(name), products::sort.eq(sort), products::sku.eq(sku)))
                         .get_result::<Product>(&*conn)?;
 
                 diesel::insert_into(inventory::table)
@@ -45,7 +45,7 @@ impl Database {
 
         let products_with_quantity = products::table
             .left_outer_join(inventory::table)
-            .select((products::product_id, products::type_id, products::user_id, products::name, products::sort, products::discontinued, dsl::sql::<sql_types::BigInt>("coalesce(sum(inventory.quantity), 0)")))
+            .select((products::product_id, products::type_id, products::user_id, products::name, products::sort, products::discontinued, products::sku, dsl::sql::<sql_types::BigInt>("coalesce(sum(inventory.quantity), 0)")))
             .filter(products::user_id.eq(user_id))
             .filter(products::deleted.eq(false))
             .group_by(products::product_id)
@@ -66,6 +66,7 @@ impl Database {
         maybe_user_id: Option<i32>,
         product_id: i32,
         name: Option<String>,
+        sku: Option<String>,
         quantity: Option<i32>,
         discontinued: Option<bool>,
         sort: Option<i32>,
@@ -93,11 +94,12 @@ impl Database {
                     .len() as i64;
 
                 let updated_product: Product =
-                    if name.is_some() || discontinued.is_some() || sort.is_some() {
+                    if name.is_some() || discontinued.is_some() || sort.is_some() || sku.is_some() {
+                        let sku = sku.map(|sku| if sku == "" { None } else { Some(sku) });
                         diesel::update(products::table)
                             .filter(products::product_id.eq(product_id))
                             .filter(products::user_id.eq(user_id))
-                            .set(&ProductChanges { name, discontinued, sort })
+                            .set(&ProductChanges { name, discontinued, sort, sku })
                             .get_result(&*conn)?
                     } else {
                         products::table

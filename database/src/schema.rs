@@ -123,6 +123,7 @@ table! {
         discontinued -> Bool,
         sort -> Int4,
         deleted -> Bool,
+        sku -> Nullable<Varchar>,
     }
 }
 

@@ -1,7 +1,7 @@
 //! Holds information about a product
-use juniper::graphql_object;
-use crate::database::Database;
 use crate::database::models::*;
+use crate::database::Database;
+use juniper::graphql_object;
 
 graphql_object!(ProductWithQuantity: Database as "Product" |&self| {
     description: "Holds information about a product"
@@ -12,4 +12,5 @@ graphql_object!(ProductWithQuantity: Database as "Product" |&self| {
     field discontinued() -> bool { self.discontinued }
     field quantity() -> i32 { self.quantity as i32 }
     field sort() -> i32 { self.sort }
+    field sku() -> &Option<String> { &self.sku }
 });

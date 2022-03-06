@@ -1,9 +1,9 @@
-use diesel::{self, prelude::*, dsl, sql_types};
 use chrono::{DateTime, FixedOffset};
+use diesel::{self, dsl, prelude::*, sql_types};
 use uuid::Uuid;
 
-use super::schema::*;
 use super::models::*;
+use super::schema::*;
 use super::Database;
 use crate::money::Money;
 
@@ -70,7 +70,11 @@ impl Database {
         .map_err(|reason| format!("Could not create expense for user with id {} and convention with id {}. Reason: {}", user_id, con_id, reason))
     }
 
-    pub fn get_records_for_user_con(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<Vec<Record>, String> {
+    pub fn get_records_for_user_con(
+        &self,
+        maybe_user_id: Option<i32>,
+        con_id: i32,
+    ) -> Result<Vec<Record>, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         records::table
@@ -81,7 +85,12 @@ impl Database {
             .map_err(|reason| format!("Records for convention with id {} for user with id {} could not be retrieved. Reason: {}", con_id, user_id, reason))
     }
 
-    pub fn get_records_for_user(&self, maybe_user_id: Option<i32>, limit: i64, before: Option<i32>) -> Result<Vec<Record>, String> {
+    pub fn get_records_for_user(
+        &self,
+        maybe_user_id: Option<i32>,
+        limit: i64,
+        before: Option<i32>,
+    ) -> Result<Vec<Record>, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         if let Some(latest) = before {
@@ -92,7 +101,12 @@ impl Database {
                 .order(dsl::sql::<sql_types::Timestamptz>("sale_time::timestamptz").desc())
                 .limit(limit)
                 .load::<Record>(&*conn)
-                .map_err(|reason| format!("Records for user with id {} could not be retrieved. Reason: {}", user_id, reason))
+                .map_err(|reason| {
+                    format!(
+                        "Records for user with id {} could not be retrieved. Reason: {}",
+                        user_id, reason
+                    )
+                })
         } else {
             records::table
                 .filter(records::user_id.eq(user_id))
@@ -100,7 +114,48 @@ impl Database {
                 .order(dsl::sql::<sql_types::Timestamptz>("sale_time::timestamptz").desc())
                 .limit(limit)
                 .load::<Record>(&*conn)
-                .map_err(|reason| format!("Records for user with id {} could not be retrieved. Reason: {}", user_id, reason))
+                .map_err(|reason| {
+                    format!(
+                        "Records for user with id {} could not be retrieved. Reason: {}",
+                        user_id, reason
+                    )
+                })
+        }
+    }
+
+    pub fn get_record_by_id(
+        &self,
+        maybe_user_id: Option<i32>,
+        record_id: Option<i32>,
+        uuid: Option<Uuid>,
+    ) -> Result<Record, String> {
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
+        let conn = self.pool.get().unwrap();
+
+        if let Some(record_id) = record_id {
+            records::table
+                .filter(records::record_id.eq(record_id))
+                .filter(records::user_id.eq(user_id))
+                .first::<Record>(&*conn)
+                .map_err(|reason| {
+                    format!(
+                        "Record with id {} could not be retrieved. Reason: {}",
+                        record_id, reason,
+                    )
+                })
+        } else if let Some(uuid) = uuid {
+            records::table
+                .filter(records::gen_id.eq(uuid))
+                .filter(records::user_id.eq(user_id))
+                .first::<Record>(&*conn)
+                .map_err(|reason| {
+                    format!(
+                        "Record with id {} could not be retrieved. Reason: {}",
+                        uuid, reason,
+                    )
+                })
+        } else {
+            Err("Could not retrieve record with no id or uuid".to_owned())
         }
     }
 
@@ -120,7 +175,11 @@ impl Database {
             .unwrap_or(0)
     }
 
-    pub fn get_expenses_for_user_con(&self, maybe_user_id: Option<i32>, con_id: i32) -> Result<Vec<Expense>, String> {
+    pub fn get_expenses_for_user_con(
+        &self,
+        maybe_user_id: Option<i32>,
+        con_id: i32,
+    ) -> Result<Vec<Expense>, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
         expenses::table

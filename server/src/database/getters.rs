@@ -106,6 +106,7 @@ impl Database {
                 products::name,
                 products::sort,
                 products::discontinued,
+                products::sku,
                 dsl::sql::<sql_types::BigInt>("coalesce(sum(inventory.quantity), 0)")
             ))
             .filter(products::user_id.eq(user_id))

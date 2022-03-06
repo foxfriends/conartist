@@ -1,25 +1,25 @@
 //! The entry point of a GraphQL mutation
-use juniper::FieldResult;
 use chrono::NaiveDate;
+use juniper::FieldResult;
 use serde_json;
 
+mod expense;
+mod price;
 mod product;
 mod product_type;
-mod price;
 mod record;
-mod expense;
 mod settings;
 
-use crate::database::{Database, models::*};
-use crate::money::Money;
-#[cfg(feature="mailer")]
-use crate::email::confirm_email;
+use self::expense::*;
+use self::price::*;
 use self::product::*;
 use self::product_type::*;
-use self::price::*;
 use self::record::*;
-use self::expense::*;
 use self::settings::SettingsMutation;
+use crate::database::{models::*, Database};
+#[cfg(feature = "mailer")]
+use crate::email::confirm_email;
+use crate::money::Money;
 
 pub struct Mutation;
 
@@ -115,11 +115,11 @@ graphql_object!(Mutation: Database |&self| {
         ensure!(product.type_id > 0);
         ensure!(product.quantity >= 0);
         ensure!(product.sort >= 0);
-
+        let sku = product.sku.filter(|sku| sku != "");
         dbtry! {
             executor
                 .context()
-                .create_product(user_id, product.type_id, product.name, product.quantity, product.sort)
+                .create_product(user_id, product.type_id, product.name, sku, product.quantity, product.sort)
         }
     }
 
@@ -133,7 +133,7 @@ graphql_object!(Mutation: Database |&self| {
         dbtry! {
             executor
                 .context()
-                .update_product(user_id, product.product_id, product.name, product.quantity, product.discontinued, product.sort)
+                .update_product(user_id, product.product_id, product.name, product.sku, product.quantity, product.discontinued, product.sort)
         }
     }
 
@@ -189,34 +189,42 @@ graphql_object!(Mutation: Database |&self| {
         ensure!(record.con_id.is_none() || record.con_id.unwrap() > 0);
         ensure!(record.price >= Money::new(0i64, record.price.cur()));
 
-        dbtry! {
+        let record = dbtry! {
             executor
                 .context()
                 .create_user_record(user_id, record.con_id, record.uuid, record.products, record.price, record.time, record.info)
-        }
+        }?;
+        executor.context().trigger_webhook_new_record(&record).ok();
+        Ok(record)
     }
 
     field mod_user_record(&executor, user_id: Option<i32>, record: RecordMod) -> FieldResult<Record> {
         ensure!(record.record_id > 0);
         ensure!(record.products.as_ref().map(|products| products.len() > 0).unwrap_or(true));
         ensure!(record.price.map(|price| price >= Money::new(0i64, price.cur())).unwrap_or(true));
-
-        dbtry! {
+        let old_record = dbtry!(executor.context().get_record_by_id(user_id, Some(record.record_id), None))?;
+        let record = dbtry! {
             executor
                 .context()
                 .update_record(user_id, record.record_id, record.products, record.price, record.info)
-        }
+        }?;
+        executor.context().trigger_webhook_delete_record(&old_record).ok();
+        executor.context().trigger_webhook_new_record(&record).ok();
+        Ok(record)
     }
 
     field del_user_record(&executor, user_id: Option<i32>, record: RecordDel) -> FieldResult<bool> {
         // must have one of these two.
         ensure!(record.record_id.is_some() || record.uuid.is_some());
         ensure!(record.record_id.is_none() || record.uuid.is_none());
-        dbtry! {
+        let old_record = dbtry!(executor.context().get_record_by_id(user_id, record.record_id, record.uuid))?;
+        let ok = dbtry! {
             executor
                 .context()
                 .delete_record(user_id, record.record_id, record.uuid)
-        }
+        }?;
+        executor.context().trigger_webhook_delete_record(&old_record).ok();
+        return Ok(ok)
     }
 
     // Expenses

@@ -23,6 +23,8 @@ mod conversions;
 mod dsl;
 mod views;
 
+mod webhooks;
+
 use juniper::Context;
 use diesel::PgConnection;
 use r2d2::Pool;

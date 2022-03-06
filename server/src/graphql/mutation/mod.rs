@@ -9,17 +9,19 @@ mod product;
 mod product_type;
 mod record;
 mod settings;
+mod webhooks;
 
-use self::expense::*;
-use self::price::*;
-use self::product::*;
-use self::product_type::*;
-use self::record::*;
-use self::settings::SettingsMutation;
 use crate::database::{models::*, Database};
 #[cfg(feature = "mailer")]
 use crate::email::confirm_email;
 use crate::money::Money;
+use expense::*;
+use price::*;
+use product::*;
+use product_type::*;
+use record::*;
+use settings::SettingsMutation;
+use webhooks::*;
 
 pub struct Mutation;
 
@@ -326,6 +328,39 @@ graphql_object!(Mutation: Database |&self| {
             executor
                 .context()
                 .vote_for_suggestion(suggestion_id)
+        }
+    }
+
+    // webhooks
+    field create_webhook_new_record(&executor, user_id: Option<i32>, webhook: CreateWebhook) -> FieldResult<WebhookNewRecord> {
+        dbtry! {
+            executor
+                .context()
+                .create_webhook_new_record(user_id, webhook.url)
+        }
+    }
+
+    field delete_webhook_new_record(&executor, user_id: Option<i32>, webhook: DeleteWebhook) -> FieldResult<bool> {
+        dbtry! {
+            executor
+                .context()
+                .delete_webhook_new_record(user_id, webhook.id)
+        }
+    }
+
+    field create_webhook_delete_record(&executor, user_id: Option<i32>, webhook: CreateWebhook) -> FieldResult<WebhookDeleteRecord> {
+        dbtry! {
+            executor
+                .context()
+                .create_webhook_delete_record(user_id, webhook.url)
+        }
+    }
+
+    field delete_webhook_delete_record(&executor, user_id: Option<i32>, webhook: DeleteWebhook) -> FieldResult<bool> {
+        dbtry! {
+            executor
+                .context()
+                .delete_webhook_delete_record(user_id, webhook.id)
         }
     }
 });

@@ -8,9 +8,130 @@ use super::schema::*;
 use super::Database;
 
 impl Database {
+    pub fn get_webhooks_new_record_for_user(
+        &self,
+        user_id: i32,
+    ) -> Result<Vec<WebhookNewRecord>, String> {
+        let conn = self.pool.get().unwrap();
+        webhooknewrecord::table
+            .filter(webhooknewrecord::user_id.eq(user_id))
+            .load::<WebhookNewRecord>(&*conn)
+            .map_err(|reason| {
+                format!(
+                    "WebhookNewRecord for user {} could not be loaded: {}",
+                    user_id, reason
+                )
+            })
+    }
+
+    pub fn get_webhooks_delete_record_for_user(
+        &self,
+        user_id: i32,
+    ) -> Result<Vec<WebhookDeleteRecord>, String> {
+        let conn = self.pool.get().unwrap();
+        webhookdeletedrecord::table
+            .filter(webhookdeletedrecord::user_id.eq(user_id))
+            .load::<WebhookDeleteRecord>(&*conn)
+            .map_err(|reason| {
+                format!(
+                    "WebhookDeleteRecord for user {} could not be loaded: {}",
+                    user_id, reason
+                )
+            })
+    }
+
+    pub fn create_webhook_new_record(
+        &self,
+        maybe_user_id: Option<i32>,
+        url: String,
+    ) -> Result<WebhookNewRecord, String> {
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
+        let conn = self.pool.get().unwrap();
+        conn.transaction(|| -> diesel::result::QueryResult<WebhookNewRecord> {
+            let webhook = diesel::insert_into(webhooknewrecord::table)
+                .values((
+                    webhooknewrecord::user_id.eq(user_id),
+                    webhooknewrecord::url.eq(url),
+                ))
+                .get_result::<WebhookNewRecord>(&*conn)?;
+            Ok(webhook)
+        })
+        .map_err(|reason| {
+            format!(
+                "Failed to create new webhooknewrecord for user with id {}. Reason: {}",
+                user_id, reason
+            )
+        })
+    }
+
+    pub fn create_webhook_delete_record(
+        &self,
+        maybe_user_id: Option<i32>,
+        url: String,
+    ) -> Result<WebhookDeleteRecord, String> {
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
+        let conn = self.pool.get().unwrap();
+        conn.transaction(|| -> diesel::result::QueryResult<WebhookDeleteRecord> {
+            let webhook = diesel::insert_into(webhookdeletedrecord::table)
+                .values((
+                    webhookdeletedrecord::user_id.eq(user_id),
+                    webhookdeletedrecord::url.eq(url),
+                ))
+                .get_result::<WebhookDeleteRecord>(&*conn)?;
+            Ok(webhook)
+        })
+        .map_err(|reason| {
+            format!(
+                "Failed to create new webhookdeletedrecord for user with id {}. Reason: {}",
+                user_id, reason
+            )
+        })
+    }
+
+    pub fn delete_webhook_new_record(
+        &self,
+        maybe_user_id: Option<i32>,
+        webhook_id: i32,
+    ) -> Result<bool, String> {
+        self.resolve_user_id_protected(maybe_user_id)?;
+        let conn = self.pool.get().unwrap();
+        conn.transaction(|| -> diesel::result::QueryResult<bool> {
+            diesel::delete(webhooknewrecord::table)
+                .filter(webhooknewrecord::webhook_id.eq(webhook_id))
+                .execute(&*conn)?;
+            Ok(true)
+        })
+        .map_err(|reason| {
+            format!(
+                "Could not delete WebhookNewRecord with id {}. Reason: {}",
+                webhook_id, reason
+            )
+        })
+    }
+
+    pub fn delete_webhook_delete_record(
+        &self,
+        maybe_user_id: Option<i32>,
+        webhook_id: i32,
+    ) -> Result<bool, String> {
+        self.resolve_user_id_protected(maybe_user_id)?;
+        let conn = self.pool.get().unwrap();
+        conn.transaction(|| -> diesel::result::QueryResult<bool> {
+            diesel::delete(webhookdeletedrecord::table)
+                .filter(webhookdeletedrecord::webhook_id.eq(webhook_id))
+                .execute(&*conn)?;
+            Ok(true)
+        })
+        .map_err(|reason| {
+            format!(
+                "Could not delete WebhookDeleteRecord with id {}. Reason: {}",
+                webhook_id, reason
+            )
+        })
+    }
+
     pub fn trigger_webhook_new_record(&self, record: &Record) -> Result<(), String> {
         let conn = self.pool.get().unwrap();
-
         let hooks = webhooknewrecord::table
             .filter(webhooknewrecord::user_id.eq(record.user_id))
             .load::<WebhookNewRecord>(&*conn)
@@ -69,7 +190,7 @@ impl Database {
             .load::<WebhookDeleteRecord>(&*conn)
             .map_err(|reason| {
                 format!(
-                    "WebhookNewRecord for user {} could not be loaded: {}",
+                    "WebhookDeleteRecord for user {} could not be loaded: {}",
                     record.user_id, reason
                 )
             })?;

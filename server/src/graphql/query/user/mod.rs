@@ -1,15 +1,18 @@
 //! Holds information about a user and their products, prices, and conventions
-use juniper::{graphql_object, FieldResult};
 use chrono::{DateTime, Utc};
+use juniper::{graphql_object, FieldResult};
 
-use crate::database::Database;
 use crate::database::models::*;
+use crate::database::Database;
 
-mod product_type;
-mod product;
-mod price;
 mod expense;
+mod price;
+mod product;
+mod product_type;
 mod settings;
+mod webhooks;
+
+use webhooks::Webhooks;
 
 graphql_object!(User: Database |&self| {
     description: "Holds information about a user and their products, prices, and conventions"
@@ -73,6 +76,10 @@ graphql_object!(User: Database |&self| {
             .context()
             .get_settings_for_user(Some(self.user_id))
             .unwrap_or(Settings::default(self.user_id))
+    }
+
+    field webhooks(&executor) -> Webhooks {
+        Webhooks{user_id: self.user_id}
     }
 
     field clearance(&executor) -> i32 {

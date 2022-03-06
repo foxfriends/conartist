@@ -1,0 +1,2 @@
+ALTER TABLE WebhookNewRecord DROP CONSTRAINT WebhookNewRecord_unique_url;
+ALTER TABLE WebhookDeletedRecord DROP CONSTRAINT WebhookDeletedRecord_unique_url;

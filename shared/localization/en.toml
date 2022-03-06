@@ -242,6 +242,7 @@ Head over to the products page and get some items set up!
 "No products yet... add one!" = "No products yet… add one!"
 Product = "Product"
 Products = "Products"
+SKU = "SKU"
 "You aren't selling any of these" = "You aren't selling any of these"
 "<Empty products list message>" = """
 You don't have anything for sale yet…

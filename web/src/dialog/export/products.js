@@ -40,6 +40,7 @@ function columnTitle(column: Column): string {
     case 'name':      return l`Product`
     case 'quantity':  return l`Quantity`
     case 'type':      return l`Type`
+    case 'sku':       return l`SKU`
   }
   return ''
 }
@@ -70,6 +71,7 @@ export class ExportProducts extends React.Component<Props, State> {
       separateTypes ? null : 'type',
       'name',
       'quantity',
+      'sku',
     ].filter(x => x)
   }
 
@@ -83,26 +85,26 @@ export class ExportProducts extends React.Component<Props, State> {
   }
 
   async doExport() {
-    const saveAs = import(/* webpackChunkName: 'zip' */ 'save-as');
+    const { default: saveAs } = await import(/* webpackChunkName: 'zip' */ 'save-as');
     const { columns, dataSource } = this
     const { separateTypes, includeTitles } = this.state
     const files: [string, Blob][] = ((separateTypes ? [...separate.call(dataSource, 'type')] : [['products', dataSource]]))
-      .map(([name, file]) => [name, file.map(item => columns.map(column => item[column].toString()))])
+      .map(([name, file]) => [name, file.map(item => columns.map(column => (item[column] || "").toString()))])
       .map(([name, file]) => [name, file.map(item => item.join(','))])
       .map(([name, file]) => [name, includeTitles ? [columns.map(columnTitle).join(','), ...file] : file])
       .map(([name, file]) => [name, file.join('\n') + '\n'])
       .map(([name, file]) => [name, new Blob([file], { type: 'text/plain;charset=utf-8' })])
     if (separateTypes) {
-      const Zip = await import(/* webpackChunkName: 'zip' */ 'jszip')
+      const { default: Zip } = await import(/* webpackChunkName: 'zip' */ 'jszip')
       const zip = new Zip()
       for (const [name, blob] of files) {
         zip.file(`${name}.csv`, blob)
       }
       const blob = await zip.generateAsync({ type: 'blob' })
-      (await saveAs)(blob, `${l`Products`.toLowerCase()}.zip`)
+      saveAs(blob, `${l`Products`.toLowerCase()}.zip`)
     } else {
       const [[name, blob]] = files
-      (await saveAs)(blob, `${name}.csv`)
+      saveAs(blob, `${name}.csv`)
     }
   }
 

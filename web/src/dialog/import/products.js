@@ -51,6 +51,7 @@ function columnTitle(column: Column): string {
     case 'name':      return l`Product`
     case 'quantity':  return l`Quantity`
     case 'type':      return l`Type`
+    case 'sku':       return l`SKU`
   }
   return ''
 }
@@ -109,6 +110,7 @@ export class ImportProducts extends React.Component<Props, State> {
       productType ? null : 'type',
       'name',
       'quantity',
+      'sku',
     ].filter(x => x)
   }
 
@@ -123,7 +125,7 @@ export class ImportProducts extends React.Component<Props, State> {
       .map(({ type, ...product }) => ({ ...product, type: type.name }))
   }
 
-  processRow([a, b, c, d]: string[]): [number | null, ProductType, string, number] {
+  processRow([a, b, c, d, e]: string[]): [number | null, ProductType, string, number, string] {
     const { includeIds, productType } = this.state
     const { products, productTypes } = model.getValue()
     if (includeIds && productType) {
@@ -132,7 +134,7 @@ export class ImportProducts extends React.Component<Props, State> {
         if (!product) { throw new UnknownProduct(a) }
         if (product.typeId !== productType.id) { throw new ChangedProductType(product) }
       }
-      return [a ? +a : null, productType, b, +c]
+      return [a ? +a : null, productType, b, +c, e]
     } else if (includeIds) {
       const type = productTypes.find(({ name }) => name === b)
       if (!type) { throw new UnknownProductType(b) }
@@ -141,15 +143,15 @@ export class ImportProducts extends React.Component<Props, State> {
         if (!product) { throw new UnknownProduct(a) }
         if (product.typeId !== type.id) { throw new ChangedProductType(product) }
       }
-      return [a ? +a : null, type, c, +d]
+      return [a ? +a : null, type, c, +d, e]
     } else if (productType) {
       const product = products.find(({ name, typeId }) => name === a && typeId === productType.id)
-      return [product ? product.id : null, productType, a, +b]
+      return [product ? product.id : null, productType, a, +b, e]
     } else {
       const type = productTypes.find(({ name }) => name === a)
       if (!type) { throw new UnknownProductType(a) }
       const product = products.find(({ name, typeId }) => name === b && typeId === type.id)
-      return [product ? product.id : null, type, b, +c]
+      return [product ? product.id : null, type, b, +c, e]
     }
   }
 
@@ -166,14 +168,15 @@ export class ImportProducts extends React.Component<Props, State> {
       const { products: originalProducts, productTypes } = model.getValue()
       const products = originalProducts.map(editableProduct())
 
-      for (const [id, type, name, quantity] of rows.map(row => this.processRow(row))) {
+      for (const [id, type, name, quantity, sku] of rows.map(row => this.processRow(row))) {
         if (id === null) {
           products.push({
             product: null,
             id: uniqueProductId(),
             typeId: type.id,
-            name: name,
-            quantity: quantity,
+            name,
+            quantity,
+            sku,
             sort: products.filter(product => product.typeId === type.id).length,
             discontinued: false,
           })
@@ -183,6 +186,7 @@ export class ImportProducts extends React.Component<Props, State> {
             ...products[index],
             name,
             quantity,
+            sku,
           }
         }
       }

@@ -2,6 +2,7 @@ fragment ProductFragment on Product {
   id
   typeId
   name
+  sku
   quantity
   discontinued
   sort

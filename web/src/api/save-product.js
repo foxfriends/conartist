@@ -43,6 +43,9 @@ export class SaveProduct {
       if (product.sort !== original.sort) {
         variables.product.sort = product.sort
       }
+      if (product.sku !== original.sku) {
+        variables.product.sku = product.sku
+      }
       if (Object.keys(variables.product).length === 1) {
         // Unmodified
         // $FlowIgnore: We just confirmed original is a Product
@@ -64,6 +67,7 @@ export class SaveProduct {
           name: product.name.trim(),
           quantity: product.quantity,
           sort: product.sort,
+          sku: product.sku,
         }
       }
       return from(this.addProduct)

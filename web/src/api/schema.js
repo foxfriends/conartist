@@ -1,35 +1,34 @@
-
-
 /* @flow */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: UpdateRecord
+// GraphQL mutation operation: AddConventionInfo
 // ====================================================
 
-export type UpdateRecord_modUserRecord = {
-  __typename: "Record",
-  id: number,
-  uuid: ?any,
-  products: Array<number>,
-  price: any,
-  time: any,
-  info: string,
+export type AddConventionInfo_addConventionExtraInfo = {
+  __typename: "ConventionExtraInfo",
+  title: string,
+  info: ?string,
+  action: ?string,
+  actionText: ?string,
 };
 
-export type UpdateRecord = {
-  modUserRecord: UpdateRecord_modUserRecord
+export type AddConventionInfo = {
+  addConventionExtraInfo: AddConventionInfo_addConventionExtraInfo
 };
 
-export type UpdateRecordVariables = {
-  id?: ?number,
-  record: RecordMod,
+export type AddConventionInfoVariables = {
+  conId: number,
+  title: string,
+  info?: ?string,
+  action?: ?string,
+  actionText?: ?string,
 };
-
-
 /* @flow */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -54,38 +53,34 @@ export type AddExpenseVariables = {
   id?: ?number,
   expense: ExpenseAdd,
 };
-
-
 /* @flow */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: ContributeConventionInfo
+// GraphQL mutation operation: AddPrice
 // ====================================================
 
-export type ContributeConventionInfo_addConventionInfo = {
-  __typename: "ConventionUserInfo",
-  id: number,
-  info: string,
-  vote: number,
-  upvotes: number,
-  downvotes: number,
+export type AddPrice_addUserPrice = {
+  __typename: "Price",
+  typeId: number,
+  productId: ?number,
+  quantity: number,
+  price: any,
 };
 
-export type ContributeConventionInfo = {
-  addConventionInfo: ContributeConventionInfo_addConventionInfo
+export type AddPrice = {
+  addUserPrice: AddPrice_addUserPrice
 };
 
-export type ContributeConventionInfoVariables = {
+export type AddPriceVariables = {
   userId?: ?number,
-  conId: number,
-  info: string,
+  price: PriceAdd,
 };
-
-
 /* @flow */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -109,10 +104,9 @@ export type AddProductTypeVariables = {
   id?: ?number,
   productType: ProductTypeAdd,
 };
-
-
 /* @flow */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -124,6 +118,7 @@ export type AddProduct_addUserProduct = {
   id: number,
   typeId: number,
   name: string,
+  sku: ?string,
   quantity: number,
   discontinued: boolean,
   sort: number,
@@ -137,71 +132,36 @@ export type AddProductVariables = {
   id?: ?number,
   product: ProductAdd,
 };
-
-
 /* @flow */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: DeleteRecord
+// GraphQL mutation operation: AddRecord
 // ====================================================
 
-export type DeleteRecord = {
-  delUserRecord: boolean
-};
-
-export type DeleteRecordVariables = {
-  id?: ?number,
-  record: RecordDel,
-};
-
-
-/* @flow */
-/* eslint-disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: DeleteUserConvention
-// ====================================================
-
-export type DeleteUserConvention = {
-  delUserConvention: boolean
-};
-
-export type DeleteUserConventionVariables = {
-  userId?: ?number,
-  conId: number,
-};
-
-
-/* @flow */
-/* eslint-disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: UpvoteConventionInfo
-// ====================================================
-
-export type UpvoteConventionInfo_upvoteConventionInfo = {
-  __typename: "ConventionUserInfo",
+export type AddRecord_addUserRecord = {
+  __typename: "Record",
   id: number,
-  upvotes: number,
-  downvotes: number,
+  uuid: ?any,
+  products: Array<number>,
+  price: any,
+  time: any,
+  info: string,
 };
 
-export type UpvoteConventionInfo = {
-  upvoteConventionInfo: UpvoteConventionInfo_upvoteConventionInfo
+export type AddRecord = {
+  addUserRecord: AddRecord_addUserRecord
 };
 
-export type UpvoteConventionInfoVariables = {
-  userId?: ?number,
-  infoId: number,
+export type AddRecordVariables = {
+  id?: ?number,
+  record: RecordAdd,
 };
-
-
 /* @flow */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -251,36 +211,427 @@ export type AddUserConventionVariables = {
   userId?: ?number,
   conId: number,
 };
-
-
 /* @flow */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: AddPrice
+// GraphQL mutation operation: ChangeEmail
 // ====================================================
 
-export type AddPrice_addUserPrice = {
-  __typename: "Price",
-  typeId: number,
-  productId: ?number,
-  quantity: number,
-  price: any,
+export type ChangeEmail_changeUserEmail_settings = {
+  __typename: "Settings",
+  currency: any,
+  language: string,
 };
 
-export type AddPrice = {
-  addUserPrice: AddPrice_addUserPrice
+export type ChangeEmail_changeUserEmail_conventions_images = {
+  __typename: "ConventionImage",
+  id: string,
 };
 
-export type AddPriceVariables = {
-  userId?: ?number,
-  price: PriceAdd,
+export type ChangeEmail_changeUserEmail_conventions_extraInfo = {
+  __typename: "ConventionExtraInfo",
+  title: string,
+  info: ?string,
+  action: ?string,
+  actionText: ?string,
 };
 
+export type ChangeEmail_changeUserEmail_conventions_userInfo = {
+  __typename: "ConventionUserInfo",
+  id: number,
+  info: string,
+  vote: number,
+  upvotes: number,
+  downvotes: number,
+};
 
+export type ChangeEmail_changeUserEmail_conventions = {
+  __typename: "Convention",
+  id: number,
+  name: string,
+  images: Array<ChangeEmail_changeUserEmail_conventions_images>,
+  start: any,
+  end: any,
+  extraInfo: Array<ChangeEmail_changeUserEmail_conventions_extraInfo>,
+  userInfo: Array<ChangeEmail_changeUserEmail_conventions_userInfo>,
+  recordTotal: ?any,
+  expenseTotal: ?any,
+};
+
+export type ChangeEmail_changeUserEmail = {
+  __typename: "User",
+  name: string,
+  email: string,
+  verified: boolean,
+  settings: ChangeEmail_changeUserEmail_settings,
+  conventions: Array<ChangeEmail_changeUserEmail_conventions>,
+};
+
+export type ChangeEmail = {
+  changeUserEmail: ChangeEmail_changeUserEmail
+};
+
+export type ChangeEmailVariables = {
+  id?: ?number,
+  email: string,
+};
 /* @flow */
 /* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: ChangeName
+// ====================================================
+
+export type ChangeName_changeUserName_settings = {
+  __typename: "Settings",
+  currency: any,
+  language: string,
+};
+
+export type ChangeName_changeUserName_conventions_images = {
+  __typename: "ConventionImage",
+  id: string,
+};
+
+export type ChangeName_changeUserName_conventions_extraInfo = {
+  __typename: "ConventionExtraInfo",
+  title: string,
+  info: ?string,
+  action: ?string,
+  actionText: ?string,
+};
+
+export type ChangeName_changeUserName_conventions_userInfo = {
+  __typename: "ConventionUserInfo",
+  id: number,
+  info: string,
+  vote: number,
+  upvotes: number,
+  downvotes: number,
+};
+
+export type ChangeName_changeUserName_conventions = {
+  __typename: "Convention",
+  id: number,
+  name: string,
+  images: Array<ChangeName_changeUserName_conventions_images>,
+  start: any,
+  end: any,
+  extraInfo: Array<ChangeName_changeUserName_conventions_extraInfo>,
+  userInfo: Array<ChangeName_changeUserName_conventions_userInfo>,
+  recordTotal: ?any,
+  expenseTotal: ?any,
+};
+
+export type ChangeName_changeUserName = {
+  __typename: "User",
+  name: string,
+  email: string,
+  verified: boolean,
+  settings: ChangeName_changeUserName_settings,
+  conventions: Array<ChangeName_changeUserName_conventions>,
+};
+
+export type ChangeName = {
+  changeUserName: ChangeName_changeUserName
+};
+
+export type ChangeNameVariables = {
+  id?: ?number,
+  name: string,
+};
+/* @flow */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: ContributeConventionInfo
+// ====================================================
+
+export type ContributeConventionInfo_addConventionInfo = {
+  __typename: "ConventionUserInfo",
+  id: number,
+  info: string,
+  vote: number,
+  upvotes: number,
+  downvotes: number,
+};
+
+export type ContributeConventionInfo = {
+  addConventionInfo: ContributeConventionInfo_addConventionInfo
+};
+
+export type ContributeConventionInfoVariables = {
+  userId?: ?number,
+  conId: number,
+  info: string,
+};
+/* @flow */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: CreateConvention
+// ====================================================
+
+export type CreateConvention_createConvention = {
+  __typename: "Convention",
+  id: number,
+};
+
+export type CreateConvention = {
+  createConvention: CreateConvention_createConvention
+};
+
+export type CreateConventionVariables = {
+  title: string,
+  startDate: any,
+  endDate: any,
+};
+/* @flow */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: CreateSuggestion
+// ====================================================
+
+export type CreateSuggestion_createSuggestion_suggester = {
+  __typename: "User",
+  name: string,
+};
+
+export type CreateSuggestion_createSuggestion = {
+  __typename: "Suggestion",
+  id: number,
+  suggestion: string,
+  suggester: CreateSuggestion_createSuggestion_suggester,
+  status: number,
+  suggestedAt: any,
+  ranking: number,
+  voted: boolean,
+};
+
+export type CreateSuggestion = {
+  createSuggestion: CreateSuggestion_createSuggestion
+};
+
+export type CreateSuggestionVariables = {
+  suggestion: string
+};
+/* @flow */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteExpense
+// ====================================================
+
+export type DeleteExpense = {
+  delUserExpense: boolean
+};
+
+export type DeleteExpenseVariables = {
+  id?: ?number,
+  expense: ExpenseDel,
+};
+/* @flow */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeletePrice
+// ====================================================
+
+export type DeletePrice = {
+  delUserPrice: boolean
+};
+
+export type DeletePriceVariables = {
+  userId?: ?number,
+  price: PriceDel,
+};
+/* @flow */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteProductType
+// ====================================================
+
+export type DeleteProductType = {
+  delUserProductType: boolean
+};
+
+export type DeleteProductTypeVariables = {
+  id?: ?number,
+  typeId: number,
+};
+/* @flow */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteProduct
+// ====================================================
+
+export type DeleteProduct = {
+  delUserProduct: boolean
+};
+
+export type DeleteProductVariables = {
+  id?: ?number,
+  productId: number,
+};
+/* @flow */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteRecord
+// ====================================================
+
+export type DeleteRecord = {
+  delUserRecord: boolean
+};
+
+export type DeleteRecordVariables = {
+  id?: ?number,
+  record: RecordDel,
+};
+/* @flow */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteUserConvention
+// ====================================================
+
+export type DeleteUserConvention = {
+  delUserConvention: boolean
+};
+
+export type DeleteUserConventionVariables = {
+  userId?: ?number,
+  conId: number,
+};
+/* @flow */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DownvoteConventionInfo
+// ====================================================
+
+export type DownvoteConventionInfo_downvoteConventionInfo = {
+  __typename: "ConventionUserInfo",
+  id: number,
+  upvotes: number,
+  downvotes: number,
+};
+
+export type DownvoteConventionInfo = {
+  downvoteConventionInfo: DownvoteConventionInfo_downvoteConventionInfo
+};
+
+export type DownvoteConventionInfoVariables = {
+  userId?: ?number,
+  infoId: number,
+};
+/* @flow */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: ModProductType
+// ====================================================
+
+export type ModProductType_modUserProductType = {
+  __typename: "ProductType",
+  id: number,
+  name: string,
+  color: ?number,
+  discontinued: boolean,
+  sort: number,
+};
+
+export type ModProductType = {
+  modUserProductType: ModProductType_modUserProductType
+};
+
+export type ModProductTypeVariables = {
+  id?: ?number,
+  productType: ProductTypeMod,
+};
+/* @flow */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: ModProduct
+// ====================================================
+
+export type ModProduct_modUserProduct = {
+  __typename: "Product",
+  id: number,
+  typeId: number,
+  name: string,
+  sku: ?string,
+  quantity: number,
+  discontinued: boolean,
+  sort: number,
+};
+
+export type ModProduct = {
+  modUserProduct: ModProduct_modUserProduct
+};
+
+export type ModProductVariables = {
+  id?: ?number,
+  product: ProductMod,
+};
+/* @flow */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateCurrency
+// ====================================================
+
+export type UpdateCurrency_updateSettings = {
+  __typename: "SettingsMutation",
+  currency: any,
+};
+
+export type UpdateCurrency = {
+  updateSettings: UpdateCurrency_updateSettings
+};
+
+export type UpdateCurrencyVariables = {
+  id?: ?number,
+  currency: any,
+};
+/* @flow */
+/* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -305,209 +656,38 @@ export type UpdateExpenseVariables = {
   id?: ?number,
   expense: ExpenseMod,
 };
-
-
 /* @flow */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: CreateConvention
+// GraphQL mutation operation: UpdateLanguage
 // ====================================================
 
-export type CreateConvention_createConvention = {
-  __typename: "Convention",
-  id: number,
-};
-
-export type CreateConvention = {
-  createConvention: CreateConvention_createConvention
-};
-
-export type CreateConventionVariables = {
-  title: string,
-  startDate: any,
-  endDate: any,
-};
-
-
-/* @flow */
-/* eslint-disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: UpdateCurrency
-// ====================================================
-
-export type UpdateCurrency_updateSettings = {
+export type UpdateLanguage_updateSettings = {
   __typename: "SettingsMutation",
-  currency: any,
+  language: string,
 };
 
-export type UpdateCurrency = {
-  updateSettings: UpdateCurrency_updateSettings
+export type UpdateLanguage = {
+  updateSettings: UpdateLanguage_updateSettings
 };
 
-export type UpdateCurrencyVariables = {
+export type UpdateLanguageVariables = {
   id?: ?number,
-  currency: any,
+  language: string,
 };
-
-
 /* @flow */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: DeletePrice
+// GraphQL mutation operation: UpdateRecord
 // ====================================================
 
-export type DeletePrice = {
-  delUserPrice: boolean
-};
-
-export type DeletePriceVariables = {
-  userId?: ?number,
-  price: PriceDel,
-};
-
-
-/* @flow */
-/* eslint-disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: ModProduct
-// ====================================================
-
-export type ModProduct_modUserProduct = {
-  __typename: "Product",
-  id: number,
-  typeId: number,
-  name: string,
-  quantity: number,
-  discontinued: boolean,
-  sort: number,
-};
-
-export type ModProduct = {
-  modUserProduct: ModProduct_modUserProduct
-};
-
-export type ModProductVariables = {
-  id?: ?number,
-  product: ProductMod,
-};
-
-
-/* @flow */
-/* eslint-disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: ModProductType
-// ====================================================
-
-export type ModProductType_modUserProductType = {
-  __typename: "ProductType",
-  id: number,
-  name: string,
-  color: ?number,
-  discontinued: boolean,
-  sort: number,
-};
-
-export type ModProductType = {
-  modUserProductType: ModProductType_modUserProductType
-};
-
-export type ModProductTypeVariables = {
-  id?: ?number,
-  productType: ProductTypeMod,
-};
-
-
-/* @flow */
-/* eslint-disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: DeleteExpense
-// ====================================================
-
-export type DeleteExpense = {
-  delUserExpense: boolean
-};
-
-export type DeleteExpenseVariables = {
-  id?: ?number,
-  expense: ExpenseDel,
-};
-
-
-/* @flow */
-/* eslint-disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: DownvoteConventionInfo
-// ====================================================
-
-export type DownvoteConventionInfo_downvoteConventionInfo = {
-  __typename: "ConventionUserInfo",
-  id: number,
-  upvotes: number,
-  downvotes: number,
-};
-
-export type DownvoteConventionInfo = {
-  downvoteConventionInfo: DownvoteConventionInfo_downvoteConventionInfo
-};
-
-export type DownvoteConventionInfoVariables = {
-  userId?: ?number,
-  infoId: number,
-};
-
-
-/* @flow */
-/* eslint-disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: AddConventionInfo
-// ====================================================
-
-export type AddConventionInfo_addConventionExtraInfo = {
-  __typename: "ConventionExtraInfo",
-  title: string,
-  info: ?string,
-  action: ?string,
-  actionText: ?string,
-};
-
-export type AddConventionInfo = {
-  addConventionExtraInfo: AddConventionInfo_addConventionExtraInfo
-};
-
-export type AddConventionInfoVariables = {
-  conId: number,
-  title: string,
-  info?: ?string,
-  action?: ?string,
-  actionText?: ?string,
-};
-
-
-/* @flow */
-/* eslint-disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: AddRecord
-// ====================================================
-
-export type AddRecord_addUserRecord = {
+export type UpdateRecord_modUserRecord = {
   __typename: "Record",
   id: number,
   uuid: ?any,
@@ -517,18 +697,73 @@ export type AddRecord_addUserRecord = {
   info: string,
 };
 
-export type AddRecord = {
-  addUserRecord: AddRecord_addUserRecord
+export type UpdateRecord = {
+  modUserRecord: UpdateRecord_modUserRecord
 };
 
-export type AddRecordVariables = {
+export type UpdateRecordVariables = {
   id?: ?number,
-  record: RecordAdd,
+  record: RecordMod,
 };
-
-
 /* @flow */
 /* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpvoteConventionInfo
+// ====================================================
+
+export type UpvoteConventionInfo_upvoteConventionInfo = {
+  __typename: "ConventionUserInfo",
+  id: number,
+  upvotes: number,
+  downvotes: number,
+};
+
+export type UpvoteConventionInfo = {
+  upvoteConventionInfo: UpvoteConventionInfo_upvoteConventionInfo
+};
+
+export type UpvoteConventionInfoVariables = {
+  userId?: ?number,
+  infoId: number,
+};
+/* @flow */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: VoteForSuggestion
+// ====================================================
+
+export type VoteForSuggestion_voteForSuggestion_suggester = {
+  __typename: "User",
+  name: string,
+};
+
+export type VoteForSuggestion_voteForSuggestion = {
+  __typename: "Suggestion",
+  id: number,
+  suggestion: string,
+  suggester: VoteForSuggestion_voteForSuggestion_suggester,
+  status: number,
+  suggestedAt: any,
+  ranking: number,
+  voted: boolean,
+};
+
+export type VoteForSuggestion = {
+  voteForSuggestion: VoteForSuggestion_voteForSuggestion
+};
+
+export type VoteForSuggestionVariables = {
+  suggestionId: number
+};
+/* @flow */
+/* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -589,79 +824,9 @@ export type ConventionsConnectionVariables = {
   before?: ?string,
   after?: ?string,
 };
-
-
 /* @flow */
 /* eslint-disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL query operation: User
-// ====================================================
-
-export type User_user_settings = {
-  __typename: "Settings",
-  currency: any,
-  language: string,
-};
-
-export type User_user_conventions_images = {
-  __typename: "ConventionImage",
-  id: string,
-};
-
-export type User_user_conventions_extraInfo = {
-  __typename: "ConventionExtraInfo",
-  title: string,
-  info: ?string,
-  action: ?string,
-  actionText: ?string,
-};
-
-export type User_user_conventions_userInfo = {
-  __typename: "ConventionUserInfo",
-  id: number,
-  info: string,
-  vote: number,
-  upvotes: number,
-  downvotes: number,
-};
-
-export type User_user_conventions = {
-  __typename: "Convention",
-  id: number,
-  name: string,
-  images: Array<User_user_conventions_images>,
-  start: any,
-  end: any,
-  extraInfo: Array<User_user_conventions_extraInfo>,
-  userInfo: Array<User_user_conventions_userInfo>,
-  recordTotal: ?any,
-  expenseTotal: ?any,
-};
-
-export type User_user = {
-  __typename: "User",
-  name: string,
-  email: string,
-  settings: User_user_settings,
-  conventions: Array<User_user_conventions>,
-};
-
-export type User = {
-  /**
-   * Retrieves one user, corresponding to the provided ID
-   */
-  user: User_user
-};
-
-export type UserVariables = {
-  id?: ?number
-};
-
-
-/* @flow */
-/* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -695,6 +860,7 @@ export type FullConvention_convention_products = {
   id: number,
   typeId: number,
   name: string,
+  sku: ?string,
   quantity: number,
   discontinued: boolean,
   sort: number,
@@ -766,10 +932,9 @@ export type FullConventionVariables = {
   userId?: ?number,
   conId: number,
 };
-
-
 /* @flow */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -822,6 +987,7 @@ export type FullUser_user_products = {
   id: number,
   typeId: number,
   name: string,
+  sku: ?string,
   quantity: number,
   discontinued: boolean,
   sort: number,
@@ -848,6 +1014,7 @@ export type FullUser_user = {
   __typename: "User",
   name: string,
   email: string,
+  verified: boolean,
   settings: FullUser_user_settings,
   conventions: Array<FullUser_user_conventions>,
   clearance: number,
@@ -866,28 +1033,110 @@ export type FullUser = {
 export type FullUserVariables = {
   id?: ?number
 };
-
-
 /* @flow */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: UserFragment
+// GraphQL query operation: RecordsConnection
 // ====================================================
 
-export type UserFragment_settings = {
+export type RecordsConnection_recordsConnection_nodes = {
+  __typename: "Record",
+  id: number,
+  uuid: ?any,
+  products: Array<number>,
+  price: any,
+  time: any,
+  info: string,
+};
+
+export type RecordsConnection_recordsConnection = {
+  __typename: "RecordsConnection",
+  nodes: Array<RecordsConnection_recordsConnection_nodes>,
+  endCursor: ?string,
+  totalNodes: number,
+};
+
+export type RecordsConnection = {
+  /**
+   * Retrieves one page of records from sales not at a convention
+   */
+  recordsConnection: RecordsConnection_recordsConnection
+};
+
+export type RecordsConnectionVariables = {
+  limit?: ?number,
+  before?: ?string,
+  after?: ?string,
+};
+/* @flow */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: SuggestionsConnection
+// ====================================================
+
+export type SuggestionsConnection_suggestionsConnection_nodes_suggester = {
+  __typename: "User",
+  name: string,
+};
+
+export type SuggestionsConnection_suggestionsConnection_nodes = {
+  __typename: "Suggestion",
+  id: number,
+  suggestion: string,
+  suggester: SuggestionsConnection_suggestionsConnection_nodes_suggester,
+  status: number,
+  suggestedAt: any,
+  ranking: number,
+  voted: boolean,
+};
+
+export type SuggestionsConnection_suggestionsConnection = {
+  __typename: "SuggestionsConnection",
+  nodes: Array<SuggestionsConnection_suggestionsConnection_nodes>,
+  endCursor: ?string,
+  totalNodes: number,
+};
+
+export type SuggestionsConnection = {
+  /**
+   * Retrieves one page of suggestions
+   */
+  suggestionsConnection: SuggestionsConnection_suggestionsConnection
+};
+
+export type SuggestionsConnectionVariables = {
+  search?: ?string,
+  limit?: ?number,
+  before?: ?string,
+  after?: ?string,
+};
+/* @flow */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: User
+// ====================================================
+
+export type User_user_settings = {
   __typename: "Settings",
   currency: any,
   language: string,
 };
 
-export type UserFragment_conventions_images = {
+export type User_user_conventions_images = {
   __typename: "ConventionImage",
   id: string,
 };
 
-export type UserFragment_conventions_extraInfo = {
+export type User_user_conventions_extraInfo = {
   __typename: "ConventionExtraInfo",
   title: string,
   info: ?string,
@@ -895,7 +1144,7 @@ export type UserFragment_conventions_extraInfo = {
   actionText: ?string,
 };
 
-export type UserFragment_conventions_userInfo = {
+export type User_user_conventions_userInfo = {
   __typename: "ConventionUserInfo",
   id: number,
   info: string,
@@ -904,30 +1153,41 @@ export type UserFragment_conventions_userInfo = {
   downvotes: number,
 };
 
-export type UserFragment_conventions = {
+export type User_user_conventions = {
   __typename: "Convention",
   id: number,
   name: string,
-  images: Array<UserFragment_conventions_images>,
+  images: Array<User_user_conventions_images>,
   start: any,
   end: any,
-  extraInfo: Array<UserFragment_conventions_extraInfo>,
-  userInfo: Array<UserFragment_conventions_userInfo>,
+  extraInfo: Array<User_user_conventions_extraInfo>,
+  userInfo: Array<User_user_conventions_userInfo>,
   recordTotal: ?any,
   expenseTotal: ?any,
 };
 
-export type UserFragment = {
+export type User_user = {
   __typename: "User",
   name: string,
   email: string,
-  settings: UserFragment_settings,
-  conventions: Array<UserFragment_conventions>,
+  verified: boolean,
+  settings: User_user_settings,
+  conventions: Array<User_user_conventions>,
 };
 
+export type User = {
+  /**
+   * Retrieves one user, corresponding to the provided ID
+   */
+  user: User_user
+};
 
+export type UserVariables = {
+  id?: ?number
+};
 /* @flow */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -966,29 +1226,56 @@ export type ConventionBasicInfoFragment = {
   extraInfo: Array<ConventionBasicInfoFragment_extraInfo>,
   userInfo: Array<ConventionBasicInfoFragment_userInfo>,
 };
-
-
 /* @flow */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: RecordFragment
+// GraphQL fragment: ConventionImageFragment
 // ====================================================
 
-export type RecordFragment = {
-  __typename: "Record",
-  id: number,
-  uuid: ?any,
-  products: Array<number>,
-  price: any,
-  time: any,
-  info: string,
+export type ConventionImageFragment = {
+  __typename: "ConventionImage",
+  id: string,
 };
-
-
 /* @flow */
 /* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: ExpenseFragment
+// ====================================================
+
+export type ExpenseFragment = {
+  __typename: "Expense",
+  id: number,
+  uuid: ?any,
+  category: string,
+  description: string,
+  price: any,
+  time: any,
+};
+/* @flow */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: ExtraInfoFragment
+// ====================================================
+
+export type ExtraInfoFragment = {
+  __typename: "ConventionExtraInfo",
+  title: string,
+  info: ?string,
+  action: ?string,
+  actionText: ?string,
+};
+/* @flow */
+/* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1022,6 +1309,7 @@ export type FullConventionFragment_products = {
   id: number,
   typeId: number,
   name: string,
+  sku: ?string,
   quantity: number,
   discontinued: boolean,
   sort: number,
@@ -1081,74 +1369,9 @@ export type FullConventionFragment = {
   records: Array<FullConventionFragment_records>,
   expenses: Array<FullConventionFragment_expenses>,
 };
-
-
 /* @flow */
 /* eslint-disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL fragment: VotesFragment
-// ====================================================
-
-export type VotesFragment = {
-  __typename: "ConventionUserInfo",
-  upvotes: number,
-  downvotes: number,
-};
-
-
-/* @flow */
-/* eslint-disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL fragment: PriceFragment
-// ====================================================
-
-export type PriceFragment = {
-  __typename: "Price",
-  typeId: number,
-  productId: ?number,
-  quantity: number,
-  price: any,
-};
-
-
-/* @flow */
-/* eslint-disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL fragment: SettingsFragment
-// ====================================================
-
-export type SettingsFragment = {
-  __typename: "Settings",
-  currency: any,
-  language: string,
-};
-
-
-/* @flow */
-/* eslint-disable */
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL fragment: ExtraInfoFragment
-// ====================================================
-
-export type ExtraInfoFragment = {
-  __typename: "ConventionExtraInfo",
-  title: string,
-  info: ?string,
-  action: ?string,
-  actionText: ?string,
-};
-
-
-/* @flow */
-/* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1201,6 +1424,7 @@ export type FullUserFragment_products = {
   id: number,
   typeId: number,
   name: string,
+  sku: ?string,
   quantity: number,
   discontinued: boolean,
   sort: number,
@@ -1227,6 +1451,7 @@ export type FullUserFragment = {
   __typename: "User",
   name: string,
   email: string,
+  verified: boolean,
   settings: FullUserFragment_settings,
   conventions: Array<FullUserFragment_conventions>,
   clearance: number,
@@ -1234,10 +1459,9 @@ export type FullUserFragment = {
   productTypes: Array<FullUserFragment_productTypes>,
   prices: Array<FullUserFragment_prices>,
 };
-
-
 /* @flow */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1278,28 +1502,25 @@ export type MetaConventionFragment = {
   recordTotal: ?any,
   expenseTotal: ?any,
 };
-
-
 /* @flow */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: UserInfoFragment
+// GraphQL fragment: PriceFragment
 // ====================================================
 
-export type UserInfoFragment = {
-  __typename: "ConventionUserInfo",
-  id: number,
-  info: string,
-  vote: number,
-  upvotes: number,
-  downvotes: number,
+export type PriceFragment = {
+  __typename: "Price",
+  typeId: number,
+  productId: ?number,
+  quantity: number,
+  price: any,
 };
-
-
 /* @flow */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1314,10 +1535,9 @@ export type ProductTypeFragment = {
   discontinued: boolean,
   sort: number,
 };
-
-
 /* @flow */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1329,61 +1549,163 @@ export type ProductFragment = {
   id: number,
   typeId: number,
   name: string,
+  sku: ?string,
   quantity: number,
   discontinued: boolean,
   sort: number,
 };
-
-
 /* @flow */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: ConventionImageFragment
+// GraphQL fragment: RecordFragment
 // ====================================================
 
-export type ConventionImageFragment = {
+export type RecordFragment = {
+  __typename: "Record",
+  id: number,
+  uuid: ?any,
+  products: Array<number>,
+  price: any,
+  time: any,
+  info: string,
+};
+/* @flow */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: SettingsFragment
+// ====================================================
+
+export type SettingsFragment = {
+  __typename: "Settings",
+  currency: any,
+  language: string,
+};
+/* @flow */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: SuggestionFragment
+// ====================================================
+
+export type SuggestionFragment_suggester = {
+  __typename: "User",
+  name: string,
+};
+
+export type SuggestionFragment = {
+  __typename: "Suggestion",
+  id: number,
+  suggestion: string,
+  suggester: SuggestionFragment_suggester,
+  status: number,
+  suggestedAt: any,
+  ranking: number,
+  voted: boolean,
+};
+/* @flow */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: UserInfoFragment
+// ====================================================
+
+export type UserInfoFragment = {
+  __typename: "ConventionUserInfo",
+  id: number,
+  info: string,
+  vote: number,
+  upvotes: number,
+  downvotes: number,
+};
+/* @flow */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: UserFragment
+// ====================================================
+
+export type UserFragment_settings = {
+  __typename: "Settings",
+  currency: any,
+  language: string,
+};
+
+export type UserFragment_conventions_images = {
   __typename: "ConventionImage",
   id: string,
 };
 
+export type UserFragment_conventions_extraInfo = {
+  __typename: "ConventionExtraInfo",
+  title: string,
+  info: ?string,
+  action: ?string,
+  actionText: ?string,
+};
 
+export type UserFragment_conventions_userInfo = {
+  __typename: "ConventionUserInfo",
+  id: number,
+  info: string,
+  vote: number,
+  upvotes: number,
+  downvotes: number,
+};
+
+export type UserFragment_conventions = {
+  __typename: "Convention",
+  id: number,
+  name: string,
+  images: Array<UserFragment_conventions_images>,
+  start: any,
+  end: any,
+  extraInfo: Array<UserFragment_conventions_extraInfo>,
+  userInfo: Array<UserFragment_conventions_userInfo>,
+  recordTotal: ?any,
+  expenseTotal: ?any,
+};
+
+export type UserFragment = {
+  __typename: "User",
+  name: string,
+  email: string,
+  verified: boolean,
+  settings: UserFragment_settings,
+  conventions: Array<UserFragment_conventions>,
+};
 /* @flow */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: ExpenseFragment
+// GraphQL fragment: VotesFragment
 // ====================================================
 
-export type ExpenseFragment = {
-  __typename: "Expense",
-  id: number,
-  uuid: ?any,
-  category: string,
-  description: string,
-  price: any,
-  time: any,
-};
-
-/* @flow */
+export type VotesFragment = {
+  __typename: "ConventionUserInfo",
+  upvotes: number,
+  downvotes: number,
+};/* @flow */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
-
-export type RecordMod = {|
-  recordId: number,
-  products?: ?Array<number>,
-  price?: ?any,
-  info?: ?string,
-|};
-/**
- *  Information required to modify a sales record
- */
 
 export type ExpenseAdd = {|
   conId: number,
@@ -1395,6 +1717,16 @@ export type ExpenseAdd = {|
 |};
 /**
  *  Information required to create a convention expense
+ */
+
+export type PriceAdd = {|
+  typeId: number,
+  productId?: ?number,
+  quantity: number,
+  price: any,
+|};
+/**
+ *  Information required to create a new price
  */
 
 export type ProductTypeAdd = {|
@@ -1409,6 +1741,7 @@ export type ProductTypeAdd = {|
 export type ProductAdd = {|
   typeId: number,
   name: string,
+  sku?: ?string,
   quantity: number,
   sort: number,
 |};
@@ -1416,32 +1749,24 @@ export type ProductAdd = {|
  *  Information required to create a new product
  */
 
-export type RecordDel = {|
-  recordId?: ?number,
+export type RecordAdd = {|
+  conId?: ?number,
+  uuid: any,
+  products: Array<number>,
+  price: any,
+  time: any,
+  info: string,
+|};
+/**
+ *  Information required to create a sales record
+ */
+
+export type ExpenseDel = {|
+  expenseId?: ?number,
   uuid?: ?any,
 |};
 /**
- *  Information required to delete a sales record
- */
-
-export type PriceAdd = {|
-  typeId: number,
-  productId?: ?number,
-  quantity: number,
-  price: any,
-|};
-/**
- *  Information required to create a new price
- */
-
-export type ExpenseMod = {|
-  expenseId: number,
-  price?: ?any,
-  category?: ?string,
-  description?: ?string,
-|};
-/**
- *  Information required to modify a convention expense
+ *  Information required to delete a convention expense
  */
 
 export type PriceDel = {|
@@ -1453,15 +1778,12 @@ export type PriceDel = {|
  *  Information required to delete an existing price
  */
 
-export type ProductMod = {|
-  productId: number,
-  name?: ?string,
-  quantity?: ?number,
-  discontinued?: ?boolean,
-  sort?: ?number,
+export type RecordDel = {|
+  recordId?: ?number,
+  uuid?: ?any,
 |};
 /**
- *  Information required to modify an existing product
+ *  Information required to delete a sales record
  */
 
 export type ProductTypeMod = {|
@@ -1475,24 +1797,36 @@ export type ProductTypeMod = {|
  *  Information required to modify an existing product type
  */
 
-export type ExpenseDel = {|
-  expenseId?: ?number,
-  uuid?: ?any,
+export type ProductMod = {|
+  productId: number,
+  name?: ?string,
+  sku?: ?string,
+  quantity?: ?number,
+  discontinued?: ?boolean,
+  sort?: ?number,
 |};
 /**
- *  Information required to delete a convention expense
+ *  Information required to modify an existing product
  */
 
-export type RecordAdd = {|
-  conId: number,
-  uuid: any,
-  products: Array<number>,
-  price: any,
-  time: any,
-  info: string,
+export type ExpenseMod = {|
+  expenseId: number,
+  price?: ?any,
+  category?: ?string,
+  description?: ?string,
 |};
 /**
- *  Information required to create a sales record
+ *  Information required to modify a convention expense
+ */
+
+export type RecordMod = {|
+  recordId: number,
+  products?: ?Array<number>,
+  price?: ?any,
+  info?: ?string,
+|};
+/**
+ *  Information required to modify a sales record
  */
 
 //==============================================================

@@ -61,23 +61,23 @@ module.exports = env => {
     },
     module: {
       rules: [
-        { test: /\.md$/, loader: 'html-loader!markdown-loader?smartypants=true' },
+        { test: /\.md$/, use: ['html-loader', { loader: 'markdown-loader', options: { smartypants: true } }] },
         { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
-        { test: /\.(woff2?)$/, loader: 'file-loader?name=fonts/[hash].[ext]' },
-        { test: /\.(png|svg|gif|jpe?g)$/, loader: 'file-loader?name=images/[hash].[ext]!img-loader' },
+        { test: /\.(woff2?)$/, use: [{ loader: 'file-loader', options: { name: 'fonts/[hash].[ext]' } }] },
+        { test: /\.(png|svg|gif|jpe?g)$/, use: [{ loader: 'file-loader', options: { name: 'images/[hash].[ext]' } }, 'img-loader'] },
         {
           test: /\.css$/,
           exclude: /node_modules/,
           use: env === PROD || env === STAGING
             ? [
                 MiniCssExtractPlugin.loader,
-                'css-loader?modules=true',
+                { loader: 'css-loader', options: { modules: true } },
                 'postcss-loader',
               ]
             : [
                 MiniCssExtractPlugin.loader,
                 'css-modules-flow-types-loader',
-                'css-loader?modules=true',
+                { loader: 'css-loader', options: { modules: true } },
                 'postcss-loader',
               ],
         },
@@ -88,45 +88,9 @@ module.exports = env => {
     resolve: {
       extensions: ['.js', '.json'],
     },
-    devtool: env === PROD || env === STAGING ? 'source-map' : 'cheap-module-eval-source-map',
+    devtool: env === PROD || env === STAGING ? 'source-map' : 'cheap-module-source-map',
     optimization: {
       minimize: env === PROD || env === STAGING,
-      splitChunks: {
-        minSize: 0,
-        maxSize: 0,
-        maxAsyncRequests: Infinity,
-        maxInitialRequests: Infinity,
-        cacheGroups: {
-          default: false,
-          vendors: { // prevent creating 'vendors' chunks
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            chunks: () => false,
-          },
-          react: {
-            test: /[\\/]node_modules[\\/](react|react-dom)/,
-            name: 'react',
-            chunks: 'all',
-          },
-          apollo: {
-            test: /[\\/]node_modules[\\/](graphql|apollo-client|apollo-link|apollo-link-batch-http|apollo-cache|apollo-cache-inmemory|apollo-utilities|zen-observable|optimism)/,
-            name: 'apollo',
-            chunks: 'all',
-            minSize: 0,
-          },
-          datefns: {
-            test: /[\\/]node_modules[\\/](date-fns)/,
-            name: 'date-fns',
-            chunks: 'all',
-            minSize: 0,
-          },
-          rxjs: {
-            test: /[\\/]node_modules[\\/](rxjs)/,
-            name: 'rxjs',
-            chunks: 'all',
-          },
-        }
-      }
     },
     plugins,
   }

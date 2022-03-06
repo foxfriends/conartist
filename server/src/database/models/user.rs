@@ -6,10 +6,10 @@ use diesel::Queryable;
 pub struct RawUser {
     pub user_id: i32,
     pub email: Option<String>,
+    pub name: String,
     pub password: String,
     pub keys: i32,
     pub join_date: NaiveDateTime,
-    pub name: String,
 }
 
 impl RawUser {

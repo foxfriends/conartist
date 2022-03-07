@@ -1,0 +1,16 @@
+title = "Otafest"
+start_date = 2022-05-21
+end_date = 2022-05-22
+
+[website]
+title = "otafest.com"
+url = "https://otafest.com/"
+
+[address]
+address = "Calgary TELUS Convention Centre\n136 8 Ave SE\nCalgary, AB, Canada\nT2G 0K6"
+city = "Ottawa, ON"
+country = "Canada"
+
+[address.coordinates]
+lat = 51.0456664
+lon = -114.063245

@@ -1,34 +1,36 @@
 //! Handles authentication and re-authentication of users using JWT authentication.
 //! This is the only part of the API that is exposed to unauthenticated users.
 
-use log::info;
-use iron::prelude::*;
-use iron::{status, Handler, iexpect, itry};
-use router::Router;
-use params::{Params, Value};
-use bcrypt;
-use serde::Deserialize;
+use crate::cr;
 use crate::database::Database;
 use crate::middleware::VerifyJWT;
-use crate::cr;
+use bcrypt;
 use bodyparser;
+use iron::prelude::*;
+use iron::{iexpect, itry, status, Handler};
+use log::info;
+use params::{Params, Value};
+use router::Router;
+use serde::Deserialize;
 
-#[cfg(feature="mailer")]
-use crate::email::reset_password;
 use super::authtoken::{self, Claims};
+#[cfg(feature = "mailer")]
+use crate::email::reset_password;
 
 fn reauth(req: &mut Request<'_, '_>) -> IronResult<Response> {
-    let claims = iexpect!{ req.extensions.get::<Claims>() };
+    let claims = iexpect! { req.extensions.get::<Claims>() };
     let authtoken = itry! { authtoken::updating_claims(&claims) };
     return cr::ok(authtoken);
 }
 
-struct Auth { database: Database }
+struct Auth {
+    database: Database,
+}
 impl Handler for Auth {
     fn handle(&self, req: &mut Request<'_, '_>) -> IronResult<Response> {
-        let params = itry!{ req.get_ref::<Params>(), status::BadRequest };
-        let usr = iexpect!{ params.get("usr") };
-        let psw = iexpect!{ params.get("psw") };
+        let params = itry! { req.get_ref::<Params>(), status::BadRequest };
+        let usr = iexpect! { params.get("usr") };
+        let psw = iexpect! { params.get("psw") };
 
         if let (&Value::String(ref email), &Value::String(ref password)) = (usr, psw) {
             match self.database.get_user_for_email(&email.to_lowercase()) {
@@ -57,12 +59,16 @@ struct ChangePasswordData {
     pub new: String,
 }
 
-struct ChangePassword { database: Database }
+struct ChangePassword {
+    database: Database,
+}
 impl Handler for ChangePassword {
     fn handle(&self, req: &mut Request<'_, '_>) -> IronResult<Response> {
-        let rbody = itry!{ req.get::<bodyparser::Struct<ChangePasswordData>>(), status::BadRequest }.clone();
-        let claims = iexpect!{ req.extensions.get::<Claims>() };
-        let ChangePasswordData { old, new } = iexpect!{ rbody };
+        let rbody =
+            itry! { req.get::<bodyparser::Struct<ChangePasswordData>>(), status::BadRequest }
+                .clone();
+        let claims = iexpect! { req.extensions.get::<Claims>() };
+        let ChangePasswordData { old, new } = iexpect! { rbody };
         if old.is_empty() || new.is_empty() {
             return cr::fail("Invalid request");
         }
@@ -78,27 +84,35 @@ struct ResetPasswordData {
     pub email: String,
 }
 
-struct ResetPassword { database: Database }
+struct ResetPassword {
+    database: Database,
+}
 impl Handler for ResetPassword {
     fn handle(&self, req: &mut Request<'_, '_>) -> IronResult<Response> {
-        let rbody = itry!{ req.get::<bodyparser::Struct<ResetPasswordData>>(), status::BadRequest }.clone();
-        let ResetPasswordData { email } = iexpect!{ rbody };
+        let rbody =
+            itry! { req.get::<bodyparser::Struct<ResetPasswordData>>(), status::BadRequest }
+                .clone();
+        let ResetPasswordData { email } = iexpect! { rbody };
         if email.is_empty() {
             return cr::fail("Invalid request");
         }
         match self.database.reset_password(&email.to_lowercase()) {
             Ok(password_reset) => {
-                #[cfg(feature="mailer")] {
-                    if let Err(error) = reset_password::send(email, password_reset.verification_code) {
+                #[cfg(feature = "mailer")]
+                {
+                    if let Err(error) =
+                        reset_password::send(email, password_reset.verification_code)
+                    {
                         cr::fail(&format!("{}", error))
                     } else {
                         cr::ok(true)
                     }
                 }
-                #[cfg(not(feature="mailer"))] {
+                #[cfg(not(feature = "mailer"))]
+                {
                     cr::ok(true)
                 }
-            },
+            }
             Err(ref s) => cr::fail(s),
         }
     }
@@ -109,9 +123,25 @@ pub fn new(db: Database) -> Router {
 
     router
         .get("/", chain![ VerifyJWT::new(); reauth ], "reauth")
-        .post("/", Auth{ database: db.clone() }, "auth")
-        .post("/reset-password", ResetPassword { database: db.clone() }, "auth_reset_password")
-        .post("/change-password", chain![ VerifyJWT::new(); ChangePassword { database: db } ], "auth_change_password");
+        .post(
+            "/",
+            Auth {
+                database: db.clone(),
+            },
+            "auth",
+        )
+        .post(
+            "/reset-password",
+            ResetPassword {
+                database: db.clone(),
+            },
+            "auth_reset_password",
+        )
+        .post(
+            "/change-password",
+            chain![ VerifyJWT::new(); ChangePassword { database: db } ],
+            "auth_change_password",
+        );
 
     router
 }

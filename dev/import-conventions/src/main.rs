@@ -1,14 +1,19 @@
-#[macro_use] extern crate diesel;
+#[macro_use]
+extern crate diesel;
 
 use chrono::NaiveDate;
-use std::{fs::{self, File}, io::{self, Write}, env};
+use diesel::{pg::PgConnection, prelude::*, sql_query};
 use serde_json::json;
-use diesel::{prelude::*, pg::PgConnection, sql_query};
+use std::{
+    env,
+    fs::{self, File},
+    io::{self, Write},
+};
 
-mod schema;
 mod model;
+mod schema;
 use crate::model::*;
-use crate::schema::{conventions, conventionextrainfo};
+use crate::schema::{conventionextrainfo, conventions};
 
 fn main() -> io::Result<()> {
     dotenv::dotenv().unwrap();
@@ -51,13 +56,19 @@ fn main() -> io::Result<()> {
                         conventionextrainfo::con_id.eq(id),
                         conventionextrainfo::title.eq("Address"),
                         conventionextrainfo::info.eq(json!(&convention.address.address)),
-                        conventionextrainfo::action.eq(format!("conartist://map?coords=[{},{}]", convention.address.coordinates.lat, convention.address.coordinates.lon)),
+                        conventionextrainfo::action.eq(format!(
+                            "conartist://map?coords=[{},{}]",
+                            convention.address.coordinates.lat, convention.address.coordinates.lon
+                        )),
                     ))
                     .on_conflict((conventionextrainfo::con_id, conventionextrainfo::title))
                     .do_update()
                     .set((
                         conventionextrainfo::info.eq(json!(&convention.address.address)),
-                        conventionextrainfo::action.eq(format!("conartist://map?coords=[{},{}]", convention.address.coordinates.lat, convention.address.coordinates.lon)),
+                        conventionextrainfo::action.eq(format!(
+                            "conartist://map?coords=[{},{}]",
+                            convention.address.coordinates.lat, convention.address.coordinates.lon
+                        )),
                     ))
                     .execute(&connection)?;
                 diesel::insert_into(conventionextrainfo::table)
@@ -107,14 +118,10 @@ fn main() -> io::Result<()> {
                     ))
                     .execute(&connection)?;
                 if let Some(ref hours) = convention.hours {
-                    let hours_json = json!(
-                        hours
-                            .iter()
-                            .map(|Hours { start, end }|
-                                vec![start.to_string(), end.to_string()]
-                            )
-                            .collect::<Vec<_>>()
-                    );
+                    let hours_json = json!(hours
+                        .iter()
+                        .map(|Hours { start, end }| vec![start.to_string(), end.to_string()])
+                        .collect::<Vec<_>>());
                     diesel::insert_into(conventionextrainfo::table)
                         .values((
                             conventionextrainfo::con_id.eq(id),
@@ -128,7 +135,12 @@ fn main() -> io::Result<()> {
                 }
                 Ok(id)
             })
-            .map_err(|reason| format!("Failed when attempting to add convention {:?}: {}", convention, reason))
+            .map_err(|reason| {
+                format!(
+                    "Failed when attempting to add convention {:?}: {}",
+                    convention, reason
+                )
+            })
             .unwrap();
         if save_ids {
             convention.id = Some(id);

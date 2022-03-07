@@ -37,17 +37,19 @@ impl Address {
         longitude: f32,
     ) -> Address {
         Address {
-            city: region.as_ref()
+            city: region
+                .as_ref()
                 .map(|region| format!("{}, {}", locality, region))
                 .unwrap_or_else(|| format!("{}", locality)),
             country: format!("{}", country),
-            address: region.as_ref()
+            address: region
+                .as_ref()
                 .map(|region| format!("{}\n{}, {}\n{}", venue, locality, region, country))
                 .unwrap_or_else(|| format!("{}\n{}, {}", venue, locality, country)),
             coordinates: Coordinates {
                 lat: latitude,
                 lon: longitude,
-            }
+            },
         }
     }
 }

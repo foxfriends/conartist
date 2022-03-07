@@ -39,19 +39,21 @@ impl Search {
             match state {
                 State::Body if ch == '{' => state = State::FieldName(String::new()),
                 State::Body => body.push(ch),
-                State::FieldName(ref key) if ch == ':' => state = State::FieldValue(key.to_owned(), String::new()),
+                State::FieldName(ref key) if ch == ':' => {
+                    state = State::FieldValue(key.to_owned(), String::new())
+                }
                 State::FieldName(ref mut key) => key.push(ch),
                 State::FieldValue(ref key, ref value) if ch == '}' => {
                     fields.insert(key.to_lowercase(), value.to_string());
                     state = State::Body;
                 }
-                State::FieldValue(_, ref mut value) => value.push(ch)
+                State::FieldValue(_, ref mut value) => value.push(ch),
             }
         }
 
         // have to do some clean up in the end cases
         match state {
-            State::Body => {},
+            State::Body => {}
             // if there was an incomplete name, pretend it doesn't exist
             State::FieldName(ref key) => {
                 body.push('{');

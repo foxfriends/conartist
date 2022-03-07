@@ -1,11 +1,11 @@
 //! Input objects needed to modify convention expense
-use juniper::GraphQLInputObject;
-use chrono::{DateTime, FixedOffset};
-use uuid::Uuid;
 use crate::money::Money;
+use chrono::{DateTime, FixedOffset};
+use juniper::GraphQLInputObject;
+use uuid::Uuid;
 
 #[derive(Clone, GraphQLInputObject)]
-#[graphql(description="Information required to create a convention expense")]
+#[graphql(description = "Information required to create a convention expense")]
 pub struct ExpenseAdd {
     pub con_id: i32,
     pub uuid: Uuid,
@@ -16,7 +16,7 @@ pub struct ExpenseAdd {
 }
 
 #[derive(Clone, GraphQLInputObject)]
-#[graphql(description="Information required to modify a convention expense")]
+#[graphql(description = "Information required to modify a convention expense")]
 pub struct ExpenseMod {
     pub expense_id: i32,
     pub price: Option<Money>,
@@ -25,7 +25,7 @@ pub struct ExpenseMod {
 }
 
 #[derive(Clone, GraphQLInputObject)]
-#[graphql(description="Information required to delete a convention expense")]
+#[graphql(description = "Information required to delete a convention expense")]
 pub struct ExpenseDel {
     pub expense_id: Option<i32>,
     pub uuid: Option<Uuid>,

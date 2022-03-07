@@ -1,10 +1,10 @@
 //! The Expenses table
+use diesel::{AsChangeset, Queryable};
 use uuid::Uuid;
-use diesel::{Queryable, AsChangeset};
 
+use super::time::Time;
 use crate::database::schema::*;
 use crate::money::Money;
-use super::time::Time;
 
 #[derive(Queryable, Clone, Debug)]
 pub struct Expense {
@@ -19,7 +19,7 @@ pub struct Expense {
 }
 
 #[derive(AsChangeset, Debug)]
-#[table_name="expenses"]
+#[table_name = "expenses"]
 pub struct ExpenseChanges {
     pub category: Option<String>,
     pub description: Option<String>,
@@ -27,7 +27,11 @@ pub struct ExpenseChanges {
 }
 
 impl ExpenseChanges {
-    pub fn new(category: Option<String>, description: Option<String>, price: Option<Money>) -> Self {
+    pub fn new(
+        category: Option<String>,
+        description: Option<String>,
+        price: Option<Money>,
+    ) -> Self {
         Self {
             category,
             description,

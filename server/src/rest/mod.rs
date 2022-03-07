@@ -1,11 +1,11 @@
 //! Exposes the v1 (REST) API.
 
-pub mod auth;
 pub mod account;
+pub mod auth;
 pub mod authtoken;
 
-use mount::Mount;
 use crate::database::Database;
+use mount::Mount;
 
 pub fn new(db: Database) -> Mount {
     let mut mount = Mount::new();

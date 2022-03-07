@@ -1,9 +1,9 @@
 //! Input objects needed to modify prices
-use juniper::GraphQLInputObject;
 use crate::money::Money;
+use juniper::GraphQLInputObject;
 
 #[derive(Clone, GraphQLInputObject)]
-#[graphql(description="Information required to create a new price")]
+#[graphql(description = "Information required to create a new price")]
 pub struct PriceAdd {
     pub type_id: i32,
     pub product_id: Option<i32>,
@@ -12,7 +12,7 @@ pub struct PriceAdd {
 }
 
 #[derive(Clone, Copy, GraphQLInputObject)]
-#[graphql(description="Information required to delete an existing price")]
+#[graphql(description = "Information required to delete an existing price")]
 pub struct PriceDel {
     pub type_id: i32,
     pub product_id: Option<i32>,

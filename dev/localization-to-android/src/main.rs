@@ -1,4 +1,4 @@
-use std::io::{self, Read, stdin};
+use std::io::{self, stdin, Read};
 use toml::Value;
 use treexml::{Document, ElementBuilder as E};
 
@@ -7,7 +7,8 @@ fn sanitize(name: &str) -> String {
 }
 
 fn encode(string: &str) -> String {
-    let mut string = string.replace("'", "\\'")
+    let mut string = string
+        .replace("'", "\\'")
         .replace("\"", "\\\"")
         .replace("?", "\\?")
         .replace("@", "\\@");
@@ -24,7 +25,8 @@ fn main() -> io::Result<()> {
     stdin().read_to_string(&mut contents)?;
     let toml_document = toml::from_str::<toml::Value>(&contents).unwrap();
     let table = toml_document.as_table().unwrap();
-    let mut children: Vec<_> = table.into_iter()
+    let mut children: Vec<_> = table
+        .into_iter()
         .map(|(name, value)| (sanitize(name), value))
         .map(|(name, value)| {
             let string = match value {

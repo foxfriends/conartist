@@ -2,14 +2,14 @@
 //! file for any un-found URLs to support the single page application architecture.
 
 use iron::Chain;
-use std::path::Path;
 use staticfile::Static;
+use std::path::Path;
 
 use super::middleware::DefaultTo;
-use crate::env::{WEB_ROOT, INDEX_FILE};
+use crate::env::{INDEX_FILE, WEB_ROOT};
 
 pub fn new() -> Chain {
-    chain! [
+    chain![
         #[ DefaultTo::new(INDEX_FILE.to_string()) ]
         Static::new(Path::new(&WEB_ROOT.to_string()))
     ]

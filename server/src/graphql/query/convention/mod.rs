@@ -2,14 +2,14 @@
 use chrono::{DateTime, Utc};
 use juniper::{graphql_object, FieldResult};
 
-mod extra_info;
-mod user_info;
-mod image;
 mod connection;
+mod extra_info;
+mod image;
+mod user_info;
 
-use crate::money::Money;
 use crate::database::models::*;
 use crate::database::Database;
+use crate::money::Money;
 
 graphql_object!(Convention: Database |&self| {
     description: "Holds information about a convention and a user's records at that convention"

@@ -1,7 +1,7 @@
-use juniper::graphql_object;
 use super::super::connection::{Connection, Edge};
-use crate::database::Database;
 use crate::database::models::*;
+use crate::database::Database;
+use juniper::graphql_object;
 
 graphql_object!(Connection<Record, Option<i32>>: Database as "RecordsConnection" |&self| {
     description: "A series of records, not affiliated with a convention"

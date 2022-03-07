@@ -1,8 +1,8 @@
 //! Holds information about the price of a product or product type
-use juniper::graphql_object;
-use crate::database::Database;
 use crate::database::models::*;
+use crate::database::Database;
 use crate::money::Money;
+use juniper::graphql_object;
 
 graphql_object!(Price: Database |&self| {
     field price_id() -> i32 { self.price_id }

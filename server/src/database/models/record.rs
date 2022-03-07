@@ -1,10 +1,10 @@
 //! The Records table
+use diesel::{AsChangeset, Queryable};
 use uuid::Uuid;
-use diesel::{Queryable, AsChangeset};
 
+use super::time::Time;
 use crate::database::schema::*;
 use crate::money::Money;
-use super::time::Time;
 
 #[derive(Queryable, Clone, Debug)]
 pub struct Record {
@@ -19,7 +19,7 @@ pub struct Record {
 }
 
 #[derive(AsChangeset, Debug)]
-#[table_name="records"]
+#[table_name = "records"]
 pub struct RecordChanges {
     pub products: Option<Vec<i32>>,
     pub price: Option<String>,

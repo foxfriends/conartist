@@ -1,11 +1,11 @@
 //! Holds information about a convention expense
-use juniper::graphql_object;
 use chrono::{DateTime, FixedOffset};
+use juniper::graphql_object;
 use uuid::Uuid;
 
-use crate::money::Money;
-use crate::database::Database;
 use crate::database::models::*;
+use crate::database::Database;
+use crate::money::Money;
 
 graphql_object!(Expense: Database |&self| {
     description: "Holds information about a convention expense"

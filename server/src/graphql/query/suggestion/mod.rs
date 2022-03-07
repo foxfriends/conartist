@@ -1,6 +1,6 @@
 //! Holds information about a suggestion
-use juniper::{graphql_object, FieldResult};
 use chrono::{DateTime, Utc};
+use juniper::{graphql_object, FieldResult};
 
 mod connection;
 

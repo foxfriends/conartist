@@ -6,12 +6,12 @@ mod record;
 mod suggestion;
 mod user;
 
-use chrono::{DateTime, Utc, FixedOffset};
-use juniper::{graphql_object, FieldResult};
-use crate::database::Database;
-use crate::database::models::*;
 use self::connection::Connection;
+use crate::database::models::*;
+use crate::database::Database;
 use crate::search::Search;
+use chrono::{DateTime, FixedOffset, Utc};
+use juniper::{graphql_object, FieldResult};
 
 pub struct Query;
 

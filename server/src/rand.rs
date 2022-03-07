@@ -1,8 +1,8 @@
 //! A global SystemRandom instance
 
-use lazy_static::lazy_static;
 use chrono::offset::Utc;
-use ring::rand::{SystemRandom, SecureRandom};
+use lazy_static::lazy_static;
+use ring::rand::{SecureRandom, SystemRandom};
 
 lazy_static! {
     static ref SYS_RAND: SystemRandom = SystemRandom::new();

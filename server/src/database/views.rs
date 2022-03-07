@@ -1,5 +1,5 @@
-use diesel::{table, allow_tables_to_appear_in_same_query};
 use super::schema::{prices, suggestions, suggestionvotes};
+use diesel::{allow_tables_to_appear_in_same_query, table};
 
 table! {
     currentprices (mod_date) {
@@ -40,16 +40,7 @@ table! {
     }
 }
 
-allow_tables_to_appear_in_same_query!(
-    suggestions,
-    scoredsuggestions,
-);
+allow_tables_to_appear_in_same_query!(suggestions, scoredsuggestions,);
 
-allow_tables_to_appear_in_same_query!(
-    suggestionvotes,
-    scoredsuggestions,
-);
-allow_tables_to_appear_in_same_query!(
-    prices,
-    currentprices,
-);
+allow_tables_to_appear_in_same_query!(suggestionvotes, scoredsuggestions,);
+allow_tables_to_appear_in_same_query!(prices, currentprices,);

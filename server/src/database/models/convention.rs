@@ -1,8 +1,8 @@
 //! The Conventions table, and the join of Conventions and all of the user's data
 
 use chrono::{NaiveDate, NaiveDateTime};
-use serde_json::Value;
 use diesel::Queryable;
+use serde_json::Value;
 
 #[derive(Queryable, Clone, Debug)]
 pub struct ConventionExtraInfo {

@@ -1,13 +1,13 @@
-use std::io::Write;
-use diesel::pg::Pg;
-use diesel::sql_types::Text;
+use crate::money::{Currency, Money};
 use diesel::deserialize::{self, FromSql, FromSqlRow};
+use diesel::pg::Pg;
 use diesel::serialize::{self, Output, ToSql};
+use diesel::sql_types::Text;
 use diesel::Queryable;
-use juniper::{Value, graphql_scalar, ParseScalarValue, ParseScalarResult};
+use juniper::{graphql_scalar, ParseScalarResult, ParseScalarValue, Value};
 use std::error::Error;
+use std::io::Write;
 use std::str::FromStr;
-use crate::money::{Money, Currency};
 
 graphql_scalar!(Money where Scalar = <S> {
     description: "Represents a monetary value and a currency as a string, such as CAD150 for $1.50 in CAD"
@@ -35,7 +35,8 @@ impl Into<i64> for Money {
 impl FromSql<Text, Pg> for Money {
     fn from_sql(bytes: Option<&[u8]>) -> deserialize::Result<Self> {
         let string: String = FromSql::<Text, Pg>::from_sql(bytes)?;
-        FromStr::from_str(&string).map_err(|_| format!("Could not parse Money from {}", string).into())
+        FromStr::from_str(&string)
+            .map_err(|_| format!("Could not parse Money from {}", string).into())
     }
 }
 
@@ -46,7 +47,9 @@ impl ToSql<Text, Pg> for Money {
 }
 
 impl FromSqlRow<Text, Pg> for Money {
-    fn build_from_row<R: ::diesel::row::Row<Pg>>(row: &mut R) -> Result<Self, Box<dyn Error+Send+Sync>> {
+    fn build_from_row<R: ::diesel::row::Row<Pg>>(
+        row: &mut R,
+    ) -> Result<Self, Box<dyn Error + Send + Sync>> {
         FromSql::<Text, Pg>::from_sql(row.take())
     }
 }
@@ -78,7 +81,8 @@ graphql_scalar!(Currency where Scalar = <S> {
 impl FromSql<Text, Pg> for Currency {
     fn from_sql(bytes: Option<&[u8]>) -> deserialize::Result<Self> {
         let string: String = FromSql::<Text, Pg>::from_sql(bytes)?;
-        FromStr::from_str(&string).map_err(|_| format!("Could not parse Currency from {}", string).into())
+        FromStr::from_str(&string)
+            .map_err(|_| format!("Could not parse Currency from {}", string).into())
     }
 }
 
@@ -89,7 +93,9 @@ impl ToSql<Text, Pg> for Currency {
 }
 
 impl FromSqlRow<Text, Pg> for Currency {
-    fn build_from_row<R: ::diesel::row::Row<Pg>>(row: &mut R) -> Result<Self, Box<dyn Error+Send+Sync>> {
+    fn build_from_row<R: ::diesel::row::Row<Pg>>(
+        row: &mut R,
+    ) -> Result<Self, Box<dyn Error + Send + Sync>> {
         FromSql::<Text, Pg>::from_sql(row.take())
     }
 }

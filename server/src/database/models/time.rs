@@ -1,12 +1,12 @@
 use chrono::{DateTime, FixedOffset};
-use diesel::pg::Pg;
-use diesel::sql_types::Text;
 use diesel::deserialize::{self, FromSql, FromSqlRow};
+use diesel::pg::Pg;
 use diesel::serialize::{self, Output, ToSql};
+use diesel::sql_types::Text;
 use diesel::Queryable;
 
-use std::io::Write;
 use std::error::Error;
+use std::io::Write;
 
 #[derive(Copy, Clone, Debug)]
 pub struct Time(pub DateTime<FixedOffset>);
@@ -25,7 +25,9 @@ impl ToSql<Text, Pg> for Time {
 }
 
 impl FromSqlRow<Text, Pg> for Time {
-    fn build_from_row<R: ::diesel::row::Row<Pg>>(row: &mut R) -> Result<Self, Box<dyn Error+Send+Sync>> {
+    fn build_from_row<R: ::diesel::row::Row<Pg>>(
+        row: &mut R,
+    ) -> Result<Self, Box<dyn Error + Send + Sync>> {
         FromSql::<Text, Pg>::from_sql(row.take())
     }
 }

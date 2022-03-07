@@ -1,6 +1,6 @@
 //! The ProductTypes table
 use super::super::schema::*;
-use diesel::{Queryable, AsChangeset};
+use diesel::{AsChangeset, Queryable};
 
 #[derive(Queryable, Clone, Debug)]
 pub struct ProductType {
@@ -14,7 +14,7 @@ pub struct ProductType {
 }
 
 #[derive(AsChangeset, Debug)]
-#[table_name="producttypes"]
+#[table_name = "producttypes"]
 pub struct ProductTypeChange {
     pub name: Option<String>,
     pub color: Option<i32>,

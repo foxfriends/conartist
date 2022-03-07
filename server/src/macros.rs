@@ -49,7 +49,7 @@ macro_rules! chain {
 macro_rules! assert_authorized {
     ($db:expr, $id:expr) => {
         if !$db.privileged && Some($id) != $db.user_id {
-            return Err(format!("Not authorized to access user {}", $id))
+            return Err(format!("Not authorized to access user {}", $id));
         }
     };
 }
@@ -57,12 +57,18 @@ macro_rules! assert_authorized {
 macro_rules! ensure {
     ($pred:expr, $reason:expr) => {
         if !($pred) {
-            return Err(::juniper::FieldError::new(format!("Requirement breached: {}", $reason), ::juniper::Value::null()))
+            return Err(::juniper::FieldError::new(
+                format!("Requirement breached: {}", $reason),
+                ::juniper::Value::null(),
+            ));
         }
     };
     ($pred:expr) => {
         if !($pred) {
-            return Err(::juniper::FieldError::new(format!("Requirement breached: {}", stringify!($pred)), ::juniper::Value::null()))
+            return Err(::juniper::FieldError::new(
+                format!("Requirement breached: {}", stringify!($pred)),
+                ::juniper::Value::null(),
+            ));
         }
     };
 }

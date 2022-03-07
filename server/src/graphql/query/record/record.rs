@@ -1,11 +1,11 @@
 //! Holds information about a sale record
-use juniper::graphql_object;
 use chrono::{DateTime, FixedOffset};
+use juniper::graphql_object;
 use uuid::Uuid;
 
-use crate::money::Money;
-use crate::database::Database;
 use crate::database::models::*;
+use crate::database::Database;
+use crate::money::Money;
 
 graphql_object!(Record: Database |&self| {
     description: "Holds information about a sale record"

@@ -1,6 +1,6 @@
 //! The Image type for the GraphQL API
-use juniper::{Value, graphql_scalar, ParseScalarValue, ParseScalarResult};
 use base64;
+use juniper::{graphql_scalar, ParseScalarResult, ParseScalarValue, Value};
 
 pub struct Image(Vec<u8>);
 
@@ -15,7 +15,7 @@ impl Image {
     }
 
     pub fn to_base64_png(&self) -> String {
-        return base64::encode(&self.0)
+        return base64::encode(&self.0);
     }
 }
 

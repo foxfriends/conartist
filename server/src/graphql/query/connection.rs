@@ -11,10 +11,7 @@ pub struct Edge<T, C> {
 
 impl<T, C> Edge<T, C> {
     pub fn new(node: T, cursor: C) -> Self {
-        Self {
-            node,
-            cursor,
-        }
+        Self { node, cursor }
     }
 }
 

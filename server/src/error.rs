@@ -1,8 +1,8 @@
 //! Simple error type
-use std::error::Error;
-use std::fmt::{Display, Debug, Formatter, Result};
-#[cfg(feature="mailer")]
+#[cfg(feature = "mailer")]
 use failure;
+use std::error::Error;
+use std::fmt::{Debug, Display, Formatter, Result};
 
 #[derive(Debug)]
 pub struct StringError(pub String);
@@ -14,7 +14,9 @@ impl Display for StringError {
 }
 
 impl Error for StringError {
-    fn source(&self) -> Option<&(dyn Error + 'static)> { None }
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
+        None
+    }
 }
 
 #[derive(Debug)]
@@ -27,13 +29,15 @@ impl Display for MoneyError {
 }
 
 impl Error for MoneyError {
-    fn source(&self) -> Option<&(dyn Error + 'static)> { None }
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
+        None
+    }
 }
 
-#[cfg(feature="mailer")]
+#[cfg(feature = "mailer")]
 pub use self::mail::*;
 
-#[cfg(feature="mailer")]
+#[cfg(feature = "mailer")]
 mod mail {
     use super::*;
 

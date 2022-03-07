@@ -17,13 +17,20 @@ fn main() -> io::Result<()> {
         let name = name.to_str().unwrap();
         all_files.insert(name.to_owned());
         for key in keys {
-            discovered_keys.entry(key).or_insert(BTreeSet::default()).insert(name.to_owned());
+            discovered_keys
+                .entry(key)
+                .or_insert(BTreeSet::default())
+                .insert(name.to_owned());
         }
     }
 
     for (key, files) in discovered_keys {
         if files.len() != all_files.len() {
-            println!("\"{}\" missing from languages: {}", key, all_files.difference(&files).cloned().collect::<String>());
+            println!(
+                "\"{}\" missing from languages: {}",
+                key,
+                all_files.difference(&files).cloned().collect::<String>()
+            );
         }
     }
 

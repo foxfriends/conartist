@@ -1,10 +1,10 @@
 //! Creates JSON encoded ConRequests in an IronResult.
 
-use log::error;
-use serde_json::json;
-use serde::Serialize;
-use iron::{Response, status, IronResult};
 use iron::mime::Mime;
+use iron::{status, IronResult, Response};
+use log::error;
+use serde::Serialize;
+use serde_json::json;
 
 /// The success type of ConRequest
 pub fn ok<T: Serialize>(v: T) -> IronResult<Response> {
@@ -21,6 +21,6 @@ pub fn fail(v: &str) -> IronResult<Response> {
     Ok(Response::with((
         "application/json".parse::<Mime>().unwrap(),
         status::Ok,
-        json!({ "status": "Failure", "error": v }).to_string()
+        json!({ "status": "Failure", "error": v }).to_string(),
     )))
 }

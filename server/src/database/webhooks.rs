@@ -163,6 +163,7 @@ impl Database {
                     "type_id": product.type_id,
                     "name": product.name,
                     "sku": product.sku,
+                    "quantity": record.products.iter().filter(|id| **id == product.product_id).count(),
                 }))
                 .collect::<Vec<_>>(),
             "info": record.info,

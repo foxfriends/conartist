@@ -1,7 +1,7 @@
 //! The Product and Inventory tables
-use chrono::NaiveDateTime;
-use diesel::{Queryable, AsChangeset};
 use super::super::schema::*;
+use chrono::NaiveDateTime;
+use diesel::{AsChangeset, Queryable};
 
 #[derive(Queryable, Clone, Debug)]
 pub struct InventoryItem {
@@ -51,7 +51,7 @@ pub struct ProductWithQuantity {
 }
 
 #[derive(AsChangeset, Debug)]
-#[table_name="products"]
+#[table_name = "products"]
 pub struct ProductChanges {
     pub name: Option<String>,
     pub discontinued: Option<bool>,

@@ -1,10 +1,10 @@
 //! Provides a means for representing monetary values in any currency
 use crate::error::MoneyError;
-use std::str::FromStr;
+use serde::{Deserialize, Deserializer, Serialize, Serializer};
+use serde_json;
 use std::fmt::{Display, Formatter};
 use std::ops::Add;
-use serde_json;
-use serde::{Serialize, Deserialize, Serializer, Deserializer};
+use std::str::FromStr;
 
 /// Represents a specific currency. Strings are more versatile here, but not as stable.
 #[derive(Copy, Clone, PartialEq, Eq, Debug, Serialize, Deserialize)]
@@ -71,13 +71,19 @@ impl Money {
 }
 
 impl Serialize for Money {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error> where S: Serializer {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
         self.to_string().serialize(serializer)
     }
 }
 
 impl<'a> Deserialize<'a> for Money {
-    fn deserialize<D>(deserializer: D) -> Result<Money, D::Error> where D: Deserializer<'a> {
+    fn deserialize<D>(deserializer: D) -> Result<Money, D::Error>
+    where
+        D: Deserializer<'a>,
+    {
         Ok(FromStr::from_str(&String::deserialize(deserializer)?).unwrap()) // HACK: bad use of unwrap!
     }
 }
@@ -103,9 +109,9 @@ impl Add for Money {
 impl PartialOrd for Money {
     fn partial_cmp(&self, other: &Self) -> Option<::std::cmp::Ordering> {
         if self.cur == other.cur {
-            return Some(self.amt.cmp(&other.amt))
+            return Some(self.amt.cmp(&other.amt));
         } else {
-            return None
+            return None;
         }
     }
 }
@@ -115,7 +121,10 @@ impl FromStr for Money {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let cur = FromStr::from_str(&s[..3])?;
-        let amt = s[3..].trim().parse().map_err(|_| MoneyError("Could not parse amount from money value".to_string()))?;
+        let amt = s[3..]
+            .trim()
+            .parse()
+            .map_err(|_| MoneyError("Could not parse amount from money value".to_string()))?;
         Ok(Money::new(amt, cur))
     }
 }

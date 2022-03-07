@@ -1,8 +1,8 @@
 use juniper::graphql_object;
 
 use super::super::connection::{Connection, Edge};
-use crate::database::Database;
 use crate::database::models::*;
+use crate::database::Database;
 
 graphql_object!(Connection<ScoredSuggestion>: Database as "SuggestionsConnection" |&self| {
     description: "A series of suggestions"

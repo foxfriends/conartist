@@ -2,7 +2,7 @@
 use juniper::GraphQLInputObject;
 
 #[derive(Clone, GraphQLInputObject)]
-#[graphql(description="Information required to create a new product")]
+#[graphql(description = "Information required to create a new product")]
 pub struct ProductAdd {
     pub type_id: i32,
     pub name: String,
@@ -12,7 +12,7 @@ pub struct ProductAdd {
 }
 
 #[derive(Clone, GraphQLInputObject)]
-#[graphql(description="Information required to modify an existing product")]
+#[graphql(description = "Information required to modify an existing product")]
 pub struct ProductMod {
     pub product_id: i32,
     pub name: Option<String>,

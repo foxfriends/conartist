@@ -1,8 +1,8 @@
 //! GraphQL endpoint to retrieve extra resources, such as images
-use std::io::Read;
 use hyper::client::Client;
 use hyper::status::StatusCode;
-use juniper::{graphql_object, FieldResult, FieldError, Value, DefaultScalarValue};
+use juniper::{graphql_object, DefaultScalarValue, FieldError, FieldResult, Value};
+use std::io::Read;
 
 mod image;
 

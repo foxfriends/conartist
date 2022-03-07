@@ -7,7 +7,8 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const PROD = 'production'; // production environment
 const STAGING = 'staging'; // staging environment: looks like production, but different backend
 
-module.exports = env => {
+module.exports = (env) => {
+  const envName = env.staging ? STAGING : PROD;
   const plugins = [new MiniCssExtractPlugin({ filename: '[name].css' })];
   switch (env) {
     case PROD:
@@ -51,10 +52,10 @@ module.exports = env => {
   }
 
   return {
-    mode: env === PROD || env === STAGING ? 'production' : 'development',
+    mode: envName === PROD || envName === STAGING ? 'production' : 'development',
     entry: './src/index.js',
     output: {
-      path: env === STAGING ? path.resolve('./', 'public_html', 'staging', 'static') : path.resolve('.', 'public_html', 'static'),
+      path: envName === STAGING ? path.resolve('.', 'public_html', 'staging', 'static') : path.resolve('.', 'public_html', 'static'),
       publicPath: 'static/',
       filename: 'conartist.min.js',
       chunkFilename: '[name].bundle.js',
@@ -68,7 +69,7 @@ module.exports = env => {
         {
           test: /\.css$/,
           exclude: /node_modules/,
-          use: env === PROD || env === STAGING
+          use: envName === PROD || envName === STAGING
             ? [
                 MiniCssExtractPlugin.loader,
                 { loader: 'css-loader', options: { modules: true } },
@@ -88,9 +89,9 @@ module.exports = env => {
     resolve: {
       extensions: ['.js', '.json'],
     },
-    devtool: env === PROD || env === STAGING ? 'source-map' : 'cheap-module-source-map',
+    devtool: envName === PROD || envName === STAGING ? 'source-map' : 'cheap-module-source-map',
     optimization: {
-      minimize: env === PROD || env === STAGING,
+      minimize: envName === PROD || envName === STAGING,
     },
     plugins,
   }

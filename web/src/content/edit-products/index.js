@@ -37,6 +37,7 @@ import {
   NonIntegerQuantity,
   NegativeQuantity,
   DuplicateName,
+  DuplicateSku,
 } from './schema'
 import { VALID, INVALID, EMPTY } from '../../model/validation'
 import type { Product } from '../../model/product'
@@ -177,6 +178,16 @@ export class EditProducts extends ReactX.Component<Props, State> {
     const products =
       this.state.products.map(product => product.id === id
         ? { ...product, name }
+        : product
+      )
+
+    this.setState(this.validate({ products, productTypes: this.state.productTypes }))
+  }
+
+  handleProductSkuChange(id: Id, sku: string) {
+    const products =
+      this.state.products.map(product => product.id === id
+        ? { ...product, sku }
         : product
       )
 
@@ -345,15 +356,25 @@ export class EditProducts extends ReactX.Component<Props, State> {
 
     const validatedProducts = (() => {
       const usedNames = new DefaultMap([], 0)
+      const usedSkus = new DefaultMap([], 0)
       products.map(hasher).forEach(product => usedNames.set(product, usedNames.get(product) + 1))
+      products.forEach(({ sku }) => {
+        if (sku) {
+          usedSkus.set(sku, usedSkus.get(sku) + 1)
+        }
+      })
       return products.map(product => {
         let nameValidation = { state: VALID }
         let quantityValidation = { state: VALID }
+        let skuValidation = { state: VALID }
         if (product.name.trim() === '') {
           nameValidation = { state: EMPTY }
         }
         if (usedNames.get(hasher(product)) > 1) {
           nameValidation = { state: INVALID, error: DuplicateName }
+        }
+        if (product.sku && usedSkus.get(product.sku) > 1) {
+          skuValidation = { state: INVALID, error: DuplicateSku }
         }
         if (isNaN(product.quantity)) {
           quantityValidation = { state: INVALID, error: NonNumberQuantity }
@@ -367,7 +388,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
         if(nameValidation.state !== VALID || quantityValidation.state !== VALID) {
           disableSave()
         }
-        return { ...product, nameValidation, quantityValidation }
+        return { ...product, nameValidation, skuValidation, quantityValidation }
       })
     })()
 
@@ -413,6 +434,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
                 onProductTypeColorChange={color => this.handleProductTypeColorChange(productType.id, color)}
                 onProductTypeDelete={() => this.handleProductTypeDelete(productType.id)}
                 onProductNameChange={(id, name) => this.handleProductNameChange(id, name)}
+                onProductSkuChange={(id, sku) => this.handleProductSkuChange(id, sku)}
                 onProductQuantityChange={(id, quantity) => this.handleProductQuantityChange(id, quantity)}
                 onProductToggleDiscontinue={id => this.handleProductDiscontinueToggled(id)}
                 onProductDelete={id => this.handleProductDelete(id)}

@@ -7,6 +7,7 @@ import Map from '../../util/default-map'
 
 export opaque type ValidationError = Symbol
 export const DuplicateName: ValidationError = Symbol()
+export const DuplicateSku: ValidationError = Symbol()
 export const NonNumberQuantity: ValidationError = Symbol()
 export const NegativeQuantity: ValidationError = Symbol()
 export const NonIntegerQuantity: ValidationError = Symbol()
@@ -16,6 +17,7 @@ export type EditableProductType = {
   validation: Validation<ValidationError>,
   id: Id,
   name: string,
+  sku: ?string,
   color: ?number,
   sort: number,
   discontinued: boolean,
@@ -29,6 +31,7 @@ export type EditableProduct = {
   id: Id,
   typeId: Id,
   name: string,
+  sku: ?string,
   quantity: number,
   sort: number,
   discontinued: boolean,
@@ -63,6 +66,7 @@ export function editableProduct() {
       sort: index,
       deleted: false,
       nameValidation: { state: VALID },
+      skuValidation: { state: VALID },
       quantityValidation: { state: VALID },
     }
   }
@@ -79,14 +83,14 @@ export function editableProductType(productType: ProductType, index: number): Ed
   }
 }
 
-export function nonEditableProduct({ id, sort, typeId, name, quantity, discontinued }: EditableProduct): Product {
+export function nonEditableProduct({ id, sort, typeId, name, sku, quantity, discontinued }: EditableProduct): Product {
   if (isNaN(quantity)) {
     throw new Error('Cannot make a Product with an invalid quantity')
   }
   if (typeof id === 'string' || typeof typeId === 'string') {
     throw new Error('Cannot convert an unsaved product to a Product');
   }
-  return { id, sort, typeId, name, quantity, discontinued }
+  return { id, sort, typeId, name, sku, quantity, discontinued }
 }
 
 export function nonEditableProductType({ id, sort, name, color, discontinued }: EditableProductType): ProductType {

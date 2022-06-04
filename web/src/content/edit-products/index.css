@@ -14,7 +14,7 @@
   flex-basis: 280px;
 }
 
-.productName, .productQuantity {
+.productSku, .productName, .productQuantity {
   flex-basis: 0;
 }
 
@@ -23,7 +23,11 @@
 }
 
 .productQuantity {
-  flex-grow: 120;
+  flex-grow: 60;
+}
+
+.productSku {
+  flex-grow: 140;
 }
 
 .discontinueButton, .deleteButton {

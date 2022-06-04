@@ -9,7 +9,7 @@ import { IconButton } from '../../common/icon-button'
 import { ColorPicker } from '../../common/color-picker'
 import { scrollIdentifier } from '../../update/navigate'
 import { INVALID, VALID } from '../../model/validation'
-import { DuplicateName, NonNumberQuantity, NonIntegerQuantity, NegativeQuantity } from './schema'
+import { DuplicateName, DuplicateSku, NonNumberQuantity, NonIntegerQuantity, NegativeQuantity } from './schema'
 import type { Action } from '../../common/button'
 import type { Validation } from '../../model/validation'
 import type { Id, EditableProduct, EditableProductType, ValidationError } from './schema'
@@ -41,6 +41,18 @@ function productNameValidation(validation: Validation<ValidationError>): InputVa
   }
 }
 
+function productSkuValidation(validation: Validation<ValidationError>): InputValidation {
+  if (validation.state !== INVALID) {
+    return validation
+  }
+  switch (validation.error) {
+    case DuplicateSku:
+      return { state: INVALID, error: l`This SKU is used twice!` }
+    default:
+      return { state: VALID }
+  }
+}
+
 function productQuantityValidation(validation: Validation<ValidationError>): InputValidation {
   if (validation.state !== INVALID) {
     return validation
@@ -66,6 +78,7 @@ export type Props = {
   onProductTypeColorChange: (number) => void,
   onProductTypeDelete: () => void,
   onProductNameChange: (Id, string) => void,
+  onProductSkuChange: (Id, string) => void,
   onProductQuantityChange: (Id, string) => void,
   onProductToggleDiscontinue: (Id) => void,
   onProductDelete: (Id) => void,
@@ -82,6 +95,7 @@ export function EditProductCard({
   onProductTypeColorChange,
   onProductTypeDelete,
   onProductNameChange,
+  onProductSkuChange,
   onProductQuantityChange,
   onProductToggleDiscontinue,
   onProductDelete,
@@ -137,6 +151,13 @@ export function EditProductCard({
                 onChange={name => onProductNameChange(product.id, name)}
                 className={S.productName}
                 validation={productNameValidation(product.nameValidation)}
+                />
+              <Input
+                defaultValue={product.sku}
+                placeholder={l`SKU (optional)`}
+                onChange={sku => onProductSkuChange(product.id, sku)}
+                className={S.productSku}
+                validation={productSkuValidation(product.skuValidation)}
                 />
               { product.discontinued
                   ? null

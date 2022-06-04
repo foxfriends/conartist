@@ -51,7 +51,7 @@ export function Products({ products, productTypes }: Props) {
               </div>
             </Fragment>
             {(product, _) =>
-              <Row title={product.name} detail={`${product.quantity}`} key={`product_${product.id}`}/>
+              <Row title={product.name} value={<span className={S.sku}>{product.sku}</span>} detail={`${product.quantity}`} key={`product_${product.id}`}/>
             }
           </Table>
         </BasicCard>

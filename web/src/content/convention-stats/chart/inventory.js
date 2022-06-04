@@ -57,7 +57,8 @@ export class InventoryChart extends React.Component<Props, State> {
       selectedProducts = selectedProducts.filter(({ id }) => (sold.get(id) || 0) > 0)
     }
 
-    const types = new Set(products.map(({ typeId }) => typeId))
+    let types = new Set(products.map(({ typeId }) => typeId));
+    types = [...types].filter((id) => !productTypes.find((pt) => pt.id === id).discontinued);
 
     const data = {
       labels: selectedProducts.map(({ name }) => name),

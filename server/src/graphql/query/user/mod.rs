@@ -39,11 +39,11 @@ graphql_object!(User: Database |&self| {
 
     field join_date() -> DateTime<Utc> { DateTime::from_utc(self.join_date, Utc) }
 
-    field product_types(&executor) -> FieldResult<Vec<ProductType>> {
+    field product_types(&executor, as_of: Option<DateTime<Utc>>) -> FieldResult<Vec<ProductTypeSnapshot>> {
         dbtry! {
             executor
                 .context()
-                .get_product_types_for_user(Some(self.user_id))
+                .get_product_types_for_user(Some(self.user_id), as_of)
         }
     }
 

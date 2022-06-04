@@ -181,12 +181,23 @@ table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
 
+    producttypeevents (event_id) {
+        event_id -> Int4,
+        type_id -> Int4,
+        event_type -> Event_type,
+        event_time -> Timestamp,
+    }
+}
+
+table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
     producttypes (type_id) {
         type_id -> Int4,
         user_id -> Int4,
         name -> Varchar,
         color -> Nullable<Int4>,
-        discontinued -> Bool,
         sort -> Int4,
         deleted -> Bool,
     }
@@ -318,6 +329,7 @@ joinable!(prices -> users (user_id));
 joinable!(productevents -> products (product_id));
 joinable!(products -> producttypes (type_id));
 joinable!(products -> users (user_id));
+joinable!(producttypeevents -> producttypes (type_id));
 joinable!(producttypes -> users (user_id));
 joinable!(signinattempts -> users (user_id));
 joinable!(suggestions -> users (user_id));
@@ -344,6 +356,7 @@ allow_tables_to_appear_in_same_query!(
     prices,
     productevents,
     products,
+    producttypeevents,
     producttypes,
     records,
     signinattempts,

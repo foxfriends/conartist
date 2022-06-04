@@ -43,11 +43,11 @@ graphql_object!(Convention: Database |&self| {
         }
     }
 
-    field product_types(&executor) -> FieldResult<Vec<ProductType>> {
+    field product_types(&executor) -> FieldResult<Vec<ProductTypeSnapshot>> {
         dbtry! {
             executor
                 .context()
-                .get_all_product_types_for_user(self.user_id)
+                .get_all_product_types_for_user(self.user_id, Some(DateTime::from_utc(self.end_date.and_hms(23, 59, 59), Utc)))
         }
     }
 

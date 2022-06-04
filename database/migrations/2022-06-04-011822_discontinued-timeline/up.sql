@@ -12,10 +12,10 @@ CREATE TABLE ProductEvents (
 CREATE INDEX product_events_ordered ON ProductEvents (event_time, product_id, event_type);
 
 INSERT INTO ProductEvents (product_id, event_type, event_time)
-    SELECT p.product_id, 'disabled'::event_type, coalesce((sale_time::TIMESTAMPTZ::TIMESTAMP) + '1 millisecond', now())
+    SELECT p.product_id, 'disabled'::event_type, coalesce(sale_time + '1 day', now())
     FROM Products p
     LEFT OUTER JOIN LATERAL (
-        SELECT unnest(products) AS product_id, max(sale_time) AS sale_time
+        SELECT unnest(products) AS product_id, max(sale_time::timestamptz) AS sale_time
             FROM Records
             GROUP BY product_id
     ) rs ON p.product_id = rs.product_id

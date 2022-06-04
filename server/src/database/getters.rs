@@ -155,7 +155,6 @@ impl Database {
                 products::sku,
             ))
             .filter(products::user_id.eq(user_id))
-            .filter(products::deleted.eq(false))
             .group_by(products::product_id)
             .order((products::sort.asc(), products::product_id.asc()))
             .load::<Product>(&*conn)

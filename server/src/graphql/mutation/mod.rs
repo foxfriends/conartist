@@ -75,7 +75,7 @@ graphql_object!(Mutation: Database |&self| {
     }
 
     // Product types
-    field add_user_product_type(&executor, user_id: Option<i32>, product_type: ProductTypeAdd) -> FieldResult<ProductType> {
+    field add_user_product_type(&executor, user_id: Option<i32>, product_type: ProductTypeAdd) -> FieldResult<ProductTypeSnapshot> {
         ensure!(product_type.name.len() > 0 && product_type.name.len() <= 512);
         ensure!(product_type.color >= 0);
         ensure!(product_type.sort >= 0);
@@ -87,7 +87,7 @@ graphql_object!(Mutation: Database |&self| {
         }
     }
 
-    field mod_user_product_type(&executor, user_id: Option<i32>, product_type: ProductTypeMod) -> FieldResult<ProductType> {
+    field mod_user_product_type(&executor, user_id: Option<i32>, product_type: ProductTypeMod) -> FieldResult<ProductTypeSnapshot> {
         ensure!(product_type.type_id > 0);
         let name_length = product_type.name.as_ref().map(|s| s.len()).unwrap_or(1);
         ensure!(name_length > 0 && name_length <= 512);

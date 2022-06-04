@@ -45,7 +45,7 @@ pub struct ProductChanges {
     pub sku: Option<Option<String>>,
 }
 
-#[derive(Queryable, Clone, Debug)]
+#[derive(Clone, Debug)]
 pub struct ProductSnapshot {
     pub product_id: i32,
     pub type_id: i32,

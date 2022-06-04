@@ -115,12 +115,20 @@ table! {
 }
 
 table! {
+    productevents (event_id) {
+        event_id -> Int4,
+        product_id -> Int4,
+        event_type -> Event_type,
+        event_time -> Timestamp,
+    }
+}
+
+table! {
     products (product_id) {
         product_id -> Int4,
         type_id -> Int4,
         user_id -> Int4,
         name -> Varchar,
-        discontinued -> Bool,
         sort -> Int4,
         deleted -> Bool,
         sku -> Nullable<Varchar>,
@@ -235,6 +243,7 @@ joinable!(passwordresets -> users (user_id));
 joinable!(prices -> products (product_id));
 joinable!(prices -> producttypes (type_id));
 joinable!(prices -> users (user_id));
+joinable!(productevents -> products (product_id));
 joinable!(products -> producttypes (type_id));
 joinable!(products -> users (user_id));
 joinable!(producttypes -> users (user_id));
@@ -261,6 +270,7 @@ allow_tables_to_appear_in_same_query!(
     inventory,
     passwordresets,
     prices,
+    productevents,
     products,
     producttypes,
     records,

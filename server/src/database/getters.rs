@@ -107,7 +107,7 @@ impl Database {
         &self,
         maybe_user_id: Option<i32>,
         con_id: i32,
-    ) -> Result<Vec<ProductWithQuantity>, String> {
+    ) -> Result<Vec<ProductSnapshot>, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
 
@@ -144,6 +144,18 @@ impl Database {
                 map
             });
 
+        let latest_event_type = productevents::table
+            .select(productevents::event_type)
+            .filter(
+                productevents::event_type
+                    .eq(EventType::Enabled)
+                    .or(productevents::event_type.eq(EventType::Disabled)),
+            )
+            .filter(productevents::product_id.eq(products::product_id))
+            .order_by(productevents::event_time.desc())
+            .limit(1)
+            .single_value();
+
         let products_with_quantity = products::table
             .left_outer_join(inventory::table)
             .select((
@@ -152,15 +164,15 @@ impl Database {
                 products::user_id,
                 products::name,
                 products::sort,
-                products::discontinued,
                 products::sku,
                 dsl::sql::<sql_types::BigInt>("coalesce(sum(inventory.quantity), 0)"),
+                latest_event_type.eq(EventType::Disabled),
             ))
             .filter(products::user_id.eq(user_id))
             .filter(inventory::mod_date.lt(date))
             .group_by(products::product_id)
             .order((products::sort.asc(), products::product_id.asc()))
-            .load::<ProductWithQuantity>(&*conn)
+            .load::<ProductSnapshot>(&*conn)
             .map_err(|reason| {
                 format!(
                     "Products for user with id {} could not be retrieved. Reason: {}",
@@ -172,7 +184,7 @@ impl Database {
             .into_iter()
             .map(|product| {
                 let sold_amount = *items_sold.get(&product.product_id).unwrap_or(&0i64);
-                ProductWithQuantity {
+                ProductSnapshot {
                     quantity: i64::max(0, product.quantity - sold_amount),
                     ..product
                 }

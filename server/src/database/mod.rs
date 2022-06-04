@@ -3,6 +3,7 @@
 pub mod factory;
 pub mod models;
 
+#[allow(unused_imports)]
 mod schema;
 
 // old stuff, to be broken up better later

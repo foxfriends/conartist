@@ -1,4 +1,7 @@
 table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
     admins (user_id) {
         user_id -> Int4,
         clearance -> Int4,
@@ -6,6 +9,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
     conventionextrainfo (con_id, title) {
         con_id -> Int4,
         title -> Varchar,
@@ -16,6 +22,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
     conventionimages (image_id) {
         image_id -> Int4,
         con_id -> Int4,
@@ -25,6 +34,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
     conventioninforatings (con_info_id, user_id) {
         con_info_id -> Int4,
         user_id -> Int4,
@@ -33,6 +45,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
     conventionratings (con_id, user_id) {
         con_id -> Int4,
         user_id -> Int4,
@@ -42,6 +57,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
     conventions (con_id) {
         con_id -> Int4,
         title -> Varchar,
@@ -52,6 +70,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
     conventionuserinfo (con_info_id) {
         con_info_id -> Int4,
         con_id -> Int4,
@@ -61,6 +82,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
     emailverifications (verification_code) {
         verification_code -> Bpchar,
         user_id -> Int4,
@@ -71,6 +95,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
     expenses (expense_id) {
         expense_id -> Int4,
         user_id -> Int4,
@@ -84,6 +111,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
     inventory (inventory_id) {
         inventory_id -> Int4,
         product_id -> Int4,
@@ -93,6 +123,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
     passwordresets (verification_code) {
         verification_code -> Bpchar,
         user_id -> Int4,
@@ -103,6 +136,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
     prices (price_id) {
         price_id -> Int4,
         user_id -> Int4,
@@ -115,12 +151,26 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
+    productevents (event_id) {
+        event_id -> Int4,
+        product_id -> Int4,
+        event_type -> Event_type,
+        event_time -> Timestamp,
+    }
+}
+
+table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
     products (product_id) {
         product_id -> Int4,
         type_id -> Int4,
         user_id -> Int4,
         name -> Varchar,
-        discontinued -> Bool,
         sort -> Int4,
         deleted -> Bool,
         sku -> Nullable<Varchar>,
@@ -128,6 +178,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
     producttypes (type_id) {
         type_id -> Int4,
         user_id -> Int4,
@@ -140,6 +193,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
     records (record_id) {
         record_id -> Int4,
         user_id -> Int4,
@@ -153,6 +209,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
     signinattempts (user_id, attempt_time) {
         user_id -> Int4,
         successful -> Bool,
@@ -161,6 +220,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
     suggestions (suggestion_id) {
         suggestion_id -> Int4,
         user_id -> Int4,
@@ -171,6 +233,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
     suggestionvotes (suggestion_id, user_id) {
         suggestion_id -> Int4,
         user_id -> Int4,
@@ -178,6 +243,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
     user_conventions (user_con_id) {
         user_con_id -> Int4,
         user_id -> Int4,
@@ -186,6 +254,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
     users (user_id) {
         user_id -> Int4,
         email -> Nullable<Varchar>,
@@ -197,6 +268,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
     usersettings (user_id) {
         user_id -> Int4,
         currency -> Bpchar,
@@ -205,6 +279,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
     webhookdeletedrecord (webhook_id) {
         webhook_id -> Int4,
         user_id -> Int4,
@@ -213,6 +290,9 @@ table! {
 }
 
 table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
     webhooknewrecord (webhook_id) {
         webhook_id -> Int4,
         user_id -> Int4,
@@ -235,6 +315,7 @@ joinable!(passwordresets -> users (user_id));
 joinable!(prices -> products (product_id));
 joinable!(prices -> producttypes (type_id));
 joinable!(prices -> users (user_id));
+joinable!(productevents -> products (product_id));
 joinable!(products -> producttypes (type_id));
 joinable!(products -> users (user_id));
 joinable!(producttypes -> users (user_id));
@@ -261,6 +342,7 @@ allow_tables_to_appear_in_same_query!(
     inventory,
     passwordresets,
     prices,
+    productevents,
     products,
     producttypes,
     records,

@@ -1,2 +1,2 @@
 #!/bin/bash
-diesel print-schema > src/database/schema.rs
+diesel print-schema --import-types diesel::sql_types::* --import-types "crate::database::models::*" > src/database/schema.rs

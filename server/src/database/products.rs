@@ -16,10 +16,10 @@ impl Database {
         sku: Option<String>,
         quantity: i32,
         sort: i32,
-    ) -> Result<ProductWithQuantity, String> {
+    ) -> Result<ProductSnapshot, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
-        conn.transaction(|| -> diesel::result::QueryResult<ProductWithQuantity> {
+        conn.transaction(|| -> diesel::result::QueryResult<ProductSnapshot> {
             let product = diesel::insert_into(products::table)
                 .values((
                     products::user_id.eq(user_id),
@@ -37,7 +37,7 @@ impl Database {
                 ))
                 .execute(&*conn)?;
 
-            Ok(product.with_quantity(quantity as i64))
+            Ok(product.with_snapshot_data(quantity as i64, false))
         })
         .map_err(|reason| {
             format!(
@@ -50,7 +50,7 @@ impl Database {
     pub fn get_products_for_user(
         &self,
         maybe_user_id: Option<i32>,
-    ) -> Result<Vec<ProductWithQuantity>, String> {
+    ) -> Result<Vec<ProductSnapshot>, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
 
@@ -72,7 +72,19 @@ impl Database {
                 map
             });
 
-        let products_with_quantity = products::table
+        let latest_event_type = productevents::table
+            .select(productevents::event_type)
+            .filter(
+                productevents::event_type
+                    .eq(EventType::Enabled)
+                    .or(productevents::event_type.eq(EventType::Disabled)),
+            )
+            .filter(productevents::product_id.eq(products::product_id))
+            .order_by(productevents::event_time.desc())
+            .limit(1)
+            .single_value();
+
+        let product_snapshots = products::table
             .left_outer_join(inventory::table)
             .select((
                 products::product_id,
@@ -80,15 +92,15 @@ impl Database {
                 products::user_id,
                 products::name,
                 products::sort,
-                products::discontinued,
                 products::sku,
                 dsl::sql::<sql_types::BigInt>("coalesce(sum(inventory.quantity), 0)"),
+                latest_event_type.eq(EventType::Disabled),
             ))
             .filter(products::user_id.eq(user_id))
             .filter(products::deleted.eq(false))
             .group_by(products::product_id)
             .order((products::sort.asc(), products::product_id.asc()))
-            .load::<ProductWithQuantity>(&*conn)
+            .load::<ProductSnapshot>(&*conn)
             .map_err(|reason| {
                 format!(
                     "Products for user with id {} could not be retrieved. Reason: {}",
@@ -96,11 +108,11 @@ impl Database {
                 )
             })?;
 
-        Ok(products_with_quantity
+        Ok(product_snapshots
             .into_iter()
             .map(|product| {
                 let sold_amount = *items_sold.get(&product.product_id).unwrap_or(&0i64);
-                ProductWithQuantity {
+                ProductSnapshot {
                     quantity: i64::max(0, product.quantity - sold_amount),
                     ..product
                 }
@@ -117,7 +129,7 @@ impl Database {
         quantity: Option<i32>,
         discontinued: Option<bool>,
         sort: Option<i32>,
-    ) -> Result<ProductWithQuantity, String> {
+    ) -> Result<ProductSnapshot, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let conn = self.pool.get().unwrap();
 
@@ -139,24 +151,48 @@ impl Database {
                 .collect::<Vec<_>>()
                 .len() as i64;
 
-            let updated_product: Product =
-                if name.is_some() || discontinued.is_some() || sort.is_some() || sku.is_some() {
-                    let sku = sku.map(|sku| if sku == "" { None } else { Some(sku) });
-                    diesel::update(products::table)
-                        .filter(products::product_id.eq(product_id))
-                        .filter(products::user_id.eq(user_id))
-                        .set(&ProductChanges {
-                            name,
-                            discontinued,
-                            sort,
-                            sku,
-                        })
-                        .get_result(&*conn)?
-                } else {
-                    products::table
-                        .filter(products::product_id.eq(product_id))
-                        .first(&*conn)?
-                };
+            let updated_product: Product = if name.is_some() || sort.is_some() || sku.is_some() {
+                let sku = sku.map(|sku| if sku == "" { None } else { Some(sku) });
+                diesel::update(products::table)
+                    .filter(products::product_id.eq(product_id))
+                    .filter(products::user_id.eq(user_id))
+                    .set(&ProductChanges { name, sort, sku })
+                    .get_result(&*conn)?
+            } else {
+                products::table
+                    .filter(products::product_id.eq(product_id))
+                    .first(&*conn)?
+            };
+
+            let previously_discontinued = productevents::table
+                .select(productevents::event_type)
+                .filter(productevents::product_id.eq(product_id))
+                .filter(
+                    productevents::event_type
+                        .eq(EventType::Disabled)
+                        .or(productevents::event_type.eq(EventType::Enabled)),
+                )
+                .order_by(productevents::event_time.desc())
+                .first::<EventType>(&*conn)
+                .optional()?
+                == Some(EventType::Disabled);
+            let is_now_discontinued = if let Some(discontinued) = discontinued {
+                if discontinued != previously_discontinued {
+                    diesel::insert_into(productevents::table)
+                        .values((
+                            productevents::product_id.eq(product_id),
+                            productevents::event_type.eq(if discontinued {
+                                EventType::Disabled
+                            } else {
+                                EventType::Enabled
+                            }),
+                        ))
+                        .execute(&*conn)?;
+                }
+                discontinued
+            } else {
+                previously_discontinued
+            };
 
             let total = inventory::table
                 .select(dsl::sum(inventory::quantity))
@@ -178,8 +214,10 @@ impl Database {
                     .execute(&*conn)?;
             }
 
-            Ok(updated_product
-                .with_quantity(quantity.unwrap_or(i64::max(0, total - sold) as i32) as i64))
+            Ok(updated_product.with_snapshot_data(
+                quantity.unwrap_or(i64::max(0, total - sold) as i32) as i64,
+                is_now_discontinued,
+            ))
         })
         .map_err(|reason| {
             format!(

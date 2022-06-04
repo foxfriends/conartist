@@ -112,7 +112,7 @@ graphql_object!(Mutation: Database |&self| {
     }
 
     // Products
-    field add_user_product(&executor, user_id: Option<i32>, product: ProductAdd) -> FieldResult<ProductWithQuantity> {
+    field add_user_product(&executor, user_id: Option<i32>, product: ProductAdd) -> FieldResult<ProductSnapshot> {
         ensure!(product.name.len() > 0 && product.name.len() <= 512);
         ensure!(product.type_id > 0);
         ensure!(product.quantity >= 0);
@@ -125,7 +125,7 @@ graphql_object!(Mutation: Database |&self| {
         }
     }
 
-    field mod_user_product(&executor, user_id: Option<i32>, product: ProductMod) -> FieldResult<ProductWithQuantity> {
+    field mod_user_product(&executor, user_id: Option<i32>, product: ProductMod) -> FieldResult<ProductSnapshot> {
         ensure!(product.product_id > 0);
         let name_length = product.name.as_ref().map(|s| s.len()).unwrap_or(1);
         ensure!(name_length > 0 && name_length <= 512);

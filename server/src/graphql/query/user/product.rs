@@ -3,7 +3,7 @@ use crate::database::models::*;
 use crate::database::Database;
 use juniper::graphql_object;
 
-graphql_object!(ProductWithQuantity: Database as "Product" |&self| {
+graphql_object!(ProductSnapshot: Database as "Product" |&self| {
     description: "Holds information about a product"
 
     field id() -> i32 { self.product_id }

@@ -51,7 +51,7 @@ graphql_object!(Convention: Database |&self| {
         }
     }
 
-    field products(&executor) -> FieldResult<Vec<ProductWithQuantity>> {
+    field products(&executor) -> FieldResult<Vec<ProductSnapshot>> {
         dbtry! {
             executor
                 .context()

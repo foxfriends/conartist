@@ -7,6 +7,7 @@ import { NotEnoughData } from './not-enough-data'
 import { ChartsLoading } from './charts-loading'
 import { SecondaryCard } from '../../card-view/secondary-card'
 import { Select } from '../../../common/select'
+import { Checkbox } from '../../../common/checkbox'
 import { l } from '../../../localization'
 import type { ProductType } from '../../../model/product-type'
 import type { Product } from '../../../model/product'
@@ -36,19 +37,27 @@ export class InventoryChart extends React.Component<Props, State> {
     this.ref = { current: null }
     this.state = {
       type: null,
+      onlySold: true,
     }
   }
 
   render() {
     const { productTypes, products, records, showSettings } = this.props
-    const { type } = this.state
+    const { type, onlySold } = this.state
 
-    const selectedProducts = type === null ? products : products.filter(({ typeId }) => typeId === type)
+    const sold = records
+      .flatMap(({ products }) => products)
+      .reduce((acc, productId) => acc.set(productId, acc.get(productId) + 1), new Map([], 0))
+
+    let selectedProducts = products;
+    if (type !== null) {
+      selectedProducts = selectedProducts.filter(({ typeId }) => typeId === type)
+    }
+    if (onlySold) {
+      selectedProducts = selectedProducts.filter(({ id }) => (sold.get(id) || 0) > 0)
+    }
 
     const types = new Set(products.map(({ typeId }) => typeId))
-
-    const sold = [].concat(...records.map(({ products }) => products))
-      .reduce((acc, productId) => acc.set(productId, acc.get(productId) + 1), new Map([], 0))
 
     const data = {
       labels: selectedProducts.map(({ name }) => name),
@@ -101,6 +110,16 @@ export class InventoryChart extends React.Component<Props, State> {
                 return productType ? productType.name : <span className={S.any}>{l`Any`}</span>
               }}
             </Select>
+
+            <div className="">
+              <Checkbox
+                defaultValue={onlySold}
+                value={onlySold}
+                onChange={(onlySold) => this.setState({ onlySold })}
+              >
+                {l`Show sold products only`}
+              </Checkbox>
+            </div>
           </div>
         </SecondaryCard>
       </ChartCard>

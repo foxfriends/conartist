@@ -1,7 +1,7 @@
 use chrono::NaiveDate;
 use diesel::prelude::*;
 use diesel::{dsl, sql_types};
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 use super::dsl::*;
 use super::models::*;
@@ -144,35 +144,21 @@ impl Database {
                 map
             });
 
-        let latest_event_type = productevents::table
-            .select(productevents::event_type)
-            .filter(
-                productevents::event_type
-                    .eq(EventType::Enabled)
-                    .or(productevents::event_type.eq(EventType::Disabled)),
-            )
-            .filter(productevents::product_id.eq(products::product_id))
-            .order_by(productevents::event_time.desc())
-            .limit(1)
-            .single_value();
-
-        let products_with_quantity = products::table
-            .left_outer_join(inventory::table)
+        let products = products::table
             .select((
                 products::product_id,
                 products::type_id,
                 products::user_id,
                 products::name,
                 products::sort,
+                products::deleted,
                 products::sku,
-                dsl::sql::<sql_types::BigInt>("coalesce(sum(inventory.quantity), 0)"),
-                latest_event_type.eq(EventType::Disabled),
             ))
             .filter(products::user_id.eq(user_id))
-            .filter(inventory::mod_date.lt(date))
+            .filter(products::deleted.eq(false))
             .group_by(products::product_id)
             .order((products::sort.asc(), products::product_id.asc()))
-            .load::<ProductSnapshot>(&*conn)
+            .load::<Product>(&*conn)
             .map_err(|reason| {
                 format!(
                     "Products for user with id {} could not be retrieved. Reason: {}",
@@ -180,14 +166,59 @@ impl Database {
                 )
             })?;
 
-        Ok(products_with_quantity
+        let product_ids = products
+            .iter()
+            .map(|product| product.product_id)
+            .collect::<Vec<_>>();
+
+        let disabled_ids: HashSet<i32> = productevents::table
+            .distinct_on(productevents::product_id)
+            .select((productevents::product_id, productevents::event_type))
+            .filter(
+                productevents::event_type
+                    .eq(EventType::Enabled)
+                    .or(productevents::event_type.eq(EventType::Disabled)),
+            )
+            .filter(productevents::product_id.eq_any(&product_ids))
+            .filter(productevents::event_time.lt(date))
+            .order_by((productevents::product_id, productevents::event_time.desc()))
+            .load::<(i32, EventType)>(&*conn)
+            .map_err(|reason| {
+                format!(
+                    "Events for products with user id {} could not be retrieved. Reason: {}",
+                    user_id, reason
+                )
+            })?
+            .into_iter()
+            .filter(|(_, event_type)| *event_type == EventType::Disabled)
+            .map(|(id, _)| id)
+            .collect();
+
+        let inventory: HashMap<i32, i64> = inventory::table
+            .select((
+                inventory::product_id,
+                dsl::sql::<sql_types::BigInt>("sum(quantity)"),
+            ))
+            .filter(inventory::product_id.eq_any(&product_ids))
+            .filter(inventory::mod_date.lt(date))
+            .group_by(inventory::product_id)
+            .load::<(i32, i64)>(&*conn)
+            .map_err(|reason| {
+                format!(
+                    "Inventory for products with user id {} could not be retrieved. Reason: {}",
+                    user_id, reason
+                )
+            })?
+            .into_iter()
+            .collect();
+
+        Ok(products
             .into_iter()
             .map(|product| {
                 let sold_amount = *items_sold.get(&product.product_id).unwrap_or(&0i64);
-                ProductSnapshot {
-                    quantity: i64::max(0, product.quantity - sold_amount),
-                    ..product
-                }
+                let quantity = inventory.get(&product.product_id).unwrap_or(&0) - sold_amount;
+                let discontinued = disabled_ids.contains(&product.product_id);
+                product.with_snapshot_data(i64::max(0, quantity), discontinued)
             })
             .collect())
     }

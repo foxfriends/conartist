@@ -47,11 +47,11 @@ graphql_object!(User: Database |&self| {
         }
     }
 
-    field products(&executor) -> FieldResult<Vec<ProductSnapshot>> {
+    field products(&executor, as_of: Option<DateTime<Utc>>) -> FieldResult<Vec<ProductSnapshot>> {
         dbtry! {
             executor
                 .context()
-                .get_products_for_user(Some(self.user_id))
+                .get_products_for_user(Some(self.user_id), as_of)
         }
     }
 

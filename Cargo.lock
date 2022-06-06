@@ -1221,9 +1221,9 @@ checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 
 [[package]]
 name = "lettre"
-version = "0.9.2"
+version = "0.9.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c66afaa5dfadbb81d4e00fd1d1ab057c7cd4c799c5a44e0009386d553587e728"
+checksum = "86ed8677138975b573ab4949c35613931a4addeadd0a8a6aa0327e2a979660de"
 dependencies = [
  "base64 0.10.1",
  "bufstream",

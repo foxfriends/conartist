@@ -2459,7 +2459,7 @@ dependencies = [
  "diesel-derive-enum",
  "env_logger",
  "failure",
- "hyper 0.10.16",
+ "hyper 0.14.17",
  "iron",
  "iron-cors",
  "jsonwebtoken",

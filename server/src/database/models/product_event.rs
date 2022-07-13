@@ -1,7 +1,7 @@
 //! The ProductEvents table
+use super::EventType;
 use chrono::NaiveDateTime;
 use diesel::Queryable;
-use super::EventType;
 
 #[derive(Queryable, Clone, Debug)]
 pub struct ProductEvent {

@@ -1,0 +1,16 @@
+title = "Hal-Con"
+start_date = 2022-10-28
+end_date = 2019-10-30
+
+[website]
+title = "hal-con.com"
+url = "https://hal-con.com/"
+
+[address]
+address = "Halifax Convention Centre\n1650 Argyle St\nHalifax, NS B3J 0E6\nCanada"
+city = "Halifax, NS"
+country = "Canada"
+
+[address.coordinates]
+lat = 44.646591
+lon = -63.5769093

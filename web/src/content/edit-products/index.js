@@ -323,6 +323,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
     const newProduct = {
       product: null,
       nameValidation: { state: EMPTY },
+      skuValidation: { state: EMPTY },
       quantityValidation: { state: EMPTY },
       id: uniqueProductId(),
       typeId,
@@ -385,7 +386,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
         if (product.quantity < 0) {
           quantityValidation = { state: INVALID, error: NegativeQuantity }
         }
-        if(nameValidation.state !== VALID || quantityValidation.state !== VALID) {
+        if(nameValidation.state !== VALID || quantityValidation.state !== VALID || skuValidation.state !== VALID) {
           disableSave()
         }
         return { ...product, nameValidation, skuValidation, quantityValidation }

@@ -27,6 +27,7 @@ export type EditableProductType = {
 export type EditableProduct = {
   product?: ?EditableProduct,
   nameValidation: Validation<ValidationError>,
+  skuValidation: Validation<ValidationError>,
   quantityValidation: Validation<ValidationError>,
   id: Id,
   typeId: Id,

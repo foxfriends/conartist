@@ -10,6 +10,7 @@ struct Product: Codable {
     let id: Int
     let typeId: Int
     let name: String
+    let sku: String?
     let quantity: Int
     let discontinued: Bool
     
@@ -17,6 +18,7 @@ struct Product: Codable {
         id = product.id
         typeId = product.typeId
         name = product.name
+        sku = product.sku
         quantity = product.quantity
         discontinued = product.discontinued
     }

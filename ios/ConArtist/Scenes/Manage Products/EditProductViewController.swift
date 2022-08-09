@@ -13,6 +13,7 @@ class EditProductViewController : ConArtistViewController {
     @IBOutlet weak var navBar: FakeNavBar!
     @IBOutlet weak var nameTextField: FancyTextField!
     @IBOutlet weak var quantityTextField: FancyTextField!
+    @IBOutlet weak var skuTextField: FancyTextField!
     @IBOutlet weak var discontinuedSwitch: UISwitch!
     @IBOutlet weak var discontinuedLabel: UILabel!
 
@@ -37,6 +38,9 @@ extension EditProductViewController {
     fileprivate func setupUI() {
         nameTextField.text = product?.name ?? ""
         quantityTextField.text = "\(product?.quantity ?? 0)"
+        if let sku = product?.sku {
+            skuTextField.text = sku
+        }
         discontinuedSwitch.isOn = product?.discontinued ?? false
         discontinuedSwitch.isHidden = product == nil
         discontinuedLabel.font = discontinuedLabel.font.usingFeatures([.smallCaps])
@@ -54,6 +58,8 @@ extension EditProductViewController {
         nameTextField.placeholder = nameTextField.title
         quantityTextField.title = "Quantity"¡
         quantityTextField.placeholder = quantityTextField.title
+        skuTextField.title = "SKU"¡
+        skuTextField.title = skuTextField.title
         discontinuedLabel.text = "Discontinued"¡
         navBar.title = (product?.name).map { "Editing {}"¡ % $0 } ?? "New Product"¡
     }
@@ -72,15 +78,17 @@ extension EditProductViewController {
                 Observable.combineLatest(
                     nameTextField.rx.text.map { $0 ?? "" },
                     quantityTextField.rx.text.map { Int($0 ?? "") ?? 0 },
+                    skuTextField.rx.text.map { $0 == "" ? nil : $0 },
                     discontinuedSwitch.rx.isOn
                 )
             )
-            .flatMapLatest { [product, typeId] (name: String, quantity: Int, discontinued: Bool) -> Single<ProductFragment> in
+            .flatMapLatest { [product, typeId] (name: String, quantity: Int, sku: String?, discontinued: Bool) -> Single<ProductFragment> in
                 if let product = product {
                     return ConArtist.API.GraphQL
                         .observe(mutation: ModProductMutation(product: ProductMod(
                             productId: product.id,
                             name: name,
+                            sku: sku,
                             quantity: quantity,
                             discontinued: discontinued,
                             sort: nil
@@ -91,6 +99,7 @@ extension EditProductViewController {
                         .observe(mutation: AddProductMutation(product: ProductAdd(
                             typeId: typeId,
                             name: name,
+                            sku: sku,
                             quantity: quantity,
                             sort: ConArtist.model.products.value.filter { $0.typeId == typeId }.count
                         )))

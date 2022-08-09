@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -20,24 +18,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Esf-g0-biJ">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                                 <color key="backgroundColor" name="Background"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="ManageProductCell" rowHeight="50" id="bAU-kG-aXP" customClass="ManageProductTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bAU-kG-aXP" id="46B-m0-9nv">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Miyazaki" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cbq-Zc-6gc">
-                                                    <rect key="frame" x="20" y="16" width="299.5" height="18"/>
+                                                    <rect key="frame" x="20" y="16" width="299" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                     <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="25" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sq2-MY-XEw">
-                                                    <rect key="frame" x="339.5" y="14.5" width="20.5" height="21"/>
+                                                    <rect key="frame" x="339" y="14.5" width="20" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" name="TextPlaceholder"/>
                                                     <nil key="highlightedColor"/>
@@ -64,7 +62,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7En-6K-XAV" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                 <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="Manage Products"/>
@@ -91,6 +89,7 @@
                                 <rect key="frame" x="313" y="605" width="36" height="36"/>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="nKv-7e-8Id"/>
                         <color key="backgroundColor" name="Background"/>
                         <constraints>
                             <constraint firstItem="7En-6K-XAV" firstAttribute="bottom" secondItem="nKv-7e-8Id" secondAttribute="top" constant="44" id="3dd-2u-td8"/>
@@ -108,7 +107,6 @@
                             <constraint firstItem="BRz-2I-rK2" firstAttribute="width" secondItem="Ypz-RO-0kc" secondAttribute="width" constant="-12" id="sde-jM-n6t"/>
                             <constraint firstItem="Esf-g0-biJ" firstAttribute="top" secondItem="7En-6K-XAV" secondAttribute="bottom" id="szI-Pv-h1w"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="nKv-7e-8Id"/>
                     </view>
                     <connections>
                         <outlet property="addProductButton" destination="Ypz-RO-0kc" id="LLV-rh-NJ9"/>
@@ -130,14 +128,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xhw-IY-nSe">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                                 <color key="backgroundColor" name="Background"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ManageProductTypeCell" rowHeight="50" id="85I-Rc-zdA" customClass="ManageProductTypeTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="85I-Rc-zdA" id="9p9-n5-MIv">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="350.5" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="11x17 Print" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e12-xd-MIy">
@@ -164,7 +162,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iel-US-kY6" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                 <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="Products"/>
@@ -191,6 +189,7 @@
                                 <rect key="frame" x="313" y="605" width="36" height="36"/>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="24E-RO-39E"/>
                         <color key="backgroundColor" name="Background"/>
                         <constraints>
                             <constraint firstItem="24E-RO-39E" firstAttribute="trailing" secondItem="iel-US-kY6" secondAttribute="trailing" id="2Np-zQ-Hab"/>
@@ -208,7 +207,6 @@
                             <constraint firstItem="iel-US-kY6" firstAttribute="top" secondItem="gcb-8t-42Z" secondAttribute="top" id="hnK-hN-VzZ"/>
                             <constraint firstItem="XpJ-kD-dup" firstAttribute="height" secondItem="VNg-7S-TlH" secondAttribute="height" constant="-12" id="yn8-YY-dcs"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="24E-RO-39E"/>
                     </view>
                     <connections>
                         <outlet property="navBar" destination="iel-US-kY6" id="JIx-H7-2Ez"/>
@@ -230,7 +228,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IuM-ma-ECR" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                 <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="Edit Product Type"/>
@@ -239,7 +237,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aD4-Ny-S7b">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" textAlignment="natural" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="KAl-kl-xuQ" customClass="FancyTextField" customModule="ConArtist" customModuleProvider="target">
                                         <rect key="frame" x="10" y="20" width="355" height="50"/>
@@ -278,6 +276,7 @@
                                 </constraints>
                             </scrollView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="XzR-g4-tge"/>
                         <color key="backgroundColor" name="Background"/>
                         <constraints>
                             <constraint firstItem="IuM-ma-ECR" firstAttribute="leading" secondItem="XzR-g4-tge" secondAttribute="leading" id="3R9-2H-MxS"/>
@@ -292,7 +291,6 @@
                             <constraint firstItem="aD4-Ny-S7b" firstAttribute="width" secondItem="hdL-8w-805" secondAttribute="width" id="vba-33-E6j"/>
                             <constraint firstAttribute="trailing" secondItem="aD4-Ny-S7b" secondAttribute="trailing" id="vt3-d4-qwb"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="XzR-g4-tge"/>
                     </view>
                     <connections>
                         <outlet property="discontinuedLabel" destination="Zeb-Hw-tIf" id="w0Y-Cg-eNj"/>
@@ -314,7 +312,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UgK-68-MHF" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                 <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="Edit Product"/>
@@ -323,7 +321,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fto-Wu-dmv">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" textAlignment="natural" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="4Ao-8z-DNy" customClass="FancyTextField" customModule="ConArtist" customModuleProvider="target">
                                         <rect key="frame" x="10" y="10" width="355" height="50"/>
@@ -352,32 +350,49 @@
                                         </userDefinedRuntimeAttributes>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Discontinued" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jmt-Vq-EIi">
-                                        <rect key="frame" x="20" y="140" width="90.5" height="18"/>
+                                        <rect key="frame" x="20" y="210" width="90.5" height="18"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" name="TextPlaceholder"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Ou-mG-Cmq">
-                                        <rect key="frame" x="306" y="133.5" width="51" height="31"/>
+                                        <rect key="frame" x="306" y="203.5" width="51" height="31"/>
                                         <color key="onTintColor" name="BrandVariant"/>
                                         <color key="thumbTintColor" name="Text"/>
                                     </switch>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="SKU (optional)" textAlignment="natural" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="9G0-Lm-bTd" customClass="FancyTextField" customModule="ConArtist" customModuleProvider="target">
+                                        <rect key="frame" x="10" y="140" width="355" height="50"/>
+                                        <color key="tintColor" name="Brand"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="k7b-y3-udX"/>
+                                        </constraints>
+                                        <color key="textColor" name="Text"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad" keyboardAppearance="alert" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="title" value="SKU"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </textField>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="4Ao-8z-DNy" secondAttribute="trailing" constant="10" id="1IA-BP-ZPU"/>
                                     <constraint firstItem="Jmt-Vq-EIi" firstAttribute="leading" secondItem="fto-Wu-dmv" secondAttribute="leading" constant="20" id="26Y-RL-6AS"/>
                                     <constraint firstItem="4Ao-8z-DNy" firstAttribute="leading" secondItem="fto-Wu-dmv" secondAttribute="leading" constant="10" id="6cV-Nj-Rvh"/>
-                                    <constraint firstItem="Jmt-Vq-EIi" firstAttribute="top" secondItem="aYl-1V-BPI" secondAttribute="bottom" constant="20" id="9AJ-hP-Hbj"/>
                                     <constraint firstItem="aYl-1V-BPI" firstAttribute="top" secondItem="4Ao-8z-DNy" secondAttribute="bottom" constant="10" id="BQt-7c-bQq"/>
                                     <constraint firstAttribute="trailing" secondItem="7Ou-mG-Cmq" secondAttribute="trailing" constant="20" id="Pme-J6-IPb"/>
+                                    <constraint firstItem="9G0-Lm-bTd" firstAttribute="leading" secondItem="fto-Wu-dmv" secondAttribute="leading" constant="10" id="Rh1-za-AFs"/>
+                                    <constraint firstItem="9G0-Lm-bTd" firstAttribute="top" secondItem="aYl-1V-BPI" secondAttribute="bottom" constant="20" id="TYO-5A-XIo"/>
                                     <constraint firstAttribute="trailing" secondItem="aYl-1V-BPI" secondAttribute="trailing" constant="10" id="Xgq-2W-rPH"/>
                                     <constraint firstItem="7Ou-mG-Cmq" firstAttribute="centerY" secondItem="Jmt-Vq-EIi" secondAttribute="centerY" id="ben-Nm-QR1"/>
                                     <constraint firstAttribute="bottom" secondItem="Jmt-Vq-EIi" secondAttribute="bottom" constant="20" id="dOy-66-Wbc"/>
                                     <constraint firstItem="aYl-1V-BPI" firstAttribute="leading" secondItem="fto-Wu-dmv" secondAttribute="leading" constant="10" id="eok-cO-fnf"/>
                                     <constraint firstItem="4Ao-8z-DNy" firstAttribute="top" secondItem="fto-Wu-dmv" secondAttribute="top" constant="10" id="hIT-Rm-YyN"/>
+                                    <constraint firstAttribute="trailing" secondItem="9G0-Lm-bTd" secondAttribute="trailing" constant="10" id="pUx-lt-jzJ"/>
+                                    <constraint firstItem="Jmt-Vq-EIi" firstAttribute="top" secondItem="9G0-Lm-bTd" secondAttribute="bottom" constant="20" id="yOd-H6-r4W"/>
                                 </constraints>
                             </scrollView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="lgl-wC-6HZ"/>
                         <color key="backgroundColor" name="Background"/>
                         <constraints>
                             <constraint firstItem="UgK-68-MHF" firstAttribute="bottom" secondItem="lgl-wC-6HZ" secondAttribute="top" constant="44" id="7Fb-PT-3it"/>
@@ -391,7 +406,6 @@
                             <constraint firstAttribute="bottom" secondItem="fto-Wu-dmv" secondAttribute="bottom" id="ffh-hb-PvS"/>
                             <constraint firstItem="4Ao-8z-DNy" firstAttribute="leading" secondItem="lgl-wC-6HZ" secondAttribute="leading" constant="10" id="vOy-rm-wjh"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="lgl-wC-6HZ"/>
                     </view>
                     <connections>
                         <outlet property="discontinuedLabel" destination="Jmt-Vq-EIi" id="L1V-B4-nsa"/>
@@ -399,6 +413,7 @@
                         <outlet property="nameTextField" destination="4Ao-8z-DNy" id="ng4-ud-2Rz"/>
                         <outlet property="navBar" destination="UgK-68-MHF" id="Gsd-zB-OqO"/>
                         <outlet property="quantityTextField" destination="aYl-1V-BPI" id="efV-19-nGY"/>
+                        <outlet property="skuTextField" destination="9G0-Lm-bTd" id="nol-ka-hj1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NBN-J8-rJj" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -414,18 +429,18 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8y3-cd-R4A">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                                 <color key="backgroundColor" name="Background"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="ManagePriceCell" rowHeight="50" id="eHR-5c-jRg" customClass="ManagePriceTableViewCell" customModule="ConArtist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="50"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="eHR-5c-jRg" id="p2H-IM-fGe">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="$5.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gcx-Od-nMA">
-                                                    <rect key="frame" x="315" y="14.5" width="45" height="21"/>
+                                                    <rect key="frame" x="314" y="14.5" width="45" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" name="TextPlaceholder"/>
                                                     <nil key="highlightedColor"/>
@@ -437,7 +452,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Miyazaki" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Rr-ed-Ktk">
-                                                    <rect key="frame" x="51" y="16" width="244" height="18"/>
+                                                    <rect key="frame" x="51" y="16" width="243" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                     <color key="textColor" name="Text"/>
                                                     <nil key="highlightedColor"/>
@@ -467,7 +482,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Saf-sU-p0w" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                 <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="Manage Prices"/>
@@ -494,6 +509,7 @@
                                 <rect key="frame" x="313" y="605" width="36" height="36"/>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="y1M-IM-ps2"/>
                         <color key="backgroundColor" name="Background"/>
                         <constraints>
                             <constraint firstItem="mHp-DC-OGm" firstAttribute="centerX" secondItem="NUR-RG-iFr" secondAttribute="centerX" id="4aD-pI-wHv"/>
@@ -511,7 +527,6 @@
                             <constraint firstItem="mHp-DC-OGm" firstAttribute="height" secondItem="NUR-RG-iFr" secondAttribute="height" constant="-12" id="sIq-hX-9fI"/>
                             <constraint firstItem="mHp-DC-OGm" firstAttribute="width" secondItem="NUR-RG-iFr" secondAttribute="width" constant="-12" id="y3b-hW-5n3"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="y1M-IM-ps2"/>
                     </view>
                     <connections>
                         <outlet property="addPriceButton" destination="NUR-RG-iFr" id="09w-jf-39h"/>
@@ -533,7 +548,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fK9-qz-fLA" customClass="FakeNavBar" customModule="ConArtist" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                 <color key="backgroundColor" name="BackgroundNavBar"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="title" value="Edit Product"/>
@@ -542,7 +557,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nKC-ZU-IVI">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Quantity" textAlignment="natural" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="cRF-1v-JjY" customClass="FancyTextField" customModule="ConArtist" customModuleProvider="target">
                                         <rect key="frame" x="10" y="90" width="355" height="50"/>
@@ -560,7 +575,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qaR-YH-wEg">
                                         <rect key="frame" x="20" y="20" width="335" height="50"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oNj-Ld-kZB">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oNj-Ld-kZB">
                                                 <rect key="frame" x="74.5" y="0.0" width="260.5" height="50"/>
                                                 <color key="backgroundColor" name="BackgroundOverlay"/>
                                                 <constraints>
@@ -622,6 +637,7 @@
                                 </constraints>
                             </scrollView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="j5s-Ei-6ur"/>
                         <color key="backgroundColor" name="Background"/>
                         <constraints>
                             <constraint firstItem="fK9-qz-fLA" firstAttribute="leading" secondItem="j5s-Ei-6ur" secondAttribute="leading" id="1up-qE-JT3"/>
@@ -635,7 +651,6 @@
                             <constraint firstItem="qaR-YH-wEg" firstAttribute="leading" secondItem="j5s-Ei-6ur" secondAttribute="leading" constant="20" id="pZW-Rx-30l"/>
                             <constraint firstItem="j5s-Ei-6ur" firstAttribute="trailing" secondItem="qaR-YH-wEg" secondAttribute="trailing" constant="20" id="x2Q-pn-48O"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="j5s-Ei-6ur"/>
                     </view>
                     <connections>
                         <outlet property="navBar" destination="fK9-qz-fLA" id="PNA-sO-yjh"/>
@@ -661,7 +676,7 @@
             <color red="0.0" green="0.0" blue="0.0" alpha="0.20000000298023224" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Brand">
-            <color red="0.85500001907348633" green="0.28200000524520874" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.81176470588235294" green="0.27058823529411763" blue="0.086274509803921567" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="BrandVariant">
             <color red="0.85100001096725464" green="0.60000002384185791" blue="0.11800000071525574" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

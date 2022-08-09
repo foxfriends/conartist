@@ -537,11 +537,11 @@ extension Convention {
         let request =
             expense.modifications == nil
                 ? ConArtist.API.GraphQL
-                    .observe(mutation: UpdateExpenseMutation(expense: expense.modifications!))
-                    .map { $0.modUserExpense.fragments.expenseFragment }
-                : ConArtist.API.GraphQL
                     .observe(mutation: AddExpenseMutation(expense: expense.add(to: self)!))
                     .map { $0.addUserExpense.fragments.expenseFragment }
+                : ConArtist.API.GraphQL
+                    .observe(mutation: UpdateExpenseMutation(expense: expense.modifications!))
+                    .map { $0.modUserExpense.fragments.expenseFragment }
 
         return request
             .filterMap(Expense.init(graphQL:))

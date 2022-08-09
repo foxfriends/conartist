@@ -73,6 +73,7 @@ extension RecordListViewController {
         } else { // use the convention-less info
             ConArtist.model.records
                 .map { $0.nodes }
+                .map { [after, before] records in records.filter { record in (after.map { record.time >= $0 } ?? true) && (before.map { record.time <= $0 } ?? true) } }
                 .bind(to: records)
                 .disposed(by: disposeBag)
             ConArtist.model.products

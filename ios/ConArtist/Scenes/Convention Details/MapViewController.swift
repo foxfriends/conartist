@@ -54,7 +54,7 @@ extension MapViewController {
 
 extension MapViewController {
     fileprivate func setupLocalization() {
-        navBar.leftButtonTitle = navBar.leftButtonTitle?¡
+//        navBar.leftButtonTitle = navBar.leftButtonTitle?¡
     }
 }
 

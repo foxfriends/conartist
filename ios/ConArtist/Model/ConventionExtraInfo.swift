@@ -81,8 +81,8 @@ enum ConventionExtraInfo: Codable {
                         % close.toString(ConventionExtraInfo.HourFormat)
                 }
                 .joined(separator: "\n")
-        case .Dates(let dates):
-            return Convention.formatDateRange(start: dates.0, end: dates.1)
+        case .Dates(let start, let end):
+            return Convention.formatDateRange(start: start, end: end)
         case .Address(let display, _):
             return display
         case .City(let city):

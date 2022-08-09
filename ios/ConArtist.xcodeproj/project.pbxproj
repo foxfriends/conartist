@@ -1224,7 +1224,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = "/bin/bash -l";
-			shellScript = "SCRIPT_PATH=\"${PODS_ROOT}/Apollo/scripts\"\ncd \"${SRCROOT}/ConArtist\"\n${SCRIPT_PATH}/check-and-run-apollo-cli.sh codegen:generate --target=swift --includes=${SRCROOT}/../shared/graphql/**/*.graphql --localSchemaFile=${SRCROOT}/../shared/graphql/schema.json ${SRCROOT}/ConArtist/Services/API/GraphQL.swift\n${SCRIPT_PATH}/check-and-run-apollo-cli.sh codegen:generate --target=swift --includes=${SRCROOT}/../shared/resources/query/*.graphql --localSchemaFile=${SRCROOT}/../shared/resources/resources.json ${SRCROOT}/ConArtist/Services/API/Resources.swift\n";
+			shellScript = "eval \"$(fnm env)\"\nSCRIPT_PATH=\"${PODS_ROOT}/Apollo/scripts\"\ncd \"${SRCROOT}/ConArtist\"\n${SCRIPT_PATH}/check-and-run-apollo-cli.sh codegen:generate --target=swift --includes=${SRCROOT}/../shared/graphql/**/*.graphql --localSchemaFile=${SRCROOT}/../shared/graphql/schema.json ${SRCROOT}/ConArtist/Services/API/GraphQL.swift\n${SCRIPT_PATH}/check-and-run-apollo-cli.sh codegen:generate --target=swift --includes=${SRCROOT}/../shared/resources/query/*.graphql --localSchemaFile=${SRCROOT}/../shared/resources/resources.json ${SRCROOT}/ConArtist/Services/API/Resources.swift\n";
 		};
 		326B7E0221FEA52B00E8DF34 /* Generate Apollo GraphQL API */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1238,7 +1238,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = "/bin/bash -l";
-			shellScript = "SCRIPT_PATH=\"${PODS_ROOT}/Apollo/scripts\"\ncd \"${SRCROOT}/ConArtist\"\n${SCRIPT_PATH}/check-and-run-apollo-cli.sh codegen:generate --target=swift --includes=${SRCROOT}/../shared/graphql/**/*.graphql --localSchemaFile=${SRCROOT}/../shared/graphql/schema.json ${SRCROOT}/ConArtist/Services/API/GraphQL.swift\n${SCRIPT_PATH}/check-and-run-apollo-cli.sh codegen:generate --target=swift --includes=${SRCROOT}/../shared/resources/query/*.graphql --localSchemaFile=${SRCROOT}/../shared/resources/resources.json ${SRCROOT}/ConArtist/Services/API/Resources.swift\n";
+			shellScript = "eval \"$(fnm env)\"\nSCRIPT_PATH=\"${PODS_ROOT}/Apollo/scripts\"\ncd \"${SRCROOT}/ConArtist\"\n${SCRIPT_PATH}/check-and-run-apollo-cli.sh codegen:generate --target=swift --includes=${SRCROOT}/../shared/graphql/**/*.graphql --localSchemaFile=${SRCROOT}/../shared/graphql/schema.json ${SRCROOT}/ConArtist/Services/API/GraphQL.swift\n${SCRIPT_PATH}/check-and-run-apollo-cli.sh codegen:generate --target=swift --includes=${SRCROOT}/../shared/resources/query/*.graphql --localSchemaFile=${SRCROOT}/../shared/resources/resources.json ${SRCROOT}/ConArtist/Services/API/Resources.swift\n";
 		};
 		326B7EA721FEA52B00E8DF34 /* Copy Configuration Files */ = {
 			isa = PBXShellScriptBuildPhase;

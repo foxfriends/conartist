@@ -128,7 +128,7 @@ extension SignUpViewController {
                             email: self.emailField.text!.trim(),
                             password: self.passwordField.text!
                         )
-                        .do { self.animatingActivity.accept(false) }
+                        .do(onDispose: { self.animatingActivity.accept(false) })
                         .map { _ in .completed }
                         .asMaybe()
                 case .completed:
@@ -154,7 +154,7 @@ extension SignUpViewController {
                 }
                 self.animatingActivity.accept(true)
                 return ConArtist.API.Account.emailInUse(email)
-                    .do { self.animatingActivity.accept(false) }
+                    .do(onDispose: { self.animatingActivity.accept(false) })
                     .map { $0 ? "That email is already being used"¡ : nil }
                     .catchErrorJustReturn("")
             }

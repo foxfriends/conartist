@@ -26,7 +26,7 @@ with `apollo-codegen`.
 1.  Set up the server (see `/server/README.md`)
 2.  Make sure you have [Node.js](https://nodejs.org/en/) and NPM installed. Just use the latest
     version of both.
-3.  Install `apollo-cli` from NPM (`npm install -g apollo-cli`)
+3.  Install `apollo` from NPM (`npm install -g apollo@2.17.0`)
 4.  Run the server in Open mode
 5.  Go to the iOS directory, and regenerate the `schema.json` and `resources.json` files with
     `./generate-schemas` (it's in the `ConArtist` directory)

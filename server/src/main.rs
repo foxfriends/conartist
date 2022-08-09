@@ -40,6 +40,7 @@ use crate::env::CONARTIST_BASE_URL;
 
 fn main() {
     env_logger::init();
+    dotenv::dotenv().ok();
 
     println!();
     println!("Starting ConArtist server...");

@@ -372,7 +372,18 @@
           {
             "name": "productTypes",
             "description": null,
-            "args": [],
+            "args": [
+              {
+                "name": "asOf",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "DateTimeUtc",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
             "type": {
               "kind": "NON_NULL",
               "name": null,

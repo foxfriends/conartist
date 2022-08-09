@@ -21,10 +21,8 @@ params = "0.8.0"
 staticfile = "0.5.0"
 bodyparser = "0.8.0"
 hyper = "0.10.16"
-
-# Auth
-jsonwebtoken = "5.0.1"
-ring = "0.13.5" # must be held for compatibility with jsonwebtoken
+jsonwebtoken = "8.1.1"
+ring = "0.16.20"
 bcrypt = "0.3.0"
 
 # Database

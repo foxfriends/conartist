@@ -1,7 +1,7 @@
 use crate::env::JWT_SECRET;
 use chrono::{Duration, Utc};
 use iron::typemap::Key;
-use jsonwebtoken::{encode, errors::Error, Header};
+use jsonwebtoken::{encode, errors::Error, EncodingKey, Header};
 use serde::{Deserialize, Serialize};
 
 #[derive(Copy, Clone, Serialize, Deserialize, Debug)]
@@ -27,9 +27,17 @@ pub fn updating_claims(claims: &Claims) -> Result<String, Error> {
         exp: exp.timestamp(),
         ..*claims
     };
-    encode(&Header::default(), &claims, JWT_SECRET.as_ref())
+    encode(
+        &Header::default(),
+        &claims,
+        &EncodingKey::from_secret(JWT_SECRET.as_bytes()),
+    )
 }
 
 fn with_claims(claims: &Claims) -> Result<String, Error> {
-    encode(&Header::default(), claims, JWT_SECRET.as_ref())
+    encode(
+        &Header::default(),
+        claims,
+        &EncodingKey::from_secret(JWT_SECRET.as_bytes()),
+    )
 }

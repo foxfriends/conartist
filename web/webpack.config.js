@@ -8,9 +8,14 @@ const PROD = 'production'; // production environment
 const STAGING = 'staging'; // staging environment: looks like production, but different backend
 
 module.exports = (env) => {
-  const envName = env.staging ? STAGING : PROD;
+  let envName = 'development';
+  if (env.staging) {
+    envName = STAGING;
+  } else if (env.production) {
+    envName = PROD;
+  }
   const plugins = [new MiniCssExtractPlugin({ filename: '[name].css' })];
-  switch (env) {
+  switch (envName) {
     case PROD:
       plugins.push(new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify('production'), // for react
@@ -29,7 +34,7 @@ module.exports = (env) => {
         'process.env.NODE_ENV': JSON.stringify('production'), // for react
         'process.env.API_URL': JSON.stringify('https://api.staging.conartist.app'),
         'process.env.GRAPHQL_URL': JSON.stringify('https://graph.staging.conartist.app'),
-        'process.env.SUPPORT_EMAIL': JSON.stringify('support@staging.conartist.app'),
+        'process.env.SUPPORT_EMAIL': JSON.stringify('support@conartist.app'),
         'process.env.DONATE_URL': JSON.stringify('https://ko-fi.com/foxfriends'),
         'process.env.REPOSITORY_URL': JSON.stringify('https://github.com/foxfriends/conartist'),
         'process.env.APP_STORE_URL': JSON.stringify('https://itunes.apple.com/us/app/conartist/id1448972207'),
@@ -41,7 +46,7 @@ module.exports = (env) => {
       plugins.push(new webpack.DefinePlugin({
         'process.env.API_URL': JSON.stringify('/api'),
         'process.env.GRAPHQL_URL': JSON.stringify('/api/v2'),
-        'process.env.SUPPORT_EMAIL': JSON.stringify('support@staging.conartist.app'),
+        'process.env.SUPPORT_EMAIL': JSON.stringify('support@conartist.app'),
         'process.env.DONATE_URL': JSON.stringify('https://ko-fi.com/foxfriends'),
         'process.env.REPOSITORY_URL': JSON.stringify('https://github.com/foxfriends/conartist'),
         'process.env.APP_STORE_URL': JSON.stringify('https://itunes.apple.com/us/app/conartist/id1448972207'),

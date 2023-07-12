@@ -1,0 +1,16 @@
+title = "Animethon"
+start_date = 2023-07-13
+end_date = 2023-07-16
+
+[website]
+title = "animethon.org"
+url = "https://animethon.org"
+
+[address]
+address = "Edmonton Convention Centre\n9797 Jasper Ave\nEdmonton, AB, Canada\nT5J 1N9"
+city = "Edmonton, AB"
+country = "Canada"
+
+[address.coordinates]
+lat = 53.5416202
+lon = -113.4862051

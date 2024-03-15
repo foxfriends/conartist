@@ -9,6 +9,7 @@ url = "https://ai-kon.org/"
 [address]
 address = "RBC Convention Centre\nWinnipeg, MB, Canada\nR3C 3J3"
 city = "Winnipeg, MB"
+country = "Canada"
 
 [address.coordinates]
 lat = 49.889206

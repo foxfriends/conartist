@@ -32,7 +32,7 @@
     "flow-bin": "^0.79.1",
     "flow-typed": "^3.8.0",
     "html-loader": "^3.1.0",
-    "imagemin": "^6.1.0",
+    "imagemin": "^9.0.0",
     "img-loader": "^4.0.0",
     "markdown-loader": "^8.0.0",
     "mini-css-extract-plugin": "^2.6.0",

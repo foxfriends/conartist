@@ -1,0 +1,16 @@
+title = "MEGACON Orlando"
+start_date = 2025-02-06
+end_date = 2025-02-09
+
+[website]
+title = "fanexpohq.com/megaconorlando"
+url = "https://fanexpohq.com/megaconorlando/"
+
+[address]
+address = "Orange County Convention Center\nOrlando, FL\nUSA"
+city = "Orlando, FL"
+country = "USA"
+
+[address.coordinates]
+lat = 28.424807
+lon = -81.46961

@@ -5,6 +5,7 @@ end_date = 2025-08-03
 [address]
 city = "Vancouver, BC"
 address = "Vancouver Convention Centre – West Wing\n1055 Canada Place\nVancouver, BC"
+country = "Canada"
 
 [address.coordinates]
 lat = 49.2889098

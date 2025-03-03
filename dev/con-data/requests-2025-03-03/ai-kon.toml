@@ -1,0 +1,16 @@
+title = "Ai-Kon"
+start_date = 2025-07-11
+end_date = 2025-07-13
+
+[website]
+title = "ai-kon.org"
+url = "https://ai-kon.org/"
+
+[address]
+address = "RBC Convention Centre\nWinnipeg, MB, Canada\nR3C 3J3"
+city = "Winnipeg, MB"
+country = "Canada"
+
+[address.coordinates]
+lat = 49.889206
+lon = -97.14482

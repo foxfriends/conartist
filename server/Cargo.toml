@@ -22,7 +22,7 @@ staticfile = "0.5.0"
 bodyparser = "0.8.0"
 hyper = "0.10.16"
 jsonwebtoken = "8.1.1"
-ring = "0.16.20"
+ring = "0.17.12"
 bcrypt = "0.3.0"
 
 # Database

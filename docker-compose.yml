@@ -1,0 +1,18 @@
+services:
+  postgresql:
+    image: postgres
+    environment:
+      - "POSTGRES_USER=conartist"
+      - "POSTGRES_PASSWORD=conartist"
+      - "POSTGRES_DATABASE=conartist"
+    ports:
+      - "5432:5432"
+    volumes:
+      - "postgresql:/var/lib/postgresql/data"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+volumes:
+  postgresql:

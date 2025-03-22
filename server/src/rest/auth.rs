@@ -7,9 +7,8 @@ use crate::middleware::VerifyJWT;
 use bcrypt;
 use bodyparser;
 use iron::prelude::*;
-use iron::{iexpect, itry, status, Handler};
+use iron::{Handler, iexpect, itry, status};
 use log::info;
-use params::{Params, Value};
 use router::Router;
 use serde::Deserialize;
 
@@ -23,32 +22,34 @@ fn reauth(req: &mut Request<'_, '_>) -> IronResult<Response> {
     return cr::ok(authtoken);
 }
 
+#[derive(Clone, Deserialize)]
+struct LoginRequest {
+    pub usr: String,
+    pub psw: String,
+}
+
 struct Auth {
     database: Database,
 }
 impl Handler for Auth {
     fn handle(&self, req: &mut Request<'_, '_>) -> IronResult<Response> {
-        let params = itry! { req.get_ref::<Params>(), status::BadRequest };
-        let usr = iexpect! { params.get("usr") };
-        let psw = iexpect! { params.get("psw") };
+        let params =
+            itry! { req.get_ref::<bodyparser::Struct<LoginRequest>>(), status::BadRequest }.clone();
+        let LoginRequest { usr, psw } = iexpect! { params };
 
-        if let (&Value::String(ref email), &Value::String(ref password)) = (usr, psw) {
-            match self.database.get_user_for_email(&email.to_lowercase()) {
-                Ok(usr) => {
-                    if itry! { bcrypt::verify(password, usr.password.as_str()) } {
-                        let authtoken = itry! { authtoken::new(usr.user_id) };
-                        cr::ok(authtoken)
-                    } else {
-                        cr::fail("Invalid credentials")
-                    }
-                }
-                Err(error) => {
-                    info!("{}", error);
-                    cr::fail("Unknown user")
+        match self.database.get_user_for_email(&usr.to_lowercase()) {
+            Ok(usr) => {
+                if itry! { bcrypt::verify(psw, usr.password.as_str()) } {
+                    let authtoken = itry! { authtoken::new(usr.user_id) };
+                    cr::ok(authtoken)
+                } else {
+                    cr::fail("Invalid credentials")
                 }
             }
-        } else {
-            cr::fail("Invalid request")
+            Err(error) => {
+                info!("{}", error);
+                cr::fail("Unknown user")
+            }
         }
     }
 }

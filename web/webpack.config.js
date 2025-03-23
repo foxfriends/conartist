@@ -146,7 +146,6 @@ module.exports = (env) => {
                 ]
               : [
                   MiniCssExtractPlugin.loader,
-                  "css-modules-flow-types-loader",
                   { loader: "css-loader", options: { modules: true } },
                   "postcss-loader",
                 ],

@@ -30,7 +30,7 @@ use diesel::pg::PgConnection;
 use hyper::client::Client;
 use iron::prelude::*;
 use iron_cors::CorsMiddleware;
-use juniper::{EmptyMutation, EmptySubscription};
+use juniper::{DefaultScalarValue, EmptyMutation, EmptySubscription};
 use juniper_iron::GraphQLHandler;
 use logger::Logger;
 use mount::Mount;
@@ -85,29 +85,36 @@ fn main() {
             "         Do not run with `--open` flag in production!".yellow()
         );
         println!();
-        chain![GraphQLHandler::new(
-            move |_| Ok(database.create_privileged()),
-            graphql::Query,
-            graphql::Mutation,
-            EmptySubscription::new(),
-        )]
-    } else {
-        chain! [
-            middleware::VerifyJWT::new();
-            GraphQLHandler::new(
-                move |r| Ok(database.create(r)),
+        let mut mount = Mount::new();
+        mount.mount(
+            "/",
+            GraphQLHandler::<_, _, _, _, _, DefaultScalarValue>::new(
+                move |_| Ok(database.create_privileged()),
                 graphql::Query,
                 graphql::Mutation,
-                EmptySubscription::new(),
-            )
-        ]
+                EmptySubscription::<database::Database>::new(),
+            ),
+        );
+        chain![mount]
+    } else {
+        let mut mount = Mount::new();
+        mount.mount(
+            "/",
+            GraphQLHandler::<_, _, _, _, _, DefaultScalarValue>::new(
+                move |_| Ok(database.create_privileged()),
+                graphql::Query,
+                graphql::Mutation,
+                EmptySubscription::<database::Database>::new(),
+            ),
+        );
+        chain![middleware::VerifyJWT::new(); mount]
     };
 
-    let resource = GraphQLHandler::new(
+    let resource = GraphQLHandler::<_, _, _, _, _, DefaultScalarValue>::new(
         |_| Ok(resource::ResourceContext(Client::new())),
         resource::Query,
-        EmptyMutation::new(),
-        EmptySubscription::new(),
+        EmptyMutation::<resource::ResourceContext>::new(),
+        EmptySubscription::<resource::ResourceContext>::new(),
     );
 
     if args().any(|a| a == "--dev") {

@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import {
   splash,
   dashboard,
@@ -26,10 +26,10 @@ import * as navigate from '../update/navigate'
 import { setConvention } from '../update/conventions'
 import { isSignedIn } from '../util/is-signed-in'
 import { PAGE_NO_AUTH } from '../constants'
-import type { Page } from '../model/page'
-import type { MetaConvention } from '../model/meta-convention'
+                                         
+                                                              
 
-function match<T>(...matchers: [RegExp, (text: string, ...matches: string[]) => T][]): (text: string) => ?T {
+function match   (...matchers                                                       )                       {
   return text => {
     for (const [pattern, handler] of matchers) {
       const matches = text.match(pattern)
@@ -40,7 +40,7 @@ function match<T>(...matchers: [RegExp, (text: string, ...matches: string[]) => 
   }
 }
 
-function stubConvention(id: number): MetaConvention {
+function stubConvention(id        )                 {
   new LoadConvention()
     .send({ conId: id })
     .toPromise()
@@ -88,7 +88,7 @@ const matchUrl = match(
   [ /^\/convention\/(\d+)\/stats\/?$/i, id => conventionStats(stubConvention(parseInt(id, 10))) ],
 )
 
-export function resolveRoute(): Page {
+export function resolveRoute()       {
   const page = matchUrl(window.location.pathname)
   if (!isSignedIn()) {
     if (page && !PAGE_NO_AUTH.includes(page.name)) {

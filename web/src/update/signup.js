@@ -1,9 +1,9 @@
-/* @flow */
+/*       */
 import { model } from '../model'
 import { dashboard } from '../model/page'
-import type { Step } from '../model/dialog/signup'
+                                                  
 
-export function progressToNextStep(step: ?Step) {
+export function progressToNextStep(step       ) {
   if (step) {
     const { dialog, ...modelValue } = model.getValue()
     if (step.name === 'signed-in') {

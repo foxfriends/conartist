@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { Link } from '../../common/link'
 import { l } from '../../localization'
@@ -7,12 +7,12 @@ import APP_STORE from '../../../images/app-store.svg'
 import DISCORD from '../../../images/discord.svg'
 import S from './static.css'
 
-export type Props = {
-  className?: string,
-  style?: { [string]: string | number },
-}
+                     
+                     
+                                        
+ 
 
-export function Splash({ className, style }: Props) {
+export function Splash({ className, style }       ) {
   return (
     <section className={`${S.container} ${className || ''}`} style={style}>
       <hgroup className={S.splashBanner}>

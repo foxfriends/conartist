@@ -1,30 +1,30 @@
-/* @flow */
-import type { Observable } from 'rxjs'
+/*       */
+                                      
 import { of, from } from 'rxjs'
 import { map, flatMap } from 'rxjs/operators'
 
 import { GraphQLMutation } from './index'
-import type { ConventionUserInfo } from '../model/convention-user-info'
-import type { Response, APIRequest, APIError } from './index'
-import type {
-  DownvoteConventionInfo as DownvoteConventionInfoMutation,
-  DownvoteConventionInfoVariables,
-  UpvoteConventionInfo as UpvoteConventionInfoMutation,
-  UpvoteConventionInfoVariables,
-} from './schema'
+                                                                       
+                                                             
+             
+                                                           
+                                  
+                                                       
+                                
+                 
 
-export type Params = {
-  id: number,
-  vote: number,
-}
-export type Votes = {
-  id: number,
-  upvotes: number,
-  downvotes: number,
-}
+                      
+             
+               
+ 
+                     
+             
+                  
+                    
+ 
 
 // $FlowIgnore: doing some types magic here
-function parse(info: UpvoteConventionInfoMutation | DownvoteConventionInfoMutation) {
+function parse(info                                                               ) {
   const data = info.upvoteConventionInfo || info.downvoteConventionInfo
   return {
     // $FlowIgnore: doing some types magic here
@@ -35,9 +35,9 @@ function parse(info: UpvoteConventionInfoMutation | DownvoteConventionInfoMutati
   }
 }
 
-export class VoteForInfo implements APIRequest<Params, Votes> {
-  downvote: GraphQLMutation<DownvoteConventionInfoVariables, DownvoteConventionInfoMutation>
-  upvote: GraphQLMutation<UpvoteConventionInfoVariables, UpvoteConventionInfoMutation>
+export class VoteForInfo                                      {
+  downvote                                                                                  
+  upvote                                                                              
 
   constructor() {
     // $FlowIgnore: trouble importing graphql files
@@ -48,7 +48,7 @@ export class VoteForInfo implements APIRequest<Params, Votes> {
     this.upvote = upvoteConventionInfo.then(upvoteConventionInfo => new GraphQLMutation(upvoteConventionInfo.default))
   }
 
-  send({ id, vote }: Params): Observable<Response<Votes, string>> {
+  send({ id, vote }        )                                      {
     if (vote === 1) {
       return from(this.upvote)
         .pipe(

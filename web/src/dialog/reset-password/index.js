@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { Observable } from 'rxjs'
 
@@ -16,18 +16,18 @@ import S from '../form.css'
 import SS from './index.css'
 const { Fragment } = React
 
-export type Props = {
-  name: 'reset-password',
-  email: string,
-}
+                     
+                         
+                
+ 
 
-type State = {
-  email: string,
-  submitted: boolean,
-}
+              
+                
+                     
+ 
 
-export class ResetPassword extends React.Component<Props, State> {
-  constructor(props: Props) {
+export class ResetPassword extends React.Component               {
+  constructor(props       ) {
     super(props)
     this.state = {
       email: props.email || '',

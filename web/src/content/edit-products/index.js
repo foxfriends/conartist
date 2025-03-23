@@ -1,9 +1,9 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import * as ReactX from '../../react-ext'
 import { Observable, Subject, forkJoin, merge, of } from 'rxjs'
 import { tap, filter, pluck, map, mapTo, switchMap, takeUntil, share, partition } from 'rxjs/operators'
-import type { Subscription } from 'rxjs'
+                                        
 
 import DefaultMap from '../../util/default-map'
 import { by, Asc, Desc } from '../../util/sort'
@@ -40,28 +40,28 @@ import {
   DuplicateSku,
 } from './schema'
 import { VALID, INVALID, EMPTY } from '../../model/validation'
-import type { Product } from '../../model/product'
-import type { ProductType } from '../../model/product-type'
-import type { Id, EditableProduct, EditableProductType } from './schema'
+                                                  
+                                                           
+                                                                        
 import S from './index.css'
 const { Fragment } = React
 
-export type Props = {
-  name: 'edit-products',
-  products: Product[],
-  productTypes: ProductType[],
-}
+                     
+                        
+                      
+                              
+ 
 
-type State = {
-  products: EditableProduct[],
-  productTypes: EditableProductType[],
-  editingEnabled: boolean,
-}
+              
+                              
+                                      
+                          
+ 
 
-type Validatable = {
-  productTypes: EditableProductType[],
-  products: EditableProduct[],
-}
+                    
+                                      
+                              
+ 
 
 const defaultToolbar = { primary: toolbarAction.SaveProducts, secondary: toolbarAction.DiscardProducts }
 
@@ -73,8 +73,8 @@ function disableSave() {
   toolbarStatus.next({ ...defaultToolbar, primary: { ...defaultToolbar.primary, enabled: false } })
 }
 
-export class EditProducts extends ReactX.Component<Props, State> {
-  static getDerivedStateFromProps({ products, productTypes }: Props, state: State): ?$Shape<State> {
+export class EditProducts extends ReactX.Component               {
+  static getDerivedStateFromProps({ products, productTypes }       , state       )                 {
     if (!state || (state.products.length === 0 && state.productTypes.length === 0)) {
       return {
         products: products.sort(by(['discontinued', Desc], ['sort', Asc], ['id', Asc])).map(editableProduct()),
@@ -85,7 +85,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
     }
   }
 
-  constructor(props: Props) {
+  constructor(props       ) {
     super(props)
 
     toolbarStatus.next(defaultToolbar)
@@ -154,7 +154,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
       .subscribe(status => toolbarStatus.next(status))
   }
 
-  handleProductTypeNameChange(id: Id, name: string) {
+  handleProductTypeNameChange(id    , name        ) {
     const productTypes =
       this.state.productTypes.map(productType => productType.id === id
         ? { ...productType, name }
@@ -164,7 +164,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
     this.setState(this.validate({ products: this.state.products, productTypes }))
   }
 
-  handleProductTypeColorChange(id: Id, color: number) {
+  handleProductTypeColorChange(id    , color        ) {
     const productTypes =
       this.state.productTypes.map(productType => productType.id === id
         ? { ...productType, color }
@@ -174,7 +174,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
     this.setState(this.validate({ products: this.state.products, productTypes }))
   }
 
-  handleProductNameChange(id: Id, name: string) {
+  handleProductNameChange(id    , name        ) {
     const products =
       this.state.products.map(product => product.id === id
         ? { ...product, name }
@@ -184,7 +184,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
     this.setState(this.validate({ products, productTypes: this.state.productTypes }))
   }
 
-  handleProductSkuChange(id: Id, sku: string) {
+  handleProductSkuChange(id    , sku        ) {
     const products =
       this.state.products.map(product => product.id === id
         ? { ...product, sku }
@@ -194,7 +194,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
     this.setState(this.validate({ products, productTypes: this.state.productTypes }))
   }
 
-  handleProductQuantityChange(id: Id, quantityStr: string) {
+  handleProductQuantityChange(id    , quantityStr        ) {
     const quantity = quantityStr !== '' ? Number(quantityStr) : NaN
 
     const products =
@@ -206,7 +206,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
     this.setState(this.validate({ products, productTypes: this.state.productTypes }))
   }
 
-  handleProductTypeDiscontinueToggled(id: Id) {
+  handleProductTypeDiscontinueToggled(id    ) {
     if (typeof id === 'string') {
       const products = this.state.products.filter(product => product.typeId !== id)
       const productTypes = this.state.productTypes.filter(productType => productType.id !== id)
@@ -217,7 +217,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
     }
   }
 
-  handleProductTypeDelete(id: Id) {
+  handleProductTypeDelete(id    ) {
     const products = this.state.products.filter(product => product.typeId !== id)
     if (typeof id === 'string') {
       const productTypes = this.state.productTypes.filter(productType => productType.id !== id)
@@ -228,7 +228,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
     }
   }
 
-  handleProductDiscontinueToggled(id: Id) {
+  handleProductDiscontinueToggled(id    ) {
     if (typeof id === 'string') {
       const products = this.state.products.filter(product => product.id !== id)
       this.setState(this.validate({ products, productTypes: this.state.productTypes }))
@@ -238,7 +238,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
     }
   }
 
-  handleProductDelete(id: Id) {
+  handleProductDelete(id    ) {
     if (typeof id === 'string') {
       const products = this.state.products.filter(product => product.id !== id)
       this.setState(this.validate({ products, productTypes: this.state.productTypes }))
@@ -248,7 +248,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
     }
   }
 
-  handleProductSortChange(typeId: Id, start: number, sort: number) {
+  handleProductSortChange(typeId    , start        , sort        ) {
     const original = this.state.products
       .filter(product => product.typeId === typeId)
       .sort(by(['discontinued', Desc], ['sort', Asc], ['id', Asc]))[start]
@@ -272,7 +272,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
     this.setState(this.validate({ products, productTypes: this.state.productTypes }))
   }
 
-  handleProductTypeSortChange(start: number, sort: number) {
+  handleProductTypeSortChange(start        , sort        ) {
     const original = [...this.state.productTypes]
       .sort(by(['discontinued', Desc], ['sort', Asc], ['id', Asc]))[start]
     if (!original) { throw new Error("Trying to edit non-existent product type") }
@@ -305,7 +305,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
   }
 
   createProductType() {
-    const newProductType: EditableProductType = {
+    const newProductType                      = {
       productType: null,
       validation: { state: EMPTY },
       id: uniqueTypeId(),
@@ -319,7 +319,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
     disableSave()
   }
 
-  createProduct(typeId: Id) {
+  createProduct(typeId    ) {
     const newProduct = {
       product: null,
       nameValidation: { state: EMPTY },
@@ -337,7 +337,7 @@ export class EditProducts extends ReactX.Component<Props, State> {
     disableSave()
   }
 
-  validate({ productTypes, products }: Validatable): Validatable {
+  validate({ productTypes, products }             )              {
     enableSave()
     const validatedProductTypes = (() => {
       const usedNames = new DefaultMap([], 0)

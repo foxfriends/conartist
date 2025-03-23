@@ -1,12 +1,12 @@
-/* @flow */
+/*       */
 import { Subject, combineLatest, fromEvent } from 'rxjs'
 import { share, map, distinctUntilChanged } from 'rxjs/operators'
-import type { Observable } from 'rxjs'
+                                      
 
-export type Event = {
-  target: Symbol,
-  position: [number, number],
-}
+                     
+                 
+                             
+ 
 
 const target = new Subject()
 
@@ -20,7 +20,7 @@ export const dragEvents = combineLatest(currentPosition, target.pipe(distinctUnt
     share(),
   )
 
-export function dragStart(identifier: Symbol) {
+export function dragStart(identifier        ) {
   target.next(identifier)
 }
 

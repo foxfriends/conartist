@@ -1,19 +1,19 @@
-/* @flow */
-import type { Observable } from 'rxjs/Observable'
+/*       */
+                                                 
 import { from } from 'rxjs'
 import { map, flatMap } from 'rxjs/operators'
 
 import { GraphQLMutation } from './index'
 import { parse } from '../model/suggestion'
-import type { Response, APIRequest } from './index'
-import type {
-  CreateSuggestion as CreateSuggestionMutation,
-  CreateSuggestionVariables,
-} from './schema'
-import type { Suggestion } from '../model/suggestion'
+                                                   
+             
+                                               
+                            
+                 
+                                                     
 
-export class CreateSuggestion implements APIRequest<CreateSuggestionVariables, null> {
-  delUserConvention: GraphQLMutation<CreateSuggestionVariables, CreateSuggestionMutation>
+export class CreateSuggestion                                                        {
+  delUserConvention                                                                      
 
   constructor() {
     // $FlowIgnore: trouble importing graphql files
@@ -21,7 +21,7 @@ export class CreateSuggestion implements APIRequest<CreateSuggestionVariables, n
     this.createSuggestion = createSuggestion.then(createSuggestion => new GraphQLMutation(createSuggestion.default))
   }
 
-  send(variables: CreateSuggestionVariables): Observable<Response<Suggestion, string>> {
+  send(variables                           )                                           {
     return from(this.createSuggestion)
       .pipe(
         flatMap(req => req.send(variables)),

@@ -1,7 +1,7 @@
-/* @flow */
+/*       */
 
-export type SignIn = { name: 'signin' }
+                                       
 
-export const signin: SignIn = {
+export const signin         = {
   name: 'signin'
 }

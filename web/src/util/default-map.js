@@ -1,17 +1,17 @@
-/* @flow */
-export default class DefaultMap<K, V> extends Map<K, V> {
-  default: V
+/*       */
+export default class DefaultMap       extends Map       {
+  default   
 
-  constructor(init: Iterable<[K, V]>, def: V) {
+  constructor(init                  , def   ) {
     super(init)
     this.default = def
   }
 
-  get(key: K): V {
+  get(key   )    {
     return super.get(key) || this.default
   }
 
-  set(key: K, value: V): self {
+  set(key   , value   )       {
     return super.set(key, value)
   }
 }

@@ -1,8 +1,8 @@
-/* @flow */
+/*       */
 
-export type NewExpense = { name: 'new-expense' }
+                                                
 
-export const newExpense: (?Expense) => NewExpense = expense => ({
+export const newExpense                           = expense => ({
   name: 'new-expense',
   expense,
 })

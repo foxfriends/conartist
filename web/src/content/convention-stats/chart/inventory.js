@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 
 import Map from '../../../util/default-map'
@@ -9,29 +9,29 @@ import { SecondaryCard } from '../../card-view/secondary-card'
 import { Select } from '../../../common/select'
 import { Checkbox } from '../../../common/checkbox'
 import { l } from '../../../localization'
-import type { ProductType } from '../../../model/product-type'
-import type { Product } from '../../../model/product'
-import type { Record } from '../../../model/record'
+                                                              
+                                                     
+                                                   
 import S from './chart.css'
 
 const Bar = React.lazy(() => import(/* webpackChunkName: "chart" */ './lazy/bar'))
 const { Suspense } = React
 
-export type Props = {
-  productTypes: ProductType[],
-  products: Product[],
-  records: Record[],
-  showSettings: (React.Node) => void,
-}
+                     
+                              
+                      
+                    
+                                     
+ 
 
-export type State = {
-  type: ?number,
-}
+                     
+                
+ 
 
-export class InventoryChart extends React.Component<Props, State> {
+export class InventoryChart extends React.Component               {
   // $FlowIgnore
-  ref: React.Ref<HTMLDivElement>
-  constructor(props: Props) {
+  ref                           
+  constructor(props       ) {
     super(props)
     // $FlowIgnore
     this.ref = { current: null }

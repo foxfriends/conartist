@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { BehaviorSubject, combineLatest } from 'rxjs'
 import { skip, switchMap } from 'rxjs/operators'
@@ -12,27 +12,27 @@ import { Form } from '../form'
 import { EmailInUseRequest } from '../../api/email-in-use'
 import { EMPTY, VALID, INVALID } from '../../model/validation'
 import { EMAIL_FORMAT } from '../../constants'
-import type { Props as FormProps } from '../form'
-import type { Validation as InputValidation } from '../../common/input'
-import type { FormDelegate as Props } from './index'
+                                                 
+                                                                       
+                                                    
 import S from '../form.css'
 
-type State = {
-  email: string,
-  confirmEmail: string,
-  emailValidation: InputValidation,
-  mismatchValidation: InputValidation,
-}
+              
+                
+                       
+                                   
+                                      
+ 
 
-export class EmailForm extends React.Component<Props, State> {
+export class EmailForm extends React.Component               {
   // $FlowIgnore: Flow definitions not up to date
-  confirmInput: React.Ref<Input>
-  email: BehaviorSubject<string>
-  confirmEmail: BehaviorSubject<string>
+  confirmInput                  
+  email                         
+  confirmEmail                         
 
-  emailInUse: EmailInUseRequest
+  emailInUse                   
 
-  constructor(props: Props) {
+  constructor(props       ) {
     super(props)
     this.confirmInput = React.createRef()
     this.email = new BehaviorSubject('')
@@ -67,20 +67,20 @@ export class EmailForm extends React.Component<Props, State> {
     this.confirmEmail.complete()
   }
 
-  handleEmailChange(value: string) {
+  handleEmailChange(value        ) {
     const { onChange, onValidate } = this.props
     const trimmed = value.replace(/(^\s+|\s+$)/g, "")
     onChange(trimmed)
     this.email.next(trimmed)
   }
 
-  handleConfirmEmailChange(value: string) {
+  handleConfirmEmailChange(value        ) {
     const { onChange, onValidate } = this.props
     const trimmed = value.replace(/(^\s+|\s+$)/g, "")
     this.confirmEmail.next(trimmed)
   }
 
-  async validate(email: string, confirmEmail: string): Promise<{ emailValidation: InputValidation, mismatchValidation: InputValidation }> {
+  async validate(email        , confirmEmail        )                                                                                     {
     let emailValidation = { state: VALID }
     let mismatchValidation = { state: VALID }
     if (email === '') {

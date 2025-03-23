@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 
 import { Basic } from '../basic'
@@ -14,27 +14,27 @@ import { l } from '../../localization'
 import { separate } from '../../util/iterable'
 import S from './index.css'
 
-export type Props = {
-  name: 'export',
-  type: 'products',
-}
+                     
+                 
+                   
+ 
 
-type ProductData = {
-  id: number,
-  name: string,
-  quantity: number,
-  type: string,
-}
+                    
+             
+               
+                   
+               
+ 
 
-type Column = $Keys<ProductData>
+                                
 
-type State = {
-  includeIds: boolean,
-  separateTypes: boolean,
-  includeTitles: boolean,
-}
+              
+                      
+                         
+                         
+ 
 
-function columnTitle(column: Column): string {
+function columnTitle(column        )         {
   switch (column) {
     case 'id':        return l`ID`
     case 'name':      return l`Product`
@@ -45,7 +45,7 @@ function columnTitle(column: Column): string {
   return ''
 }
 
-function data(columns: Column[]): (ProductData) => React.Node {
+function data(columns          )                              {
   return product => columns.map(column =>
     <span className={S.cell} key={`column_${column}_${product.id}`}>
       { product[column] }
@@ -53,8 +53,8 @@ function data(columns: Column[]): (ProductData) => React.Node {
   )
 }
 
-export class ExportProducts extends React.Component<Props, State> {
-  constructor(props: Props) {
+export class ExportProducts extends React.Component               {
+  constructor(props       ) {
     super(props)
     this.state = {
       includeIds: true,
@@ -63,7 +63,7 @@ export class ExportProducts extends React.Component<Props, State> {
     }
   }
 
-  get columns(): Column[] {
+  get columns()           {
     const { includeIds, separateTypes } = this.state
     // $FlowIgnore
     return [
@@ -75,7 +75,7 @@ export class ExportProducts extends React.Component<Props, State> {
     ].filter(x => x)
   }
 
-  get dataSource(): ProductData[] {
+  get dataSource()                {
     const { products, productTypes } = model.getValue()
     return products
       .filter(({ discontinued }) => !discontinued)
@@ -88,7 +88,7 @@ export class ExportProducts extends React.Component<Props, State> {
     const { default: saveAs } = await import(/* webpackChunkName: 'zip' */ 'save-as');
     const { columns, dataSource } = this
     const { separateTypes, includeTitles } = this.state
-    const files: [string, Blob][] = ((separateTypes ? [...separate.call(dataSource, 'type')] : [['products', dataSource]]))
+    const files                   = ((separateTypes ? [...separate.call(dataSource, 'type')] : [['products', dataSource]]))
       .map(([name, file]) => [name, file.map(item => columns.map(column => (item[column] || "").toString()))])
       .map(([name, file]) => [name, file.map(item => item.join(','))])
       .map(([name, file]) => [name, includeTitles ? [columns.map(columnTitle).join(','), ...file] : file])

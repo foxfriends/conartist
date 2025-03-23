@@ -1,8 +1,8 @@
-/* @flow */
+/*       */
 import { model } from '../model'
 import * as page from '../model/page'
-import type { Convention } from '../model/convention'
-import type { Page } from '../model/page'
+                                                     
+                                         
 import { loadConvention } from './helpers'
 
 function goTo(name, page) {
@@ -30,7 +30,7 @@ export const privacy = goTo('/privacy', page.privacyPolicy)
 export const terms = goTo('/terms', page.termsOfService)
 export const faq = goTo('/faq', page.faq)
 
-export function conventionDetails(convention: Convention) {
+export function conventionDetails(convention            ) {
   const { page: currentPage } = model.getValue()
   if (currentPage.name !== 'convention-details' || currentPage.convention.id !== convention.id) {
     window.history.pushState({}, '', `/convention/${convention.id}/details`)
@@ -40,7 +40,7 @@ export function conventionDetails(convention: Convention) {
   model.next({ ...model.getValue(), page: page.conventionDetails(convention) })
 }
 
-export function conventionRecords(convention: Convention) {
+export function conventionRecords(convention            ) {
   const { page: currentPage } = model.getValue()
   if (currentPage.name !== 'convention-records' || currentPage.convention.id !== convention.id) {
     window.history.pushState({}, '', `/convention/${convention.id}/records`)
@@ -50,7 +50,7 @@ export function conventionRecords(convention: Convention) {
   model.next({ ...model.getValue(), page: page.conventionRecords(convention) })
 }
 
-export function conventionStats(convention: Convention) {
+export function conventionStats(convention            ) {
   const { page: currentPage } = model.getValue()
   if (currentPage.name !== 'convention-stats' || currentPage.convention.id !== convention.id) {
     window.history.pushState({}, '', `/convention/${convention.id}/stats`)
@@ -60,7 +60,7 @@ export function conventionStats(convention: Convention) {
   model.next({ ...model.getValue(), page: page.conventionStats(convention) })
 }
 
-export function conventionUserInfo(convention: Convention) {
+export function conventionUserInfo(convention            ) {
   const { page: currentPage } = model.getValue()
   if (currentPage.name !== 'convention-user-info' || currentPage.convention.id !== convention.id) {
     window.history.pushState({}, '', `/convention/${convention.id}/info`)
@@ -70,13 +70,13 @@ export function conventionUserInfo(convention: Convention) {
   model.next({ ...model.getValue(), page: page.conventionUserInfo(convention) })
 }
 
-export type ScrollTarget = 'product-type'
+                                         
 
-export function scrollIdentifier(target: ScrollTarget, id: number | string) {
+export function scrollIdentifier(target              , id                 ) {
   return `scroll-to-${target}-${id}`
 }
 
-export function scrollTo(target: ScrollTarget, id: number | string): () => void {
+export function scrollTo(target              , id                 )             {
   return () => {
     const element = document.querySelector(`#${scrollIdentifier(target, id)}`)
     if (element) {
@@ -88,6 +88,6 @@ export function scrollTo(target: ScrollTarget, id: number | string): () => void 
   }
 }
 
-export function to(page: Page) {
+export function to(page      ) {
   model.next({ ...model.getValue(), page })
 }

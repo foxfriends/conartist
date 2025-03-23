@@ -1,79 +1,79 @@
-/* @flow */
+/*       */
 import { showSignupDialog, showSigninDialog } from '../update/splash'
 import { showNewSaleDialog, showCreateSuggestionDialog, showExportProductsDialog, showExportRecordsDialog, showImportProductsDialog } from '../update/dialog'
 import * as navigate from '../update/navigate'
 import { send, SaveProducts as SaveProductsEvent, SavePrices as SavePricesEvent } from '../event'
-import type { Action } from '../common/button'
-import type { Convention } from '../model/convention'
+                                              
+                                                     
 
-export const LogIn: Action = {
+export const LogIn         = {
   title: 'Sign in',
   action: showSigninDialog,
 }
 
-export const NewSale: Action = {
+export const NewSale         = {
   title: 'New Sale',
   action: () => showNewSaleDialog(),
 }
 
-export const SignUp: Action = {
+export const SignUp         = {
   title: 'Sign up',
   action: showSignupDialog,
 }
 
-export const EditProducts: Action = {
+export const EditProducts         = {
   title: 'Edit',
   action: navigate.editProducts,
 }
 
-export const ExportProducts: Action = {
+export const ExportProducts         = {
   title: 'Export',
   action: showExportProductsDialog,
 }
 
-export const ImportProducts: Action = {
+export const ImportProducts         = {
   title: 'Import',
   action: showImportProductsDialog,
 }
 
-export const DiscardProducts: Action = {
+export const DiscardProducts         = {
   title: 'Discard',
   action: navigate.products,
 }
 
-export const SaveProducts: Action = {
+export const SaveProducts         = {
   title: 'Save',
   action: () => send(SaveProductsEvent),
 }
 
-export const EditPrices: Action = {
+export const EditPrices         = {
   title: 'Edit',
   action: navigate.editPrices,
 }
 
-export const DiscardPrices: Action = {
+export const DiscardPrices         = {
   title: 'Discard',
   action: navigate.prices,
 }
 
-export const CreateSuggestion: Action = {
+export const CreateSuggestion         = {
   title: 'Make a suggestion',
   action: showCreateSuggestionDialog,
 }
 
-export const SavePrices: Action = {
+export const SavePrices         = {
   title: 'Save',
   action: () => send(SavePricesEvent),
 }
 
-export function ExportRecords(convention: Convention): Action {
+export function ExportRecords(convention            )         {
   return {
     title: 'Export',
     action: () => showExportRecordsDialog(convention),
   }
 }
 
-export const SearchConventions: Action = {
+export const SearchConventions         = {
   title: 'Search',
   action: navigate.searchConventions,
 }

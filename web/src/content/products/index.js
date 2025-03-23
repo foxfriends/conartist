@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import DefaultMap from '../../util/default-map'
 import { by, Asc } from '../../util/sort'
@@ -9,18 +9,18 @@ import { Card } from '../card-view/card'
 import { AutoTable as Table } from '../../common/table/auto'
 import { Row } from '../../common/table/row'
 import { scrollIdentifier } from '../../update/navigate'
-import type { Product } from '../../model/product'
-import type { ProductType } from '../../model/product-type'
+                                                  
+                                                           
 import S from './index.css'
 const { Fragment } = React
 
-export type Props = {
-  name: 'products',
-  products: Product[],
-  productTypes: ProductType[],
-}
+                     
+                   
+                      
+                              
+ 
 
-export function Products({ products, productTypes }: Props) {
+export function Products({ products, productTypes }       ) {
   const sortedProducts = products
     .filter(({ discontinued }) => !discontinued)
     .sort(by(['sort', Asc], ['id', Asc]))

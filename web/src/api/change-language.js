@@ -1,18 +1,18 @@
-/* @flow */
-import type { Observable } from 'rxjs/Observable'
+/*       */
+                                                 
 import { from } from 'rxjs';
 import { map, flatMap } from 'rxjs/operators'
 
 import { GraphQLMutation } from './index'
 import { parse } from '../model/user'
-import type { Response, APIRequest, APIError } from './index'
-import type {
-  ChangeLanguage as ChangeLanguageMutation,
-  ChangeLanguageVariables,
-} from './schema'
+                                                             
+             
+                                           
+                          
+                 
 
-export class ChangeLanguage implements APIRequest<ChangeLanguageVariables, String> {
-  changeLanguage: GraphQLMutation<ChangeLanguageVariables, ChangeLanguageMutation>
+export class ChangeLanguage                                                        {
+  changeLanguage                                                                  
 
   constructor() {
     // $FlowIgnore: trouble importing graphql files
@@ -20,7 +20,7 @@ export class ChangeLanguage implements APIRequest<ChangeLanguageVariables, Strin
     this.changeLanguage = changeLanguage.then(changeLanguage => new GraphQLMutation(changeLanguage.default))
   }
 
-  send(variables: ChangeLanguageVariables): Observable<Response<User, string>> {
+  send(variables                         )                                     {
     return from(this.changeLanguage)
       .pipe(
         flatMap(req => req.send(variables)),

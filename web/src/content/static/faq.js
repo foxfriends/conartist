@@ -1,14 +1,14 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import FAQ from './FAQ.md'
 import S from './static.css'
 
-export type Props = {
-  className?: string,
-  style?: { [string]: string | number },
-}
+                     
+                     
+                                        
+ 
 
-export function Faq({ className, style }: Props) {
+export function Faq({ className, style }       ) {
   return (
     <section className={className} style={style}>
       <div className={S.copy} dangerouslySetInnerHTML={{ __html: FAQ }} />

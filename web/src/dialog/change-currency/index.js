@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 
 import { l, localize } from '../../localization'
@@ -14,11 +14,11 @@ import * as update from '../../update/settings'
 import * as toast from '../../toast'
 import S from './index.css'
 
-export type Props = {
-  name: 'change-currency',
-}
+                     
+                          
+ 
 
-export class ChangeCurrency extends React.Component<Props, State> {
+export class ChangeCurrency extends React.Component               {
   async setCurrency(currency) {
     const response = await new ChangeCurrencyMutation().send({ currency }).toPromise()
     update.setCurrency(currency)

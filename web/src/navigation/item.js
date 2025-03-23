@@ -1,8 +1,8 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { Subject } from 'rxjs'
 import { share } from 'rxjs/operators'
-import type { Observable } from 'rxjs'
+                                      
 
 import { focus } from './focus'
 import { Icon } from '../common/icon'
@@ -13,24 +13,24 @@ import { Expand } from '../common/animation/expand'
 import { localize } from '../localization'
 import S from './item.css'
 
-export opaque type Direct = Symbol
-export opaque type Indirect = Symbol
-export const DIRECT: Direct = Symbol('Direct')
-export const INDIRECT: Indirect = Symbol('Indirect')
+                                  
+                                    
+export const DIRECT         = Symbol('Direct')
+export const INDIRECT           = Symbol('Indirect')
 
 const reorderedSubject = new Subject()
-export const reordered: Observable<[number, number]> = reorderedSubject.asObservable().pipe(share())
+export const reordered                               = reorderedSubject.asObservable().pipe(share())
 
 export class ItemInfo {
-  title: string
-  icon: string
-  children: ?ItemInfo[]
-  selected: ?(Direct | Indirect)
-  enabled: boolean
-  isReorderable: boolean
-  action: () => void
+  title        
+  icon        
+  children             
+  selected                      
+  enabled         
+  isReorderable         
+  action            
 
-  constructor(title: string, icon: string, action: () => void) {
+  constructor(title        , icon        , action            ) {
     this.title = title
     this.icon = icon
     this.children = null
@@ -46,7 +46,7 @@ export class ItemInfo {
    * @param {boolean} selected Whether the item should be selected
    * @returns {this}
    */
-  select(selected: boolean, directness: Direct | Indirect = DIRECT): ItemInfo {
+  select(selected         , directness                    = DIRECT)           {
     this.selected = selected ? directness : null
     if (this.children) {
       this.children = this.children.map(child => child.select(selected, directness))
@@ -60,7 +60,7 @@ export class ItemInfo {
    * @param children {?ItemInfo[]} The children to set
    * @returns {this}
    */
-  withChildren(children: ?ItemInfo[]): ItemInfo {
+  withChildren(children             )           {
     this.children = children
     return this
   }
@@ -71,7 +71,7 @@ export class ItemInfo {
    * @param {boolean} enabled Whether the item should be enabled
    * @returns {this}
    */
-  enable(enabled: boolean, nested: boolean = false): ItemInfo {
+  enable(enabled         , nested          = false)           {
     this.enabled = enabled
     if (nested && this.children) {
       this.children = this.children.map(child => child.enable(enabled))
@@ -90,18 +90,18 @@ export class ItemInfo {
   }
 }
 
-export type Props = ItemInfo & {
-  depth?: number,
-}
+                                
+                 
+ 
 
-type State = {
-  order: number[],
-}
+              
+                  
+ 
 
 const DEPTH_INDENT = 34
 
-export class Item extends React.Component<Props, State> {
-  static getDerivedStateFromProps(props: Props, { order = [] }: State): State {
+export class Item extends React.Component               {
+  static getDerivedStateFromProps(props       , { order = [] }       )        {
     const children = props.children || [];
     const isReorderable = (children || []).some(child => child.isReorderable)
     if (!isReorderable) {
@@ -119,14 +119,14 @@ export class Item extends React.Component<Props, State> {
     return null
   }
 
-  constructor(props: Props) {
+  constructor(props       ) {
     super(props)
     this.state = {
       order: (props.children || []).map((_, i) => i),
     }
   }
 
-  onNavigationListReordered(value: number, index: number) {
+  onNavigationListReordered(value        , index        ) {
     reorderedSubject.next([value, index])
     if (value < index) {
       index -= 1

@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import { model, defaultModel } from '../model'
 import { changePassword as changePasswordDialog } from '../model/dialog/change-password'
 import { changeEmail as changeEmailDialog } from '../model/dialog/change-email'

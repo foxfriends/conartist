@@ -1,46 +1,46 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 
 import { Tooltip } from '../tooltip'
 import { Icon } from '../icon'
 import { IconButton } from '../icon-button'
 import { INVALID, VALID, EMPTY } from '../../model/validation'
-import type { Validation as GenericValidation } from '../../model/validation'
+                                                                             
 
 import S from './index.css'
 
-export type Validation = GenericValidation<String>
+                                                  
 
-export type Validator = ((string) => Validation) | ((string) => Promise<Validation>)
+                                                                                    
 
-export type Props = {
-  type?: 'text' | 'password' | 'email' | 'date' | 'time',
-  title?: string,
-  placeholder?: string,
-  defaultValue?: string,
-  onChange?: (string) => void,
-  onSubmit?: (string) => void,
-  validator?: Validator,
-  validation?: Validation,
-  className?: string,
-  tabIndex?: number,
-  autoFocus?: boolean,
-  action?: ?{
-    icon: string,
-    onClick: () => void,
-  }
-}
+                     
+                                                         
+                 
+                       
+                        
+                              
+                              
+                        
+                          
+                     
+                    
+                      
+             
+                 
+                        
+   
+ 
 
-type State = {
-  validation: Validation,
-  value: string,
-}
+              
+                         
+                
+ 
 
-export class Input extends React.Component<Props, State> {
+export class Input extends React.Component               {
   // $FlowIgnore: Flow definitions not up to date
-  inputElement: React.Ref<HTMLInputElement>
+  inputElement                             
 
-  constructor(props: Props) {
+  constructor(props       ) {
     super(props)
     this.inputElement = React.createRef()
     this.state = {
@@ -56,7 +56,7 @@ export class Input extends React.Component<Props, State> {
     this.inputElement.current && this.inputElement.current.focus()
   }
 
-  handleKeyDown(event: SyntheticKeyboardEvent<HTMLInputElement>) {
+  handleKeyDown(event                                          ) {
     if (event.key === 'Enter') {
       if (this.props.onSubmit) {
         this.props.onSubmit(this.state.value)
@@ -64,7 +64,7 @@ export class Input extends React.Component<Props, State> {
     }
   }
 
-  async handleChange(event: SyntheticEvent<HTMLInputElement>) {
+  async handleChange(event                                  ) {
     const { currentTarget: { value } } = event
     const { validator, validation, onChange } = this.props
     if (onChange) {

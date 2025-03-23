@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { l } from '../../localization'
 import S from './static.css'

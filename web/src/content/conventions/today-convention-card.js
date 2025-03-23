@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 
 import { Table } from '../../common/table'
@@ -14,17 +14,17 @@ import { MoneyInfo } from './info/money-info'
 import { AddressInfo } from './info/address'
 import { l, lx } from '../../localization'
 import * as navigate from '../../update/navigate'
-import type { Convention } from '../../model/convention'
+                                                        
 
 import S from './card.css'
 const { Fragment } = React
 
-export type Props = {
-  convention: Convention,
-  showDetails?: boolean,
-}
+                     
+                         
+                        
+ 
 
-export function TodayConventionCard({ convention, showDetails }: Props) {
+export function TodayConventionCard({ convention, showDetails }       ) {
   return (
     <Card>
       <BasicHeader>

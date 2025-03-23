@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { Card } from '../card-view/card'
 import { BasicHeader } from '../card-view/basic-header'
@@ -11,7 +11,7 @@ import { SUPPORT_EMAIL, DONATE_URL, REPOSITORY_URL } from '../../constants'
 import * as navigate from '../../update/navigate'
 import S from './settings.css'
 
-export type Props = {}
+                      
 
 export function Contribute() {
   return (

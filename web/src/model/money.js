@@ -1,24 +1,24 @@
-/* @flow */
+/*       */
 import * as model from './index'
 
-export type Currency
-  = 'AUTO'
-  | 'CAD'
-  | 'USD'
-  | 'MXN'
-  | 'AUD'
-  | 'EUR'
-  | 'GBP'
-  | 'SEK'
-  | 'CNY'
-  | 'JPY'
-  | 'PHP'
-  | 'SGD'
-  | 'NZD'
+                    
+          
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
 
 export const CURRENCIES = ['CAD', 'USD', 'MXN', 'AUD', 'EUR', 'GBP', 'SEK', 'CNY', 'JPY', 'PHP', 'SGD', 'NZD']
 
-function stripCurrencySymbol(string: string, ...symbols: string[]): string {
+function stripCurrencySymbol(string        , ...symbols          )         {
   for (const symbol of symbols.map(s => s.toLowerCase())) {
     if (string.toLowerCase().startsWith(symbol)) {
       string = string.slice(symbol.length)
@@ -31,7 +31,7 @@ function stripCurrencySymbol(string: string, ...symbols: string[]): string {
   return string
 }
 
-function parseDollarsAndCents(string: string, currency: Currency, ...symbols: string[]): Money {
+function parseDollarsAndCents(string        , currency          , ...symbols          )        {
   const amount = Number(stripCurrencySymbol(string, currency, ...symbols))
   if (isNaN(amount)) {
     throw new Error(`Money string ${string} could not be parsed as ${currency}`)
@@ -39,7 +39,7 @@ function parseDollarsAndCents(string: string, currency: Currency, ...symbols: st
   return new Money(currency, Math.floor(amount * 100))
 }
 
-function parseJustDollars(string: string, currency: Currency, ...symbols: string[]): Money {
+function parseJustDollars(string        , currency          , ...symbols          )        {
   const amount = Number(stripCurrencySymbol(string, currency, ...symbols))
   if (isNaN(amount)) {
     throw new Error(`Money string ${string} could not be parsed as ${currency}`)
@@ -48,14 +48,14 @@ function parseJustDollars(string: string, currency: Currency, ...symbols: string
 }
 
 export class Money {
-  amount: number
-  currency: Currency
+  amount        
+  currency          
 
-  static fromJSON(raw: string): Money {
-    return new Money((raw.slice(0, 3): any), Number(raw.slice(3)))
+  static fromJSON(raw        )        {
+    return new Money((raw.slice(0, 3)     ), Number(raw.slice(3)))
   }
 
-  static parse(string: string, currency?: Currency = model.model.getValue().settings.currency): Money {
+  static parse(string        , currency            = model.model.getValue().settings.currency)        {
     string = string.replace(/\s/g, '');
     if (string === '') { throw new Error('Empty string cannot be parsed as Money') }
     switch (currency) {
@@ -116,16 +116,16 @@ export class Money {
     }
   }
 
-  constructor(currency: Currency, amount: number) {
+  constructor(currency          , amount        ) {
     this.amount = amount
     this.currency = currency
   }
 
-  static get zero(): Money {
+  static get zero()        {
     return new Money('AUTO', 0)
   }
 
-  add(other: Money): Money {
+  add(other       )        {
     const currency = this.currency === 'AUTO' ? other.currency : this.currency
     if (currency === other.currency || other.currency === 'AUTO') {
       return new Money(currency, this.amount + other.amount)
@@ -134,15 +134,15 @@ export class Money {
     }
   }
 
-  negate(): Money {
+  negate()        {
     return new Money(this.currency, -this.amount)
   }
 
-  multiply(factor: number): Money {
+  multiply(factor        )        {
     return new Money(this.currency, Math.round(this.amount * factor))
   }
 
-  equals(other: ?Money): boolean {
+  equals(other        )          {
     if (!other) { return false }
     const currency = this.currency === 'AUTO' ? other.currency : this.currency
     if (currency === other.currency || other.currency === 'AUTO') {

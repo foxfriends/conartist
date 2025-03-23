@@ -1,35 +1,35 @@
-/* @flow */
+/*       */
 import { Observable } from 'rxjs'
-import type { Operation, Query, Mutation } from './apollo'
+                                                          
 import { graphql } from './apollo'
 
 import { Storage } from '../storage'
 import { APIURL } from '../constants'
 
-export type Response<T, E> = Unsent | Sending | Failed<E> | Retrieved<T>
-export type Unsent = { state: 'unsent' }
-export type Sending = { state: 'sending', progress: number }
-export type Failed<E> = { state: 'failed', error: E }
-export type Retrieved<T> = { state: 'retrieved', value: T }
-export type Method = 'GET' | 'POST'
+                                                                        
+                                        
+                                                            
+                                                     
+                                                           
+                                   
 export const unsent = { state: 'unsent' }
 
-export interface APIRequest<Params, Result> {
-  send(params: Params): Observable<Response<Result, APIError>>
-}
+                                             
+                                                              
+ 
 
-export type APIError = string
+                             
 
-class HttpRequest<Params, Result> {
-  route: string
-  method: Method
+class HttpRequest                 {
+  route        
+  method        
 
-  constructor(method: Method, route: string, authorization?: ?string) {
+  constructor(method        , route        , authorization          ) {
     this.route = route
     this.method = method
   }
 
-  _send(request: Request): Observable<Response<Result, APIError>> {
+  _send(request         )                                         {
     const headers = new Headers({
       'Content-Type': 'application/json',
       'Accept-Charset': 'utf-8',
@@ -58,24 +58,24 @@ class HttpRequest<Params, Result> {
   }
 }
 
-export class PostRequest<Params, Result> extends HttpRequest<Params, Result> implements APIRequest<Params, Result> {
-  constructor(route: string, authorization?: ?string) {
+export class PostRequest                 extends HttpRequest                                                       {
+  constructor(route        , authorization          ) {
     super('POST', route, authorization)
   }
 
-  send(params: Params): Observable<Response<Result, APIError>> {
+  send(params        )                                         {
     const body = JSON.stringify(params)
     return super._send(new Request(`${APIURL}${this.route}`, { method: 'POST', body }))
   }
 }
 
-export class GetRequest<Params, Result> extends HttpRequest<Params, Result> implements APIRequest<Params, Result> {
-  constructor(route: string, authorization?: ?string) {
+export class GetRequest                 extends HttpRequest                                                       {
+  constructor(route        , authorization          ) {
     super('GET', route, authorization)
   }
 
-  send(params: Params): Observable<Response<Result, APIError>> {
-    let query: string = ''
+  send(params        )                                         {
+    let query         = ''
     if (typeof params === 'string') {
       query = `/${params}`
     } else if (params instanceof Array) {
@@ -91,14 +91,14 @@ export class GetRequest<Params, Result> extends HttpRequest<Params, Result> impl
   }
 }
 
-export class GraphQLQuery<Variables, Value> implements APIRequest<Variables, Value> {
-  query: Query<Variables, Value>
+export class GraphQLQuery                                                           {
+  query                         
 
-  constructor(query: Query<Variables, Value>) {
+  constructor(query                         ) {
     this.query = query
   }
 
-  send(variables: Variables): Observable<Response<Value, APIError>> {
+  send(variables           )                                        {
     return Observable.create(observer => {
       (async () => {
         observer.next({ state: 'sending', progress: 0 })
@@ -122,14 +122,14 @@ export class GraphQLQuery<Variables, Value> implements APIRequest<Variables, Val
   }
 }
 
-export class GraphQLMutation<Variables, Value> implements APIRequest<Variables, Value> {
-  mutation: Mutation<Variables, Value>
+export class GraphQLMutation                                                           {
+  mutation                            
 
-  constructor(mutation: Mutation<Variables, Value>) {
+  constructor(mutation                            ) {
     this.mutation = mutation
   }
 
-  send(variables: Variables): Observable<Response<Value, APIError>> {
+  send(variables           )                                        {
     return Observable.create(observer => {
       (async () => {
         observer.next({ state: 'sending', progress: 0 })

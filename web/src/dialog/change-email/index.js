@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 
 import { l } from '../../localization'
@@ -13,29 +13,29 @@ import { closeDialog } from '../../update/dialog'
 import * as toast from '../../toast'
 import { VALID, EMPTY, INVALID } from '../../model/validation'
 import { EMAIL_FORMAT } from '../../constants'
-import type { Validation as InputValidation } from '../../common/input'
+                                                                       
 import S from './index.css'
 
-export type Props = {
-  name: 'change-email',
-}
+                     
+                       
+ 
 
-type State = {
-  email: string,
-  confirmEmail: string,
-  processing: boolean,
-  emailValidation: InputValidation,
-  mismatchValidation: InputValidation,
-}
+              
+                
+                       
+                      
+                                   
+                                      
+ 
 
-export class ChangeEmail extends React.Component<Props, State> {
+export class ChangeEmail extends React.Component               {
   // $FlowIgnore: Flow definitions not up to date
-  emailInput: React.Ref<Input>
+  emailInput                  
   // $FlowIgnore: Flow definitions not up to date
-  confirmInput: React.Ref<Input>
-  emailInUse: EmailInUseRequest
+  confirmInput                  
+  emailInUse                   
 
-  constructor(props: Props) {
+  constructor(props       ) {
     super(props)
     this.confirmInput = React.createRef()
     this.emailInput = React.createRef()
@@ -49,17 +49,17 @@ export class ChangeEmail extends React.Component<Props, State> {
     }
   }
 
-  async handleEmailChange(value: string) {
+  async handleEmailChange(value        ) {
     this.setState(await this.validate(value, this.state.confirmEmail));
     this.setState({ email: value })
   }
 
-  async handleConfirmEmailChange(value: string) {
+  async handleConfirmEmailChange(value        ) {
     this.setState({ confirmEmail: value })
     this.setState(await this.validate(this.state.email, value));
   }
 
-  async validate(email: string, confirmEmail: string): Promise<{ emailValidation: InputValidation, mismatchValidation: InputValidation }> {
+  async validate(email        , confirmEmail        )                                                                                     {
     let emailValidation = { state: VALID }
     let mismatchValidation = { state: VALID }
     if (email !== '' && (await this.emailInUse.send(email).toPromise()).value) {

@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { l } from '../../localization'
 import { VerifyAccountRequest } from '../../api/verify-account'
@@ -9,15 +9,15 @@ import * as navigate from '../../update/navigate'
 import S from './index.css'
 const { Fragment } = React
 
-export type Props = {
-  code: string,
-}
+                     
+               
+ 
 
-type State = {
-  success?: boolean,
-}
+              
+                    
+ 
 
-export class Verify extends React.Component<Props, State> {
+export class Verify extends React.Component               {
   constructor(props) {
     super(props)
     this.state = {};

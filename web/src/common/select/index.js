@@ -1,28 +1,28 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 
 import { Icon } from '../icon'
 import { Cover } from '../cover'
 import S from './index.css'
 
-type Transformer<T> = (T) => React.Node
+                                       
 
-export type Props<Value> = {
-  title?: string,
-  options: Value[],
-  defaultValue?: Value,
-  children: Transformer<Value>,
-  className?: string,
-  onChange: (Value) => void,
-}
+                            
+                 
+                   
+                       
+                               
+                     
+                            
+ 
 
-type State<Value> = {
-  value: Value,
-  expanded: boolean,
-}
+                     
+               
+                    
+ 
 
-export class Select<Value> extends React.Component<Props<Value>, State<Value>>  {
-  constructor(props: Props<Value>) {
+export class Select        extends React.Component                              {
+  constructor(props              ) {
     super(props)
     this.state = {
       value: props.defaultValue || props.options[0],
@@ -30,7 +30,7 @@ export class Select<Value> extends React.Component<Props<Value>, State<Value>>  
     }
   }
 
-  handleOptionClicked(option: Value) {
+  handleOptionClicked(option       ) {
     this.setState({ value: option, expanded: false })
     this.props.onChange(option)
   }

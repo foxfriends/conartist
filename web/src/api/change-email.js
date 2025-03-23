@@ -1,19 +1,19 @@
-/* @flow */
-import type { Observable } from 'rxjs/Observable'
+/*       */
+                                                 
 import { from } from 'rxjs';
 import { map, flatMap } from 'rxjs/operators'
 
 import { GraphQLMutation } from './index'
 import { parse } from '../model/user'
-import type { User } from '../model/user'
-import type { Response, APIRequest, APIError } from './index'
-import type {
-  ChangeEmail as ChangeEmailMutation,
-  ChangeEmailVariables,
-} from './schema'
+                                         
+                                                             
+             
+                                     
+                       
+                 
 
-export class ChangeEmail implements APIRequest<ChangeEmailVariables, User> {
-  changeEmail: GraphQLMutation<ChangeEmailVariables, ChangeEmailMutation>
+export class ChangeEmail                                                   {
+  changeEmail                                                            
 
   constructor() {
     // $FlowIgnore: trouble importing graphql files
@@ -21,7 +21,7 @@ export class ChangeEmail implements APIRequest<ChangeEmailVariables, User> {
     this.changeEmail = changeEmail.then(changeEmail => new GraphQLMutation(changeEmail.default))
   }
 
-  send(variables: ChangeEmailVariables): Observable<Response<User, string>> {
+  send(variables                      )                                     {
     return from(this.changeEmail)
       .pipe(
         flatMap(req => req.send(variables)),

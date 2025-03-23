@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import formatDate from 'date-fns/format'
 
@@ -12,22 +12,22 @@ import { Link } from '../../common/link'
 import { l, lx } from '../../localization'
 import { by, Asc } from '../../util/sort'
 import * as navigate from '../../update/navigate'
-import type { Convention } from '../../model/convention'
+                                                        
 import S from './coming-soon-conventions-card.css'
 
-export type Props = {
-  conventions: Convention[],
-}
+                     
+                            
+ 
 
-function format(date: Date): string {
+function format(date      )         {
   return formatDate(date, l`MMM. d, yyyy`)
 }
 
-function bold(text): React.Node {
+function bold(text)             {
   return <Font semibold>{ text }</Font>
 }
 
-export function ComingSoonConventionsCard({ conventions }: Props) {
+export function ComingSoonConventionsCard({ conventions }       ) {
   return (
     <BasicCard title={<Font smallCaps regular>{(conventions.length === 1 ? lx`{1} convention coming soon.` : lx`{${conventions.length}} conventions coming soon.`)(bold)}</Font>}>
       { conventions.length === 0

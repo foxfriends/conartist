@@ -1,26 +1,26 @@
-/* @flow */
-import type { Observable } from 'rxjs'
+/*       */
+                                      
 import { of } from 'rxjs'
 import { tap, switchMap, catchError } from 'rxjs/operators'
 
 import { PostRequest } from './index'
 import { Storage } from '../storage'
-import type { Response } from './index'
-import type { User } from '../model/user'
+                                       
+                                         
 import { UserQuery } from './user-query'
 
-type Params = {|
-  usr: string,
-  psw: string,
-|}
+                
+              
+              
+  
 
-export class SignInRequest extends PostRequest<Params, User> {
-  constructor(staySignedIn: boolean) {
+export class SignInRequest extends PostRequest               {
+  constructor(staySignedIn         ) {
     super('/auth')
     this.staySignedIn = staySignedIn
   }
 
-  send(params: Params): Observable<Response<User, string>> {
+  send(params        )                                     {
     return super.send(params)
       .pipe(
         tap(response => {

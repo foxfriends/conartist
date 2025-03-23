@@ -1,20 +1,20 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import S from './index.css'
 
-export type Props = {
-  smallCaps?: boolean,
-  tabular?: boolean,
+                     
+                      
+                    
 
-  regular?: boolean,
-  bold?: boolean,
-  semibold?: boolean,
+                    
+                 
+                     
 
-  className?: string,
-  children?: React.Node
-}
+                     
+                       
+ 
 
-export function Font({ smallCaps, tabular, regular, bold, semibold, className, children }: Props) {
+export function Font({ smallCaps, tabular, regular, bold, semibold, className, children }       ) {
   const classNames = [
     smallCaps && S.smallCaps,
     tabular && S.tabular,

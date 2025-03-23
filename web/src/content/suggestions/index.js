@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { CardView } from '../card-view'
 import { BasicCard } from '../card-view/basic-card'
@@ -7,17 +7,17 @@ import { SuggestionItem } from './suggestion-item'
 import { l } from '../../localization'
 import * as update from '../../update/suggestions'
 import S from './index.css'
-import type { Suggestion } from '../../model/suggestion'
+                                                        
 const { Fragment } = React
 
-export type Props = {
-  name: 'suggestions',
-  suggestions: Connection<Suggestion>,
-}
+                     
+                      
+                                      
+ 
 
-type State = {
-  page: number,
-}
+              
+               
+ 
 
 export class Suggestions extends React.Component {
   constructor(props) {

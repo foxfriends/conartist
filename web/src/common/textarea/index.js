@@ -1,27 +1,27 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import S from './index.css'
 
-export type Props = {
-  className?: string,
-  defaultValue?: string,
-  placeholder?: string,
-  onChange: (string) => void,
-}
+                     
+                     
+                        
+                       
+                             
+ 
 
-type State = {
-  value: string,
-}
+              
+                
+ 
 
-export class Textarea extends React.Component<Props, State> {
-  constructor(props: Props) {
+export class Textarea extends React.Component               {
+  constructor(props       ) {
     super(props)
     this.state = {
       value: props.defaultValue || ''
     }
   }
 
-  handleChange(event: SyntheticEvent<HTMLTextAreaElement>) {
+  handleChange(event                                     ) {
     const { value } = event.currentTarget
     this.setState({ value })
     this.props.onChange(value)

@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { BasicCard } from '../card-view/basic-card'
 import { Table } from '../../common/table'
@@ -10,7 +10,7 @@ import { SUPPORT_EMAIL, CON_REQUEST_URL, DISCORD_URL } from '../../constants'
 import * as navigate from '../../update/navigate'
 import S from './settings.css'
 
-export type Props = {}
+                      
 
 export function Help() {
   return (

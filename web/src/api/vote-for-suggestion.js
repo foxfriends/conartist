@@ -1,26 +1,26 @@
-/* @flow */
-import type { Observable } from 'rxjs'
+/*       */
+                                      
 import { from } from 'rxjs'
 import { map, flatMap } from 'rxjs/operators'
 
 import { GraphQLMutation } from './index'
 import { parse } from '../model/suggestion'
-import type { Suggestion } from '../model/suggestion'
-import type { Response, APIRequest, APIError } from './index'
-import type {
-  VoteForSuggestion as VoteForSuggestionMutation,
-  VoteForSuggestionVariables,
-} from './schema'
+                                                     
+                                                             
+             
+                                                 
+                             
+                 
 
-export class VoteForSuggestion implements APIRequest<VoteForSuggestionVariables, Suggestion> {
-  vote: GraphQLMutation<VoteForSuggestionVariables, VoteForSuggestionMutation>
+export class VoteForSuggestion                                                               {
+  vote                                                                        
 
   constructor() {
     const vote = import(/* webpackChunkName: 'suggestions' */ './graphql/mutation/vote-for-suggestion.graphql')
     this.vote = vote.then(vote => new GraphQLMutation(vote.default))
   }
 
-  send(params: VoteForSuggestionVariables): Observable<Response<Suggestion, string>> {
+  send(params                            )                                           {
     return from(this.vote)
       .pipe(
         flatMap(req => req.send(params)),

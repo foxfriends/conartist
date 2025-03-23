@@ -1,42 +1,42 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import * as ReactX from '../../react-ext'
 import { filter, map, takeUntil, tap } from 'rxjs/operators'
 
 import { List } from './index'
 import { dragStart, dragEvents } from '../../drag'
-import type { Props as ItemProps } from './item'
+                                                
 import S from './index.css'
 
-type Transformer<T> = (T, number, $Shape<ItemProps>) => React.Node
+                                                                  
 
-export type Props<T> = {
-  className?: string,
-  style?: { [string]: string | number },
-  children: Transformer<T> | [React.Node, Transformer<T>] | [React.Node, Transformer<T>, React.Node],
-  dataSource: Iterable<T>,
-  reorderable?: ?((number, number) => void),
-}
+                        
+                     
+                                        
+                                                                                                     
+                          
+                                            
+ 
 
-type State<T> = {
-  data: T[],
-  dragValue: number | null,
-  dragIndex: number | null,
-}
+                 
+            
+                           
+                           
+ 
 
 // $FlowIgnore
-export class AutoList<T> extends ReactX.Component<Props<T>, State<T>> {
-  dragIdentifier: Symbol
+export class AutoList    extends ReactX.Component                     {
+  dragIdentifier        
   // $FlowIgnore
-  containerRef: React.Ref<HTMLDivElement>
+  containerRef                           
 
-  static getDerivedStateFromProps(props: Props<T>) {
+  static getDerivedStateFromProps(props          ) {
     return {
       data: [...props.dataSource],
     }
   }
 
-  constructor(props: Props<T>) {
+  constructor(props          ) {
     super(props)
     this.dragIdentifier = Symbol()
     this.containerRef = React.createRef()

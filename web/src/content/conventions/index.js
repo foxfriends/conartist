@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 
 import { TodayConventionCard } from './today-convention-card'
@@ -8,19 +8,19 @@ import { CardView } from '../card-view'
 import { Card } from '../card-view/card'
 import { by, Desc } from '../../util/sort'
 import { l, lx } from '../../localization'
-import type { Convention } from '../../model/convention'
+                                                        
 import S from './index.css'
 
-export type Props = {
-  name: 'conventions',
-  conventions: Convention[]
-}
+                     
+                      
+                           
+ 
 
-function justDay(date: Date): Date {
+function justDay(date      )       {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate())
 }
 
-export function Conventions({ conventions }: Props) {
+export function Conventions({ conventions }       ) {
   const today = [];
   const upcoming = [];
   const completed = [];

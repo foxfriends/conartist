@@ -1,12 +1,12 @@
-/* @flow */
+/*       */
 import DefaultMap from './default-map'
 import { by, Asc } from './sort'
 import { Money } from '../model/money'
-import type { Product } from '../model/product'
-import type { Price } from '../model/price'
-import type { ProductType } from '../model/product-type'
+                                               
+                                           
+                                                        
 
-export function calculatePrice(soldProducts: Product[], prices: Price[]): Money {
+export function calculatePrice(soldProducts           , prices         )        {
   if (prices.length <= 0) { return Money.zero }
   if (soldProducts.length <= 0) { return Money.zero }
   const matters = prices.map(price => price.productId).filter(x => x)

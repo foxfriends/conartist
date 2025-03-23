@@ -1,32 +1,32 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { Expand } from '../../common/animation/expand'
 import { IconButton } from '../../common/icon-button'
 import { Icon } from '../../common/icon'
-import type { Action } from '../../common/button'
+                                                 
 import S from './card.css'
 
-export type Props<E: React.ElementType> = {
-  id?: string,
-  topAction?: ?Action,
-  defaultCollapsed?: boolean,
-  bottomAction?: ?Action,
-  className?: string,
-  onClick?: () => void,
-  collapsible?: boolean | () => void,
-  style?: { [string]: string | number },
-  children: React.Element<E> | [React.Node, React.Element<E>] | [React.Node, React.Element<E>, React.Node],
-  // $FlowIgnore
-  innerRef?: React.Ref<HTMLDivElement>,
-}
+                                           
+              
+                      
+                             
+                         
+                     
+                       
+                                     
+                                        
+                                                                                                           
+                
+                                       
+ 
 
 
-type State = {
-  collapsed: boolean,
-}
+              
+                     
+ 
 
-export class Card<E: React.ElementType> extends React.Component<Props<E>, State> {
-  constructor(props: Props<E>) {
+export class Card                       extends React.Component                  {
+  constructor(props          ) {
     super(props)
     this.state = {
       collapsed: props.defaultCollapsed || false,

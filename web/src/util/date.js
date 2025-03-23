@@ -1,10 +1,10 @@
-/* @flow */
+/*       */
 import addMinutes from 'date-fns/addMinutes'
 import subMinutes from 'date-fns/subMinutes'
 import parseISO from 'date-fns/parseISO'
 import isValid from 'date-fns/isValid'
 
-export function sameDayAs(date: Date): (Date) => boolean {
+export function sameDayAs(date      )                    {
   date = date || this
   const day = justDay(date)
   return date2 => {
@@ -13,7 +13,7 @@ export function sameDayAs(date: Date): (Date) => boolean {
   }
 }
 
-export function sameUTCDayAs(date: Date): (Date) => boolean {
+export function sameUTCDayAs(date      )                    {
   date = date || this
   const day = justUTCDay(date)
   return date2 => {
@@ -22,7 +22,7 @@ export function sameUTCDayAs(date: Date): (Date) => boolean {
   }
 }
 
-export function justDay(date: Date): Date {
+export function justDay(date      )       {
   date = date || this
   const newDate = new Date(date)
   newDate.setHours(0)
@@ -32,7 +32,7 @@ export function justDay(date: Date): Date {
   return newDate
 }
 
-export function justUTCDay(date: Date): Date {
+export function justUTCDay(date      )       {
   date = date || this
   const newDate = new Date(date)
   newDate.setUTCHours(0)
@@ -42,12 +42,12 @@ export function justUTCDay(date: Date): Date {
   return newDate
 }
 
-export function toUTC(date: Date): Date {
+export function toUTC(date      )       {
   date = date || this
   return subMinutes(date, new Date(date).getTimezoneOffset())
 }
 
-export function toLocal(date: Date): Date {
+export function toLocal(date      )       {
   date = date || this
   return addMinutes(date, new Date(date).getTimezoneOffset())
 }

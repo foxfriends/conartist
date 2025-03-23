@@ -1,32 +1,32 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import S from './index.css'
 
-function numberToColor(color: number): string {
+function numberToColor(color        )         {
   return `#${color.toString(16).padStart(6, '0')}`
 }
 
-function colorToNumber(color: string): number {
+function colorToNumber(color        )         {
   return color.startsWith('#')
     ? parseInt(color.slice(1), 16)
     : parseInt(color, 16)
 }
 
-export type Props = {
-  className?: string,
-  defaultValue?: ?number,
-  onChange: (number) => void,
-}
+                     
+                     
+                         
+                             
+ 
 
-type State = {
-  color: number,
-}
+              
+                
+ 
 
-export class ColorPicker extends React.Component<Props, State> {
+export class ColorPicker extends React.Component               {
   // $FlowIgnore
-  ref: React.Ref<HTMLInputElement>
+  ref                             
 
-  constructor(props: Props) {
+  constructor(props       ) {
     super(props)
     // $FlowIgnore
     this.ref = React.createRef()
@@ -35,7 +35,7 @@ export class ColorPicker extends React.Component<Props, State> {
     }
   }
 
-  handleChange(event: SyntheticEvent<HTMLInputElement>) {
+  handleChange(event                                  ) {
     const { currentTarget } = event
     const color = colorToNumber(currentTarget.value)
     this.setState({ color })

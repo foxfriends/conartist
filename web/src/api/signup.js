@@ -1,26 +1,26 @@
-/* @flow */
-import type { Observable } from 'rxjs'
+/*       */
+                                      
 import { of } from 'rxjs'
 import { tap, switchMap } from 'rxjs/operators'
 
 import { PostRequest } from './index'
 import { Storage } from '../storage'
-import type { Response } from './index'
-import type { User } from '../model/user'
+                                       
+                                         
 import { UserQuery } from './user-query'
 
-type Params = {|
-  name: string,
-  email: string,
-  password: string,
-|}
+                
+               
+                
+                   
+  
 
-export class SignUpRequest extends PostRequest<Params, User> {
+export class SignUpRequest extends PostRequest               {
   constructor() {
     super('/account/new')
   }
 
-  send(params: Params): Observable<Response<User, string>> {
+  send(params        )                                     {
     return super.send(params)
       .pipe(
         tap(response => {

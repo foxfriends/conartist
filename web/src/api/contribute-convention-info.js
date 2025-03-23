@@ -1,19 +1,19 @@
-/* @flow */
-import type { Observable } from 'rxjs/Observable'
+/*       */
+                                                 
 import { from } from 'rxjs';
 import { map, flatMap } from 'rxjs/operators'
 
 import { GraphQLMutation } from './index'
 import { parse } from '../model/convention-user-info'
-import type { Response, APIRequest, APIError } from './index'
-import type {
-  ContributeConventionInfo as ContributeConventionInfoMutation,
-  ContributeConventionInfoVariables,
-} from './schema'
-import type { ConventionUserInfo } from '../model/convention-user-info'
+                                                             
+             
+                                                               
+                                    
+                 
+                                                                       
 
-export class ContributeConventionInfo implements APIRequest<ContributeConventionInfoVariables, ConventionUserInfo> {
-  contributeConventionInfo: GraphQLMutation<ContributeConventionInfoVariables, ContributeConventionInfoMutation>
+export class ContributeConventionInfo                                                                              {
+  contributeConventionInfo                                                                                      
 
   constructor() {
     // $FlowIgnore: trouble importing graphql files
@@ -21,7 +21,7 @@ export class ContributeConventionInfo implements APIRequest<ContributeConvention
     this.contributeConventionInfo = contributeConventionInfo.then(contributeConventionInfo => new GraphQLMutation(contributeConventionInfo.default))
   }
 
-  send(variables: ContributeConventionInfoVariables): Observable<Response<ConventionUserInfo, string>> {
+  send(variables                                   )                                                   {
     return from(this.contributeConventionInfo)
       .pipe(
         flatMap(req => req.send(variables)),

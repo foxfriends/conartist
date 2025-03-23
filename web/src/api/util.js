@@ -1,7 +1,7 @@
-/* @flow */
-import type { Response, Failed, Retrieved } from './index'
+/*       */
+                                                          
 
-export function batchResponses<T, E>(responses: Response<T, E>[]): Failed<E[]> | Retrieved<T[]> {
+export function batchResponses      (responses                  )                               {
   return (
     responses
       .reduce(
@@ -15,7 +15,7 @@ export function batchResponses<T, E>(responses: Response<T, E>[]): Failed<E[]> |
           }
           return result
         },
-        ({ state: 'retrieved', value: [] }: Retrieved<T[]>),
+        ({ state: 'retrieved', value: [] }                ),
       )
   )
 }

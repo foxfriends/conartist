@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 
 import { Font } from '../../common/font'
@@ -9,23 +9,23 @@ import { Card } from '../card-view/card'
 import { BasicHeader } from '../card-view/basic-header'
 import { l, lx } from '../../localization'
 import * as update from '../../update/user-info'
-import type { Convention } from '../../model/convention'
+                                                        
 import S from './card.css'
 
 const { Fragment } = React
 
-export type Props = {
-  convention: Convention,
-}
+                     
+                         
+ 
 
-export type State = {
-  info: string,
-  editingEnabled: boolean,
-  textareaKey: string,
-}
+                     
+               
+                          
+                      
+ 
 
-export class NewConventionUserInfoCard extends React.Component<Props, State> {
-  constructor(props: Props) {
+export class NewConventionUserInfoCard extends React.Component               {
+  constructor(props       ) {
     super(props)
     this.state = {
       info: '',

@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 
 import { l } from '../../localization'
@@ -12,20 +12,20 @@ import { closeDialog } from '../../update/dialog'
 import * as update from '../../update/settings'
 import * as toast from '../../toast'
 import { VALID, EMPTY, INVALID } from '../../model/validation'
-import type { Validation as InputValidation } from '../../common/input'
+                                                                       
 import S from './index.css'
 
-export type Props = {
-  name: 'change-name',
-}
+                     
+                      
+ 
 
-type State = {
-  name: string,
-  processing: boolean,
-}
+              
+               
+                      
+ 
 
-export class ChangeName extends React.Component<Props, State> {
-  constructor(props: Props) {
+export class ChangeName extends React.Component               {
+  constructor(props       ) {
     super(props)
     this.state = {
       name: '',

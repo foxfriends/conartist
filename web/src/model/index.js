@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { BehaviorSubject } from 'rxjs'
 
@@ -12,35 +12,35 @@ import { signOut } from '../update/settings'
 import { resolveRoute } from '../routing'
 import { l } from '../localization'
 import { PAGE_NO_AUTH } from '../constants'
-import type { Page } from './page'
-import type { Dialog } from './dialog'
-import type { Product } from './product'
-import type { ProductType } from './product-type'
-import type { Convention } from './convention'
-import type { Price } from './price'
-import type { Record } from './record'
-import type { Connection } from './connection'
-import type { Settings } from './settings'
+                                  
+                                      
+                                        
+                                                 
+                                              
+                                    
+                                      
+                                              
+                                          
 
-export type Model = {|
-  user: ?{
-    email: string,
-    name: string,
-    verified: boolean,
-    clearance: number,
-  },
-  prices: Price[],
-  productTypes: ProductType[],
-  products: Product[],
-  conventions: Convention[],
-  records: Record[],
-  page: Page,
-  dialog: ?Dialog,
-  settings: Settings,
-  suggestions: Connection<Suggestion>,
-|}
+                      
+          
+                  
+                 
+                      
+                      
+    
+                  
+                              
+                      
+                            
+                    
+             
+                  
+                     
+                                      
+  
 
-export const defaultModel: Model = {
+export const defaultModel        = {
   user: null,
   prices: [],
   productTypes: [],
@@ -56,7 +56,7 @@ export const defaultModel: Model = {
   },
 }
 
-function init(): Model {
+function init()        {
   const page = resolveRoute()
   if (!PAGE_NO_AUTH.includes(page.name)) {
     new ReauthorizeRequest()
@@ -81,4 +81,4 @@ function init(): Model {
   }
 }
 
-export const model: BehaviorSubject<$ReadOnly<Model>> = new BehaviorSubject(init())
+export const model                                    = new BehaviorSubject(init())

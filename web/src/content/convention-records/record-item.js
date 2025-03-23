@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import formatDate from 'date-fns/format'
 
@@ -7,22 +7,22 @@ import { l } from '../../localization'
 import { Item } from '../../common/list/item'
 import { Font } from '../../common/font'
 import { model } from '../../model'
-import type { Record } from '../../model/record'
+                                                
 import S from './item.css'
 
-export type Props = {
-  record: Record,
-  convention: ?Convention,
-  // $FlowIgnore
-  innerRef?: (?HTMLDivElement) => void,
-  onClick: () => void,
-}
+                     
+                 
+                          
+                
+                                       
+                      
+ 
 
-function format(date: Date): string {
+function format(date      )         {
   return formatDate(date, l`h:mm`)
 }
 
-export function RecordItem({ record, convention, onClick, innerRef }: Props) {
+export function RecordItem({ record, convention, onClick, innerRef }       ) {
   const { products = [] } = convention || model.getValue()
   const productString =
     [...record.products.reduce((map, id) => map.set(id, map.get(id) + 1), new Map([], 0))]

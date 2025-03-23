@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 
 import Map from '../../../util/default-map'
@@ -11,31 +11,31 @@ import { Select } from '../../../common/select'
 import { l, localize } from '../../../localization'
 import { Money } from '../../../model/money'
 import { model } from '../../../model'
-import type { ProductType } from '../../../model/product-type'
-import type { Product } from '../../../model/product'
-import type { Record } from '../../../model/record'
-import type { Price } from '../../../model/price'
+                                                              
+                                                     
+                                                   
+                                                 
 import S from './chart.css'
 
 const Bar = React.lazy(() => import(/* webpackChunkName: "chart" */ './lazy/bar'))
 const { Suspense } = React
 
-export type Props = {
-  productTypes: ProductType[],
-  products: Product[],
-  records: Record[],
-  prices: Price[],
-  showSettings: (React.Node) => void,
-}
+                     
+                              
+                      
+                    
+                  
+                                     
+ 
 
-export type State = {
-  metric: 'Quantity' | 'Money' | 'Customers',
-}
+                     
+                                             
+ 
 
-export class SalesByTypeChart extends React.Component<Props, State> {
+export class SalesByTypeChart extends React.Component               {
   // $FlowIgnore
-  ref: React.Ref<HTMLDivElement>
-  constructor(props: Props) {
+  ref                           
+  constructor(props       ) {
     super(props)
     // $FlowIgnore
     this.ref = { current: null }

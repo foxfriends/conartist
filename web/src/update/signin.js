@@ -1,9 +1,9 @@
-/* @flow */
+/*       */
 import { defaultModel, model } from '../model'
 import { dashboard } from '../model/page'
-import type { User } from '../model/user'
+                                         
 
-export function completeSignIn({ email, name, verified, clearance, settings, conventions, prices, products, productTypes }: User) {
+export function completeSignIn({ email, name, verified, clearance, settings, conventions, prices, products, productTypes }      ) {
   model.next({
     ...model.getValue(),
     user: {
@@ -25,7 +25,7 @@ export function completeSignIn({ email, name, verified, clearance, settings, con
   })
 }
 
-export function setUser({ email, name, verified, clearance, settings, conventions, prices, products, productTypes }: User) {
+export function setUser({ email, name, verified, clearance, settings, conventions, prices, products, productTypes }      ) {
   model.next({
     ...model.getValue(),
     user: {

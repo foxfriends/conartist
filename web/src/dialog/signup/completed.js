@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { of } from 'rxjs'
 import { catchError } from 'rxjs/operators'
@@ -8,28 +8,28 @@ import { l } from '../../localization'
 import * as API from '../../api'
 import { SignUpRequest } from '../../api/signup'
 import { setUser } from '../../update/signin'
-import type { FormDelegate } from './index'
-import type { Response } from '../../api'
-import type { User } from '../../model/user'
+                                           
+                                         
+                                            
 
 const { Fragment } = React
 
 import S from './completed.css'
 
-export type Props = FormDelegate & {
-  account: {|
-    name: string,
-    email: string,
-    password: string,
-  |},
-}
+                                    
+             
+                 
+                  
+                     
+     
+ 
 
-type State = {
-  response: Response<User, string>,
-}
+              
+                                   
+ 
 
-export class Completed extends React.Component<Props, State> {
-  constructor(props: Props) {
+export class Completed extends React.Component               {
+  constructor(props       ) {
     super(props)
     this.state = {
       response: API.unsent,
@@ -54,8 +54,8 @@ export class Completed extends React.Component<Props, State> {
   }
 
   render() {
-    let copy: React.Fragment
-    let heading: React.Fragment
+    let copy                
+    let heading                
     switch (this.state.response.state) {
       case 'unsent':
       case 'sending':

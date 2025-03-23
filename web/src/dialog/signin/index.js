@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { Observable } from 'rxjs'
 
@@ -19,27 +19,27 @@ import { Icon } from '../../common/icon'
 import { Checkbox } from '../../common/checkbox'
 import { Tooltip } from '../../common/tooltip'
 import { VALID, INVALID } from '../../model/validation'
-import type { Props as ButtonProps } from '../../common/button'
-import type { Response } from '../../api'
-import type { User } from '../../model/user'
-import type { Validation as InputValidation } from '../../common/input'
+                                                               
+                                         
+                                            
+                                                                       
 import S from '../form.css'
 import SS from './index.css'
 
-export type Props = {
-  name: 'signin',
-}
+                     
+                 
+ 
 
-type State = {
-  email: string,
-  password: string,
-  response: Response<User, string>,
-  passwordValidation: InputValidation,
-  staySignedIn: boolean,
-}
+              
+                
+                   
+                                   
+                                      
+                        
+ 
 
-export class SignIn extends React.Component<Props, State> {
-  constructor(props: Props) {
+export class SignIn extends React.Component               {
+  constructor(props       ) {
     super(props)
     this.state = {
       email: '',
@@ -66,18 +66,18 @@ export class SignIn extends React.Component<Props, State> {
       })
   }
 
-  handleEmailChange(email: string) {
+  handleEmailChange(email        ) {
     this.setState({ email, passwordValidation: { state: VALID } })
   }
 
-  handlePasswordChange(password: string) {
+  handlePasswordChange(password        ) {
     this.setState({ password, passwordValidation: { state: VALID } })
   }
 
   render() {
     const { email, response, passwordValidation, staySignedIn } = this.state
 
-    const onContinue: ButtonProps = {
+    const onContinue              = {
       title: l`Sign in`,
       action: () => this.trySignIn(),
       priority: 'primary',

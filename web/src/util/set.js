@@ -1,10 +1,10 @@
-/* @flow */
-class ExtSet<V> extends Set<V> {
-  union(other: Iterable<V>): ExtSet<V> {
+/*       */
+class ExtSet    extends Set    {
+  union(other             )            {
     return new ExtSet([...this, ...other])
   }
 
-  intersection(other: Iterable<V>): ExtSet<V> {
+  intersection(other             )            {
     const result = new ExtSet()
     for (const item of other) {
       if (this.has(item)) {
@@ -14,7 +14,7 @@ class ExtSet<V> extends Set<V> {
     return result
   }
 
-  difference(other: Iterable<V>): ExtSet<V> {
+  difference(other             )            {
     const result = new ExtSet(this)
     for (const item of other) {
       if (this.has(item)) {

@@ -1,28 +1,28 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 
 import { BasicHeader } from './basic-header'
 import { IconButton } from '../../common/icon-button'
 import S from './secondary-card.css'
 
-export type Props = {
-  title: string,
-  // $FlowIgnore
-  anchor?: React.Ref<HTMLElement>,
-  children: React.Node,
-  onClose?: () => void,
-}
+                     
+                
+                
+                                  
+                       
+                       
+ 
 
-type State = {
-  top: number,
-}
+              
+              
+ 
 
 // NOTE: this is a bit sketchy, but it will do for now...
-export class SecondaryCard extends React.Component<Props, State> {
+export class SecondaryCard extends React.Component               {
   // $FlowIgnore
-  ref: React.Ref<HTMLDivElement>
+  ref                           
 
-  constructor(props: Props) {
+  constructor(props       ) {
     super(props)
     // $FlowIgnore
     this.ref = React.createRef()
@@ -31,7 +31,7 @@ export class SecondaryCard extends React.Component<Props, State> {
     }
   }
 
-  shouldComponentUpdate(props: Props, state: State) {
+  shouldComponentUpdate(props       , state       ) {
     return this.state.top !== state.top
   }
 

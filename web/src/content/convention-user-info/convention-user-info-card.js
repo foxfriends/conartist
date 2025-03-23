@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 
 import { AutoList as List } from '../../common/list/auto'
@@ -14,20 +14,20 @@ import { l, lx } from '../../localization'
 import { by, Desc } from '../../util/sort'
 import * as navigate from '../../update/navigate'
 import * as update from '../../update/user-info'
-import type { Convention } from '../../model/convention'
+                                                        
 import S from './card.css'
 
 const { Fragment } = React
 
-export type Props = {
-  convention: Convention,
-  title?: string,
-  limit?: number,
-  hasSeeAllButton?: boolean
-}
+                     
+                         
+                 
+                 
+                           
+ 
 
-export class ConventionUserInfoCard extends React.Component<Props> {
-  handleVoteChanged(id: number, vote: number) {
+export class ConventionUserInfoCard extends React.Component        {
+  handleVoteChanged(id        , vote        ) {
     update.voteForInfo(id, vote)
   }
 

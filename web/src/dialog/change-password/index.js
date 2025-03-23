@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 
 import { l } from '../../localization'
@@ -7,7 +7,7 @@ import { Button } from '../../common/button'
 import { Icon } from '../../common/icon'
 import { Basic } from '../basic'
 import { ChangePasswordRequest } from '../../api/change-password'
-import type { Validation as InputValidation } from '../../common/input'
+                                                                       
 import { closeDialog as closeDialogButton } from '../action'
 import { closeDialog } from '../../update/dialog'
 import * as toast from '../../toast'
@@ -15,29 +15,29 @@ import { VALID, EMPTY, INVALID } from '../../model/validation'
 import { MIN_PASSWORD_LENGTH } from '../../constants'
 import S from './index.css'
 
-export type Props = {
-  name: 'change-password',
-}
+                     
+                          
+ 
 
-type State = {
-  currentPassword: string,
-  password: string,
-  confirmPassword: string,
-  processing: boolean,
-  passwordValidation: InputValidation,
-  mismatchValidation: InputValidation,
-  currentPasswordValidation: InputValidation,
-}
+              
+                          
+                   
+                          
+                      
+                                      
+                                      
+                                             
+ 
 
 // NOTE: this component shares a lot of things with sign up password form... Maybe some code sharing
 //       should be done... also the reset password form
-export class ChangePassword extends React.Component<Props, State> {
+export class ChangePassword extends React.Component               {
   // $FlowIgnore: Flow definitions not up to date
-  passwordInput: React.Ref<Input>
+  passwordInput                  
   // $FlowIgnore: Flow definitions not up to date
-  confirmInput: React.Ref<Input>
+  confirmInput                  
 
-  constructor(props: Props) {
+  constructor(props       ) {
     super(props)
     this.confirmInput = React.createRef()
     this.passwordInput = React.createRef()
@@ -52,21 +52,21 @@ export class ChangePassword extends React.Component<Props, State> {
     }
   }
 
-  handleCurrentPasswordChange(value: string) {
+  handleCurrentPasswordChange(value        ) {
     this.setState({ currentPassword: value, currentPasswordValidation: { state: VALID } })
   }
 
-  handlePasswordChange(value: string) {
+  handlePasswordChange(value        ) {
     this.validate(value, this.state.confirmPassword)
     this.setState({ password: value })
   }
 
-  handleConfirmPasswordChange(value: string) {
+  handleConfirmPasswordChange(value        ) {
     this.validate(this.state.password, value)
     this.setState({ confirmPassword: value })
   }
 
-  validate(password: string, confirmPassword: string) {
+  validate(password        , confirmPassword        ) {
     let passwordValidation = { state: VALID }
     let mismatchValidation = { state: VALID }
     if (password === '') {

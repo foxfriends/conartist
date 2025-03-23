@@ -1,11 +1,11 @@
-/* @flow */
+/*       */
 import { model } from '../model'
 import { StarConvention } from '../api/star-convention'
 import { UnstarConvention } from '../api/unstar-convention'
-import type { Convention } from '../model/convention'
-import type { MetaConvention } from '../model/meta-convention'
+                                                     
+                                                              
 
-export async function starConvention(convention: MetaConvention) {
+export async function starConvention(convention                ) {
   const { conventions, ...existingModel } = model.getValue()
   if (conventions.find(({ id }) => id === convention.id)) {
     return
@@ -32,7 +32,7 @@ export async function starConvention(convention: MetaConvention) {
   }
 }
 
-export async function unstarConvention(convention: MetaConvention) {
+export async function unstarConvention(convention                ) {
   const { conventions: originalConventions, ...existingModel } = model.getValue()
   const conventions = [...originalConventions];
   const index = conventions.map(({ id }) => id).indexOf(convention.id)
@@ -57,7 +57,7 @@ export async function unstarConvention(convention: MetaConvention) {
   }
 }
 
-export function setConvention(convention: Convention) {
+export function setConvention(convention            ) {
   const { conventions: originalConventions, page: originalPage } = model.getValue()
   // $FlowIgnore: flow can't do this
   const page = { ...originalPage }

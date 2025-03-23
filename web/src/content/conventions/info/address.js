@@ -1,16 +1,16 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { l } from '../../../localization'
 import { Row } from '../../../common/table/row'
 import { Font } from '../../../common/font'
 import { newlinesToReact } from '../../../util/newlines-to-react'
-import type { ConventionExtraInfo } from '../../../model/convention-extra-info'
+                                                                               
 
-export type Props = {
-  infos: ConventionExtraInfo[],
-}
+                     
+                               
+ 
 
-export function AddressInfo({ infos }: Props) {
+export function AddressInfo({ infos }       ) {
   try {
     const addressInfo = infos.find(({ title }) => title === 'Address')
     if (addressInfo && addressInfo.info && addressInfo.action) {

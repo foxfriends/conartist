@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { l } from '../../localization'
 import { ResetPasswordRequest } from '../../api/reset-password'
@@ -11,23 +11,23 @@ import { VALID, EMPTY, INVALID } from '../../model/validation'
 import { MIN_PASSWORD_LENGTH } from '../../constants'
 import S from './index.css'
 
-export type Props = {
-  code: string,
-}
+                     
+               
+ 
 
-type State = {
-  password: string,
-  confirm: string,
-  passwordValidation: InputValidation,
-  mismatchValidation: InputValidation,
-  processing: ?string,
-}
+              
+                   
+                  
+                                      
+                                      
+                      
+ 
 
-export class ResetPassword extends React.Component<Props, State> {
+export class ResetPassword extends React.Component               {
   // $FlowIgnore: Flow definitions not up to date
-  passwordInput: React.Ref<Input>
+  passwordInput                  
   // $FlowIgnore: Flow definitions not up to date
-  confirmInput: React.Ref<Input>
+  confirmInput                  
 
   constructor(props) {
     super(props)
@@ -42,17 +42,17 @@ export class ResetPassword extends React.Component<Props, State> {
     };
   }
 
-  handlePasswordChange(value: string) {
+  handlePasswordChange(value        ) {
     this.validate(value, this.state.confirm)
     this.setState({ password: value })
   }
 
-  handleConfirmPasswordChange(value: string) {
+  handleConfirmPasswordChange(value        ) {
     this.validate(this.state.password, value)
     this.setState({ confirm: value })
   }
 
-  validate(password: string, confirmPassword: string) {
+  validate(password        , confirmPassword        ) {
     let passwordValidation = { state: VALID }
     let mismatchValidation = { state: VALID }
     if (password === '') {

@@ -1,20 +1,20 @@
-/* @flow */
+/*       */
 import { of } from 'rxjs'
 import { tap, switchMap, catchError } from 'rxjs/operators'
-import type { Observable } from 'rxjs'
+                                      
 
 import { GetRequest } from './index'
 import { Storage } from '../storage'
-import type { Response } from './index'
-import type { User } from '../model/user'
+                                       
+                                         
 import { UserQuery } from './user-query'
 
-export class ReauthorizeRequest extends GetRequest<'', User> {
+export class ReauthorizeRequest extends GetRequest           {
   constructor() {
     super('/auth')
   }
 
-  send(params: '' = ''): Observable<Response<User, string>> {
+  send(params     = '')                                     {
     return super.send('')
       .pipe(
         tap(response => {

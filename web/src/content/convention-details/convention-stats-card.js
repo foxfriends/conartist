@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import differenceInHours from 'date-fns/differenceInHours'
 
@@ -13,14 +13,14 @@ import { l } from '../../localization'
 import { Money } from '../../model/money'
 import * as navigate from '../../update/navigate'
 import { dateRecovery } from '../../util/date'
-import type { Convention } from '../../model/convention'
+                                                        
 import S from './card.css'
 
-export type Props = {
-  convention: Convention,
-}
+                     
+                         
+ 
 
-export function ConventionStatsCard({ convention }: Props) {
+export function ConventionStatsCard({ convention }       ) {
   // $FlowIgnore: not catching defaulting of missing props
   if ((convention.records || []).length === 0) { return null }
 

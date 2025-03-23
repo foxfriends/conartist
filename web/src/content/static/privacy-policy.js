@@ -1,14 +1,14 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import Privacy from './legal/PRIVACY.md'
 import S from './static.css'
 
-export type Props = {
-  className?: string,
-  style?: { [string]: string | number },
-}
+                     
+                     
+                                        
+ 
 
-export function PrivacyPolicy({ className, style }: Props) {
+export function PrivacyPolicy({ className, style }       ) {
   return (
     <section className={className} style={style}>
       <div className={S.copy} dangerouslySetInnerHTML={{ __html: Privacy }} />

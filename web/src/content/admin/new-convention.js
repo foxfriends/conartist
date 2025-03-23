@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import format from 'date-fns/format'
 import { forkJoin, of } from 'rxjs'
@@ -13,24 +13,24 @@ import { Button } from '../../common/button'
 import { Input } from '../../common/input'
 import { Textarea } from '../../common/textarea'
 import * as toast from '../../toast'
-import type { Validation as InputValidation } from '../../common/input'
+                                                                       
 import S from './index.css'
 const { Fragment } = React
 
-export type Props = {}
-type State = {
-  name: string,
-  startDate: ?Date,
-  endDate: ?Date,
-  address: string,
-  hours: [?Date, ?Date][],
-  website: string,
-  websiteURL: string,
-  image: string, // TODO: image uploads here
-}
+                      
+              
+               
+                   
+                 
+                  
+                          
+                  
+                     
+                                            
+ 
 
-export class NewConvention extends React.Component<Props, State> {
-  constructor(props: Props) {
+export class NewConvention extends React.Component               {
+  constructor(props       ) {
     super(props)
     this.state = {
       name: '',
@@ -44,7 +44,7 @@ export class NewConvention extends React.Component<Props, State> {
     }
   }
 
-  handleStartChange(dateStr: string) {
+  handleStartChange(dateStr        ) {
     const startDate = new Date(dateStr)
     const { endDate } = this.state
     const hours = []
@@ -59,7 +59,7 @@ export class NewConvention extends React.Component<Props, State> {
     })
   }
 
-  handleEndChange(dateStr: string) {
+  handleEndChange(dateStr        ) {
     const endDate = new Date(dateStr)
     const { startDate } = this.state
     const hours = []
@@ -74,7 +74,7 @@ export class NewConvention extends React.Component<Props, State> {
     })
   }
 
-  handleTimeChange(index: number, which: 'open' | 'close', time: string) {
+  handleTimeChange(index        , which                  , time        ) {
     const [hour, minute] = time.split(':')
     const { startDate } = this.state
     if (!startDate) {

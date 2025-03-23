@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 
 import IMAGE from '../../../images/name.png'
@@ -7,20 +7,20 @@ import { Input } from '../../common/input'
 import { Icon } from '../../common/icon'
 import { Tooltip } from '../../common/tooltip'
 import { Form } from '../form'
-import type { Props as FormProps } from '../form'
-import type { Validation as InputValidation } from '../../common/input'
-import type { FormDelegate as Props } from './index'
+                                                 
+                                                                       
+                                                    
 import S from '../form.css'
 
-function validator(name: string): InputValidation {
+function validator(name        )                  {
   if (name.length === 0) {
     return { state: 'empty' }
   }
   return { state: 'valid' }
 }
 
-export function NameForm({ onValidate, onChange, onSubmit }: Props) {
-  function handleChange(value: string) {
+export function NameForm({ onValidate, onChange, onSubmit }       ) {
+  function handleChange(value        ) {
     const trimmed = value.replace(/(^\s+|\s+$)/g, "")
     onChange(trimmed)
     onValidate(validator(trimmed).state === 'valid')

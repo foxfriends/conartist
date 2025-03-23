@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { l } from '../../localization'
 import { SecondaryCardFade as Fade } from '../../common/animation/fade/secondary-card'
@@ -6,20 +6,20 @@ import { AutoCardView as CardView } from '../card-view/auto'
 import { Card } from '../card-view/card'
 import { RecordsCard } from './records-card'
 import { toLocal, justDay } from '../../util/date'
-import type { Convention } from '../../model/convention'
+                                                        
 import S from './records-card.css'
 
-export type Props = {
-  name: 'convention-records',
-  convention: Convention,
-}
+                     
+                             
+                         
+ 
 
-type State = {
-  focus: ?React.Node
-}
+              
+                    
+ 
 
-export class ConventionRecords extends React.Component<Props, State> {
-  constructor(props: Props) {
+export class ConventionRecords extends React.Component               {
+  constructor(props       ) {
     super(props)
     this.state = {
       focus: null,

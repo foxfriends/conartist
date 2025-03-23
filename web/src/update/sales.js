@@ -1,10 +1,10 @@
-/* @flow */
+/*       */
 import { model } from '../model'
-import type { Record } from '../model/record'
+                                             
 import { empty, extend, prepend, replaceById } from '../model/connection'
 import { RecordsConnection } from '../api/records-connection.js'
 
-export async function loadSales(fresh: boolean = false) {
+export async function loadSales(fresh          = false) {
   if (fresh) {
     model.next({
       ...model.getValue(),

@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { Loading } from './loading'
 
@@ -21,41 +21,41 @@ const CreateSuggestion = React.lazy(() => import(/* webpackChunkName: 'suggestio
 const NewSale = React.lazy(() => import(/* webpackChunkName: 'sales' */ './new-sale'))
 const NewExpense = React.lazy(() => import(/* webpackChunkName: 'sales' */ './new-expense'))
 
-import type { Props as SignUpProps } from './signup'
-import type { Props as SignInProps } from './signin'
-import type { Props as ChangePasswordProps } from './change-password'
-import type { Props as ChangeEmailProps } from './change-email'
-import type { Props as ChangeNameProps } from './change-name'
-import type { Props as ChangeCurrencyProps } from './change-currency'
-import type { Props as ChangeLanguageProps } from './change-language'
-import type { Props as ResetPasswordProps } from './reset-password'
-import type { Props as CreateSuggestionProps } from './create-suggestion'
-import type { Props as ExportProps } from './export'
-import type { Props as ImportProps } from './import'
-import type { Props as NewSaleProps } from './new-sale'
-import type { Props as NewExpenseProps } from './new-expense'
+                                                    
+                                                    
+                                                                     
+                                                               
+                                                             
+                                                                     
+                                                                     
+                                                                   
+                                                                         
+                                                    
+                                                    
+                                                       
+                                                             
 
 import S from './index.css'
 
 const { Suspense } = React
 
-export type Props
-  = SignUpProps
-  | SignInProps
-  | ChangePasswordProps
-  | ChangeEmailProps
-  | ChangeNameProps
-  | ChangeCurrencyProps
-  | ChangeLanguageProps
-  | ResetPasswordProps
-  | CreateSuggestionProps
-  | NewSaleProps
-  | NewExpenseProps
-  | ExportProps
-  | ImportProps
+                 
+               
+               
+                       
+                    
+                   
+                       
+                       
+                      
+                         
+                
+                   
+               
+               
 
-export function Dialog(props: Props) {
-  let dialog: React.Node;
+export function Dialog(props       ) {
+  let dialog            ;
 
   switch (props.name) {
     case 'signup':

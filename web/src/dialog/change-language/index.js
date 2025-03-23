@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 
 import { l, localize } from '../../localization'
@@ -14,11 +14,11 @@ import * as update from '../../update/settings'
 import * as toast from '../../toast'
 import S from './index.css'
 
-export type Props = {
-  name: 'change-language',
-}
+                     
+                          
+ 
 
-export class ChangeLanguage extends React.Component<Props, State> {
+export class ChangeLanguage extends React.Component               {
   async setLanguage(language) {
     const response = await new ChangeLanguageMutation().send({ language }).toPromise()
     update.setLanguage(language)

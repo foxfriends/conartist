@@ -1,8 +1,8 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { combineLatest } from 'rxjs'
 import { map } from 'rxjs/operators'
-import type { Observable } from 'rxjs'
+                                      
 
 import { Toolbar, status as toolbarStatus } from './toolbar'
 import * as toolbarAction from './toolbar/action'
@@ -19,27 +19,27 @@ import { by, Asc } from './util/sort'
 import { isSignedIn } from './util/is-signed-in'
 import { l } from './localization'
 import * as page from './model/page'
-import type { Model } from './model'
-import type { Props as ToolbarProps } from './toolbar'
-import type { Props as FooterProps } from './footer'
-import type { Props as NavigationProps } from './navigation'
-import type { Props as ContentProps } from './content'
-import type { Props as DialogProps } from './dialog'
+                                    
+                                                      
+                                                    
+                                                            
+                                                      
+                                                    
 import S from './con-artist.css'
 import { Storage } from './storage'
 
-type Props = {}
-type State = {
-  toolbar: ?ToolbarProps,
-  footer: ?FooterProps,
-  navigation: ?NavigationProps,
-  content: ?ContentProps,
-  dialog: ?DialogProps,
-  toast: React.Node,
-}
+               
+              
+                         
+                       
+                               
+                         
+                       
+                    
+ 
 
-export class ConArtist extends React.Component<Props, State> {
-  constructor(props: Props) {
+export class ConArtist extends React.Component               {
+  constructor(props       ) {
     super(props)
     this.state = {
       toolbar: { primary: null, secondary: null, tertiary: null },
@@ -62,7 +62,7 @@ export class ConArtist extends React.Component<Props, State> {
     this.setState({ toast: null })
   }
 
-  computeState(model: $ReadOnly<Model>, toolbar: ToolbarProps): State {
+  computeState(model                  , toolbar              )        {
     const state = { ...this.state }
 
     switch(model.page.name) {

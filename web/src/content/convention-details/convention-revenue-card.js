@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 
 import { toLocal } from '../../util/date'
@@ -17,15 +17,15 @@ import { Money } from '../../model/money'
 import * as navigate from '../../update/navigate'
 import * as dialog from '../../update/dialog'
 import { model } from '../../model'
-import type { Convention } from '../../model/convention'
+                                                        
 import S from '../conventions/card.css'
 import SS from './card.css'
 
-export type Props = {
-  convention: Convention,
-}
+                     
+                         
+ 
 
-export function ConventionRevenueCard({ convention }: Props) {
+export function ConventionRevenueCard({ convention }       ) {
   const selected = model.getValue().conventions.some(({ id }) => id === convention.id)
   return (
     <Card>

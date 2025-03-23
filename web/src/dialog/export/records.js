@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import format from 'date-fns/format'
 
@@ -14,27 +14,27 @@ import { model } from '../../model'
 import { closeDialog } from '../action'
 import { l, localize } from '../../localization'
 import { separate } from '../../util/iterable'
-import type { Convention } from '../../model/convention'
+                                                        
 import S from './index.css'
 
-export type Props = {
-  name: 'export',
-  type: 'records',
-  convention: Convention,
-}
+                     
+                 
+                  
+                         
+ 
 
-type RecordData = Object
+                        
 
-type Column = string
+                    
 
-type State = {
-  typeFormat: 'Hidden' | 'Condensed' | 'Rows' | 'Columns',
-  includeInfo: boolean,
-  separateDays: boolean,
-  includeTitles: boolean,
-}
+              
+                                                          
+                       
+                        
+                         
+ 
 
-function columnTitle(column: Column): string {
+function columnTitle(column        )         {
   switch (column) {
     case 'products':  return l`Products`
     case 'price':     return l`Price`
@@ -45,7 +45,7 @@ function columnTitle(column: Column): string {
   return column
 }
 
-function data(columns: Column[]): (RecordData) => React.Node {
+function data(columns          )                             {
   return record => columns.map(column =>
     <span className={S.cell} key={`column_${column}_${record.id}`}>
       { record[column] }
@@ -53,16 +53,16 @@ function data(columns: Column[]): (RecordData) => React.Node {
   )
 }
 
-function formatDay(date: Date): string {
+function formatDay(date      )         {
   return format(date, l`MMM. d, yyyy`)
 }
 
-function formatTime(date: Date): string {
+function formatTime(date      )         {
   return format(date, l`MMMM d, yyyy. h:mma`)
 }
 
-export class ExportRecords extends React.Component<Props, State> {
-  constructor(props: Props) {
+export class ExportRecords extends React.Component               {
+  constructor(props       ) {
     super(props)
     this.state = {
       typeFormat: 'Columns',
@@ -72,7 +72,7 @@ export class ExportRecords extends React.Component<Props, State> {
     }
   }
 
-  get columns(): Column[] {
+  get columns()           {
     const { convention } = this.props
     const { typeFormat, includeInfo } = this.state
     const productColumns = (() => {
@@ -96,7 +96,7 @@ export class ExportRecords extends React.Component<Props, State> {
     ].filter(x => x)
   }
 
-  get dataSource(): RecordData[] {
+  get dataSource()               {
     const { convention } = this.props
     const { typeFormat } = this.state
     // $FlowIgnore
@@ -153,7 +153,7 @@ export class ExportRecords extends React.Component<Props, State> {
     const saveAs = import(/* webpackChunkName: 'zip' */ 'save-as')
     const { columns, dataSource } = this
     const { separateDays, includeTitles } = this.state
-    const files: [string, Blob][] = ((separateDays ? [...separate.call(dataSource, 'day')] : [['records', dataSource]]))
+    const files                   = ((separateDays ? [...separate.call(dataSource, 'day')] : [['records', dataSource]]))
       .map(([name, file]) => [name, file.map(item => columns.map(column => item[column].toString()))])
       .map(([name, file]) => [name, file.map(item => item.join(','))])
       .map(([name, file]) => [name, includeTitles ? [columns.map(columnTitle).join(','), ...file] : file])

@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { map } from 'rxjs/operators'
 import { forkJoin } from 'rxjs'
@@ -25,27 +25,27 @@ import { closeDialog as doCloseDialog } from '../../update/dialog'
 
 import S from '../export/index.css' // NOTE: using export dialog css because it's very similar!
 
-export type Props = {
-  name: 'import',
-  type: 'products',
-}
+                     
+                 
+                   
+ 
 
-type ProductData = {
-  id: number,
-  name: string,
-  quantity: number,
-  type: string,
-}
+                    
+             
+               
+                   
+               
+ 
 
-type Column = $Keys<ProductData>
+                                
 
-type State = {
-  includeIds: boolean,
-  includesTitle: boolean,
-  productType: ?ProductType,
-}
+              
+                      
+                         
+                            
+ 
 
-function columnTitle(column: Column): string {
+function columnTitle(column        )         {
   switch (column) {
     case 'id':        return l`ID`
     case 'name':      return l`Product`
@@ -56,7 +56,7 @@ function columnTitle(column: Column): string {
   return ''
 }
 
-function data(columns: Column[]): (ProductData) => React.Node {
+function data(columns          )                              {
   return product => columns.map(column =>
     <span className={S.cell} key={`column_${column}_${product.id}`}>
       { product[column] }
@@ -92,8 +92,8 @@ class SaveFailed extends Error {
   }
 }
 
-export class ImportProducts extends React.Component<Props, State> {
-  constructor(props: Props) {
+export class ImportProducts extends React.Component               {
+  constructor(props       ) {
     super(props)
     this.state = {
       includeIds: true,
@@ -102,7 +102,7 @@ export class ImportProducts extends React.Component<Props, State> {
     }
   }
 
-  get columns(): Column[] {
+  get columns()           {
     const { includeIds, productType } = this.state
     // $FlowIgnore
     return [
@@ -114,7 +114,7 @@ export class ImportProducts extends React.Component<Props, State> {
     ].filter(x => x)
   }
 
-  get dataSource(): ProductData[] {
+  get dataSource()                {
     // using the user's current data as demo?
     // TODO: make up some fake data for when there is none
     const { products, productTypes } = model.getValue()
@@ -125,7 +125,7 @@ export class ImportProducts extends React.Component<Props, State> {
       .map(({ type, ...product }) => ({ ...product, type: type.name }))
   }
 
-  processRow([a, b, c, d, e]: string[]): [number | null, ProductType, string, number, string] {
+  processRow([a, b, c, d, e]          )                                                       {
     const { includeIds, productType } = this.state
     const { products, productTypes } = model.getValue()
     if (includeIds && productType) {

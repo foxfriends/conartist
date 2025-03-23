@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { l } from '../../localization'
 import { Card } from '../card-view/card'
@@ -13,16 +13,16 @@ import { INVALID, VALID } from '../../model/validation'
 import { by, Asc, Desc } from '../../util/sort'
 import { Money } from '../../model/money'
 import { DuplicateQuantity, NonNumberQuantity, NonIntegerQuantity, NegativeQuantity, NonNumberPrice, NegativePrice } from './schema'
-import type { Action } from '../../common/button'
-import type { Validation } from '../../model/validation'
-import type { Product } from '../../model/product'
-import type { ProductType } from '../../model/product-type'
-import type { EditablePrice, ValidationError } from './schema'
-import type { Validation as InputValidation } from '../../common/input'
+                                                 
+                                                        
+                                                  
+                                                           
+                                                              
+                                                                       
 import S from './index.css'
 const { Fragment } = React
 
-function quantityValidation(validation: Validation<ValidationError>): InputValidation {
+function quantityValidation(validation                             )                  {
   if (validation.state !== INVALID) {
     return validation
   }
@@ -40,7 +40,7 @@ function quantityValidation(validation: Validation<ValidationError>): InputValid
   }
 }
 
-function priceValidation(validation: Validation<ValidationError>): InputValidation {
+function priceValidation(validation                             )                  {
   if (validation.state !== INVALID) {
     return validation
   }
@@ -54,19 +54,19 @@ function priceValidation(validation: Validation<ValidationError>): InputValidati
   }
 }
 
-export type Props = {
-  productType: ProductType,
-  products: Product[],
-  prices: EditablePrice[],
-  bottomAction?: ?Action,
-  onPriceChange: (string, string) => void,
-  onPriceRemove: (string) => void,
-  onQuantityChange: (string, string) => void,
-  onProductChange: (string, ?number) => void,
-}
+                     
+                           
+                      
+                          
+                         
+                                          
+                                  
+                                             
+                                             
+ 
 
-export function EditPricesCard({ productType, products, prices, bottomAction, onPriceChange, onProductChange, onQuantityChange, onPriceRemove }: Props) {
-  const productIds: (?number)[] = [null, ...products.map(({ id }) => id)]
+export function EditPricesCard({ productType, products, prices, bottomAction, onPriceChange, onProductChange, onQuantityChange, onPriceRemove }       ) {
+  const productIds              = [null, ...products.map(({ id }) => id)]
   const dataSource = prices
     .map(price => price.productId === null ? [price, null] : [price, products.find(product => product.id === price.productId)])
   return (

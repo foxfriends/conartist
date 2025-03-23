@@ -1,25 +1,25 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import S from './row.css'
 const { Fragment } = React
 
-export type Props = {
-  title?: React.Node,
-  value?: React.Node,
-  detail?: React.Node,
-  truncate: boolean,
-}
+                     
+                     
+                     
+                      
+                    
+ 
 
-type State = {
-  height: number,
-}
+              
+                 
+ 
 
-export class Row extends React.PureComponent<Props, State> {
+export class Row extends React.PureComponent               {
   // $FlowIgnore
-  valueRef: React.Ref<HTMLDivElement>
-  titleRef: React.Ref<HTMLDivElement>
+  valueRef                           
+  titleRef                           
 
-  constructor(props: Props) {
+  constructor(props       ) {
     super(props)
     this.state = {
       height: 0,

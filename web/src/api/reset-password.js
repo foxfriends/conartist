@@ -1,22 +1,22 @@
-/* @flow */
+/*       */
 import { of } from 'rxjs'
 import { catchError } from 'rxjs/operators'
-import type { Observable } from 'rxjs'
+                                      
 
 import { PostRequest } from './index'
-import type { Response } from './index'
+                                       
 
-type Params = {|
-  code: string,
-  password: string,
-|}
+                
+               
+                   
+  
 
-export class ResetPasswordRequest extends PostRequest<Params, boolean> {
+export class ResetPasswordRequest extends PostRequest                  {
   constructor() {
     super('/account/reset')
   }
 
-  send(params: Params): Observable<Response<boolean, string>> {
+  send(params        )                                        {
     return super.send(params).pipe(catchError(of))
   }
 }

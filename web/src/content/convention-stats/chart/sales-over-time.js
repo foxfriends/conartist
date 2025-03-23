@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import startOfDay from 'date-fns/startOfDay'
 import addDays from 'date-fns/addDays'
@@ -14,27 +14,27 @@ import { Select } from '../../../common/select'
 import { l, localize } from '../../../localization'
 import { Money } from '../../../model/money'
 import { model } from '../../../model'
-import type { Record } from '../../../model/record'
+                                                   
 import S from './chart.css'
 
 const Line = React.lazy(() => import(/* webpackChunkName: "chart" */ './lazy/line'))
 const { Suspense } = React
 
-export type Props = {
-  records: Record[],
-  showSettings: (React.Node) => void,
-}
+                     
+                    
+                                     
+ 
 
-type State = {
-  mode: 'Average' | 'Total',
-  metric: 'Customers' | 'Money',
-  grouping: number,
-}
+              
+                            
+                                
+                   
+ 
 
-type Item = {|
-  time: Date,
-  price: Money,
-|}
+              
+             
+               
+  
 
 const colors = [
   '#8bc2ae',
@@ -46,7 +46,7 @@ const colors = [
   '#9cd0b4',
 ]
 
-function splitByDays(items: Item[]) {
+function splitByDays(items        ) {
   if (!items.length) { return [] }
 
   const days = []
@@ -67,14 +67,14 @@ function splitByDays(items: Item[]) {
   return days
 }
 
-function dailyTotals(data: Item[]): Item[] {
+function dailyTotals(data        )         {
   if (!data.length) { return [] }
   const startPrice = (data[0] || {}).price || Money.zero
   const startQuantity = (data[0] || {}).quantity || 0
   return data.map(({ time, price, quantity }) => ({ time, price: price.add(startPrice.negate()), quantity: quantity - startQuantity }))
 }
 
-function deltas(data: Item[]): Item[] {
+function deltas(data        )         {
   return data.map(({ time, price }, i, arr) => ({
     time,
     price: price.add(((arr[i - 1] || {}).price || Money.zero).negate()),
@@ -82,17 +82,17 @@ function deltas(data: Item[]): Item[] {
   }))
 }
 
-type Bucket = {
-  time: number,
-  count: number,
-  total: Money,
-}
+               
+               
+                
+               
+ 
 
-function averages(grouping: number = 1): ((Item[]) => Item[]) {
+function averages(grouping         = 1)                       {
   const minutes = Math.max(Math.abs(grouping), 1) * 1000 * 60
   return data => {
-    const buckets: Bucket[] = []
-    let bucket: Bucket = { time: 0, count: 0, total: Money.zero }
+    const buckets           = []
+    let bucket         = { time: 0, count: 0, total: Money.zero }
     for (const item of data) {
       if (!bucket.time) {
         bucket.time = item.time.getTime() + (minutes / 2)
@@ -134,11 +134,11 @@ function averages(grouping: number = 1): ((Item[]) => Item[]) {
   }
 }
 
-export class SalesOverTimeChart extends React.Component<Props, State> {
+export class SalesOverTimeChart extends React.Component               {
   // $FlowIgnore
-  ref: React.Ref<HTMLDivElement>
+  ref                           
 
-  constructor(props: Props) {
+  constructor(props       ) {
     super(props)
     // $FlowIgnore
     this.ref = { current: null }
@@ -167,7 +167,7 @@ export class SalesOverTimeChart extends React.Component<Props, State> {
         }]), [])
     )
 
-    let daysData: Item[][]
+    let daysData          
     switch (mode) {
       case 'Total':
         daysData = totalOverTime.map(dailyTotals)

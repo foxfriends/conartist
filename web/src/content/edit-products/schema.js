@@ -1,63 +1,63 @@
-/* @flow */
+/*       */
 import { VALID } from '../../model/validation'
-import type { ProductType } from '../../model/product-type'
-import type { Product } from '../../model/product'
-import type { Validation } from '../../model/validation'
+                                                           
+                                                  
+                                                        
 import Map from '../../util/default-map'
 
-export opaque type ValidationError = Symbol
-export const DuplicateName: ValidationError = Symbol()
-export const DuplicateSku: ValidationError = Symbol()
-export const NonNumberQuantity: ValidationError = Symbol()
-export const NegativeQuantity: ValidationError = Symbol()
-export const NonIntegerQuantity: ValidationError = Symbol()
+                                           
+export const DuplicateName                  = Symbol()
+export const DuplicateSku                  = Symbol()
+export const NonNumberQuantity                  = Symbol()
+export const NegativeQuantity                  = Symbol()
+export const NonIntegerQuantity                  = Symbol()
 
-export type EditableProductType = {
-  productType?: ?EditableProductType,
-  validation: Validation<ValidationError>,
-  id: Id,
-  name: string,
-  sku: ?string,
-  color: ?number,
-  sort: number,
-  discontinued: boolean,
-  deleted: boolean,
-}
+                                   
+                                     
+                                          
+         
+               
+               
+                 
+               
+                        
+                   
+ 
 
-export type EditableProduct = {
-  product?: ?EditableProduct,
-  nameValidation: Validation<ValidationError>,
-  skuValidation: Validation<ValidationError>,
-  quantityValidation: Validation<ValidationError>,
-  id: Id,
-  typeId: Id,
-  name: string,
-  sku: ?string,
-  quantity: number,
-  sort: number,
-  discontinued: boolean,
-  deleted: boolean,
-}
+                               
+                             
+                                              
+                                             
+                                                  
+         
+             
+               
+               
+                   
+               
+                        
+                   
+ 
 
-export type Id = number | string
+                                
 
 let typeIdCounter = 0
-export function uniqueTypeId(): Id {
+export function uniqueTypeId()     {
   return `product_type_id_${typeIdCounter++}`
 }
 
 let productIdCounter = 0
-export function uniqueProductId(): Id {
+export function uniqueProductId()     {
   return `product_id_${productIdCounter++}`
 }
 
-export function peekTypeId(): Id {
+export function peekTypeId()     {
   return `product_type_id_${typeIdCounter}`
 }
 
 export function editableProduct() {
   const sort = new Map([], 0)
-  return (product: Product): EditableProduct => {
+  return (product         )                  => {
     const index = sort.get(product.typeId)
     sort.set(product.typeId, index + 1)
     // $FlowIgnore: some dirty hacks huehue
@@ -73,7 +73,7 @@ export function editableProduct() {
   }
 }
 
-export function editableProductType(productType: ProductType, index: number): EditableProductType {
+export function editableProductType(productType             , index        )                      {
   // $FlowIgnore: some dirty hacks huehue
   return {
     ...productType,
@@ -84,7 +84,7 @@ export function editableProductType(productType: ProductType, index: number): Ed
   }
 }
 
-export function nonEditableProduct({ id, sort, typeId, name, sku, quantity, discontinued }: EditableProduct): Product {
+export function nonEditableProduct({ id, sort, typeId, name, sku, quantity, discontinued }                 )          {
   if (isNaN(quantity)) {
     throw new Error('Cannot make a Product with an invalid quantity')
   }
@@ -94,14 +94,14 @@ export function nonEditableProduct({ id, sort, typeId, name, sku, quantity, disc
   return { id, sort, typeId, name, sku, quantity, discontinued }
 }
 
-export function nonEditableProductType({ id, sort, name, color, discontinued }: EditableProductType): ProductType {
+export function nonEditableProductType({ id, sort, name, color, discontinued }                     )              {
   if (typeof id === 'string') {
     throw new Error('Cannot convert an unsaved product type to a ProductType');
   }
   return { id, sort, name, color, discontinued }
 }
 
-export function setProductTypeIds(products: EditableProduct[], productTypes: EditableProductType[]): EditableProduct[] {
+export function setProductTypeIds(products                   , productTypes                       )                    {
   return products
     .map(product => {
       if (typeof product.typeId === 'number') {
@@ -118,6 +118,6 @@ export function setProductTypeIds(products: EditableProduct[], productTypes: Edi
     })
 }
 
-export function hasher({ typeId, name }: EditableProduct): string {
+export function hasher({ typeId, name }                 )         {
   return `${typeId}:${name.trim()}`
 }

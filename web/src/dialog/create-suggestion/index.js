@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 
 import { l, lx } from '../../localization'
@@ -12,17 +12,17 @@ import * as update from '../../update/suggestions'
 import * as toast from '../../toast'
 import S from './index.css'
 
-export type Props = {
-  name: 'create-suggestion',
-}
+                     
+                            
+ 
 
-type State = {
-  suggestion: string,
-  processing: boolean,
-}
+              
+                     
+                      
+ 
 
-export class CreateSuggestion extends React.Component<Props, State> {
-  constructor(props: Props) {
+export class CreateSuggestion extends React.Component               {
+  constructor(props       ) {
     super(props)
     this.state = {
       suggestion: '',

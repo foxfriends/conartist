@@ -1,34 +1,34 @@
-/* @flow */
+/*       */
 import { VALID } from '../../model/validation'
-import type { Price } from '../../model/price'
-import type { Validation } from '../../model/validation'
-import type { Money } from '../../model/money'
+                                              
+                                                        
+                                              
 
-export opaque type ValidationError = Symbol
-export const DuplicateQuantity: ValidationError = Symbol()
-export const NonNumberQuantity: ValidationError = Symbol()
-export const NonIntegerQuantity: ValidationError = Symbol()
-export const NegativeQuantity: ValidationError = Symbol()
-export const NonNumberPrice: ValidationError = Symbol()
-export const NegativePrice: ValidationError = Symbol()
+                                           
+export const DuplicateQuantity                  = Symbol()
+export const NonNumberQuantity                  = Symbol()
+export const NonIntegerQuantity                  = Symbol()
+export const NegativeQuantity                  = Symbol()
+export const NonNumberPrice                  = Symbol()
+export const NegativePrice                  = Symbol()
 
-export type EditablePrice = {
-  original?: ?EditablePrice,
-  id: string,
-  quantityValidation: Validation<ValidationError>,
-  priceValidation: Validation<ValidationError>,
-  typeId: number,
-  productId: ?number,
-  quantity: number,
-  price: ?Money,
-}
+                             
+                            
+             
+                                                  
+                                               
+                 
+                     
+                   
+                
+ 
 
 let currentPriceId = 1
-export function priceId(): string {
+export function priceId()         {
   return `price_id_${currentPriceId++}`
 }
 
-export function editablePrice(price: Price): EditablePrice {
+export function editablePrice(price       )                {
   // $FlowIgnore: some dirty hacks huehue
   return {
     ...price,
@@ -39,7 +39,7 @@ export function editablePrice(price: Price): EditablePrice {
   }
 }
 
-export function nonEditablePrice(price: EditablePrice): Price {
+export function nonEditablePrice(price               )        {
   if (isNaN(price.quantity)) {
     throw new Error('Cannot make a Price with an invalid quantity')
   }
@@ -54,6 +54,6 @@ export function nonEditablePrice(price: EditablePrice): Price {
   }
 }
 
-export function hasher({ typeId, productId, quantity }: Price | EditablePrice): string {
+export function hasher({ typeId, productId, quantity }                       )         {
   return `${typeId}:${productId || 'any'}:${quantity}`
 }

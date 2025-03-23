@@ -1,9 +1,9 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import * as ReactX from '../../react-ext'
 import { Observable, Subject, forkJoin, merge, of } from 'rxjs'
 import { tap, filter, pluck, map, mapTo, switchMap, takeUntil, share, partition, defaultIfEmpty } from 'rxjs/operators'
-import type { Subscription } from 'rxjs'
+                                        
 
 import DefaultMap from '../../util/default-map'
 import Set from '../../util/set'
@@ -35,27 +35,27 @@ import {
 } from './schema'
 import { VALID, INVALID, EMPTY } from '../../model/validation'
 import { Money } from '../../model/money'
-import type { Add, Delete } from '../../api/save-price'
-import type { Validation } from '../../model/validation'
-import type { Price } from '../../model/price'
-import type { Product } from '../../model/product'
-import type { ProductType } from '../../model/product-type'
-import type { ValidationError, EditablePrice } from './schema'
+                                                       
+                                                        
+                                              
+                                                  
+                                                           
+                                                              
 import S from './index.css'
 const { Fragment } = React
 
-export type Props = {
-  name: 'edit-prices',
-  prices: Price[],
-  products: Product[],
-  productTypes: ProductType[],
-}
+                     
+                      
+                  
+                      
+                              
+ 
 
-type State = {
-  prices: EditablePrice[],
-  editingEnabled: boolean,
-  hadPrices: boolean, // kind of a weird hack to detect when the page was reloaded and the user hadn't been downloaded yet
-}
+              
+                          
+                          
+                                                                                                                          
+ 
 
 const defaultToolbar = { primary: toolbarAction.SavePrices, secondary: toolbarAction.DiscardPrices }
 
@@ -67,11 +67,11 @@ function disableSave() {
   toolbarStatus.next({ ...defaultToolbar, primary: { ...defaultToolbar.primary, enabled: false } })
 }
 
-function diff(before: Price[], after: EditablePrice[]): [Price[], (Add | Delete)[]] {
-  const initial: Map<string, Price> = new Map()
+function diff(before         , after                 )                              {
+  const initial                     = new Map()
   before.forEach(price => initial.set(hasher(price), price))
 
-  const final: Map<string, EditablePrice> = new Map()
+  const final                             = new Map()
   after.forEach(price => final.set(hasher(price), price))
 
   const deleted = new Set(initial.keys()).difference(final.keys())
@@ -86,16 +86,16 @@ function diff(before: Price[], after: EditablePrice[]): [Price[], (Add | Delete)
   const kept = new Set(initial.keys()).intersection(final.keys())
   const unchanged = kept.difference(changed)
   // $FlowIgnore: it's not null
-  const keeps: Price[] = [...unchanged].map(key => initial.get(key))
+  const keeps          = [...unchanged].map(key => initial.get(key))
   // $FlowIgnore: it's not null
-  const deletes: Delete[] = [...deleted].map(key => initial.get(key)).map(price => ({ operation: 'delete', price }))
+  const deletes           = [...deleted].map(key => initial.get(key)).map(price => ({ operation: 'delete', price }))
   // $FlowIgnore: it's not null
-  const adds: Add[] = [...changed].map(key => final.get(key)).map(price => ({ operation: 'add', price }))
+  const adds        = [...changed].map(key => final.get(key)).map(price => ({ operation: 'add', price }))
   return [keeps, [].concat(deletes, adds)]
 }
 
-export class EditPrices extends ReactX.Component<Props, State> {
-  static getDerivedStateFromProps({ prices }: Props, state: State): ?$Shape<State> {
+export class EditPrices extends ReactX.Component               {
+  static getDerivedStateFromProps({ prices }       , state       )                 {
     if (!state || !state.hadPrices) {
       return {
         prices: prices
@@ -108,7 +108,7 @@ export class EditPrices extends ReactX.Component<Props, State> {
     }
   }
 
-  constructor(props: Props) {
+  constructor(props       ) {
     super(props)
 
     toolbarStatus.next(defaultToolbar)
@@ -166,7 +166,7 @@ export class EditPrices extends ReactX.Component<Props, State> {
       .subscribe(status => toolbarStatus.next(status))
   }
 
-  handleProductIdChange(id: string, productId: ?number) {
+  handleProductIdChange(id        , productId         ) {
     const prices =
       this.state.prices.map(price => price.id === id
         ? { ...price, productId, original: null }
@@ -176,7 +176,7 @@ export class EditPrices extends ReactX.Component<Props, State> {
     this.setState({ prices: this.validate(prices) })
   }
 
-  handleQuantityChange(id: string, quantity: string) {
+  handleQuantityChange(id        , quantity        ) {
     const prices =
       this.state.prices.map(price => price.id === id
         ? { ...price, quantity: Number(quantity) }
@@ -186,8 +186,8 @@ export class EditPrices extends ReactX.Component<Props, State> {
     this.setState({ prices: this.validate(prices) })
   }
 
-  handlePriceChange(id: string, newPrice: string) {
-    let money: ?Money = null
+  handlePriceChange(id        , newPrice        ) {
+    let money         = null
     try {
       money = Money.parse(newPrice)
     } catch(_) {}
@@ -201,13 +201,13 @@ export class EditPrices extends ReactX.Component<Props, State> {
     this.setState({ prices: this.validate(prices) })
   }
 
-  handleRemovePrice(id: string) {
+  handleRemovePrice(id        ) {
     const prices = this.state.prices.filter(price => price.id !== id)
     this.setState({ prices: this.validate(prices) })
   }
 
-  createPrice(typeId: number) {
-    const newPrice: EditablePrice = {
+  createPrice(typeId        ) {
+    const newPrice                = {
       original: null,
       id: priceId(),
       quantityValidation: { state: EMPTY },
@@ -222,7 +222,7 @@ export class EditPrices extends ReactX.Component<Props, State> {
     disableSave()
   }
 
-  validate(prices: EditablePrice[]): EditablePrice[] {
+  validate(prices                 )                  {
     const existingPrices = new DefaultMap([], 0)
     prices
       .map(hasher)
@@ -230,8 +230,8 @@ export class EditPrices extends ReactX.Component<Props, State> {
 
     enableSave()
     return prices.map(price => {
-      let quantityValidation: Validation<ValidationError> = { state: VALID }
-      let priceValidation: Validation<ValidationError> = { state: VALID }
+      let quantityValidation                              = { state: VALID }
+      let priceValidation                              = { state: VALID }
       if (isNaN(price.quantity)) {
         quantityValidation = { state: INVALID, error: NonNumberQuantity }
       } else if (price.quantity <= 0) {

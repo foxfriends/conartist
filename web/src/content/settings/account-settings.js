@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { Card } from '../card-view/card'
 import { BasicHeader } from '../card-view/basic-header'
@@ -13,13 +13,13 @@ import { l } from '../../localization'
 import * as update from '../../update/settings'
 import S from './settings.css'
 
-export type Props = {
-  email: string,
-  name: string,
-  verified: boolean,
-}
+                     
+                
+               
+                    
+ 
 
-export function AccountSettings({ email, name, verified }: Props) {
+export function AccountSettings({ email, name, verified }       ) {
   const emailIcon = verified
     ? <Icon className={S.verificationStatus} name='verified_user' />
     : (

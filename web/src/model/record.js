@@ -1,18 +1,18 @@
-/* @flow */
-import type { RecordFragment } from '../api/schema'
+/*       */
+                                                   
 import { Money } from './money'
 
-export type Record = {|
-  name: 'record',
-  id: number,
-  uuid: ?string,
-  products: number[],
-  price: Money,
-  time: Date,
-  info: string,
-|}
+                       
+                 
+             
+                
+                     
+               
+             
+               
+  
 
-export function parse({ id, uuid, products, price, time, info }: RecordFragment): Record {
+export function parse({ id, uuid, products, price, time, info }                )         {
   return {
     name: 'record',
     id,

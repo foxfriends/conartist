@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { pluck, filter, tap, map } from 'rxjs/operators'
 
@@ -12,29 +12,29 @@ import { SecondaryCardFade as Fade } from '../../common/animation/fade/secondary
 import { l } from '../../localization'
 import { throttle } from '../../util/timing'
 import { empty, extend, isFull, isEmpty } from '../../model/connection'
-import type { Convention } from '../../model/convention'
-import type { Connection } from '../../model/connection'
+                                                        
+                                                        
 import S from './index.css'
 
 const { Fragment } = React
 
-export type Props = {
-  name: 'search-conventions',
-  search: ?string,
-  advanced: boolean,
-}
+                     
+                             
+                  
+                    
+ 
 
-type State = {
-  conventions: Connection<Convention>,
-  loading: boolean,
-  city: string,
-  country: string,
-}
+              
+                                      
+                   
+               
+                  
+ 
 
-export class SearchConventions extends React.Component<Props, State> {
-  conventionsConnection: ConventionsConnection
+export class SearchConventions extends React.Component               {
+  conventionsConnection                       
 
-  constructor(props: Props) {
+  constructor(props       ) {
     super(props)
 
     this.state = {
@@ -61,7 +61,7 @@ export class SearchConventions extends React.Component<Props, State> {
     this.loadConventions(true)
   }
 
-  loadConventions(fresh: boolean = false) {
+  loadConventions(fresh          = false) {
     const { search } = this.props
     const { conventions, city, country } = this.state
     if (fresh || !isFull(conventions)) {

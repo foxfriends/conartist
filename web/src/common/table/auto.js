@@ -1,15 +1,15 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { Table } from './index'
 
-type Transformer<T> = (T, number) => React.Node
+                                               
 
-export type Props<T> = {
-  dataSource: Iterable<T>,
-  children: Transformer<T> | [React.Node, Transformer<T>] | [React.Node, Transformer<T>, React.Node],
-}
+                        
+                          
+                                                                                                     
+ 
 
-export function AutoTable<T>({ dataSource, children }: Props<T>) {
+export function AutoTable   ({ dataSource, children }          ) {
   const [emptyState, transformer, footer] = children instanceof Array
     ? [...children]
     : [, children, ]

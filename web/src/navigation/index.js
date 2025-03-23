@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { merge, timer } from 'rxjs'
 import { takeUntil, mapTo, filter, switchMap, share } from 'rxjs/operators'
@@ -9,21 +9,21 @@ import { focused } from './focus'
 import { Item, ItemInfo, DIRECT } from './item'
 import { l } from '../localization'
 import { model } from '../model'
-import type { ProductType } from '../model/product-type'
-import type { Props as ItemProps, Direct, Indirect } from './item'
+                                                        
+                                                                  
 import S from './index.css'
 
-export type Props = {
-  someAreDisabled: boolean,
-  items: ItemInfo[],
-}
+                     
+                           
+                    
+ 
 
-type State = {
-  focused: boolean,
-}
+              
+                   
+ 
 
-export class Navigation extends ReactX.Component<Props, State> {
-  constructor(props: Props) {
+export class Navigation extends ReactX.Component               {
+  constructor(props       ) {
     super(props)
     this.state = {
       focused: false,
@@ -62,13 +62,13 @@ export class Navigation extends ReactX.Component<Props, State> {
 }
 
 export class NavInfo {
-  items: ItemInfo[]
-  someAreDisabled: boolean
+  items            
+  someAreDisabled         
 
   /**
    * The standard all deselected options
    */
-  static get default(): NavInfo {
+  static get default()          {
     const options = [
       new ItemInfo('Dashboard', 'dashboard', navigate.dashboard),
       new ItemInfo('Products', 'shopping_basket', navigate.products),
@@ -85,7 +85,7 @@ export class NavInfo {
     return new NavInfo(options)
   }
 
-  constructor(items: ItemInfo[]) {
+  constructor(items            ) {
     this.items = items
     this.someAreDisabled = false
   }
@@ -96,7 +96,7 @@ export class NavInfo {
    * @param {string} option The title of the item to select
    * @param {?ItemInfo[]} children Any children to add to this node
    */
-  select(option: string, children: ?ItemInfo[], directness: Direct | Indirect = DIRECT): NavInfo {
+  select(option        , children             , directness                    = DIRECT)          {
     this.items = this.items.map(item => item.withChildren(item.title === option ? children : null).select(item.title === option, directness))
     return this
   }
@@ -106,7 +106,7 @@ export class NavInfo {
    *
    * @param {?string} option The option to leave enabled. Leave out to enable all
    */
-  enable(option?: string, nested: boolean = false): NavInfo {
+  enable(option         , nested          = false)          {
     this.items = this.items.map(item => item.enable(!option || item.title === option, nested))
     return this
   }
@@ -114,18 +114,18 @@ export class NavInfo {
   /**
    * Disables all the options
    */
-  disable(nested: boolean = false): NavInfo {
+  disable(nested          = false)          {
     this.someAreDisabled = true
     this.items = this.items.map(item => item.enable(false, nested))
     return this
   }
 
-  static forProductType({ id, name, discontinued }: ProductType): ItemInfo[] {
+  static forProductType({ id, name, discontinued }             )             {
     if (discontinued) { return [] }
     return [new ItemInfo(name, 'remove', navigate.scrollTo('product-type', id))]
   }
 
-  static forReorderableProductType({ id, name, discontinued }: ProductType): ItemInfo[] {
+  static forReorderableProductType({ id, name, discontinued }             )             {
     if (discontinued) { return [] }
     return [new ItemInfo(name, 'remove', navigate.scrollTo('product-type', id)).reorderable()]
   }

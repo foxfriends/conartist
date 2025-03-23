@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { l } from '../../localization'
 import { Card } from '../card-view/card'
@@ -10,14 +10,14 @@ import { ColorPicker } from '../../common/color-picker'
 import { scrollIdentifier } from '../../update/navigate'
 import { INVALID, VALID } from '../../model/validation'
 import { DuplicateName, DuplicateSku, NonNumberQuantity, NonIntegerQuantity, NegativeQuantity } from './schema'
-import type { Action } from '../../common/button'
-import type { Validation } from '../../model/validation'
-import type { Id, EditableProduct, EditableProductType, ValidationError } from './schema'
-import type { Validation as InputValidation } from '../../common/input'
+                                                 
+                                                        
+                                                                                         
+                                                                       
 import S from './index.css'
 const { Fragment } = React
 
-function productTypeValidation(validation: Validation<ValidationError>): InputValidation {
+function productTypeValidation(validation                             )                  {
   if (validation.state !== INVALID) {
     return validation
   }
@@ -29,7 +29,7 @@ function productTypeValidation(validation: Validation<ValidationError>): InputVa
   }
 }
 
-function productNameValidation(validation: Validation<ValidationError>): InputValidation {
+function productNameValidation(validation                             )                  {
   if (validation.state !== INVALID) {
     return validation
   }
@@ -41,7 +41,7 @@ function productNameValidation(validation: Validation<ValidationError>): InputVa
   }
 }
 
-function productSkuValidation(validation: Validation<ValidationError>): InputValidation {
+function productSkuValidation(validation                             )                  {
   if (validation.state !== INVALID) {
     return validation
   }
@@ -53,7 +53,7 @@ function productSkuValidation(validation: Validation<ValidationError>): InputVal
   }
 }
 
-function productQuantityValidation(validation: Validation<ValidationError>): InputValidation {
+function productQuantityValidation(validation                             )                  {
   if (validation.state !== INVALID) {
     return validation
   }
@@ -69,22 +69,22 @@ function productQuantityValidation(validation: Validation<ValidationError>): Inp
   }
 }
 
-export type Props = {
-  productType: EditableProductType,
-  products: EditableProduct[],
-  topAction?: ?Action,
-  bottomAction?: ?Action,
-  onProductTypeNameChange: (string) => void,
-  onProductTypeColorChange: (number) => void,
-  onProductTypeDelete: () => void,
-  onProductNameChange: (Id, string) => void,
-  onProductSkuChange: (Id, string) => void,
-  onProductQuantityChange: (Id, string) => void,
-  onProductToggleDiscontinue: (Id) => void,
-  onProductDelete: (Id) => void,
-  onProductReorder: (number, number) => void,
-  onSortAlphabetically: () => void,
-}
+                     
+                                   
+                              
+                      
+                         
+                                            
+                                             
+                                  
+                                            
+                                           
+                                                
+                                           
+                                
+                                             
+                                   
+ 
 
 export function EditProductCard({
   productType,
@@ -101,7 +101,7 @@ export function EditProductCard({
   onProductDelete,
   onProductReorder,
   onSortAlphabetically,
-}: Props) {
+}       ) {
   return (
     <Card
       id={scrollIdentifier('product-type', productType.id)}

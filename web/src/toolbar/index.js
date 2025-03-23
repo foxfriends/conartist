@@ -1,6 +1,6 @@
-/* @flow */
+/*       */
 import * as React from 'react'
-import type { Subject } from 'rxjs'
+                                   
 import { BehaviorSubject } from 'rxjs'
 
 import LOGO from '../../images/logo.png'
@@ -12,30 +12,30 @@ import { Input } from '../common/input'
 import { focus as focusNavigation } from '../navigation/focus'
 import * as navigate from '../update/navigate'
 import { isSignedIn } from '../util/is-signed-in'
-import type { Action, Props as ButtonProps } from '../common/button'
+                                                                    
 
-export type TextField = {
-  className: string,
-  title: string,
-  onChange?: (string) => void,
-  onSubmit?: (string) => void,
-  action?: {
-    icon: string,
-    onClick: () => void,
-  },
-}
+                         
+                    
+                
+                              
+                              
+            
+                 
+                        
+    
+ 
 
-export type Props = {
-  primary: ?(Action | ButtonProps),
-  secondary: ?(Action | ButtonProps),
-  tertiary: ?(Action | ButtonProps),
-  textField?: TextField,
-  pageIcon?: string,
-}
+                     
+                                   
+                                     
+                                    
+                        
+                    
+ 
 
-export const status: Subject<$Shape<Props>> = new BehaviorSubject({ primary: null, secondary: null })
+export const status                         = new BehaviorSubject({ primary: null, secondary: null })
 
-export function Toolbar({ className, primary, secondary, tertiary, textField, pageIcon }: Props) {
+export function Toolbar({ className, primary, secondary, tertiary, textField, pageIcon }       ) {
   return (
     <div className={`${S.toolbar} ${className}`}>
       <div className={S.inner}>

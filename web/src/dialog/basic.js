@@ -1,27 +1,27 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 
 import { Icon } from '../common/icon'
 import { Button } from '../common/button'
 import { IconButton } from '../common/icon-button'
 import { Pager } from '../common/pager'
-import type { Props as ButtonProps } from '../common/button'
-import type { Props as IconButtonProps } from '../common/icon-button'
-import type { Props as PagerProps } from '../common/pager'
+                                                            
+                                                                     
+                                                          
 
 import S from './basic.css'
 
-export type Props = {
-  title: string,
-  footerTitle?: string,
-  onContinue?: ?ButtonProps,
-  onBack?: ?ButtonProps,
-  onClose?: ?IconButtonProps,
-  pager?: PagerProps,
-  children?: React.Node,
-}
+                     
+                
+                       
+                            
+                        
+                             
+                     
+                        
+ 
 
-export function Basic({ title, footerTitle, onContinue, onBack, onClose, pager, children }: Props) {
+export function Basic({ title, footerTitle, onContinue, onBack, onClose, pager, children }       ) {
   const hasFooter = onContinue || footerTitle || pager || onBack;
 
   return (

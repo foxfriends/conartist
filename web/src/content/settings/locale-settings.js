@@ -1,18 +1,18 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { BasicCard } from '../card-view/basic-card'
 import { Table } from '../../common/table'
 import { Row } from './row'
 import { l, localize } from '../../localization'
 import * as update from '../../update/settings'
-import type { Currency } from '../../model/money'
+                                                 
 
-export type Props = {
-  currency: Currency,
-  language: string,
-}
+                     
+                     
+                   
+ 
 
-export function LocaleSettings({ currency, language }: Props) {
+export function LocaleSettings({ currency, language }       ) {
   return (
     <BasicCard title={l`Language & Location`}>
       <Table>

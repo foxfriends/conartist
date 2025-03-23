@@ -1,20 +1,20 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import S from './index.css'
 
-export type Props<E: React.ElementType> = {
-  className?: string,
-  children?: ?React.Element<E>,
-}
+                                           
+                     
+                               
+ 
 
-type State<E: React.ElementType> = {
-  height: number,
-  previousChildren: ?React.Element<E>,
-  children: ?React.Element<E>,
-}
+                                    
+                 
+                                      
+                              
+ 
 
-export class Expand<E: React.ElementType> extends React.Component<Props<E>, State<E>> {
-  static getDerivedStateFromProps({ children }: Props<E>, state: State<E>) {
+export class Expand                       extends React.Component                     {
+  static getDerivedStateFromProps({ children }          , state          ) {
     return {
       previousChildren: state.children,
       children: children ? React.cloneElement(children) : null,
@@ -22,10 +22,10 @@ export class Expand<E: React.ElementType> extends React.Component<Props<E>, Stat
   }
 
   // $FlowIgnore
-  measurementDiv: React.Ref<HTMLDivElement>
-  animationTimer: ?TimeoutID
+  measurementDiv                           
+  animationTimer            
 
-  constructor(props: Props<E>) {
+  constructor(props          ) {
     super(props)
     this.animationTimer = null
     this.state = {
@@ -77,7 +77,7 @@ export class Expand<E: React.ElementType> extends React.Component<Props<E>, Stat
     // content as expected
     const { className, children } = this.props
     const { height, previousChildren } = this.state
-    const style: { [string]: string | number } = {
+    const style                                = {
       height,
     }
 

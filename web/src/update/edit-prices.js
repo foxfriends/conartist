@@ -1,8 +1,8 @@
-/* @flow */
+/*       */
 import { model } from '../model'
-import type { Price } from '../model/price'
+                                           
 
-export function setPrices(prices: Price[]) {
+export function setPrices(prices         ) {
   model.next({
     ...model.getValue(),
     prices,

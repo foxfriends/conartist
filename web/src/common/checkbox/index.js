@@ -1,29 +1,29 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { Icon } from '../icon'
 import S from './index.css'
 
-export type Props = {
-  defaultValue?: boolean,
-  onChange: (boolean) => void,
-  children?: React.Node,
-  className?: string,
-  style?: { [string]: string | number },
-}
+                     
+                         
+                              
+                        
+                     
+                                        
+ 
 
-type State = {
-  checked: bool,
-}
+              
+                
+ 
 
-export class Checkbox extends React.Component<Props, State> {
-  constructor(props: Props) {
+export class Checkbox extends React.Component               {
+  constructor(props       ) {
     super(props)
     this.state = {
       checked: props.defaultValue || false,
     }
   }
 
-  handleClick(event: SyntheticMouseEvent<HTMLDivElement>) {
+  handleClick(event                                     ) {
     // $FlowIgnore: it's an HTMLElement but Flow doesn't want to believe me
     if (event.target.tagName !== 'A') { // good enough, but not the best. revisit if needed
       this.setState({ checked: !this.state.checked }, () => {

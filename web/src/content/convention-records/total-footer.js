@@ -1,16 +1,16 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { l } from '../../localization'
-import type { Money } from '../../model/money'
+                                              
 import S from './total-footer.css'
 
-export type Props = {
-  total: Money,
-  sales: Money,
-  expenses: Money,
-}
+                     
+               
+               
+                  
+ 
 
-export function TotalFooter({ total, sales, expense }: Props) {
+export function TotalFooter({ total, sales, expense }       ) {
   return (
     <div className={S.footer}>
       <div className={S.item}>

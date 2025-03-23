@@ -1,18 +1,18 @@
-/* @flow */
-import type { ExpenseFragment } from '../api/schema'
+/*       */
+                                                    
 import { Money } from './money'
 
-export type Expense = {|
-  name: 'expense',
-  id: number,
-  uuid: ?string,
-  category: string,
-  description: string,
-  price: Money,
-  time: Date,
-|}
+                        
+                  
+             
+                
+                   
+                      
+               
+             
+  
 
-export function parse({ id, uuid, category, description, price, time }: ExpenseFragment): Expense {
+export function parse({ id, uuid, category, description, price, time }                 )          {
   return {
     name: 'expense',
     id,

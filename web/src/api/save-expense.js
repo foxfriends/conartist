@@ -1,5 +1,5 @@
-/* @flow */
-import type { Observable } from 'rxjs/Observable'
+/*       */
+                                                 
 import { from } from 'rxjs'
 import { map, flatMap } from 'rxjs/operators'
 import format from 'date-fns/format'
@@ -8,43 +8,43 @@ import uuid from 'uuid/v4'
 import { GraphQLMutation } from './index'
 import { parse } from '../model/expense'
 import { RFC3339 } from '../constants'
-import type { Expense } from '../model/expense'
-import type { Response, APIRequest, APIError } from './index'
-import type {
-  AddExpense as AddExpenseMutation,
-  AddExpenseMutationVariables,
-  UpdateExpense as UpdateExpenseMutation,
-  UpdateExpenseMutationVariables,
-  DeleteExpense as DeleteExpenseMutation,
-  DeleteExpenseMutationVariables,
-} from './schema'
+                                               
+                                                             
+             
+                                   
+                              
+                                         
+                                 
+                                         
+                                 
+                 
 
-export type Params = Create | Update | Delete
+                                             
 
-type Create = {|
-  action: 'create',
-  category: string,
-  amount: Money,
-  note: string,
-|}
+                
+                   
+                   
+                
+               
+  
 
-type Update = {|
-  action: 'update',
-  expenseId: number,
-  category: string,
-  amount: Money,
-  note: string,
-|}
+                
+                   
+                    
+                   
+                
+               
+  
 
-type Delete = {|
-  action: 'delete',
-  expenseId: number,
-|}
+                
+                   
+                    
+  
 
-export class SaveExpense implements APIRequest<Params, Expense> {
-  addExpense: GraphQLMutation<AddExpenseMutationVariables, AddExpenseMutation>
-  updateExpense: GraphQLMutation<UpdateExpenseMutationVariables, UpdateExpenseMutation>
-  deleteExpense: GraphQLMutation<DeleteExpenseMutationVariables, DeleteExpenseMutation>
+export class SaveExpense                                        {
+  addExpense                                                                  
+  updateExpense                                                                        
+  deleteExpense                                                                        
 
   constructor() {
     // $FlowIgnore: trouble importing graphql files
@@ -56,7 +56,7 @@ export class SaveExpense implements APIRequest<Params, Expense> {
     this.deleteExpense = deleteExpense.then(deleteExpense => new GraphQLMutation(deleteExpense.default))
   }
 
-  send(action: Params): Observable<Response<Expense, string>> {
+  send(action        )                                        {
     switch (action.action) {
       case 'create': {
         const variables = {

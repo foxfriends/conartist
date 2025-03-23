@@ -1,12 +1,12 @@
-/* @flow */
+/*       */
 import { model } from '../model'
 
-type Direction = typeof Asc | typeof Desc
+                                         
 export const Asc = Symbol('Asc')
 export const Desc = Symbol('Desc')
 
-type Order<T: Object> = [$Keys<T>, Direction] | [$Keys<T>, Direction, Direction]
-type Sorter<T> = (T, T) => number
+                                                                                
+                                 
 
 /**
  * Creates a sort function based on the keys of an object.
@@ -18,7 +18,7 @@ type Sorter<T> = (T, T) => number
  *
  * In the case of type mismatch, boolean < number < string < object < undefined
  */
-export function by<T: Object>(...orders: Order<T>[]): Sorter<T> {
+export function by           (...orders            )            {
   return (a, b) => {
     // $FlowIgnore: not so good with defaulting optional values
     for (const [key, direction, typeDirection] of orders) {
@@ -33,7 +33,7 @@ export function by<T: Object>(...orders: Order<T>[]): Sorter<T> {
   }
 }
 
-function compute<T: Object>(key: $Keys<T>, direction: Direction = Asc, typeDirection: Direction = Asc): Sorter<T> {
+function compute           (key          , direction            = Asc, typeDirection            = Asc)            {
   return redirect(direction, (a, b) => {
     const lhs = a[key]
     const rhs = b[key]
@@ -58,7 +58,7 @@ function compute<T: Object>(key: $Keys<T>, direction: Direction = Asc, typeDirec
   })
 }
 
-function typeOrder(lhs: string, rhs: string): number {
+function typeOrder(lhs        , rhs        )         {
   const order = [
     'boolean',
     'number',
@@ -69,6 +69,6 @@ function typeOrder(lhs: string, rhs: string): number {
   return order.indexOf(lhs) - order.indexOf(rhs)
 }
 
-function redirect<T>(direction: Direction, fn: Sorter<T>): Sorter<T> {
+function redirect   (direction           , fn           )            {
   return direction === Asc ? fn : (a, b) => -fn(a, b)
 }

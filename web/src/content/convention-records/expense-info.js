@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import formatDate from 'date-fns/format'
 
@@ -10,21 +10,21 @@ import { Item } from '../../common/list/item'
 import { l } from '../../localization'
 import { SecondaryCard } from '../card-view/secondary-card'
 import * as dialog from '../../update/dialog'
-import type { Expense } from '../../model/expense'
+                                                  
 import S from './info.css'
 
-export type Props = {
-  expense: Expense,
-  // $FlowIgnore
-  anchor: React.Ref<HTMLElement>,
-  onClose: () => void,
-}
+                     
+                   
+                
+                                 
+                      
+ 
 
-function format(date: Date): string {
+function format(date      )         {
   return formatDate(date, l`h:mma`)
 }
 
-export function ExpenseInfo({ expense, anchor, onClose }: Props) {
+export function ExpenseInfo({ expense, anchor, onClose }       ) {
   const editExpense = () => {
     dialog.showNewExpenseDialog(expense)
     onClose()

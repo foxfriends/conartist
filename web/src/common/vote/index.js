@@ -1,17 +1,17 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { IconButton } from '../icon-button'
 import S from './index.css'
 
-export type Props = {
-  className?: string,
-  vote?: ?number,
-  upvotes: number,
-  downvotes: ?number,
-  onChange?: (number) => void,
-}
+                     
+                     
+                 
+                  
+                     
+                              
+ 
 
-export function Vote({ className, vote, upvotes, downvotes, onChange }: Props) {
+export function Vote({ className, vote, upvotes, downvotes, onChange }       ) {
   let voteClass = ''
   if (vote === 1) {
     voteClass = S.up

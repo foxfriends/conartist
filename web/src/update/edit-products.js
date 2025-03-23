@@ -1,9 +1,9 @@
-/* @flow */
+/*       */
 import { model } from '../model'
-import type { ProductType } from '../model/product-type'
-import type { Product } from '../model/product'
+                                                        
+                                               
 
-export function setProducts(products: Product[]) {
+export function setProducts(products           ) {
   model.next({
     ...model.getValue(),
     products,
@@ -13,7 +13,7 @@ export function setProducts(products: Product[]) {
   })
 }
 
-export function setProductTypes(productTypes: ProductType[]) {
+export function setProductTypes(productTypes               ) {
   model.next({
     ...model.getValue(),
     productTypes,

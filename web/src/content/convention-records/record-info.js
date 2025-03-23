@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import formatDate from 'date-fns/format'
 
@@ -12,26 +12,26 @@ import { model } from '../../model'
 import { l } from '../../localization'
 import { SecondaryCard } from '../card-view/secondary-card'
 import * as dialog from '../../update/dialog'
-import type { Record } from '../../model/record'
-import type { Product } from '../../model/product'
-import type { ProductType } from '../../model/product-type'
+                                                
+                                                  
+                                                           
 import S from './info.css'
 
-export type Props = {
-  record: Record,
-  // $FlowIgnore
-  anchor: React.Ref<HTMLElement>,
-  onClose: () => void,
-}
+                     
+                 
+                
+                                 
+                      
+ 
 
-function format(date: Date): string {
+function format(date      )         {
   return formatDate(date, l`h:mma`)
 }
 
-export function RecordInfo({ convention, record, anchor, onClose }: Props) {
+export function RecordInfo({ convention, record, anchor, onClose }       ) {
   const { products, productTypes } = convention || model.getValue()
 
-  const productInfo: [ProductType, Product[]][] = [...record.products
+  const productInfo                             = [...record.products
     .map(id => products.find(product => product.id === id))
     // $FlowIgnore
     .reduce((acc, product) => acc.set(product.typeId, [...acc.get(product.typeId), product]), new Map([], []))]

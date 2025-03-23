@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 
 import { Table } from '../../common/table'
@@ -17,19 +17,19 @@ import { model } from '../../model'
 import { l } from '../../localization'
 import * as update from '../../update/conventions'
 import * as navigate from '../../update/navigate'
-import type { Convention } from '../../model/convention'
+                                                        
 
 import S from './card.css'
 const { Fragment } = React
 
-export type Props = {
-  convention: Convention,
-  includeHours?: boolean,
-  starrable?: boolean,
-  showDetails?: boolean
-}
+                     
+                         
+                         
+                      
+                       
+ 
 
-export function ConventionCard({ convention, includeHours, showDetails, starrable }: Props) {
+export function ConventionCard({ convention, includeHours, showDetails, starrable }       ) {
   const selected = model.getValue().conventions.some(({ id }) => id === convention.id)
 
   const toggleStarred = selected

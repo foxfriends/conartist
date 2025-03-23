@@ -1,5 +1,5 @@
-/* @flow */
-import type { Observable } from 'rxjs/Observable'
+/*       */
+                                                 
 import { from } from 'rxjs'
 import { map, flatMap } from 'rxjs/operators'
 import format from 'date-fns/format'
@@ -8,43 +8,43 @@ import uuid from 'uuid/v4'
 import { GraphQLMutation } from './index'
 import { parse } from '../model/record'
 import { RFC3339 } from '../constants'
-import type { Record } from '../model/record'
-import type { Response, APIRequest, APIError } from './index'
-import type {
-  AddRecord as AddRecordMutation,
-  AddRecordMutationVariables,
-  UpdateRecord as UpdateRecordMutation,
-  UpdateRecordMutationVariables,
-  DeleteRecord as DeleteRecordMutation,
-  DeleteRecordMutationVariables,
-} from './schema'
+                                             
+                                                             
+             
+                                 
+                             
+                                       
+                                
+                                       
+                                
+                 
 
-export type Params = Create | Update | Delete
+                                             
 
-type Create = {|
-  action: 'create',
-  category: string,
-  amount: Money,
-  note: string,
-|}
+                
+                   
+                   
+                
+               
+  
 
-type Update = {|
-  action: 'update',
-  recordId: number,
-  products: number[],
-  price: Money,
-  info: string,
-|}
+                
+                   
+                   
+                     
+               
+               
+  
 
-type Delete = {|
-  action: 'delete',
-  recordId: number,
-|}
+                
+                   
+                   
+  
 
-export class SaveRecord implements APIRequest<Params, Record> {
-  addRecord: GraphQLMutation<AddRecordMutationVariables, AddRecordMutation>
-  updateRecord: GraphQLMutation<UpdateRecordMutationVariables, UpdateRecordMutation>
-  deleteRecord: GraphQLMutation<DeleteRecordMutationVariables, DeleteRecordMutation>
+export class SaveRecord                                       {
+  addRecord                                                                
+  updateRecord                                                                      
+  deleteRecord                                                                      
 
   constructor() {
     // $FlowIgnore: trouble importing graphql files
@@ -56,7 +56,7 @@ export class SaveRecord implements APIRequest<Params, Record> {
     this.deleteRecord = deleteRecord.then(deleteRecord => new GraphQLMutation(deleteRecord.default))
   }
 
-  send(action: Params): Observable<Response<Record, string>> {
+  send(action        )                                       {
     switch (action.action) {
       case 'create': {
         const variables = {

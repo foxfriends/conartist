@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 
 import IMAGE from '../../../images/password.png'
@@ -7,23 +7,23 @@ import { Input } from '../../common/input'
 import { Form } from '../form'
 import { VALID, EMPTY, INVALID } from '../../model/validation'
 import { MIN_PASSWORD_LENGTH } from '../../constants'
-import type { Props as FormProps } from '../form'
-import type { Validation as InputValidation } from '../../common/input'
-import type { FormDelegate as Props } from './index'
+                                                 
+                                                                       
+                                                    
 import S from '../form.css'
 
-type State = {
-  password: string,
-  confirmPassword: string,
-  passwordValidation: InputValidation,
-  mismatchValidation: InputValidation,
-}
+              
+                   
+                          
+                                      
+                                      
+ 
 
-export class PasswordForm extends React.Component<Props, State> {
+export class PasswordForm extends React.Component               {
   // $FlowIgnore: Flow definitions not up to date
-  confirmInput: React.Ref<Input>
+  confirmInput                  
 
-  constructor(props: Props) {
+  constructor(props       ) {
     super(props)
     this.confirmInput = React.createRef()
     this.state = {
@@ -34,20 +34,20 @@ export class PasswordForm extends React.Component<Props, State> {
     }
   }
 
-  handlePasswordChange(value: string) {
+  handlePasswordChange(value        ) {
     const { onChange, onValidate } = this.props
     onChange(value)
     this.validate(value, this.state.confirmPassword)
     this.setState({ password: value })
   }
 
-  handleConfirmPasswordChange(value: string) {
+  handleConfirmPasswordChange(value        ) {
     const { onChange, onValidate } = this.props
     this.validate(this.state.password, value)
     this.setState({ confirmPassword: value })
   }
 
-  validate(password: string, confirmPassword: string) {
+  validate(password        , confirmPassword        ) {
     let passwordValidation = { state: VALID }
     let mismatchValidation = { state: VALID }
     if (password === '') {

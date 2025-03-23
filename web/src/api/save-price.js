@@ -1,25 +1,25 @@
-/* @flow */
-import type { Observable } from 'rxjs'
+/*       */
+                                      
 import { of, from } from 'rxjs'
 import { map, flatMap } from 'rxjs/operators'
 
 import { parse } from '../model/price'
 import { GraphQLMutation } from './index'
-import type { Response, APIRequest, APIError } from './index'
-import type {
-  AddPrice as AddPriceMutation,
-  AddPriceVariables,
-  DeletePrice as DeletePriceMutation,
-  DeletePriceVariables,
-} from './schema'
-import type { Price } from '../model/price'
+                                                             
+             
+                               
+                    
+                                     
+                       
+                 
+                                           
 
-export type Add = { operation: 'add', price: Price }
-export type Delete = { operation: 'delete', price: Price }
+                                                    
+                                                          
 
-export class SavePrice implements APIRequest<Add | Delete, ?Price> {
-  addPrice: GraphQLMutation<AddPriceVariables, AddPriceMutation>
-  deletePrice: GraphQLMutation<DeletePriceVariables, DeletePriceMutation>
+export class SavePrice                                             {
+  addPrice                                                      
+  deletePrice                                                            
 
   constructor() {
     // $FlowIgnore: trouble importing graphql files
@@ -30,10 +30,10 @@ export class SavePrice implements APIRequest<Add | Delete, ?Price> {
     this.deletePrice = deletePrice.then(deletePrice => new GraphQLMutation(deletePrice.default))
   }
 
-  send(input: Add | Delete): Observable<Response<?Price, string>> {
+  send(input              )                                       {
     const { operation, price } = input;
     if (operation === 'add') {
-      const variables: AddPriceVariables = {
+      const variables                    = {
         price: {
           typeId: price.typeId,
           productId: price.productId,
@@ -50,7 +50,7 @@ export class SavePrice implements APIRequest<Add | Delete, ?Price> {
           )
         )
     } else if (operation === 'delete') {
-      const variables: DeletePriceVariables = {
+      const variables                       = {
         price: {
           typeId: price.typeId,
           productId: price.productId,

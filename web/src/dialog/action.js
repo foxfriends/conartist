@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import { closeDialog as doCloseDialog } from '../update/dialog'
 
 export const closeDialog = {

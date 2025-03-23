@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 
 import { model } from '../model'
@@ -17,7 +17,7 @@ const languages = new class LanguageMap {
     this.storedDefault = Storage.retrieve(Storage.Localization) || en // most likely language to be needed on page load
   }
 
-  get(locale: string): { [string]: string | { web: string } } {
+  get(locale        )                                         {
     const language = this.languages.get(locale)
     if (typeof language === 'function') {
       language()
@@ -34,19 +34,19 @@ const languages = new class LanguageMap {
   }
 }
 
-function forWeb(entry: ?(string | { web: string })): ?string {
+function forWeb(entry                             )          {
   return entry && typeof entry === 'object'
     ? entry.web
     : entry
 }
 
-function doLocalize(key: string, locale: string | string[]): ?string {
+function doLocalize(key        , locale                   )          {
   return locale instanceof Array
     ? doLocalize(key, locale.join('-')) || doLocalize(key, locale[0])
     : forWeb(languages.get(locale)[key])
 }
 
-export function localize(key: string, locale: ?(string | string[])): string {
+export function localize(key        , locale                      )         {
   locale = locale || model.getValue().settings.language.split('-', 1)
   Storage.store(Storage.Language, locale instanceof Array ? locale.join('-') : locale) // some locale caching
   return doLocalize(key, locale) || key
@@ -54,7 +54,7 @@ export function localize(key: string, locale: ?(string | string[])): string {
 
 const PLACEHOLDER_PATTERN = '{}'
 /// Template tag that localizes the given string, with placeholders filled in
-export function l(strings: string[], ...args: string[]): string {
+export function l(strings          , ...args          )         {
   const key = strings.join(PLACEHOLDER_PATTERN)
   const lang = model.getValue().settings.language
   let localized = localize(key, lang.split('-', 1))
@@ -66,7 +66,7 @@ export function l(strings: string[], ...args: string[]): string {
 
 const SUBSECTION_PATTERN = /\{([^{}]+)\}/g
 /// Template tag that produces a function that allows the localized string to be stylized
-export function lx(strings: string[], ...args: string[]): ((string, number) => React.Node) => React.Node {
+export function lx(strings          , ...args          )                                                 {
   const localized = l(strings, ...args)
   return formatter => localized.split(SUBSECTION_PATTERN).map((text, i) =>
     <Fragment key={`localized_${localized}_${i}`}>

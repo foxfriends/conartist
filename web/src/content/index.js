@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { Static } from './static'
 import { Dashboard } from './dashboard'
@@ -19,24 +19,24 @@ const ResetPassword = React.lazy(() => import(/* webpackChunkName: 'verification
 const Verify = React.lazy(() => import(/* webpackChunkName: 'verifications' */ './verify'))
 const Suggestions = React.lazy(() => import(/* webpackChunkName: 'suggestions' */ './suggestions'))
 
-import type { Props as DashboardProps } from './dashboard'
-import type { Props as ProductsProps } from './products'
-import type { Props as EditProductsProps } from './edit-products'
-import type { Props as PricesProps } from './prices'
-import type { Props as EditPricesProps } from './edit-prices'
-import type { Props as ConventionsProps } from './conventions'
-import type { Props as SalesProps } from './sales'
-import type { Props as SearchConventionsProps } from './search-conventions'
-import type { Props as ConventionDetailsProps } from './convention-details'
-import type { Props as ConventionUserInfoProps } from './convention-user-info'
-import type { Props as ConventionRecordsProps } from './convention-records'
-import type { Props as ConventionStatsProps } from './convention-stats'
-import type { Props as StaticProps } from './static'
-import type { Props as AdminProps } from './admin'
-import type { Props as SettingsProps } from './settings'
-import type { Props as SuggestionsProps } from './suggestions'
-import type { Props as ResetPasswordProps } from './reset-password'
-import type { Props as VerifyProps } from './verify'
+                                                          
+                                                        
+                                                                 
+                                                    
+                                                             
+                                                              
+                                                  
+                                                                           
+                                                                           
+                                                                              
+                                                                           
+                                                                       
+                                                    
+                                                  
+                                                        
+                                                              
+                                                                   
+                                                    
 import S from './index.css'
 
 const Admin = React.lazy(() => import(/* webpackChunkName: 'admin' */ './admin'))
@@ -47,27 +47,27 @@ import { l } from '../localization'
 import { CardView } from './card-view'
 import { Card } from './card-view/card'
 
-export type Props
-  = { name: 'placeholder' }
-  | DashboardProps
-  | EditProductsProps
-  | ProductsProps
-  | PricesProps
-  | EditPricesProps
-  | SalesProps
-  | ConventionsProps
-  | SearchConventionsProps
-  | ConventionDetailsProps
-  | ConventionRecordsProps
-  | ConventionStatsProps
-  | ConventionUserInfoProps
-  | SettingsProps
-  | StaticProps
-  | ResetPasswordProps
-  | VerifyProps
-  | AdminProps
+                 
+                           
+                  
+                     
+                 
+               
+                   
+              
+                    
+                          
+                          
+                          
+                        
+                           
+                 
+               
+                      
+               
+              
 
-export function Content(props: Props) {
+export function Content(props       ) {
   const placeholder = (
     <CardView>
       <Card className={S.emptyState}>
@@ -78,7 +78,7 @@ export function Content(props: Props) {
     </CardView>
   )
 
-  let content: React.Node
+  let content            
   switch (props.name) {
     case 'placeholder':
       content = placeholder

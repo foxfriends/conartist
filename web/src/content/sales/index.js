@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { l, lx } from '../../localization'
 import { SecondaryCardFade as Fade } from '../../common/animation/fade/secondary-card'
@@ -9,21 +9,21 @@ import { toLocal, justDay } from '../../util/date'
 import { model } from '../../model'
 import { isFull, isEmpty } from '../../model/connection'
 import * as update from '../../update/sales'
-import type { Convention } from '../../model/convention'
+                                                        
 import S from '../convention-records/records-card.css'
 
-export type Props = {
-  name: 'sales',
-}
+                     
+                
+ 
 
-type State = {
-  loaded: boolean,
-  loading: boolean,
-  focus: ?React.Node
-}
+              
+                  
+                   
+                    
+ 
 
-export class Sales extends React.Component<Props, State> {
-  constructor(props: Props) {
+export class Sales extends React.Component               {
+  constructor(props       ) {
     super(props)
     this.state = {
       loaded: false,

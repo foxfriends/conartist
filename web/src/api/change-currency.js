@@ -1,18 +1,18 @@
-/* @flow */
-import type { Observable } from 'rxjs/Observable'
+/*       */
+                                                 
 import { from } from 'rxjs';
 import { map, flatMap } from 'rxjs/operators'
 
 import { GraphQLMutation } from './index'
 import { parse } from '../model/user'
-import type { Response, APIRequest, APIError } from './index'
-import type {
-  ChangeCurrency as ChangeCurrencyMutation,
-  ChangeCurrencyVariables,
-} from './schema'
+                                                             
+             
+                                           
+                          
+                 
 
-export class ChangeCurrency implements APIRequest<ChangeCurrencyVariables, String> {
-  changeCurrency: GraphQLMutation<ChangeCurrencyVariables, ChangeCurrencyMutation>
+export class ChangeCurrency                                                        {
+  changeCurrency                                                                  
 
   constructor() {
     // $FlowIgnore: trouble importing graphql files
@@ -20,7 +20,7 @@ export class ChangeCurrency implements APIRequest<ChangeCurrencyVariables, Strin
     this.changeCurrency = changeCurrency.then(changeCurrency => new GraphQLMutation(changeCurrency.default))
   }
 
-  send(variables: ChangeCurrencyVariables): Observable<Response<User, string>> {
+  send(variables                         )                                     {
     return from(this.changeCurrency)
       .pipe(
         flatMap(req => req.send(variables)),

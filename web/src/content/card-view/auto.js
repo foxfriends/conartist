@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { l } from '../../localization'
 import { CardView } from './index'
@@ -7,15 +7,15 @@ const { Fragment } = React
 
 import S from './index.css'
 
-type Transformer<T> = (T, number) => React.Node
+                                               
 
-export type Props<T> = {
-  dataSource: Iterable<T>,
-  loadMore?: ?(() => void),
-  children: Transformer<T> | [React.Node, Transformer<T>] | [React.Node, Transformer<T>, React.Node]
-}
+                        
+                          
+                           
+                                                                                                    
+ 
 
-export function AutoCardView<T>({ dataSource, loadMore, children }: Props<T>) {
+export function AutoCardView   ({ dataSource, loadMore, children }          ) {
   const [emptyState, transformer, footer] = children instanceof Array
     ? [...children]
     : [, children, ]

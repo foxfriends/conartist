@@ -1,20 +1,20 @@
-/* @flow */
+/*       */
 import { of } from 'rxjs'
 import { tap } from 'rxjs/operators'
-import type { Observable } from 'rxjs'
+                                      
 
 import { GetRequest } from './index'
-import type { Response, APIError } from './index'
+                                                 
 
-export class EmailInUseRequest extends GetRequest<string, boolean> {
-  cache: Map<string, boolean>
+export class EmailInUseRequest extends GetRequest                  {
+  cache                      
 
   constructor() {
     super('/account/exists')
     this.cache = new Map()
   }
 
-  send(params: string): Observable<Response<boolean, APIError>> {
+  send(params        )                                          {
     if (this.cache.has(params)) {
       return of({ state: 'retrieved', value: !!this.cache.get(params) })
     }

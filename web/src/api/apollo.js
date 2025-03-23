@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import { ApolloClient } from 'apollo-client'
 import { ApolloLink, Observable } from 'apollo-link'
 import { BatchHttpLink } from 'apollo-link-batch-http'
@@ -6,38 +6,38 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { Storage } from '../storage'
 import { GraphQLURL } from '../constants'
 
-export type Operation = {
-  setContext(context: { headers: { [string]: string } }): void;
-}
+                         
+                                                               
+ 
 
-type ApolloClientOptions = {
-  uri: string,
-  request(operation: Operation): Promise<void>,
-};
+                            
+              
+                                               
+  
 
-export type Query<Variables, Data> = {};
-export type Mutation<Variables, Data> = {};
+                                        
+                                           
 
-type QueryOptions<Variables, Data> = {
-  query: Query<Variables, Data>,
-  variables: Variables,
-};
+                                      
+                                
+                       
+  
 
-type MutationOptions<Variables, Data> = {
-  mutation: Mutation<Variables, Data>,
-  variables: Variables,
-};
+                                         
+                                      
+                       
+  
 
-type GraphQLError = {
-  message: string,
-}
+                     
+                  
+ 
 
-type GraphQLResponse<Data> = {
-  data: Data,
-  errors: ?GraphQLError[],
-}
+                              
+             
+                          
+ 
 
-async function addAuthorization(operation: Operation) {
+async function addAuthorization(operation           ) {
   const authorization = Storage.retrieve(Storage.Auth)
   if (authorization) {
     const headers = { Authorization: `Bearer ${authorization}` }

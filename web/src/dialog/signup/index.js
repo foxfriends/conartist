@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import { l } from '../../localization'
 import { Basic } from '../basic'
@@ -9,31 +9,31 @@ import { TermsForm } from './terms-form'
 import { Completed } from './completed'
 import { progressToNextStep } from '../../update/signup'
 import { closeDialog } from '../action'
-import type { Step } from '../../model/dialog/signup'
-import type { Props as BasicProps } from '../basic'
-import type { Props as ButtonProps } from '../../common/button'
-import type { Props as PagerProps } from '../../common/pager'
+                                                     
+                                                   
+                                                               
+                                                             
 
-export type Props = {
-  name: 'signup',
-  step: Step,
-}
+                     
+                 
+             
+ 
 
-type State = {
-  isValid: bool,
-  formValue: string,
-}
+              
+                
+                    
+ 
 
-export type FormDelegate = {
-  onValidate: (boolean) => void,
-  onChange: (string) => void,
-  onSubmit: () => void,
-}
+                            
+                                
+                             
+                       
+ 
 
-export class SignUp extends React.Component<Props, State> {
-  formDelegate: FormDelegate
+export class SignUp extends React.Component               {
+  formDelegate              
 
-  constructor(props: Props) {
+  constructor(props       ) {
     super(props)
     this.state = {
       isValid: false,
@@ -66,20 +66,20 @@ export class SignUp extends React.Component<Props, State> {
     const { step, ...basicProps } = this.props
     const { isValid } = this.state
 
-    let form: React.Node
-    let pagerProps: PagerProps = {
+    let form            
+    let pagerProps             = {
       pages: 5,
       page: 0,
     }
 
-    const onContinue: ButtonProps = {
+    const onContinue              = {
       title: l`Continue`,
       action: () => this.handleContinue(),
       priority: 'primary',
       enabled: isValid,
     }
 
-    let onBack: ?ButtonProps = {
+    let onBack               = {
       title: l`Back`,
       action: () => this.handleBack(),
       priority: 'secondary',

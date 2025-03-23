@@ -1,4 +1,4 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import formatDate from 'date-fns/format'
 
@@ -6,21 +6,21 @@ import { l } from '../../localization'
 import { Item } from '../../common/list/item'
 import { Font } from '../../common/font'
 import { model } from '../../model'
-import type { Expense } from '../../model/expense'
+                                                  
 import S from './item.css'
 
-export type Props = {
-  expense: Expense,
-  // $FlowIgnore
-  innerRef?: (?HTMLDivElement) => void,
-  onClick: () => void,
-}
+                     
+                   
+                
+                                       
+                      
+ 
 
-function format(date: Date): string {
+function format(date      )         {
   return formatDate(date, l`h:mm`)
 }
 
-export function ExpenseItem({ expense, onClick, innerRef }: Props) {
+export function ExpenseItem({ expense, onClick, innerRef }       ) {
   return (
     <Item onClick={onClick}>
       <div className={`${S.item} ${S.expense}`} ref={innerRef}>

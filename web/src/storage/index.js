@@ -1,17 +1,17 @@
-/* @flow */
+/*       */
 
-type StorageScheme = {
-  Auth: string,
-  Language: string,
-  Localization: { [string]: string | { web: string } },
-}
+                      
+               
+                   
+                                                       
+ 
 
-type StorageKey = $Keys<StorageScheme>
+                                      
 
 export const Storage = new class Storage {
-  Auth: *
-  Localization: *
-  Language: *
+  Auth   
+  Localization   
+  Language   
 
   constructor() {
     this.Auth = 'Auth'
@@ -19,11 +19,11 @@ export const Storage = new class Storage {
     this.Language = 'Language'
   }
 
-  storeTemp<K: StorageKey>(key: K, value: $ElementType<StorageScheme, K>) {
+  storeTemp               (key   , value                                ) {
     sessionStorage.setItem(key, JSON.stringify(value))
   }
 
-  store<K: StorageKey>(key: K, value: $ElementType<StorageScheme, K>) {
+  store               (key   , value                                ) {
     if (sessionStorage.getItem(key)) {
       sessionStorage.setItem(key, JSON.stringify(value))
     } else {
@@ -31,7 +31,7 @@ export const Storage = new class Storage {
     }
   }
 
-  retrieve<K: StorageKey>(key: K): ?$ElementType<StorageScheme, K> {
+  retrieve               (key   )                                  {
     try {
       let value = localStorage.getItem(key)
       if (value === null || value === undefined) {
@@ -46,7 +46,7 @@ export const Storage = new class Storage {
     }
   }
 
-  remove(key: StorageKey) {
+  remove(key            ) {
     sessionStorage.removeItem(key)
     localStorage.removeItem(key)
   }

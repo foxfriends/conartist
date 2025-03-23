@@ -1,20 +1,20 @@
-/* @flow */
+/*       */
 import * as React from 'react'
 import S from './index.css'
 
-export type Props<E: React.ElementType> = {
-  className?: string,
-  children?: ?React.Element<E>,
-}
+                                           
+                     
+                               
+ 
 
-type State<E: React.ElementType> = {
-  previousChildren: ?React.Element<E>,
-  children: ?React.Element<E>,
-  key: boolean,
-}
+                                    
+                                      
+                              
+               
+ 
 
-export class Fade<E: React.ElementType> extends React.Component<Props<E>, State<E>> {
-  static getDerivedStateFromProps({ children }: Props<E>, state: State<E>) {
+export class Fade                       extends React.Component                     {
+  static getDerivedStateFromProps({ children }          , state          ) {
     if (children !== state.children) {
       return {
         previousChildren: state.children ? React.cloneElement(state.children) : null,
@@ -26,9 +26,9 @@ export class Fade<E: React.ElementType> extends React.Component<Props<E>, State<
     }
   }
 
-  animationTimer: ?TimeoutID
+  animationTimer            
 
-  constructor(props: Props<E>) {
+  constructor(props          ) {
     super(props)
     this.animationTimer = null
     this.state = {

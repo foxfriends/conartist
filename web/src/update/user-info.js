@@ -1,18 +1,18 @@
-/* @flow */
+/*       */
 import { model } from '../model'
-import type { Convention } from '../model/convention'
-import type { ConventionUserInfo } from '../model/convention-user-info'
+                                                     
+                                                                       
 import { VoteForInfo } from '../api/vote-for-info'
 import { ContributeConventionInfo } from '../api/contribute-convention-info'
 
-function addInfo(convention: Convention, info: ConventionUserInfo): Convention {
+function addInfo(convention            , info                    )             {
   return {
     ...convention,
     userInfo: [...convention.userInfo, info],
   }
 }
 
-export async function addUserInfo(convention: Convention, info: string) {
+export async function addUserInfo(convention            , info        ) {
   try {
     const response = await new ContributeConventionInfo().send({ conId: convention.id, info }).toPromise()
     if (response.state !== 'retrieved') { throw new Error() }
@@ -41,7 +41,7 @@ export async function addUserInfo(convention: Convention, info: string) {
   } catch(_) {}
 }
 
-function adjustVotes(id: number, vote: number): (ConventionUserInfo) => ConventionUserInfo {
+function adjustVotes(id        , vote        )                                             {
   return info => id === info.id
     // $FlowIgnore: flow doesn't like exact types
     ? {
@@ -53,7 +53,7 @@ function adjustVotes(id: number, vote: number): (ConventionUserInfo) => Conventi
     : info
 }
 
-export async function voteForInfo(id: number, vote: number) {
+export async function voteForInfo(id        , vote        ) {
   const { conventions: originalConventions, page: originalPage } = model.getValue()
   const page = { ...originalPage }
   switch (page.name) {

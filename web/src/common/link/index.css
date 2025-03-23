@@ -1,4 +1,6 @@
-.link, .link:link, .link:visited {
+.link,
+.link:link,
+.link:visited {
   display: inline-flex;
   align-items: center;
   color: var(--color, var(--color--brand));
@@ -6,6 +8,8 @@
   cursor: pointer;
 }
 
-.link:hover, .link:active, .link:focus {
+.link:hover,
+.link:active,
+.link:focus {
   --color: var(--color--brand-variant);
 }

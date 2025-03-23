@@ -43,8 +43,9 @@
   align-self: center;
 }
 
-.topAction, .bottomAction {
-  composes: outlinedIcon from '../../common/styles.css';
+.topAction,
+.bottomAction {
+  composes: outlinedIcon from "../../common/styles.css";
   flex-shrink: 0;
   flex-grow: 0;
 
@@ -62,7 +63,8 @@
 }
 
 @media (min-width: 440px) {
-  .topAction, .bottomAction {
+  .topAction,
+  .bottomAction {
     --position: absolute;
     --left: 100%;
     --margin: 8px;

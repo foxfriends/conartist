@@ -1,7 +1,3 @@
 /*       */
 
-                  
-                  
-
-                                                          
-export const importProducts                 = { name: 'import', type: 'products' }
+export const importProducts = { name: "import", type: "products" };

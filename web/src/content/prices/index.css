@@ -1,9 +1,9 @@
 .placeholder {
-  composes: placeholder from '../../common/styles.css';
+  composes: placeholder from "../../common/styles.css";
 }
 
 .emptyState {
-  composes: emptyState from '../../common/styles.css';
+  composes: emptyState from "../../common/styles.css";
 }
 
 .any {

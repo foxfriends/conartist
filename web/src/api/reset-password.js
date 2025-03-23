@@ -1,22 +1,15 @@
 /*       */
-import { of } from 'rxjs'
-import { catchError } from 'rxjs/operators'
-                                      
+import { of } from "rxjs";
+import { catchError } from "rxjs/operators";
 
-import { PostRequest } from './index'
-                                       
+import { PostRequest } from "./index";
 
-                
-               
-                   
-  
-
-export class ResetPasswordRequest extends PostRequest                  {
+export class ResetPasswordRequest extends PostRequest {
   constructor() {
-    super('/account/reset')
+    super("/account/reset");
   }
 
-  send(params        )                                        {
-    return super.send(params).pipe(catchError(of))
+  send(params) {
+    return super.send(params).pipe(catchError(of));
   }
 }

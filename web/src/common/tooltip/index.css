@@ -22,7 +22,9 @@
   opacity: var(--opacity, 0);
   transform: var(--transform, translateX(-50%) scale(0.8));
   transform-origin: center bottom;
-  transition: opacity 0.3s, transform 0.3s;
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
   pointer-events: none;
   text-align: center;
   font-weight: var(--font-weight--regular);
@@ -30,7 +32,7 @@
   z-index: var(--z-index--over-toolbar);
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     left: 50%;
     top: 100%;
@@ -44,7 +46,8 @@
   }
 }
 
-.target:hover + .tooltip, .target.clickable:focus + .tooltip {
+.target:hover + .tooltip,
+.target.clickable:focus + .tooltip {
   --opacity: 1;
   --transform: translateX(-50%) scale(1);
 }

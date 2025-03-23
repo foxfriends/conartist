@@ -1,3 +1,3 @@
-import { Storage } from '../storage'
+import { Storage } from "../storage";
 
-export const isSignedIn = () => !!Storage.retrieve(Storage.Auth)
+export const isSignedIn = () => !!Storage.retrieve(Storage.Auth);

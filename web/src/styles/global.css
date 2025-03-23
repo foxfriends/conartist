@@ -1,5 +1,5 @@
-@import url('https://brick.a.ssl.fastly.net/Fira+Sans:400,500,700');
-@import './font/stylesheet.css';
+@import url("https://brick.a.ssl.fastly.net/Fira+Sans:400,500,700");
+@import "./font/stylesheet.css";
 
 :global(:root) {
   --color--brand: #cf4516;
@@ -18,10 +18,10 @@
   --color--shadow: rgba(0, 0, 0, 0.25);
   --color--divider: rgba(255, 255, 255, 0.12);
   --color--warn: #ff0000;
-  --color--success: #3E803E;
+  --color--success: #3e803e;
 
-  --font--body: 'FZHei-B01S', 'Fira Sans', sans-serif;
-  --font--icon: 'Material Icons';
+  --font--body: "FZHei-B01S", "Fira Sans", sans-serif;
+  --font--icon: "Material Icons";
 
   --font-weight--regular: 400;
   --font-weight--semibold: 500;
@@ -41,7 +41,8 @@
   content: unset !important;
 }
 
-:global(body), :global(#root) {
+:global(body),
+:global(#root) {
   display: unset !important;
   margin: 0;
   padding: 0;

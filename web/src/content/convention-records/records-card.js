@@ -1,88 +1,103 @@
 /*       */
-import * as React from 'react'
-import formatDate from 'date-fns/format'
+import * as React from "react";
+import formatDate from "date-fns/format";
 
-import { Font } from '../../common/font'
-import { AutoList as List } from '../../common/list/auto'
-import { RecordItem } from './record-item'
-import { ExpenseItem } from './expense-item'
-import { RecordInfo } from './record-info'
-import { ExpenseInfo } from './expense-info'
-import { TotalFooter } from './total-footer'
-import { Card } from '../card-view/card'
-import { BasicHeader } from '../card-view/basic-header'
-import { by, Asc } from '../../util/sort'
-import { sameDayAs } from '../../util/date'
-import { Money } from '../../model/money'
-import { l } from '../../localization'
-                                                        
-                                                
-import S from './records-card.css'
+import { Font } from "../../common/font";
+import { AutoList as List } from "../../common/list/auto";
+import { RecordItem } from "./record-item";
+import { ExpenseItem } from "./expense-item";
+import { RecordInfo } from "./record-info";
+import { ExpenseInfo } from "./expense-info";
+import { TotalFooter } from "./total-footer";
+import { Card } from "../card-view/card";
+import { BasicHeader } from "../card-view/basic-header";
+import { by, Asc } from "../../util/sort";
+import { sameDayAs } from "../../util/date";
+import { Money } from "../../model/money";
+import { l } from "../../localization";
 
-                     
-             
-                      
-                           
-                                 
- 
+import S from "./records-card.css";
 
-function format(date      )         {
-  return formatDate(date, l`EEEE MMMM d, yyyy`)
+function format(date) {
+  return formatDate(date, l`EEEE MMMM d, yyyy`);
 }
 
-export function RecordsCard({ date, records: propsRecords, convention, onFocus }       ) {
+export function RecordsCard({
+  date,
+  records: propsRecords,
+  convention,
+  onFocus,
+}) {
   // $FlowIgnore: does not seem to recognize defaulting of missing properties
-  const { records = propsRecords || [], expenses = [] } = convention || {}
+  const { records = propsRecords || [], expenses = [] } = convention || {};
 
   const dataSource = []
     .concat(
       records.filter(({ time }) => sameDayAs(date)(time)),
       expenses.filter(({ time }) => sameDayAs(date)(time)),
     )
-    .sort(by(['time', Asc]))
+    .sort(by(["time", Asc]));
 
-  const sales = dataSource.reduce((acc, { name, price }) => acc.add(name === 'record' ? price : Money.zero), Money.zero)
-  const expense = dataSource.reduce((acc, { name, price }) => acc.add(name === 'record' ? Money.zero : price), Money.zero)
-  const total = sales.add(expense.negate())
+  const sales = dataSource.reduce(
+    (acc, { name, price }) => acc.add(name === "record" ? price : Money.zero),
+    Money.zero,
+  );
+  const expense = dataSource.reduce(
+    (acc, { name, price }) => acc.add(name === "record" ? Money.zero : price),
+    Money.zero,
+  );
+  const total = sales.add(expense.negate());
 
   return (
     <>
       <Card collapsible={() => onFocus(null)}>
-        <BasicHeader><Font smallCaps>{ format(date) }</Font></BasicHeader>
+        <BasicHeader>
+          <Font smallCaps>{format(date)}</Font>
+        </BasicHeader>
         <>
           <List dataSource={dataSource}>
-            <div className={S.placeholder}>
-              {l`No activity for this day`}
-            </div>
+            <div className={S.placeholder}>{l`No activity for this day`}</div>
             {(item, _) => {
               // using some fake refs that are never null...
-              const ref = { current: null }
-              if (item.name === 'record') {
+              const ref = { current: null };
+              if (item.name === "record") {
                 // $FlowIgnore
-                const info = <RecordInfo
-                  convention={convention}
-                  record={item}
-                  anchor={ref}
-                  key={`record_info_${item.id}`}
-                  onClose={() => onFocus(null)} />
-                return <RecordItem
-                  convention={convention}
-                  innerRef={node => node && (ref.current = node)}
-                  record={item}
-                  key={`record_${item.time.getTime()}`}
-                  onClick={() => onFocus(info)} />
+                const info = (
+                  <RecordInfo
+                    convention={convention}
+                    record={item}
+                    anchor={ref}
+                    key={`record_info_${item.id}`}
+                    onClose={() => onFocus(null)}
+                  />
+                );
+                return (
+                  <RecordItem
+                    convention={convention}
+                    innerRef={(node) => node && (ref.current = node)}
+                    record={item}
+                    key={`record_${item.time.getTime()}`}
+                    onClick={() => onFocus(info)}
+                  />
+                );
               } else {
                 // $FlowIgnore
-                const info = <ExpenseInfo
-                  expense={item}
-                  anchor={ref}
-                  key={`expense_info_${item.id}`}
-                  onClose={() => onFocus(null)} />
-                return <ExpenseItem
-                  innerRef={node => node && (ref.current = node)}
-                  expense={item}
-                  key={`expense_${item.time.getTime()}`}
-                  onClick={() => onFocus(info)} />
+                const info = (
+                  <ExpenseInfo
+                    expense={item}
+                    anchor={ref}
+                    key={`expense_info_${item.id}`}
+                    onClose={() => onFocus(null)}
+                  />
+                );
+                return (
+                  <ExpenseItem
+                    innerRef={(node) => node && (ref.current = node)}
+                    expense={item}
+                    key={`expense_${item.time.getTime()}`}
+                    onClick={() => onFocus(info)}
+                  />
+                );
               }
             }}
           </List>
@@ -90,5 +105,5 @@ export function RecordsCard({ date, records: propsRecords, convention, onFocus }
         <TotalFooter total={total} sales={sales} expense={expense} />
       </Card>
     </>
-  )
+  );
 }

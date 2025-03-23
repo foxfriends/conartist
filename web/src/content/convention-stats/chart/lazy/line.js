@@ -1,1 +1,1 @@
-export { Line as default } from 'react-chartjs-2'
+export { Line as default } from "react-chartjs-2";

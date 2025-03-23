@@ -9,7 +9,9 @@
   border-left: var(--width--indicator) solid var(--color--brand);
   cursor: pointer;
   transform: var(--transform);
-  transition: transform 0.3s, opacity 0.1s;
+  transition:
+    transform 0.3s,
+    opacity 0.1s;
   transition-timing-function: cubic-bezier(0.175, 0.885, 0, 1.175);
   z-index: var(--z-index--over-toolbar);
 

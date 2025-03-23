@@ -1,7 +1,7 @@
 /*       */
-import { closeDialog as doCloseDialog } from '../update/dialog'
+import { closeDialog as doCloseDialog } from "../update/dialog";
 
 export const closeDialog = {
-  title: 'close',
-  action: doCloseDialog
-}
+  title: "close",
+  action: doCloseDialog,
+};

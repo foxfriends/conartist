@@ -11,7 +11,8 @@
 .primary {
   color: var(--color, var(--color--brand));
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     --color: var(--color--brand-variant);
   }
 }

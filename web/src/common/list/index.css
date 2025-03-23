@@ -13,7 +13,7 @@
   background-color: var(--color--brand);
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     left: 100%;
     border-radius: 100%;

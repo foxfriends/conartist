@@ -1,5 +1,3 @@
 /*       */
 
-                                                
-
-export const changeName             = { name: 'change-name' }
+export const changeName = { name: "change-name" };

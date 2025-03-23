@@ -6,11 +6,12 @@
   height: 50px;
 }
 
-.view, .findMore {
+.view,
+.findMore {
   font-variant-caps: all-small-caps;
   font-weight: var(--font-weight--semibold);
 }
 
 .placeholder {
-  composes: placeholder from '../../common/styles.css'
+  composes: placeholder from "../../common/styles.css";
 }

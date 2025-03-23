@@ -7,7 +7,8 @@
   height: 100%;
 }
 
-.heading, .copy {
+.heading,
+.copy {
   margin: 16px;
 }
 

@@ -1,16 +1,13 @@
 /*       */
-import * as React from 'react'
-import { ImportProducts } from './products'
-                                                        
+import * as React from "react";
+import { ImportProducts } from "./products";
 
-                                 
-
-export function Import(props       ) {
+export function Import(props) {
   switch (props.type) {
-    case 'products':
-      return <ImportProducts {...props} />
+    case "products":
+      return <ImportProducts {...props} />;
   }
-  return null
+  return null;
 }
 
-export default Import
+export default Import;

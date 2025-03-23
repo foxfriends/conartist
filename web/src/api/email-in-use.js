@@ -1,30 +1,27 @@
 /*       */
-import { of } from 'rxjs'
-import { tap } from 'rxjs/operators'
-                                      
+import { of } from "rxjs";
+import { tap } from "rxjs/operators";
 
-import { GetRequest } from './index'
-                                                 
+import { GetRequest } from "./index";
 
-export class EmailInUseRequest extends GetRequest                  {
-  cache                      
+export class EmailInUseRequest extends GetRequest {
+  cache;
 
   constructor() {
-    super('/account/exists')
-    this.cache = new Map()
+    super("/account/exists");
+    this.cache = new Map();
   }
 
-  send(params        )                                          {
+  send(params) {
     if (this.cache.has(params)) {
-      return of({ state: 'retrieved', value: !!this.cache.get(params) })
+      return of({ state: "retrieved", value: !!this.cache.get(params) });
     }
-    return super.send(params)
-      .pipe(
-        tap(response => {
-          if (response.state === 'retrieved') {
-            this.cache.set(params, response.value)
-          }
-        })
-      )
+    return super.send(params).pipe(
+      tap((response) => {
+        if (response.state === "retrieved") {
+          this.cache.set(params, response.value);
+        }
+      }),
+    );
   }
 }

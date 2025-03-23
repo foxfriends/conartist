@@ -6,7 +6,7 @@
 }
 
 .placeholder {
-  composes: placeholder from '../common/styles.css';
+  composes: placeholder from "../common/styles.css";
 }
 
 .emptyState {

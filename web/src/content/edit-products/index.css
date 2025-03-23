@@ -1,4 +1,8 @@
-.productTypeName, .productTypeColor, .productName, .productQuantity, .discontinueButton {
+.productTypeName,
+.productTypeColor,
+.productName,
+.productQuantity,
+.discontinueButton {
   margin: 0 10px 0 6px;
 }
 
@@ -14,7 +18,9 @@
   flex-basis: 280px;
 }
 
-.productSku, .productName, .productQuantity {
+.productSku,
+.productName,
+.productQuantity {
   flex-basis: 0;
 }
 
@@ -30,13 +36,15 @@
   flex-grow: 140;
 }
 
-.discontinueButton, .deleteButton {
+.discontinueButton,
+.deleteButton {
   font-size: 16px;
   align-self: flex-end;
   margin-bottom: 8px;
 }
 
-.deleteTypeButton, .sortButton {
+.deleteTypeButton,
+.sortButton {
   margin-left: auto;
   margin-right: 8px;
 }
@@ -53,7 +61,7 @@
 }
 
 .placeholder {
-  composes: placeholder from '../../common/styles.css';
+  composes: placeholder from "../../common/styles.css";
   height: var(--height--row);
 }
 

@@ -26,7 +26,8 @@
   padding-top: 10px;
 }
 
-.selection, .option {
+.selection,
+.option {
   position: relative;
   display: flex;
   flex-direction: row;
@@ -46,7 +47,9 @@
   background-color: var(--color--background);
   z-index: var(--z-index--over-toolbar);
   overflow-y: hidden;
-  transition: max-height 0.3s, right 0.3s;
+  transition:
+    max-height 0.3s,
+    right 0.3s;
 }
 
 .expanded {
@@ -69,7 +72,8 @@
   }
 }
 
-.arrow, .check {
+.arrow,
+.check {
   position: absolute;
   top: 50%;
   right: 6px;

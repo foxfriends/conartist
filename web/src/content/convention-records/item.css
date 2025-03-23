@@ -19,7 +19,9 @@
   color: var(--color--text-placeholder);
 }
 
-.products, .title, .category {
+.products,
+.title,
+.category {
   font-weight: var(--font-weight--semibold);
   font-size: 16px;
 }

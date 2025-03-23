@@ -1,20 +1,16 @@
 /*       */
-                                                       
 
-                           
-                     
-             
-                     
-                    
-                 
-                  
-                 
-             
-  
-
-export function parse({ id, suggester: { name }, suggestion, suggestedAt: time, status, voted, ranking }                    )         {
+export function parse({
+  id,
+  suggester: { name },
+  suggestion,
+  suggestedAt: time,
+  status,
+  voted,
+  ranking,
+}) {
   return {
-    name: 'suggestion',
+    name: "suggestion",
     id,
     suggestion,
     suggester: name,
@@ -22,5 +18,5 @@ export function parse({ id, suggester: { name }, suggestion, suggestedAt: time, 
     ranking,
     voted,
     time,
-  }
+  };
 }

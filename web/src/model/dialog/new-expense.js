@@ -1,8 +1,6 @@
 /*       */
 
-                                                
-
-export const newExpense                           = expense => ({
-  name: 'new-expense',
+export const newExpense = (expense) => ({
+  name: "new-expense",
   expense,
-})
+});

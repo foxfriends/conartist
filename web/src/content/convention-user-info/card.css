@@ -19,7 +19,7 @@
 }
 
 .placeholder {
-  composes: placeholder from '../../common/styles.css';
+  composes: placeholder from "../../common/styles.css";
 }
 
 .shareInfoCard {
@@ -37,7 +37,8 @@
   padding: 16px;
 }
 
-.detailsButton, .sendButton {
+.detailsButton,
+.sendButton {
   margin-left: auto;
 }
 

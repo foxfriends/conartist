@@ -1,8 +1,13 @@
-.productName, .priceQuantity, .pricePrice, .removeButton {
+.productName,
+.priceQuantity,
+.pricePrice,
+.removeButton {
   margin: 0 10px 0 6px;
 }
 
-.productName, .priceQuantity, .pricePrice {
+.productName,
+.priceQuantity,
+.pricePrice {
   flex-basis: 0;
 }
 
@@ -10,7 +15,8 @@
   flex-grow: 240;
 }
 
-.priceQuantity, .pricePrice {
+.priceQuantity,
+.pricePrice {
   flex-grow: 115;
 }
 
@@ -21,7 +27,7 @@
 }
 
 .placeholder {
-  composes: placeholder from '../../common/styles.css'
+  composes: placeholder from "../../common/styles.css";
 }
 
 .any {

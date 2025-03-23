@@ -18,9 +18,13 @@
 }
 
 @media (min-width: 888px) {
-  .inner { --width: 880px; }
+  .inner {
+    --width: 880px;
+  }
 }
 
 @media (max-width: 887px) {
-  .inner { --width: 100%; }
+  .inner {
+    --width: 100%;
+  }
 }

@@ -1,5 +1,3 @@
 /*       */
 
-                                                            
-
-export const createSuggestion                   = { name: 'create-suggestion' }
+export const createSuggestion = { name: "create-suggestion" };

@@ -1,17 +1,15 @@
 /*       */
-import { of } from 'rxjs'
-import { catchError } from 'rxjs/operators'
-                                      
+import { of } from "rxjs";
+import { catchError } from "rxjs/operators";
 
-import { PostRequest } from './index'
-                                       
+import { PostRequest } from "./index";
 
-export class ResendVerificationEmail extends PostRequest              {
+export class ResendVerificationEmail extends PostRequest {
   constructor() {
-    super('/account/resend-verification')
+    super("/account/resend-verification");
   }
 
-  send(params     = '')                                        {
-    return super.send().pipe(catchError(of))
+  send(params = "") {
+    return super.send().pipe(catchError(of));
   }
 }

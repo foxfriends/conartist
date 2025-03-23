@@ -1,9 +1,18 @@
 /*       */
-import { defaultModel, model } from '../model'
-import { dashboard } from '../model/page'
-                                         
+import { defaultModel, model } from "../model";
+import { dashboard } from "../model/page";
 
-export function completeSignIn({ email, name, verified, clearance, settings, conventions, prices, products, productTypes }      ) {
+export function completeSignIn({
+  email,
+  name,
+  verified,
+  clearance,
+  settings,
+  conventions,
+  prices,
+  products,
+  productTypes,
+}) {
   model.next({
     ...model.getValue(),
     user: {
@@ -22,10 +31,20 @@ export function completeSignIn({ email, name, verified, clearance, settings, con
     },
     dialog: null,
     page: dashboard,
-  })
+  });
 }
 
-export function setUser({ email, name, verified, clearance, settings, conventions, prices, products, productTypes }      ) {
+export function setUser({
+  email,
+  name,
+  verified,
+  clearance,
+  settings,
+  conventions,
+  prices,
+  products,
+  productTypes,
+}) {
   model.next({
     ...model.getValue(),
     user: {
@@ -42,5 +61,5 @@ export function setUser({ email, name, verified, clearance, settings, convention
       ...defaultModel.settings,
       ...settings,
     },
-  })
+  });
 }

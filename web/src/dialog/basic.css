@@ -9,7 +9,8 @@
   background-color: var(--color--background-variant);
 }
 
-.header, .footer {
+.header,
+.footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -43,7 +44,8 @@
   padding: 0 9px;
 }
 
-.footerButton, .fakeButton {
+.footerButton,
+.fakeButton {
   height: 34px;
   max-width: 100px;
 }
@@ -60,7 +62,7 @@
 }
 
 .closeButton {
-  composes: outlinedIcon from '../common/styles.css';
+  composes: outlinedIcon from "../common/styles.css";
   position: absolute;
   margin: 8px;
   left: var(--left);

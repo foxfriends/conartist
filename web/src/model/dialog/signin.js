@@ -1,7 +1,5 @@
 /*       */
 
-                                       
-
-export const signin         = {
-  name: 'signin'
-}
+export const signin = {
+  name: "signin",
+};

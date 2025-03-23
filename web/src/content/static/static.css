@@ -35,7 +35,8 @@
   font-size: 14pt;
   line-height: 1.3;
 
-  & p, & ol li {
+  & p,
+  & ol li {
     text-align: justify;
   }
 
@@ -43,19 +44,25 @@
     text-indent: 20pt;
   }
 
-  & h1 { font-size: 32pt; }
-  & h2 { font-size: 20pt; }
+  & h1 {
+    font-size: 32pt;
+  }
+  & h2 {
+    font-size: 20pt;
+  }
 
   & h1 {
     margin-left: 20pt;
   }
 
-  & a:link, & a:visited {
+  & a:link,
+  & a:visited {
     color: var(--color--brand);
     text-decoration: none;
   }
 
-  & a:hover, & a:active {
+  & a:hover,
+  & a:active {
     color: var(--color--brand-variant);
     text-decoration: none;
   }

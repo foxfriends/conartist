@@ -22,7 +22,8 @@
   align-items: center;
 }
 
-.columnTitle, .optionsTitle {
+.columnTitle,
+.optionsTitle {
   font-variant-caps: all-small-caps;
   font-weight: var(--font-weight--semibold);
   display: flex;

@@ -25,7 +25,8 @@
   }
 }
 
-.title, .placeholder {
+.title,
+.placeholder {
   user-select: none;
   pointer-events: none;
   box-sizing: border-box;
@@ -39,10 +40,13 @@
   text-overflow: ellipsis;
   transform: var(--transform, translateY(0));
   color: var(--color--text-placeholder);
-  transition: 0.2s transform, 0.2s font-size;
+  transition:
+    0.2s transform,
+    0.2s font-size;
 }
 
-.input:focus ~ .title, .input:not(.empty) ~ .title {
+.input:focus ~ .title,
+.input:not(.empty) ~ .title {
   --transform: translateY(-20px);
   --font-size: 12px;
 }
@@ -60,7 +64,7 @@
   background-color: var(--color--divider);
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;

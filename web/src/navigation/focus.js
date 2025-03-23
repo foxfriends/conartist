@@ -1,12 +1,12 @@
 /*       */
-import { Subject } from 'rxjs'
-                                      
-import { share } from 'rxjs/operators'
+import { Subject } from "rxjs";
 
-const subject                   = new Subject()
+import { share } from "rxjs/operators";
 
-export const focused                      = subject.pipe(share())
+const subject = new Subject();
+
+export const focused = subject.pipe(share());
 
 export function focus() {
-  subject.next(true)
+  subject.next(true);
 }

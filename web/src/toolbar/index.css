@@ -43,8 +43,12 @@
 }
 
 @media (min-width: 888px) {
-  .inner { --width: 880px; }
-  .mobile { --display: none; }
+  .inner {
+    --width: 880px;
+  }
+  .mobile {
+    --display: none;
+  }
 }
 
 @media (max-width: 887px) {
@@ -57,7 +61,7 @@
     &::after {
       position: absolute;
       left: 100%;
-      content: '';
+      content: "";
       width: 0;
       height: 0;
       border-width: 30px 0 30px 16px;
@@ -67,9 +71,15 @@
     }
   }
 
-  .inner { --width: 100%; }
-  .desktop { --display: none; }
-  .hidden { display: none; }
+  .inner {
+    --width: 100%;
+  }
+  .desktop {
+    --display: none;
+  }
+  .hidden {
+    display: none;
+  }
 }
 
 .title {

@@ -1,17 +1,16 @@
 /*       */
-import { model } from '../model'
-import { dashboard } from '../model/page'
-                                                  
+import { model } from "../model";
+import { dashboard } from "../model/page";
 
-export function progressToNextStep(step       ) {
+export function progressToNextStep(step) {
   if (step) {
-    const { dialog, ...modelValue } = model.getValue()
-    if (step.name === 'signed-in') {
+    const { dialog, ...modelValue } = model.getValue();
+    if (step.name === "signed-in") {
       model.next({
         ...modelValue,
         dialog: null,
         page: dashboard,
-      })
+      });
     } else {
       model.next({
         ...modelValue,
@@ -19,13 +18,13 @@ export function progressToNextStep(step       ) {
         dialog: {
           ...dialog,
           step,
-        }
-      })
+        },
+      });
     }
   } else {
     model.next({
       ...model.getValue(),
       dialog: null,
-    })
+    });
   }
 }

@@ -15,8 +15,9 @@
   opacity: 0.5;
 }
 
-.placeholder, .placeholderLarge {
-  composes: placeholder from '../../common/styles.css';
+.placeholder,
+.placeholderLarge {
+  composes: placeholder from "../../common/styles.css";
 }
 
 .placeholder {

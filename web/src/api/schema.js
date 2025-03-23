@@ -7,25 +7,6 @@
 // GraphQL mutation operation: AddConventionInfo
 // ====================================================
 
-                                                        
-                                    
-                
-                
-                  
-                      
-  
-
-                                 
-                                                                  
-  
-
-                                          
-                
-                
-                 
-                   
-                       
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -35,24 +16,6 @@
 // GraphQL mutation operation: AddExpense
 // ====================================================
 
-                                         
-                        
-             
-             
-                   
-                      
-             
-            
-  
-
-                          
-                                           
-  
-
-                                   
-               
-                      
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -62,22 +25,6 @@
 // GraphQL mutation operation: AddPrice
 // ====================================================
 
-                                     
-                      
-                 
-                     
-                   
-             
-  
-
-                        
-                                     
-  
-
-                                 
-                   
-                  
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -87,23 +34,6 @@
 // GraphQL mutation operation: AddProductType
 // ====================================================
 
-                                                 
-                            
-             
-               
-                 
-                        
-               
-  
-
-                              
-                                                       
-  
-
-                                       
-               
-                              
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -113,25 +43,6 @@
 // GraphQL mutation operation: AddProduct
 // ====================================================
 
-                                         
-                        
-             
-                 
-               
-               
-                   
-                        
-               
-  
-
-                          
-                                           
-  
-
-                                   
-               
-                      
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -141,24 +52,6 @@
 // GraphQL mutation operation: AddRecord
 // ====================================================
 
-                                       
-                       
-             
-             
-                          
-             
-            
-               
-  
-
-                         
-                                        
-  
-
-                                  
-               
-                    
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -168,49 +61,6 @@
 // GraphQL mutation operation: AddUserConvention
 // ====================================================
 
-                                                          
-                                
-             
-  
-
-                                                             
-                                    
-                
-                
-                  
-                      
-  
-
-                                                            
-                                   
-             
-               
-               
-                  
-                    
-  
-
-                                                   
-                           
-             
-               
-                                                            
-             
-           
-                                                                  
-                                                                
-                    
-                     
-  
-
-                                 
-                                                        
-  
-
-                                          
-                   
-                
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -220,64 +70,6 @@
 // GraphQL mutation operation: ChangeEmail
 // ====================================================
 
-                                                    
-                         
-                
-                   
-  
-
-                                                              
-                                
-             
-  
-
-                                                                 
-                                    
-                
-                
-                  
-                      
-  
-
-                                                                
-                                   
-             
-               
-               
-                  
-                    
-  
-
-                                                       
-                           
-             
-               
-                                                                
-             
-           
-                                                                      
-                                                                    
-                    
-                     
-  
-
-                                           
-                     
-               
-                
-                    
-                                                 
-                                                              
-  
-
-                           
-                                              
-  
-
-                                    
-               
-                
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -287,64 +79,6 @@
 // GraphQL mutation operation: ChangeName
 // ====================================================
 
-                                                  
-                         
-                
-                   
-  
-
-                                                            
-                                
-             
-  
-
-                                                               
-                                    
-                
-                
-                  
-                      
-  
-
-                                                              
-                                   
-             
-               
-               
-                  
-                    
-  
-
-                                                     
-                           
-             
-               
-                                                              
-             
-           
-                                                                    
-                                                                  
-                    
-                     
-  
-
-                                         
-                     
-               
-                
-                    
-                                               
-                                                            
-  
-
-                          
-                                           
-  
-
-                                   
-               
-               
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -354,24 +88,6 @@
 // GraphQL mutation operation: ContributeConventionInfo
 // ====================================================
 
-                                                          
-                                   
-             
-               
-               
-                  
-                    
-  
-
-                                        
-                                                               
-  
-
-                                                 
-                   
-                
-               
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -381,20 +97,6 @@
 // GraphQL mutation operation: CreateConvention
 // ====================================================
 
-                                                 
-                           
-             
-  
-
-                                
-                                                     
-  
-
-                                         
-                
-                 
-               
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -404,29 +106,6 @@
 // GraphQL mutation operation: CreateSuggestion
 // ====================================================
 
-                                                           
-                     
-               
-  
-
-                                                 
-                           
-             
-                     
-                                                         
-                 
-                   
-                  
-                 
-  
-
-                                
-                                                     
-  
-
-                                         
-                    
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -436,14 +115,6 @@
 // GraphQL mutation operation: DeleteExpense
 // ====================================================
 
-                             
-                         
-  
-
-                                      
-               
-                      
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -453,14 +124,6 @@
 // GraphQL mutation operation: DeletePrice
 // ====================================================
 
-                           
-                       
-  
-
-                                    
-                   
-                  
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -470,14 +133,6 @@
 // GraphQL mutation operation: DeleteProductType
 // ====================================================
 
-                                 
-                             
-  
-
-                                          
-               
-                 
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -487,14 +142,6 @@
 // GraphQL mutation operation: DeleteProduct
 // ====================================================
 
-                             
-                         
-  
-
-                                      
-               
-                    
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -504,14 +151,6 @@
 // GraphQL mutation operation: DeleteRecord
 // ====================================================
 
-                            
-                        
-  
-
-                                     
-               
-                    
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -521,14 +160,6 @@
 // GraphQL mutation operation: DeleteUserConvention
 // ====================================================
 
-                                    
-                            
-  
-
-                                             
-                   
-                
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -538,21 +169,6 @@
 // GraphQL mutation operation: DownvoteConventionInfo
 // ====================================================
 
-                                                             
-                                   
-             
-                  
-                    
-  
-
-                                      
-                                                                       
-  
-
-                                               
-                   
-                 
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -562,23 +178,6 @@
 // GraphQL mutation operation: ModProductType
 // ====================================================
 
-                                                 
-                            
-             
-               
-                 
-                        
-               
-  
-
-                              
-                                                       
-  
-
-                                       
-               
-                              
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -588,25 +187,6 @@
 // GraphQL mutation operation: ModProduct
 // ====================================================
 
-                                         
-                        
-             
-                 
-               
-               
-                   
-                        
-               
-  
-
-                          
-                                           
-  
-
-                                   
-               
-                      
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -616,19 +196,6 @@
 // GraphQL mutation operation: UpdateCurrency
 // ====================================================
 
-                                             
-                                 
-                
-  
-
-                              
-                                               
-  
-
-                                       
-               
-                
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -638,24 +205,6 @@
 // GraphQL mutation operation: UpdateExpense
 // ====================================================
 
-                                            
-                        
-             
-             
-                   
-                      
-             
-            
-  
-
-                             
-                                              
-  
-
-                                      
-               
-                      
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -665,19 +214,6 @@
 // GraphQL mutation operation: UpdateLanguage
 // ====================================================
 
-                                             
-                                 
-                   
-  
-
-                              
-                                               
-  
-
-                                       
-               
-                   
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -687,24 +223,6 @@
 // GraphQL mutation operation: UpdateRecord
 // ====================================================
 
-                                          
-                       
-             
-             
-                          
-             
-            
-               
-  
-
-                            
-                                           
-  
-
-                                     
-               
-                    
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -714,21 +232,6 @@
 // GraphQL mutation operation: UpvoteConventionInfo
 // ====================================================
 
-                                                         
-                                   
-             
-                  
-                    
-  
-
-                                    
-                                                                 
-  
-
-                                             
-                   
-                 
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -738,29 +241,6 @@
 // GraphQL mutation operation: VoteForSuggestion
 // ====================================================
 
-                                                             
-                     
-               
-  
-
-                                                   
-                           
-             
-                     
-                                                           
-                 
-                   
-                  
-                 
-  
-
-                                 
-                                                        
-  
-
-                                          
-                      
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -770,60 +250,6 @@
 // GraphQL query operation: ConventionsConnection
 // ====================================================
 
-                                                                        
-                                
-             
-  
-
-                                                                           
-                                    
-                
-                
-                  
-                      
-  
-
-                                                                          
-                                   
-             
-               
-               
-                  
-                    
-  
-
-                                                                 
-                           
-             
-               
-                                                                          
-             
-           
-                                                                                
-                                                                              
-  
-
-                                                           
-                                      
-                                                                  
-                     
-                     
-  
-
-                                     
-     
-                                                                     
-     
-                                                                    
-  
-
-                                              
-              
-                   
-                  
-                   
-                  
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -833,105 +259,6 @@
 // GraphQL query operation: FullConvention
 // ====================================================
 
-                                                
-                                
-             
-  
-
-                                                   
-                                    
-                
-                
-                  
-                      
-  
-
-                                                  
-                                   
-             
-               
-               
-                  
-                    
-  
-
-                                                  
-                        
-             
-                 
-               
-               
-                   
-                        
-               
-  
-
-                                                      
-                            
-             
-               
-                 
-                        
-               
-  
-
-                                                
-                      
-                 
-                     
-                   
-             
-  
-
-                                                 
-                       
-             
-             
-                          
-             
-            
-               
-  
-
-                                                  
-                        
-             
-             
-                   
-                      
-             
-            
-  
-
-                                         
-                           
-             
-               
-                                                  
-             
-           
-                                                        
-                                                      
-                    
-                     
-                                                      
-                                                              
-                                                  
-                                                    
-                                                      
-  
-
-                              
-     
-                                                     
-     
-                                       
-  
-
-                                       
-                   
-                
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -941,98 +268,6 @@
 // GraphQL query operation: FullUser
 // ====================================================
 
-                                      
-                         
-                
-                   
-  
-
-                                                
-                                
-             
-  
-
-                                                   
-                                    
-                
-                
-                  
-                      
-  
-
-                                                  
-                                   
-             
-               
-               
-                  
-                    
-  
-
-                                         
-                           
-             
-               
-                                                  
-             
-           
-                                                        
-                                                      
-                    
-                     
-  
-
-                                      
-                        
-             
-                 
-               
-               
-                   
-                        
-               
-  
-
-                                          
-                            
-             
-               
-                 
-                        
-               
-  
-
-                                    
-                      
-                 
-                     
-                   
-             
-  
-
-                             
-                     
-               
-                
-                    
-                                   
-                                                
-                    
-                                          
-                                                  
-                                      
-  
-
-                        
-     
-                                                         
-     
-                     
-  
-
-                                 
-              
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -1042,35 +277,6 @@
 // GraphQL query operation: RecordsConnection
 // ====================================================
 
-                                                         
-                       
-             
-             
-                          
-             
-            
-               
-  
-
-                                                   
-                                  
-                                                          
-                     
-                     
-  
-
-                                 
-     
-                                                                 
-     
-                                                        
-  
-
-                                          
-                  
-                   
-                  
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -1080,42 +286,6 @@
 // GraphQL query operation: SuggestionsConnection
 // ====================================================
 
-                                                                           
-                     
-               
-  
-
-                                                                 
-                           
-             
-                     
-                                                                         
-                 
-                   
-                  
-                 
-  
-
-                                                           
-                                      
-                                                                  
-                     
-                     
-  
-
-                                     
-     
-                                      
-     
-                                                                    
-  
-
-                                              
-                   
-                  
-                   
-                  
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -1125,66 +295,6 @@
 // GraphQL query operation: User
 // ====================================================
 
-                                  
-                         
-                
-                   
-  
-
-                                            
-                                
-             
-  
-
-                                               
-                                    
-                
-                
-                  
-                      
-  
-
-                                              
-                                   
-             
-               
-               
-                  
-                    
-  
-
-                                     
-                           
-             
-               
-                                              
-             
-           
-                                                    
-                                                  
-                    
-                     
-  
-
-                         
-                     
-               
-                
-                    
-                               
-                                            
-  
-
-                    
-     
-                                                         
-     
-                 
-  
-
-                             
-              
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -1194,38 +304,6 @@
 // GraphQL fragment: ConventionBasicInfoFragment
 // ====================================================
 
-                                                  
-                                
-             
-  
-
-                                                     
-                                    
-                
-                
-                  
-                      
-  
-
-                                                    
-                                   
-             
-               
-               
-                  
-                    
-  
-
-                                           
-                           
-             
-               
-                                                    
-             
-           
-                                                          
-                                                        
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -1235,10 +313,6 @@
 // GraphQL fragment: ConventionImageFragment
 // ====================================================
 
-                                       
-                                
-             
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -1248,15 +322,6 @@
 // GraphQL fragment: ExpenseFragment
 // ====================================================
 
-                               
-                        
-             
-             
-                   
-                      
-             
-            
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -1266,13 +331,6 @@
 // GraphQL fragment: ExtraInfoFragment
 // ====================================================
 
-                                 
-                                    
-                
-                
-                  
-                      
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -1282,93 +340,6 @@
 // GraphQL fragment: FullConventionFragment
 // ====================================================
 
-                                             
-                                
-             
-  
-
-                                                
-                                    
-                
-                
-                  
-                      
-  
-
-                                               
-                                   
-             
-               
-               
-                  
-                    
-  
-
-                                               
-                        
-             
-                 
-               
-               
-                   
-                        
-               
-  
-
-                                                   
-                            
-             
-               
-                 
-                        
-               
-  
-
-                                             
-                      
-                 
-                     
-                   
-             
-  
-
-                                              
-                       
-             
-             
-                          
-             
-            
-               
-  
-
-                                               
-                        
-             
-             
-                   
-                      
-             
-            
-  
-
-                                      
-                           
-             
-               
-                                               
-             
-           
-                                                     
-                                                   
-                    
-                     
-                                                   
-                                                           
-                                               
-                                                 
-                                                   
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -1378,87 +349,6 @@
 // GraphQL fragment: FullUserFragment
 // ====================================================
 
-                                         
-                         
-                
-                   
-  
-
-                                                   
-                                
-             
-  
-
-                                                      
-                                    
-                
-                
-                  
-                      
-  
-
-                                                     
-                                   
-             
-               
-               
-                  
-                    
-  
-
-                                            
-                           
-             
-               
-                                                     
-             
-           
-                                                           
-                                                         
-                    
-                     
-  
-
-                                         
-                        
-             
-                 
-               
-               
-                   
-                        
-               
-  
-
-                                             
-                            
-             
-               
-                 
-                        
-               
-  
-
-                                       
-                      
-                 
-                     
-                   
-             
-  
-
-                                
-                     
-               
-                
-                    
-                                      
-                                                   
-                    
-                                             
-                                                     
-                                         
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -1468,40 +358,6 @@
 // GraphQL fragment: MetaConventionFragment
 // ====================================================
 
-                                             
-                                
-             
-  
-
-                                                
-                                    
-                
-                
-                  
-                      
-  
-
-                                               
-                                   
-             
-               
-               
-                  
-                    
-  
-
-                                      
-                           
-             
-               
-                                               
-             
-           
-                                                     
-                                                   
-                    
-                     
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -1511,13 +367,6 @@
 // GraphQL fragment: PriceFragment
 // ====================================================
 
-                             
-                      
-                 
-                     
-                   
-             
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -1527,14 +376,6 @@
 // GraphQL fragment: ProductTypeFragment
 // ====================================================
 
-                                   
-                            
-             
-               
-                 
-                        
-               
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -1544,16 +385,6 @@
 // GraphQL fragment: ProductFragment
 // ====================================================
 
-                               
-                        
-             
-                 
-               
-               
-                   
-                        
-               
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -1563,15 +394,6 @@
 // GraphQL fragment: RecordFragment
 // ====================================================
 
-                              
-                       
-             
-             
-                          
-             
-            
-               
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -1581,11 +403,6 @@
 // GraphQL fragment: SettingsFragment
 // ====================================================
 
-                                
-                         
-                
-                   
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -1595,21 +412,6 @@
 // GraphQL fragment: SuggestionFragment
 // ====================================================
 
-                                            
-                     
-               
-  
-
-                                  
-                           
-             
-                     
-                                          
-                 
-                   
-                  
-                 
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -1619,14 +421,6 @@
 // GraphQL fragment: UserInfoFragment
 // ====================================================
 
-                                
-                                   
-             
-               
-               
-                  
-                    
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -1636,55 +430,6 @@
 // GraphQL fragment: UserFragment
 // ====================================================
 
-                                     
-                         
-                
-                   
-  
-
-                                               
-                                
-             
-  
-
-                                                  
-                                    
-                
-                
-                  
-                      
-  
-
-                                                 
-                                   
-             
-               
-               
-                  
-                    
-  
-
-                                        
-                           
-             
-               
-                                                 
-             
-           
-                                                       
-                                                     
-                    
-                     
-  
-
-                            
-                     
-               
-                
-                    
-                                  
-                                               
-  
 /* @flow */
 /* eslint-disable */
 // @generated
@@ -1694,11 +439,7 @@
 // GraphQL fragment: VotesFragment
 // ====================================================
 
-                             
-                                   
-                  
-                    
-  /* @flow */
+/* @flow */
 /* eslint-disable */
 // @generated
 // This file was automatically generated and should not be edited.
@@ -1707,124 +448,50 @@
 // START Enums and Input Objects
 //==============================================================
 
-                           
-                
-            
-             
-                   
-                      
-            
-   
 /**
  *  Information required to create a convention expense
  */
 
-                         
-                 
-                      
-                   
-             
-   
 /**
  *  Information required to create a new price
  */
 
-                               
-               
-                
-               
-   
 /**
  *  Information required to create a new product type
  */
 
-                           
-                 
-               
-                
-                   
-               
-   
 /**
  *  Information required to create a new product
  */
 
-                          
-                  
-            
-                          
-             
-            
-               
-   
 /**
  *  Information required to create a sales record
  */
 
-                           
-                      
-              
-   
 /**
  *  Information required to delete a convention expense
  */
 
-                         
-                 
-                      
-                   
-   
 /**
  *  Information required to delete an existing price
  */
 
-                          
-                     
-              
-   
 /**
  *  Information required to delete a sales record
  */
 
-                               
-                 
-                 
-                  
-                          
-                 
-   
 /**
  *  Information required to modify an existing product type
  */
 
-                           
-                    
-                 
-                
-                     
-                          
-                 
-   
 /**
  *  Information required to modify an existing product
  */
 
-                           
-                    
-               
-                     
-                        
-   
 /**
  *  Information required to modify a convention expense
  */
 
-                          
-                   
-                            
-               
-                 
-   
 /**
  *  Information required to modify a sales record
  */

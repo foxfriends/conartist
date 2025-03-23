@@ -16,7 +16,9 @@
   pointer-events: none;
 }
 
-.thumbUp, .thumbDown, .thumb {
+.thumbUp,
+.thumbDown,
+.thumb {
   cursor: pointer;
   margin: 2px;
   font-size: 18px;
@@ -39,14 +41,18 @@
 .thumbUp {
   --transform: translateX(1px) translateY(-2px);
 
-  transition: opacity 0.2s, transform 0.2s, color 0.2s;
+  transition:
+    opacity 0.2s,
+    transform 0.2s,
+    color 0.2s;
   transform: var(--transform);
   color: var(--color);
   opacity: var(--opacity);
   z-index: var(--z-index);
   pointer-events: var(--pointer-events);
 
-  &.up, &.down {
+  &.up,
+  &.down {
     --transform: translateX(calc(-50% - 1px)) translateY(-2px);
   }
 
@@ -63,14 +69,18 @@
 .thumbDown {
   --transform: translateX(-1px) translateY(2px);
 
-  transition: opacity 0.2s, transform 0.2s, color 0.2s;
+  transition:
+    opacity 0.2s,
+    transform 0.2s,
+    color 0.2s;
   transform: var(--transform);
   color: var(--color);
   opacity: var(--opacity);
   z-index: var(--z-index);
   pointer-events: var(--pointer-events);
 
-  &.up, &.down {
+  &.up,
+  &.down {
     --transform: translateX(calc(50% + 1px)) translateY(2px);
   }
 

@@ -1,4 +1,6 @@
-.title, .value, .detail {
+.title,
+.value,
+.detail {
   padding: 16px;
   &.truncate {
     text-overflow: ellipsis;
@@ -7,7 +9,8 @@
   }
 }
 
-.value, .detail {
+.value,
+.detail {
   justify-self: end;
   text-align: right;
   font-variant-numeric: tabular-nums;

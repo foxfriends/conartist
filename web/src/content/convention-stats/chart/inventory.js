@@ -1,114 +1,123 @@
 /*       */
-import * as React from 'react'
+import * as React from "react";
 
-import Map from '../../../util/default-map'
-import { ChartCard } from './card'
-import { NotEnoughData } from './not-enough-data'
-import { ChartsLoading } from './charts-loading'
-import { SecondaryCard } from '../../card-view/secondary-card'
-import { Select } from '../../../common/select'
-import { Checkbox } from '../../../common/checkbox'
-import { l } from '../../../localization'
-                                                              
-                                                     
-                                                   
-import S from './chart.css'
+import Map from "../../../util/default-map";
+import { ChartCard } from "./card";
+import { NotEnoughData } from "./not-enough-data";
+import { ChartsLoading } from "./charts-loading";
+import { SecondaryCard } from "../../card-view/secondary-card";
+import { Select } from "../../../common/select";
+import { Checkbox } from "../../../common/checkbox";
+import { l } from "../../../localization";
 
-const Bar = React.lazy(() => import(/* webpackChunkName: "chart" */ './lazy/bar'))
-const { Suspense } = React
+import S from "./chart.css";
 
-                     
-                              
-                      
-                    
-                                     
- 
+const Bar = React.lazy(
+  () => import(/* webpackChunkName: "chart" */ "./lazy/bar"),
+);
+const { Suspense } = React;
 
-                     
-                
- 
-
-export class InventoryChart extends React.Component               {
+export class InventoryChart extends React.Component {
   // $FlowIgnore
-  ref                           
-  constructor(props       ) {
-    super(props)
+  ref;
+  constructor(props) {
+    super(props);
     // $FlowIgnore
-    this.ref = { current: null }
+    this.ref = { current: null };
     this.state = {
       type: null,
       onlySold: true,
-    }
+    };
   }
 
   render() {
-    const { productTypes, products, records, showSettings } = this.props
-    const { type, onlySold } = this.state
+    const { productTypes, products, records, showSettings } = this.props;
+    const { type, onlySold } = this.state;
 
     const sold = records
       .flatMap(({ products }) => products)
-      .reduce((acc, productId) => acc.set(productId, acc.get(productId) + 1), new Map([], 0))
+      .reduce(
+        (acc, productId) => acc.set(productId, acc.get(productId) + 1),
+        new Map([], 0),
+      );
 
     let selectedProducts = products;
     if (type !== null) {
-      selectedProducts = selectedProducts.filter(({ typeId }) => typeId === type)
+      selectedProducts = selectedProducts.filter(
+        ({ typeId }) => typeId === type,
+      );
     }
     if (onlySold) {
-      selectedProducts = selectedProducts.filter(({ id }) => (sold.get(id) || 0) > 0)
+      selectedProducts = selectedProducts.filter(
+        ({ id }) => (sold.get(id) || 0) > 0,
+      );
     }
 
     let types = new Set(products.map(({ typeId }) => typeId));
-    types = [...types].filter((id) => !productTypes.find((pt) => pt.id === id).discontinued);
+    types = [...types].filter(
+      (id) => !productTypes.find((pt) => pt.id === id).discontinued,
+    );
 
     const data = {
       labels: selectedProducts.map(({ name }) => name),
-      datasets: [{
-        label: l`Sold`,
-        xAxisId: 'sold',
-        backgroundColor: '#b52b2b',
-        data: selectedProducts.map(({ id }) => sold.get(id))
-      }, {
-        label: l`Remaining`,
-        xAxisId: 'remaining',
-        backgroundColor: '#3E803E',
-        data: selectedProducts.map(({ id, quantity }) => Math.max(0, quantity - sold.get(id)))
-      }]
-    }
+      datasets: [
+        {
+          label: l`Sold`,
+          xAxisId: "sold",
+          backgroundColor: "#b52b2b",
+          data: selectedProducts.map(({ id }) => sold.get(id)),
+        },
+        {
+          label: l`Remaining`,
+          xAxisId: "remaining",
+          backgroundColor: "#3E803E",
+          data: selectedProducts.map(({ id, quantity }) =>
+            Math.max(0, quantity - sold.get(id)),
+          ),
+        },
+      ],
+    };
 
     const options = {
       scales: {
         xAxes: [{ stacked: true }],
         yAxes: [{ stacked: true }],
-      }
-    }
+      },
+    };
 
     return (
-      <ChartCard title={l`Inventory`} showSettings={showSettings} innerRef={card => this.ref.current = card}>
+      <ChartCard
+        title={l`Inventory`}
+        showSettings={showSettings}
+        innerRef={(card) => (this.ref.current = card)}
+      >
         <>
           <Suspense fallback={<ChartsLoading />}>
-            <Bar
-              data={data}
-              width={600}
-              height={600}
-              options={options}
-              />
+            <Bar data={data} width={600} height={600} options={options} />
           </Suspense>
-            { selectedProducts.length === 0
-              ? <NotEnoughData />
-              : null
-            }
+          {selectedProducts.length === 0 ? <NotEnoughData /> : null}
         </>
-        <SecondaryCard anchor={this.ref} title={l`Options`} onClose={() => showSettings(null)}>
+        <SecondaryCard
+          anchor={this.ref}
+          title={l`Options`}
+          onClose={() => showSettings(null)}
+        >
           <div className={S.options}>
             <Select
               title={l`Filter types`}
               options={[null, ...types]}
               defaultValue={type}
-              onChange={type => this.setState({ type })}
-              >
-              {typeId => {
-                const productType = productTypes.find(({ id }) => id === typeId)
-                return productType ? productType.name : <span className={S.any}>{l`Any`}</span>
+              onChange={(type) => this.setState({ type })}
+            >
+              {(typeId) => {
+                const productType = productTypes.find(
+                  ({ id }) => id === typeId,
+                );
+                return productType ? (
+                  productType.name
+                ) : (
+                  <span className={S.any}>{l`Any`}</span>
+                );
               }}
             </Select>
 
@@ -124,6 +133,6 @@ export class InventoryChart extends React.Component               {
           </div>
         </SecondaryCard>
       </ChartCard>
-    )
+    );
   }
 }

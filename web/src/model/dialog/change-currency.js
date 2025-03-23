@@ -1,5 +1,3 @@
 /*       */
 
-                                                        
-
-export const changeCurrency                 = { name: 'change-currency' }
+export const changeCurrency = { name: "change-currency" };

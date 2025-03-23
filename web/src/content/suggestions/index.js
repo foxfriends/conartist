@@ -1,28 +1,19 @@
 /*       */
-import * as React from 'react'
-import { CardView } from '../card-view'
-import { BasicCard } from '../card-view/basic-card'
-import { AutoTable as Table } from '../../common/table/auto'
-import { SuggestionItem } from './suggestion-item'
-import { l } from '../../localization'
-import * as update from '../../update/suggestions'
-import S from './index.css'
-                                                        
-const { Fragment } = React
+import * as React from "react";
+import { CardView } from "../card-view";
+import { BasicCard } from "../card-view/basic-card";
+import { AutoTable as Table } from "../../common/table/auto";
+import { SuggestionItem } from "./suggestion-item";
+import { l } from "../../localization";
+import * as update from "../../update/suggestions";
+import S from "./index.css";
 
-                     
-                      
-                                      
- 
-
-              
-               
- 
+const { Fragment } = React;
 
 export class Suggestions extends React.Component {
   constructor(props) {
-    super(props)
-    this.state = { page: 0 }
+    super(props);
+    this.state = { page: 0 };
   }
 
   componentDidMount() {
@@ -30,7 +21,7 @@ export class Suggestions extends React.Component {
   }
 
   render() {
-    const { suggestions } = this.props
+    const { suggestions } = this.props;
     return (
       <CardView>
         <BasicCard title={l`Suggestions`}>
@@ -40,12 +31,14 @@ export class Suggestions extends React.Component {
                 {l`There are no suggestions yet. Feel free to make a request!`}
               </div>
             </Fragment>
-            {suggestion => <SuggestionItem suggestion={suggestion} key={suggestion.id} />}
+            {(suggestion) => (
+              <SuggestionItem suggestion={suggestion} key={suggestion.id} />
+            )}
           </Table>
         </BasicCard>
       </CardView>
-    )
+    );
   }
 }
 
-export default Suggestions
+export default Suggestions;

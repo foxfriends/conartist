@@ -109,12 +109,12 @@ possible. There are links to contact us on the settings page!
 
 Provide as much of this information as you can find:
 
-*   Convention name
-*   Dates
-*   Website
-*   Address
-*   Geographic coordinates (plug the address into Google Maps)
-*   Artist Alley hours
+- Convention name
+- Dates
+- Website
+- Address
+- Geographic coordinates (plug the address into Google Maps)
+- Artist Alley hours
 
 If you want to be super helpful (and are willing to get a bit more technical), fill in
 [this template](https://github.com/OinkIguana/conartist/blob/master/dev/import-conventions/sample/convention.toml)

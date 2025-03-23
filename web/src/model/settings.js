@@ -1,15 +1,8 @@
 /*       */
-                                                     
-                                       
 
-                         
-                     
-                   
-  
-
-export function parse({ currency, language }                  )           {
+export function parse({ currency, language }) {
   return {
     currency,
     language,
-  }
+  };
 }

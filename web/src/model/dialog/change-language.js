@@ -1,5 +1,3 @@
 /*       */
 
-                                                        
-
-export const changeLanguage                 = { name: 'change-language' }
+export const changeLanguage = { name: "change-language" };

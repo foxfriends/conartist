@@ -1,54 +1,54 @@
-import { model } from '../model'
-import { empty, extend, prepend, replaceById } from '../model/connection'
-import { SuggestionsConnection } from '../api/suggestions-connection'
-import { VoteForSuggestion } from '../api/vote-for-suggestion'
+import { model } from "../model";
+import { empty, extend, prepend, replaceById } from "../model/connection";
+import { SuggestionsConnection } from "../api/suggestions-connection";
+import { VoteForSuggestion } from "../api/vote-for-suggestion";
 
 export function addSuggestion(suggestion) {
   model.next({
     ...model.getValue(),
-    suggestions: prepend(model.getValue().suggestions, suggestion)
-  })
+    suggestions: prepend(model.getValue().suggestions, suggestion),
+  });
 }
 
-export function loadSuggestions(fresh: boolean = false) {
+export function loadSuggestions(fresh = false) {
   if (fresh) {
     model.next({
       ...model.getValue(),
       suggestions: empty(),
-    })
+    });
   }
-  const previous = fresh ? empty() : model.getValue().suggestions
+  const previous = fresh ? empty() : model.getValue().suggestions;
   new SuggestionsConnection()
     .send({ after: previous.endCursor })
     .subscribe(({ state, value, error }) => {
       switch (state) {
-        case 'retrieved':
+        case "retrieved":
           model.next({
             ...model.getValue(),
             suggestions: extend(previous, value),
-          })
-          break
-        case 'failed':
+          });
+          break;
+        case "failed":
           console.error(error);
-          break
+          break;
       }
-    })
+    });
 }
 
-export function voteForSuggestion(suggestionId: number) {
+export function voteForSuggestion(suggestionId) {
   new VoteForSuggestion()
     .send({ suggestionId })
     .subscribe(({ state, value, error }) => {
       switch (state) {
-        case 'retrieved':
+        case "retrieved":
           model.next({
             ...model.getValue(),
             suggestions: replaceById(model.getValue().suggestions, value),
-          })
-          break
-        case 'failed':
+          });
+          break;
+        case "failed":
           console.error(error);
-          break
+          break;
       }
-    })
+    });
 }

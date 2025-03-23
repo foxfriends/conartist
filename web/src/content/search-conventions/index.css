@@ -3,11 +3,11 @@
 }
 
 .placeholder {
-  composes: placeholder from '../../common/styles.css';
+  composes: placeholder from "../../common/styles.css";
 }
 
 .loadMore {
-  composes: placeholder from '../../common/styles.css';
+  composes: placeholder from "../../common/styles.css";
   height: var(--height--row);
 }
 

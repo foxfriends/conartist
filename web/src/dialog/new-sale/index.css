@@ -36,7 +36,7 @@
   flex-shrink: 0;
   align-items: center;
   &:hover {
-    background-color: var(--color--background-hover-highlight)
+    background-color: var(--color--background-hover-highlight);
   }
 }
 
@@ -64,7 +64,8 @@
   margin-left: auto;
 }
 
-.selectedCount + .detail, .tooltipContainer + .detail {
+.selectedCount + .detail,
+.tooltipContainer + .detail {
   --margin-left: 0;
 }
 

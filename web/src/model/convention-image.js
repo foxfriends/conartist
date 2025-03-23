@@ -1,10 +1,5 @@
 /*       */
-                                                            
 
-                                
-             
-  
-
-export function parse({ id }                         )                  {
-  return { id }
+export function parse({ id }) {
+  return { id };
 }

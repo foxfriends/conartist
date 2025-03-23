@@ -9,7 +9,7 @@
   flex-shrink: 0;
 
   &:hover {
-    --background-color: var(--color--background-hover-highlight)
+    --background-color: var(--color--background-hover-highlight);
   }
 }
 

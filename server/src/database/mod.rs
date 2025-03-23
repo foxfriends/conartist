@@ -31,7 +31,6 @@ use juniper::Context;
 use r2d2::Pool;
 use r2d2_diesel::ConnectionManager;
 
-pub use self::conversions::*;
 pub use self::factory::*;
 
 #[derive(Clone)]

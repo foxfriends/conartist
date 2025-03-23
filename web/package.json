@@ -21,7 +21,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-react": "^7.0.0",
     "apollo": "^2.33.9",
-    "autoprefixer": "^9.6.1",
+    "autoprefixer": "^9.8.8",
     "babel-loader": "^8.2.3",
     "babel-plugin-react-css-modules": "^5.2.6",
     "css-loader": "^6.7.0",

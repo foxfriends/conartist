@@ -12,12 +12,6 @@ use crate::rest::authtoken::Claims;
 /// Middleware that wraps a handler, returning a static file in the case of a file-not-found error.
 pub struct VerifyJWT;
 
-impl VerifyJWT {
-    pub fn new() -> Self {
-        Self {}
-    }
-}
-
 impl BeforeMiddleware for VerifyJWT {
     fn before(&self, request: &mut Request<'_, '_>) -> IronResult<()> {
         if let Some(auth) = request.headers.get::<Authorization<Bearer>>() {

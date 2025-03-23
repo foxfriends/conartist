@@ -101,13 +101,13 @@ fn main() {
         mount.mount(
             "/",
             GraphQLHandler::<_, _, _, _, _, DefaultScalarValue>::new(
-                move |_| Ok(database.create_privileged()),
+                move |r| Ok(database.create(r)),
                 graphql::Query,
                 graphql::Mutation,
                 EmptySubscription::<database::Database>::new(),
             ),
         );
-        chain![middleware::VerifyJWT::new(); mount]
+        chain![middleware::VerifyJWT; mount]
     };
 
     let resource = GraphQLHandler::<_, _, _, _, _, DefaultScalarValue>::new(

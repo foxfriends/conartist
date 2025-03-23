@@ -123,7 +123,7 @@ pub fn new(db: Database) -> Router {
     let mut router = Router::new();
 
     router
-        .get("/", chain![ VerifyJWT::new(); reauth ], "reauth")
+        .get("/", chain![ VerifyJWT; reauth ], "reauth")
         .post(
             "/",
             Auth {
@@ -140,7 +140,7 @@ pub fn new(db: Database) -> Router {
         )
         .post(
             "/change-password",
-            chain![ VerifyJWT::new(); ChangePassword { database: db } ],
+            chain![ VerifyJWT; ChangePassword { database: db } ],
             "auth_change_password",
         );
 

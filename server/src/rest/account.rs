@@ -178,7 +178,7 @@ pub fn new(db: Database) -> Router {
         )
         .post(
             "/resend-verification",
-            chain![ VerifyJWT::new(); ResendVerification { database: db } ],
+            chain![ VerifyJWT; ResendVerification { database: db } ],
             "resend_verification",
         );
 

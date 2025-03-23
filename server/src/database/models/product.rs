@@ -38,7 +38,7 @@ impl Product {
 }
 
 #[derive(AsChangeset, Debug)]
-#[table_name = "products"]
+#[diesel(table_name = products)]
 pub struct ProductChanges {
     pub name: Option<String>,
     pub sort: Option<i32>,

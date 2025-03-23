@@ -1,5 +1,6 @@
 //! Provides a means for representing monetary values in any currency
 use crate::error::MoneyError;
+use juniper::{InputValue, ScalarValue, Value};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use serde_json;
 use std::fmt::{Display, Formatter};
@@ -7,7 +8,13 @@ use std::ops::Add;
 use std::str::FromStr;
 
 /// Represents a specific currency. Strings are more versatile here, but not as stable.
-#[derive(Copy, Clone, PartialEq, Eq, Debug, Serialize, Deserialize)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug, Serialize, Deserialize, GraphQLScalar)]
+#[graphql(
+    description = "Represents a type of currency",
+    from_input_with = Self::from_graphql_input,
+    to_output_with = Self::to_graphql_output,
+    parse_token(String),
+)]
 pub enum Currency {
     CAD,
     USD,
@@ -21,6 +28,18 @@ pub enum Currency {
     PHP,
     SGD,
     NZD,
+}
+
+impl Currency {
+    fn from_graphql_input<S: ScalarValue>(v: &InputValue<S>) -> Result<Self, String> {
+        v.as_string_value()
+            .ok_or_else(|| format!("Expected `String`, found {v}"))
+            .and_then(|s| s.parse::<Self>().map_err(|err| err.to_string()))
+    }
+
+    fn to_graphql_output<S: ScalarValue>(v: &Self) -> Value<S> {
+        Value::from(v.to_string())
+    }
 }
 
 impl Display for Currency {
@@ -46,13 +65,29 @@ impl FromStr for Currency {
 ///
 /// In the case that fractional cents are required, an extension will need to be created. For now
 /// fractional cents seem to be out of scope.
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, GraphQLScalar)]
+#[graphql(
+    description = "Represents a monetary value and a currency as a string, such as CAD150 for $1.50 in CAD",
+    from_input_with = Self::from_graphql_input,
+    to_output_with = Self::to_graphql_output,
+    parse_token(String),
+)]
 pub struct Money {
     amt: i64,
     cur: Currency, // TODO: make an enum for all the currency types?
 }
 
 impl Money {
+    fn from_graphql_input<S: ScalarValue>(v: &InputValue<S>) -> Result<Self, String> {
+        v.as_string_value()
+            .ok_or_else(|| format!("Expected `String`, found {v}"))
+            .and_then(|s| s.parse::<Self>().map_err(|err| err.to_string()))
+    }
+
+    fn to_graphql_output<S: ScalarValue>(v: &Self) -> Value<S> {
+        Value::from(v.to_string())
+    }
+
     pub fn new(amt: i64, cur: Currency) -> Self {
         Money { amt, cur }
     }

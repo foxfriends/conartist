@@ -1,7 +1,7 @@
 //! Creates JSON encoded ConRequests in an IronResult.
 
 use iron::mime::Mime;
-use iron::{status, IronResult, Response};
+use iron::{IronResult, Response, status};
 use log::error;
 use serde::Serialize;
 use serde_json::json;

@@ -2,8 +2,8 @@
 
 use iron::headers::{Authorization, Bearer};
 use iron::prelude::*;
-use iron::{status, BeforeMiddleware};
-use jsonwebtoken::{decode, DecodingKey, Validation};
+use iron::{BeforeMiddleware, status};
+use jsonwebtoken::{DecodingKey, Validation, decode};
 
 use crate::env::JWT_SECRET;
 use crate::error::StringError;
@@ -11,12 +11,6 @@ use crate::rest::authtoken::Claims;
 
 /// Middleware that wraps a handler, returning a static file in the case of a file-not-found error.
 pub struct VerifyJWT;
-
-impl VerifyJWT {
-    pub fn new() -> Self {
-        Self {}
-    }
-}
 
 impl BeforeMiddleware for VerifyJWT {
     fn before(&self, request: &mut Request<'_, '_>) -> IronResult<()> {

@@ -3,11 +3,11 @@ use diesel::prelude::*;
 use diesel::{dsl, sql_types};
 use std::collections::{HashMap, HashSet};
 
+use super::Database;
 use super::dsl::*;
 use super::models::*;
 use super::schema::*;
 use super::views::*;
-use super::Database;
 
 // TODO: do some caching here for efficiency
 // TODO: handle errors more properly, returning Result<_, Error> instead of String
@@ -15,10 +15,10 @@ use super::Database;
 impl Database {
     pub fn get_settings_for_user(&self, maybe_user_id: Option<i32>) -> Result<Settings, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
         usersettings::table
             .filter(usersettings::user_id.eq(user_id))
-            .first::<Settings>(&*conn)
+            .first::<Settings>(&mut conn)
             .map(|settings| Settings {
                 currency: settings.currency,
                 language: settings.language.trim().to_owned(),
@@ -34,11 +34,11 @@ impl Database {
 
     pub fn get_admin_clearance(&self, maybe_user_id: Option<i32>) -> Result<i32, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
         admins::table
             .select(admins::clearance)
             .filter(admins::user_id.eq(user_id))
-            .first::<i32>(&*conn)
+            .first::<i32>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "Admin clearance for user with id {} could not be retrieved. Reason: {}",
@@ -49,7 +49,7 @@ impl Database {
 
     pub fn get_prices_for_user(&self, maybe_user_id: Option<i32>) -> Result<Vec<Price>, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
         return prices::table
             .inner_join(
                 currentprices::table.on(prices::type_id
@@ -61,7 +61,7 @@ impl Database {
             .select(prices::all_columns)
             .filter(prices::user_id.eq(user_id))
             .filter(prices::price.is_not_null())
-            .load::<Price>(&*conn)
+            .load::<Price>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "Prices for user with id {} could not be retrieved. Reason: {}",
@@ -81,7 +81,7 @@ impl Database {
         maybe_user_id: Option<i32>,
     ) -> Result<Vec<Convention>, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
         user_conventions::table
             .inner_join(conventions::table)
             .select((
@@ -94,7 +94,7 @@ impl Database {
             ))
             .filter(user_conventions::user_id.eq(user_id))
             .order(conventions::start_date.desc())
-            .load::<Convention>(&*conn)
+            .load::<Convention>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "Conventions for user with id {} could not be retrieved. Reason: {}",
@@ -109,12 +109,12 @@ impl Database {
         con_id: i32,
     ) -> Result<Vec<ProductSnapshot>, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
 
         let end_date = conventions::table
             .select(conventions::end_date)
             .filter(conventions::con_id.eq(con_id))
-            .first::<NaiveDate>(&*conn)
+            .first::<NaiveDate>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "Convention with id {} could not be retrieved. Reason: {}",
@@ -130,7 +130,7 @@ impl Database {
             .filter(records::user_id.eq(user_id))
             .filter(dsl::sql::<sql_types::Timestamptz>("sale_time::timestamptz").lt(date))
             .filter(records::con_id.ne(con_id))
-            .load::<i32>(&*conn)
+            .load::<i32>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "Records for user with id {} could not be retrieved. Reason: {}",
@@ -157,7 +157,7 @@ impl Database {
             .filter(products::user_id.eq(user_id))
             .group_by(products::product_id)
             .order((products::sort.asc(), products::product_id.asc()))
-            .load::<Product>(&*conn)
+            .load::<Product>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "Products for user with id {} could not be retrieved. Reason: {}",
@@ -181,7 +181,7 @@ impl Database {
             .filter(productevents::product_id.eq_any(&product_ids))
             .filter(productevents::event_time.lt(date))
             .order_by((productevents::product_id, productevents::event_time.desc()))
-            .load::<(i32, EventType)>(&*conn)
+            .load::<(i32, EventType)>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "Events for products with user id {} could not be retrieved. Reason: {}",
@@ -201,7 +201,7 @@ impl Database {
             .filter(inventory::product_id.eq_any(&product_ids))
             .filter(inventory::mod_date.lt(date))
             .group_by(inventory::product_id)
-            .load::<(i32, i64)>(&*conn)
+            .load::<(i32, i64)>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "Inventory for products with user id {} could not be retrieved. Reason: {}",
@@ -228,12 +228,12 @@ impl Database {
         con_id: i32,
     ) -> Result<Vec<Price>, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
 
         let end_date = conventions::table
             .select(conventions::end_date)
             .filter(conventions::con_id.eq(con_id))
-            .first::<NaiveDate>(&*conn)
+            .first::<NaiveDate>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "Convention with id {} could not be retrieved. Reason: {}",
@@ -259,7 +259,7 @@ impl Database {
             // Solution: Store a time zone offset with each convention...
             //  This solution should also make a lot of other time related improvements possible!
             .filter(prices::mod_date.lt(date))
-            .load::<Price>(&*conn)
+            .load::<Price>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "Prices for user with id {} could not be retrieved. Reason: {}",

@@ -3,9 +3,9 @@ use diesel::prelude::*;
 use diesel::{self, dsl};
 use serde_json;
 
+use super::Database;
 use super::models::*;
 use super::schema::*;
-use super::Database;
 use crate::money::Money;
 
 impl Database {
@@ -18,7 +18,7 @@ impl Database {
         price: Money,
     ) -> Result<Price, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
         diesel::insert_into(prices::table)
             .values((
                 prices::user_id.eq(user_id),
@@ -27,7 +27,7 @@ impl Database {
                 prices::quantity.eq(quantity),
                 prices::price.eq(price.to_string()),
             ))
-            .get_result::<Price>(&*conn)
+            .get_result::<Price>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "Could not create price for user with id {}. Reason: {}",
@@ -42,12 +42,12 @@ impl Database {
         con_id: i32,
     ) -> Result<Convention, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
-        conn.transaction(|| {
+        let mut conn = self.pool.get().unwrap();
+        conn.transaction(|conn| {
                 let convention =
                     conventions::table
                         .filter(conventions::con_id.eq(con_id))
-                        .first::<DetachedConvention>(&*conn)?;
+                        .first::<DetachedConvention>(conn)?;
 
                 if convention.end_date.and_hms(23, 59, 59) < Utc::now().naive_utc() {
                     return Err(
@@ -63,7 +63,7 @@ impl Database {
 
                 diesel::insert_into(user_conventions::table)
                     .values((user_conventions::user_id.eq(user_id), user_conventions::con_id.eq(con_id)))
-                    .execute(&*conn)?;
+                    .execute(conn)?;
                 Ok(convention.attached_to(user_id))
             })
             .map_err(|reason| format!("Could not create user_convention for user with id {} and convention with id {}. Reason: {}", user_id, con_id, reason))
@@ -76,11 +76,11 @@ impl Database {
         info: String,
     ) -> Result<ConventionUserInfo, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
-        conn.transaction(|| {
+        let mut conn = self.pool.get().unwrap();
+        conn.transaction(|conn| {
             let convention = conventions::table.filter(conventions::con_id.eq(con_id));
 
-            if !diesel::select(dsl::exists(convention)).get_result::<bool>(&*conn)? {
+            if !diesel::select(dsl::exists(convention)).get_result::<bool>(conn)? {
                 return Err(diesel::result::Error::NotFound);
             }
 
@@ -90,7 +90,7 @@ impl Database {
                     conventionuserinfo::con_id.eq(con_id),
                     conventionuserinfo::information.eq(info),
                 ))
-                .get_result::<RawConventionUserInfo>(&*conn)
+                .get_result::<RawConventionUserInfo>(conn)
                 .map(Into::into)
         })
         .map_err(|reason| {
@@ -109,12 +109,12 @@ impl Database {
         end_date: NaiveDate,
     ) -> Result<Convention, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
-        conn.transaction(|| {
+        let mut conn = self.pool.get().unwrap();
+        conn.transaction(|conn| {
             let clearance = admins::table
                 .select(admins::clearance)
                 .filter(admins::user_id.eq(user_id))
-                .first::<i32>(&*conn)
+                .first::<i32>(conn)
                 .unwrap_or(0);
 
             if clearance == 0 {
@@ -127,7 +127,7 @@ impl Database {
                     conventions::start_date.eq(start_date),
                     conventions::end_date.eq(end_date),
                 ))
-                .get_result::<DetachedConvention>(&*conn)
+                .get_result::<DetachedConvention>(conn)
                 .map(Into::into)
         })
         .map_err(|reason| {
@@ -148,12 +148,12 @@ impl Database {
         action_text: Option<String>,
     ) -> Result<ConventionExtraInfo, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
-        conn.transaction(|| {
+        let mut conn = self.pool.get().unwrap();
+        conn.transaction(|conn| {
             let clearance = admins::table
                 .select(admins::clearance)
                 .filter(admins::user_id.eq(user_id))
-                .first::<i32>(&*conn)
+                .first::<i32>(conn)
                 .unwrap_or(0);
 
             if clearance == 0 {
@@ -168,7 +168,7 @@ impl Database {
                     conventionextrainfo::action.eq(action),
                     conventionextrainfo::action_text.eq(action_text),
                 ))
-                .get_result::<ConventionExtraInfo>(&*conn)
+                .get_result::<ConventionExtraInfo>(conn)
                 .map(Into::into)
         })
         .map_err(|reason| {

@@ -2,11 +2,11 @@ use chrono::NaiveDate;
 use diesel::prelude::*;
 use diesel::{dsl, sql_types};
 
+use super::Database;
 use super::dsl::*;
 use super::models::*;
 use super::schema::*;
 use super::views::*;
-use super::Database;
 use crate::search::Search;
 
 impl Database {
@@ -16,10 +16,10 @@ impl Database {
         con_id: i32,
     ) -> Result<Convention, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
         conventions::table
             .filter(conventions::con_id.eq(con_id))
-            .first::<DetachedConvention>(&*conn)
+            .first::<DetachedConvention>(&mut conn)
             .map(|con| con.attached_to(user_id))
             .map_err(|reason| {
                 format!(
@@ -36,7 +36,7 @@ impl Database {
         limit: i64,
         after: Option<&String>,
     ) -> Result<Vec<Convention>, String> {
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
         let mut query = conventionsearch::table
             .select((
                 conventionsearch::con_id,
@@ -81,7 +81,7 @@ impl Database {
             .then_order_by(conventionsearch::start_date.asc())
             .then_order_by(conventionsearch::end_date.asc())
             .then_order_by(conventionsearch::con_id.asc())
-            .load::<DetachedConvention>(&*conn)
+            .load::<DetachedConvention>(&mut conn)
             .map(|cons| cons.into_iter().map(Into::<Convention>::into).collect())
             .map_err(|reason| {
                 format!(
@@ -92,7 +92,7 @@ impl Database {
     }
 
     pub fn count_conventions_after(&self, search: Option<&Search>, date: NaiveDate) -> i64 {
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
         let mut query = conventionsearch::table
             .select(dsl::count(conventionsearch::con_id))
             .filter(conventionsearch::end_date.ge(date))
@@ -113,17 +113,17 @@ impl Database {
                 query = query.filter(city_score.gt(0f64))
             }
         }
-        query.first::<i64>(&*conn).unwrap_or(0i64)
+        query.first::<i64>(&mut conn).unwrap_or(0i64)
     }
 
     pub fn get_convention_extra_info_for_convention(
         &self,
         con_id: i32,
     ) -> Result<Vec<ConventionExtraInfo>, String> {
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
         conventionextrainfo::table
             .filter(conventionextrainfo::con_id.eq(con_id))
-            .load::<ConventionExtraInfo>(&*conn)
+            .load::<ConventionExtraInfo>(&mut conn)
             .map_err(|reason| format!("Convention extra info for convention with id {} could not be retrieved. Reason: {}", con_id, reason))
     }
 
@@ -131,7 +131,7 @@ impl Database {
         &self,
         con_id: i32,
     ) -> Result<Vec<ConventionUserInfo>, String> {
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
         conventionuserinfo::table
             .left_outer_join(conventioninforatings::table)
             .select((
@@ -142,7 +142,7 @@ impl Database {
             ))
             .filter(conventionuserinfo::con_id.eq(con_id))
             .group_by(conventionuserinfo::con_info_id)
-            .load::<ConventionUserInfo>(&*conn)
+            .load::<ConventionUserInfo>(&mut conn)
             .map_err(|reason| format!("Convention user info for convention with id {} could not be retrieved. Reason: {}", con_id, reason))
     }
 
@@ -152,23 +152,23 @@ impl Database {
         con_info_id: i32,
     ) -> Result<i32, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
         conventioninforatings::table
             .select(dsl::sql::<sql_types::Int4>(
                 "CASE rating WHEN true THEN 1 WHEN false THEN -1 ELSE 0 END",
             ))
             .filter(conventioninforatings::user_id.eq(user_id))
             .filter(conventioninforatings::con_info_id.eq(con_info_id))
-            .first::<i32>(&*conn)
+            .first::<i32>(&mut conn)
             .or(Ok(0))
     }
 
     pub fn get_images_for_convention(&self, con_id: i32) -> Result<Vec<ConventionImage>, String> {
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
         conventionimages::table
             .distinct_on(conventionimages::image_uuid)
             .filter(conventionimages::con_id.eq(con_id))
-            .load::<ConventionImage>(&*conn)
+            .load::<ConventionImage>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "Images for convention with id {} could not be retrieved. Reason: {}",

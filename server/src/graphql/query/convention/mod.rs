@@ -1,92 +1,93 @@
 //! Holds information about a convention
 use chrono::{DateTime, Utc};
-use juniper::{graphql_object, FieldResult};
+use juniper::{FieldResult, graphql_object};
 
 mod connection;
 mod extra_info;
 mod image;
 mod user_info;
 
-use crate::database::models::*;
 use crate::database::Database;
+use crate::database::models::*;
 use crate::money::Money;
 
-graphql_object!(Convention: Database |&self| {
-    description: "Holds information about a convention and a user's records at that convention"
+#[graphql_object]
+#[graphql(
+    description = "Holds information about a convention and a user's records at that convention"
+)]
+impl Convention {
+    fn id(&self) -> i32 {
+        self.con_id
+    }
+    fn name(&self) -> &String {
+        &self.title
+    }
+    fn start(&self) -> DateTime<Utc> {
+        DateTime::from_utc(self.start_date.and_hms(0, 0, 0), Utc)
+    }
+    fn end(&self) -> DateTime<Utc> {
+        DateTime::from_utc(self.end_date.and_hms(23, 59, 59), Utc)
+    }
 
-    field id() -> i32 { self.con_id }
-    field name() -> &String { &self.title }
-    field start() -> DateTime<Utc> { DateTime::from_utc(self.start_date.and_hms(0, 0, 0), Utc) }
-    field end() -> DateTime<Utc> { DateTime::from_utc(self.end_date.and_hms(23, 59, 59), Utc) }
-
-    field images(&executor) -> FieldResult<Vec<ConventionImage>> {
+    fn images(&self, context: &Database) -> FieldResult<Vec<ConventionImage>> {
         dbtry! {
-            executor
-                .context()
+            context
                 .get_images_for_convention(self.con_id)
         }
     }
 
-    field extra_info(&executor) -> FieldResult<Vec<ConventionExtraInfo>> {
+    fn extra_info(&self, context: &Database) -> FieldResult<Vec<ConventionExtraInfo>> {
         dbtry! {
-            executor
-                .context()
+            context
                 .get_convention_extra_info_for_convention(self.con_id)
         }
     }
 
-    field user_info(&executor) -> FieldResult<Vec<ConventionUserInfo>> {
+    fn user_info(&self, context: &Database) -> FieldResult<Vec<ConventionUserInfo>> {
         dbtry! {
-            executor
-                .context()
+            context
                 .get_convention_user_info_for_convention(self.con_id)
         }
     }
 
-    field product_types(&executor) -> FieldResult<Vec<ProductTypeSnapshot>> {
+    fn product_types(&self, context: &Database) -> FieldResult<Vec<ProductTypeSnapshot>> {
         dbtry! {
-            executor
-                .context()
+            context
                 .get_all_product_types_for_user(self.user_id, Some(DateTime::from_utc(self.end_date.and_hms(23, 59, 59), Utc)))
         }
     }
 
-    field products(&executor) -> FieldResult<Vec<ProductSnapshot>> {
+    fn products(&self, context: &Database) -> FieldResult<Vec<ProductSnapshot>> {
         dbtry! {
-            executor
-                .context()
+            context
                 .get_products_for_user_con(self.user_id, self.con_id)
         }
     }
 
-    field prices(&executor) -> FieldResult<Vec<Price>> {
+    fn prices(&self, context: &Database) -> FieldResult<Vec<Price>> {
         dbtry! {
-            executor
-                .context()
+            context
                 .get_prices_for_user_con(self.user_id, self.con_id)
         }
     }
 
-    field records(&executor) -> FieldResult<Vec<Record>> {
+    fn records(&self, context: &Database) -> FieldResult<Vec<Record>> {
         dbtry! {
-            executor
-                .context()
+            context
                 .get_records_for_user_con(self.user_id, self.con_id)
         }
     }
 
-    field expenses(&executor) -> FieldResult<Vec<Expense>> {
+    fn expenses(&self, context: &Database) -> FieldResult<Vec<Expense>> {
         dbtry! {
-            executor
-                .context()
+            context
                 .get_expenses_for_user_con(self.user_id, self.con_id)
         }
     }
 
-    field record_total(&executor) -> FieldResult<Option<Money>> {
+    fn record_total(&self, context: &Database) -> FieldResult<Option<Money>> {
         dbtry! {
-            executor
-                .context()
+            context
                 .get_records_for_user_con(self.user_id, self.con_id)
                 .map(|records| {
                     records
@@ -97,10 +98,9 @@ graphql_object!(Convention: Database |&self| {
         }
     }
 
-    field expense_total(&executor) -> FieldResult<Option<Money>> {
+    fn expense_total(&self, context: &Database) -> FieldResult<Option<Money>> {
         dbtry! {
-            executor
-                .context()
+            context
                 .get_expenses_for_user_con(self.user_id, self.con_id)
                 .map(|expenses| {
                     expenses
@@ -110,4 +110,4 @@ graphql_object!(Convention: Database |&self| {
                 })
         }
     }
-});
+}

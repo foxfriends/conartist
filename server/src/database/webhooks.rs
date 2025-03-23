@@ -3,19 +3,19 @@ use log::warn;
 use reqwest::blocking::Client;
 use serde_json::json;
 
+use super::Database;
 use super::models::*;
 use super::schema::*;
-use super::Database;
 
 impl Database {
     pub fn get_webhooks_new_record_for_user(
         &self,
         user_id: i32,
     ) -> Result<Vec<WebhookNewRecord>, String> {
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
         webhooknewrecord::table
             .filter(webhooknewrecord::user_id.eq(user_id))
-            .load::<WebhookNewRecord>(&*conn)
+            .load::<WebhookNewRecord>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "WebhookNewRecord for user {} could not be loaded: {}",
@@ -28,10 +28,10 @@ impl Database {
         &self,
         user_id: i32,
     ) -> Result<Vec<WebhookDeleteRecord>, String> {
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
         webhookdeletedrecord::table
             .filter(webhookdeletedrecord::user_id.eq(user_id))
-            .load::<WebhookDeleteRecord>(&*conn)
+            .load::<WebhookDeleteRecord>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "WebhookDeleteRecord for user {} could not be loaded: {}",
@@ -46,14 +46,14 @@ impl Database {
         url: String,
     ) -> Result<WebhookNewRecord, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
-        conn.transaction(|| -> diesel::result::QueryResult<WebhookNewRecord> {
+        let mut conn = self.pool.get().unwrap();
+        conn.transaction(|conn| -> diesel::result::QueryResult<WebhookNewRecord> {
             let webhook = diesel::insert_into(webhooknewrecord::table)
                 .values((
                     webhooknewrecord::user_id.eq(user_id),
                     webhooknewrecord::url.eq(url),
                 ))
-                .get_result::<WebhookNewRecord>(&*conn)?;
+                .get_result::<WebhookNewRecord>(conn)?;
             Ok(webhook)
         })
         .map_err(|reason| {
@@ -70,14 +70,14 @@ impl Database {
         url: String,
     ) -> Result<WebhookDeleteRecord, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
-        conn.transaction(|| -> diesel::result::QueryResult<WebhookDeleteRecord> {
+        let mut conn = self.pool.get().unwrap();
+        conn.transaction(|conn| -> diesel::result::QueryResult<WebhookDeleteRecord> {
             let webhook = diesel::insert_into(webhookdeletedrecord::table)
                 .values((
                     webhookdeletedrecord::user_id.eq(user_id),
                     webhookdeletedrecord::url.eq(url),
                 ))
-                .get_result::<WebhookDeleteRecord>(&*conn)?;
+                .get_result::<WebhookDeleteRecord>(conn)?;
             Ok(webhook)
         })
         .map_err(|reason| {
@@ -94,11 +94,11 @@ impl Database {
         webhook_id: i32,
     ) -> Result<bool, String> {
         self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
-        conn.transaction(|| -> diesel::result::QueryResult<bool> {
+        let mut conn = self.pool.get().unwrap();
+        conn.transaction(|conn| -> diesel::result::QueryResult<bool> {
             diesel::delete(webhooknewrecord::table)
                 .filter(webhooknewrecord::webhook_id.eq(webhook_id))
-                .execute(&*conn)?;
+                .execute(conn)?;
             Ok(true)
         })
         .map_err(|reason| {
@@ -115,11 +115,11 @@ impl Database {
         webhook_id: i32,
     ) -> Result<bool, String> {
         self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
-        conn.transaction(|| -> diesel::result::QueryResult<bool> {
+        let mut conn = self.pool.get().unwrap();
+        conn.transaction(|conn| -> diesel::result::QueryResult<bool> {
             diesel::delete(webhookdeletedrecord::table)
                 .filter(webhookdeletedrecord::webhook_id.eq(webhook_id))
-                .execute(&*conn)?;
+                .execute(conn)?;
             Ok(true)
         })
         .map_err(|reason| {
@@ -131,10 +131,10 @@ impl Database {
     }
 
     pub fn trigger_webhook_new_record(&self, record: &Record) -> Result<(), String> {
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
         let hooks = webhooknewrecord::table
             .filter(webhooknewrecord::user_id.eq(record.user_id))
-            .load::<WebhookNewRecord>(&*conn)
+            .load::<WebhookNewRecord>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "WebhookNewRecord for user {} could not be loaded: {}",
@@ -144,7 +144,7 @@ impl Database {
 
         let record_products = products::table
             .filter(products::product_id.eq_any(&record.products))
-            .load::<Product>(&*conn)
+            .load::<Product>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "Products for record {} could not be loaded: {}",
@@ -184,11 +184,11 @@ impl Database {
     }
 
     pub fn trigger_webhook_delete_record(&self, record: &Record) -> Result<(), String> {
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
 
         let hooks = webhookdeletedrecord::table
             .filter(webhookdeletedrecord::user_id.eq(record.user_id))
-            .load::<WebhookDeleteRecord>(&*conn)
+            .load::<WebhookDeleteRecord>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "WebhookDeleteRecord for user {} could not be loaded: {}",
@@ -198,7 +198,7 @@ impl Database {
 
         let record_products = products::table
             .filter(products::product_id.eq_any(&record.products))
-            .load::<Product>(&*conn)
+            .load::<Product>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "Products for record {} could not be loaded: {}",

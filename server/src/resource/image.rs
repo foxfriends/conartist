@@ -1,10 +1,28 @@
 //! The Image type for the GraphQL API
 use base64;
-use juniper::{graphql_scalar, ParseScalarResult, ParseScalarValue, Value};
+use juniper::{InputValue, ScalarValue, Value};
 
+#[derive(GraphQLScalar)]
+#[graphql(
+    description = "An image encoded as a PNG in base64 representation",
+    parse_token(String),
+    from_input_with = Self::from_graphql_input,
+    to_output_with = Self::to_graphql_output,
+)]
 pub struct Image(Vec<u8>);
 
 impl Image {
+    fn from_graphql_input<S: ScalarValue>(v: &InputValue<S>) -> Result<Image, String> {
+        v.as_string_value()
+            .ok_or_else(|| "Expected `String`".to_owned())
+            .and_then(|s| base64::decode(&s).map_err(|err| err.to_string()))
+            .map(|b| Image::new(b))
+    }
+
+    fn to_graphql_output<S: ScalarValue>(v: &Self) -> Value<S> {
+        Value::from(v.to_base64_png())
+    }
+
     pub fn new(data: Vec<u8>) -> Self {
         Image(data)
     }
@@ -18,21 +36,3 @@ impl Image {
         return base64::encode(&self.0);
     }
 }
-
-graphql_scalar!(Image where Scalar = <S> {
-    description: "An image encoded as a PNG in base64 representation"
-
-    resolve(&self) -> Value {
-        Value::scalar(self.to_base64_png())
-    }
-
-    from_input_value(v: &InputValue) -> Option<Image> {
-        v   .as_scalar_value::<'_, String>()
-            .and_then(|s| base64::decode(&s).ok())
-            .map(|b| Image::new(b))
-    }
-
-    from_str<'a>(value: ScalarToken<'a>) -> ParseScalarResult<'a, S> {
-        <String as ParseScalarValue<S>>::from_str(value)
-    }
-});

@@ -1,40 +1,35 @@
 use chrono::{DateTime, FixedOffset};
-use diesel::deserialize::{self, FromSql, FromSqlRow};
+use diesel::Queryable;
+use diesel::deserialize::{self, FromSql};
 use diesel::pg::Pg;
 use diesel::serialize::{self, Output, ToSql};
 use diesel::sql_types::Text;
-use diesel::Queryable;
 
-use std::error::Error;
 use std::io::Write;
 
 #[derive(Copy, Clone, Debug)]
 pub struct Time(pub DateTime<FixedOffset>);
 
 impl FromSql<Text, Pg> for Time {
-    fn from_sql(bytes: Option<&[u8]>) -> deserialize::Result<Self> {
+    fn from_sql(
+        bytes: <Pg as diesel::backend::Backend>::RawValue<'_>,
+    ) -> deserialize::Result<Self> {
         let string: String = FromSql::<Text, Pg>::from_sql(bytes)?;
         Ok(Time(DateTime::parse_from_rfc3339(&string)?))
     }
 }
 
 impl ToSql<Text, Pg> for Time {
-    fn to_sql<W: Write>(&self, w: &mut Output<'_, W, Pg>) -> serialize::Result {
-        ToSql::<Text, Pg>::to_sql(&self.0.to_rfc3339(), w)
-    }
-}
-
-impl FromSqlRow<Text, Pg> for Time {
-    fn build_from_row<R: ::diesel::row::Row<Pg>>(
-        row: &mut R,
-    ) -> Result<Self, Box<dyn Error + Send + Sync>> {
-        FromSql::<Text, Pg>::from_sql(row.take())
+    fn to_sql<'b>(&'b self, out: &mut Output<'b, '_, Pg>) -> serialize::Result {
+        out.write_all(&self.0.to_rfc3339().as_bytes())?;
+        Ok(serialize::IsNull::No)
     }
 }
 
 impl Queryable<Text, Pg> for Time {
     type Row = Self;
-    fn build(row: Self) -> Self {
-        row
+
+    fn build(row: Self::Row) -> deserialize::Result<Self> {
+        Ok(row)
     }
 }

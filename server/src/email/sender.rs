@@ -1,8 +1,8 @@
 use lazy_static::lazy_static;
 use lettre::smtp::{
+    SmtpClient, SmtpTransport,
     authentication::{Credentials, Mechanism},
     extension::ClientId,
-    SmtpClient, SmtpTransport,
 };
 
 use std::sync::Mutex;

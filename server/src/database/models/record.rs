@@ -19,7 +19,7 @@ pub struct Record {
 }
 
 #[derive(AsChangeset, Debug)]
-#[table_name = "records"]
+#[diesel(table_name = records)]
 pub struct RecordChanges {
     pub products: Option<Vec<i32>>,
     pub price: Option<String>,

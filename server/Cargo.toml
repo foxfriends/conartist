@@ -25,16 +25,14 @@ ring = "0.17.12"
 bcrypt = "0.3.0"
 
 # Database
-r2d2 = "0.8.8"
-r2d2-diesel = "1.0.0"
-diesel = { version = "1.4.8", features = ["postgres", "chrono", "serde_json", "uuidv07"] }
-diesel-derive-enum = { version = "1.1.2", features = ["postgres"] }
+diesel = { version = "2.2.8", features = ["postgres", "chrono", "serde_json", "uuid", "r2d2"] }
+diesel-derive-enum = { version = "2.1.0", features = ["postgres"] }
 
 # Models
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 chrono = { version = "0.4.10", features = ["serde"] }
-uuid = "0.7.4"
+uuid = { version = "1.16.0", features = ["v4", "serde"] }
 
 # CLI
 colored = "1.9.1"
@@ -46,23 +44,20 @@ base64 = "0.9.3"
 
 # util
 lazy_static = "1.4.0"
-failure = "0.1.6"
+failure = "0.1.8"
 reqwest = { version = "0.11.9", features = ["json", "blocking"] }
 
 lettre = { version = "0.9.6", default-features = false, features = ["smtp-transport"], optional = true }
 lettre_email = { version = "0.9.2", optional = true }
 dotenv = "0.15.0"
+urlencoded = "0.6.0"
 
 # NOTE: using the fork of Juniper because Apollo is unable to download schemas from the original
 #       Juniper for some reason.
+# NOTE: using the fork of Juniper because they used "smartstring" which was failing to compile"
+# juniper = { version = "0.16.1", features = ["chrono", "uuid"] }
 
 [dependencies.juniper]
 git = "https://github.com/foxfriends/juniper"
-rev = "3755979798bfe09f43ea2e75bc8277a099b7ba05"
+branch = "for_conartist"
 features = ["chrono", "uuid"]
-[dependencies.juniper_codegen]
-git = "https://github.com/foxfriends/juniper"
-rev = "3755979798bfe09f43ea2e75bc8277a099b7ba05"
-[dependencies.juniper_iron]
-git = "https://github.com/foxfriends/juniper"
-rev = "3755979798bfe09f43ea2e75bc8277a099b7ba05"

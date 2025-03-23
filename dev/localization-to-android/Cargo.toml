@@ -2,7 +2,7 @@
 name = "localization-to-android"
 version = "0.1.0"
 authors = ["Cameron Eldridge <cameldridge+git@gmail.com>"]
-edition = "2018"
+edition = "2024"
 
 [dependencies]
 toml = "0.4"

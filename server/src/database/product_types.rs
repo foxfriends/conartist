@@ -191,18 +191,18 @@ impl Database {
         let mut conn = self.pool.get().unwrap();
 
         conn.transaction(|conn| {
-            let product_type = producttypes::table
-                .filter(producttypes::type_id.eq(type_id))
-                .filter(producttypes::user_id.eq(user_id));
-            if !diesel::select(dsl::exists(product_type)).get_result::<bool>(conn)? {
-                return Err(diesel::result::Error::NotFound);
-            }
-
-            let product_type = diesel::update(producttypes::table)
+            let mut product_type = producttypes::table
                 .filter(producttypes::type_id.eq(type_id))
                 .filter(producttypes::user_id.eq(user_id))
-                .set(&ProductTypeChange { name, color, sort })
                 .get_result::<ProductType>(conn)?;
+
+            if name.is_some() || color.is_some() || sort.is_some() {
+                product_type = diesel::update(producttypes::table)
+                    .filter(producttypes::type_id.eq(type_id))
+                    .filter(producttypes::user_id.eq(user_id))
+                    .set(&ProductTypeChange { name, color, sort })
+                    .get_result::<ProductType>(conn)?;
+            }
 
             let previously_discontinued = producttypeevents::table
                 .select(producttypeevents::event_type)
@@ -237,7 +237,7 @@ impl Database {
 
             Ok(product_type.with_snapshot_data(is_now_discontinued))
         })
-        .map_err(|reason| {
+        .map_err(|reason: diesel::result::Error| {
             format!(
                 "Could not update product type with id {}. Reason: {}",
                 type_id, reason

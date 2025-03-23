@@ -11,8 +11,8 @@ use iron::{
     status,
 };
 use juniper::{
-    http, http::GraphQLBatchRequest, DefaultScalarValue, GraphQLType, InputValue, RootNode,
-    ScalarValue,
+    DefaultScalarValue, GraphQLType, InputValue, RootNode, ScalarValue, http,
+    http::GraphQLBatchRequest,
 };
 use serde_json::error::Error as SerdeError;
 use urlencoded::{UrlDecodingError, UrlEncodedQuery};
@@ -292,17 +292,17 @@ impl From<GraphQLIronError> for IronError {
 mod tests {
     use super::*;
     use iron::{
+        Handler, Headers, Url,
         headers::ContentType,
         mime::{Mime, SubLevel, TopLevel},
-        Handler, Headers, Url,
     };
     use iron_test::{request, response};
-    use percent_encoding::{utf8_percent_encode, AsciiSet, CONTROLS};
+    use percent_encoding::{AsciiSet, CONTROLS, utf8_percent_encode};
 
     use juniper::{
+        DefaultScalarValue, EmptyMutation, EmptySubscription,
         http::tests as http_tests,
         tests::fixtures::starwars::schema::{Database, Query},
-        DefaultScalarValue, EmptyMutation, EmptySubscription,
     };
 
     use super::GraphQLHandler;

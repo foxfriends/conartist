@@ -5,10 +5,10 @@ use chrono::Utc;
 use diesel::sql_types;
 use diesel::{self, dsl, prelude::*};
 
+use super::Database;
 use super::dsl::*;
 use super::models::*;
 use super::schema::*;
-use super::Database;
 
 impl Database {
     pub fn create_product_type(
@@ -19,7 +19,7 @@ impl Database {
         sort: i32,
     ) -> Result<ProductTypeSnapshot, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
         let product_type = diesel::insert_into(producttypes::table)
             .values((
                 producttypes::user_id.eq(user_id),
@@ -27,7 +27,7 @@ impl Database {
                 producttypes::color.eq(color),
                 producttypes::sort.eq(sort),
             ))
-            .get_result::<ProductType>(&*conn)
+            .get_result::<ProductType>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "Failed to create new product type for user with id {}. Reason: {}",
@@ -43,13 +43,13 @@ impl Database {
         as_of: Option<DateTime<Utc>>,
     ) -> Result<Vec<ProductTypeSnapshot>, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
         let as_of = as_of.map(|date| date.naive_utc());
 
         let product_types = producttypes::table
             .filter(producttypes::user_id.eq(user_id))
             .order((producttypes::sort.asc(), producttypes::type_id.asc()))
-            .load::<ProductType>(&*conn)
+            .load::<ProductType>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "ProductTypes for user with id {} could not be retrieved. Reason: {}",
@@ -75,10 +75,10 @@ impl Database {
                 Some(as_of) => Box::new(producttypeevents::event_time.lt(as_of))
                     as Box<
                         dyn BoxableExpression<
-                            producttypeevents::table,
-                            diesel::pg::Pg,
-                            SqlType = sql_types::Bool,
-                        >,
+                                producttypeevents::table,
+                                diesel::pg::Pg,
+                                SqlType = sql_types::Bool,
+                            >,
                     >,
                 None => Box::new(producttypeevents::event_time.lt(dsl::now)),
             })
@@ -86,7 +86,7 @@ impl Database {
                 producttypeevents::type_id,
                 producttypeevents::event_time.desc(),
             ))
-            .load::<(i32, EventType)>(&*conn)
+            .load::<(i32, EventType)>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "Events for product types with user id {} could not be retrieved. Reason: {}",
@@ -113,14 +113,14 @@ impl Database {
         as_of: Option<DateTime<Utc>>,
     ) -> Result<Vec<ProductTypeSnapshot>, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
         let as_of = as_of.map(|date| date.naive_utc());
 
         let product_types = producttypes::table
             .filter(producttypes::user_id.eq(user_id))
             .filter(producttypes::deleted.eq(false))
             .order((producttypes::sort.asc(), producttypes::type_id.asc()))
-            .load::<ProductType>(&*conn)
+            .load::<ProductType>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "ProductTypes for user with id {} could not be retrieved. Reason: {}",
@@ -146,10 +146,10 @@ impl Database {
                 Some(as_of) => Box::new(producttypeevents::event_time.lt(as_of))
                     as Box<
                         dyn BoxableExpression<
-                            producttypeevents::table,
-                            diesel::pg::Pg,
-                            SqlType = sql_types::Bool,
-                        >,
+                                producttypeevents::table,
+                                diesel::pg::Pg,
+                                SqlType = sql_types::Bool,
+                            >,
                     >,
                 None => Box::new(producttypeevents::event_time.lt(dsl::now)),
             })
@@ -157,7 +157,7 @@ impl Database {
                 producttypeevents::type_id,
                 producttypeevents::event_time.desc(),
             ))
-            .load::<(i32, EventType)>(&*conn)
+            .load::<(i32, EventType)>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "Events for product types with user id {} could not be retrieved. Reason: {}",
@@ -188,13 +188,13 @@ impl Database {
         sort: Option<i32>,
     ) -> Result<ProductTypeSnapshot, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
 
-        conn.transaction(|| {
+        conn.transaction(|conn| {
             let product_type = producttypes::table
                 .filter(producttypes::type_id.eq(type_id))
                 .filter(producttypes::user_id.eq(user_id));
-            if !diesel::select(dsl::exists(product_type)).get_result::<bool>(&*conn)? {
+            if !diesel::select(dsl::exists(product_type)).get_result::<bool>(conn)? {
                 return Err(diesel::result::Error::NotFound);
             }
 
@@ -202,7 +202,7 @@ impl Database {
                 .filter(producttypes::type_id.eq(type_id))
                 .filter(producttypes::user_id.eq(user_id))
                 .set(&ProductTypeChange { name, color, sort })
-                .get_result::<ProductType>(&*conn)?;
+                .get_result::<ProductType>(conn)?;
 
             let previously_discontinued = producttypeevents::table
                 .select(producttypeevents::event_type)
@@ -213,7 +213,7 @@ impl Database {
                 )
                 .filter(producttypeevents::type_id.eq(type_id))
                 .order_by(producttypeevents::event_time.desc())
-                .first::<EventType>(&*conn)
+                .first::<EventType>(conn)
                 .optional()?
                 == Some(EventType::Disabled);
 
@@ -228,7 +228,7 @@ impl Database {
                                 EventType::Enabled
                             }),
                         ))
-                        .execute(&*conn)?;
+                        .execute(conn)?;
                 }
                 discontinued
             } else {
@@ -255,38 +255,38 @@ impl Database {
         type_id: i32,
     ) -> Result<bool, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
 
-        conn.transaction(|| -> diesel::result::QueryResult<bool> {
+        conn.transaction(|conn| -> diesel::result::QueryResult<bool> {
             let sold_products = records::table
                 .select(unnest(records::products))
                 .distinct()
                 .filter(records::user_id.eq(user_id))
-                .load::<i32>(&*conn)?;
+                .load::<i32>(conn)?;
             diesel::delete(products::table)
                 .filter(products::type_id.eq(type_id))
                 .filter(dsl::not(products::product_id.eq(dsl::any(sold_products))))
-                .execute(&*conn)?;
+                .execute(conn)?;
             let products_left = diesel::select(dsl::exists(
                 products::table.filter(products::type_id.eq(type_id)),
             ))
-            .get_result::<bool>(&*conn)?;
+            .get_result::<bool>(conn)?;
             diesel::delete(prices::table)
                 .filter(prices::type_id.eq(type_id))
-                .execute(&*conn)?;
+                .execute(conn)?;
             if products_left {
                 diesel::update(products::table)
                     .filter(products::type_id.eq(type_id))
                     .set(products::deleted.eq(true))
-                    .execute(&*conn)?;
+                    .execute(conn)?;
                 diesel::update(producttypes::table)
                     .filter(producttypes::type_id.eq(type_id))
                     .set(producttypes::deleted.eq(true))
-                    .execute(&*conn)?;
+                    .execute(conn)?;
                 Ok(false)
             } else {
                 diesel::delete(producttypes::table.filter(producttypes::type_id.eq(type_id)))
-                    .execute(&*conn)?;
+                    .execute(conn)?;
                 Ok(true)
             }
         })

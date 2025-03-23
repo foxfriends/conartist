@@ -2,9 +2,9 @@
 use diesel::prelude::*;
 use diesel::{self, dsl, sql_types};
 
+use super::Database;
 use super::models::*;
 use super::schema::*;
-use super::Database;
 use crate::money::Money;
 
 impl Database {
@@ -17,13 +17,13 @@ impl Database {
         info: Option<String>,
     ) -> Result<Record, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
-        conn.transaction(|| {
+        let mut conn = self.pool.get().unwrap();
+        conn.transaction(|conn| {
             diesel::update(records::table)
                 .filter(records::record_id.eq(record_id))
                 .filter(records::user_id.eq(user_id))
                 .set(&RecordChanges::new(products, price, info))
-                .get_result::<Record>(&*conn)
+                .get_result::<Record>(conn)
         })
         .map_err(|reason| {
             format!(
@@ -42,13 +42,13 @@ impl Database {
         description: Option<String>,
     ) -> Result<Expense, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
-        conn.transaction(|| {
+        let mut conn = self.pool.get().unwrap();
+        conn.transaction(|conn| {
             diesel::update(expenses::table)
                 .filter(expenses::expense_id.eq(expense_id))
                 .filter(expenses::user_id.eq(user_id))
                 .set(&ExpenseChanges::new(category, description, price))
-                .get_result::<Expense>(&*conn)
+                .get_result::<Expense>(conn)
         })
         .map_err(|reason| {
             format!(
@@ -65,9 +65,9 @@ impl Database {
         approved: bool,
     ) -> Result<ConventionUserInfo, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
 
-        conn.transaction(|| {
+        conn.transaction(|conn| {
             diesel::insert_into(conventioninforatings::table)
                 .values((
                     conventioninforatings::user_id.eq(user_id),
@@ -80,7 +80,7 @@ impl Database {
                 ))
                 .do_update()
                 .set(conventioninforatings::rating.eq(approved))
-                .execute(&*conn)?;
+                .execute(conn)?;
 
             conventionuserinfo::table
                 .left_outer_join(conventioninforatings::table)
@@ -96,7 +96,7 @@ impl Database {
                 ))
                 .filter(conventionuserinfo::con_info_id.eq(info_id))
                 .group_by(conventionuserinfo::con_info_id)
-                .first::<ConventionUserInfo>(&*conn)
+                .first::<ConventionUserInfo>(conn)
         })
         .map_err(|reason| {
             format!(

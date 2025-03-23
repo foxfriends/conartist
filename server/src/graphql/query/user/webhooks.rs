@@ -1,42 +1,47 @@
 //! Holds information about a product
-use crate::database::models::*;
 use crate::database::Database;
-use juniper::{graphql_object, FieldResult};
+use crate::database::models::*;
+use juniper::{FieldResult, graphql_object};
 
 pub struct Webhooks {
     pub user_id: i32,
 }
 
-graphql_object!(WebhookDeleteRecord: Database as "WebhookDeleteRecord" |&self| {
-    description: "Webhook called when a recorded sale is deleted"
+#[graphql_object]
+#[graphql(description = "Webhook called when a recorded sale is deleted")]
+impl WebhookDeleteRecord {
+    fn id(&self) -> i32 {
+        self.webhook_id
+    }
 
-    field id() -> i32 { self.webhook_id }
-    field url() -> &String { &self.url }
-});
+    fn url(&self) -> &String {
+        &self.url
+    }
+}
 
-graphql_object!(WebhookNewRecord: Database as "WebhookNewRecord" |&self| {
-    description: "Webhook called when a new sale is recorded"
+#[graphql_object]
+#[graphql(description = "Webhook called when a new sale is recorded")]
+impl WebhookNewRecord {
+    fn id(&self) -> i32 {
+        self.webhook_id
+    }
+    fn url(&self) -> &String {
+        &self.url
+    }
+}
 
-    field id() -> i32 { self.webhook_id }
-    field url() -> &String { &self.url }
-});
-
-graphql_object!(Webhooks: Database as "Webhooks" |&self| {
-    description: "Grouping for the different types of webhooks"
-
-    field new_record(&executor) -> FieldResult<Vec<WebhookNewRecord>> {
+#[graphql_object]
+#[graphql(description = "Grouping for the different types of webhooks")]
+impl Webhooks {
+    fn new_record(&self, context: &Database) -> FieldResult<Vec<WebhookNewRecord>> {
         dbtry! {
-            executor
-                .context()
-                .get_webhooks_new_record_for_user(self.user_id)
+            context.get_webhooks_new_record_for_user(self.user_id)
         }
     }
 
-    field delete_record(&executor) -> FieldResult<Vec<WebhookDeleteRecord>> {
+    fn delete_record(&self, context: &Database) -> FieldResult<Vec<WebhookDeleteRecord>> {
         dbtry! {
-            executor
-                .context()
-                .get_webhooks_delete_record_for_user(self.user_id)
+            context.get_webhooks_delete_record_for_user(self.user_id)
         }
     }
-});
+}

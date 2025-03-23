@@ -7,58 +7,69 @@ mod suggestion;
 mod user;
 
 use self::connection::Connection;
-use crate::database::models::*;
 use crate::database::Database;
+use crate::database::models::*;
 use crate::search::Search;
 use chrono::{DateTime, FixedOffset, Utc};
-use juniper::{graphql_object, FieldResult};
+use juniper::{FieldResult, graphql_object};
 
 pub struct Query;
-
-graphql_object!(Query: Database |&self| {
-    description: "Entry-point of the ConArtist GraphQL API"
-
-    field user(
-        &executor,
-        id: Option<i32> as "The ID of the user to retrieve. Leave out to request self",
-    ) -> FieldResult<User> as "Retrieves one user, corresponding to the provided ID" {
+#[graphql_object]
+#[graphql(desc = "Entry-point of the ConArtist GraphQL API")]
+impl Query {
+    #[graphql(desc = "Retrieves one user, corresponding to the provided ID")]
+    fn user(
+        context: &Database,
+        #[graphql(desc = "The ID of the user to retrieve. Leave out to request self")] id: Option<
+            i32,
+        >,
+    ) -> FieldResult<User> {
         dbtry! {
-            executor
-                .context()
+            context
                 .get_user_by_id(id)
         }
     }
 
-    field convention(
-        &executor,
-        user_id: Option<i32> as "The ID of the user to retrieve. Leave out to request self",
-        con_id: i32 as "The ID of the convention to retrieve",
-    ) -> FieldResult<Convention> as "Retrieves the full information of one convention" {
+    #[graphql(desc = "Retrieves the full information of one convention")]
+    fn convention(
+        context: &Database,
+        #[graphql(desc = "The ID of the user to retrieve. Leave out to request self")]
+        user_id: Option<i32>,
+        #[graphql(desc = "The ID of the convention to retrieve")] con_id: i32,
+    ) -> FieldResult<Convention> {
         dbtry! {
-            executor
-                .context()
+            context
                 .get_convention(user_id, con_id)
         }
     }
 
-    field conventions_connection(
-        &executor,
-        date: Option<DateTime<FixedOffset>> as "The earliest day for which to retrieve conventions. Defaults to the current time",
-        search: Option<String> as "An optional search query. Currently unimplemented",
-        limit = 20: i32 as "The limit on how many conventions to retrieve",
-        after: Option<String> as "Cursor to search after",
-        before: Option<String> as "Cursor to search before. Currently unimplemented",
-    ) -> FieldResult<Connection<Convention>> as "Retrieves one page of conventions which start after a given date" {
+    #[graphql(desc = "Retrieves one page of conventions which start after a given date")]
+    fn conventions_connection(
+        context: &Database,
+        #[graphql(
+            desc = "The earliest day for which to retrieve conventions. Defaults to the current time"
+        )]
+        date: Option<DateTime<FixedOffset>>,
+        #[graphql(desc = "An optional search query. Currently unimplemented")] search: Option<
+            String,
+        >,
+        #[graphql(desc = "The limit on how many conventions to retrieve", default = 20)] limit: i32,
+        #[graphql(desc = "Cursor to search after")] after: Option<String>,
+        #[graphql(desc = "Cursor to search before. Currently unimplemented")] before: Option<
+            String,
+        >,
+    ) -> FieldResult<Connection<Convention>> {
         ensure!(after.is_none() || before.is_none());
         ensure!(search.is_none() || search.as_ref().unwrap().len() < 512);
 
-        let earliest_date = date.map(|r| r.naive_utc().date()).unwrap_or(Utc::today().naive_utc());
+        let earliest_date = date
+            .map(|r| r.naive_utc().date())
+            .unwrap_or(Utc::today().naive_utc());
 
         let query = search.map(Search::parse_query);
 
         let conventions = dbtry! {
-            executor
-                .context()
+            context
                 .get_conventions_after(
                     query.as_ref(),
                     earliest_date,
@@ -67,59 +78,66 @@ graphql_object!(Query: Database |&self| {
                 )
         }?;
 
-        let total = executor
-            .context()
-            .count_conventions_after(
-                query.as_ref(),
-                earliest_date,
-            );
+        let total = context.count_conventions_after(query.as_ref(), earliest_date);
 
-        Ok(Connection::new(conventions, after.and_then(|s| s.parse().ok()).unwrap_or(0), total))
+        Ok(Connection::new(
+            conventions,
+            after.and_then(|s| s.parse().ok()).unwrap_or(0),
+            total,
+        ))
     }
 
-    field records_connection(
-        &executor,
-        limit = 100: i32 as "The limit on how many records to retrieve",
-        after: Option<String> as "Cursor to search after. Currently unimplemented",
-        before: Option<String> as "Cursor to search before",
-    ) -> FieldResult<Connection<Record, Option<i32>>> as "Retrieves one page of records from sales not at a convention" {
+    #[graphql(desc = "Retrieves one page of records from sales not at a convention")]
+    fn records_connection(
+        context: &Database,
+        #[graphql(desc = "The limit on how many records to retrieve", default = 100)] limit: i32,
+        #[graphql(desc = "Cursor to search after. Currently unimplemented")] after: Option<String>,
+        #[graphql(desc = "Cursor to search before")] before: Option<String>,
+    ) -> FieldResult<Connection<Record, Option<i32>>> {
         ensure!(after.is_none() || before.is_none());
         let before = before.and_then(|cursor| cursor.parse().ok());
 
         let records = dbtry! {
-            executor
-                .context()
+            context
                 .get_records_for_user(
                     None,
                     limit as i64,
                     before,
                 )
         }?;
-        let total = executor.context().count_records_for_user(None);
+        let total = context.count_records_for_user(None);
 
         Ok(Connection::new(records, before, total))
     }
 
-    field suggestions_connection(
-        &executor,
-        search: Option<String> as "An optional search query. Currently unimplemented",
-        limit = 20: i32 as "The limit on how many suggestions to retrieve",
-        after: Option<String> as "Cursor to search after",
-        before: Option<String> as "Cursor to search before. Currently unimplemented",
-    ) -> FieldResult<Connection<ScoredSuggestion>> as "Retrieves one page of suggestions" {
+    #[graphql(desc = "Retrieves one page of suggestions")]
+    fn suggestions_connection(
+        context: &Database,
+        #[expect(unused_variables)]
+        #[graphql(desc = "An optional search query. Currently unimplemented")]
+        search: Option<String>,
+        #[graphql(desc = "The limit on how many suggestions to retrieve", default = 20)] limit: i32,
+        #[graphql(desc = "Cursor to search after")] after: Option<String>,
+        #[graphql(desc = "Cursor to search before. Currently unimplemented")] before: Option<
+            String,
+        >,
+    ) -> FieldResult<Connection<ScoredSuggestion>> {
         ensure!(after.is_none() || before.is_none());
 
         let suggestions = dbtry! {
-            executor
-                .context()
+            context
                 .get_suggestions(
                     None,
                     limit as i64,
                     after.as_ref(),
                 )
         }?;
-        let total = executor.context().count_suggestions(None);
+        let total = context.count_suggestions(None);
 
-        Ok(Connection::new(suggestions, after.and_then(|s| s.parse().ok()).unwrap_or(0), total))
+        Ok(Connection::new(
+            suggestions,
+            after.and_then(|s| s.parse().ok()).unwrap_or(0),
+            total,
+        ))
     }
-});
+}

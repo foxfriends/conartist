@@ -27,9 +27,8 @@ mod views;
 mod webhooks;
 
 use diesel::PgConnection;
+use diesel::r2d2::{ConnectionManager, Pool};
 use juniper::Context;
-use r2d2::Pool;
-use r2d2_diesel::ConnectionManager;
 
 pub use self::factory::*;
 

@@ -3,10 +3,10 @@ use diesel::prelude::*;
 use diesel::{self, dsl, sql_types};
 use std::collections::{HashMap, HashSet};
 
+use super::Database;
 use super::dsl::*;
 use super::models::*;
 use super::schema::*;
-use super::Database;
 
 impl Database {
     pub fn create_product(
@@ -19,8 +19,8 @@ impl Database {
         sort: i32,
     ) -> Result<ProductSnapshot, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
-        conn.transaction(|| -> diesel::result::QueryResult<ProductSnapshot> {
+        let mut conn = self.pool.get().unwrap();
+        conn.transaction(|conn| -> diesel::result::QueryResult<ProductSnapshot> {
             let product = diesel::insert_into(products::table)
                 .values((
                     products::user_id.eq(user_id),
@@ -29,14 +29,14 @@ impl Database {
                     products::sort.eq(sort),
                     products::sku.eq(sku),
                 ))
-                .get_result::<Product>(&*conn)?;
+                .get_result::<Product>(conn)?;
 
             diesel::insert_into(inventory::table)
                 .values((
                     inventory::product_id.eq(product.product_id),
                     inventory::quantity.eq(quantity),
                 ))
-                .execute(&*conn)?;
+                .execute(conn)?;
 
             Ok(product.with_snapshot_data(quantity as i64, false))
         })
@@ -54,7 +54,7 @@ impl Database {
         as_of: Option<DateTime<Utc>>,
     ) -> Result<Vec<ProductSnapshot>, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
         let as_of = as_of.map(|date| date.naive_utc());
 
         // TODO: was nice when the counting could be done in SQL... maybe someday it can be improved
@@ -66,17 +66,17 @@ impl Database {
                     Box::new(dsl::sql::<sql_types::Timestamp>("sale_time::timestamp").lt(as_of))
                         as Box<
                             dyn BoxableExpression<
-                                records::table,
-                                diesel::pg::Pg,
-                                SqlType = sql_types::Bool,
-                            >,
+                                    records::table,
+                                    diesel::pg::Pg,
+                                    SqlType = sql_types::Bool,
+                                >,
                         >
                 }
                 None => {
                     Box::new(dsl::sql::<sql_types::Timestamp>("sale_time::timestamp").lt(dsl::now))
                 }
             })
-            .load::<i32>(&*conn)
+            .load::<i32>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "Records for user with id {} could not be retrieved. Reason: {}",
@@ -102,7 +102,7 @@ impl Database {
             .filter(products::user_id.eq(user_id))
             .filter(products::deleted.eq(false))
             .order((products::sort.asc(), products::product_id.asc()))
-            .load::<Product>(&*conn)
+            .load::<Product>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "Products for user with id {} could not be retrieved. Reason: {}",
@@ -128,15 +128,15 @@ impl Database {
                 Some(as_of) => Box::new(productevents::event_time.lt(as_of))
                     as Box<
                         dyn BoxableExpression<
-                            productevents::table,
-                            diesel::pg::Pg,
-                            SqlType = sql_types::Bool,
-                        >,
+                                productevents::table,
+                                diesel::pg::Pg,
+                                SqlType = sql_types::Bool,
+                            >,
                     >,
                 None => Box::new(productevents::event_time.lt(dsl::now)),
             })
             .order_by((productevents::product_id, productevents::event_time.desc()))
-            .load::<(i32, EventType)>(&*conn)
+            .load::<(i32, EventType)>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "Events for products with user id {} could not be retrieved. Reason: {}",
@@ -158,15 +158,15 @@ impl Database {
                 Some(as_of) => Box::new(inventory::mod_date.lt(as_of))
                     as Box<
                         dyn BoxableExpression<
-                            inventory::table,
-                            diesel::pg::Pg,
-                            SqlType = sql_types::Bool,
-                        >,
+                                inventory::table,
+                                diesel::pg::Pg,
+                                SqlType = sql_types::Bool,
+                            >,
                     >,
                 None => Box::new(inventory::mod_date.lt(dsl::now)),
             })
             .group_by(inventory::product_id)
-            .load::<(i32, i64)>(&*conn)
+            .load::<(i32, i64)>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "Inventory for products with user id {} could not be retrieved. Reason: {}",
@@ -198,20 +198,20 @@ impl Database {
         sort: Option<i32>,
     ) -> Result<ProductSnapshot, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
 
-        conn.transaction(|| {
+        conn.transaction(|conn| {
             let product = products::table
                 .filter(products::product_id.eq(product_id))
                 .filter(products::user_id.eq(user_id));
-            if !diesel::select(dsl::exists(product)).get_result::<bool>(&*conn)? {
+            if !diesel::select(dsl::exists(product)).get_result::<bool>(conn)? {
                 return Err(diesel::result::Error::NotFound);
             }
 
             let sold = records::table
                 .select(unnest(records::products))
                 .filter(records::user_id.eq(user_id))
-                .load::<i32>(&*conn)
+                .load::<i32>(conn)
                 .unwrap_or(vec![])
                 .into_iter()
                 .filter(|id| *id == product_id)
@@ -224,11 +224,11 @@ impl Database {
                     .filter(products::product_id.eq(product_id))
                     .filter(products::user_id.eq(user_id))
                     .set(&ProductChanges { name, sort, sku })
-                    .get_result(&*conn)?
+                    .get_result(conn)?
             } else {
                 products::table
                     .filter(products::product_id.eq(product_id))
-                    .first(&*conn)?
+                    .first(conn)?
             };
 
             let previously_discontinued = productevents::table
@@ -240,7 +240,7 @@ impl Database {
                         .or(productevents::event_type.eq(EventType::Enabled)),
                 )
                 .order_by(productevents::event_time.desc())
-                .first::<EventType>(&*conn)
+                .first::<EventType>(conn)
                 .optional()?
                 == Some(EventType::Disabled);
             let is_now_discontinued = if let Some(discontinued) = discontinued {
@@ -254,7 +254,7 @@ impl Database {
                                 EventType::Enabled
                             }),
                         ))
-                        .execute(&*conn)?;
+                        .execute(conn)?;
                 }
                 discontinued
             } else {
@@ -265,7 +265,7 @@ impl Database {
                 .select(dsl::sum(inventory::quantity))
                 .filter(inventory::product_id.eq(product_id))
                 .group_by(inventory::product_id)
-                .first::<_>(&*conn)
+                .first::<_>(conn)
                 .unwrap_or(None)
                 .unwrap_or(0i64);
 
@@ -278,7 +278,7 @@ impl Database {
                         inventory::product_id.eq(product_id),
                         inventory::quantity.eq(quantity_delta as i32),
                     ))
-                    .execute(&*conn)?;
+                    .execute(conn)?;
             }
 
             Ok(updated_product.with_snapshot_data(
@@ -300,25 +300,25 @@ impl Database {
         product_id: i32,
     ) -> Result<bool, String> {
         self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
-        conn.transaction(|| -> diesel::result::QueryResult<bool> {
+        let mut conn = self.pool.get().unwrap();
+        conn.transaction(|conn| -> diesel::result::QueryResult<bool> {
             let any_sold = diesel::select(dsl::exists(
                 records::table.filter(records::products.contains(&vec![product_id])),
             ))
-            .get_result::<bool>(&*conn)?;
+            .get_result::<bool>(conn)?;
             diesel::delete(prices::table)
                 .filter(prices::product_id.eq(product_id))
-                .execute(&*conn)?;
+                .execute(conn)?;
             if any_sold {
                 diesel::update(products::table)
                     .filter(products::product_id.eq(product_id))
                     .set(products::deleted.eq(true))
-                    .execute(&*conn)?;
+                    .execute(conn)?;
                 Ok(false)
             } else {
                 diesel::delete(products::table)
                     .filter(products::product_id.eq(product_id))
-                    .execute(&*conn)?;
+                    .execute(conn)?;
                 Ok(true)
             }
         })

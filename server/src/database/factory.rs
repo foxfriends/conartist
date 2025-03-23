@@ -1,8 +1,7 @@
 use crate::rest::authtoken::Claims;
 use diesel::PgConnection;
+use diesel::r2d2::{ConnectionManager, Pool};
 use iron::Request;
-use r2d2::Pool;
-use r2d2_diesel::ConnectionManager;
 
 pub struct DatabaseFactory {
     pool: Pool<ConnectionManager<PgConnection>>,

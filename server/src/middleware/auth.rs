@@ -2,8 +2,8 @@
 
 use iron::headers::{Authorization, Bearer};
 use iron::prelude::*;
-use iron::{status, BeforeMiddleware};
-use jsonwebtoken::{decode, DecodingKey, Validation};
+use iron::{BeforeMiddleware, status};
+use jsonwebtoken::{DecodingKey, Validation, decode};
 
 use crate::env::JWT_SECRET;
 use crate::error::StringError;

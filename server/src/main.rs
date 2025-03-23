@@ -47,7 +47,7 @@ fn main() {
 
     let manager =
         diesel::r2d2::ConnectionManager::<PgConnection>::new(env::DATABASE_URL.to_string());
-    let pool = r2d2::Pool::builder()
+    let pool = diesel::r2d2::Pool::builder()
         .build(manager)
         .expect("Failed to create pool");
     let database = database::DatabaseFactory::new(pool);
@@ -104,7 +104,7 @@ fn main() {
     };
 
     let resource = GraphQLHandler::new(
-        |_| Ok(Client::new()),
+        |_| Ok(resource::ResourceContext(Client::new())),
         resource::Query,
         EmptyMutation::new(),
         EmptySubscription::new(),

@@ -1,9 +1,9 @@
 //! Holds information about a user and their products, prices, and conventions
 use chrono::{DateTime, Utc};
-use juniper::{graphql_object, FieldResult};
+use juniper::{FieldResult, graphql_object};
 
-use crate::database::models::*;
 use crate::database::Database;
+use crate::database::models::*;
 
 mod expense;
 mod price;
@@ -14,78 +14,87 @@ mod webhooks;
 
 use webhooks::Webhooks;
 
-graphql_object!(User: Database |&self| {
-    description: "Holds information about a user and their products, prices, and conventions"
-
-    field id() -> i32 { self.user_id }
-    field name() -> &String { &self.name }
-    field verified(&executor) -> FieldResult<bool> {
+#[graphql_object]
+#[graphql(
+    description = "Holds information about a user and their products, prices, and conventions"
+)]
+impl User {
+    fn id(&self) -> i32 {
+        self.user_id
+    }
+    fn name(&self) -> &String {
+        &self.name
+    }
+    fn verified(&self, context: &Database) -> FieldResult<bool> {
         dbtry! {
-            executor
-                .context()
+            context
                 .is_email_verified(self.user_id)
         }
     }
 
-    field email(&executor) -> FieldResult<&String> {
-        executor.context().protect_me(self.user_id)?;
+    fn email(&self, context: &Database) -> FieldResult<&String> {
+        context.protect_me(self.user_id)?;
         Ok(&self.email)
     }
 
-    field keys(&executor) -> FieldResult<i32> {
-        executor.context().protect_me(self.user_id)?;
+    fn keys(&self, context: &Database) -> FieldResult<i32> {
+        context.protect_me(self.user_id)?;
         Ok(self.keys)
     }
 
-    field join_date() -> DateTime<Utc> { DateTime::from_utc(self.join_date, Utc) }
+    fn join_date(&self) -> DateTime<Utc> {
+        DateTime::from_utc(self.join_date, Utc)
+    }
 
-    field product_types(&executor, as_of: Option<DateTime<Utc>>) -> FieldResult<Vec<ProductTypeSnapshot>> {
+    fn product_types(
+        &self,
+        context: &Database,
+        as_of: Option<DateTime<Utc>>,
+    ) -> FieldResult<Vec<ProductTypeSnapshot>> {
         dbtry! {
-            executor
-                .context()
+            context
                 .get_product_types_for_user(Some(self.user_id), as_of)
         }
     }
 
-    field products(&executor, as_of: Option<DateTime<Utc>>) -> FieldResult<Vec<ProductSnapshot>> {
+    fn products(
+        &self,
+        context: &Database,
+        as_of: Option<DateTime<Utc>>,
+    ) -> FieldResult<Vec<ProductSnapshot>> {
         dbtry! {
-            executor
-                .context()
+            context
                 .get_products_for_user(Some(self.user_id), as_of)
         }
     }
 
-    field prices(&executor) -> FieldResult<Vec<Price>> {
+    fn prices(&self, context: &Database) -> FieldResult<Vec<Price>> {
         dbtry! {
-            executor
-                .context()
+            context
                 .get_prices_for_user(Some(self.user_id))
         }
     }
 
-    field conventions(&executor) -> FieldResult<Vec<Convention>> {
+    fn conventions(&self, context: &Database) -> FieldResult<Vec<Convention>> {
         dbtry! {
-            executor
-                .context()
+            context
                 .get_conventions_for_user(Some(self.user_id))
         }
     }
 
-    field settings(&executor) -> Settings {
-        executor
-            .context()
+    fn settings(&self, context: &Database) -> Settings {
+        context
             .get_settings_for_user(Some(self.user_id))
             .unwrap_or(Settings::default(self.user_id))
     }
 
-    field webhooks(&executor) -> Webhooks {
-        Webhooks{user_id: self.user_id}
+    fn webhooks(&self) -> Webhooks {
+        Webhooks {
+            user_id: self.user_id,
+        }
     }
 
-    field clearance(&executor) -> i32 {
-        executor
-            .context()
-            .get_admin_clearance(Some(self.user_id))
-            .unwrap_or(0)
+    fn clearance(&self, context: &Database) -> i32 {
+        context.get_admin_clearance(Some(self.user_id)).unwrap_or(0)
     }
-});
+}

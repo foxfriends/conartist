@@ -1,7 +1,7 @@
 //! GraphQL endpoint to retrieve extra resources, such as images
 use hyper::client::Client;
 use hyper::status::StatusCode;
-use juniper::{DefaultScalarValue, FieldError, FieldResult, Value};
+use juniper::{Context, DefaultScalarValue, FieldError, FieldResult, Value};
 use std::io::Read;
 
 mod image;
@@ -12,11 +12,15 @@ pub struct Query;
 
 const IMAGE_BASE_URL: &'static str = "http://cameldridge.com/conartist/resource/image/";
 
+pub struct ResourceContext(pub Client);
+
+impl Context for ResourceContext {}
+
 #[graphql_object]
 #[graphql(desc = "Extra resources, such as images")]
 impl Query {
     fn image(
-        context: &Client,
+        context: &ResourceContext,
         #[graphql(desc = "The UUID of an image")] image_id: String,
         #[graphql(desc = "The maximum height of the image. Defaults to no limit")]
         max_height: Option<i32>,
@@ -26,6 +30,7 @@ impl Query {
     ) -> FieldResult<Image> {
         let url = format!("{}{}{}", IMAGE_BASE_URL, image_id, ".png");
         context
+            .0
             .get(&url)
             .send()
             .map_err(|error| {

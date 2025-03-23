@@ -13,7 +13,7 @@ pub struct ProductType {
 }
 
 #[derive(AsChangeset, Debug)]
-#[table_name = "producttypes"]
+#[diesel(table_name = producttypes)]
 pub struct ProductTypeChange {
     pub name: Option<String>,
     pub color: Option<i32>,

@@ -2,7 +2,7 @@ use crate::money::{Currency, Money};
 use diesel::Queryable;
 use diesel::deserialize::{self, FromSql};
 use diesel::pg::Pg;
-use diesel::serialize::{self, Output, ToSql};
+use diesel::serialize::{self, IsNull, Output, ToSql};
 use diesel::sql_types::Text;
 use std::io::Write;
 use std::str::FromStr;
@@ -25,7 +25,8 @@ impl FromSql<Text, Pg> for Money {
 
 impl ToSql<Text, Pg> for Money {
     fn to_sql<'b>(&'b self, out: &mut Output<'b, '_, Pg>) -> serialize::Result {
-        out.write_all(self.to_string().as_bytes())
+        out.write_all(self.to_string().as_bytes())?;
+        Ok(IsNull::No)
     }
 }
 
@@ -49,7 +50,8 @@ impl FromSql<Text, Pg> for Currency {
 
 impl ToSql<Text, Pg> for Currency {
     fn to_sql<'b>(&'b self, out: &mut Output<'b, '_, Pg>) -> serialize::Result {
-        out.write_all(self.to_string().as_bytes())
+        out.write_all(self.to_string().as_bytes())?;
+        Ok(IsNull::No)
     }
 }
 

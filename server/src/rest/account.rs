@@ -6,7 +6,7 @@ use crate::cr;
 use crate::database::Database;
 use crate::middleware::VerifyJWT;
 use iron::prelude::*;
-use iron::{iexpect, itry, status, Handler};
+use iron::{Handler, iexpect, itry, status};
 use log::info;
 use router::Router;
 use serde::Deserialize;

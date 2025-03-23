@@ -2,9 +2,9 @@ use chrono::{DateTime, FixedOffset};
 use diesel::{self, dsl, prelude::*, sql_types};
 use uuid::Uuid;
 
+use super::Database;
 use super::models::*;
 use super::schema::*;
-use super::Database;
 use crate::money::Money;
 
 impl Database {
@@ -19,8 +19,8 @@ impl Database {
         info: String,
     ) -> Result<Record, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
-        conn.transaction(|| {
+        let mut conn = self.pool.get().unwrap();
+        conn.transaction(|conn| {
             diesel::insert_into(records::table)
                 .values((
                     records::user_id.eq(user_id),
@@ -34,7 +34,7 @@ impl Database {
                 .on_conflict((records::user_id, records::sale_time, records::gen_id))
                 .do_update()
                 .set(&RecordChanges::new(Some(products), Some(price), Some(info)))
-                .get_result::<Record>(&*conn)
+                .get_result::<Record>(conn)
         })
         .map_err(|reason| format!("Could not create record for user with id {} and convention with id {:?}. Reason: {}", user_id, con_id, reason))
     }
@@ -50,8 +50,8 @@ impl Database {
         time: DateTime<FixedOffset>,
     ) -> Result<Expense, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
-        conn.transaction(|| {
+        let mut conn = self.pool.get().unwrap();
+        conn.transaction(|conn| {
             diesel::insert_into(expenses::table)
                 .values((
                     expenses::user_id.eq(user_id),
@@ -65,7 +65,7 @@ impl Database {
                 .on_conflict((expenses::user_id, expenses::spend_time, expenses::gen_id))
                 .do_update()
                 .set(&ExpenseChanges::new(Some(category), Some(description), Some(price)))
-                .get_result::<Expense>(&*conn)
+                .get_result::<Expense>(conn)
         })
         .map_err(|reason| format!("Could not create expense for user with id {} and convention with id {}. Reason: {}", user_id, con_id, reason))
     }
@@ -76,12 +76,12 @@ impl Database {
         con_id: i32,
     ) -> Result<Vec<Record>, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
         records::table
             .filter(records::user_id.eq(user_id))
             .filter(records::con_id.eq(con_id))
             .order(dsl::sql::<sql_types::Timestamptz>("sale_time::timestamptz").asc())
-            .load::<Record>(&*conn)
+            .load::<Record>(&mut conn)
             .map_err(|reason| format!("Records for convention with id {} for user with id {} could not be retrieved. Reason: {}", con_id, user_id, reason))
     }
 
@@ -92,7 +92,7 @@ impl Database {
         before: Option<i32>,
     ) -> Result<Vec<Record>, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
         if let Some(latest) = before {
             records::table
                 .filter(records::user_id.eq(user_id))
@@ -100,7 +100,7 @@ impl Database {
                 .filter(records::record_id.lt(latest))
                 .order(dsl::sql::<sql_types::Timestamptz>("sale_time::timestamptz").desc())
                 .limit(limit)
-                .load::<Record>(&*conn)
+                .load::<Record>(&mut conn)
                 .map_err(|reason| {
                     format!(
                         "Records for user with id {} could not be retrieved. Reason: {}",
@@ -113,7 +113,7 @@ impl Database {
                 .filter(records::con_id.is_null())
                 .order(dsl::sql::<sql_types::Timestamptz>("sale_time::timestamptz").desc())
                 .limit(limit)
-                .load::<Record>(&*conn)
+                .load::<Record>(&mut conn)
                 .map_err(|reason| {
                     format!(
                         "Records for user with id {} could not be retrieved. Reason: {}",
@@ -130,13 +130,13 @@ impl Database {
         uuid: Option<Uuid>,
     ) -> Result<Record, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
 
         if let Some(record_id) = record_id {
             records::table
                 .filter(records::record_id.eq(record_id))
                 .filter(records::user_id.eq(user_id))
-                .first::<Record>(&*conn)
+                .first::<Record>(&mut conn)
                 .map_err(|reason| {
                     format!(
                         "Record with id {} could not be retrieved. Reason: {}",
@@ -147,7 +147,7 @@ impl Database {
             records::table
                 .filter(records::gen_id.eq(uuid))
                 .filter(records::user_id.eq(user_id))
-                .first::<Record>(&*conn)
+                .first::<Record>(&mut conn)
                 .map_err(|reason| {
                     format!(
                         "Record with id {} could not be retrieved. Reason: {}",
@@ -164,14 +164,14 @@ impl Database {
             Ok(user_id) => user_id,
             Err(..) => return 0,
         };
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
         records::table
             .select(dsl::count(records::record_id))
             .filter(records::user_id.eq(user_id))
             .filter(records::con_id.is_null())
             .order(dsl::sql::<sql_types::Timestamptz>("sale_time::timestamptz").desc())
             .count()
-            .first::<i64>(&*conn)
+            .first::<i64>(&mut conn)
             .unwrap_or(0)
     }
 
@@ -181,12 +181,12 @@ impl Database {
         con_id: i32,
     ) -> Result<Vec<Expense>, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let conn = self.pool.get().unwrap();
+        let mut conn = self.pool.get().unwrap();
         expenses::table
             .filter(expenses::user_id.eq(user_id))
             .filter(expenses::con_id.eq(con_id))
             .order(dsl::sql::<sql_types::Timestamptz>("spend_time::timestamptz").asc())
-            .load::<Expense>(&*conn)
+            .load::<Expense>(&mut conn)
             .map_err(|reason| format!("Expenses for convention with id {} for user with id {} could not be retrieved. Reason: {}", con_id, user_id, reason))
     }
 }

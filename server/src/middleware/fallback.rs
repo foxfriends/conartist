@@ -2,7 +2,7 @@
 
 use iron::mime::Mime;
 use iron::prelude::*;
-use iron::{status, AroundMiddleware, Handler};
+use iron::{AroundMiddleware, Handler, status};
 use std::fs::File;
 use std::path::Path;
 

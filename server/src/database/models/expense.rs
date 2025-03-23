@@ -19,7 +19,7 @@ pub struct Expense {
 }
 
 #[derive(AsChangeset, Debug)]
-#[table_name = "expenses"]
+#[diesel(table_name = expenses)]
 pub struct ExpenseChanges {
     pub category: Option<String>,
     pub description: Option<String>,

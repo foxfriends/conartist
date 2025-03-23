@@ -4,16 +4,32 @@ use juniper::graphql_object;
 use uuid::Uuid;
 
 use crate::database::models::*;
-use crate::database::Database;
 use crate::money::Money;
 
-graphql_object!(Expense: Database |&self| {
-    description: "Holds information about a convention expense"
+#[graphql_object]
+#[graphql(desc = "Holds information about a convention expense")]
+impl Expense {
+    fn id(&self) -> i32 {
+        self.expense_id
+    }
 
-    field id() -> i32 { self.expense_id }
-    field price() -> Money { self.price }
-    field category() -> &String { &self.category }
-    field description() -> &String { &self.description }
-    field time() -> DateTime<FixedOffset> { self.spend_time.0 }
-    field uuid() -> Option<Uuid> { self.gen_id }
-});
+    fn price(&self) -> Money {
+        self.price
+    }
+
+    fn category(&self) -> &String {
+        &self.category
+    }
+
+    fn description(&self) -> &String {
+        &self.description
+    }
+
+    fn time(&self) -> DateTime<FixedOffset> {
+        self.spend_time.0
+    }
+
+    fn uuid(&self) -> Option<Uuid> {
+        self.gen_id
+    }
+}

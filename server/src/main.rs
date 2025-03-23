@@ -16,6 +16,7 @@ mod email;
 mod env;
 mod error;
 mod graphql;
+mod juniper_iron;
 mod middleware;
 mod money;
 mod rand;
@@ -29,11 +30,10 @@ use diesel::pg::PgConnection;
 use hyper::client::Client;
 use iron::prelude::*;
 use iron_cors::CorsMiddleware;
-use juniper::EmptyMutation;
+use juniper::{EmptyMutation, EmptySubscription};
 use juniper_iron::GraphQLHandler;
 use logger::Logger;
 use mount::Mount;
-use r2d2_diesel::ConnectionManager;
 use std::env::args;
 
 use crate::env::CONARTIST_BASE_URL;
@@ -45,7 +45,8 @@ fn main() {
     println!();
     println!("Starting ConArtist server...");
 
-    let manager = ConnectionManager::<PgConnection>::new(env::DATABASE_URL.to_string());
+    let manager =
+        diesel::r2d2::ConnectionManager::<PgConnection>::new(env::DATABASE_URL.to_string());
     let pool = r2d2::Pool::builder()
         .build(manager)
         .expect("Failed to create pool");
@@ -88,6 +89,7 @@ fn main() {
             move |_| Ok(database.create_privileged()),
             graphql::Query,
             graphql::Mutation,
+            EmptySubscription::new(),
         )]
     } else {
         chain! [
@@ -96,12 +98,17 @@ fn main() {
                 move |r| Ok(database.create(r)),
                 graphql::Query,
                 graphql::Mutation,
+                EmptySubscription::new(),
             )
         ]
     };
 
-    let resource =
-        GraphQLHandler::new(|_| Ok(Client::new()), resource::Query, EmptyMutation::new());
+    let resource = GraphQLHandler::new(
+        |_| Ok(Client::new()),
+        resource::Query,
+        EmptyMutation::new(),
+        EmptySubscription::new(),
+    );
 
     if args().any(|a| a == "--dev") {
         println!();

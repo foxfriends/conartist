@@ -218,7 +218,7 @@ impl Mutation {
         ensure!(record.price >= Money::new(0i64, record.price.cur()));
 
         let record = dbtry! {
-            context.create_user_record(user_id, record.con_id, record.uuid, record.products, record.price, record.time, record.info)
+            context.create_user_record(user_id, record.con_id, record.uuid, record.products, record.price, record.time.0, record.info)
         }?;
         context.trigger_webhook_new_record(&record).ok();
         Ok(record)
@@ -278,7 +278,7 @@ impl Mutation {
         ensure!(expense.category.len() > 0 && expense.category.len() < 32);
 
         dbtry! {
-            context.create_user_expense(user_id, expense.con_id, expense.uuid, expense.price, expense.category, expense.description, expense.time)
+            context.create_user_expense(user_id, expense.con_id, expense.uuid, expense.price, expense.category, expense.description, expense.time.0)
         }
     }
 

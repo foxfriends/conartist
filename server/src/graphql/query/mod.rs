@@ -14,6 +14,11 @@ use chrono::{DateTime, FixedOffset, Utc};
 use juniper::{FieldResult, graphql_object};
 
 pub struct Query;
+
+#[graphql_scalar]
+#[graphql(transparent)]
+struct DateTimeFixedOffset(DateTime<FixedOffset>);
+
 #[graphql_object]
 #[graphql(desc = "Entry-point of the ConArtist GraphQL API")]
 impl Query {
@@ -49,7 +54,7 @@ impl Query {
         #[graphql(
             desc = "The earliest day for which to retrieve conventions. Defaults to the current time"
         )]
-        date: Option<DateTime<FixedOffset>>,
+        date: Option<DateTimeFixedOffset>,
         #[graphql(desc = "An optional search query. Currently unimplemented")] search: Option<
             String,
         >,
@@ -63,7 +68,7 @@ impl Query {
         ensure!(search.is_none() || search.as_ref().unwrap().len() < 512);
 
         let earliest_date = date
-            .map(|r| r.naive_utc().date())
+            .map(|r| r.0.naive_utc().date())
             .unwrap_or(Utc::today().naive_utc());
 
         let query = search.map(Search::parse_query);

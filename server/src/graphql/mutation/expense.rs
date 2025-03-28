@@ -1,6 +1,6 @@
 //! Input objects needed to modify convention expense
+use crate::graphql::DateTimeFixedOffset;
 use crate::money::Money;
-use chrono::{DateTime, FixedOffset};
 use juniper::GraphQLInputObject;
 use uuid::Uuid;
 
@@ -12,7 +12,7 @@ pub struct ExpenseAdd {
     pub price: Money,
     pub category: String,
     pub description: String,
-    pub time: DateTime<FixedOffset>,
+    pub time: DateTimeFixedOffset,
 }
 
 #[derive(Clone, GraphQLInputObject)]

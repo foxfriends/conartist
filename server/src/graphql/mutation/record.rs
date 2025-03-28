@@ -1,9 +1,8 @@
 //! Input objects needed to modify sales records
-use chrono::{DateTime, FixedOffset};
+use crate::graphql::DateTimeFixedOffset;
+use crate::money::Money;
 use juniper::GraphQLInputObject;
 use uuid::Uuid;
-
-use crate::money::Money;
 
 #[derive(Clone, GraphQLInputObject)]
 #[graphql(description = "Information required to create a sales record")]
@@ -12,7 +11,7 @@ pub struct RecordAdd {
     pub uuid: Uuid,
     pub products: Vec<i32>,
     pub price: Money,
-    pub time: DateTime<FixedOffset>,
+    pub time: DateTimeFixedOffset,
     pub info: String,
 }
 

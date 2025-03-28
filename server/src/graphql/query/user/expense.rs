@@ -1,9 +1,9 @@
 //! Holds information about a convention expense
-use chrono::{DateTime, FixedOffset};
 use juniper::graphql_object;
 use uuid::Uuid;
 
 use crate::database::models::*;
+use crate::graphql::DateTimeFixedOffset;
 use crate::money::Money;
 
 #[graphql_object]
@@ -25,8 +25,8 @@ impl Expense {
         &self.description
     }
 
-    fn time(&self) -> DateTime<FixedOffset> {
-        self.spend_time.0
+    fn time(&self) -> DateTimeFixedOffset {
+        DateTimeFixedOffset(self.spend_time.0)
     }
 
     fn uuid(&self) -> Option<Uuid> {

@@ -58,7 +58,7 @@ impl Query {
         #[graphql(desc = "An optional search query. Currently unimplemented")] search: Option<
             String,
         >,
-        #[graphql(desc = "The limit on how many conventions to retrieve", default = 20)] limit: i32,
+        #[graphql(desc = "The limit on how many conventions to retrieve")] limit: Option<i32>,
         #[graphql(desc = "Cursor to search after")] after: Option<String>,
         #[graphql(desc = "Cursor to search before. Currently unimplemented")] before: Option<
             String,
@@ -78,7 +78,7 @@ impl Query {
                 .get_conventions_after(
                     query.as_ref(),
                     earliest_date,
-                    limit as i64,
+                    limit.unwrap_or(20) as i64,
                     after.as_ref(),
                 )
         }?;
@@ -95,7 +95,7 @@ impl Query {
     #[graphql(desc = "Retrieves one page of records from sales not at a convention")]
     fn records_connection(
         context: &Database,
-        #[graphql(desc = "The limit on how many records to retrieve", default = 100)] limit: i32,
+        #[graphql(desc = "The limit on how many records to retrieve")] limit: Option<i32>,
         #[graphql(desc = "Cursor to search after. Currently unimplemented")] after: Option<String>,
         #[graphql(desc = "Cursor to search before")] before: Option<String>,
     ) -> FieldResult<Connection<Record, Option<i32>>> {
@@ -106,7 +106,7 @@ impl Query {
             context
                 .get_records_for_user(
                     None,
-                    limit as i64,
+                    limit.unwrap_or(100) as i64,
                     before,
                 )
         }?;
@@ -121,7 +121,7 @@ impl Query {
         #[expect(unused_variables)]
         #[graphql(desc = "An optional search query. Currently unimplemented")]
         search: Option<String>,
-        #[graphql(desc = "The limit on how many suggestions to retrieve", default = 20)] limit: i32,
+        #[graphql(desc = "The limit on how many suggestions to retrieve")] limit: Option<i32>,
         #[graphql(desc = "Cursor to search after")] after: Option<String>,
         #[graphql(desc = "Cursor to search before. Currently unimplemented")] before: Option<
             String,
@@ -133,7 +133,7 @@ impl Query {
             context
                 .get_suggestions(
                     None,
-                    limit as i64,
+                    limit.unwrap_or(20) as i64,
                     after.as_ref(),
                 )
         }?;

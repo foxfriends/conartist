@@ -1,0 +1,32 @@
+title = "Dokomi 2025"
+start_date = 2025-06-06
+end_date = 2025-06-08
+tags = ["anime", "manga", "cosplay"]
+
+[[hours]]
+start = 2025-06-06 13:00:00+01:00
+end   = 2025-06-06 20:00:00+01:00
+[[hours]]
+start = 2025-06-07 10:00:00+01:00
+end   = 2025-06-07 20:00:00+01:00
+[[hours]]
+start = 2025-06-08 10:00:00+01:00
+end   = 2025-06-08 18:00:00+01:00
+
+[website]
+url = "https://www.dokomi.de/"
+title = "dokomi.de"
+
+[address]
+country = "Germany"
+city = "Düsseldorf, North Rhine-Westphalia"
+address = """
+Trade Fair Düsseldorf
+Stockumer Kirchstrasse 61
+40474 Düsseldorf
+Germany
+"""
+
+[address.coordinates]
+lat = 51.2614606
+lon = 6.7359172

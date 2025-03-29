@@ -1,0 +1,12 @@
+.DS_Store
+Thumbs.db
+database/.staging
+database/.production
+database/migrate-prod-db*
+server/analytics
+server/start
+server/staging
+target/
+node_modules/
+.env
+dev/con-data/

@@ -1,7 +1,4 @@
-/*       */
 import * as React from "react";
-
-import { toLocal } from "../../util/date";
 import { model } from "../../model";
 import { CardView } from "../card-view";
 import { TodayConventionCard } from "../conventions/today-convention-card";
@@ -10,10 +7,7 @@ import { ComingSoonConventionsCard } from "./coming-soon-conventions-card";
 export function Dashboard(props) {
   const { conventions } = model.getValue();
   const conventionCards = conventions
-    .filter(
-      ({ start, end }) =>
-        toLocal(start) <= new Date() && new Date() <= toLocal(end),
-    )
+    .filter(({ start, end }) => start <= new Date() && new Date() <= end)
     .map((convention) => (
       <TodayConventionCard
         convention={convention}
@@ -25,9 +19,7 @@ export function Dashboard(props) {
     <CardView>
       {conventionCards}
       <ComingSoonConventionsCard
-        conventions={conventions.filter(
-          ({ start }) => toLocal(start) > new Date(),
-        )}
+        conventions={conventions.filter(({ start }) => start > new Date())}
       />
     </CardView>
   );

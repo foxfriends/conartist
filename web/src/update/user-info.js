@@ -1,6 +1,4 @@
-/*       */
 import { model } from "../model";
-
 import { VoteForInfo } from "../api/vote-for-info";
 import { ContributeConventionInfo } from "../api/contribute-convention-info";
 

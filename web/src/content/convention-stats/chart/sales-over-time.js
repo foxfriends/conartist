@@ -4,7 +4,6 @@ import startOfDay from "date-fns/startOfDay";
 import addDays from "date-fns/addDays";
 import format from "date-fns/format";
 
-import { toLocal } from "../../../util/date";
 import Map from "../../../util/default-map";
 import { ChartCard } from "./card";
 import { NotEnoughData } from "./not-enough-data";
@@ -143,9 +142,7 @@ export class SalesOverTimeChart extends React.Component {
     const { mode, grouping, metric } = this.state;
 
     const dates = [
-      ...new Set(
-        records.map(({ time }) => startOfDay(toLocal(time)).getTime()),
-      ),
+      ...new Set(records.map(({ time }) => startOfDay(time).getTime())),
     ]
       .sort()
       .map((time) => new Date(time));

@@ -1,7 +1,5 @@
-/*       */
 import * as React from "react";
 
-import { toLocal } from "../../util/date";
 import { Font } from "../../common/font";
 import { Table } from "../../common/table";
 import { Link } from "../../common/link";
@@ -48,8 +46,7 @@ export function ConventionRevenueCard({ convention }) {
       </Table>
       {selected ? (
         <BasicFooter className={SS.footer}>
-          {toLocal(convention.start) < new Date() &&
-          toLocal(convention.end) > new Date() ? (
+          {convention.start < new Date() && convention.end > new Date() ? (
             <Button
               priority="primary"
               className={SS.button}

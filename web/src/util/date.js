@@ -1,4 +1,3 @@
-/*       */
 import addMinutes from "date-fns/addMinutes";
 import subMinutes from "date-fns/subMinutes";
 import parseISO from "date-fns/parseISO";
@@ -44,12 +43,7 @@ export function justUTCDay(date) {
 
 export function toUTC(date) {
   date = date || this;
-  return subMinutes(date, new Date(date).getTimezoneOffset());
-}
-
-export function toLocal(date) {
-  date = date || this;
-  return addMinutes(date, new Date(date).getTimezoneOffset());
+  return addMinutes(date, new Date().getTimezoneOffset());
 }
 
 export function dateRecovery(_, dateString) {

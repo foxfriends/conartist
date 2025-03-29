@@ -1,11 +1,10 @@
-/*       */
 import * as React from "react";
 import { l } from "../../localization";
 import { SecondaryCardFade as Fade } from "../../common/animation/fade/secondary-card";
 import { AutoCardView as CardView } from "../card-view/auto";
 import { Card } from "../card-view/card";
 import { RecordsCard } from "./records-card";
-import { toLocal, justDay } from "../../util/date";
+import { justDay } from "../../util/date";
 
 import S from "./records-card.css";
 
@@ -22,11 +21,9 @@ export class ConventionRecords extends React.Component {
     const { focus } = this.state;
 
     const dates = [];
-    const end = new Date(
-      Math.min(toLocal(convention.end), justDay(new Date())),
-    );
+    const end = new Date(Math.min(convention.end, justDay(new Date())));
     for (
-      const date = new Date(justDay(toLocal(convention.start)));
+      const date = new Date(justDay(convention.start));
       date <= end;
       date.setDate(date.getDate() + 1)
     ) {
@@ -43,9 +40,7 @@ export class ConventionRecords extends React.Component {
       }
     }
     return (
-      <CardView
-        dataSource={dates.sort().map((time) => toLocal(new Date(time)))}
-      >
+      <CardView dataSource={dates.sort().map((time) => new Date(time))}>
         <Card className={S.emptyState}>
           <div className={S.placeholder}>{l`<Empty records list message>`}</div>
         </Card>

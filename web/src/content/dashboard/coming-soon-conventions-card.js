@@ -1,8 +1,5 @@
-/*       */
 import * as React from "react";
 import formatDate from "date-fns/format";
-
-import { toLocal } from "../../util/date";
 import { BasicCard } from "../card-view/basic-card";
 import { Grid } from "../../common/grid";
 import { Row } from "../../common/table/row";
@@ -14,6 +11,7 @@ import { by, Asc } from "../../util/sort";
 import * as navigate from "../../update/navigate";
 
 import S from "./coming-soon-conventions-card.css";
+import { toUTC } from "../../util/date";
 
 function format(date) {
   return formatDate(date, l`MMM. d, yyyy`);
@@ -46,7 +44,7 @@ export function ComingSoonConventionsCard({ conventions }) {
               .map((convention) => (
                 <Row
                   title={convention.name}
-                  value={l`${format(toLocal(convention.start))} - ${format(toLocal(convention.end))}`}
+                  value={l`${format(toUTC(convention.start))} - ${format(toUTC(convention.end))}`}
                   detail={
                     <Link
                       className={S.view}

@@ -31,6 +31,7 @@ RUN apt-get update && apt-get install -y libpq-dev
 RUN cargo install diesel_cli --no-default-features --features postgres
 WORKDIR /app
 COPY ./database/migrations/ ./database/migrations
+WORKDIR /app/database
 CMD ["diesel", "migration", "run"]
 
 
@@ -38,9 +39,7 @@ FROM debian:bullseye AS load
 RUN apt-get update && apt-get install -y libpq-dev
 WORKDIR /app 
 COPY --from=build-load /build/target/release/import-conventions import-conventions
-RUN echo './import-conventions ./conventions/*' > ./do-import
-RUN chmod +x do-import
-CMD ["bash", "./do-import"]
+CMD ["./import-conventions", "/conventions/*"]
 
 
 FROM debian:bullseye AS release

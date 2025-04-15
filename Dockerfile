@@ -27,6 +27,7 @@ RUN cargo build --bin import-conventions --locked --release
 
 
 FROM rust:1.86.0-bullseye AS migrate
+RUN apt-get update && apt-get install -y libpq-dev
 RUN cargo install diesel_cli --no-default-features --features postgres
 WORKDIR /app
 COPY ./database/migrations/ ./database/migrations
@@ -34,6 +35,7 @@ CMD ["diesel", "migration", "run"]
 
 
 FROM debian:bullseye AS load
+RUN apt-get update && apt-get install -y libpq-dev
 WORKDIR /app 
 COPY --from=build-load /build/target/release/import-conventions import-conventions
 CMD ["./import-conventions", "./conventions/*"]

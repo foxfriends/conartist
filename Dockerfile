@@ -39,7 +39,7 @@ FROM debian:bullseye AS load
 RUN apt-get update && apt-get install -y libpq-dev
 WORKDIR /app 
 COPY --from=build-load /build/target/release/import-conventions import-conventions
-CMD ["./import-conventions", "/conventions/*"]
+CMD ["bash", "-c", "./import-conventions /conventions/*"]
 
 
 FROM debian:bullseye AS release

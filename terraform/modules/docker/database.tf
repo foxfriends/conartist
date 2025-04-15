@@ -9,6 +9,10 @@ resource "docker_image" "postgres" {
 
 resource "docker_volume" "postgres_data" {
   name = "${var.name}-pgdata"
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "docker_container" "postgres" {

@@ -58,3 +58,14 @@ jobs:
             cwd://${{ steps.load-meta.outputs.bake-file }}
           push: true
           provenance: true
+  deploy:
+    runs-on: ubuntu-latest
+    needs: release
+    environment: conartist.app
+    steps:
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.DEPLOY_PAT }}
+          repository: foxfriends/cameldridge.com
+          event-type: deploy

@@ -1,0 +1,60 @@
+name: Release
+
+on:
+  push:
+    branches: ["main"]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: "${{ github.repository_owner }}/conartist"
+  MIGRATE_IMAGE_NAME: "${{ github.repository_owner }}/conartist-migrate"
+  LOAD_IMAGE_NAME: "${{ github.repository_owner }}/conartist-load"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract metadata for Docker
+        id: image-meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          bake-target: image-metadata-action
+      - name: Extract metadata for Docker
+        id: migrate-meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.MIGRATE_IMAGE_NAME }}
+          bake-target: migrate-metadata-action
+      - name: Extract metadata for Docker
+        id: load-meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.LOAD_IMAGE_NAME }}
+          bake-target: load-metadata-action
+      - name: Build and push
+        id: push
+        uses: docker/bake-action@v6
+        with:
+          files: |
+            ./docker-bake.hcl
+            cwd://${{ steps.image-meta.outputs.bake-file }}
+            cwd://${{ steps.migrate-meta.outputs.bake-file }}
+            cwd://${{ steps.load-meta.outputs.bake-file }}
+          push: true
+          provenance: true

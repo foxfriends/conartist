@@ -1,23 +1,45 @@
 FROM node:17.6.0 AS web
 WORKDIR /build/web
-COPY ./web/package.json ./web/package-lock.json /build/web
+COPY ./web/package.json ./web/package-lock.json ./
 RUN npm ci
 COPY ./shared/ /build/shared/
 COPY ./web/ /build/web/
-RUN npm run build
+ENV NODE_ENV=production
+RUN npm run deploy
 CMD ["false"]
 
-FROM rust:1.85.1-bookworm AS build
+
+FROM rust:1.86.0-bullseye AS deps
 WORKDIR /build
-ARG FEATURES="mailer"
 RUN apt-get update && apt-get install -y libssl-dev 
-COPY Cargo.toml Cargo.lock /build/
-COPY ./dev/ /build/dev/
-COPY ./server/ /build/server/
+COPY Cargo.toml Cargo.lock ./
+COPY ./dev/ ./dev/
+COPY ./server/ ./server/
+CMD ["false"]
+
+FROM deps AS build
+ARG FEATURES="mailer"
 RUN cargo build --bin server --locked --release --no-default-features --features "$FEATURES"
 CMD ["false"]
 
-FROM debian:bookworm
+FROM deps AS build-load
+RUN cargo build --bin import-conventions --locked --release
+
+
+FROM rust:1.86.0-bullseye AS migrate
+RUN cargo install diesel_cli --no-default-features --features postgres
+WORKDIR /app
+COPY ./database/migrations/ ./database/migrations
+CMD ["diesel", "migration", "run"]
+
+
+FROM debian:bullseye AS load
+WORKDIR /app 
+COPY --from=build-load /build/target/release/import-conventions import-conventions
+CMD ["./import-conventions", "./conventions/*"]
+
+
+FROM debian:bullseye AS release
 RUN apt-get update && apt-get install -y libpq-dev
 
 WORKDIR /app

@@ -1,0 +1,31 @@
+name: Terraform CI
+
+on:
+  push:
+
+jobs:
+  fmt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.11.4"
+      - name: Terraform fmt
+        run: terraform fmt -recursive -check
+        working-directory: terraform
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.11.4"
+      - name: Terraform init
+        run: terraform init -backend=false
+        working-directory: terraform/modules/docker
+      - name: Terraform validate
+        run: terraform validate
+        working-directory: terraform/modules/docker

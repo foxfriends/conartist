@@ -36,7 +36,7 @@ pub struct ConventionExtraInfoModel {
 fn main() -> io::Result<()> {
     dotenv::dotenv().ok();
     let save_ids = env::var("SAVE_IDS").map(|s| s == "true").unwrap_or(false);
-    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be sets");
+    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
     let mut connection = PgConnection::establish(&database_url)
         .expect(&format!("Error connecting to {}", database_url));
 
@@ -139,6 +139,7 @@ fn main() -> io::Result<()> {
     }
 
     for file_name in env::args().skip(1) {
+        println!("Loading: {file_name}");
         let file = fs::read_to_string(&file_name).unwrap();
         let mut convention = toml::from_str::<Convention>(&file).unwrap();
         let id = connection

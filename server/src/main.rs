@@ -144,8 +144,8 @@ fn main() {
     chain.link_before(pre).link_after(post);
 
     let host = "0.0.0.0";
-    println!("ConArtist server listening at {}:{}", host, env::PORT);
+    println!("ConArtist server listening at {}:{}", host, *env::PORT);
     Iron::new(chain)
-        .http(format!("{}:{}", host, env::PORT))
+        .http(format!("{}:{}", host, *env::PORT))
         .unwrap();
 }

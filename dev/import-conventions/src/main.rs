@@ -34,7 +34,7 @@ pub struct ConventionExtraInfoModel {
 }
 
 fn main() -> io::Result<()> {
-    dotenv::dotenv().unwrap();
+    dotenv::dotenv().ok();
     let save_ids = env::var("SAVE_IDS").map(|s| s == "true").unwrap_or(false);
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be sets");
     let mut connection = PgConnection::establish(&database_url)

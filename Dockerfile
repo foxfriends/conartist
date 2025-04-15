@@ -40,7 +40,7 @@ CMD ["./import-conventions", "./conventions/*"]
 
 
 FROM debian:bullseye AS release
-RUN apt-get update && apt-get install -y libpq-dev
+RUN apt-get update && apt-get install -y libpq-dev curl
 
 WORKDIR /app
 COPY --from=build /build/target/release/server server

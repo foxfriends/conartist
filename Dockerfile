@@ -5,7 +5,7 @@ RUN npm ci
 COPY ./shared/ /build/shared/
 COPY ./web/ /build/web/
 RUN npm run build
-CMD ["true"]
+CMD ["false"]
 
 FROM rust:1.85.1-bookworm AS build
 WORKDIR /build
@@ -15,7 +15,7 @@ COPY Cargo.toml Cargo.lock /build/
 COPY ./dev/ /build/dev/
 COPY ./server/ /build/server/
 RUN cargo build --bin server --locked --release --no-default-features --features "$FEATURES"
-CMD ["true"]
+CMD ["false"]
 
 FROM debian:bookworm
 RUN apt-get update && apt-get install -y libpq-dev

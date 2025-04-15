@@ -9,3 +9,5 @@ server/staging
 target/
 node_modules/
 .env
+.terraform
+.terraform.lock.hcl

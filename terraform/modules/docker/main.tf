@@ -29,6 +29,10 @@ resource "docker_image" "conartist" {
   pull_triggers = [data.docker_registry_image.conartist.sha256_digest]
 }
 
+resource "random_bytes" "jwt_secret" {
+  length = 128
+}
+
 resource "docker_container" "conartist" {
   image   = docker_image.conartist.image_id
   name    = var.name
@@ -57,7 +61,14 @@ resource "docker_container" "conartist" {
   }
 
   env = [
+    "JWT_SECRET=${random_bytes.jwt_secret.hex}",
     "DATABASE_URL=${local.database_url}",
+    "CONARTIST_BASE_URL=${var.base_url}",
+    "CONARTIST_SERVER_EMAIL=${var.server_email}",
+    "MAILGUN_USERNAME=${var.mailgun_username}",
+    "MAILGUN_PASSWORD=${var.mailgun_password}",
+    "MAILGUN_API_KEY=${var.mailgun_api_key}",
+    "RUST_LOG=server,logger",
     "PORT=3000",
   ]
 

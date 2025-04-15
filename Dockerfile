@@ -47,6 +47,7 @@ COPY --from=build /build/target/release/server server
 COPY --from=web /build/web/public_html/ public_html/
 
 ENV WEB_ROOT=/app/public_html
+ENV INDEX_FILE=/app/public_html/index.html
 ENV PORT=3000
 
 EXPOSE $PORT

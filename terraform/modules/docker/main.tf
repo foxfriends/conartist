@@ -58,12 +58,12 @@ resource "docker_container" "conartist" {
     name = data.docker_network.bridge.name
   }
 
-  dynamic "ports" {
-    for_each = var.expose ? [var.port] : []
+  dynamic "networks_advanced" {
+    for_each = var.networks
+    iterator = net
 
     content {
-      internal = local.internal_port
-      external = ports.value
+      name = net.value["name"]
     }
   }
 

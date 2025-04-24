@@ -5,5 +5,5 @@ resource "docker_network" "internal" {
 }
 
 data "docker_network" "bridge" {
-  name = var.bridge_network_name
+  name = "bridge"
 }

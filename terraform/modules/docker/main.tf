@@ -18,6 +18,7 @@ locals {
   database_name = "conartist"
   database_user = "conartist"
   database_url  = "postgresql://${local.database_user}:${random_password.postgres_password.result}@postgres:5432/${local.database_name}"
+  internal_port = 3000
 }
 
 data "docker_registry_image" "conartist" {
@@ -38,8 +39,13 @@ resource "docker_container" "conartist" {
   name    = var.name
   restart = var.restart
 
-  ports {
-    internal = 3000
+  dynamic "ports" {
+    for_each = var.expose ? [var.port] : []
+
+    content {
+      internal = local.internal_port
+      external = ports.value
+    }
   }
 
   network_mode = "bridge"
@@ -52,8 +58,17 @@ resource "docker_container" "conartist" {
     name = data.docker_network.bridge.name
   }
 
+  dynamic "ports" {
+    for_each = var.expose ? [var.port] : []
+
+    content {
+      internal = local.internal_port
+      external = ports.value
+    }
+  }
+
   healthcheck {
-    test         = ["CMD", "curl", "-f", "localhost:3000"]
+    test         = ["CMD", "curl", "-f", "localhost:${local.internal_port}"]
     interval     = "5s"
     retries      = 2
     start_period = "1s"
@@ -69,7 +84,7 @@ resource "docker_container" "conartist" {
     "MAILGUN_PASSWORD=${var.mailgun_password}",
     "MAILGUN_API_KEY=${var.mailgun_api_key}",
     "RUST_LOG=server,logger",
-    "PORT=3000",
+    "PORT=${local.internal_port}",
   ]
 
   depends_on = [

@@ -8,7 +8,7 @@ resource "docker_image" "load" {
 }
 
 resource "terraform_data" "conventions_dir_contents" {
-  count = var.conventions_dir != null ? 1 ? 0
+  count = var.conventions_dir != null ? 1 : 0
   input = sha1(join("", [for f in fileset(var.conventions_dir, "*") : filesha1("${var.conventions_dir}/${f}")]))
 }
 

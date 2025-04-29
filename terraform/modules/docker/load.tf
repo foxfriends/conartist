@@ -7,6 +7,11 @@ resource "docker_image" "load" {
   pull_triggers = [data.docker_registry_image.load.sha256_digest]
 }
 
+resource "terraform_data" "conventions_dir_contents" {
+  count = var.conventions_dir != null ? fileexists("${var.conventions_dir}/cookies.toml") ? 1 : 0 : 0
+  input = sha1(join("", [for f in fileset(var.conventions_dir, "*") : filesha1("${var.conventions_dir}/${f}")]))
+}
+
 resource "docker_container" "load" {
   count = var.conventions_dir != null ? 1 : 0
 
@@ -33,4 +38,10 @@ resource "docker_container" "load" {
   ]
 
   depends_on = [docker_container.migrate]
+
+  lifecycle {
+    replace_triggered_by = [
+      terraform_data.conventions_dir_contents,
+    ]
+  }
 }

@@ -26,6 +26,16 @@ variable "restart" {
   default = "unless-stopped"
 }
 
+variable "log_driver" {
+  type    = string
+  default = "local"
+}
+
+variable "log_opts" {
+  type    = map(string)
+  default = {}
+}
+
 # Default variables
 variable "image_name" {
   type    = string

@@ -5,14 +5,14 @@
 	<key>SupportEmail</key>
 	<string>support@conartist.app</string>
 	<key>WebURL</key>
-	<string>https://staging.conartist.app</string>
+	<string>https://conartist.app</string>
 	<key>APIURL</key>
-	<string>https://api.staging.conartist.app</string>
+	<string>https://api.conartist.app</string>
 	<key>GraphQLURL</key>
-	<string>https://graph.staging.conartist.app</string>
+	<string>https://graph.conartist.app</string>
 	<key>ResourcesURL</key>
-	<string>https://api.staging,conartist.app/resource</string>
+	<string>https://api.conartist.app/resource</string>
 	<key>ConventionRequestFile</key>
-	<string>https://github.com/foxfriends/conartist/blob/master/dev/import-conventions/sample/convention.toml</string>
+	<string>https://github.com/foxfriends/conartist/blob/main/dev/import-conventions/sample/convention.toml</string>
 </dict>
 </plist>

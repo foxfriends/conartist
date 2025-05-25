@@ -13,6 +13,6 @@
 	<key>ResourcesURL</key>
 	<string>https://api.conartist.app/resource</string>
 	<key>ConventionRequestFile</key>
-	<string>https://github.com/foxfriends/conartist/blob/master/dev/import-conventions/sample/convention.toml</string>
+	<string>https://github.com/foxfriends/conartist/blob/main/dev/import-conventions/sample/convention.toml</string>
 </dict>
 </plist>

@@ -23,10 +23,10 @@ impl Convention {
         &self.title
     }
     fn start(&self) -> DateTime<Utc> {
-        DateTime::from_utc(self.start_date.and_hms(0, 0, 0), Utc)
+        DateTime::from_naive_utc_and_offset(self.start_date.and_hms_opt(0, 0, 0).unwrap(), Utc)
     }
     fn end(&self) -> DateTime<Utc> {
-        DateTime::from_utc(self.end_date.and_hms(23, 59, 59), Utc)
+        DateTime::from_naive_utc_and_offset(self.end_date.and_hms_opt(23, 59, 59).unwrap(), Utc)
     }
 
     fn images(&self, context: &Database) -> FieldResult<Vec<ConventionImage>> {
@@ -53,7 +53,7 @@ impl Convention {
     fn product_types(&self, context: &Database) -> FieldResult<Vec<ProductTypeSnapshot>> {
         dbtry! {
             context
-                .get_all_product_types_for_user(self.user_id, Some(DateTime::from_utc(self.end_date.and_hms(23, 59, 59), Utc)))
+                .get_all_product_types_for_user(self.user_id, Some(DateTime::from_naive_utc_and_offset(self.end_date.and_hms_opt(23, 59, 59).unwrap(), Utc)))
         }
     }
 

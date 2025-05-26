@@ -1,7 +1,6 @@
 use chrono::{NaiveDate, Utc};
 use diesel::prelude::*;
 use diesel::{self, dsl};
-use serde_json;
 
 use super::Database;
 use super::models::*;
@@ -49,7 +48,7 @@ impl Database {
                         .filter(conventions::con_id.eq(con_id))
                         .first::<DetachedConvention>(conn)?;
 
-                if convention.end_date.and_hms(23, 59, 59) < Utc::now().naive_utc() {
+                if convention.end_date.and_hms_opt(23, 59, 59).unwrap() < Utc::now().naive_utc() {
                     return Err(
                         diesel::result::Error::DeserializationError(
                             Box::new(
@@ -169,7 +168,6 @@ impl Database {
                     conventionextrainfo::action_text.eq(action_text),
                 ))
                 .get_result::<ConventionExtraInfo>(conn)
-                .map(Into::into)
         })
         .map_err(|reason| {
             format!(

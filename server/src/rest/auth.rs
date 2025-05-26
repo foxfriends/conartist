@@ -18,8 +18,8 @@ use crate::email::reset_password;
 
 fn reauth(req: &mut Request<'_, '_>) -> IronResult<Response> {
     let claims = iexpect! { req.extensions.get::<Claims>() };
-    let authtoken = itry! { authtoken::updating_claims(&claims) };
-    return cr::ok(authtoken);
+    let authtoken = itry! { authtoken::updating_claims(claims) };
+    cr::ok(authtoken)
 }
 
 #[derive(Clone, Deserialize)]

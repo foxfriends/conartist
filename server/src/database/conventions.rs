@@ -48,8 +48,7 @@ impl Database {
             .filter(conventionsearch::end_date.ge(date))
             .offset(
                 after
-                    .clone()
-                    .and_then(|offset| str::parse(&offset).ok())
+                    .and_then(|offset| str::parse(offset).ok())
                     .unwrap_or(0i64),
             )
             .limit(limit)

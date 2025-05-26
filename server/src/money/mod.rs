@@ -2,7 +2,6 @@
 use crate::error::MoneyError;
 use juniper::{InputValue, ScalarValue, Value};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
-use serde_json;
 use std::fmt::{Display, Formatter};
 use std::ops::Add;
 use std::str::FromStr;
@@ -15,6 +14,7 @@ use std::str::FromStr;
     to_output_with = Self::to_graphql_output,
     parse_token(String),
 )]
+#[expect(clippy::upper_case_acronyms, reason = "value matching string version")]
 pub enum Currency {
     CAD,
     USD,
@@ -99,10 +99,6 @@ impl Money {
     pub fn cur(&self) -> Currency {
         self.cur
     }
-
-    pub fn to_string(&self) -> String {
-        format!("{}{}", self.cur, self.amt)
-    }
 }
 
 impl Serialize for Money {
@@ -124,8 +120,8 @@ impl<'a> Deserialize<'a> for Money {
 }
 
 impl Display for Money {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> ::std::fmt::Result {
-        unimplemented!() // TODO: currency symbols and proper locale formatting
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}{}", self.cur, self.amt)
     }
 }
 
@@ -144,9 +140,9 @@ impl Add for Money {
 impl PartialOrd for Money {
     fn partial_cmp(&self, other: &Self) -> Option<::std::cmp::Ordering> {
         if self.cur == other.cur {
-            return Some(self.amt.cmp(&other.amt));
+            Some(self.amt.cmp(&other.amt))
         } else {
-            return None;
+            None
         }
     }
 }

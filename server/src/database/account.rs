@@ -1,4 +1,3 @@
-use bcrypt;
 use diesel::dsl;
 use diesel::prelude::*;
 

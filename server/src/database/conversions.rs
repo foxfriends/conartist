@@ -7,9 +7,9 @@ use diesel::sql_types::Text;
 use std::io::Write;
 use std::str::FromStr;
 
-impl Into<i64> for Money {
-    fn into(self) -> i64 {
-        self.amt()
+impl From<Money> for i64 {
+    fn from(val: Money) -> Self {
+        val.amt()
     }
 }
 

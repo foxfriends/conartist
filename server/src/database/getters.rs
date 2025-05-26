@@ -50,7 +50,7 @@ impl Database {
     pub fn get_prices_for_user(&self, maybe_user_id: Option<i32>) -> Result<Vec<Price>, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let mut conn = self.pool.get().unwrap();
-        return prices::table
+        prices::table
             .inner_join(
                 currentprices::table.on(prices::type_id
                     .eq(currentprices::type_id)
@@ -73,7 +73,7 @@ impl Database {
                     .into_iter()
                     .filter(|price| price.price.is_some())
                     .collect()
-            });
+            })
     }
 
     pub fn get_conventions_for_user(
@@ -122,7 +122,7 @@ impl Database {
                 )
             })?;
 
-        let date = end_date.and_hms(23, 59, 59);
+        let date = end_date.and_hms_opt(23, 59, 59).unwrap();
 
         // TODO: was nice when the counting could be done in SQL... maybe someday it can be improved
         let items_sold: HashMap<i32, i64> = records::table
@@ -241,8 +241,8 @@ impl Database {
                 )
             })?;
 
-        let date = end_date.and_hms(23, 59, 59);
-        return prices::table
+        let date = end_date.and_hms_opt(23, 59, 59).unwrap();
+        prices::table
             .inner_join(
                 currentprices::table.on(prices::type_id
                     .eq(currentprices::type_id)
@@ -271,6 +271,6 @@ impl Database {
                     .into_iter()
                     .filter(|price| price.price.is_some())
                     .collect()
-            });
+            })
     }
 }

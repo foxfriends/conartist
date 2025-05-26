@@ -29,7 +29,7 @@ impl Handler for Create {
         let rbody =
             itry! { req.get::<bodyparser::Struct<CreateAccountData>>(), status::BadRequest };
         let body = iexpect! { rbody };
-        if body.email == "" || body.name == "" || body.password == "" {
+        if body.email.is_empty() || body.name.is_empty() || body.password.is_empty() {
             // TODO: this could return status::BadRequest somehow
             return cr::fail("Invalid request");
         }
@@ -50,7 +50,7 @@ impl Handler for Create {
                 authtoken::new(user.user_id)
                     .map_err(|reason| format!("Failed to generate JWT: {}", reason))
             })
-            .map(|authtoken| cr::ok(authtoken))
+            .map(cr::ok)
             .unwrap_or_else(|s| cr::fail(&s))
     }
 }

@@ -10,7 +10,7 @@ use self::image::Image;
 
 pub struct Query;
 
-const IMAGE_BASE_URL: &'static str = "http://cameldridge.com/conartist/resource/image/";
+const IMAGE_BASE_URL: &str = "http://cameldridge.com/conartist/resource/image/";
 
 pub struct ResourceContext(pub Client);
 

@@ -21,7 +21,7 @@ impl FromSql<Text, Pg> for Time {
 
 impl ToSql<Text, Pg> for Time {
     fn to_sql<'b>(&'b self, out: &mut Output<'b, '_, Pg>) -> serialize::Result {
-        out.write_all(&self.0.to_rfc3339().as_bytes())?;
+        out.write_all(self.0.to_rfc3339().as_bytes())?;
         Ok(serialize::IsNull::No)
     }
 }

@@ -10,7 +10,7 @@ use crate::env::{INDEX_FILE, WEB_ROOT};
 
 pub fn new() -> Chain {
     chain![
-        #[ DefaultTo::new(INDEX_FILE.to_string()) ]
-        Static::new(Path::new(&WEB_ROOT.to_string()))
+        #[ DefaultTo::new(INDEX_FILE.to_owned()) ]
+        Static::new(Path::new(&*WEB_ROOT))
     ]
 }

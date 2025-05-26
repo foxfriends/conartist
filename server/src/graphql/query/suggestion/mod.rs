@@ -20,10 +20,10 @@ impl ScoredSuggestion {
         &self.suggestion
     }
     fn suggested_at(&self) -> DateTime<Utc> {
-        DateTime::from_utc(self.create_date, Utc)
+        DateTime::from_naive_utc_and_offset(self.create_date, Utc)
     }
     fn status(&self) -> i32 {
-        self.status as i32
+        self.status
     }
     fn ranking(&self) -> i32 {
         self.ranking as i32

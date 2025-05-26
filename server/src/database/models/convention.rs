@@ -21,11 +21,11 @@ pub struct RawConventionUserInfo {
     pub information: String,
 }
 
-impl Into<ConventionUserInfo> for RawConventionUserInfo {
-    fn into(self) -> ConventionUserInfo {
+impl From<RawConventionUserInfo> for ConventionUserInfo {
+    fn from(val: RawConventionUserInfo) -> Self {
         ConventionUserInfo {
-            con_info_id: self.con_info_id,
-            information: self.information,
+            con_info_id: val.con_info_id,
+            information: val.information,
             upvotes: 0i32,
             downvotes: 0i32,
         }
@@ -79,15 +79,15 @@ impl DetachedConvention {
     }
 }
 
-impl Into<Convention> for DetachedConvention {
-    fn into(self) -> Convention {
+impl From<DetachedConvention> for Convention {
+    fn from(val: DetachedConvention) -> Self {
         Convention {
-            con_id: self.con_id,
+            con_id: val.con_id,
             user_id: None,
-            title: self.title,
-            start_date: self.start_date,
-            end_date: self.end_date,
-            predecessor: self.predecessor,
+            title: val.title,
+            start_date: val.start_date,
+            end_date: val.end_date,
+            predecessor: val.predecessor,
         }
     }
 }

@@ -53,12 +53,6 @@ pub struct GraphiQLHandler {
     subscription_url: Option<String>,
 }
 
-/// Handler that renders `GraphQL Playground` - a graphical query editor interface
-pub struct PlaygroundHandler {
-    graphql_url: String,
-    subscription_url: Option<String>,
-}
-
 fn get_single_value<T>(mut values: Vec<T>) -> IronResult<T> {
     if values.len() == 1 {
         Ok(values.remove(0))
@@ -87,8 +81,8 @@ where
         .transpose()
 }
 
-impl<'a, CtxFactory, Query, Mutation, Subscription, CtxT, S>
-    GraphQLHandler<'a, CtxFactory, Query, Mutation, Subscription, CtxT, S>
+impl<CtxFactory, Query, Mutation, Subscription, CtxT, S>
+    GraphQLHandler<'_, CtxFactory, Query, Mutation, Subscription, CtxT, S>
 where
     S: ScalarValue + Send + Sync + 'static,
     CtxFactory: Fn(&mut Request) -> IronResult<CtxT> + Send + Sync + 'static,
@@ -181,19 +175,6 @@ impl GraphiQLHandler {
     }
 }
 
-impl PlaygroundHandler {
-    /// Build a new GraphQL Playground handler targeting the specified URL.
-    ///
-    /// The provided URL should point to the URL of the attached `GraphQLHandler`. It can be
-    /// relative, so a common value could be `"/graphql"`.
-    pub fn new(graphql_url: &str, subscription_url: Option<&str>) -> PlaygroundHandler {
-        PlaygroundHandler {
-            graphql_url: graphql_url.into(),
-            subscription_url: subscription_url.map(Into::into),
-        }
-    }
-}
-
 impl<CtxFactory, Query, Mutation, Subscription, CtxT, S> Handler
     for GraphQLHandler<'static, CtxFactory, Query, Mutation, Subscription, CtxT, S>
 where
@@ -232,21 +213,6 @@ impl Handler for GraphiQLHandler {
             content_type,
             status::Ok,
             juniper::http::graphiql::graphiql_source(
-                &self.graphql_url,
-                self.subscription_url.as_deref(),
-            ),
-        )))
-    }
-}
-
-impl Handler for PlaygroundHandler {
-    fn handle(&self, _: &mut Request) -> IronResult<Response> {
-        let content_type = "text/html; charset=utf-8".parse::<Mime>().unwrap();
-
-        Ok(Response::with((
-            content_type,
-            status::Ok,
-            juniper::http::playground::playground_source(
                 &self.graphql_url,
                 self.subscription_url.as_deref(),
             ),

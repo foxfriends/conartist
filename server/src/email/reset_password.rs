@@ -13,7 +13,7 @@ pub fn send(email: String, verification_code: String) -> Result<(), MailerError>
         .subject("ConArtist Password Reset")
         .html(format!(
             include_str!("reset_password.html"),
-            url = CONARTIST_BASE_URL.to_string(),
+            url = &*CONARTIST_BASE_URL,
             verification_code = verification_code
         ))
         .build()?;

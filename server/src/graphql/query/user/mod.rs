@@ -43,7 +43,7 @@ impl User {
     }
 
     fn join_date(&self) -> DateTime<Utc> {
-        DateTime::from_utc(self.join_date, Utc)
+        DateTime::from_naive_utc_and_offset(self.join_date, Utc)
     }
 
     fn product_types(

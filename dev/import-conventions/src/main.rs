@@ -38,7 +38,7 @@ fn main() -> io::Result<()> {
     let save_ids = env::var("SAVE_IDS").map(|s| s == "true").unwrap_or(false);
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
     let mut connection = PgConnection::establish(&database_url)
-        .expect(&format!("Error connecting to {}", database_url));
+        .unwrap_or_else(|_| panic!("Error connecting to {}", database_url));
 
     let export = env::var("DO_EXPORT_INSTEAD")
         .map(|s| s == "true")

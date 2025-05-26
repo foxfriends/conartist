@@ -1,4 +1,5 @@
 #![deny(bare_trait_objects)]
+#![allow(clippy::module_inception, reason = "don't care")]
 
 // waiting for these crates to update their macros
 #[macro_use]
@@ -67,7 +68,7 @@ fn main() {
         CorsMiddleware::with_allow_any()
     } else {
         CorsMiddleware::with_whitelist(
-            [format!("https://{}", CONARTIST_BASE_URL.to_string())]
+            [format!("https://{}", &*CONARTIST_BASE_URL)]
                 .iter()
                 .cloned()
                 .collect(),

@@ -1,4 +1,4 @@
-use std::io::{self, stdin, Read};
+use std::io::{self, Read, stdin};
 use toml::Value;
 use treexml::{Document, ElementBuilder as E};
 
@@ -26,7 +26,7 @@ fn main() -> io::Result<()> {
     let toml_document = toml::from_str::<toml::Value>(&contents).unwrap();
     let table = toml_document.as_table().unwrap();
     let mut children: Vec<_> = table
-        .into_iter()
+        .iter()
         .map(|(name, value)| (sanitize(name), value))
         .map(|(name, value)| {
             let string = match value {

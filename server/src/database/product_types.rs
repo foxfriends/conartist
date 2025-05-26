@@ -265,7 +265,7 @@ impl Database {
                 .load::<i32>(conn)?;
             diesel::delete(products::table)
                 .filter(products::type_id.eq(type_id))
-                .filter(dsl::not(products::product_id.eq(dsl::any(sold_products))))
+                .filter(dsl::not(products::product_id.eq_any(sold_products)))
                 .execute(conn)?;
             let products_left = diesel::select(dsl::exists(
                 products::table.filter(products::type_id.eq(type_id)),

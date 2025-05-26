@@ -1,7 +1,6 @@
 //! The entry point of a GraphQL mutation
 use chrono::NaiveDate;
 use juniper::FieldResult;
-use serde_json;
 
 mod expense;
 mod price;
@@ -34,7 +33,7 @@ impl Mutation {
         user_id: Option<i32>,
         email: String,
     ) -> FieldResult<User> {
-        ensure!(email.len() > 0 && email.len() <= 512);
+        ensure!(!email.is_empty() && email.len() <= 512);
 
         let EmailVerification {
             verification_code,
@@ -61,7 +60,7 @@ impl Mutation {
         user_id: Option<i32>,
         name: String,
     ) -> FieldResult<User> {
-        ensure!(name.len() > 0 && name.len() <= 512);
+        ensure!(!name.is_empty() && name.len() <= 512);
 
         dbtry! {
             context.set_user_name(user_id, name)
@@ -82,7 +81,7 @@ impl Mutation {
         user_id: Option<i32>,
         product_type: ProductTypeAdd,
     ) -> FieldResult<ProductTypeSnapshot> {
-        ensure!(product_type.name.len() > 0 && product_type.name.len() <= 512);
+        ensure!(!product_type.name.is_empty() && product_type.name.len() <= 512);
         ensure!(product_type.color >= 0);
         ensure!(product_type.sort >= 0);
 
@@ -125,11 +124,11 @@ impl Mutation {
         user_id: Option<i32>,
         product: ProductAdd,
     ) -> FieldResult<ProductSnapshot> {
-        ensure!(product.name.len() > 0 && product.name.len() <= 512);
+        ensure!(!product.name.is_empty() && product.name.len() <= 512);
         ensure!(product.type_id > 0);
         ensure!(product.quantity >= 0);
         ensure!(product.sort >= 0);
-        let sku = product.sku.filter(|sku| sku != "");
+        let sku = product.sku.filter(|sku| !sku.is_empty());
         dbtry! {
             context.create_product(user_id, product.type_id, product.name, sku, product.quantity, product.sort)
         }
@@ -213,7 +212,7 @@ impl Mutation {
         user_id: Option<i32>,
         record: RecordAdd,
     ) -> FieldResult<Record> {
-        ensure!(record.products.len() != 0);
+        ensure!(!record.products.is_empty());
         ensure!(record.con_id.is_none() || record.con_id.unwrap() > 0);
         ensure!(record.price >= Money::new(0i64, record.price.cur()));
 
@@ -234,7 +233,7 @@ impl Mutation {
             record
                 .products
                 .as_ref()
-                .map(|products| products.len() > 0)
+                .map(|products| !products.is_empty())
                 .unwrap_or(true)
         );
         ensure!(
@@ -264,7 +263,7 @@ impl Mutation {
             context.delete_record(user_id, record.record_id, record.uuid)
         }?;
         context.trigger_webhook_delete_record(&old_record).ok();
-        return Ok(ok);
+        Ok(ok)
     }
 
     // Expenses
@@ -275,7 +274,7 @@ impl Mutation {
     ) -> FieldResult<Expense> {
         ensure!(expense.con_id > 0);
         ensure!(expense.price >= Money::new(0i64, expense.price.cur()));
-        ensure!(expense.category.len() > 0 && expense.category.len() < 32);
+        ensure!(!expense.category.is_empty() && expense.category.len() < 32);
 
         dbtry! {
             context.create_user_expense(user_id, expense.con_id, expense.uuid, expense.price, expense.category, expense.description, expense.time.0)
@@ -292,7 +291,7 @@ impl Mutation {
             expense
                 .category
                 .as_ref()
-                .map(|category| category.len() > 0 && category.len() < 32)
+                .map(|category| !category.is_empty() && category.len() < 32)
                 .unwrap_or(true)
         );
         ensure!(
@@ -326,7 +325,7 @@ impl Mutation {
         con_id: i32,
         info: String,
     ) -> FieldResult<ConventionUserInfo> {
-        ensure!(info.len() > 0);
+        ensure!(!info.is_empty());
         dbtry! {
             context.create_convention_user_info(user_id, con_id, info)
         }
@@ -384,7 +383,7 @@ impl Mutation {
 
     // suggestions
     fn create_suggestion(context: &Database, suggestion: String) -> FieldResult<ScoredSuggestion> {
-        ensure!(suggestion.len() > 0 && suggestion.len() < 1024);
+        ensure!(!suggestion.is_empty() && suggestion.len() < 1024);
 
         dbtry! {
             context.create_suggestion(suggestion)

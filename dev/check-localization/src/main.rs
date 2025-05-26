@@ -19,7 +19,7 @@ fn main() -> io::Result<()> {
         for key in keys {
             discovered_keys
                 .entry(key)
-                .or_insert(BTreeSet::default())
+                .or_default()
                 .insert(name.to_owned());
         }
     }

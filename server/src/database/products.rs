@@ -219,7 +219,7 @@ impl Database {
                 .len() as i64;
 
             let updated_product: Product = if name.is_some() || sort.is_some() || sku.is_some() {
-                let sku = sku.map(|sku| if sku == "" { None } else { Some(sku) });
+                let sku = sku.map(|sku| if sku.is_empty() { None } else { Some(sku) });
                 diesel::update(products::table)
                     .filter(products::product_id.eq(product_id))
                     .filter(products::user_id.eq(user_id))

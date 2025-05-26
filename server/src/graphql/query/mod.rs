@@ -69,7 +69,7 @@ impl Query {
 
         let earliest_date = date
             .map(|r| r.0.naive_utc().date())
-            .unwrap_or(Utc::today().naive_utc());
+            .unwrap_or(Utc::now().date_naive());
 
         let query = search.map(Search::parse_query);
 

@@ -1,5 +1,4 @@
 //! The Image type for the GraphQL API
-use base64;
 use juniper::{InputValue, ScalarValue, Value};
 
 #[derive(GraphQLScalar)]
@@ -16,7 +15,7 @@ impl Image {
         v.as_string_value()
             .ok_or_else(|| "Expected `String`".to_owned())
             .and_then(|s| base64::decode(&s).map_err(|err| err.to_string()))
-            .map(|b| Image::new(b))
+            .map(Image::new)
     }
 
     fn to_graphql_output<S: ScalarValue>(v: &Self) -> Value<S> {
@@ -33,6 +32,6 @@ impl Image {
     }
 
     pub fn to_base64_png(&self) -> String {
-        return base64::encode(&self.0);
+        base64::encode(&self.0)
     }
 }

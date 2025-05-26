@@ -13,7 +13,7 @@ pub fn send(email: String, verification_code: String) -> Result<(), MailerError>
         .subject("ConArtist Email Verification")
         .html(format!(
             include_str!("confirm_email.html"),
-            url = CONARTIST_BASE_URL.to_string(),
+            url = &*CONARTIST_BASE_URL,
             verification_code = verification_code
         ))
         .build()?;

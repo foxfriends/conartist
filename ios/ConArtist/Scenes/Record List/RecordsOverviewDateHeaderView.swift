@@ -11,8 +11,6 @@ import SVGKit
 import RxSwift
 
 class RecordsOverviewDateHeaderView: UIView {
-    static let DateFormat = "EEEE MMMM d, yyyy"¡
-
     private var subscription: Disposable?
 
     private weak var dateLabel: UILabel!
@@ -26,7 +24,7 @@ class RecordsOverviewDateHeaderView: UIView {
     func setup(for date: Date, expanded: Bool, onTap handler: @escaping () -> Void) {
         buildSubviews()
 
-        dateLabel.text = date.toString(RecordsOverviewDateHeaderView.DateFormat)
+        dateLabel.text = date.formatted(date: .complete, time: .omitted)
         expandIcon.image = expanded ? .chevronDown : .chevronUp
 
         subscription?.dispose()

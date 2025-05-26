@@ -7,13 +7,14 @@
 //
 
 import Foundation
-import SwiftMoment
 
 // MARK: - Date
 
 extension String {
     func toDate() -> Date? {
-        return moment(self)?.date
+        let RFC3339DateFormatter = DateFormatter()
+        RFC3339DateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        return ISO8601DateFormatter().date(from: self) ?? RFC3339DateFormatter.date(from: self)
     }
 }
 

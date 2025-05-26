@@ -141,7 +141,7 @@ extension RecordDetailsOverlayViewController {
         }
         amountLabel.font = amountLabel.font.usingFeatures([.tabularFigures])
         amountLabel.text = record.price.toString()
-        timeLabel.text = record.time.toString("EEEE MMMM d, yyyy. h:mm a"¡)
+        timeLabel.text = record.time.formatted(date: .complete, time: .shortened)
         noteLabel.text = record.info.isEmpty ? "Nothing to say..."¡ : record.info
         noteLabel.textColor = record.info.isEmpty ? .textPlaceholder : .text
         backgroundButton.alpha = 0
@@ -151,7 +151,7 @@ extension RecordDetailsOverlayViewController {
             .reduce(0, +)
         itemsTableViewHeightConstraint.constant = height
         navBar.title = convention?.name ?? "Sale"¡
-        navBar.subtitle = after?.toString("MMM. d, yyyy"¡)
+        navBar.subtitle = after?.formatted(date: .abbreviated, time: .omitted)
         navBar.layer.shadowOpacity = 0
         itemsTableView.reloadData()
     }

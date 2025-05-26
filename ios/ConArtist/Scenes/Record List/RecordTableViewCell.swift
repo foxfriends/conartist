@@ -40,7 +40,7 @@ class RecordTableViewCell: ConArtistTableViewCell {
                 }
             self.priceLabel.font = self.priceLabel.font.usingFeatures([.tabularFigures])
             self.priceLabel.text = item.price.toString()
-            self.timeLabel.text = item.time.toString("E h:mm")
+            self.timeLabel.text = item.time.formatted(Date.FormatStyle().weekday(.abbreviated).hour(.defaultDigits(amPM: .abbreviated)).minute(.defaultDigits))
             self.modifiedMarkView.backgroundColor = item.id.isTemp ? .brandVariant : .backgroundVariant
         }
     }

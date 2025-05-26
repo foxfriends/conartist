@@ -369,24 +369,24 @@ extension Convention {
     }
 
     var isStarted: Bool {
-        return start.changeTimeZone(from: TimeZone.UTC, to: .current) <= Date().roundToDay()
+        return Date().changeTimeZone(from: .UTC, to: .autoupdatingCurrent) > start
     }
 
     var isEnded: Bool {
-        return end.changeTimeZone(from: TimeZone.UTC, to: .current) < Date().roundToDay()
+        return Date().changeTimeZone(from: .UTC, to: .autoupdatingCurrent) > end
     }
 }
 
 // MARK: - Date formatting
 extension Convention {
-    static var DateFormat: String { return "MMM. d, yyyy"¡ }
-
     var dateString: String {
         get { return Convention.formatDateRange(start: self.start, end: self.end) }
     }
 
     static func formatDateRange(start: Date, end: Date) -> String {
-        return "{} - {}"¡ % start.toString(Convention.DateFormat, timeZone: .UTC) % end.toString(Convention.DateFormat, timeZone: .UTC)
+        var format = Date.FormatStyle.dateTime.month(.abbreviated).day(.defaultDigits).year(.defaultDigits)
+        format.timeZone = .UTC
+        return "{} - {}"¡ % start.formatted(format) % end.formatted(format)
     }
 }
 

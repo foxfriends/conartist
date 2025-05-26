@@ -45,8 +45,8 @@ class ConventionTableViewCell: ConArtistTableViewCell {
         if case .Hours(let hours)? = hours,
             let (open, close) = hours.first(where: { start, end in start.roundToDay() == Date().roundToDay()}) {
             timeLabel?.text = "{} - {}"¡
-                % open.toString(ConventionExtraInfo.ShortHourFormat)
-                % close.toString(ConventionExtraInfo.ShortHourFormat)
+                % open.formatted(ConventionExtraInfo.ShortHourFormat)
+                % close.formatted(ConventionExtraInfo.ShortHourFormat)
         } else {
             timeLabel?.text = ""
         }

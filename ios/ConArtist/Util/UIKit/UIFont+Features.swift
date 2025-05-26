@@ -17,18 +17,18 @@ extension UIFont {
             switch self {
             case .smallCaps:
                 let upperCaseFeature = [
-                    UIFontDescriptor.FeatureKey.featureIdentifier: kUpperCaseType,
-                    .typeIdentifier: kUpperCaseSmallCapsSelector,
+                    UIFontDescriptor.FeatureKey.type: kUpperCaseType,
+                    .selector: kUpperCaseSmallCapsSelector,
                 ]
                 let lowerCaseFeature = [
-                    UIFontDescriptor.FeatureKey.featureIdentifier: kLowerCaseType,
-                    .typeIdentifier: kLowerCaseSmallCapsSelector,
+                    UIFontDescriptor.FeatureKey.type: kLowerCaseType,
+                    .selector: kLowerCaseSmallCapsSelector,
                 ]
                 return [upperCaseFeature, lowerCaseFeature]
             case .tabularFigures:
                 let tabularFigures = [
-                    UIFontDescriptor.FeatureKey.featureIdentifier: kNumberSpacingType,
-                    .typeIdentifier: kMonospacedNumbersSelector,
+                    UIFontDescriptor.FeatureKey.type: kNumberSpacingType,
+                    .selector: kMonospacedNumbersSelector,
                 ]
                 return [tabularFigures]
             }

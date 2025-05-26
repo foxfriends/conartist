@@ -6,7 +6,6 @@ PODS:
   - CocoaLumberjack (3.5.3):
     - CocoaLumberjack/Core (= 3.5.3)
   - CocoaLumberjack/Core (3.5.3)
-  - pop (1.0.12)
   - PrettyString (0.1.2)
   - RxAlamofire (5.0.0):
     - RxAlamofire/Core (= 5.0.0)
@@ -19,12 +18,9 @@ PODS:
   - RxRelay (5.0.0):
     - RxSwift (~> 5)
   - RxSwift (5.0.0)
-  - SexyTooltip (1.2.7):
-    - pop (~> 1.0)
   - Strongbox (0.5.2)
   - SVGKit (2.1.0):
     - CocoaLumberjack (~> 3.0)
-  - SwiftMoment (0.7)
   - Toast-Swift (4.0.1)
 
 DEPENDENCIES:
@@ -34,10 +30,8 @@ DEPENDENCIES:
   - RxAlamofire (~> 5.0)
   - RxCocoa (~> 5.0)
   - RxSwift (~> 5.0)
-  - SexyTooltip (~> 1.2)
   - Strongbox (~> 0.5)
   - SVGKit (from `https://github.com/SVGKit/SVGKit.git`, branch `3.x`)
-  - SwiftMoment (~> 0.7)
   - Toast-Swift (~> 4.0)
 
 SPEC REPOS:
@@ -45,15 +39,12 @@ SPEC REPOS:
     - Alamofire
     - Apollo
     - CocoaLumberjack
-    - pop
     - PrettyString
     - RxAlamofire
     - RxCocoa
     - RxRelay
     - RxSwift
-    - SexyTooltip
     - Strongbox
-    - SwiftMoment
     - Toast-Swift
 
 EXTERNAL SOURCES:
@@ -70,18 +61,15 @@ SPEC CHECKSUMS:
   Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
   Apollo: bec38cb63711f7c3f3c7c2faae3be9139d2a8a57
   CocoaLumberjack: 2f44e60eb91c176d471fdba43b9e3eae6a721947
-  pop: d582054913807fd11fd50bfe6a539d91c7e1a55a
   PrettyString: 88cd4e1b6d756718d4fb4dc55ca2ac53aaee3550
   RxAlamofire: e7875a012aff55345672d0f70a2a9cd6aeb0f211
   RxCocoa: fcf32050ac00d801f34a7f71d5e8e7f23026dcd8
   RxRelay: 4f7409406a51a55cd88483f21ed898c234d60f18
   RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
-  SexyTooltip: e243da5a858c7160141cf35786a4033669d1efca
   Strongbox: 65b9d9a3382a2fbdf7b789046bb2fbff16944044
   SVGKit: 8a2fc74258bdb2abb54d3b65f3dd68b0277a9c4d
-  SwiftMoment: dc6dd27012e267819104cbb03f74ff9192dd0b42
   Toast-Swift: e42a638589a2f95036b4bb7626cfbdde7daf0393
 
-PODFILE CHECKSUM: fa50e64d3822ce99ae92ce454ea9e9c67b6b5e12
+PODFILE CHECKSUM: e56dbe3a41c18c1f2b7b26185441153efaca9744
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.15.2

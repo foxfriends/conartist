@@ -129,12 +129,12 @@ extension ConventionListViewController {
             .asObservable()
             .share(replay: 1)
         let past = conventions
-            .map { cons in cons.filter { $0.end < Date.today() } }
+            .map { cons in cons.filter { $0.isEnded } }
             .map { cons in cons.sorted { $0.start > $1.start } }
         let present = conventions
-            .map { cons in cons.filter { $0.start <= Date.today() && $0.end >= Date.today() } }
+            .map { cons in cons.filter { con in con.isStarted && !con.isEnded } }
         let future = conventions
-            .map { cons in cons.filter { $0.start > Date.today() } }
+            .map { cons in cons.filter { con in !con.isStarted && !con.isEnded } }
             .map { cons in cons.sorted { $0.start < $1.start } }
 
         past.subscribe(onNext: { [weak self] in self?.past = $0 }).disposed(by: disposeBag)

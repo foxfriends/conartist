@@ -28,9 +28,9 @@ enum ConventionExtraInfo: Codable {
         case city
     }
 
-    static var HourFormat: String { return "h:mma"¡ }
-    static var ShortHourFormat: String { return "h:mm"¡ }
-    static var ShortDayFormat: String { return "EEE"¡ }
+    static var HourFormat: Date.FormatStyle { return Date.FormatStyle().hour(.defaultDigits(amPM: .abbreviated)).minute(.twoDigits) }
+    static var ShortHourFormat: Date.FormatStyle { return Date.FormatStyle().hour(.defaultDigits(amPM: .omitted)).minute(.twoDigits) }
+    static var ShortDayFormat: Date.FormatStyle { return Date.FormatStyle().weekday(.abbreviated) }
 
     case Hours([(Date, Date)])
     case Dates(Date, Date)
@@ -76,9 +76,9 @@ enum ConventionExtraInfo: Codable {
             return hours
                 .map { open, close in
                     "{} {} - {}"¡
-                        % open.toString(ConventionExtraInfo.ShortDayFormat)
-                        % open.toString(ConventionExtraInfo.HourFormat)
-                        % close.toString(ConventionExtraInfo.HourFormat)
+                    % open.formatted(ConventionExtraInfo.ShortDayFormat)
+                    % open.formatted(ConventionExtraInfo.HourFormat)
+                    % close.formatted(ConventionExtraInfo.HourFormat)
                 }
                 .joined(separator: "\n")
         case .Dates(let start, let end):

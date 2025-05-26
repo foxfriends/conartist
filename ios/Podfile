@@ -1,21 +1,25 @@
-platform :ios, '11.0'
+platform :ios, '15.0'
 
-['ConArtist', 'ConArtist DEV'].each do |name|
-  target name do
-    use_frameworks!
-    inhibit_all_warnings!
+target 'ConArtist' do
+  use_frameworks!
+  inhibit_all_warnings!
 
-    # Pods for ConArtist
-    pod 'Apollo', '~> 0.15'
-    pod 'Alamofire', '~> 4.7'
-    pod 'Strongbox', '~> 0.5'
-    pod 'SwiftMoment', '~> 0.7'
-    pod 'RxSwift', '~> 5.0'
-    pod 'RxCocoa', '~> 5.0'
-    pod 'RxAlamofire', '~> 5.0'
-    pod 'SexyTooltip', '~> 1.2'
-    pod 'SVGKit', :git => 'https://github.com/SVGKit/SVGKit.git', :branch => '3.x'
-    pod 'PrettyString', '~> 0.1'
-    pod 'Toast-Swift', '~> 4.0'
+  # Pods for ConArtist
+  pod 'Apollo', '~> 0.15'
+  pod 'Alamofire', '~> 4.7'
+  pod 'Strongbox', '~> 0.5'
+  pod 'RxSwift', '~> 5.0'
+  pod 'RxCocoa', '~> 5.0'
+  pod 'RxAlamofire', '~> 5.0'
+  pod 'SVGKit', :git => 'https://github.com/SVGKit/SVGKit.git', :branch => '3.x'
+  pod 'PrettyString', '~> 0.1'
+  pod 'Toast-Swift', '~> 4.0'
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
+    end
   end
 end

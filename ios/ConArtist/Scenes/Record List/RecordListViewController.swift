@@ -32,7 +32,7 @@ extension RecordListViewController {
 
         navBar.title = convention?.name ?? "Sales"¡
         navBar.leftButtonTitle = "Back"¡
-        navBar.subtitle = after?.toString("MMM. d, yyyy"¡)
+        navBar.subtitle = after?.formatted(date: .abbreviated, time: .omitted)
 
         setupRefreshControl()
     }

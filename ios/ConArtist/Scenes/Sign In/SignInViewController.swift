@@ -30,6 +30,7 @@ class SignInViewController : ConArtistViewController {
     @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var privacyButton: UIButton!
     @IBOutlet weak var termsButton: UIButton!
+    @IBOutlet weak var errorLabel: UILabel!
 
     fileprivate let errorState = PublishSubject<ErrorState>()
 }
@@ -139,7 +140,7 @@ extension SignInViewController {
         errorState
             .map { $0.message() }
             .asDriver(onErrorJustReturn: "An unknown error has occurred"¡)
-            .drive(onNext: { [emailTextField] in emailTextField?.showTooltip(text: $0) })
+            .drive(errorLabel.rx.text)
             .disposed(by: disposeBag)
 
         rx.keyboardFrame

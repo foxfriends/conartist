@@ -176,6 +176,7 @@
 
 /* Begin PBXFileReference section */
 		1B935B29F4DE049F2B06D999 /* Pods-ConArtist.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConArtist.release.xcconfig"; path = "Pods/Target Support Files/Pods-ConArtist/Pods-ConArtist.release.xcconfig"; sourceTree = "<group>"; };
+		320367B72DE4BDDD00A39E39 /* ConArtist.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ConArtist.entitlements; sourceTree = "<group>"; };
 		320CF59720E7E6EF003F91EC /* Either.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Either.swift; sourceTree = "<group>"; };
 		321B75D61F9BAD320055EBC4 /* ConArtist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConArtist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		321B75D91F9BAD320055EBC4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -384,6 +385,7 @@
 		321B75D81F9BAD320055EBC4 /* ConArtist */ = {
 			isa = PBXGroup;
 			children = (
+				320367B72DE4BDDD00A39E39 /* ConArtist.entitlements */,
 				326A12E9262E48F000FE6EE5 /* Vendored */,
 				327C5D77208179D7007EEF71 /* Config */,
 				321B75E81F9BAD320055EBC4 /* Info.plist */,
@@ -1356,6 +1358,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = ConArtist/ConArtist.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = KT5TYPEMWT;
@@ -1380,6 +1383,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = ConArtist/ConArtist.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = KT5TYPEMWT;

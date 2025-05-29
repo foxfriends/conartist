@@ -398,4 +398,17 @@ impl Database {
             )
         })
     }
+
+    pub fn delete_account(&self, maybe_user_id: Option<i32>) -> Result<(), String> {
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
+
+        let mut conn = self.pool.get().unwrap();
+        conn.transaction(|conn| -> QueryResult<()> {
+            diesel::delete(users::table)
+                .filter(users::user_id.eq(user_id))
+                .execute(conn)?;
+            Ok(())
+        })
+        .map_err(|reason| format!("Delete user {} failed. Reason: {}", user_id, reason))
+    }
 }

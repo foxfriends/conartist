@@ -75,6 +75,13 @@ impl Mutation {
         }
     }
 
+    fn delete_account(context: &Database, user_id: Option<i32>) -> FieldResult<bool> {
+        dbtry! {
+            context.delete_account(user_id)
+        }?;
+        Ok(true)
+    }
+
     // Product types
     fn add_user_product_type(
         context: &Database,

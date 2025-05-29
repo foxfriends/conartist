@@ -27,12 +27,12 @@ export function AccountSettings({ email, name, verified }) {
     : l`Your email is not verified! (Click to resend verification email)`;
 
   const emailContent = (
-    <span className={S.nowrap}>
+    <div className={S.settingRow}>
       <Tooltip clickable={false} title={verificationTitle}>
         {emailIcon}
       </Tooltip>
       {email}
-    </span>
+    </div>
   );
 
   return (

@@ -1,10 +1,8 @@
-/*       */
 import * as React from "react";
 import S from "./row.css";
 const { Fragment } = React;
 
 export class Row extends React.PureComponent {
-  // $FlowIgnore
   valueRef;
   titleRef;
 

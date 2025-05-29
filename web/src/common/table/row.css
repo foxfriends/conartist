@@ -2,6 +2,8 @@
 .value,
 .detail {
   padding: 16px;
+  min-width: 0;
+
   &.truncate {
     text-overflow: ellipsis;
     white-space: nowrap;

@@ -18,8 +18,13 @@
   font-size: 10pt;
 }
 
-.nowrap {
+.settingRow {
   white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .verificationStatus {

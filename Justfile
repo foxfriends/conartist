@@ -1,13 +1,16 @@
-default: serve
+default: up && serve
 
-[working-directory("server")]
+up:
+    docker compose up -d
+
+[working-directory: "server"]
 serve:
     cargo run -- --any-origin
 
-[working-directory("web")]
+[working-directory: "web"]
 get:
     npm ci
 
-[working-directory("web")]
+[working-directory: "web"]
 watch:
     npm run watch

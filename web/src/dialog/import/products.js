@@ -1,4 +1,3 @@
-/*       */
 import * as React from "react";
 import { map } from "rxjs/operators";
 import { forkJoin } from "rxjs";
@@ -211,7 +210,7 @@ export class ImportProducts extends React.Component {
       switch (state) {
         case "retrieved":
           update.setProducts(value);
-          toast.show(<span>{l`Products imported successfully`}</span>);
+          toast.show(<>{l`Products imported successfully`}</>);
           doCloseDialog();
           break;
         case "failed":
@@ -238,27 +237,27 @@ export class ImportProducts extends React.Component {
           switch (true) {
             case error instanceof UnknownProduct:
               toast.show(
-                <span>{l`Import failed: Could not find product with id ${error.id}`}</span>,
+                <>{l`Import failed: Could not find product with id ${error.id}`}</>,
               );
               break;
             case error instanceof UnknownProductType:
               toast.show(
-                <span>{l`Import failed: Could not find product type named ${error.name}`}</span>,
+                <>{l`Import failed: Could not find product type named ${error.name}`}</>,
               );
               break;
             case error instanceof ChangedProductType:
               toast.show(
-                <span>{l`Import failed: Cannot change the type of ${error.product.name}`}</span>,
+                <>{l`Import failed: Cannot change the type of ${error.product.name}`}</>,
               );
               break;
             case error instanceof SaveFailed:
               toast.show(
-                <span>{l`Import failed: Failed to save products. Please try again later!`}</span>,
+                <>{l`Import failed: Failed to save products. Please try again later!`}</>,
               );
               break;
             default:
               console.error(error);
-              toast.show(<span>{l`Import failed: Unknown error`}</span>);
+              toast.show(<>{l`Import failed: Unknown error`}</>);
               break;
           }
         }

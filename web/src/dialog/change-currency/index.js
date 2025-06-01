@@ -21,9 +21,9 @@ export class ChangeCurrency extends React.Component {
       .toPromise();
     update.setCurrency(currency);
     toast.show(
-      <span>
+      <>
         {l`Currency changed successfully`} <Icon name="check" />
-      </span>,
+      </>,
     );
     closeDialog();
   }

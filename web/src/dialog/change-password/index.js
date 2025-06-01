@@ -93,9 +93,9 @@ export class ChangePassword extends React.Component {
       });
     } else {
       toast.show(
-        <span>
+        <>
           {l`Password changed successfully`} <Icon name="check" />
-        </span>,
+        </>,
       );
       closeDialog();
     }

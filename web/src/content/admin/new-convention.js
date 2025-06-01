@@ -174,7 +174,7 @@ export class NewConvention extends React.Component {
           ]),
         ),
         map(batchResponses),
-        tap(() => toast.show(<span>Convention created</span>)),
+        tap(() => toast.show(<>Convention created</>)),
       )
       .subscribe();
   }

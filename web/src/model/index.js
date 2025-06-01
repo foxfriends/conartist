@@ -36,7 +36,7 @@ function init() {
       switch (response.state) {
         case "failed":
           if (response.shouldLogOut) {
-            toast.show(<span>{l`Uh oh. You have been logged out!`}</span>);
+            toast.show(<>{l`Uh oh. You have been logged out!`}</>);
             signOut();
           }
           break;

@@ -30,16 +30,16 @@ export class CreateSuggestion extends React.Component {
     this.setState({ processing: false });
     if (response.state === "failed") {
       toast.show(
-        <span>
+        <>
           {l`It seems something went wrong.`} <Icon name="check" />
-        </span>,
+        </>,
       );
     } else {
       update.addSuggestion(response.value);
       toast.show(
-        <span>
+        <>
           {l`Thanks for your feedback!`} <Icon name="check" />
-        </span>,
+        </>,
       );
       closeDialog();
     }

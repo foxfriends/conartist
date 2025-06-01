@@ -21,9 +21,9 @@ export class ChangeLanguage extends React.Component {
       .toPromise();
     update.setLanguage(language);
     toast.show(
-      <span>
+      <>
         {l`Language changed successfully`} <Icon name="check" />
-      </span>,
+      </>,
     );
     closeDialog();
   }

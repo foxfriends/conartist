@@ -1,4 +1,3 @@
-/*       */
 import * as React from "react";
 import { BehaviorSubject } from "rxjs";
 import { share } from "rxjs/operators";

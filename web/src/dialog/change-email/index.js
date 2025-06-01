@@ -87,9 +87,9 @@ export class ChangeEmail extends React.Component {
       .toPromise();
     this.setState({ processing: false });
     toast.show(
-      <span>
+      <>
         {l`Verification email sent`} <Icon name="check" />
-      </span>,
+      </>,
     );
     closeDialog();
   }

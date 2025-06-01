@@ -78,15 +78,15 @@ export class NewExpense extends React.Component {
     this.setState({ processing: false });
     if (response.state === "failed") {
       toast.show(
-        <span>
+        <>
           {l`It seems something went wrong.`} <Icon name="warning" />
-        </span>,
+        </>,
       );
     } else {
       toast.show(
-        <span>
+        <>
           {l`Expense saved`} <Icon name="check" />
-        </span>,
+        </>,
       );
       closeDialog();
     }

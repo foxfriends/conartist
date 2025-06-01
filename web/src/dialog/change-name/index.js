@@ -31,9 +31,9 @@ export class ChangeName extends React.Component {
     this.setState({ processing: false });
     update.setName(name);
     toast.show(
-      <span>
+      <>
         {l`Name changed successfully`} <Icon name="check" />
-      </span>,
+      </>,
     );
     closeDialog();
   }

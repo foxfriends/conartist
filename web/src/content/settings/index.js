@@ -5,6 +5,7 @@ import { LocaleSettings } from "./locale-settings";
 import { AccountSettings } from "./account-settings";
 import { Help } from "./help";
 import { Contribute } from "./contribute";
+import { DangerZone } from "./danger-zone";
 
 export function Settings({ username, email, verified, settings }) {
   return (
@@ -16,6 +17,7 @@ export function Settings({ username, email, verified, settings }) {
       />
       <Contribute />
       <Help />
+      <DangerZone />
     </CardView>
   );
 }

@@ -1,4 +1,3 @@
-/*       */
 import * as React from "react";
 import { combineLatest } from "rxjs";
 import { map } from "rxjs/operators";
@@ -387,6 +386,10 @@ export class ConArtist extends React.Component {
 
         case "create-suggestion":
           state.dialog = { name: "create-suggestion" };
+          break;
+
+        case "delete-account":
+          state.dialog = { name: "delete-account", email: model.user.email };
           break;
 
         case "new-sale": {

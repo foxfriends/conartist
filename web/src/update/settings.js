@@ -1,10 +1,10 @@
-/*       */
 import { model, defaultModel } from "../model";
 import { changePassword as changePasswordDialog } from "../model/dialog/change-password";
 import { changeEmail as changeEmailDialog } from "../model/dialog/change-email";
 import { changeName as changeNameDialog } from "../model/dialog/change-name";
 import { changeLanguage as changeLanguageDialog } from "../model/dialog/change-language";
 import { changeCurrency as changeCurrencyDialog } from "../model/dialog/change-currency";
+import { deleteAccount as deleteAccountDialog } from "../model/dialog/delete-account";
 import { Storage } from "../storage";
 import { clearCache } from "../api/apollo";
 
@@ -77,5 +77,12 @@ export function setCurrency(currency) {
       ...model.getValue().settings,
       currency,
     },
+  });
+}
+
+export function deleteAccount() {
+  model.next({
+    ...model.getValue(),
+    dialog: deleteAccountDialog,
   });
 }

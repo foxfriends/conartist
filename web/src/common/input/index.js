@@ -1,4 +1,3 @@
-/*       */
 import * as React from "react";
 
 import { Tooltip } from "../tooltip";
@@ -9,7 +8,6 @@ import { INVALID, VALID, EMPTY } from "../../model/validation";
 import S from "./index.css";
 
 export class Input extends React.Component {
-  // $FlowIgnore: Flow definitions not up to date
   inputElement;
 
   constructor(props) {
@@ -24,7 +22,6 @@ export class Input extends React.Component {
   }
 
   focus() {
-    // $FlowIgnore: Flow definitions not up to date
     this.inputElement.current && this.inputElement.current.focus();
   }
 

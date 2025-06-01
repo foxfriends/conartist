@@ -1,4 +1,3 @@
-/*       */
 import * as React from "react";
 import { Card } from "../card-view/card";
 import { BasicHeader } from "../card-view/basic-header";

@@ -1,0 +1,15 @@
+.form {
+  composes: form from "../change-password/index.css";
+}
+
+.input {
+  composes: input from "../change-password/index.css";
+}
+
+.disclaimer {
+  flex-shrink: 0;
+  opacity: 0.5;
+  padding: 8px;
+  max-height: 40%;
+  overflow-y: auto;
+}

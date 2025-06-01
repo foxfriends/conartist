@@ -1,4 +1,3 @@
-/*       */
 import * as React from "react";
 import { localize } from "../../localization";
 import S from "./index.css";

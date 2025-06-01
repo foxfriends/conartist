@@ -284,6 +284,12 @@ FAQ = "常问问题"
 "Email: {}" = "电子邮件: {light:{}}"
 "Verification email sent" = "TODO: translate"
 "You should receive it shortly" = "TODO: translate"
+"Danger Zone" = "危险"
+"<Danger warning>" = "请务必小心，删除您的帐户是不可逆的！"
+"Delete Account" = "删除帐户"
+"Account deleted successfully" = "帐户已删除"
+"Failed to delete account" = "Failed to delete account. Please try again, or contact support."
+"<Delete account warning>" = "Enter your account's email address to confirm account deletion. Your account will be deleted immediately, and once deleted cannot be restored. Be extremely certain that this is what you want."
 
 # Errors
 "You can't do that right now" = "TODO: translate"

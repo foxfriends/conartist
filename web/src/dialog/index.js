@@ -1,5 +1,4 @@
-/*       */
-import * as React from "react";
+import React, { Suspense } from "react";
 import { Loading } from "./loading";
 
 const Export = React.lazy(
@@ -35,6 +34,9 @@ const ChangeCurrency = React.lazy(
 const ChangeLanguage = React.lazy(
   () => import(/* webpackChunkName: 'settings' */ "./change-language"),
 );
+const DeleteAccount = React.lazy(
+  () => import(/* webpackChunkName: 'settings' */ "./delete-account"),
+);
 
 const CreateSuggestion = React.lazy(
   () => import(/* webpackChunkName: 'suggestions' */ "./create-suggestion"),
@@ -48,8 +50,6 @@ const NewExpense = React.lazy(
 );
 
 import S from "./index.css";
-
-const { Suspense } = React;
 
 export function Dialog(props) {
   let dialog;
@@ -93,6 +93,9 @@ export function Dialog(props) {
       break;
     case "new-expense":
       dialog = <NewExpense {...props} />;
+      break;
+    case "delete-account":
+      dialog = <DeleteAccount {...props} />;
       break;
   }
 

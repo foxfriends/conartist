@@ -22,7 +22,7 @@ bodyparser = "0.8.0"
 hyper = "0.10.16"
 jsonwebtoken = "8.1.1"
 ring = "0.17.13"
-bcrypt = "0.3.0"
+bcrypt = "0.17.0"
 
 # Database
 diesel = { version = "2.2.8", features = ["postgres", "chrono", "serde_json", "uuid", "r2d2"] }

@@ -1,4 +1,3 @@
-/*       */
 import * as React from "react";
 import format from "date-fns/format";
 
@@ -170,7 +169,9 @@ export class ExportRecords extends React.Component {
   }
 
   async doExport() {
-    const saveAs = import(/* webpackChunkName: 'zip' */ "save-as");
+    const { default: saveAs } = await import(
+      /* webpackChunkName: 'zip' */ "save-as"
+    );
     const { columns, dataSource } = this;
     const { separateDays, includeTitles } = this.state;
     const files = (
@@ -198,12 +199,11 @@ export class ExportRecords extends React.Component {
       for (const [name, blob] of files) {
         zip.file(`${name}.csv`, blob);
       }
-      const blob = await zip.generateAsync({ type: "blob" })(await saveAs)(
-        blob,
-        `${l`Records`.toLowerCase()}.zip`,
-      );
+      const blob = await zip.generateAsync({ type: "blob" });
+      await saveAs(blob, `${l`Records`.toLowerCase()}.zip`);
     } else {
-      const [[name, blob]] = files(await saveAs)(blob, `${name}.csv`);
+      const [[name, blob]] = files;
+      saveAs(blob, `${name}.csv`);
     }
   }
 

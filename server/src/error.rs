@@ -1,5 +1,4 @@
 //! Simple error type
-#[cfg(feature = "mailer")]
 use std::error::Error;
 use std::fmt::{Debug, Display, Formatter, Result};
 

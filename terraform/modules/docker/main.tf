@@ -72,7 +72,7 @@ resource "docker_container" "conartist" {
 
   healthcheck {
     test         = ["CMD", "curl", "-f", "localhost:${local.internal_port}"]
-    interval     = "5s"
+    interval     = "1m"
     retries      = 2
     start_period = "1s"
     timeout      = "500ms"

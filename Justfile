@@ -5,7 +5,7 @@ up:
 
 [working-directory: "server"]
 serve:
-    cargo run -- --any-origin
+    cargo run --no-default-features -- --any-origin
 
 [working-directory: "web"]
 get:
@@ -25,3 +25,7 @@ migration name:
 [working-directory: "database"]
 migrate:
     diesel migration run
+
+[working-directory: "dev/import-conventions/"]
+import +args:
+    cargo run -- {{args}}

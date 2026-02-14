@@ -34,7 +34,7 @@
     "prettier": "^3.5.3",
     "style-loader": "^3.3.1",
     "toml-loader": "^1.0.0",
-    "webpack": "^5.94.0",
+    "webpack": "^5.105.2",
     "webpack-cli": "^4.9.2"
   },
   "dependencies": {

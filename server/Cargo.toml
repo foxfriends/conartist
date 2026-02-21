@@ -8,7 +8,6 @@ edition = "2024"
 mailer = ["lettre", "lettre_email"] # exclude mailer on local builds
 default = ["mailer"]
 
-# TODO: solidify dependency versions before entering production?
 [dependencies]
 
 # HTTP server

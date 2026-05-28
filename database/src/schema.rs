@@ -94,6 +94,10 @@ diesel::table! {
         #[max_length = 23]
         flat_amount -> Nullable<Bpchar>,
         percentage_amount -> Nullable<Float8>,
+        #[max_length = 512]
+        name -> Varchar,
+        created_at -> Timestamptz,
+        deleted_at -> Nullable<Timestamptz>,
     }
 }
 
@@ -204,6 +208,14 @@ diesel::table! {
         color -> Nullable<Int4>,
         sort -> Int4,
         deleted -> Bool,
+    }
+}
+
+diesel::table! {
+    recorddiscounts (record_discount_id) {
+        record_discount_id -> Int4,
+        record_id -> Int4,
+        discount_id -> Int4,
     }
 }
 
@@ -322,6 +334,8 @@ diesel::joinable!(products -> producttypes (type_id));
 diesel::joinable!(products -> users (user_id));
 diesel::joinable!(producttypeevents -> producttypes (type_id));
 diesel::joinable!(producttypes -> users (user_id));
+diesel::joinable!(recorddiscounts -> discounts (discount_id));
+diesel::joinable!(recorddiscounts -> records (record_id));
 diesel::joinable!(records -> users (user_id));
 diesel::joinable!(signinattempts -> users (user_id));
 diesel::joinable!(suggestions -> users (user_id));
@@ -353,6 +367,7 @@ diesel::allow_tables_to_appear_in_same_query!(
     products,
     producttypeevents,
     producttypes,
+    recorddiscounts,
     records,
     signinattempts,
     suggestions,

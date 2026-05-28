@@ -72,6 +72,32 @@ diesel::table! {
 }
 
 diesel::table! {
+    discountproducts (discount_product_id) {
+        discount_product_id -> Int4,
+        discount_id -> Int4,
+        product_id -> Int4,
+    }
+}
+
+diesel::table! {
+    discountproducttypes (discount_product_type_id) {
+        discount_product_type_id -> Int4,
+        discount_id -> Int4,
+        type_id -> Int4,
+    }
+}
+
+diesel::table! {
+    discounts (discount_id) {
+        discount_id -> Int4,
+        user_id -> Int4,
+        #[max_length = 23]
+        flat_amount -> Nullable<Bpchar>,
+        percentage_amount -> Nullable<Float8>,
+    }
+}
+
+diesel::table! {
     emailverifications (verification_code) {
         #[max_length = 32]
         verification_code -> Bpchar,
@@ -279,7 +305,13 @@ diesel::joinable!(conventionratings -> conventions (con_id));
 diesel::joinable!(conventionratings -> users (user_id));
 diesel::joinable!(conventionuserinfo -> conventions (con_id));
 diesel::joinable!(conventionuserinfo -> users (user_id));
+diesel::joinable!(discountproducts -> discounts (discount_id));
+diesel::joinable!(discountproducts -> products (product_id));
+diesel::joinable!(discountproducttypes -> discounts (discount_id));
+diesel::joinable!(discountproducttypes -> producttypes (type_id));
+diesel::joinable!(discounts -> users (user_id));
 diesel::joinable!(emailverifications -> users (user_id));
+diesel::joinable!(expenses -> users (user_id));
 diesel::joinable!(inventory -> products (product_id));
 diesel::joinable!(passwordresets -> users (user_id));
 diesel::joinable!(prices -> products (product_id));
@@ -309,6 +341,9 @@ diesel::allow_tables_to_appear_in_same_query!(
     conventionratings,
     conventions,
     conventionuserinfo,
+    discountproducts,
+    discountproducttypes,
+    discounts,
     emailverifications,
     expenses,
     inventory,

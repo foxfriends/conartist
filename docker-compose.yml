@@ -1,6 +1,6 @@
 services:
   postgresql:
-    image: postgres
+    image: postgres:17
     environment:
       - "POSTGRES_USER=conartist"
       - "POSTGRES_PASSWORD=conartist"

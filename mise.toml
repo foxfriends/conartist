@@ -61,7 +61,7 @@ dir = "{{config_root}}/database"
 [tasks.server]
 description = "Run server"
 depends = ["start", "migrate"]
-run = "cargo run"
+run = "cargo run --no-default-features -- --any-origin"
 dir = "{{config_root}}/server"
 
 [tasks.web]

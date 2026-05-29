@@ -1,4 +1,3 @@
-/*       */
 import * as React from "react";
 
 import { BasicHeader } from "./basic-header";
@@ -6,13 +5,11 @@ import { IconButton } from "../../common/icon-button";
 import S from "./secondary-card.css";
 
 // NOTE: this is a bit sketchy, but it will do for now...
-export class SecondaryCard extends React.Component {
-  // $FlowIgnore
+export class SecondaryCards extends React.Component {
   ref;
 
   constructor(props) {
     super(props);
-    // $FlowIgnore
     this.ref = React.createRef();
     this.state = {
       top: 16,
@@ -29,7 +26,6 @@ export class SecondaryCard extends React.Component {
       if (!cardView) {
         throw new Error("There is no #card-view element!");
       }
-      // $FlowIgnore
       const height = this.ref.current.clientHeight;
       let node = this.props.anchor.current;
       let recommendedTop = 0;
@@ -60,7 +56,6 @@ export class SecondaryCard extends React.Component {
     const { top } = this.state;
 
     return (
-      // $FlowIgnore
       <div className={S.card} style={{ top }} ref={this.ref}>
         <div className={S.header}>
           <BasicHeader>{title}</BasicHeader>

@@ -1,4 +1,4 @@
-import { Suspense, useRef, useState } from "react";
+import React, { Suspense, useRef, useState } from "react";
 
 import Map from "../../../util/default-map";
 import { calculatePrice } from "../../../util/calculate-price";

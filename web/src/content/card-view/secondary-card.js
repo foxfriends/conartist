@@ -5,7 +5,7 @@ import { IconButton } from "../../common/icon-button";
 import S from "./secondary-card.css";
 
 // NOTE: this is a bit sketchy, but it will do for now...
-export class SecondaryCards extends React.Component {
+export class SecondaryCard extends React.Component {
   ref;
 
   constructor(props) {

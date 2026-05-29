@@ -1,6 +1,5 @@
-/*       */
 import * as React from "react";
-import differenceInHours from "date-fns/differenceInHours";
+import { differenceInHours } from "date-fns";
 
 import { Font } from "../../common/font";
 import { Table } from "../../common/table";

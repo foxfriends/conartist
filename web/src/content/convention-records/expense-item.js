@@ -1,6 +1,5 @@
-/*       */
 import * as React from "react";
-import formatDate from "date-fns/format";
+import { format as formatDate } from "date-fns";
 
 import { l } from "../../localization";
 import { Item } from "../../common/list/item";

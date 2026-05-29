@@ -1,6 +1,5 @@
-/*       */
 import * as React from "react";
-import formatDate from "date-fns/format";
+import { format as formatDate } from "date-fns";
 
 import { Font } from "../../common/font";
 import { AutoList as List } from "../../common/list/auto";

@@ -148,7 +148,7 @@ fn main() -> io::Result<()> {
                 let end_date: NaiveDate = convention.end_date.to_string().parse().unwrap();
                 let id: i32 = // insert or update
                     if let Some(con_id) = convention.id {
-                        diesel::update(conventions::table)
+                        let response = diesel::update(conventions::table)
                             .filter(conventions::con_id.eq(con_id))
                             .set((
                                 conventions::title.eq(&convention.title),
@@ -157,7 +157,19 @@ fn main() -> io::Result<()> {
                                 conventions::predecessor.eq(convention.predecessor)
                             ))
                             .execute(connection)?;
-                        con_id
+                        if response == 1 {
+                            con_id
+                        } else {
+                            diesel::insert_into(conventions::table)
+                                .values((
+                                    conventions::title.eq(&convention.title),
+                                    conventions::start_date.eq(start_date),
+                                    conventions::end_date.eq(end_date),
+                                    conventions::predecessor.eq(convention.predecessor),
+                                ))
+                                .returning(conventions::con_id)
+                                .get_result(connection)?
+                        }
                     } else {
                         diesel::insert_into(conventions::table)
                             .values((

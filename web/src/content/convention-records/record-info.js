@@ -1,6 +1,5 @@
-/*       */
 import * as React from "react";
-import formatDate from "date-fns/format";
+import { format as formatDate } from "date-fns";
 
 import Map from "../../util/default-map";
 import { List } from "../../common/list";

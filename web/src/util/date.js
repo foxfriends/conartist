@@ -1,7 +1,4 @@
-import addMinutes from "date-fns/addMinutes";
-import subMinutes from "date-fns/subMinutes";
-import parseISO from "date-fns/parseISO";
-import isValid from "date-fns/isValid";
+import { addMinutes, subMinutes, parseISO, isValid } from "date-fns";
 
 export function sameDayAs(date) {
   date = date || this;

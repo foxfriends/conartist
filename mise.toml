@@ -1,7 +1,7 @@
 [tools]
 cargo-binstall = "latest"
 "cargo:diesel_cli" = { version = "2.2.8", features = "postgres", default-features = false }
-node = "17.6.0"
+node = "24.14.0"
 rust = { version = "1.96.0", profile = "default" }
 usage = "latest"
 

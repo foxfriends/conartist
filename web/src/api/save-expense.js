@@ -1,9 +1,7 @@
-/*       */
-
 import { from } from "rxjs";
 import { map, flatMap } from "rxjs/operators";
-import format from "date-fns/format";
-import uuid from "uuid/v4";
+import { format } from "date-fns";
+import { v4 as uuid } from "uuid";
 
 import { GraphQLMutation } from "./index";
 import { parse } from "../model/expense";

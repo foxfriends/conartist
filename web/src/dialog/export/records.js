@@ -1,5 +1,5 @@
 import * as React from "react";
-import format from "date-fns/format";
+import { format } from "date-fns";
 
 import { Basic } from "../basic";
 import { Grid } from "../../common/grid";

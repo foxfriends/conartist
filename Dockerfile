@@ -1,4 +1,4 @@
-FROM node:17.6.0 AS web
+FROM node:24.14.0 AS web
 WORKDIR /build/web
 COPY ./web/package.json ./web/package-lock.json ./
 RUN npm ci

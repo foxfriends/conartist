@@ -1,6 +1,5 @@
-/*       */
 import * as React from "react";
-import format from "date-fns/format";
+import { format } from "date-fns";
 import { forkJoin, of } from "rxjs";
 import { switchMap, tap, map, filter } from "rxjs/operators";
 

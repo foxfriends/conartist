@@ -1,8 +1,5 @@
-/*       */
 import * as React from "react";
-import startOfDay from "date-fns/startOfDay";
-import addDays from "date-fns/addDays";
-import format from "date-fns/format";
+import { startOfDay, addDays, format } from "date-fns";
 
 import Map from "../../../util/default-map";
 import { ChartCard } from "./card";

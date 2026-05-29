@@ -1,5 +1,5 @@
 import * as React from "react";
-import formatDate from "date-fns/format";
+import { format as formatDate } from "date-fns";
 import { BasicCard } from "../card-view/basic-card";
 import { Grid } from "../../common/grid";
 import { Row } from "../../common/table/row";

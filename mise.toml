@@ -1,0 +1,115 @@
+[tools]
+cargo-binstall = "latest"
+"cargo:diesel_cli" = { version = "2.2.8", features = "postgres", default-features = false }
+node = "17.6.0"
+rust = { version = "1.96.0", profile = "default" }
+usage = "latest"
+
+[env]
+DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/conartist"
+CONARTIST_BASE_URL = "localhost"
+PORT = "8080"
+
+[tasks.start]
+description = "Start background services"
+run = "docker compose up -d --wait"
+
+[tasks.stop]
+description = "Stop background services"
+run = "docker compose stop"
+
+[tasks.db]
+description = "Connect to database"
+depends = ["start"]
+run = "docker compose exec postgres psql -U postgres -d conartist"
+
+[tasks.reset]
+description = "Reset database and storage completely"
+depends_post = ["resetdb"]
+
+[tasks.createdb]
+description = "Create database"
+depends = ["start"]
+run = """
+#!/usr/bin/env bash
+docker compose exec postgres psql -U postgres -d conartist -c "" 2> /dev/null > /dev/null || docker compose exec postgres psql -U postgres -c 'CREATE DATABASE conartist'
+"""
+
+[tasks.resetdb]
+description = "Reset database completely"
+confirm = "All data stored in the database will be lost. Ok?"
+depends = ["start"]
+run = "docker compose exec postgres dropdb -U postgres conartist"
+
+[tasks.migrate]
+description = "Migrate database to latest"
+depends = ["start", "createdb"]
+run = "diesel migration run"
+dir = "{{config_root}}/database"
+
+[tasks.migration]
+description = "Add a new migration"
+usage = '''
+arg "<name>" help="Migration name"
+'''
+run = """
+#!/usr/bin/env bash
+diesel migration generate "${usage_name}"
+"""
+dir = "{{config_root}}/database"
+
+[tasks.server]
+description = "Run server"
+depends = ["start", "migrate"]
+run = "cargo run"
+dir = "{{config_root}}/server"
+
+[tasks.web]
+description = "Run web"
+run = "npm run watch"
+dir = "{{config_root}}/web"
+
+[tasks.install]
+description = "Install Node modules"
+run = "npm install"
+sources = [
+  "{{config_root}}/web/package.json",
+  "{{config_root}}/web/package-lock.json",
+]
+dir = "{{config_root}}/web"
+
+[tasks.fmt]
+description = "Format all code"
+depends = ["rustfmt", "prettier"]
+run = "mise fmt"
+
+[tasks.sqlx-prepare]
+description = "Prepare SQLx files"
+depends = ["rustfmt"]
+sources = ["{{config_root}}/server/src/**"]
+outputs = ["{{config_root}}/server/.sqlx/*.json"]
+run = "cargo sqlx prepare -- --all-targets --all-features"
+dir = "{{config_root}}/server"
+
+[tasks.rustfmt]
+description = "Format server"
+run = "cargo fmt"
+dir = "{{config_root}}/server"
+
+[tasks.prettier]
+description = "Format web"
+run = "npm run fmt"
+dir = "{{config_root}}/web"
+
+[tasks.lint]
+description = "Lint all code"
+depends = ["clippy"]
+
+[tasks.clippy]
+description = "Lint server"
+run = "cargo clippy"
+dir = "{{config_root}}/server"
+
+[tasks.docker]
+description = "Build Docker images"
+run = "docker buildx bake"

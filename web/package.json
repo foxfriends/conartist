@@ -8,7 +8,8 @@
     "deploy": "webpack --env=production",
     "staging": "webpack --env=staging",
     "watch": "webpack --watch",
-    "clean": "rm -r static"
+    "clean": "rm -r static",
+    "fmt": "prettier . --write"
   },
   "author": "Cameron Eldridge",
   "repository": {

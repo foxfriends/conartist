@@ -16,8 +16,6 @@ import S from "./chart.css";
 const Bar = React.lazy(
   () => import(/* webpackChunkName: "chart" */ "./lazy/bar"),
 );
-const { Suspense } = React;
-
 export function SalesByTypeChart({
   products,
   productTypes,

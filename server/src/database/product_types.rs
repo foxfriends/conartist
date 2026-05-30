@@ -6,7 +6,6 @@ use diesel::sql_types;
 use diesel::{self, dsl, prelude::*};
 
 use super::Database;
-use super::dsl::*;
 use super::models::*;
 use super::schema::*;
 
@@ -258,8 +257,9 @@ impl Database {
         let mut conn = self.pool.get().unwrap();
 
         conn.transaction(|conn| -> diesel::result::QueryResult<bool> {
-            let sold_products = records::table
-                .select(unnest(records::products))
+            let sold_products = recordproducts::table
+                .inner_join(records::table)
+                .select(recordproducts::product_id)
                 .distinct()
                 .filter(records::user_id.eq(user_id))
                 .load::<i32>(conn)?;

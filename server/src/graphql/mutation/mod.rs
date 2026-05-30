@@ -251,7 +251,7 @@ impl Mutation {
         );
         let _old_record = dbtry!(context.get_record_by_id(user_id, Some(record.record_id), None))?;
         let record = dbtry! {
-            context.update_record(user_id, record.record_id, record.products, record.price, record.info)
+            context.update_record(user_id, record.record_id, record.products, record.discounts, record.price, record.info)
         }?;
         context.trigger_webhook_new_record(&record).ok();
         Ok(record)

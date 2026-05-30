@@ -22,11 +22,10 @@ impl Database {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let mut conn = self.pool.get().unwrap();
         conn.transaction(|conn| -> QueryResult<Record> {
-            let record = diesel::insert_into(records::table)
+            let record_id = diesel::insert_into(records::table)
                 .values((
                     records::user_id.eq(user_id),
                     records::con_id.eq(con_id),
-                    records::products.eq(products.clone()),
                     records::price.eq(price.to_string()),
                     records::sale_time.eq(time.to_rfc3339()),
                     records::info.eq(info.clone()),
@@ -34,25 +33,137 @@ impl Database {
                 ))
                 .on_conflict((records::user_id, records::sale_time, records::gen_id))
                 .do_update()
-                .set(&RecordChanges::new(Some(products), Some(price), Some(info)))
-                .get_result::<Record>(conn)?;
+                .set(&RecordChanges::new(Some(price), Some(info)))
+                .returning(records::record_id)
+                .get_result::<i32>(conn)?;
+            diesel::delete(recordproducts::table)
+                .filter(recordproducts::record_id.eq(record_id))
+                .execute(conn)?;
+            diesel::insert_into(recordproducts::table)
+                .values(
+                    products
+                        .iter()
+                        .map(|product_id| (
+                            recordproducts::record_id.eq(record_id),
+                            recordproducts::product_id.eq(product_id)
+                        ))
+                        .collect::<Vec<_>>()
+                )
+                .execute(conn)?;
             diesel::delete(recorddiscounts::table)
-                .filter(recorddiscounts::record_id.eq(record.record_id))
+                .filter(recorddiscounts::record_id.eq(record_id))
                 .execute(conn)?;
             diesel::insert_into(recorddiscounts::table)
                 .values(
                     discounts
                         .iter()
                         .map(|discount_id| (
-                            recorddiscounts::record_id.eq(record.record_id),
+                            recorddiscounts::record_id.eq(record_id),
                             recorddiscounts::discount_id.eq(discount_id)
                         ))
                         .collect::<Vec<_>>()
                 )
                 .execute(conn)?;
-            Ok(record)
+            records::table
+                .left_outer_join(recordproducts::table)
+                .select((
+                    records::record_id,
+                    records::user_id,
+                    records::con_id,
+                    records::price,
+                    records::info,
+                    records::sale_time,
+                    records::gen_id,
+                    dsl::sql::<sql_types::Array<sql_types::Int4>>(
+                        "array_remove(array_agg(recordproducts.product_id), null)",
+                    ),
+                ))
+                .filter(records::record_id.eq(record_id))
+                .filter(records::user_id.eq(user_id))
+                .group_by(records::record_id)
+                .first::<Record>(conn)
         })
         .map_err(|reason| format!("Could not create record for user with id {} and convention with id {:?}. Reason: {}", user_id, con_id, reason))
+    }
+
+    pub fn update_record(
+        &self,
+        maybe_user_id: Option<i32>,
+        record_id: i32,
+        products: Option<Vec<i32>>,
+        discounts: Option<Vec<i32>>,
+        price: Option<Money>,
+        info: Option<String>,
+    ) -> Result<Record, String> {
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
+        let mut conn = self.pool.get().unwrap();
+        conn.transaction(|conn| -> QueryResult<Record> {
+            diesel::update(records::table)
+                .filter(records::record_id.eq(record_id))
+                .filter(records::user_id.eq(user_id))
+                .set(&RecordChanges::new(price, info))
+                .execute(conn)?;
+            if let Some(products) = products {
+                diesel::delete(recordproducts::table)
+                    .filter(recordproducts::record_id.eq(record_id))
+                    .execute(conn)?;
+                diesel::insert_into(recordproducts::table)
+                    .values(
+                        products
+                            .into_iter()
+                            .map(|product_id| {
+                                (
+                                    recordproducts::record_id.eq(record_id),
+                                    recordproducts::product_id.eq(product_id),
+                                )
+                            })
+                            .collect::<Vec<_>>(),
+                    )
+                    .execute(conn)?;
+            }
+            if let Some(discounts) = discounts {
+                diesel::delete(recorddiscounts::table)
+                    .filter(recorddiscounts::record_id.eq(record_id))
+                    .execute(conn)?;
+                diesel::insert_into(recorddiscounts::table)
+                    .values(
+                        discounts
+                            .into_iter()
+                            .map(|discount_id| {
+                                (
+                                    recorddiscounts::record_id.eq(record_id),
+                                    recorddiscounts::discount_id.eq(discount_id),
+                                )
+                            })
+                            .collect::<Vec<_>>(),
+                    )
+                    .execute(conn)?;
+            }
+            records::table
+                .left_outer_join(recordproducts::table)
+                .select((
+                    records::record_id,
+                    records::user_id,
+                    records::con_id,
+                    records::price,
+                    records::info,
+                    records::sale_time,
+                    records::gen_id,
+                    dsl::sql::<sql_types::Array<sql_types::Int4>>(
+                        "array_remove(array_agg(recordproducts.product_id), null)",
+                    ),
+                ))
+                .filter(records::record_id.eq(record_id))
+                .filter(records::user_id.eq(user_id))
+                .group_by(records::record_id)
+                .first::<Record>(conn)
+        })
+        .map_err(|reason| {
+            format!(
+                "Could not update record with id {}. Reason: {}",
+                record_id, reason
+            )
+        })
     }
 
     pub fn create_user_expense(
@@ -94,11 +205,28 @@ impl Database {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let mut conn = self.pool.get().unwrap();
         records::table
+            .left_outer_join(recordproducts::table)
+            .select((
+                records::record_id,
+                records::user_id,
+                records::con_id,
+                records::price,
+                records::info,
+                records::sale_time,
+                records::gen_id,
+                dsl::sql::<sql_types::Array<sql_types::Int4>>(
+                    "array_remove(array_agg(RecordProducts.product_id), null)",
+                ),
+            ))
             .filter(records::user_id.eq(user_id))
             .filter(records::con_id.eq(con_id))
             .order(dsl::sql::<sql_types::Timestamptz>("sale_time::timestamptz").asc())
+            .group_by(records::record_id)
             .load::<Record>(&mut conn)
-            .map_err(|reason| format!("Records for convention with id {} for user with id {} could not be retrieved. Reason: {}", con_id, user_id, reason))
+            .map_err(|reason| {
+                dbg!(&reason);
+                format!("Records for convention with id {} for user with id {} could not be retrieved. Reason: {}", con_id, user_id, reason)
+            })
     }
 
     pub fn get_records_for_user(
@@ -111,10 +239,24 @@ impl Database {
         let mut conn = self.pool.get().unwrap();
         if let Some(latest) = before {
             records::table
+                .left_outer_join(recordproducts::table)
+                .select((
+                    records::record_id,
+                    records::user_id,
+                    records::con_id,
+                    records::price,
+                    records::info,
+                    records::sale_time,
+                    records::gen_id,
+                    dsl::sql::<sql_types::Array<sql_types::Int4>>(
+                        "array_remove(array_agg(recordproducts.product_id), null)",
+                    ),
+                ))
                 .filter(records::user_id.eq(user_id))
                 .filter(records::con_id.is_null())
                 .filter(records::record_id.lt(latest))
                 .order(dsl::sql::<sql_types::Timestamptz>("sale_time::timestamptz").desc())
+                .group_by(records::record_id)
                 .limit(limit)
                 .load::<Record>(&mut conn)
                 .map_err(|reason| {
@@ -125,9 +267,23 @@ impl Database {
                 })
         } else {
             records::table
+                .left_outer_join(recordproducts::table)
+                .select((
+                    records::record_id,
+                    records::user_id,
+                    records::con_id,
+                    records::price,
+                    records::info,
+                    records::sale_time,
+                    records::gen_id,
+                    dsl::sql::<sql_types::Array<sql_types::Int4>>(
+                        "array_remove(array_agg(recordproducts.product_id), null)",
+                    ),
+                ))
                 .filter(records::user_id.eq(user_id))
                 .filter(records::con_id.is_null())
                 .order(dsl::sql::<sql_types::Timestamptz>("sale_time::timestamptz").desc())
+                .group_by(records::record_id)
                 .limit(limit)
                 .load::<Record>(&mut conn)
                 .map_err(|reason| {
@@ -150,8 +306,22 @@ impl Database {
 
         if let Some(record_id) = record_id {
             records::table
+                .left_outer_join(recordproducts::table)
+                .select((
+                    records::record_id,
+                    records::user_id,
+                    records::con_id,
+                    records::price,
+                    records::info,
+                    records::sale_time,
+                    records::gen_id,
+                    dsl::sql::<sql_types::Array<sql_types::Int4>>(
+                        "array_remove(array_agg(recordproducts.product_id), null)",
+                    ),
+                ))
                 .filter(records::record_id.eq(record_id))
                 .filter(records::user_id.eq(user_id))
+                .group_by(records::record_id)
                 .first::<Record>(&mut conn)
                 .map_err(|reason| {
                     format!(
@@ -161,8 +331,22 @@ impl Database {
                 })
         } else if let Some(uuid) = uuid {
             records::table
+                .left_outer_join(recordproducts::table)
+                .select((
+                    records::record_id,
+                    records::user_id,
+                    records::con_id,
+                    records::price,
+                    records::info,
+                    records::sale_time,
+                    records::gen_id,
+                    dsl::sql::<sql_types::Array<sql_types::Int4>>(
+                        "array_remove(array_agg(recordproducts.product_id), null)",
+                    ),
+                ))
                 .filter(records::gen_id.eq(uuid))
                 .filter(records::user_id.eq(user_id))
+                .group_by(records::record_id)
                 .first::<Record>(&mut conn)
                 .map_err(|reason| {
                     format!(
@@ -215,16 +399,18 @@ impl Database {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let mut conn = self.pool.get().unwrap();
         conn.transaction(|conn| {
-            let record = if let Some(record_id) = record_id {
+            let found_record_id = if let Some(record_id) = record_id {
                 records::table
+                    .select(records::record_id)
                     .filter(records::record_id.eq(record_id))
                     .filter(records::user_id.eq(user_id))
-                    .first::<Record>(conn)?
+                    .first::<i32>(conn)?
             } else if let Some(uuid) = uuid {
                 records::table
+                    .select(records::record_id)
                     .filter(records::gen_id.eq(uuid))
                     .filter(records::user_id.eq(user_id))
-                    .first::<Record>(conn)?
+                    .first::<i32>(conn)?
             } else {
                 return Err(diesel::result::Error::DeserializationError(Box::new(
                     crate::error::StringError(
@@ -234,7 +420,7 @@ impl Database {
             };
 
             diesel::delete(records::table)
-                .filter(records::record_id.eq(record.record_id))
+                .filter(records::record_id.eq(found_record_id))
                 .execute(conn)
                 .map(|size| size == 1)
         })

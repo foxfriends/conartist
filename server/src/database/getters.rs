@@ -1,10 +1,10 @@
 use chrono::NaiveDate;
+use diesel::dsl::count;
 use diesel::prelude::*;
 use diesel::{dsl, sql_types};
 use std::collections::{HashMap, HashSet};
 
 use super::Database;
-use super::dsl::*;
 use super::models::*;
 use super::schema::*;
 use super::views::*;
@@ -124,13 +124,17 @@ impl Database {
 
         let date = end_date.and_hms_opt(23, 59, 59).unwrap();
 
-        // TODO: was nice when the counting could be done in SQL... maybe someday it can be improved
-        let items_sold: HashMap<i32, i64> = records::table
-            .select(unnest(records::products))
+        let items_sold = records::table
+            .inner_join(recordproducts::table)
+            .group_by(recordproducts::product_id)
+            .select((
+                recordproducts::product_id,
+                count(recordproducts::record_product_id),
+            ))
             .filter(records::user_id.eq(user_id))
-            .filter(dsl::sql::<sql_types::Timestamptz>("sale_time::timestamptz").lt(date))
             .filter(records::con_id.ne(con_id))
-            .load::<i32>(&mut conn)
+            .filter(dsl::sql::<sql_types::Timestamptz>("sale_time::timestamptz").lt(date))
+            .load::<(i32, i64)>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "Records for user with id {} could not be retrieved. Reason: {}",
@@ -138,11 +142,7 @@ impl Database {
                 )
             })?
             .into_iter()
-            .fold(HashMap::new(), |mut map, index| {
-                let amt = map.get(&index).unwrap_or(&0i64) + 1;
-                map.insert(index, amt);
-                map
-            });
+            .collect::<HashMap<_, _>>();
 
         let products = products::table
             .select((

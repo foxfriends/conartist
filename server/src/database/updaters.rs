@@ -8,31 +8,6 @@ use super::schema::*;
 use crate::money::Money;
 
 impl Database {
-    pub fn update_record(
-        &self,
-        maybe_user_id: Option<i32>,
-        record_id: i32,
-        products: Option<Vec<i32>>,
-        price: Option<Money>,
-        info: Option<String>,
-    ) -> Result<Record, String> {
-        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
-        let mut conn = self.pool.get().unwrap();
-        conn.transaction(|conn| {
-            diesel::update(records::table)
-                .filter(records::record_id.eq(record_id))
-                .filter(records::user_id.eq(user_id))
-                .set(&RecordChanges::new(products, price, info))
-                .get_result::<Record>(conn)
-        })
-        .map_err(|reason| {
-            format!(
-                "Could not update record with id {}. Reason: {}",
-                record_id, reason
-            )
-        })
-    }
-
     pub fn update_expense(
         &self,
         maybe_user_id: Option<i32>,

@@ -1,10 +1,10 @@
 use chrono::{DateTime, Utc};
+use diesel::dsl::count;
 use diesel::prelude::*;
 use diesel::{self, dsl, sql_types};
 use std::collections::{HashMap, HashSet};
 
 use super::Database;
-use super::dsl::*;
 use super::models::*;
 use super::schema::*;
 
@@ -57,26 +57,24 @@ impl Database {
         let mut conn = self.pool.get().unwrap();
         let as_of = as_of.map(|date| date.naive_utc());
 
-        // TODO: was nice when the counting could be done in SQL... maybe someday it can be improved
-        let items_sold: HashMap<i32, i64> = records::table
-            .select(unnest(records::products))
+        let items_sold = records::table
+            .inner_join(recordproducts::table)
+            .group_by(recordproducts::product_id)
+            .select((
+                recordproducts::product_id,
+                count(recordproducts::record_product_id),
+            ))
             .filter(records::user_id.eq(user_id))
             .filter(match as_of {
                 Some(as_of) => {
                     Box::new(dsl::sql::<sql_types::Timestamp>("sale_time::timestamp").lt(as_of))
-                        as Box<
-                            dyn BoxableExpression<
-                                    records::table,
-                                    diesel::pg::Pg,
-                                    SqlType = sql_types::Bool,
-                                >,
-                        >
+                        as Box<dyn BoxableExpression<_, diesel::pg::Pg, SqlType = sql_types::Bool>>
                 }
                 None => {
                     Box::new(dsl::sql::<sql_types::Timestamp>("sale_time::timestamp").lt(dsl::now))
                 }
             })
-            .load::<i32>(&mut conn)
+            .load::<(i32, i64)>(&mut conn)
             .map_err(|reason| {
                 format!(
                     "Records for user with id {} could not be retrieved. Reason: {}",
@@ -84,10 +82,7 @@ impl Database {
                 )
             })?
             .into_iter()
-            .fold(HashMap::new(), |mut map, index| {
-                *map.entry(index).or_insert(0) += 1;
-                map
-            });
+            .collect::<HashMap<_, _>>();
 
         let products = products::table
             .select((
@@ -208,15 +203,10 @@ impl Database {
                 return Err(diesel::result::Error::NotFound);
             }
 
-            let sold = records::table
-                .select(unnest(records::products))
-                .filter(records::user_id.eq(user_id))
-                .load::<i32>(conn)
-                .unwrap_or(vec![])
-                .into_iter()
-                .filter(|id| *id == product_id)
-                .collect::<Vec<_>>()
-                .len() as i64;
+            let sold = recordproducts::table
+                .select(count(recordproducts::record_product_id))
+                .filter(recordproducts::product_id.eq(product_id))
+                .first::<i64>(conn)?;
 
             let updated_product: Product = if name.is_some() || sort.is_some() || sku.is_some() {
                 let sku = sku.map(|sku| if sku.is_empty() { None } else { Some(sku) });
@@ -303,7 +293,7 @@ impl Database {
         let mut conn = self.pool.get().unwrap();
         conn.transaction(|conn| -> diesel::result::QueryResult<bool> {
             let any_sold = diesel::select(dsl::exists(
-                records::table.filter(records::products.contains(&vec![product_id])),
+                recordproducts::table.filter(recordproducts::product_id.eq(product_id)),
             ))
             .get_result::<bool>(conn)?;
             diesel::delete(prices::table)

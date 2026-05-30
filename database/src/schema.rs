@@ -220,13 +220,20 @@ diesel::table! {
 }
 
 diesel::table! {
+    recordproducts (record_product_id) {
+        record_product_id -> Int4,
+        record_id -> Int4,
+        product_id -> Int4,
+    }
+}
+
+diesel::table! {
     records (record_id) {
         record_id -> Int4,
         user_id -> Int4,
         con_id -> Nullable<Int4>,
         #[max_length = 23]
         price -> Bpchar,
-        products -> Array<Nullable<Int4>>,
         info -> Text,
         sale_time -> Text,
         gen_id -> Nullable<Uuid>,
@@ -336,6 +343,8 @@ diesel::joinable!(producttypeevents -> producttypes (type_id));
 diesel::joinable!(producttypes -> users (user_id));
 diesel::joinable!(recorddiscounts -> discounts (discount_id));
 diesel::joinable!(recorddiscounts -> records (record_id));
+diesel::joinable!(recordproducts -> products (product_id));
+diesel::joinable!(recordproducts -> records (record_id));
 diesel::joinable!(records -> users (user_id));
 diesel::joinable!(signinattempts -> users (user_id));
 diesel::joinable!(suggestions -> users (user_id));
@@ -368,6 +377,7 @@ diesel::allow_tables_to_appear_in_same_query!(
     producttypeevents,
     producttypes,
     recorddiscounts,
+    recordproducts,
     records,
     signinattempts,
     suggestions,

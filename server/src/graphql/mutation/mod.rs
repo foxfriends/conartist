@@ -224,7 +224,7 @@ impl Mutation {
         ensure!(record.price >= Money::new(0i64, record.price.cur()));
 
         let record = dbtry! {
-            context.create_user_record(user_id, record.con_id, record.uuid, record.products, record.price, record.time.0, record.info)
+            context.create_user_record(user_id, record.con_id, record.uuid, record.products, record.discounts.unwrap_or_default(), record.price, record.time.0, record.info)
         }?;
         context.trigger_webhook_new_record(&record).ok();
         Ok(record)

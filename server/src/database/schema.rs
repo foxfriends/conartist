@@ -1,4 +1,12 @@
-table! {
+// @generated automatically by Diesel CLI.
+
+pub mod sql_types {
+    #[derive(diesel::sql_types::SqlType, diesel::query_builder::QueryId)]
+    #[diesel(postgres_type(name = "event_type"))]
+    pub struct EventType;
+}
+
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
 
@@ -8,12 +16,13 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
 
     conventionextrainfo (con_id, title) {
         con_id -> Int4,
+        #[max_length = 64]
         title -> Varchar,
         info -> Nullable<Json>,
         action -> Nullable<Text>,
@@ -21,19 +30,20 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
 
     conventionimages (image_id) {
         image_id -> Int4,
         con_id -> Int4,
+        #[max_length = 36]
         image_uuid -> Bpchar,
         create_date -> Timestamp,
     }
 }
 
-table! {
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
 
@@ -44,7 +54,7 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
 
@@ -56,12 +66,13 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
 
     conventions (con_id) {
         con_id -> Int4,
+        #[max_length = 512]
         title -> Varchar,
         start_date -> Date,
         end_date -> Date,
@@ -69,7 +80,7 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
 
@@ -81,20 +92,61 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
+    discountproducts (discount_product_id) {
+        discount_product_id -> Int4,
+        discount_id -> Int4,
+        product_id -> Int4,
+    }
+}
+
+diesel::table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
+    discountproducttypes (discount_product_type_id) {
+        discount_product_type_id -> Int4,
+        discount_id -> Int4,
+        type_id -> Int4,
+    }
+}
+
+diesel::table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
+    discounts (discount_id) {
+        discount_id -> Int4,
+        user_id -> Int4,
+        #[max_length = 23]
+        flat_amount -> Nullable<Bpchar>,
+        percentage_amount -> Nullable<Float8>,
+        #[max_length = 512]
+        name -> Varchar,
+        created_at -> Timestamptz,
+        deleted_at -> Nullable<Timestamptz>,
+    }
+}
+
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
 
     emailverifications (verification_code) {
+        #[max_length = 32]
         verification_code -> Bpchar,
         user_id -> Int4,
+        #[max_length = 512]
         email -> Varchar,
         created -> Timestamp,
         expires -> Timestamp,
     }
 }
 
-table! {
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
 
@@ -102,7 +154,9 @@ table! {
         expense_id -> Int4,
         user_id -> Int4,
         con_id -> Int4,
+        #[max_length = 23]
         price -> Bpchar,
+        #[max_length = 32]
         category -> Varchar,
         description -> Text,
         spend_time -> Text,
@@ -110,7 +164,7 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
 
@@ -122,11 +176,12 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
 
     passwordresets (verification_code) {
+        #[max_length = 32]
         verification_code -> Bpchar,
         user_id -> Int4,
         used -> Bool,
@@ -135,7 +190,7 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
 
@@ -145,24 +200,26 @@ table! {
         type_id -> Int4,
         product_id -> Nullable<Int4>,
         quantity -> Int4,
+        #[max_length = 23]
         price -> Nullable<Bpchar>,
         mod_date -> Timestamp,
     }
 }
 
-table! {
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
+    use super::sql_types::EventType;
 
     productevents (event_id) {
         event_id -> Int4,
         product_id -> Int4,
-        event_type -> Event_type,
+        event_type -> EventType,
         event_time -> Timestamp,
     }
 }
 
-table! {
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
 
@@ -170,32 +227,36 @@ table! {
         product_id -> Int4,
         type_id -> Int4,
         user_id -> Int4,
+        #[max_length = 512]
         name -> Varchar,
         sort -> Int4,
         deleted -> Bool,
+        #[max_length = 255]
         sku -> Nullable<Varchar>,
     }
 }
 
-table! {
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
+    use super::sql_types::EventType;
 
     producttypeevents (event_id) {
         event_id -> Int4,
         type_id -> Int4,
-        event_type -> Event_type,
+        event_type -> EventType,
         event_time -> Timestamp,
     }
 }
 
-table! {
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
 
     producttypes (type_id) {
         type_id -> Int4,
         user_id -> Int4,
+        #[max_length = 512]
         name -> Varchar,
         color -> Nullable<Int4>,
         sort -> Int4,
@@ -203,7 +264,18 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
+    use diesel::sql_types::*;
+    use crate::database::models::*;
+
+    recorddiscounts (record_discount_id) {
+        record_discount_id -> Int4,
+        record_id -> Int4,
+        discount_id -> Int4,
+    }
+}
+
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
 
@@ -211,6 +283,7 @@ table! {
         record_id -> Int4,
         user_id -> Int4,
         con_id -> Nullable<Int4>,
+        #[max_length = 23]
         price -> Bpchar,
         products -> Array<Int4>,
         info -> Text,
@@ -219,7 +292,7 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
 
@@ -230,7 +303,7 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
 
@@ -243,7 +316,7 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
 
@@ -253,7 +326,7 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
 
@@ -264,84 +337,100 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
 
     users (user_id) {
         user_id -> Int4,
+        #[max_length = 512]
         email -> Nullable<Varchar>,
+        #[max_length = 512]
         name -> Varchar,
+        #[max_length = 512]
         password -> Varchar,
         keys -> Int4,
         join_date -> Timestamp,
     }
 }
 
-table! {
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
 
     usersettings (user_id) {
         user_id -> Int4,
+        #[max_length = 3]
         currency -> Bpchar,
+        #[max_length = 16]
         language -> Bpchar,
     }
 }
 
-table! {
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
 
     webhookdeletedrecord (webhook_id) {
         webhook_id -> Int4,
         user_id -> Int4,
+        #[max_length = 1024]
         url -> Varchar,
     }
 }
 
-table! {
+diesel::table! {
     use diesel::sql_types::*;
     use crate::database::models::*;
 
     webhooknewrecord (webhook_id) {
         webhook_id -> Int4,
         user_id -> Int4,
+        #[max_length = 1024]
         url -> Varchar,
     }
 }
 
-joinable!(admins -> users (user_id));
-joinable!(conventionextrainfo -> conventions (con_id));
-joinable!(conventionimages -> conventions (con_id));
-joinable!(conventioninforatings -> conventionuserinfo (con_info_id));
-joinable!(conventioninforatings -> users (user_id));
-joinable!(conventionratings -> conventions (con_id));
-joinable!(conventionratings -> users (user_id));
-joinable!(conventionuserinfo -> conventions (con_id));
-joinable!(conventionuserinfo -> users (user_id));
-joinable!(emailverifications -> users (user_id));
-joinable!(inventory -> products (product_id));
-joinable!(passwordresets -> users (user_id));
-joinable!(prices -> products (product_id));
-joinable!(prices -> producttypes (type_id));
-joinable!(prices -> users (user_id));
-joinable!(productevents -> products (product_id));
-joinable!(products -> producttypes (type_id));
-joinable!(products -> users (user_id));
-joinable!(producttypeevents -> producttypes (type_id));
-joinable!(producttypes -> users (user_id));
-joinable!(signinattempts -> users (user_id));
-joinable!(suggestions -> users (user_id));
-joinable!(suggestionvotes -> suggestions (suggestion_id));
-joinable!(suggestionvotes -> users (user_id));
-joinable!(user_conventions -> conventions (con_id));
-joinable!(user_conventions -> users (user_id));
-joinable!(usersettings -> users (user_id));
-joinable!(webhookdeletedrecord -> users (user_id));
-joinable!(webhooknewrecord -> users (user_id));
+diesel::joinable!(admins -> users (user_id));
+diesel::joinable!(conventionextrainfo -> conventions (con_id));
+diesel::joinable!(conventionimages -> conventions (con_id));
+diesel::joinable!(conventioninforatings -> conventionuserinfo (con_info_id));
+diesel::joinable!(conventioninforatings -> users (user_id));
+diesel::joinable!(conventionratings -> conventions (con_id));
+diesel::joinable!(conventionratings -> users (user_id));
+diesel::joinable!(conventionuserinfo -> conventions (con_id));
+diesel::joinable!(conventionuserinfo -> users (user_id));
+diesel::joinable!(discountproducts -> discounts (discount_id));
+diesel::joinable!(discountproducts -> products (product_id));
+diesel::joinable!(discountproducttypes -> discounts (discount_id));
+diesel::joinable!(discountproducttypes -> producttypes (type_id));
+diesel::joinable!(discounts -> users (user_id));
+diesel::joinable!(emailverifications -> users (user_id));
+diesel::joinable!(expenses -> users (user_id));
+diesel::joinable!(inventory -> products (product_id));
+diesel::joinable!(passwordresets -> users (user_id));
+diesel::joinable!(prices -> products (product_id));
+diesel::joinable!(prices -> producttypes (type_id));
+diesel::joinable!(prices -> users (user_id));
+diesel::joinable!(productevents -> products (product_id));
+diesel::joinable!(products -> producttypes (type_id));
+diesel::joinable!(products -> users (user_id));
+diesel::joinable!(producttypeevents -> producttypes (type_id));
+diesel::joinable!(producttypes -> users (user_id));
+diesel::joinable!(recorddiscounts -> discounts (discount_id));
+diesel::joinable!(recorddiscounts -> records (record_id));
+diesel::joinable!(records -> users (user_id));
+diesel::joinable!(signinattempts -> users (user_id));
+diesel::joinable!(suggestions -> users (user_id));
+diesel::joinable!(suggestionvotes -> suggestions (suggestion_id));
+diesel::joinable!(suggestionvotes -> users (user_id));
+diesel::joinable!(user_conventions -> conventions (con_id));
+diesel::joinable!(user_conventions -> users (user_id));
+diesel::joinable!(usersettings -> users (user_id));
+diesel::joinable!(webhookdeletedrecord -> users (user_id));
+diesel::joinable!(webhooknewrecord -> users (user_id));
 
-allow_tables_to_appear_in_same_query!(
+diesel::allow_tables_to_appear_in_same_query!(
     admins,
     conventionextrainfo,
     conventionimages,
@@ -349,6 +438,9 @@ allow_tables_to_appear_in_same_query!(
     conventionratings,
     conventions,
     conventionuserinfo,
+    discountproducts,
+    discountproducttypes,
+    discounts,
     emailverifications,
     expenses,
     inventory,
@@ -358,6 +450,7 @@ allow_tables_to_appear_in_same_query!(
     products,
     producttypeevents,
     producttypes,
+    recorddiscounts,
     records,
     signinattempts,
     suggestions,

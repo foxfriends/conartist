@@ -14,14 +14,15 @@ impl Database {
         con_id: Option<i32>,
         gen_id: Uuid,
         products: Vec<i32>,
+        discounts: Vec<i32>,
         price: Money,
         time: DateTime<FixedOffset>,
         info: String,
     ) -> Result<Record, String> {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let mut conn = self.pool.get().unwrap();
-        conn.transaction(|conn| {
-            diesel::insert_into(records::table)
+        conn.transaction(|conn| -> QueryResult<Record> {
+            let record = diesel::insert_into(records::table)
                 .values((
                     records::user_id.eq(user_id),
                     records::con_id.eq(con_id),
@@ -34,7 +35,22 @@ impl Database {
                 .on_conflict((records::user_id, records::sale_time, records::gen_id))
                 .do_update()
                 .set(&RecordChanges::new(Some(products), Some(price), Some(info)))
-                .get_result::<Record>(conn)
+                .get_result::<Record>(conn)?;
+            diesel::delete(recorddiscounts::table)
+                .filter(recorddiscounts::record_id.eq(record.record_id))
+                .execute(conn)?;
+            diesel::insert_into(recorddiscounts::table)
+                .values(
+                    discounts
+                        .iter()
+                        .map(|discount_id| (
+                            recorddiscounts::record_id.eq(record.record_id),
+                            recorddiscounts::discount_id.eq(discount_id)
+                        ))
+                        .collect::<Vec<_>>()
+                )
+                .execute(conn)?;
+            Ok(record)
         })
         .map_err(|reason| format!("Could not create record for user with id {} and convention with id {:?}. Reason: {}", user_id, con_id, reason))
     }
@@ -188,5 +204,45 @@ impl Database {
             .order(dsl::sql::<sql_types::Timestamptz>("spend_time::timestamptz").asc())
             .load::<Expense>(&mut conn)
             .map_err(|reason| format!("Expenses for convention with id {} for user with id {} could not be retrieved. Reason: {}", con_id, user_id, reason))
+    }
+
+    pub fn delete_record(
+        &self,
+        maybe_user_id: Option<i32>,
+        record_id: Option<i32>,
+        uuid: Option<Uuid>,
+    ) -> Result<bool, String> {
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
+        let mut conn = self.pool.get().unwrap();
+        conn.transaction(|conn| {
+            let record = if let Some(record_id) = record_id {
+                records::table
+                    .filter(records::record_id.eq(record_id))
+                    .filter(records::user_id.eq(user_id))
+                    .first::<Record>(conn)?
+            } else if let Some(uuid) = uuid {
+                records::table
+                    .filter(records::gen_id.eq(uuid))
+                    .filter(records::user_id.eq(user_id))
+                    .first::<Record>(conn)?
+            } else {
+                return Err(diesel::result::Error::DeserializationError(Box::new(
+                    crate::error::StringError(
+                        "Could not retrieve record with no id or uuid".to_owned(),
+                    ),
+                )));
+            };
+
+            diesel::delete(records::table)
+                .filter(records::record_id.eq(record.record_id))
+                .execute(conn)
+                .map(|size| size == 1)
+        })
+        .map_err(|reason| {
+            format!(
+                "Could not delete record with id {:?} or uuid {:?} for user with id {}. Reason: {}",
+                record_id, uuid, user_id, reason
+            )
+        })
     }
 }

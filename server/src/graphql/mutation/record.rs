@@ -10,6 +10,7 @@ pub struct RecordAdd {
     pub con_id: Option<i32>,
     pub uuid: Uuid,
     pub products: Vec<i32>,
+    pub discounts: Option<Vec<i32>>,
     pub price: Money,
     pub time: DateTimeFixedOffset,
     pub info: String,
@@ -20,6 +21,7 @@ pub struct RecordAdd {
 pub struct RecordMod {
     pub record_id: i32,
     pub products: Option<Vec<i32>>,
+    pub discounts: Option<Vec<i32>>,
     pub price: Option<Money>,
     pub info: Option<String>,
 }

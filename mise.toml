@@ -44,8 +44,14 @@ run = "docker compose exec postgres dropdb -U postgres conartist"
 [tasks.migrate]
 description = "Migrate database to latest"
 depends = ["start", "createdb"]
+# depends_post = ["generate"]
 run = "diesel migration run"
 dir = "{{config_root}}/database"
+
+[tasks.generate]
+description = "Generate database schemas"
+run = "./generate-schemas"
+dir = "{{config_root}}/server"
 
 [tasks.migration]
 description = "Add a new migration"

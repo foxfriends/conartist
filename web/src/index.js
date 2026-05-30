@@ -1,17 +1,38 @@
 import * as React from "react";
-import * as ReactDom from "react-dom";
+import { createRoot } from "react-dom/client";
 import { ConArtist } from "./con-artist";
 import { to as navigateTo } from "./update/navigate";
 import { resolveRoute } from "./routing";
 import "./styles/global.css";
+import {
+  Chart,
+  CategoryScale,
+  LinearScale,
+  BarController,
+  BarElement,
+  ScatterController,
+  LineController,
+  LineElement,
+  PointElement,
+  Tooltip,
+  Legend,
+} from "chart.js";
 
-const root = document.querySelector("#root");
+Chart.register(
+  CategoryScale,
+  LinearScale,
+  BarController,
+  LineController,
+  ScatterController,
+  BarElement,
+  LineElement,
+  PointElement,
+  Tooltip,
+  Legend,
+);
 
-if (!root) {
-  throw new Error("Could not find root element");
-}
-
-ReactDom.render(<ConArtist />, root);
+const root = createRoot(document.querySelector("#root"));
+root.render(<ConArtist />);
 
 window.addEventListener("popstate", (event) => {
   const { state } = event;

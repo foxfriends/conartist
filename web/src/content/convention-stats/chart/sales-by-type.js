@@ -1,9 +1,9 @@
-import React, { Suspense, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
+import { Bar } from "react-chartjs-2";
 
 import Map from "../../../util/default-map";
 import { calculatePrice } from "../../../util/calculate-price";
 import { ChartCard } from "./card";
-import { ChartsLoading } from "./charts-loading";
 import { NotEnoughData } from "./not-enough-data";
 import { SecondaryCard } from "../../card-view/secondary-card";
 import { Select } from "../../../common/select";
@@ -13,9 +13,6 @@ import { model } from "../../../model";
 
 import S from "./chart.css";
 
-const Bar = React.lazy(
-  () => import(/* webpackChunkName: "chart" */ "./lazy/bar"),
-);
 export function SalesByTypeChart({
   products,
   productTypes,
@@ -33,7 +30,6 @@ export function SalesByTypeChart({
         .concat(...records.map(({ products }) => products))
         .map((productId) => products.find(({ id }) => id === productId))
         .filter((x) => x)
-        // $FlowIgnore
         .map(({ typeId }) => typeId);
       for (const typeId of typeIds) {
         count.set(typeId, count.get(typeId) + 1);
@@ -46,7 +42,6 @@ export function SalesByTypeChart({
           const soldProducts = sold
             .map((product) => products.find(({ id }) => id === product))
             .filter((x) => x);
-          // $FlowIgnore
           const totalPrice = calculatePrice(soldProducts, prices);
           const ratio = price.amount / (totalPrice.amount || 1);
           const productsByType = soldProducts.reduce(
@@ -100,7 +95,6 @@ export function SalesByTypeChart({
             products.find(({ id }) => id === productId),
           ),
         )
-        // $FlowIgnore
         .map(
           (products) =>
             new Set(products.filter((x) => x).map(({ typeId }) => typeId)),
@@ -128,38 +122,33 @@ export function SalesByTypeChart({
   };
 
   const options = {
-    legend: {
-      display: false,
-    },
-    tooltips: {
-      callbacks: {
-        label: ({ yLabel }) => {
-          if (metric === "Money") {
-            return new Money(model.getValue().settings.currency, yLabel);
-          } else {
-            return yLabel;
-          }
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        callbacks: {
+          label: ({ yLabel }) =>
+            metric === "Money"
+              ? new Money(model.getValue().settings.currency, yLabel)
+              : yLabel,
         },
       },
     },
     scales: {
-      yAxes: [
-        {
-          ticks: {
-            callback: (label) => {
-              if (metric === "Money") {
-                return new Money(model.getValue().settings.currency, label);
-              } else {
-                return label;
-              }
-            },
-          },
-          scaleLabel: {
-            display: true,
-            labelString: localize(metric),
-          },
+      y: {
+        ticks: {
+          min: 0,
+          callback: (label) =>
+            metric === "Money"
+              ? new Money(model.getValue().settings.currency, label)
+              : label,
         },
-      ],
+        title: {
+          display: true,
+          text: localize(metric),
+        },
+      },
     },
   };
 
@@ -170,9 +159,7 @@ export function SalesByTypeChart({
       innerRef={(card) => (ref.current = card)}
     >
       <>
-        <Suspense fallback={<ChartsLoading />}>
-          <Bar data={data} width={600} height={600} options={options} />
-        </Suspense>
+        <Bar data={data} width={600} height={600} options={options} />
         {records.length === 0 || productTypes.length === 0 ? (
           <NotEnoughData />
         ) : null}

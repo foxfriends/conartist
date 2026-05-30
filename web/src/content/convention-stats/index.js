@@ -1,4 +1,3 @@
-/*       */
 import * as React from "react";
 import { SecondaryCardFade as Fade } from "../../common/animation/fade/secondary-card";
 import { CardView } from "../card-view";
@@ -47,10 +46,7 @@ export class ConventionStats extends React.Component {
           showSettings={showSettings}
         />
         <SalesOverTimeChart records={records} showSettings={showSettings} />
-        <Fade>
-          {/* $FlowIgnore */}
-          {settings || null}
-        </Fade>
+        <Fade>{settings || null}</Fade>
       </CardView>
     );
   }

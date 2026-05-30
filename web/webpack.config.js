@@ -131,7 +131,7 @@ module.exports = (env) => {
           test: /\.(png|svg|gif|jpe?g)$/,
           use: [
             { loader: "file-loader", options: { name: "images/[hash].[ext]" } },
-            "img-loader",
+            "image-webpack-loader",
           ],
         },
         {

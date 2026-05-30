@@ -1,22 +1,16 @@
-import * as React from "react";
+import React, { useRef, useState } from "react";
+import { Scatter } from "react-chartjs-2";
 import { startOfDay, addDays, format } from "date-fns";
 
 import Map from "../../../util/default-map";
 import { ChartCard } from "./card";
 import { NotEnoughData } from "./not-enough-data";
-import { ChartsLoading } from "./charts-loading";
 import { SecondaryCard } from "../../card-view/secondary-card";
 import { Select } from "../../../common/select";
 import { l, localize } from "../../../localization";
 import { Money } from "../../../model/money";
 import { model } from "../../../model";
-
 import S from "./chart.css";
-
-const Line = React.lazy(
-  () => import(/* webpackChunkName: "chart" */ "./lazy/line"),
-);
-const { Suspense } = React;
 
 const colors = [
   "#8bc2ae",
@@ -119,169 +113,139 @@ function averages(grouping = 1) {
   };
 }
 
-export class SalesOverTimeChart extends React.Component {
-  // $FlowIgnore
-  ref;
+export function SalesOverTimeChart({ records, showSettings }) {
+  const ref = useRef();
+  const [mode, setMode] = useState("Average");
+  const [metric, setMetric] = useState("Customers");
+  const [grouping, setGrouping] = useState(30);
 
-  constructor(props) {
-    super(props);
-    // $FlowIgnore
-    this.ref = { current: null };
-    this.state = {
-      mode: "Average",
-      metric: "Customers",
-      grouping: 30,
-    };
+  const dates = Array.from(
+    new Set(records.map(({ time }) => startOfDay(time).getTime())),
+  )
+    .sort()
+    .map((time) => new Date(time));
+  const days = dates.map((date) => format(date, l`EEE`));
+
+  const acc = [];
+  for (const { time, price, quantity } of records) {
+    acc.push({
+      time,
+      price: price.add(acc[acc.length - 1]?.price ?? Money.zero),
+      quantity: 1 + (acc[acc.length - 1]?.quantity ?? 0),
+    });
+  }
+  const totalOverTime = splitByDays(acc);
+
+  let daysData;
+  switch (mode) {
+    case "Total":
+      daysData = totalOverTime.map(dailyTotals);
+      break;
+    case "Average":
+      daysData = totalOverTime
+        .map(dailyTotals)
+        .map(deltas)
+        .map(averages(grouping));
+      break;
+    default:
+      break;
   }
 
-  render() {
-    const { records, showSettings } = this.props;
-    const { mode, grouping, metric } = this.state;
-
-    const dates = [
-      ...new Set(records.map(({ time }) => startOfDay(time).getTime())),
-    ]
-      .sort()
-      .map((time) => new Date(time));
-    const days = dates.map((date) => format(date, l`EEE`));
-
-    const totalOverTime = splitByDays(
-      records.reduce(
-        (acc, { time, price, quantity }) => [
-          ...acc,
-          {
-            time: time,
-            price: price.add((acc[acc.length - 1] || {}).price || Money.zero),
-            quantity: 1 + (acc[acc.length - 1] || { quantity: 0 }).quantity,
-          },
-        ],
-        [],
-      ),
-    );
-
-    let daysData;
-    switch (mode) {
-      case "Total":
-        daysData = totalOverTime.map(dailyTotals);
-        break;
-      case "Average":
-        daysData = totalOverTime
-          .map(dailyTotals)
-          .map(deltas)
-          .map(averages(grouping));
-        break;
-      default:
-        break;
-    }
-
-    const data = {
-      datasets: daysData.map((data, i) => ({
-        cubicInterpolationMode: "monotone",
-        fill: false,
-        label: days[i],
-        borderColor: colors[i % 7],
-        data: data.map(({ time, price, quantity }) => ({
-          x: time.getTime(),
-          y: metric === "Money" ? price.amount : quantity,
-        })),
+  const data = {
+    datasets: daysData.map((data, i) => ({
+      fill: false,
+      label: days[i],
+      borderColor: colors[i % 7],
+      backgroundColor: colors[i % 7],
+      showLine: true,
+      data: data.map(({ time, price, quantity }) => ({
+        x: time.getTime(),
+        y: metric === "Money" ? price.amount : quantity,
       })),
-    };
+    })),
+  };
 
-    const options = {
-      legend: {
-        display: true,
-      },
-      tooltips: {
+  const options = {
+    plugins: {
+      tooltip: {
         callbacks: {
-          title: ([{ xLabel }]) => format(new Date(xLabel), l`h:mma`),
-          label: ({ yLabel }) =>
+          title: ([ctx]) => format(new Date(ctx.raw.x), l`h:mma`),
+          label: (ctx) =>
             metric === "Money"
-              ? new Money(model.getValue().settings.currency, yLabel)
-              : yLabel,
+              ? new Money(model.getValue().settings.currency, ctx.raw.y)
+              : ctx.raw.y,
         },
       },
-      scales: {
-        xAxes: [
-          {
-            type: "linear",
-            position: "bottom",
-            ticks: {
-              callback: (label) => format(label, l`h:mma`),
-            },
-            scaleLabel: {
-              display: true,
-              labelString: l`Time`,
-            },
-          },
-        ],
-        yAxes: [
-          {
-            type: "linear",
-            ticks: {
-              callback: (label) =>
-                metric === "Money"
-                  ? new Money(model.getValue().settings.currency, label)
-                  : label,
-            },
-            scaleLabel: {
-              display: true,
-              labelString: localize(metric),
-            },
-          },
-        ],
+    },
+    scales: {
+      x: {
+        ticks: {
+          callback: (label) => format(new Date(label), l`h:mma`),
+        },
+        title: {
+          display: true,
+          text: l`Time`,
+        },
       },
-    };
+      y: {
+        ticks: {
+          callback: (label) =>
+            metric === "Money"
+              ? new Money(model.getValue().settings.currency, label)
+              : label,
+        },
+        title: {
+          display: true,
+          text: localize(metric),
+        },
+      },
+    },
+  };
 
-    return (
-      <ChartCard
-        title={l`Sales Over Time`}
-        showSettings={showSettings}
-        innerRef={(card) => (this.ref.current = card)}
+  return (
+    <ChartCard
+      title={l`Sales Over Time`}
+      showSettings={showSettings}
+      innerRef={(card) => (ref.current = card)}
+    >
+      <div className={S.container}>
+        {records.length > 1 && (
+          <Scatter data={data} width={600} height={600} options={options} />
+        )}
+        {records.length <= 1 && <NotEnoughData />}
+      </div>
+      <SecondaryCard
+        anchor={ref}
+        title={l`Options`}
+        onClose={() => showSettings(null)}
       >
-        <div className={S.container}>
-          <Suspense fallback={<ChartsLoading />}>
-            <Line
-              data={records.length <= 1 ? { datsets: [] } : data}
-              width={600}
-              height={600}
-              options={options}
-            />
-          </Suspense>
-          {records.length <= 1 ? <NotEnoughData /> : null}
+        <div className={S.options}>
+          <Select
+            title={l`Mode`}
+            options={["Average", "Total"]}
+            defaultValue={mode}
+            onChange={(mode) => setMode(mode)}
+          >
+            {localize}
+          </Select>
+          <Select
+            title={l`Metric`}
+            options={["Customers", "Money"]}
+            defaultValue={metric}
+            onChange={(metric) => setMetric(metric)}
+          >
+            {localize}
+          </Select>
+          <Select
+            title={l`Grouping`}
+            options={[5, 10, 15, 30, 60, 120]}
+            defaultValue={grouping}
+            onChange={(grouping) => setGrouping(grouping)}
+          >
+            {(minutes) => l`${minutes} minutes`}
+          </Select>
         </div>
-        <SecondaryCard
-          anchor={this.ref}
-          title={l`Options`}
-          onClose={() => showSettings(null)}
-        >
-          <div className={S.options}>
-            <Select
-              title={l`Mode`}
-              options={["Average", "Total"]}
-              defaultValue={mode}
-              onChange={(mode) => this.setState({ mode })}
-            >
-              {localize}
-            </Select>
-            <Select
-              title={l`Metric`}
-              options={["Customers", "Money"]}
-              defaultValue={metric}
-              onChange={(metric) => this.setState({ metric })}
-            >
-              {localize}
-            </Select>
-            <Select
-              title={l`Grouping`}
-              options={[5, 10, 15, 30, 60, 120]}
-              defaultValue={grouping}
-              onChange={(grouping) => this.setState({ grouping })}
-            >
-              {(minutes) => l`${minutes} minutes`}
-            </Select>
-          </div>
-        </SecondaryCard>
-      </ChartCard>
-    );
-  }
+      </SecondaryCard>
+    </ChartCard>
+  );
 }

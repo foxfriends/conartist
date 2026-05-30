@@ -1,4 +1,3 @@
-/*       */
 import * as React from "react";
 import { Static } from "./static";
 import { Dashboard } from "./dashboard";

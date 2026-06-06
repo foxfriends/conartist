@@ -2,6 +2,7 @@
 use chrono::NaiveDate;
 use juniper::FieldResult;
 
+mod discount;
 mod expense;
 mod price;
 mod product;
@@ -10,10 +11,14 @@ mod record;
 mod settings;
 mod webhooks;
 
-use crate::database::{Database, models::*};
 #[cfg(feature = "mailer")]
 use crate::email::confirm_email;
+use crate::graphql::mutation::discount::DiscountAppliesTo;
 use crate::money::Money;
+use crate::{
+    database::{Database, models::*},
+    graphql::mutation::discount::DiscountAdd,
+};
 use expense::*;
 use price::*;
 use product::*;
@@ -163,9 +168,57 @@ impl Mutation {
         product_id: i32,
     ) -> FieldResult<bool> {
         ensure!(product_id > 0);
-
         dbtry! {
             context.delete_product(user_id, product_id)
+        }
+    }
+
+    // Discounts
+    fn add_user_discount(
+        context: &Database,
+        user_id: Option<i32>,
+        discount: DiscountAdd,
+    ) -> FieldResult<Discount> {
+        ensure!(!discount.name.is_empty() && discount.name.len() <= 512);
+        match discount.applies_to {
+            DiscountAppliesTo::All => {
+                ensure!(
+                    discount
+                        .applies_to_ids
+                        .as_ref()
+                        .map(|ids| ids.is_empty())
+                        .unwrap_or(true)
+                );
+            }
+            _ => {
+                ensure!(
+                    !discount
+                        .applies_to_ids
+                        .as_ref()
+                        .map(|ids| ids.is_empty())
+                        .unwrap_or(true)
+                );
+                ensure!(discount.applies_to_ids.iter().flatten().all(|id| *id > 0));
+            }
+        }
+        ensure!(discount.flat_amount.is_none() || discount.percentage_amount.is_none());
+        ensure!(!(discount.flat_amount.is_none() && discount.percentage_amount.is_none()));
+        let (product_ids, product_type_ids) = discount
+            .applies_to
+            .apply(discount.applies_to_ids.unwrap_or_default());
+        dbtry! {
+            context.create_discount(user_id, discount.name, discount.flat_amount, discount.percentage_amount, product_ids, product_type_ids)
+        }
+    }
+
+    fn del_user_discount(
+        context: &Database,
+        user_id: Option<i32>,
+        discount_id: i32,
+    ) -> FieldResult<bool> {
+        ensure!(discount_id > 0);
+        dbtry! {
+            context.delete_discount(user_id, discount_id)
         }
     }
 

@@ -1,0 +1,2 @@
+ALTER TABLE DiscountProducts DROP CONSTRAINT discount_product_key;
+ALTER TABLE DiscountProductTypes DROP CONSTRAINT discount_product_type_key;

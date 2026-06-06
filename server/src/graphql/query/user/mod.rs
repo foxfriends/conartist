@@ -5,6 +5,7 @@ use juniper::{FieldResult, graphql_object};
 use crate::database::Database;
 use crate::database::models::*;
 
+mod discount;
 mod expense;
 mod price;
 mod product;

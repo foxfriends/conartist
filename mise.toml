@@ -48,6 +48,12 @@ depends = ["start", "createdb"]
 run = "diesel migration run"
 dir = "{{config_root}}/database"
 
+[tasks.unmigrate]
+description = "Migrate database to previous"
+depends = ["start", "createdb"]
+run = "diesel migration revert"
+dir = "{{config_root}}/database"
+
 [tasks.generate]
 description = "Generate database schemas"
 run = "./generate-schemas"

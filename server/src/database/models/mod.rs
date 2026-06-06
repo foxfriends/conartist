@@ -1,5 +1,6 @@
 //! Type definitions for all tables in the database
 mod convention;
+mod discount;
 mod email_verification;
 mod event_type;
 mod expense;
@@ -9,7 +10,6 @@ mod product;
 mod product_event;
 mod product_type;
 mod record;
-mod record_discount;
 mod settings;
 mod suggestion;
 mod time;
@@ -17,6 +17,7 @@ mod user;
 mod webhooks;
 
 pub use convention::*;
+pub use discount::*;
 pub use email_verification::*;
 pub use event_type::*;
 pub use expense::*;
@@ -25,7 +26,6 @@ pub use price::*;
 pub use product::*;
 pub use product_type::*;
 pub use record::*;
-pub use record_discount::*;
 pub use settings::*;
 pub use suggestion::*;
 pub use user::*;

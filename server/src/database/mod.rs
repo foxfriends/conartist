@@ -14,6 +14,7 @@ mod updaters;
 
 mod account;
 mod conventions;
+mod discounts;
 mod product_types;
 mod products;
 mod records;

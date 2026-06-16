@@ -1,0 +1,1 @@
+DROP INDEX discounts_name_user_id_active_key;

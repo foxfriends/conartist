@@ -9,6 +9,7 @@ pub struct ProductType {
     pub name: String,
     pub color: Option<i32>,
     pub sort: i32,
+    #[expect(dead_code)]
     pub deleted: bool,
 }
 
@@ -36,6 +37,7 @@ impl ProductType {
 #[derive(Clone, Debug)]
 pub struct ProductTypeSnapshot {
     pub type_id: i32,
+    #[expect(dead_code)]
     pub user_id: i32,
     pub name: String,
     pub color: Option<i32>,

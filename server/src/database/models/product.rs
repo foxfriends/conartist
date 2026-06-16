@@ -4,6 +4,7 @@ use chrono::NaiveDateTime;
 use diesel::{AsChangeset, Queryable};
 
 #[derive(Queryable, Clone, Debug)]
+#[expect(dead_code)]
 pub struct InventoryItem {
     pub inventory_id: i32,
     pub product_id: i32,
@@ -18,6 +19,7 @@ pub struct Product {
     pub user_id: i32,
     pub name: String,
     pub sort: i32,
+    #[expect(dead_code)]
     pub deleted: bool,
     pub sku: Option<String>,
 }
@@ -49,6 +51,7 @@ pub struct ProductChanges {
 pub struct ProductSnapshot {
     pub product_id: i32,
     pub type_id: i32,
+    #[expect(dead_code)]
     pub user_id: i32,
     pub name: String,
     pub sort: i32,

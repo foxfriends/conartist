@@ -6,6 +6,7 @@ use serde_json::Value;
 
 #[derive(Queryable, Clone, Debug)]
 pub struct ConventionExtraInfo {
+    #[expect(dead_code)]
     pub con_id: i32,
     pub title: String,
     pub info: Option<Value>,
@@ -16,7 +17,9 @@ pub struct ConventionExtraInfo {
 #[derive(Queryable, Clone, Debug)]
 pub struct RawConventionUserInfo {
     pub con_info_id: i32,
+    #[expect(dead_code)]
     pub con_id: i32,
+    #[expect(dead_code)]
     pub user_id: i32,
     pub information: String,
 }
@@ -41,6 +44,7 @@ pub struct ConventionUserInfo {
 }
 
 #[derive(Queryable, Clone, Debug)]
+#[expect(dead_code)]
 pub struct ConventionInfoRating {
     pub con_info_id: i32,
     pub user_id: i32,
@@ -54,6 +58,7 @@ pub struct Convention {
     pub title: String,
     pub start_date: NaiveDate,
     pub end_date: NaiveDate,
+    #[expect(dead_code)]
     pub predecessor: Option<i32>,
 }
 
@@ -94,13 +99,17 @@ impl From<DetachedConvention> for Convention {
 
 #[derive(Queryable, Clone, Debug)]
 pub struct ConventionImage {
+    #[expect(dead_code)]
     pub image_id: i32,
+    #[expect(dead_code)]
     pub con_id: i32,
     pub image_uuid: String,
+    #[expect(dead_code)]
     pub create_date: NaiveDateTime,
 }
 
 #[derive(Queryable, Clone, Debug)]
+#[expect(dead_code)]
 pub struct UserConvention {
     pub user_con_id: i32,
     pub user_id: i32,

@@ -6,10 +6,12 @@ use diesel::Queryable;
 #[derive(Queryable, Clone, Debug)]
 pub struct Price {
     pub price_id: i32,
+    #[expect(dead_code)]
     pub user_id: i32,
     pub type_id: i32,
     pub product_id: Option<i32>,
     pub quantity: i32,
     pub price: Option<Money>, // this should never be None in practice: only deleted prices have null price
+    #[expect(dead_code)]
     pub mod_date: NaiveDateTime,
 }

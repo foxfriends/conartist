@@ -74,7 +74,7 @@ impl FromStr for Currency {
 )]
 pub struct Money {
     amt: i64,
-    cur: Currency, // TODO: make an enum for all the currency types?
+    cur: Currency,
 }
 
 impl Money {

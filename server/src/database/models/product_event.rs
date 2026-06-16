@@ -4,6 +4,7 @@ use chrono::NaiveDateTime;
 use diesel::Queryable;
 
 #[derive(Queryable, Clone, Debug)]
+#[expect(dead_code)]
 pub struct ProductEvent {
     pub event_id: i32,
     pub product_id: i32,

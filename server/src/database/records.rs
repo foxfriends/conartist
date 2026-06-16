@@ -8,6 +8,7 @@ use super::schema::*;
 use crate::money::Money;
 
 impl Database {
+    #[expect(clippy::too_many_arguments)]
     pub fn create_user_record(
         &self,
         maybe_user_id: Option<i32>,
@@ -166,6 +167,7 @@ impl Database {
         })
     }
 
+    #[expect(clippy::too_many_arguments)]
     pub fn create_user_expense(
         &self,
         maybe_user_id: Option<i32>,

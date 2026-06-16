@@ -32,23 +32,28 @@ impl DiscountRow {
 #[derive(Clone, Queryable, Debug)]
 pub struct Discount {
     pub discount_id: i32,
+    #[expect(dead_code)]
     pub user_id: i32,
     pub flat_amount: Option<Money>,
     pub percentage_amount: Option<f64>,
     pub name: String,
+    #[expect(dead_code)]
     pub created_at: NaiveDateTime,
+    #[expect(dead_code)]
     pub deleted_at: Option<NaiveDateTime>,
     pub product_ids: Vec<i32>,
     pub product_type_ids: Vec<i32>,
 }
 
 #[derive(Clone, Queryable, Debug)]
+#[expect(dead_code)]
 pub struct DiscountProduct {
     pub discount_id: i32,
     pub product_id: i32,
 }
 
 #[derive(Clone, Queryable, Debug)]
+#[expect(dead_code)]
 pub struct DiscountProductType {
     pub discount_id: i32,
     pub type_id: i32,

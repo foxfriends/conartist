@@ -3,6 +3,7 @@ use std::error::Error;
 use std::fmt::{Debug, Display, Formatter, Result};
 
 #[derive(Debug)]
+#[expect(dead_code)]
 pub struct StringError(pub String);
 
 impl Display for StringError {
@@ -43,6 +44,7 @@ mod mail {
     pub enum MailerError {
         Building(lettre_email::error::Error),
         Sending(lettre::smtp::error::Error),
+        #[expect(dead_code)]
         Failure(failure::Error),
     }
 
@@ -55,6 +57,7 @@ mod mail {
     impl Error for MailerError {
         fn source(&self) -> Option<&(dyn Error + 'static)> {
             match self {
+                MailerError::Building(error) => Some(error),
                 MailerError::Sending(error) => Some(error),
                 _ => None,
             }

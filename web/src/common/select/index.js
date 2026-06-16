@@ -14,7 +14,7 @@ export function Select({
 }) {
   const id = useId();
   const popoverRef = useRef();
-  const [value, setValue] = useState(defaultValue ?? props.options[0]);
+  const [value, setValue] = useState(defaultValue ?? options[0]);
   const handleOptionClicked = useCallback(
     (option) => {
       setValue(option);

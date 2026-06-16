@@ -182,6 +182,7 @@ impl Database {
             .collect())
     }
 
+    #[expect(clippy::too_many_arguments)]
     pub fn update_product(
         &self,
         maybe_user_id: Option<i32>,

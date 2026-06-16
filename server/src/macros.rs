@@ -64,6 +64,7 @@ macro_rules! ensure {
         }
     };
     ($pred:expr) => {
+        #[allow(clippy::neg_cmp_op_on_partial_ord)]
         if !($pred) {
             return Err(::juniper::FieldError::new(
                 format!("Requirement breached: {}", stringify!($pred)),

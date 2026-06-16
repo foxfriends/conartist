@@ -1,14 +1,57 @@
 use diesel::dsl;
 use diesel::dsl::now;
 use diesel::prelude::*;
+use diesel::sql_types;
 
 use crate::money::Money;
 
 use super::Database;
 use super::models::*;
 use super::schema::*;
+use super::views::*;
 
 impl Database {
+    pub fn get_discounts_for_user(
+        &self,
+        maybe_user_id: Option<i32>,
+    ) -> Result<Vec<Discount>, String> {
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
+        let mut conn = self.pool.get().unwrap();
+        discounts::table
+            .inner_join(
+                currentdiscounts::table.on(discounts::name
+                    .eq(currentdiscounts::name)
+                    .and(currentdiscounts::user_id.eq(discounts::user_id))
+                    .and(currentdiscounts::created_at.eq(discounts::created_at))),
+            )
+            .left_outer_join(discountproducttypes::table)
+            .left_outer_join(discountproducts::table)
+            .select((
+                discounts::discount_id,
+                discounts::user_id,
+                discounts::flat_amount,
+                discounts::percentage_amount,
+                discounts::name,
+                discounts::created_at,
+                discounts::deleted_at,
+                dsl::sql::<sql_types::Array<sql_types::Int4>>(
+                    "array_remove(array_agg(discountproducts.product_id), null)",
+                ),
+                dsl::sql::<sql_types::Array<sql_types::Int4>>(
+                    "array_remove(array_agg(discountproducttypes.type_id), null)",
+                ),
+            ))
+            .filter(discounts::user_id.eq(user_id))
+            .group_by(discounts::discount_id)
+            .load::<Discount>(&mut conn)
+            .map_err(|reason| {
+                format!(
+                    "Discounts for user with id {} could not be retrieved. Reason: {}",
+                    user_id, reason
+                )
+            })
+    }
+
     pub fn create_discount(
         &self,
         maybe_user_id: Option<i32>,

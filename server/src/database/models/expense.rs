@@ -9,7 +9,9 @@ use crate::money::Money;
 #[derive(Queryable, Clone, Debug)]
 pub struct Expense {
     pub expense_id: i32,
+    #[expect(dead_code)]
     pub user_id: i32,
+    #[expect(dead_code)]
     pub con_id: i32,
     pub price: Money,
     pub category: String,

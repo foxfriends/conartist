@@ -4,6 +4,7 @@ use diesel::Queryable;
 #[derive(Queryable, Clone, Debug)]
 pub struct WebhookNewRecord {
     pub webhook_id: i32,
+    #[expect(dead_code)]
     pub user_id: i32,
     pub url: String,
 }
@@ -11,6 +12,7 @@ pub struct WebhookNewRecord {
 #[derive(Queryable, Clone, Debug)]
 pub struct WebhookDeleteRecord {
     pub webhook_id: i32,
+    #[expect(dead_code)]
     pub user_id: i32,
     pub url: String,
 }

@@ -1,4 +1,4 @@
-use super::schema::{prices, suggestions, suggestionvotes};
+use super::schema::*;
 use diesel::{allow_tables_to_appear_in_same_query, table};
 
 table! {
@@ -8,6 +8,14 @@ table! {
         product_id -> Nullable<Integer>,
         user_id -> Integer,
         quantity -> Integer,
+    }
+}
+
+table! {
+    currentdiscounts (created_at) {
+        created_at -> Timestamptz,
+        name -> Varchar,
+        user_id -> Integer,
     }
 }
 
@@ -41,6 +49,8 @@ table! {
 }
 
 allow_tables_to_appear_in_same_query!(suggestions, scoredsuggestions,);
-
 allow_tables_to_appear_in_same_query!(suggestionvotes, scoredsuggestions,);
 allow_tables_to_appear_in_same_query!(prices, currentprices,);
+allow_tables_to_appear_in_same_query!(discounts, currentdiscounts,);
+allow_tables_to_appear_in_same_query!(discountproducttypes, currentdiscounts,);
+allow_tables_to_appear_in_same_query!(discountproducts, currentdiscounts,);

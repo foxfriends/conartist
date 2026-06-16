@@ -76,6 +76,13 @@ impl User {
         }
     }
 
+    fn discounts(&self, context: &Database) -> FieldResult<Vec<Discount>> {
+        dbtry! {
+            context
+                .get_discounts_for_user(Some(self.user_id))
+        }
+    }
+
     fn conventions(&self, context: &Database) -> FieldResult<Vec<Convention>> {
         dbtry! {
             context

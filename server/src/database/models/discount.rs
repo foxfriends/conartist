@@ -33,9 +33,9 @@ impl DiscountRow {
 pub struct Discount {
     pub discount_id: i32,
     pub user_id: i32,
-    pub name: String,
     pub flat_amount: Option<Money>,
     pub percentage_amount: Option<f64>,
+    pub name: String,
     pub created_at: NaiveDateTime,
     pub deleted_at: Option<NaiveDateTime>,
     pub product_ids: Vec<i32>,

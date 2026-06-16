@@ -81,6 +81,10 @@ description = "Run web"
 run = "npm run watch"
 dir = "{{config_root}}/web"
 
+[tasks.all]
+description = "Run server and web"
+depends = ["server", "web"]
+
 [tasks.install]
 description = "Install Node modules"
 run = "npm install"

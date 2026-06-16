@@ -1,0 +1,7 @@
+#import '../fragment/discount.graphql'
+
+mutation AddDiscount($userId: Int, $discount: DiscountAdd!) {
+  addUserDiscount(userId: $userId, discount: $discount) {
+    ...DiscountFragment
+  }
+}

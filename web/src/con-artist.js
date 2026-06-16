@@ -38,7 +38,11 @@ export class ConArtist extends React.Component {
     // don't care to dispose this observable because it is the app and should never be disposed!
     toast.subscribe((toast) => this.setState({ toast }));
     combineLatest([model, toolbarStatus])
-      .pipe(map(([model, toolbarStatus]) => this.computeState(model, toolbarStatus)))
+      .pipe(
+        map(([model, toolbarStatus]) =>
+          this.computeState(model, toolbarStatus),
+        ),
+      )
       .subscribe((newState) => this.setState(newState));
   }
 
@@ -86,7 +90,9 @@ export class ConArtist extends React.Component {
         state.navigation = NavInfo.default.select(
           "Products",
           [].concat(
-            ...model.productTypes.sort(by(["sort", Asc], ["id", Asc])).map(NavInfo.forProductType),
+            ...model.productTypes
+              .sort(by(["sort", Asc], ["id", Asc]))
+              .map(NavInfo.forProductType),
           ),
         );
         break;
@@ -113,7 +119,9 @@ export class ConArtist extends React.Component {
 
       case "discounts":
         state.toolbar = {
-          primary: model.productTypes.filter(({ discontinued }) => !discontinued).length
+          primary: model.productTypes.filter(
+            ({ discontinued }) => !discontinued,
+          ).length
             ? toolbarAction.EditDiscounts
             : null,
           secondary: null,
@@ -143,7 +151,9 @@ export class ConArtist extends React.Component {
 
       case "prices":
         state.toolbar = {
-          primary: model.productTypes.filter(({ discontinued }) => !discontinued).length
+          primary: model.productTypes.filter(
+            ({ discontinued }) => !discontinued,
+          ).length
             ? toolbarAction.EditPrices
             : null,
           secondary: null,
@@ -159,7 +169,9 @@ export class ConArtist extends React.Component {
         state.navigation = NavInfo.default.select(
           "Prices",
           [].concat(
-            ...model.productTypes.sort(by(["sort", Asc], ["id", Asc])).map(NavInfo.forProductType),
+            ...model.productTypes
+              .sort(by(["sort", Asc], ["id", Asc]))
+              .map(NavInfo.forProductType),
           ),
         );
         break;
@@ -445,7 +457,9 @@ export class ConArtist extends React.Component {
         default:
           state.dialog = null;
           if (model.dialog) {
-            console.error(`Unhandled dialog name: ${model.dialog.name}! Ignoring`);
+            console.error(
+              `Unhandled dialog name: ${model.dialog.name}! Ignoring`,
+            );
           }
       }
     } else {
@@ -456,7 +470,9 @@ export class ConArtist extends React.Component {
       state.footer = {
         content: (
           <>
-            <span className={S.boldFooter}>{l`Don't forget to verify your email!`}</span>
+            <span
+              className={S.boldFooter}
+            >{l`Don't forget to verify your email!`}</span>
             <Button
               className={S.resendEmailButton}
               priority="primary"
@@ -476,7 +492,9 @@ export class ConArtist extends React.Component {
     const { toolbar, footer, navigation, content, dialog, toast } = this.state;
     return (
       <>
-        {toolbar ? <Toolbar {...toolbar} className={navigation ? "" : "signedOut"} /> : null}
+        {toolbar ? (
+          <Toolbar {...toolbar} className={navigation ? "" : "signedOut"} />
+        ) : null}
         <div className={`${S.container} ${navigation ? "" : "signedOut"}`}>
           {navigation ? <Navigation {...navigation} /> : null}
           {/* $FlowIgnore: Flow doesn't understand enums properly */}
@@ -488,7 +506,9 @@ export class ConArtist extends React.Component {
           {/* $FlowIgnore: does not understand defaulting missing args */}
           {toast || null}
         </Toast>
-        {footer ? <Footer {...footer} className={navigation ? "" : "signedOut"} /> : null}
+        {footer ? (
+          <Footer {...footer} className={navigation ? "" : "signedOut"} />
+        ) : null}
       </>
     );
   }

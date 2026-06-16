@@ -83,13 +83,10 @@ function diff(before, after) {
   );
   const kept = new Set(initial.keys()).intersection(final.keys());
   const unchanged = kept.difference(changed);
-  // $FlowIgnore: it's not null
   const keeps = [...unchanged].map((key) => initial.get(key));
-  // $FlowIgnore: it's not null
   const deletes = [...deleted]
     .map((key) => initial.get(key))
     .map((price) => ({ operation: "delete", price }));
-  // $FlowIgnore: it's not null
   const adds = [...changed]
     .map((key) => final.get(key))
     .map((price) => ({ operation: "add", price }));

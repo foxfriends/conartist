@@ -1,4 +1,3 @@
-/*       */
 import { VALID } from "../../model/validation";
 
 export const DuplicateQuantity = Symbol();
@@ -14,7 +13,6 @@ export function priceId() {
 }
 
 export function editablePrice(price) {
-  // $FlowIgnore: some dirty hacks huehue
   return {
     ...price,
     original: price,

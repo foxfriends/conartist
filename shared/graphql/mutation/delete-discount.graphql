@@ -1,0 +1,3 @@
+mutation DeleteDiscount($id: Int, $discountId: Int!) {
+  delUserDiscount(userId: $id, discountId: $discountId)
+}

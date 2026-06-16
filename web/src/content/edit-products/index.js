@@ -1,7 +1,6 @@
-/*       */
 import * as React from "react";
 import * as ReactX from "../../react-ext";
-import { Observable, Subject, forkJoin, merge, of } from "rxjs";
+import { forkJoin, merge, of } from "rxjs";
 import {
   tap,
   filter,
@@ -20,7 +19,6 @@ import { l, lx } from "../../localization";
 import { AutoCardView as CardView } from "../card-view/auto";
 import { Card } from "../card-view/card";
 import { EditProductCard } from "./edit-product-card";
-import { Input } from "../../common/input";
 import { Cover } from "../../common/cover";
 import { Button } from "../../common/button";
 import { reordered as navigationItemReordered } from "../../navigation/item";
@@ -39,7 +37,6 @@ import {
   setProductTypeIds,
   editableProduct,
   editableProductType,
-  nonEditableProduct,
   nonEditableProductType,
   hasher,
   NonNumberQuantity,

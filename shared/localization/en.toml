@@ -249,7 +249,10 @@ Head over to the products page and get some items set up!
 # Discounts
 Discount = "Discount"
 Discounts = "Discounts"
+"Flat" = "Flat"
+"Percentage" = "Percentage"
 "<Empty discounts list message>" = "You have not set up any discounts yet."
+"The discount must be more than 0" = "The discount must be more than 0"
 
 # Products
 "No products yet... add one!" = "No products yet… add one!"
@@ -273,8 +276,10 @@ Edit this page and write down what you plan to be selling!
 "Manage Prices" = "Manage Prices"
 "Manage Products" = "Manage Products"
 "Manage Product Types" = "Manage Product Types"
+"Manage Discounts" = "Manage Discounts"
 "Editing Expense" = "Editing Expense"
 "Editing Sale" = "Editing Sale"
+"Editing Discount" = "Editing Discount"
 Reorder = "Reorder"
 "This has to be a whole number!" = "This has to be a whole number!"
 "This isn't a number!" = "This isn't a number!"

@@ -4,6 +4,8 @@ import { Dashboard } from "./dashboard";
 import { Products } from "./products";
 import { EditProducts } from "./edit-products";
 import { EditPrices } from "./edit-prices";
+import { Discounts } from "./discounts";
+import { EditDiscounts } from "./edit-discounts";
 import { Prices } from "./prices";
 import { Sales } from "./sales";
 import { Conventions } from "./conventions";
@@ -33,9 +35,7 @@ const { Suspense } = React;
 
 import { CardView } from "./card-view";
 import { Card } from "./card-view/card";
-import { Discounts } from "./discounts";
 
-// TODO: these are just used for placeholder
 import { l } from "../localization";
 
 export function Content(props) {
@@ -67,9 +67,9 @@ export function Content(props) {
     case "discounts":
       content = <Discounts {...props} />;
       break;
-    // case "edit-discounts":
-    //   content = <Prices {...props} />;
-    //   break;
+    case "edit-discounts":
+      content = <EditDiscounts {...props} />;
+      break;
     case "prices":
       content = <Prices {...props} />;
       break;

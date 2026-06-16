@@ -1,0 +1,31 @@
+.name,
+.amountType,
+.amount,
+.removeButton {
+  margin: 0 10px 0 6px;
+}
+
+.name,
+.amount,
+.amountType {
+  flex-basis: 0;
+}
+
+.name {
+  flex-grow: 240;
+}
+
+.amount,
+.amountType {
+  flex-grow: 115;
+}
+
+.removeButton {
+  font-size: 16px;
+  align-self: flex-end;
+  margin-bottom: 8px;
+}
+
+.placeholder {
+  composes: placeholder from "../../common/styles.css";
+}

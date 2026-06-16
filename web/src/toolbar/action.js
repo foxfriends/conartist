@@ -1,4 +1,3 @@
-/*       */
 import { showSignupDialog, showSigninDialog } from "../update/splash";
 import {
   showNewSaleDialog,
@@ -8,7 +7,12 @@ import {
   showImportProductsDialog,
 } from "../update/dialog";
 import * as navigate from "../update/navigate";
-import { send, SaveProducts as SaveProductsEvent, SavePrices as SavePricesEvent } from "../event";
+import {
+  send,
+  SaveProducts as SaveProductsEvent,
+  SavePrices as SavePricesEvent,
+  SaveDiscounts as SaveDiscountsEvent,
+} from "../event";
 
 export const LogIn = {
   title: "Sign in",

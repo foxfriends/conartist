@@ -28,7 +28,6 @@ export function editableProduct() {
   return (product) => {
     const index = sort.get(product.typeId);
     sort.set(product.typeId, index + 1);
-    // $FlowIgnore: some dirty hacks huehue
     return {
       ...product,
       product,
@@ -42,7 +41,6 @@ export function editableProduct() {
 }
 
 export function editableProductType(productType, index) {
-  // $FlowIgnore: some dirty hacks huehue
   return {
     ...productType,
     productType,

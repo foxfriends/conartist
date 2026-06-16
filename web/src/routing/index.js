@@ -1,4 +1,3 @@
-/*       */
 import {
   splash,
   dashboard,
@@ -6,6 +5,8 @@ import {
   editProducts,
   editPrices,
   prices,
+  discounts,
+  editDiscounts,
   sales,
   conventions,
   conventionDetails,
@@ -69,6 +70,8 @@ const matchUrl = match(
   [/^\/suggestions\/?$/i, () => suggestions],
   [/^\/settings\/?$/i, () => settings],
   [/^\/products\/?$/i, () => products],
+  [/^\/discounts\/?$/i, () => discounts],
+  [/^\/discounts\/edit\/?$/i, () => editDiscounts],
   [/^\/products\/edit\/?$/i, () => editProducts],
   [/^\/prices\/?$/i, () => prices],
   [/^\/prices\/edit\/?$/i, () => editPrices],

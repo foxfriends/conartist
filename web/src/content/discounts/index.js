@@ -12,7 +12,7 @@ import { scrollIdentifier } from "../../update/navigate";
 import S from "./index.css";
 const { Fragment } = React;
 
-export function Products({ products, productTypes }) {
+export function Discounts({ products, productTypes }) {
   const sortedProducts = products
     .filter(({ discontinued }) => !discontinued)
     .sort(by(["sort", Asc], ["id", Asc]))

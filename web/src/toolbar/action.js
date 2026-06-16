@@ -34,6 +34,11 @@ export const EditProducts = {
   action: navigate.editProducts,
 };
 
+export const EditDiscounts = {
+  title: "Edit",
+  action: navigate.editDiscounts,
+};
+
 export const ExportProducts = {
   title: "Export",
   action: showExportProductsDialog,

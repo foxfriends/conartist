@@ -1,4 +1,3 @@
-/*       */
 import * as React from "react";
 import DefaultMap from "../../util/default-map";
 import { by, Asc, Desc } from "../../util/sort";

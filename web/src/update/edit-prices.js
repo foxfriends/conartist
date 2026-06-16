@@ -1,4 +1,3 @@
-/*       */
 import { model } from "../model";
 
 export function setPrices(prices) {

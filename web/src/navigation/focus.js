@@ -1,6 +1,4 @@
-/*       */
 import { Subject } from "rxjs";
-
 import { share } from "rxjs/operators";
 
 const subject = new Subject();

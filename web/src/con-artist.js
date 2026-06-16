@@ -1,6 +1,5 @@
 import * as React from "react";
 import { combineLatest } from "rxjs";
-import { map } from "rxjs/operators";
 
 import { Toolbar, status as toolbarStatus } from "./toolbar";
 import * as toolbarAction from "./toolbar/action";
@@ -111,6 +110,38 @@ export class ConArtist extends React.Component {
             ),
           )
           .disable();
+        break;
+
+      case "discounts":
+        state.toolbar = {
+          primary: model.productTypes.filter(
+            ({ discontinued }) => !discontinued,
+          ).length
+            ? toolbarAction.EditDiscounts
+            : null,
+          secondary: null,
+          tertiary: null,
+          pageIcon: "percent",
+        };
+        state.content = {
+          name: "discounts",
+          prices: model.discounts,
+          productTypes: model.productTypes,
+          products: model.products,
+        };
+        state.navigation = NavInfo.default.select("Discounts");
+        break;
+
+      case "edit-discounts":
+        state.toolbar = toolbar;
+        state.content = {
+          name: "edit-discounts",
+          prices: model.discounts,
+          productTypes: model.productTypes,
+          products: model.products,
+          pageIcon: "percent",
+        };
+        state.navigation = NavInfo.default.select("Discounts").disable();
         break;
 
       case "prices":

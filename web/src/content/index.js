@@ -31,10 +31,12 @@ const Admin = React.lazy(
 );
 const { Suspense } = React;
 
-// TODO: these are just used for placeholder
-import { l } from "../localization";
 import { CardView } from "./card-view";
 import { Card } from "./card-view/card";
+import { Discounts } from "./discounts";
+
+// TODO: these are just used for placeholder
+import { l } from "../localization";
 
 export function Content(props) {
   const placeholder = (
@@ -62,6 +64,12 @@ export function Content(props) {
     case "edit-products":
       content = <EditProducts {...props} />;
       break;
+    case "discounts":
+      content = <Discounts {...props} />;
+      break;
+    // case "edit-discounts":
+    //   content = <Prices {...props} />;
+    //   break;
     case "prices":
       content = <Prices {...props} />;
       break;

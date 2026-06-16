@@ -1,11 +1,11 @@
-/*       */
-
 export const splash = { name: "splash" };
 export const dashboard = { name: "dashboard" };
 export const products = { name: "products" };
 export const editProducts = { name: "edit-products" };
 export const prices = { name: "prices" };
 export const editPrices = { name: "edit-prices" };
+export const discounts = { name: "discounts" };
+export const editDiscounts = { name: "edit-discounts" };
 export const conventions = { name: "conventions" };
 export const sales = { name: "sales" };
 export const searchConventions = { name: "search-conventions" };

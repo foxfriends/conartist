@@ -1,4 +1,3 @@
-/*       */
 import * as React from "react";
 import { merge, timer } from "rxjs";
 import { takeUntil, mapTo, filter, switchMap, share } from "rxjs/operators";
@@ -41,7 +40,6 @@ export class Navigation extends ReactX.Component {
     return (
       <div className={`${S.container} ${focused ? S.focused : ""}`}>
         <nav className={S.nav}>
-          {/* $FlowIgnore: apparently can't tell that ItemInfo is Props */}
           {items.map((item, key) => (
             <Item {...item} key={`nav_item_${key}`} />
           ))}
@@ -63,6 +61,7 @@ export class NavInfo {
       new ItemInfo("Dashboard", "dashboard", navigate.dashboard),
       new ItemInfo("Products", "shopping_basket", navigate.products),
       new ItemInfo("Prices", "attach_money", navigate.prices),
+      new ItemInfo("Discounts", "percent", navigate.discounts),
       new ItemInfo("Conventions", "event", navigate.conventions),
       new ItemInfo("Sales", "table_chart", navigate.sales),
       new ItemInfo("Settings", "settings", navigate.settings),

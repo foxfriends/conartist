@@ -56,12 +56,11 @@ function disableSave() {
 
 function diff(before, after) {
   const initial = new Map();
-  before.forEach((discount) => initial.set(hasher(discount), discount));
-
+  before.forEach((discount) => initial.set(discount.discountId, discount));
   const final = new Map();
-  after.forEach((discount) => final.set(hasher(discount), discount));
-
+  after.forEach((discount) => final.set(discount.discountId, discount));
   const deleted = new Set(initial.keys()).difference(final.keys());
+
   const changed = new Set(
     Array.from(final)
       .filter(([key, value]) => {
@@ -84,11 +83,14 @@ function diff(before, after) {
       })
       .map(([key, _]) => key),
   );
+
   const kept = new Set(initial.keys()).intersection(final.keys());
   const unchanged = kept.difference(changed);
   const keeps = [...unchanged].map((key) => initial.get(key));
-  const deletes = [...deleted]
+
+  const deletes = [...deleted, ...changed]
     .map((key) => initial.get(key))
+    .filter((discount) => !!discount)
     .map((discount) => ({ operation: "delete", discount }));
   const adds = [...changed]
     .map((key) => final.get(key))
@@ -128,12 +130,12 @@ export class EditDiscounts extends ReactX.Component {
     const [savedDiscounts, savingDiscounts] = saveButtonPressed.pipe(
       map(() => diff(this.props.discounts, this.state.discounts)),
       switchMap(([discounts, changes]) =>
-        forkJoin(
+        forkJoin([
           of(discounts),
           forkJoin(
-            ...changes.map((discount) => new SaveDiscount().send(discount)),
+            changes.map((discount) => new SaveDiscount().send(discount)),
           ).pipe(defaultIfEmpty([])),
-        ),
+        ]),
       ),
       map(([discounts, changes]) => [discounts, batchResponses(changes)]),
       share(),
@@ -194,7 +196,6 @@ export class EditDiscounts extends ReactX.Component {
     const discount = this.state.discounts.find(
       (discount) => discount.discountId === id,
     );
-    console.log(this.state.discounts, id, discount);
     if (discount.percentageAmount !== null) {
       this.handlePercentageAmountChange(id, amount);
     } else {
@@ -262,12 +263,10 @@ export class EditDiscounts extends ReactX.Component {
   }
 
   validate(discounts) {
-    const existingDiscounts = new DefaultMap([], 0);
-    discounts
-      .map(hasher)
-      .forEach((hash) =>
-        existingDiscounts.set(hash, existingDiscounts.get(hash) + 1),
-      );
+    const usedNames = new DefaultMap([], 0);
+    for (const { name } of discounts) {
+      usedNames.set(name, usedNames.get(name) + 1);
+    }
 
     enableSave();
     return discounts.map((discount) => {
@@ -289,7 +288,7 @@ export class EditDiscounts extends ReactX.Component {
           amountValidation = { state: INVALID, error: NonPositiveAmount };
         }
       }
-      if (existingDiscounts.get(hasher(discount)) > 1) {
+      if (usedNames.get(discount.name) > 1) {
         nameValidation = { state: INVALID, error: DuplicateName };
       }
       if (

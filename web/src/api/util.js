@@ -1,5 +1,3 @@
-/*       */
-
 export function batchResponses(responses) {
   return responses.reduce(
     (result, response) => {

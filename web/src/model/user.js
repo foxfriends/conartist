@@ -1,10 +1,9 @@
-/*       */
-
 import { parse as parseSettings } from "./settings";
 import { parse as parseConvention } from "./meta-convention";
 import { parse as parseProductType } from "./product-type";
 import { parse as parseProduct } from "./product";
 import { parse as parsePrice } from "./price";
+import { parse as parseDiscount } from "./discount";
 
 export function parse({
   name,
@@ -14,6 +13,7 @@ export function parse({
   productTypes = [],
   products = [],
   prices = [],
+  discounts = [],
   conventions,
   clearance,
 }) {
@@ -25,6 +25,7 @@ export function parse({
     productTypes: productTypes.map(parseProductType),
     products: products.map(parseProduct),
     prices: prices.map(parsePrice),
+    discounts: discounts.map(parseDiscount),
     conventions: conventions.map(parseConvention),
     clearance,
   };

@@ -1,0 +1,8 @@
+fragment DiscountFragment on Discount {
+  discountId
+  name
+  productIds
+  productTypeIds
+  flatAmount
+  percentageAmount
+}

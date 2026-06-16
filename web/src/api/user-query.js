@@ -1,11 +1,7 @@
-/*       */
-
 import { map } from "rxjs/operators";
-
 import { GraphQLQuery } from "./index";
-// $FlowIgnore: trouble importing graphql files
-import query from "./graphql/query/full-user.graphql";
 import { parse } from "../model/user";
+import query from "./graphql/query/full-user.graphql";
 
 export class UserQuery {
   query;

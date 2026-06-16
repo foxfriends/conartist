@@ -1,9 +1,8 @@
-/*       */
 import * as React from "react";
 import { BehaviorSubject } from "rxjs";
 
 import { Storage } from "../storage";
-import { splash, dashboard } from "./page";
+import { splash } from "./page";
 import { empty } from "./connection";
 import { ReauthorizeRequest } from "../api/reauthorize";
 import * as toast from "../toast";
@@ -18,6 +17,7 @@ export const defaultModel = {
   prices: [],
   productTypes: [],
   products: [],
+  discounts: [],
   conventions: [],
   records: empty(),
   page: splash,
@@ -42,14 +42,11 @@ function init() {
           break;
         case "retrieved":
           setUser(response.value);
+          break;
       }
     });
   }
-  // $FlowIgnore: not good enough at spread
-  return {
-    ...defaultModel,
-    page,
-  };
+  return { ...defaultModel, page };
 }
 
 export const model = new BehaviorSubject(init());

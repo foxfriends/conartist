@@ -1,4 +1,3 @@
-/*       */
 import { defaultModel, model } from "../model";
 import { dashboard } from "../model/page";
 
@@ -12,6 +11,7 @@ export function completeSignIn({
   prices,
   products,
   productTypes,
+  discounts,
 }) {
   model.next({
     ...model.getValue(),
@@ -24,6 +24,7 @@ export function completeSignIn({
     prices,
     products,
     productTypes,
+    discounts,
     conventions,
     settings: {
       ...defaultModel.settings,
@@ -44,6 +45,7 @@ export function setUser({
   prices,
   products,
   productTypes,
+  discounts,
 }) {
   model.next({
     ...model.getValue(),
@@ -56,6 +58,7 @@ export function setUser({
     prices,
     products,
     productTypes,
+    discounts,
     conventions,
     settings: {
       ...defaultModel.settings,

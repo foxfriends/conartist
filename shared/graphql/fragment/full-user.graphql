@@ -2,6 +2,7 @@
 #import './product.graphql'
 #import './product-type.graphql'
 #import './price.graphql'
+#import './discount.graphql'
 
 fragment FullUserFragment on User {
   ...UserFragment
@@ -9,4 +10,5 @@ fragment FullUserFragment on User {
   products { ...ProductFragment }
   productTypes { ...ProductTypeFragment }
   prices { ...PriceFragment }
+  discounts { ...DiscountFragment }
 }

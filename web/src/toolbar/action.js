@@ -8,11 +8,7 @@ import {
   showImportProductsDialog,
 } from "../update/dialog";
 import * as navigate from "../update/navigate";
-import {
-  send,
-  SaveProducts as SaveProductsEvent,
-  SavePrices as SavePricesEvent,
-} from "../event";
+import { send, SaveProducts as SaveProductsEvent, SavePrices as SavePricesEvent } from "../event";
 
 export const LogIn = {
   title: "Sign in",
@@ -67,6 +63,16 @@ export const EditPrices = {
 export const DiscardPrices = {
   title: "Discard",
   action: navigate.prices,
+};
+
+export const DiscardDiscounts = {
+  title: "Discard",
+  action: navigate.discounts,
+};
+
+export const SaveDiscounts = {
+  title: "Save",
+  action: () => send(SaveDiscountsEvent),
 };
 
 export const CreateSuggestion = {

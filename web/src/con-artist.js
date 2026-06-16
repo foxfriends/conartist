@@ -1,5 +1,6 @@
 import * as React from "react";
 import { combineLatest } from "rxjs";
+import { map } from "rxjs/operators";
 
 import { Toolbar, status as toolbarStatus } from "./toolbar";
 import * as toolbarAction from "./toolbar/action";
@@ -36,9 +37,9 @@ export class ConArtist extends React.Component {
   componentDidMount() {
     // don't care to dispose this observable because it is the app and should never be disposed!
     toast.subscribe((toast) => this.setState({ toast }));
-    combineLatest(model, toolbarStatus, this.computeState.bind(this)).subscribe(
-      (newState) => this.setState(newState),
-    );
+    combineLatest([model, toolbarStatus])
+      .pipe(map(([model, toolbarStatus]) => this.computeState(model, toolbarStatus)))
+      .subscribe((newState) => this.setState(newState));
   }
 
   dismissToast() {
@@ -85,9 +86,7 @@ export class ConArtist extends React.Component {
         state.navigation = NavInfo.default.select(
           "Products",
           [].concat(
-            ...model.productTypes
-              .sort(by(["sort", Asc], ["id", Asc]))
-              .map(NavInfo.forProductType),
+            ...model.productTypes.sort(by(["sort", Asc], ["id", Asc])).map(NavInfo.forProductType),
           ),
         );
         break;
@@ -114,9 +113,7 @@ export class ConArtist extends React.Component {
 
       case "discounts":
         state.toolbar = {
-          primary: model.productTypes.filter(
-            ({ discontinued }) => !discontinued,
-          ).length
+          primary: model.productTypes.filter(({ discontinued }) => !discontinued).length
             ? toolbarAction.EditDiscounts
             : null,
           secondary: null,
@@ -125,7 +122,7 @@ export class ConArtist extends React.Component {
         };
         state.content = {
           name: "discounts",
-          prices: model.discounts,
+          discounts: model.discounts,
           productTypes: model.productTypes,
           products: model.products,
         };
@@ -136,7 +133,7 @@ export class ConArtist extends React.Component {
         state.toolbar = toolbar;
         state.content = {
           name: "edit-discounts",
-          prices: model.discounts,
+          discounts: model.discounts,
           productTypes: model.productTypes,
           products: model.products,
           pageIcon: "percent",
@@ -146,9 +143,7 @@ export class ConArtist extends React.Component {
 
       case "prices":
         state.toolbar = {
-          primary: model.productTypes.filter(
-            ({ discontinued }) => !discontinued,
-          ).length
+          primary: model.productTypes.filter(({ discontinued }) => !discontinued).length
             ? toolbarAction.EditPrices
             : null,
           secondary: null,
@@ -164,9 +159,7 @@ export class ConArtist extends React.Component {
         state.navigation = NavInfo.default.select(
           "Prices",
           [].concat(
-            ...model.productTypes
-              .sort(by(["sort", Asc], ["id", Asc]))
-              .map(NavInfo.forProductType),
+            ...model.productTypes.sort(by(["sort", Asc], ["id", Asc])).map(NavInfo.forProductType),
           ),
         );
         break;
@@ -452,9 +445,7 @@ export class ConArtist extends React.Component {
         default:
           state.dialog = null;
           if (model.dialog) {
-            console.error(
-              `Unhandled dialog name: ${model.dialog.name}! Ignoring`,
-            );
+            console.error(`Unhandled dialog name: ${model.dialog.name}! Ignoring`);
           }
       }
     } else {
@@ -465,9 +456,7 @@ export class ConArtist extends React.Component {
       state.footer = {
         content: (
           <>
-            <span
-              className={S.boldFooter}
-            >{l`Don't forget to verify your email!`}</span>
+            <span className={S.boldFooter}>{l`Don't forget to verify your email!`}</span>
             <Button
               className={S.resendEmailButton}
               priority="primary"
@@ -487,9 +476,7 @@ export class ConArtist extends React.Component {
     const { toolbar, footer, navigation, content, dialog, toast } = this.state;
     return (
       <>
-        {toolbar ? (
-          <Toolbar {...toolbar} className={navigation ? "" : "signedOut"} />
-        ) : null}
+        {toolbar ? <Toolbar {...toolbar} className={navigation ? "" : "signedOut"} /> : null}
         <div className={`${S.container} ${navigation ? "" : "signedOut"}`}>
           {navigation ? <Navigation {...navigation} /> : null}
           {/* $FlowIgnore: Flow doesn't understand enums properly */}
@@ -501,9 +488,7 @@ export class ConArtist extends React.Component {
           {/* $FlowIgnore: does not understand defaulting missing args */}
           {toast || null}
         </Toast>
-        {footer ? (
-          <Footer {...footer} className={navigation ? "" : "signedOut"} />
-        ) : null}
+        {footer ? <Footer {...footer} className={navigation ? "" : "signedOut"} /> : null}
       </>
     );
   }

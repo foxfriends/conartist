@@ -1,9 +1,9 @@
-/*       */
 import { Subject } from "rxjs";
 import { share } from "rxjs/operators";
 
 export const SaveProducts = Symbol();
 export const SavePrices = Symbol();
+export const SaveDiscounts = Symbol();
 
 const subject = new Subject();
 

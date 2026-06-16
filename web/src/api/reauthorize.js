@@ -1,4 +1,3 @@
-/*       */
 import { of } from "rxjs";
 import { tap, switchMap, catchError } from "rxjs/operators";
 
@@ -19,6 +18,8 @@ export class ReauthorizeRequest extends GetRequest {
           Storage.store(Storage.Auth, response.value);
         } else if (response.state === "failed") {
           Storage.remove(Storage.Auth);
+          // NOTE: I think this doesn't quite work, I get logged out by spamming refresh...
+          // Probably need to be checking some response codes here
           throw { ...response, shouldLogOut: true }; // a bit of a hack to prevent a network error from logging out the user. Only authorization failure should cause that
         }
       }),

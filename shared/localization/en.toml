@@ -245,6 +245,12 @@ Prices = "Prices"
 You don't have anything for sale yet…
 Head over to the products page and get some items set up!
 """
+
+# Discounts
+Discount = "Discount"
+Discounts = "Discounts"
+"<Empty discounts list message>" = "You have not set up any discounts yet."
+
 # Products
 "No products yet... add one!" = "No products yet… add one!"
 Product = "Product"

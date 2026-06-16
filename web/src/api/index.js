@@ -1,4 +1,3 @@
-/*       */
 import { Observable } from "rxjs";
 
 import { graphql } from "./apollo";

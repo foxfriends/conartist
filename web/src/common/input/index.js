@@ -54,9 +54,9 @@ export class Input extends React.Component {
       autoFocus,
       title,
       placeholder,
-      type,
+      type = "text",
       className,
-      defaultValue,
+      defaultValue = "",
       validation: propsValidation,
       action,
     } = this.props;
@@ -68,30 +68,30 @@ export class Input extends React.Component {
           className={`${S.input} ${value === "" ? S.empty : ""} ${action ? S.withAction : ""}`}
           autoFocus={autoFocus}
           tabIndex={tabIndex}
-          defaultValue={defaultValue || ""}
+          defaultValue={defaultValue}
           onChange={(event) => this.handleChange(event)}
-          type={type || "text"}
+          type={type}
           onKeyPress={(event) => this.handleKeyDown(event)}
           ref={this.inputElement}
         />
-        {title ? <span className={S.title}>{title || ""}</span> : null}
-        {value !== "" && validation.state === INVALID ? (
-          <Tooltip title={validation.error} className={S.error}>
-            <Icon name="error" className={S.errorIcon} />
-          </Tooltip>
-        ) : null}
-        {placeholder && !title && !value ? (
-          <span className={S.placeholder}>{placeholder || ""}</span>
-        ) : null}
+        {!!title && <span className={S.title}>{title}</span>}
+        <div className={S.decorations}>
+          {value !== "" && validation.state === INVALID && (
+            <Tooltip title={validation.error} className={S.error}>
+              <Icon name="error" className={S.errorIcon} />
+            </Tooltip>
+          )}
+          {!!action && (
+            <IconButton
+              className={S.actionButton}
+              priority="secondary"
+              action={action.onClick}
+              title={action.icon}
+            />
+          )}
+        </div>
+        {!!placeholder && !title && !value && <span className={S.placeholder}>{placeholder}</span>}
         <div className={S.underline} />
-        {action ? (
-          <IconButton
-            className={S.actionButton}
-            priority="secondary"
-            action={action.onClick}
-            title={action.icon}
-          />
-        ) : null}
       </div>
     );
   }

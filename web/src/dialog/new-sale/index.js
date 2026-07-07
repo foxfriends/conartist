@@ -19,12 +19,13 @@ import DefaultMap from "../../util/default-map";
 import { by, Asc } from "../../util/sort";
 import * as toast from "../../toast";
 import S from "./index.css";
+import { IconButton } from "../../common/icon-button";
 
 export class NewSale extends React.Component {
   constructor(props) {
     super(props);
 
-    const { products, record } = this.props;
+    const { products, discounts, record } = this.props;
 
     let moneyValidation = { state: VALID };
     if (record) {
@@ -42,11 +43,18 @@ export class NewSale extends React.Component {
             .filter((x) => x)
         : [],
       amount: record ? record.price.toString() : Money.zero.toString(),
-      discounts: record ? record.discounts : [],
+      discounts: record
+        ? record.discounts
+            .map((id) => discounts.find((discounts) => discounts.id === id))
+            .filter((x) => x)
+        : [],
       note: record ? record.info : "",
       processing: false,
       productType: null,
-      manualPrice: !!record,
+      // NOTE: if there are discounts, it likely not a manual price, as they are generally not allowed
+      // to have discounts if there's a price override
+      manualPrice: record ? record.discounts?.length === 0 : false,
+      priceKey: 0,
       moneyValidation,
       edited: false,
     };
@@ -69,6 +77,7 @@ export class NewSale extends React.Component {
         amount,
         moneyValidation,
         manualPrice: false,
+        priceKey: this.state.manualPrice ? this.state.priceKey + 1 : this.state.priceKey,
         edited: true,
       });
     } else {
@@ -80,6 +89,7 @@ export class NewSale extends React.Component {
       this.setState({
         amount,
         moneyValidation,
+        discounts: [],
         manualPrice: true,
         edited: true,
       });
@@ -117,11 +127,9 @@ export class NewSale extends React.Component {
   }
 
   calculatePrice() {
-    const { prices } = this.props;
-    const { products, amount } = this.state;
-    if (prices.count === 0) {
-      return Money.zero;
-    } // can't calculate anything
+    const { prices, discounts } = this.props;
+    const { products, discounts: discountsApplied } = this.state;
+    if (prices.count === 0) return Money.zero; // can't calculate anything
     const matters = new Set(prices.map((price) => price.productId).filter((product) => !!product));
     const items = products.reduce((counts, product) => {
       if (matters.has(product.id)) {
@@ -253,10 +261,11 @@ export class NewSale extends React.Component {
   }
 
   render() {
-    const { products, productTypes, convention, record: editing } = this.props;
+    const { products, productTypes, discounts, convention, record: editing } = this.props;
     const {
       products: selected,
       productType,
+      discounts: discountsApplied,
       amount,
       note,
       moneyValidation,
@@ -300,23 +309,16 @@ export class NewSale extends React.Component {
         >
           {(product) => {
             const selectedCount = selected.filter(({ id }) => product.id === id).length;
-
             const totalSold =
               selectedCount +
-              []
-                .concat(
-                  ...(convention
-                    ? convention.records
-                        .filter(({ id }) => !editing || id !== editing.id)
-                        .map((record) => record.products)
-                    : []),
-                )
-                .filter((id) => id === product.id).length;
-
+              (convention?.records
+                .filter(({ id }) => !editing || id !== editing.id)
+                .flatMap((record) => record.products)
+                .filter((id) => id === product.id).length ?? 0);
             return (
               <Item className={S.row} onClick={() => this.addProduct(product)} key={product.id}>
                 <span className={S.name}>{product.name}</span>
-                {selectedCount ? (
+                {!!selectedCount && (
                   <Tooltip title={l`Remove`} className={S.tooltipContainer}>
                     <span
                       onClick={(e) => {
@@ -328,7 +330,7 @@ export class NewSale extends React.Component {
                       {selectedCount}
                     </span>
                   </Tooltip>
-                ) : null}
+                )}
                 <span className={S.detail}>{Math.max(0, product.quantity - totalSold)}</span>
               </Item>
             );
@@ -336,7 +338,6 @@ export class NewSale extends React.Component {
         </List>
       );
     } else {
-      const calculatedPrice = this.calculatePrice();
       content = (
         <>
           <List
@@ -361,15 +362,27 @@ export class NewSale extends React.Component {
             }}
           </List>
           <div className={S.form}>
-            <Input
-              className={S.formItem}
-              defaultValue={amount}
-              value={amount}
-              placeholder={l`Price`}
-              title={l`Price`}
-              onChange={(amount) => this.setAmount(amount)}
-              validation={moneyValidation}
-            />
+            <div className={S.priceContainer}>
+              <Input
+                key={this.state.priceKey}
+                className={S.formItem}
+                defaultValue={amount}
+                value={amount}
+                placeholder={l`Price`}
+                title={l`Price`}
+                onChange={(amount) => this.setAmount(amount)}
+                validation={moneyValidation}
+                action={
+                  this.state.manualPrice
+                    ? { icon: "cancel", onClick: () => this.setAmount() }
+                    : undefined
+                }
+              />
+              {!!discounts?.length && (
+                <IconButton enabled={!this.state.manualPrice} title="discount" />
+              )}
+              {discountsApplied.length > 0 && l`${discountsApplied.length} applied`}
+            </div>
             <Textarea
               className={S.full}
               defaultValue={note}

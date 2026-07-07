@@ -25,6 +25,7 @@
 
 .formItem {
   margin-bottom: 8px;
+  flex-grow: 1;
 }
 
 .full {
@@ -38,6 +39,13 @@
   &:hover {
     background-color: var(--color--background-hover-highlight);
   }
+}
+
+.priceContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
 }
 
 .name {

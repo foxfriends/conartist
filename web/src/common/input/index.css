@@ -81,15 +81,25 @@
   --transform: scaleX(1);
 }
 
-.error ~ .underline::after {
+.decorations {
+  position: absolute;
+  right: 8px;
+  top: 10px;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  pointer-events: none;
+  & * { pointer-events: auto }
+}
+
+:has(.error) ~ .underline::after {
   --background-color: var(--color--warn);
 }
 
 .error {
   display: var(--display, inline-block);
-  position: absolute;
-  right: 8px;
-  bottom: 6px;
   font-size: 14px;
 }
 
@@ -103,7 +113,4 @@
 
 .actionButton {
   font-size: 20px;
-  position: absolute;
-  right: 10px;
-  bottom: 8px;
 }

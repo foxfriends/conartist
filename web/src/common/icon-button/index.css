@@ -6,13 +6,19 @@
   cursor: pointer;
   padding: 4px;
   border-radius: 100%;
+
+  &:disabled {
+    cursor: auto;
+  }
 }
 
 .primary {
   color: var(--color, var(--color--brand));
 
-  &:hover,
-  &:focus {
+  &:disabled { color: var(--color--text-placeholder); }
+
+  &:not(:disabled):hover,
+  &:not(:disabled):focus {
     --color: var(--color--brand-variant);
   }
 }
@@ -21,11 +27,15 @@
   color: var(--color--text);
   background-color: var(--background-color);
 
-  &:not(.quiet):hover {
+  &:disabled { color: var(--color--text-placeholder); }
+
+  &:not(:disabled):not(.quiet):hover {
     --background-color: var(--color--background-hover-highlight);
   }
 }
 
 .tertiary {
   color: var(--color--divider);
+
+  &:disabled { color: var(--color--text-placeholder); }
 }

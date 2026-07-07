@@ -415,13 +415,14 @@ export class ConArtist extends React.Component {
           break;
 
         case "new-sale": {
-          const { prices, productTypes, products } = model;
+          const { prices, productTypes, products, discounts } = model;
           state.dialog = {
             name: "new-sale",
             convention: model.page.convention,
             prices,
             products,
             productTypes,
+            discounts,
             record: model.dialog.record,
           };
           break;

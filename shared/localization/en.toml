@@ -236,6 +236,7 @@ Amount = "Amount"
 Note = "Note"
 "Nothing to say..." = "Nothing to say…"
 Time = "Time"
+"{} applied" = "{} applied"
 
 # Prices
 Price = "Price"

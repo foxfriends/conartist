@@ -14,9 +14,7 @@ export function Discounts({ discounts, products, productTypes }) {
   if (dataSource.length === 0) {
     return (
       <Card className={S.emptyState}>
-        <div className={S.placeholder}>
-          {lx`<Empty discounts list message>`((x) => x)}
-        </div>
+        <div className={S.placeholder}>{lx`<Empty discounts list message>`((x) => x)}</div>
       </Card>
     );
   }
@@ -29,9 +27,7 @@ export function Discounts({ discounts, products, productTypes }) {
             key={discount.discountId}
             title={discount.name}
             detail={
-              discount.flatAmount
-                ? discount.flatAmount.toString()
-                : `${discount.percentageAmount}%`
+              discount.flatAmount ? discount.flatAmount.toString() : `${discount.percentageAmount}%`
             }
           />
         )}

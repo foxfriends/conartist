@@ -29,7 +29,8 @@
 }
 
 .full {
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   flex-grow: 1;
 }
 
@@ -58,6 +59,7 @@
   color: var(--color--background-variant);
   background-color: var(--color--text);
   border-radius: 12px;
+  border: none;
   min-width: 24px;
   height: 24px;
   align-items: center;

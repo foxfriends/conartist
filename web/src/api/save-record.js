@@ -23,9 +23,7 @@ export class SaveRecord {
     const deleteRecord = import(
       /* webpackChunkName: 'sales' */ "./graphql/mutation/delete-record.graphql"
     );
-    this.addRecord = addRecord.then(
-      (addRecord) => new GraphQLMutation(addRecord.default),
-    );
+    this.addRecord = addRecord.then((addRecord) => new GraphQLMutation(addRecord.default));
     this.updateRecord = updateRecord.then(
       (updateRecord) => new GraphQLMutation(updateRecord.default),
     );
@@ -42,6 +40,7 @@ export class SaveRecord {
             conId: action.conId,
             uuid: uuid(),
             products: action.products,
+            discounts: action.discounts,
             price: action.amount.toJSON(),
             info: action.info,
             time: format(new Date(), RFC3339),
@@ -64,6 +63,7 @@ export class SaveRecord {
           record: {
             recordId: action.recordId,
             products: action.products,
+            discounts: action.discounts,
             price: action.amount.toJSON(),
             info: action.info,
           },
@@ -89,9 +89,7 @@ export class SaveRecord {
         return from(this.deleteRecord).pipe(
           flatMap((req) => req.send(variables)),
           map((response) =>
-            response.state === "retrieved"
-              ? { state: "retrieved", value: null }
-              : response,
+            response.state === "retrieved" ? { state: "retrieved", value: null } : response,
           ),
         );
       }

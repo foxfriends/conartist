@@ -8,7 +8,6 @@ use crate::money::Money;
 use super::Database;
 use super::models::*;
 use super::schema::*;
-use super::views::*;
 
 impl Database {
     pub fn get_discounts_for_user(
@@ -18,12 +17,6 @@ impl Database {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let mut conn = self.pool.get().unwrap();
         discounts::table
-            .inner_join(
-                currentdiscounts::table.on(discounts::name
-                    .eq(currentdiscounts::name)
-                    .and(currentdiscounts::user_id.eq(discounts::user_id))
-                    .and(currentdiscounts::created_at.eq(discounts::created_at))),
-            )
             .left_outer_join(discountproducttypes::table)
             .left_outer_join(discountproducts::table)
             .select((

@@ -28,4 +28,8 @@ impl Discount {
     fn percentage_amount(&self) -> Option<f64> {
         self.percentage_amount
     }
+
+    fn deleted(&self) -> bool {
+        self.deleted_at.is_some()
+    }
 }

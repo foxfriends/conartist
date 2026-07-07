@@ -120,7 +120,7 @@ export class ConArtist extends React.Component {
         };
         state.content = {
           name: "discounts",
-          discounts: model.discounts,
+          discounts: model.discounts.filter((discount) => !discount.deleted),
           productTypes: model.productTypes,
           products: model.products,
         };
@@ -131,7 +131,7 @@ export class ConArtist extends React.Component {
         state.toolbar = toolbar;
         state.content = {
           name: "edit-discounts",
-          discounts: model.discounts,
+          discounts: model.discounts.filter((discount) => !discount.deleted),
           productTypes: model.productTypes,
           products: model.products,
           pageIcon: "percent",

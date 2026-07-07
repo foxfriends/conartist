@@ -5,4 +5,5 @@ fragment DiscountFragment on Discount {
   productTypeIds
   flatAmount
   percentageAmount
+  deleted
 }

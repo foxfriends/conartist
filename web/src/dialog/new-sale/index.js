@@ -45,7 +45,7 @@ export class NewSale extends React.Component {
       amount: record ? record.price.toString() : Money.zero.toString(),
       discounts: record
         ? record.discounts
-            .map((id) => discounts.find((discounts) => discounts.id === id))
+            .map((id) => discounts.find((discounts) => discounts.discountId === id))
             .filter((x) => x)
         : [],
       note: record ? record.info : "",
@@ -54,6 +54,7 @@ export class NewSale extends React.Component {
       // NOTE: if there are discounts, it likely not a manual price, as they are generally not allowed
       // to have discounts if there's a price override
       manualPrice: record ? record.discounts?.length === 0 : false,
+      showDiscounts: false,
       priceKey: 0,
       moneyValidation,
       edited: false,
@@ -126,6 +127,28 @@ export class NewSale extends React.Component {
     );
   }
 
+  addDiscount(discount) {
+    const { discounts } = this.state;
+    this.setState(
+      {
+        discounts: [...discounts, discount],
+        edited: true,
+      },
+      () => this.setAmount(),
+    );
+  }
+
+  removeDiscount({ discountId }) {
+    const { discounts } = this.state;
+    this.setState(
+      {
+        discounts: discounts.filter((discount) => discount.discountId !== discountId),
+        edited: true,
+      },
+      () => this.setAmount(),
+    );
+  }
+
   calculatePrice() {
     const { prices, discounts } = this.props;
     const { products, discounts: discountsApplied } = this.state;
@@ -141,6 +164,7 @@ export class NewSale extends React.Component {
       }
       return counts;
     }, new DefaultMap([], 0));
+
     const newPrice = [...items.entries()].reduce((price, [key, count]) => {
       const relevantPrices = prices
         .filter(
@@ -150,36 +174,58 @@ export class NewSale extends React.Component {
         )
         .sort(by(["quantity", Asc]));
       var newPrice = price;
+
+      const discountFactor = discountsApplied
+        .filter((discount) => discount.percentageAmount)
+        .filter(
+          (discount) =>
+            // Discounts that apply to this current price key:
+            discount.productTypeIds.map((t) => `t${t}`).includes(key) ||
+            discount.productIds.map((t) => `p${t}`).includes(key),
+        )
+        .map((discount) => discount.percentageAmount)
+        .reduce((factor, percentage) => factor - factor * (percentage / 100), 1);
       while (count) {
         const price = relevantPrices.reduce((best, price) => {
           if (price.quantity <= count && (!best || price.quantity > best.quantity)) {
             return price;
-          } else {
-            return best;
           }
+          return best;
         }, null);
-        if (!price) {
-          return newPrice;
-        }
+        if (!price) return newPrice;
         count -= price.quantity;
-        newPrice = newPrice.add(price.price);
+        newPrice = newPrice.add(price.price).multiply(discountFactor);
       }
       return newPrice;
     }, Money.zero);
-    return newPrice;
+    const flatDiscount = discountsApplied
+      .filter((discount) => !!discount.flatAmount)
+      .map((discount) => discount.flatAmount)
+      .reduce((total, discount) => total.add(discount), Money.zero);
+    const discountFactor = discountsApplied
+      .filter((discount) => discount.percentageAmount)
+      .filter(
+        // Discounts that apply to whole sales
+        (discount) => discount.productTypeIds.length === 0 && discount.productIds.length === 0,
+      )
+      .map((discount) => discount.percentageAmount)
+      .reduce((factor, percentage) => factor - factor * (percentage / 100), 1);
+    return newPrice.add(flatDiscount.negate()).multiply(discountFactor);
   }
 
   async saveChanges() {
     const { record, convention: { id: conId } = {} } = this.props;
-    const { products, amount, note } = this.state;
+    const { products, discounts, amount, note } = this.state;
     this.setState({ processing: true });
     const productIds = products.map((product) => product.id);
+    const discountIds = discounts.map((discount) => discount.discountId);
     let action;
     if (record) {
       action = {
         action: "update",
         recordId: record.id,
         products: productIds,
+        discounts: discountIds,
         amount: Money.parse(amount),
         info: note,
       };
@@ -188,6 +234,7 @@ export class NewSale extends React.Component {
         action: "create",
         conId,
         products: productIds,
+        discounts: discountIds,
         amount: Money.parse(amount),
         info: note,
       };
@@ -266,6 +313,7 @@ export class NewSale extends React.Component {
       products: selected,
       productType,
       discounts: discountsApplied,
+      showDiscounts,
       amount,
       note,
       moneyValidation,
@@ -320,7 +368,7 @@ export class NewSale extends React.Component {
                 <span className={S.name}>{product.name}</span>
                 {!!selectedCount && (
                   <Tooltip title={l`Remove`} className={S.tooltipContainer}>
-                    <span
+                    <button
                       onClick={(e) => {
                         e.stopPropagation();
                         this.removeProduct(product);
@@ -328,10 +376,57 @@ export class NewSale extends React.Component {
                       className={`${S.selectedCount} ${S.removable}`}
                     >
                       {selectedCount}
-                    </span>
+                    </button>
                   </Tooltip>
                 )}
                 <span className={S.detail}>{Math.max(0, product.quantity - totalSold)}</span>
+              </Item>
+            );
+          }}
+        </List>
+      );
+    } else if (showDiscounts) {
+      title = (
+        <>
+          <span className={S.title}>
+            <Link className={S.backButton} onClick={() => this.setState({ showDiscounts: false })}>
+              <Icon name="keyboard_arrow_left" /> {l`Back`}
+            </Link>
+            {l`Apply Discounts`}
+          </span>
+        </>
+      );
+      content = (
+        <List className={S.full} dataSource={discounts.filter((discount) => !discount.deletedAt)}>
+          {(discount) => {
+            const selectedCount = discountsApplied.filter(
+              ({ discountId }) => discount.discountId === discountId,
+            ).length;
+            return (
+              <Item
+                className={S.row}
+                onClick={() => this.addDiscount(discount)}
+                key={discount.discountId}
+              >
+                <span className={S.name}>{discount.name}</span>
+                {!!selectedCount && (
+                  <Tooltip title={l`Remove`} className={S.tooltipContainer}>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        this.removeDiscount(discount);
+                      }}
+                      className={`${S.selectedCount} ${S.removable}`}
+                    >
+                      {selectedCount}
+                    </button>
+                  </Tooltip>
+                )}
+                <span className={S.detail}>
+                  {discount.flatAmount
+                    ? discount.flatAmount.toString()
+                    : `${discount.percentageAmount}%`}
+                </span>
               </Item>
             );
           }}
@@ -355,7 +450,7 @@ export class NewSale extends React.Component {
                   key={productType.id}
                 >
                   <span className={S.name}>{productType.name}</span>
-                  {selectedCount ? <span className={S.selectedCount}>{selectedCount}</span> : null}
+                  {!!selectedCount && <span className={S.selectedCount}>{selectedCount}</span>}
                   <Icon className={S.detail} name="keyboard_arrow_right" />
                 </Item>
               );
@@ -379,7 +474,11 @@ export class NewSale extends React.Component {
                 }
               />
               {!!discounts?.length && (
-                <IconButton enabled={!this.state.manualPrice} title="discount" />
+                <IconButton
+                  enabled={!this.state.manualPrice}
+                  title="discount"
+                  action={() => this.setState({ showDiscounts: true })}
+                />
               )}
               {discountsApplied.length > 0 && l`${discountsApplied.length} applied`}
             </div>
@@ -398,8 +497,8 @@ export class NewSale extends React.Component {
       <Basic
         title={title}
         onClose={closeDialogButton}
-        onBack={editing && !productType ? deleteButton : null}
-        onContinue={productType ? null : save}
+        onBack={editing && !productType && !showDiscounts ? deleteButton : null}
+        onContinue={productType || showDiscounts ? null : save}
       >
         <div className={S.body}>{content}</div>
       </Basic>

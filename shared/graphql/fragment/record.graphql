@@ -2,6 +2,7 @@ fragment RecordFragment on Record {
   id
   uuid
   products
+  discounts
   price
   time
   info

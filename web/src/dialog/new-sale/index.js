@@ -42,6 +42,7 @@ export class NewSale extends React.Component {
             .filter((x) => x)
         : [],
       amount: record ? record.price.toString() : Money.zero.toString(),
+      discounts: record ? record.discounts : [],
       note: record ? record.info : "",
       processing: false,
       productType: null,
@@ -121,22 +122,17 @@ export class NewSale extends React.Component {
     if (prices.count === 0) {
       return Money.zero;
     } // can't calculate anything
-    const matters = new Set(
-      prices.map((price) => price.productId).filter((product) => !!product),
-    );
-    const items = products.reduce(
-      (counts, product) => {
-        if (matters.has(product.id)) {
-          const key = `p${product.id}`;
-          counts.set(key, counts.get(key) + 1);
-        } else {
-          const key = `t${product.typeId}`;
-          counts.set(key, counts.get(key) + 1);
-        }
-        return counts;
-      },
-      new DefaultMap([], 0),
-    );
+    const matters = new Set(prices.map((price) => price.productId).filter((product) => !!product));
+    const items = products.reduce((counts, product) => {
+      if (matters.has(product.id)) {
+        const key = `p${product.id}`;
+        counts.set(key, counts.get(key) + 1);
+      } else {
+        const key = `t${product.typeId}`;
+        counts.set(key, counts.get(key) + 1);
+      }
+      return counts;
+    }, new DefaultMap([], 0));
     const newPrice = [...items.entries()].reduce((price, [key, count]) => {
       const relevantPrices = prices
         .filter(
@@ -148,10 +144,7 @@ export class NewSale extends React.Component {
       var newPrice = price;
       while (count) {
         const price = relevantPrices.reduce((best, price) => {
-          if (
-            price.quantity <= count &&
-            (!best || price.quantity > best.quantity)
-          ) {
+          if (price.quantity <= count && (!best || price.quantity > best.quantity)) {
             return price;
           } else {
             return best;
@@ -271,8 +264,7 @@ export class NewSale extends React.Component {
       edited,
     } = this.state;
     const save = {
-      enabled:
-        selected.length > 0 && moneyValidation.state === VALID && !processing,
+      enabled: selected.length > 0 && moneyValidation.state === VALID && !processing,
       title: "Save",
       action: () => this.saveChanges(),
     };
@@ -292,10 +284,7 @@ export class NewSale extends React.Component {
       title = (
         <>
           <span className={S.title}>
-            <Link
-              className={S.backButton}
-              onClick={() => this.setState({ productType: null })}
-            >
+            <Link className={S.backButton} onClick={() => this.setState({ productType: null })}>
               <Icon name="keyboard_arrow_left" /> {l`Back`}
             </Link>
             {productType.name}
@@ -306,14 +295,11 @@ export class NewSale extends React.Component {
         <List
           className={S.full}
           dataSource={products.filter(
-            (product) =>
-              product.typeId === productType.id && !product.discontinued,
+            (product) => product.typeId === productType.id && !product.discontinued,
           )}
         >
           {(product) => {
-            const selectedCount = selected.filter(
-              ({ id }) => product.id === id,
-            ).length;
+            const selectedCount = selected.filter(({ id }) => product.id === id).length;
 
             const totalSold =
               selectedCount +
@@ -328,11 +314,7 @@ export class NewSale extends React.Component {
                 .filter((id) => id === product.id).length;
 
             return (
-              <Item
-                className={S.row}
-                onClick={() => this.addProduct(product)}
-                key={product.id}
-              >
+              <Item className={S.row} onClick={() => this.addProduct(product)} key={product.id}>
                 <span className={S.name}>{product.name}</span>
                 {selectedCount ? (
                   <Tooltip title={l`Remove`} className={S.tooltipContainer}>
@@ -347,9 +329,7 @@ export class NewSale extends React.Component {
                     </span>
                   </Tooltip>
                 ) : null}
-                <span className={S.detail}>
-                  {Math.max(0, product.quantity - totalSold)}
-                </span>
+                <span className={S.detail}>{Math.max(0, product.quantity - totalSold)}</span>
               </Item>
             );
           }}
@@ -361,9 +341,7 @@ export class NewSale extends React.Component {
         <>
           <List
             className={S.full}
-            dataSource={productTypes.filter(
-              ({ discontinued }) => !discontinued,
-            )}
+            dataSource={productTypes.filter(({ discontinued }) => !discontinued)}
           >
             {(productType) => {
               const selectedCount = selected.filter(
@@ -376,9 +354,7 @@ export class NewSale extends React.Component {
                   key={productType.id}
                 >
                   <span className={S.name}>{productType.name}</span>
-                  {selectedCount ? (
-                    <span className={S.selectedCount}>{selectedCount}</span>
-                  ) : null}
+                  {selectedCount ? <span className={S.selectedCount}>{selectedCount}</span> : null}
                   <Icon className={S.detail} name="keyboard_arrow_right" />
                 </Item>
               );

@@ -299,7 +299,7 @@ impl Database {
                         "array_remove(array_agg(recordproducts.product_id), null)",
                     ),
                     dsl::sql::<sql_types::Array<sql_types::Int4>>(
-                        "array_remove(array_agg(recordproducts.product_id), null)",
+                        "array_remove(array_agg(recorddiscounts.product_id), null)",
                     ),
                 ))
                 .filter(records::user_id.eq(user_id))
@@ -342,7 +342,7 @@ impl Database {
                         "array_remove(array_agg(recordproducts.product_id), null)",
                     ),
                     dsl::sql::<sql_types::Array<sql_types::Int4>>(
-                        "array_remove(array_agg(recordproducts.product_id), null)",
+                        "array_remove(array_agg(recorddiscounts.product_id), null)",
                     ),
                 ))
                 .filter(records::record_id.eq(record_id))
@@ -371,7 +371,7 @@ impl Database {
                         "array_remove(array_agg(recordproducts.product_id), null)",
                     ),
                     dsl::sql::<sql_types::Array<sql_types::Int4>>(
-                        "array_remove(array_agg(recordproducts.product_id), null)",
+                        "array_remove(array_agg(recorddiscounts.product_id), null)",
                     ),
                 ))
                 .filter(records::gen_id.eq(uuid))

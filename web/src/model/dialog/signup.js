@@ -1,5 +1,3 @@
-/*       */
-
 const nameStep = {
   name: "name",
   next(username) {

@@ -16,6 +16,7 @@ pub struct Record {
     pub sale_time: Time,
     pub gen_id: Option<Uuid>,
     pub products: Vec<i32>,
+    pub discounts: Vec<i32>,
 }
 
 #[derive(AsChangeset, Debug)]

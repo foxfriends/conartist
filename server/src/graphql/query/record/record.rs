@@ -15,6 +15,9 @@ impl Record {
     fn products(&self) -> &Vec<i32> {
         &self.products
     }
+    fn discounts(&self) -> &Vec<i32> {
+        &self.discounts
+    }
     fn price(&self) -> Money {
         self.price
     }

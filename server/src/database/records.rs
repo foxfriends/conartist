@@ -67,6 +67,7 @@ impl Database {
                 .execute(conn)?;
             records::table
                 .left_outer_join(recordproducts::table)
+                .left_outer_join(recorddiscounts::table)
                 .select((
                     records::record_id,
                     records::user_id,
@@ -77,6 +78,9 @@ impl Database {
                     records::gen_id,
                     dsl::sql::<sql_types::Array<sql_types::Int4>>(
                         "array_remove(array_agg(recordproducts.product_id), null)",
+                    ),
+                    dsl::sql::<sql_types::Array<sql_types::Int4>>(
+                        "array_remove(array_agg(recorddiscounts.discount_id), null)",
                     ),
                 ))
                 .filter(records::record_id.eq(record_id))
@@ -142,6 +146,7 @@ impl Database {
             }
             records::table
                 .left_outer_join(recordproducts::table)
+                .left_outer_join(recorddiscounts::table)
                 .select((
                     records::record_id,
                     records::user_id,
@@ -152,6 +157,9 @@ impl Database {
                     records::gen_id,
                     dsl::sql::<sql_types::Array<sql_types::Int4>>(
                         "array_remove(array_agg(recordproducts.product_id), null)",
+                    ),
+                    dsl::sql::<sql_types::Array<sql_types::Int4>>(
+                        "array_remove(array_agg(recorddiscounts.discount_id), null)",
                     ),
                 ))
                 .filter(records::record_id.eq(record_id))
@@ -208,6 +216,7 @@ impl Database {
         let mut conn = self.pool.get().unwrap();
         records::table
             .left_outer_join(recordproducts::table)
+            .left_outer_join(recorddiscounts::table)
             .select((
                 records::record_id,
                 records::user_id,
@@ -218,6 +227,9 @@ impl Database {
                 records::gen_id,
                 dsl::sql::<sql_types::Array<sql_types::Int4>>(
                     "array_remove(array_agg(RecordProducts.product_id), null)",
+                ),
+                dsl::sql::<sql_types::Array<sql_types::Int4>>(
+                    "array_remove(array_agg(recorddiscounts.discount_id), null)",
                 ),
             ))
             .filter(records::user_id.eq(user_id))
@@ -242,6 +254,7 @@ impl Database {
         if let Some(latest) = before {
             records::table
                 .left_outer_join(recordproducts::table)
+                .left_outer_join(recorddiscounts::table)
                 .select((
                     records::record_id,
                     records::user_id,
@@ -252,6 +265,9 @@ impl Database {
                     records::gen_id,
                     dsl::sql::<sql_types::Array<sql_types::Int4>>(
                         "array_remove(array_agg(recordproducts.product_id), null)",
+                    ),
+                    dsl::sql::<sql_types::Array<sql_types::Int4>>(
+                        "array_remove(array_agg(recorddiscounts.discount_id), null)",
                     ),
                 ))
                 .filter(records::user_id.eq(user_id))
@@ -270,6 +286,7 @@ impl Database {
         } else {
             records::table
                 .left_outer_join(recordproducts::table)
+                .left_outer_join(recorddiscounts::table)
                 .select((
                     records::record_id,
                     records::user_id,
@@ -278,6 +295,9 @@ impl Database {
                     records::info,
                     records::sale_time,
                     records::gen_id,
+                    dsl::sql::<sql_types::Array<sql_types::Int4>>(
+                        "array_remove(array_agg(recordproducts.product_id), null)",
+                    ),
                     dsl::sql::<sql_types::Array<sql_types::Int4>>(
                         "array_remove(array_agg(recordproducts.product_id), null)",
                     ),
@@ -309,6 +329,7 @@ impl Database {
         if let Some(record_id) = record_id {
             records::table
                 .left_outer_join(recordproducts::table)
+                .left_outer_join(recorddiscounts::table)
                 .select((
                     records::record_id,
                     records::user_id,
@@ -317,6 +338,9 @@ impl Database {
                     records::info,
                     records::sale_time,
                     records::gen_id,
+                    dsl::sql::<sql_types::Array<sql_types::Int4>>(
+                        "array_remove(array_agg(recordproducts.product_id), null)",
+                    ),
                     dsl::sql::<sql_types::Array<sql_types::Int4>>(
                         "array_remove(array_agg(recordproducts.product_id), null)",
                     ),
@@ -334,6 +358,7 @@ impl Database {
         } else if let Some(uuid) = uuid {
             records::table
                 .left_outer_join(recordproducts::table)
+                .left_outer_join(recorddiscounts::table)
                 .select((
                     records::record_id,
                     records::user_id,
@@ -342,6 +367,9 @@ impl Database {
                     records::info,
                     records::sale_time,
                     records::gen_id,
+                    dsl::sql::<sql_types::Array<sql_types::Int4>>(
+                        "array_remove(array_agg(recordproducts.product_id), null)",
+                    ),
                     dsl::sql::<sql_types::Array<sql_types::Int4>>(
                         "array_remove(array_agg(recordproducts.product_id), null)",
                     ),

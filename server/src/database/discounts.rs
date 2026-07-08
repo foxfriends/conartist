@@ -17,8 +17,6 @@ impl Database {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let mut conn = self.pool.get().unwrap();
         discounts::table
-            .left_outer_join(discountproducttypes::table)
-            .left_outer_join(discountproducts::table)
             .select((
                 discounts::discount_id,
                 discounts::user_id,
@@ -28,10 +26,10 @@ impl Database {
                 discounts::created_at,
                 discounts::deleted_at,
                 dsl::sql::<sql_types::Array<sql_types::Int4>>(
-                    "array_remove(array_agg(discountproducts.product_id), null)",
+                    "coalesce((select array_agg(product_id) from discountproducts where discountproducts.discount_id = discounts.discount_id), '{}'::int4[])",
                 ),
                 dsl::sql::<sql_types::Array<sql_types::Int4>>(
-                    "array_remove(array_agg(discountproducttypes.type_id), null)",
+                    "coalesce((select array_agg(type_id) from discountproducttypes where discountproducttypes.discount_id = discounts.discount_id), '{}'::int4[])",
                 ),
             ))
             .filter(discounts::user_id.eq(user_id))

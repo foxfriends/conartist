@@ -397,7 +397,14 @@ export class NewSale extends React.Component {
         </>
       );
       content = (
-        <List className={S.full} dataSource={discounts.filter((discount) => !discount.deletedAt)}>
+        <List
+          className={S.full}
+          dataSource={discounts.filter(
+            (discount) =>
+              !discount.deleted ||
+              discountsApplied.some((applied) => applied.discountId === discount.discountId),
+          )}
+        >
           {(discount) => {
             const selectedCount = discountsApplied.filter(
               ({ discountId }) => discount.discountId === discountId,

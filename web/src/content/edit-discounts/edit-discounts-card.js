@@ -7,9 +7,7 @@ import { AutoList as List } from "../../common/list/auto";
 import { Item } from "../../common/list/item";
 import { IconButton } from "../../common/icon-button";
 import { Select } from "../../common/select";
-import { scrollIdentifier } from "../../update/navigate";
 import { INVALID, VALID } from "../../model/validation";
-import { by, Asc, Desc } from "../../util/sort";
 import { Money } from "../../model/money";
 import { DuplicateName, NonNumberAmount, NonPositiveAmount } from "./schema";
 
@@ -43,8 +41,6 @@ function amountValidation(validation) {
 }
 
 export function EditDiscountsCard({
-  productTypes,
-  products,
   discounts,
   bottomAction,
   onAmountChange,
@@ -57,9 +53,7 @@ export function EditDiscountsCard({
       <BasicHeader>{l`Discounts`}</BasicHeader>
       <Fragment>
         <List dataSource={discounts}>
-          <div
-            className={S.placeholder}
-          >{l`<Empty discounts list message>`}</div>
+          <div className={S.placeholder}>{l`<Empty discounts list message>`}</div>
           {(discount, _) => (
             <Item key={discount.discountId}>
               <Input
@@ -71,12 +65,8 @@ export function EditDiscountsCard({
               />
               <Select
                 options={["Flat", "Percentage"]}
-                defaultValue={
-                  discount.percentageAmount === null ? "Flat" : "Percentage"
-                }
-                onChange={(value) =>
-                  onAmountTypeChange(discount.discountId, value)
-                }
+                defaultValue={discount.percentageAmount === null ? "Flat" : "Percentage"}
+                onChange={(value) => onAmountTypeChange(discount.discountId, value)}
                 className={S.amountType}
               >
                 {(type) => <>{l([type])}</>}
@@ -84,15 +74,12 @@ export function EditDiscountsCard({
               <Input
                 defaultValue={
                   discount.percentageAmount?.toString() ??
-                  (discount.flatAmount &&
-                  !discount.flatAmount.equals(Money.zero)
+                  (discount.flatAmount && !discount.flatAmount.equals(Money.zero)
                     ? discount.flatAmount.toString()
                     : "")
                 }
                 placeholder={l`Amount`}
-                onChange={(amount) =>
-                  onAmountChange(discount.discountId, amount)
-                }
+                onChange={(amount) => onAmountChange(discount.discountId, amount)}
                 className={S.amount}
                 validation={amountValidation(discount.amountValidation)}
                 key={discount.flatAmount === null}

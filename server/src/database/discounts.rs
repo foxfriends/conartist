@@ -123,6 +123,7 @@ impl Database {
             if is_used {
                 diesel::update(discounts::table)
                     .set(discounts::deleted_at.eq(now))
+                    .filter(discounts::discount_id.eq(discount_id))
                     .filter(discounts::user_id.eq(user_id))
                     .execute(conn)
                     .map(|size| size == 1)

@@ -1,4 +1,3 @@
-/*       */
 class ExtSet extends Set {
   union(other) {
     return new ExtSet([...this, ...other]);

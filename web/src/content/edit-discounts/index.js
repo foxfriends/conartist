@@ -65,18 +65,15 @@ function diff(before, after) {
     Array.from(final)
       .filter(([key, value]) => {
         const base = initial.get(key);
+        console.log("comparing:", base, value);
         if (!base) return true;
+        if (base.name !== value.name) return true;
         if (base.productIds.length !== value.productIds.length) return true;
-        if (!base.productIds.every((id) => value.productIds.contains(id)))
-          return true;
-        if (base.productTypeIds.length !== value.productTypeIds.length)
-          return true;
-        if (
-          !base.productTypeIds.every((id) => value.productTypeIds.contains(id))
-        )
-          return true;
+        if (!base.productIds.every((id) => value.productIds.contains(id))) return true;
+        if (base.productTypeIds.length !== value.productTypeIds.length) return true;
+        if (!base.productTypeIds.every((id) => value.productTypeIds.contains(id))) return true;
         if (base.flatAmount === null && value.flatAmount === null) {
-          return base.percentageAmount === value.percentageAmount;
+          return base.percentageAmount !== value.percentageAmount;
         }
         if (base.flatAmount === null || value.flatAmount === null) return true;
         return !base.flatAmount.equals(value.flatAmount);
@@ -84,9 +81,10 @@ function diff(before, after) {
       .map(([key, _]) => key),
   );
 
-  const kept = new Set(initial.keys()).intersection(final.keys());
-  const unchanged = kept.difference(changed);
-  const keeps = [...unchanged].map((key) => initial.get(key));
+  console.log("changed", [...changed]);
+
+  const unchanged = new Set(initial.keys()).intersection(final.keys()).difference(changed);
+  const keeps = Array.from(unchanged, (key) => initial.get(key));
 
   const deletes = [...deleted, ...changed]
     .map((key) => initial.get(key))
@@ -95,7 +93,7 @@ function diff(before, after) {
   const adds = [...changed]
     .map((key) => final.get(key))
     .map((discount) => ({ operation: "add", discount }));
-  return [keeps, [].concat(deletes, adds)];
+  return [keeps, [...deletes, ...adds]];
 }
 
 export class EditDiscounts extends ReactX.Component {
@@ -132,9 +130,9 @@ export class EditDiscounts extends ReactX.Component {
       switchMap(([discounts, changes]) =>
         forkJoin([
           of(discounts),
-          forkJoin(
-            changes.map((discount) => new SaveDiscount().send(discount)),
-          ).pipe(defaultIfEmpty([])),
+          forkJoin(changes.map((discount) => new SaveDiscount().send(discount))).pipe(
+            defaultIfEmpty([]),
+          ),
         ]),
       ),
       map(([discounts, changes]) => [discounts, batchResponses(changes)]),
@@ -159,10 +157,9 @@ export class EditDiscounts extends ReactX.Component {
       filter(({ state }) => state === "failed"),
     );
 
-    const enabled = merge(
-      saveButtonPressed.pipe(mapTo(false)),
-      saveFailed.pipe(mapTo(true)),
-    ).pipe(share());
+    const enabled = merge(saveButtonPressed.pipe(mapTo(false)), saveFailed.pipe(mapTo(true))).pipe(
+      share(),
+    );
 
     enabled.subscribe((editingEnabled) => this.setState({ editingEnabled }));
 
@@ -181,10 +178,8 @@ export class EditDiscounts extends ReactX.Component {
       discount.discountId === id
         ? {
             ...discount,
-            percentageAmount:
-              type === "Percentage" ? (discount.percentageAmount ?? 0) : null,
-            flatAmount:
-              type === "Flat" ? (discount.flatAmount ?? Money.zero) : null,
+            percentageAmount: type === "Percentage" ? (discount.percentageAmount ?? 0) : null,
+            flatAmount: type === "Flat" ? (discount.flatAmount ?? Money.zero) : null,
           }
         : discount,
     );
@@ -193,9 +188,7 @@ export class EditDiscounts extends ReactX.Component {
   }
 
   handleAmountChange(id, amount) {
-    const discount = this.state.discounts.find(
-      (discount) => discount.discountId === id,
-    );
+    const discount = this.state.discounts.find((discount) => discount.discountId === id);
     if (discount.percentageAmount !== null) {
       this.handlePercentageAmountChange(id, amount);
     } else {
@@ -222,9 +215,7 @@ export class EditDiscounts extends ReactX.Component {
     }
 
     const discounts = this.state.discounts.map((discount) =>
-      discount.discountId === id
-        ? { ...discount, flatAmount: money }
-        : discount,
+      discount.discountId === id ? { ...discount, flatAmount: money } : discount,
     );
 
     this.setState({ discounts: this.validate(discounts) });
@@ -239,9 +230,7 @@ export class EditDiscounts extends ReactX.Component {
   }
 
   handleRemoveDiscount(id) {
-    const discounts = this.state.discounts.filter(
-      (discount) => discount.discountId !== id,
-    );
+    const discounts = this.state.discounts.filter((discount) => discount.discountId !== id);
     this.setState({ discounts: this.validate(discounts) });
   }
 
@@ -272,7 +261,6 @@ export class EditDiscounts extends ReactX.Component {
     return discounts.map((discount) => {
       let nameValidation = { state: VALID };
       let amountValidation = { state: VALID };
-      let percentageAmountValidation = { state: VALID };
       if (discount.flatAmount === null && discount.percentageAmount === null) {
         amountValidation = { state: INVALID, error: MissingAmount };
       } else if (discount.percentageAmount !== null) {
@@ -291,10 +279,7 @@ export class EditDiscounts extends ReactX.Component {
       if (usedNames.get(discount.name) > 1) {
         nameValidation = { state: INVALID, error: DuplicateName };
       }
-      if (
-        amountValidation.state === INVALID ||
-        nameValidation.state === INVALID
-      ) {
+      if (amountValidation.state === INVALID || nameValidation.state === INVALID) {
         disableSave();
       }
       return { ...discount, nameValidation, amountValidation };
@@ -315,18 +300,10 @@ export class EditDiscounts extends ReactX.Component {
             title: "add",
             action: () => this.createDiscount(),
           }}
-          onAmountTypeChange={(discountId, type) =>
-            this.handleAmountTypeChange(discountId, type)
-          }
-          onAmountChange={(discountId, amount) =>
-            this.handleAmountChange(discountId, amount)
-          }
-          onNameChange={(discountId, name) =>
-            this.handleNameChange(discountId, name)
-          }
-          onRemoveDiscount={(discountId) =>
-            this.handleRemoveDiscount(discountId)
-          }
+          onAmountTypeChange={(discountId, type) => this.handleAmountTypeChange(discountId, type)}
+          onAmountChange={(discountId, amount) => this.handleAmountChange(discountId, amount)}
+          onNameChange={(discountId, name) => this.handleNameChange(discountId, name)}
+          onRemoveDiscount={(discountId) => this.handleRemoveDiscount(discountId)}
         />
         {editingEnabled ? null : <Cover />}
       </Fragment>

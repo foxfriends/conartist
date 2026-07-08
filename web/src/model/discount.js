@@ -7,6 +7,7 @@ export function parse({
   productIds,
   flatAmount,
   percentageAmount,
+  deleted,
 }) {
   return {
     discountId,
@@ -15,5 +16,6 @@ export function parse({
     productIds,
     flatAmount: flatAmount ? Money.fromJSON(flatAmount) : null,
     percentageAmount,
+    deleted,
   };
 }

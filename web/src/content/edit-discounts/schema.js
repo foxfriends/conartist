@@ -13,7 +13,6 @@ export function editableDiscount(discount) {
   return {
     ...discount,
     original: discount,
-    discountId: discountId(),
     nameValidation: { state: VALID },
     amountValidation: { state: VALID },
   };
@@ -24,9 +23,7 @@ export function nonEditableDiscount(discount) {
     throw new Error("A discount must have a flat amount or percentage amount");
   }
   if (discount.flatAmount && discount.percentageAmount) {
-    throw new Error(
-      "A discount may not have both a flat amount and percentage amount",
-    );
+    throw new Error("A discount may not have both a flat amount and percentage amount");
   }
   return {
     name: discount.name,

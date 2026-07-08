@@ -21,13 +21,7 @@ function format(date) {
   return formatDate(date, l`EEEE MMMM d, yyyy`);
 }
 
-export function RecordsCard({
-  date,
-  records: propsRecords,
-  convention,
-  onFocus,
-}) {
-  // $FlowIgnore: does not seem to recognize defaulting of missing properties
+export function RecordsCard({ date, records: propsRecords, convention, onFocus }) {
   const { records = propsRecords || [], expenses = [] } = convention || {};
 
   const dataSource = []
@@ -60,7 +54,6 @@ export function RecordsCard({
               // using some fake refs that are never null...
               const ref = { current: null };
               if (item.name === "record") {
-                // $FlowIgnore
                 const info = (
                   <RecordInfo
                     convention={convention}
@@ -80,7 +73,6 @@ export function RecordsCard({
                   />
                 );
               } else {
-                // $FlowIgnore
                 const info = (
                   <ExpenseInfo
                     expense={item}

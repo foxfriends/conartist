@@ -16,20 +16,11 @@ function format(date) {
 export function RecordItem({ record, convention, onClick, innerRef }) {
   const { products = [] } = convention || model.getValue();
   const productString = [
-    ...record.products.reduce(
-      (map, id) => map.set(id, map.get(id) + 1),
-      new Map([], 0),
-    ),
+    ...record.products.reduce((map, id) => map.set(id, map.get(id) + 1), new Map([], 0)),
   ]
-    .map(([productId, count]) => [
-      products.find(({ id }) => id === productId),
-      count,
-    ])
+    .map(([productId, count]) => [products.find(({ id }) => id === productId), count])
     .filter(([product]) => product)
-    // $FlowIgnore: cannot filter
-    .map(
-      ([product, count]) => `${product.name}${count > 1 ? ` (${count})` : ""}`,
-    )
+    .map(([product, count]) => `${product.name}${count > 1 ? ` (${count})` : ""}`)
     .join(", ");
   return (
     <Item onClick={onClick}>

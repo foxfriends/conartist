@@ -12,6 +12,9 @@
   background: var(--color--background-overlay);
   margin: 6px;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .rule {
@@ -36,16 +39,19 @@
   }
 }
 
+.discount  {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .products {
   display: flex;
   flex-direction: column;
   flex-basis: 0;
   flex-grow: 1;
+  gap: 8px;
   align-items: flex-end;
-}
-
-.product:not(:last-child) {
-  margin-bottom: 8px;
 }
 
 .placeholder {

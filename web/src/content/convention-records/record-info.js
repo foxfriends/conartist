@@ -20,22 +20,20 @@ function format(date) {
 
 export function RecordInfo({ convention, record, anchor, onClose }) {
   const { products, productTypes } = convention || model.getValue();
+  const { discounts } = convention || model.getValue();
 
   const productInfo = [
     ...record.products
       .map((id) => products.find((product) => product.id === id))
-      // $FlowIgnore
       .reduce(
-        (acc, product) =>
-          acc.set(product.typeId, [...acc.get(product.typeId), product]),
+        (acc, product) => acc.set(product.typeId, [...acc.get(product.typeId), product]),
         new Map([], []),
       ),
-  ]
-    // $FlowIgnore
-    .map(([typeId, products]) => [
-      productTypes.find((type) => type.id === typeId),
-      products,
-    ]);
+  ].map(([typeId, products]) => [productTypes.find((type) => type.id === typeId), products]);
+
+  const discountInfo = record.discounts.map((id) =>
+    discounts.find((discount) => discount.discountId === id),
+  );
 
   const editRecord = () => {
     dialog.showNewSaleDialog(record);
@@ -70,7 +68,6 @@ export function RecordInfo({ convention, record, anchor, onClose }) {
         {productInfo.map(([type, products]) => (
           <div className={S.type} key={`type_${type.id}`}>
             <div>{type.name}</div>
-            {/* $FlowIgnore */}
             <div className={S.products}>
               {products.map(({ name }, i) => (
                 <span className={S.product} key={`product_${i}`}>
@@ -81,14 +78,32 @@ export function RecordInfo({ convention, record, anchor, onClose }) {
           </div>
         ))}
       </div>
+      {!!discountInfo.length && (
+        <>
+          <div className={S.info}>
+            <Font smallCaps semibold>{l`Discounts`}</Font>
+            <div className={S.rule} />
+          </div>
+          <div className={S.note}>
+            {discountInfo.map((discount, i) => (
+              <div className={S.discount} key={i}>
+                <div>{discount.name}</div>
+                <div>
+                  {discount.flatAmount
+                    ? discount.flatAmount.toString()
+                    : `${discount.percentageAmount}%`}
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
       <div className={S.info}>
         <Font smallCaps semibold>{l`Note`}</Font>
         <div className={S.rule} />
       </div>
       <div className={S.note}>
-        {record.info || (
-          <span className={S.placeholder}>{l`Nothing to say...`}</span>
-        )}
+        {record.info || <span className={S.placeholder}>{l`Nothing to say...`}</span>}
       </div>
     </SecondaryCard>
   );

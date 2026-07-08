@@ -9,6 +9,7 @@ usage = "latest"
 DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/conartist"
 CONARTIST_BASE_URL = "localhost"
 PORT = "8080"
+_.file = ".env"
 
 [tasks.start]
 description = "Start background services"

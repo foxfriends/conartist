@@ -23,9 +23,11 @@ impl User {
     fn id(&self) -> i32 {
         self.user_id
     }
+
     fn name(&self) -> &String {
         &self.name
     }
+
     fn verified(&self, context: &Database) -> FieldResult<bool> {
         dbtry! {
             context
@@ -52,6 +54,7 @@ impl User {
         context: &Database,
         as_of: Option<DateTime<Utc>>,
     ) -> FieldResult<Vec<ProductTypeSnapshot>> {
+        log::debug!("querying user.product_types");
         dbtry! {
             context
                 .get_product_types_for_user(Some(self.user_id), as_of)
@@ -63,6 +66,7 @@ impl User {
         context: &Database,
         as_of: Option<DateTime<Utc>>,
     ) -> FieldResult<Vec<ProductSnapshot>> {
+        log::debug!("querying user.products");
         dbtry! {
             context
                 .get_products_for_user(Some(self.user_id), as_of)
@@ -70,6 +74,7 @@ impl User {
     }
 
     fn prices(&self, context: &Database) -> FieldResult<Vec<Price>> {
+        log::debug!("querying user.prices");
         dbtry! {
             context
                 .get_prices_for_user(Some(self.user_id))
@@ -77,6 +82,7 @@ impl User {
     }
 
     fn discounts(&self, context: &Database) -> FieldResult<Vec<Discount>> {
+        log::debug!("querying user.discounts");
         dbtry! {
             context
                 .get_discounts_for_user(Some(self.user_id))
@@ -84,6 +90,7 @@ impl User {
     }
 
     fn conventions(&self, context: &Database) -> FieldResult<Vec<Convention>> {
+        log::debug!("querying user.conventions");
         dbtry! {
             context
                 .get_conventions_for_user(Some(self.user_id))
@@ -91,6 +98,7 @@ impl User {
     }
 
     fn settings(&self, context: &Database) -> Settings {
+        log::debug!("querying user.settings");
         context
             .get_settings_for_user(Some(self.user_id))
             .unwrap_or(Settings::default(self.user_id))

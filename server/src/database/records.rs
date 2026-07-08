@@ -237,6 +237,26 @@ impl Database {
             })
     }
 
+    pub fn get_convention_record_total(
+        &self,
+        maybe_user_id: Option<i32>,
+        con_id: i32,
+    ) -> Result<Option<Money>, String> {
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
+        let mut conn = self.pool.get().unwrap();
+        Ok(records::table
+            .select(records::price)
+            .filter(records::user_id.eq(user_id))
+            .filter(records::con_id.eq(con_id))
+            .load::<Money>(&mut conn)
+            .map_err(|reason| {
+                dbg!(&reason);
+                format!("Records for convention with id {} for user with id {} could not be retrieved. Reason: {}", con_id, user_id, reason)
+            })?
+            .into_iter()
+            .fold(None, |b, a| { b.map(|b| { a + b }).or(Some(a)) }))
+    }
+
     pub fn get_records_for_user(
         &self,
         maybe_user_id: Option<i32>,
@@ -404,6 +424,23 @@ impl Database {
             .order(dsl::sql::<sql_types::Timestamptz>("spend_time::timestamptz").asc())
             .load::<Expense>(&mut conn)
             .map_err(|reason| format!("Expenses for convention with id {} for user with id {} could not be retrieved. Reason: {}", con_id, user_id, reason))
+    }
+
+    pub fn get_convention_expense_total(
+        &self,
+        maybe_user_id: Option<i32>,
+        con_id: i32,
+    ) -> Result<Option<Money>, String> {
+        let user_id = self.resolve_user_id_protected(maybe_user_id)?;
+        let mut conn = self.pool.get().unwrap();
+        Ok(expenses::table
+            .select(expenses::price)
+            .filter(expenses::user_id.eq(user_id))
+            .filter(expenses::con_id.eq(con_id))
+            .load::<Money>(&mut conn)
+            .map_err(|reason| format!("Expenses for convention with id {} for user with id {} could not be retrieved. Reason: {}", con_id, user_id, reason))?
+            .into_iter()
+            .fold(None, |b, a| { b.map(|b| { a + b }).or(Some(a)) }))
     }
 
     pub fn delete_record(

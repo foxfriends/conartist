@@ -66,8 +66,6 @@ impl Database {
                 )
                 .execute(conn)?;
             records::table
-                .left_outer_join(recordproducts::table)
-                .left_outer_join(recorddiscounts::table)
                 .select((
                     records::record_id,
                     records::user_id,
@@ -77,10 +75,10 @@ impl Database {
                     records::sale_time,
                     records::gen_id,
                     dsl::sql::<sql_types::Array<sql_types::Int4>>(
-                        "array_remove(array_agg(recordproducts.product_id), null)",
+                        "coalesce((select array_agg(product_id) from recordproducts where recordproducts.record_id = records.record_id), '{}'::int4[])",
                     ),
                     dsl::sql::<sql_types::Array<sql_types::Int4>>(
-                        "array_remove(array_agg(recorddiscounts.discount_id), null)",
+                        "coalesce((select array_agg(discount_id) from recorddiscounts where recorddiscounts.record_id = records.record_id), '{}'::int4[])",
                     ),
                 ))
                 .filter(records::record_id.eq(record_id))
@@ -145,8 +143,6 @@ impl Database {
                     .execute(conn)?;
             }
             records::table
-                .left_outer_join(recordproducts::table)
-                .left_outer_join(recorddiscounts::table)
                 .select((
                     records::record_id,
                     records::user_id,
@@ -156,10 +152,10 @@ impl Database {
                     records::sale_time,
                     records::gen_id,
                     dsl::sql::<sql_types::Array<sql_types::Int4>>(
-                        "array_remove(array_agg(recordproducts.product_id), null)",
+                        "coalesce((select array_agg(product_id) from recordproducts where recordproducts.record_id = records.record_id), '{}'::int4[])",
                     ),
                     dsl::sql::<sql_types::Array<sql_types::Int4>>(
-                        "array_remove(array_agg(recorddiscounts.discount_id), null)",
+                        "coalesce((select array_agg(discount_id) from recorddiscounts where recorddiscounts.record_id = records.record_id), '{}'::int4[])",
                     ),
                 ))
                 .filter(records::record_id.eq(record_id))
@@ -215,8 +211,6 @@ impl Database {
         let user_id = self.resolve_user_id_protected(maybe_user_id)?;
         let mut conn = self.pool.get().unwrap();
         records::table
-            .left_outer_join(recordproducts::table)
-            .left_outer_join(recorddiscounts::table)
             .select((
                 records::record_id,
                 records::user_id,
@@ -226,10 +220,10 @@ impl Database {
                 records::sale_time,
                 records::gen_id,
                 dsl::sql::<sql_types::Array<sql_types::Int4>>(
-                    "array_remove(array_agg(RecordProducts.product_id), null)",
+                    "(select array_agg(product_id) from recordproducts where recordproducts.record_id = record_id)",
                 ),
                 dsl::sql::<sql_types::Array<sql_types::Int4>>(
-                    "array_remove(array_agg(recorddiscounts.discount_id), null)",
+                    "(select array_agg(discount_id) from recorddiscounts where recorddiscounts.record_id = record_id)",
                 ),
             ))
             .filter(records::user_id.eq(user_id))
@@ -253,8 +247,6 @@ impl Database {
         let mut conn = self.pool.get().unwrap();
         if let Some(latest) = before {
             records::table
-                .left_outer_join(recordproducts::table)
-                .left_outer_join(recorddiscounts::table)
                 .select((
                     records::record_id,
                     records::user_id,
@@ -264,10 +256,10 @@ impl Database {
                     records::sale_time,
                     records::gen_id,
                     dsl::sql::<sql_types::Array<sql_types::Int4>>(
-                        "array_remove(array_agg(recordproducts.product_id), null)",
+                        "coalesce((select array_agg(product_id) from recordproducts where recordproducts.record_id = records.record_id), '{}'::int4[])",
                     ),
                     dsl::sql::<sql_types::Array<sql_types::Int4>>(
-                        "array_remove(array_agg(recorddiscounts.discount_id), null)",
+                        "coalesce((select array_agg(discount_id) from recorddiscounts where recorddiscounts.record_id = records.record_id), '{}'::int4[])",
                     ),
                 ))
                 .filter(records::user_id.eq(user_id))
@@ -285,8 +277,6 @@ impl Database {
                 })
         } else {
             records::table
-                .left_outer_join(recordproducts::table)
-                .left_outer_join(recorddiscounts::table)
                 .select((
                     records::record_id,
                     records::user_id,
@@ -296,10 +286,10 @@ impl Database {
                     records::sale_time,
                     records::gen_id,
                     dsl::sql::<sql_types::Array<sql_types::Int4>>(
-                        "array_remove(array_agg(recordproducts.product_id), null)",
+                        "coalesce((select array_agg(product_id) from recordproducts where recordproducts.record_id = records.record_id), '{}'::int4[])",
                     ),
                     dsl::sql::<sql_types::Array<sql_types::Int4>>(
-                        "array_remove(array_agg(recorddiscounts.discount_id), null)",
+                        "coalesce((select array_agg(discount_id) from recorddiscounts where recorddiscounts.record_id = records.record_id), '{}'::int4[])",
                     ),
                 ))
                 .filter(records::user_id.eq(user_id))
@@ -328,8 +318,6 @@ impl Database {
 
         if let Some(record_id) = record_id {
             records::table
-                .left_outer_join(recordproducts::table)
-                .left_outer_join(recorddiscounts::table)
                 .select((
                     records::record_id,
                     records::user_id,
@@ -339,10 +327,10 @@ impl Database {
                     records::sale_time,
                     records::gen_id,
                     dsl::sql::<sql_types::Array<sql_types::Int4>>(
-                        "array_remove(array_agg(recordproducts.product_id), null)",
+                        "coalesce((select array_agg(product_id) from recordproducts where recordproducts.record_id = records.record_id), '{}'::int4[])",
                     ),
                     dsl::sql::<sql_types::Array<sql_types::Int4>>(
-                        "array_remove(array_agg(recorddiscounts.discount_id), null)",
+                        "coalesce((select array_agg(discount_id) from recorddiscounts where recorddiscounts.record_id = records.record_id), '{}'::int4[])",
                     ),
                 ))
                 .filter(records::record_id.eq(record_id))
@@ -357,8 +345,6 @@ impl Database {
                 })
         } else if let Some(uuid) = uuid {
             records::table
-                .left_outer_join(recordproducts::table)
-                .left_outer_join(recorddiscounts::table)
                 .select((
                     records::record_id,
                     records::user_id,
@@ -368,10 +354,10 @@ impl Database {
                     records::sale_time,
                     records::gen_id,
                     dsl::sql::<sql_types::Array<sql_types::Int4>>(
-                        "array_remove(array_agg(recordproducts.product_id), null)",
+                        "coalesce((select array_agg(product_id) from recordproducts where recordproducts.record_id = records.record_id), '{}'::int4[])",
                     ),
                     dsl::sql::<sql_types::Array<sql_types::Int4>>(
-                        "array_remove(array_agg(recorddiscounts.discount_id), null)",
+                        "coalesce((select array_agg(discount_id) from recorddiscounts where recorddiscounts.record_id = records.record_id), '{}'::int4[])",
                     ),
                 ))
                 .filter(records::gen_id.eq(uuid))

@@ -27,7 +27,7 @@ export class ConventionUserInfoCard extends React.Component {
   render() {
     const { title, limit, hasSeeAllButton, convention } = this.props;
 
-    const dataSource = [...convention.userInfo]
+    const dataSource = (convention.userInfo ?? [])
       .map((info) => ({ ...info, score: info.upvotes - info.downvotes }))
       .sort(by(["score", Desc]))
       .slice(0, limit || convention.userInfo.length);
@@ -35,11 +35,7 @@ export class ConventionUserInfoCard extends React.Component {
     return (
       <Card>
         <BasicHeader>
-          {title ? (
-            <span>{title}</span>
-          ) : (
-            <Font smallCaps>{l`Extra info`}</Font>
-          )}
+          {title ? <span>{title}</span> : <Font smallCaps>{l`Extra info`}</Font>}
           {hasSeeAllButton ? (
             <Link
               className={S.detailsButton}
@@ -52,9 +48,7 @@ export class ConventionUserInfoCard extends React.Component {
           ) : null}
         </BasicHeader>
         <List dataSource={dataSource}>
-          <div className={S.placeholder}>
-            {lx`<No convention user info>`((_) => _)}
-          </div>
+          <div className={S.placeholder}>{lx`<No convention user info>`((_) => _)}</div>
           {({ id, info, vote, upvotes, downvotes }, _) => (
             <Item className={S.item} key={`info_${id}`}>
               <span className={S.truncation}>{info}</span>

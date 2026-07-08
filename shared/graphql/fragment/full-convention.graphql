@@ -1,4 +1,7 @@
 #import './meta-convention.graphql'
+#import './convention-image.graphql'
+#import './extra-info.graphql'
+#import './user-info.graphql'
 #import './product.graphql'
 #import './product-type.graphql'
 #import './price.graphql'
@@ -7,6 +10,9 @@
 
 fragment FullConventionFragment on Convention {
   ...MetaConventionFragment
+  images { ...ConventionImageFragment }
+  extraInfo { ...ExtraInfoFragment }
+  userInfo { ...UserInfoFragment }
   products { ...ProductFragment }
   productTypes { ...ProductTypeFragment }
   prices { ...PriceFragment }

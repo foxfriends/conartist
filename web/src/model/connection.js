@@ -1,5 +1,3 @@
-/*       */
-
 export function empty() {
   return {
     nodes: [],

@@ -68,9 +68,9 @@ export function ConventionCard({
       </BasicHeader>
       <Table>
         <DatesInfo start={convention.start} end={convention.end} />
-        {includeHours ? <HoursInfo infos={convention.extraInfo} /> : null}
-        <AddressInfo infos={convention.extraInfo} />
-        <WebsiteInfo infos={convention.extraInfo} />
+        {includeHours ? <HoursInfo infos={convention.extraInfo ?? []} /> : null}
+        <AddressInfo infos={convention.extraInfo ?? []} />
+        <WebsiteInfo infos={convention.extraInfo ?? []} />
       </Table>
     </Card>
   );

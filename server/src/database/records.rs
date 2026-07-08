@@ -220,10 +220,10 @@ impl Database {
                 records::sale_time,
                 records::gen_id,
                 dsl::sql::<sql_types::Array<sql_types::Int4>>(
-                    "(select array_agg(product_id) from recordproducts where recordproducts.record_id = record_id)",
+                    "coalesce((select array_agg(product_id) from recordproducts where recordproducts.record_id = records.record_id), '{}'::int4[])",
                 ),
                 dsl::sql::<sql_types::Array<sql_types::Int4>>(
-                    "(select array_agg(discount_id) from recorddiscounts where recorddiscounts.record_id = record_id)",
+                    "coalesce((select array_agg(discount_id) from recorddiscounts where recorddiscounts.record_id = records.record_id), '{}'::int4[])",
                 ),
             ))
             .filter(records::user_id.eq(user_id))

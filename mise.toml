@@ -6,6 +6,7 @@ rust = { version = "1.97.1", profile = "default" }
 ruby = "3"
 "gem:cocoapods" = "latest"
 usage = "latest"
+"npm:apollo" = { version = "2.17" }
 
 [env]
 DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/conartist"

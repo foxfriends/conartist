@@ -9,7 +9,7 @@ RUN npm run deploy
 CMD ["false"]
 
 
-FROM rust:1.86.0-bullseye AS deps
+FROM rust:1.97.1-trixie AS deps
 WORKDIR /build
 RUN apt-get update && apt-get install -y libssl-dev 
 COPY Cargo.toml Cargo.lock ./
@@ -26,7 +26,7 @@ FROM deps AS build-load
 RUN cargo build --bin import-conventions --locked --release
 
 
-FROM rust:1.86.0-bullseye AS migrate
+FROM rust:1.97.1-trixie AS migrate
 RUN apt-get update && apt-get install -y libpq-dev
 RUN cargo install diesel_cli --no-default-features --features postgres
 WORKDIR /app
@@ -35,14 +35,14 @@ WORKDIR /app/database
 CMD ["diesel", "migration", "run"]
 
 
-FROM debian:bullseye AS load
+FROM debian:trixie AS load
 RUN apt-get update && apt-get install -y libpq-dev
 WORKDIR /app 
 COPY --from=build-load /build/target/release/import-conventions import-conventions
 CMD ["bash", "-c", "./import-conventions /conventions/*"]
 
 
-FROM debian:bullseye AS release
+FROM debian:trixie AS release
 RUN apt-get update && apt-get install -y libpq-dev curl
 
 WORKDIR /app

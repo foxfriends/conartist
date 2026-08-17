@@ -113,7 +113,7 @@
                   "name": "Int",
                   "ofType": null
                 },
-                "defaultValue": "20"
+                "defaultValue": null
               },
               {
                 "name": "after",
@@ -160,7 +160,7 @@
                   "name": "Int",
                   "ofType": null
                 },
-                "defaultValue": "100"
+                "defaultValue": null
               },
               {
                 "name": "after",
@@ -217,7 +217,7 @@
                   "name": "Int",
                   "ofType": null
                 },
-                "defaultValue": "20"
+                "defaultValue": null
               },
               {
                 "name": "after",
@@ -362,7 +362,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "DateTimeUtc",
+                "name": "DateTime",
                 "ofType": null
               }
             },
@@ -378,7 +378,7 @@
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
-                  "name": "DateTimeUtc",
+                  "name": "DateTime",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -413,7 +413,7 @@
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
-                  "name": "DateTimeUtc",
+                  "name": "DateTime",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -455,6 +455,30 @@
                   "ofType": {
                     "kind": "OBJECT",
                     "name": "Price",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "discounts",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Discount",
                     "ofType": null
                   }
                 }
@@ -563,8 +587,8 @@
       },
       {
         "kind": "SCALAR",
-        "name": "DateTimeUtc",
-        "description": "DateTime",
+        "name": "DateTime",
+        "description": "Combined date and time (with time zone) in [RFC 3339][0] format.\n\nRepresents a description of an exact instant on the time-line (such as the\ninstant that a user account was created).\n\n[`DateTime` scalar][1] compliant.\n\nSee also [`chrono::DateTime`][2] for details.\n\n[0]: https://datatracker.ietf.org/doc/html/rfc3339#section-5\n[1]: https://graphql-scalars.dev/docs/scalars/date-time\n[2]: https://docs.rs/chrono/latest/chrono/struct.DateTime.html",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -876,6 +900,147 @@
       },
       {
         "kind": "OBJECT",
+        "name": "Discount",
+        "description": null,
+        "fields": [
+          {
+            "name": "discountId",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "name",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "productIds",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "productTypeIds",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "flatAmount",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Money",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "percentageAmount",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "deleted",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Float",
+        "description": "The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point).",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
         "name": "Convention",
         "description": "Holds information about a convention and a user's records at that convention",
         "fields": [
@@ -920,7 +1085,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "DateTimeUtc",
+                "name": "DateTime",
                 "ofType": null
               }
             },
@@ -936,7 +1101,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "DateTimeUtc",
+                "name": "DateTime",
                 "ofType": null
               }
             },
@@ -1403,6 +1568,30 @@
             "deprecationReason": null
           },
           {
+            "name": "discounts",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "price",
             "description": null,
             "args": [],
@@ -1456,7 +1645,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Uuid",
+              "name": "UUID",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1471,7 +1660,7 @@
       {
         "kind": "SCALAR",
         "name": "DateTimeFixedOffset",
-        "description": "DateTime",
+        "description": "Legacy rename of date time type in graphql",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -1480,8 +1669,8 @@
       },
       {
         "kind": "SCALAR",
-        "name": "Uuid",
-        "description": "Uuid",
+        "name": "UUID",
+        "description": "[Universally Unique Identifier][0] (UUID).\n\n[`UUID` scalar][1] compliant.\n\nSee also [`uuid::Uuid`][2] for details.\n\n[0]: https://en.wikipedia.org/wiki/Universally_unique_identifier\n[1]: https://graphql-scalars.dev/docs/scalars/uuid\n[2]: https://docs.rs/uuid/*/uuid/struct.Uuid.html",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -1579,7 +1768,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Uuid",
+              "name": "UUID",
               "ofType": null
             },
             "isDeprecated": false,
@@ -2277,7 +2466,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "DateTimeUtc",
+                "name": "DateTime",
                 "ofType": null
               }
             },
@@ -2476,6 +2665,33 @@
               "ofType": {
                 "kind": "OBJECT",
                 "name": "User",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "deleteAccount",
+            "description": null,
+            "args": [
+              {
+                "name": "userId",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
                 "ofType": null
               }
             },
@@ -2703,6 +2919,88 @@
               },
               {
                 "name": "productId",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "addUserDiscount",
+            "description": null,
+            "args": [
+              {
+                "name": "userId",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "discount",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "DiscountAdd",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Discount",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "delUserDiscount",
+            "description": null,
+            "args": [
+              {
+                "name": "userId",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "discountId",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -3328,7 +3626,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "NaiveDate",
+                    "name": "LocalDate",
                     "ofType": null
                   }
                 },
@@ -3342,7 +3640,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "NaiveDate",
+                    "name": "LocalDate",
                     "ofType": null
                   }
                 },
@@ -3940,6 +4238,112 @@
       },
       {
         "kind": "INPUT_OBJECT",
+        "name": "DiscountAdd",
+        "description": "Information required to create a discount",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "name",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "flatAmount",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Money",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "percentageAmount",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "appliesTo",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "DiscountAppliesTo",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "appliesToIds",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "DiscountAppliesTo",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "ALL",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "PRODUCTS",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "PRODUCT_TYPES",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
         "name": "PriceAdd",
         "description": "Information required to create a new price",
         "fields": null,
@@ -4074,7 +4478,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "Uuid",
+                "name": "UUID",
                 "ofType": null
               }
             },
@@ -4097,6 +4501,24 @@
                     "name": "Int",
                     "ofType": null
                   }
+                }
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "discounts",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
                 }
               }
             },
@@ -4188,6 +4610,24 @@
             "defaultValue": null
           },
           {
+            "name": "discounts",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              }
+            },
+            "defaultValue": null
+          },
+          {
             "name": "price",
             "description": null,
             "type": {
@@ -4233,7 +4673,7 @@
             "description": null,
             "type": {
               "kind": "SCALAR",
-              "name": "Uuid",
+              "name": "UUID",
               "ofType": null
             },
             "defaultValue": null
@@ -4271,7 +4711,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "Uuid",
+                "name": "UUID",
                 "ofType": null
               }
             },
@@ -4414,7 +4854,7 @@
             "description": null,
             "type": {
               "kind": "SCALAR",
-              "name": "Uuid",
+              "name": "UUID",
               "ofType": null
             },
             "defaultValue": null
@@ -4499,8 +4939,8 @@
       },
       {
         "kind": "SCALAR",
-        "name": "NaiveDate",
-        "description": "NaiveDate",
+        "name": "LocalDate",
+        "description": "Date in the proleptic Gregorian calendar (without time zone).\n\nRepresents a description of the date (as used for birthdays, for example).\nIt cannot represent an instant on the time-line.\n\n[`LocalDate` scalar][1] compliant.\n\nSee also [`chrono::NaiveDate`][2] for details.\n\n[1]: https://graphql-scalars.dev/docs/scalars/local-date\n[2]: https://docs.rs/chrono/latest/chrono/naive/struct.NaiveDate.html",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -5356,6 +5796,30 @@
     ],
     "directives": [
       {
+        "name": "deprecated",
+        "description": null,
+        "locations": [
+          "FIELD_DEFINITION",
+          "ENUM_VALUE"
+        ],
+        "args": [
+          {
+            "name": "reason",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          }
+        ]
+      },
+      {
         "name": "include",
         "description": null,
         "locations": [
@@ -5398,6 +5862,29 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          }
+        ]
+      },
+      {
+        "name": "specifiedBy",
+        "description": null,
+        "locations": [
+          "SCALAR"
+        ],
+        "args": [
+          {
+            "name": "url",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               }
             },

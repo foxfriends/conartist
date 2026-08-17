@@ -1,10 +1,7 @@
-/*       */
-
 import { map } from "rxjs/operators";
 
 import { GraphQLMutation } from "./index";
 
-// $FlowIgnore: trouble importing graphql files
 import createConvention from "./graphql/mutation/create-convention.graphql";
 
 export class CreateConvention {

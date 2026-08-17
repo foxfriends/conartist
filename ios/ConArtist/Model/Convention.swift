@@ -80,7 +80,7 @@ class Convention: Codable {
         name = info.name
         start = startDate
         end = endDate
-        images = info.images.map { $0.fragments.conventionImageFragment.id }
+        images = []
 
         productTypes = .empty()
         products = .empty()
@@ -89,13 +89,9 @@ class Convention: Codable {
         records = .empty()
         userInfo = øuserInfo.asObservable()
 
-        extraInfo = [.Dates(start, end)] + info.extraInfo
-            .map { $0.fragments.extraInfoFragment }
-            .compactMap(ConventionExtraInfo.init(graphQL:))
+        extraInfo = [.Dates(start, end)]
 
-        øuserInfo.accept(info.userInfo
-            .map { $0.fragments.userInfoFragment }
-            .compactMap(ConventionUserInfo.init(graphQL:)))
+        øuserInfo.accept([])
     }
 
     init?(graphQL con: MetaConventionFragment) {
@@ -108,7 +104,6 @@ class Convention: Codable {
         name = info.name
         start = startDate
         end = endDate
-        images = info.images.map { $0.fragments.conventionImageFragment.id }
         recordTotal = con.recordTotal?.toMoney()
         expenseTotal = con.expenseTotal?.toMoney()
         
@@ -117,9 +112,8 @@ class Convention: Codable {
         prices = øprices.asObservable()
         userInfo = øuserInfo.asObservable()
 
-        extraInfo = [.Dates(start, end)] + info.extraInfo
-            .map { $0.fragments.extraInfoFragment }
-            .compactMap(ConventionExtraInfo.init(graphQL:))
+        extraInfo = [.Dates(start, end)]
+        images = []
 
         records = Observable
             .combineLatest(
@@ -160,8 +154,8 @@ class Convention: Codable {
                     øaddedRecords,
                     øaddedExpenses
                 ] convention in
-                let info = convention.fragments.metaConventionFragment.fragments.conventionBasicInfoFragment
-                øuserInfo.accept(info.userInfo
+
+                øuserInfo.accept(convention.userInfo
                     .map{ $0.fragments.userInfoFragment }
                     .compactMap(ConventionUserInfo.init(graphQL:)))
 
@@ -203,16 +197,9 @@ class Convention: Codable {
         name = con.fragments.conventionBasicInfoFragment.name
         start = startDate
         end = endDate
-        images = con.fragments.conventionBasicInfoFragment.images
-            .map { $0.fragments.conventionImageFragment.id }
         recordTotal = con.recordTotal?.toMoney()
         expenseTotal = con.expenseTotal?.toMoney()
-        extraInfo = [.Dates(start, end)] + con.fragments.conventionBasicInfoFragment.extraInfo
-            .map { $0.fragments.extraInfoFragment }
-            .compactMap(ConventionExtraInfo.init(graphQL:))
-        øuserInfo.accept(con.fragments.conventionBasicInfoFragment.userInfo
-            .map { $0.fragments.userInfoFragment }
-            .compactMap(ConventionUserInfo.init(graphQL:)))
+        extraInfo = [.Dates(start, end)]
     }
 
     // MARK: Decodable

@@ -3,6 +3,8 @@ cargo-binstall = "latest"
 "cargo:diesel_cli" = { version = "2.2.8", features = "postgres", default-features = false }
 node = "24.14.0"
 rust = { version = "1.97.1", profile = "default" }
+ruby = "3"
+"gem:cocoapods" = "latest"
 usage = "latest"
 
 [env]

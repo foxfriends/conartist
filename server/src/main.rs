@@ -68,7 +68,7 @@ fn main() {
         CorsMiddleware::with_allow_any()
     } else {
         CorsMiddleware::with_whitelist(
-            [format!("https://{}", &*CONARTIST_BASE_URL)]
+            [format!("https://{}", *CONARTIST_BASE_URL)]
                 .iter()
                 .cloned()
                 .collect(),

@@ -39,7 +39,6 @@ pub struct Discount {
     pub name: String,
     #[expect(dead_code)]
     pub created_at: NaiveDateTime,
-    #[expect(dead_code)]
     pub deleted_at: Option<NaiveDateTime>,
     pub product_ids: Vec<i32>,
     pub product_type_ids: Vec<i32>,

@@ -9,7 +9,7 @@ RUN npm run deploy
 CMD ["false"]
 
 
-FROM rust:1.97.1-trixie AS deps
+FROM rust:1.99.0-trixie AS deps
 WORKDIR /build
 RUN apt-get update && apt-get install -y libssl-dev 
 COPY Cargo.toml Cargo.lock ./
@@ -26,7 +26,7 @@ FROM deps AS build-load
 RUN cargo build --bin import-conventions --locked --release
 
 
-FROM rust:1.97.1-trixie AS migrate
+FROM rust:1.99.0-trixie AS migrate
 RUN apt-get update && apt-get install -y libpq-dev
 RUN cargo install diesel_cli --no-default-features --features postgres
 WORKDIR /app
